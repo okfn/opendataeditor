@@ -19,7 +19,7 @@ export default function Header() {
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
-              <Typography variant="h5">
+              <Typography variant="h5" sx={{ ml: 2 }}>
                 &nbsp;<strong>Frictionless Application</strong>
               </Typography>
             </Grid>
