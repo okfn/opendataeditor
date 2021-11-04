@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import Content from './Content'
 import Header from './Header'
 import Menu from './Menu'
 import * as themes from '../themes'
@@ -18,7 +19,7 @@ export default function App() {
           position: 'fixed',
           top: 72,
           width: '100%',
-          overflowY: 'scroll',
+          overflowY: 'auto',
         }}
       >
         <Grid container>
@@ -26,7 +27,7 @@ export default function App() {
             <Menu />
           </Grid>
           <Grid item xs={9} sx={{ borderLeft: 'dotted 1px #ddd', minHeight: '50vh' }}>
-            right
+            <Content />
           </Grid>
         </Grid>
       </Box>
