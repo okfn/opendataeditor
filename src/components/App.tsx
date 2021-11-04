@@ -1,18 +1,19 @@
-import React from 'react'
-import { createTheme, ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Grid from '@material-ui/core/Grid'
+import * as React from 'react'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 import Header from './Header'
-
-// General
+import Menu from './Menu'
+import * as themes from '../themes'
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themes.DEFAULT}>
       <CssBaseline />
       <Header />
-      <div
-        style={{
+      <Box
+        sx={{
           height: 'calc(100% - 72px)',
           position: 'fixed',
           top: 72,
@@ -22,47 +23,13 @@ export default function App() {
       >
         <Grid container>
           <Grid item xs={3}>
-            left
+            <Menu />
           </Grid>
-          <Grid item xs={9} style={{ borderLeft: 'dotted 1px #ddd', minHeight: '50vh' }}>
+          <Grid item xs={9} sx={{ borderLeft: 'dotted 1px #ddd', minHeight: '50vh' }}>
             right
           </Grid>
         </Grid>
-      </div>
+      </Box>
     </ThemeProvider>
   )
 }
-
-// Styles
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3577D2',
-    },
-    secondary: {
-      main: '#689f38',
-    },
-    background: {
-      default: '#ffffff',
-    },
-  },
-  overrides: {
-    MuiCssBaseline: {
-      '@global': {
-        '::-webkit-scrollbar': {
-          width: 12,
-        },
-        '::-webkit-scrollbar-track': {
-          background: '#f4f4f4',
-        },
-        '::-webkit-scrollbar-thumb': {
-          background: '#ddd',
-        },
-        '::-webkit-scrollbar-thumb:hover': {
-          background: '#bbb',
-        },
-      },
-    },
-  },
-})

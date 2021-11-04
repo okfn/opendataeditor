@@ -1,43 +1,69 @@
-import React from 'react'
-import { alpha, createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import SearchIcon from '@material-ui/icons/Search'
-import HelpOutline from '@material-ui/icons/HelpOutline'
-import InputBase from '@material-ui/core/InputBase'
-import Grid from '@material-ui/core/Grid'
+import * as React from 'react'
+import { alpha } from '@mui/material/styles'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import SearchIcon from '@mui/icons-material/Search'
+import HelpOutline from '@mui/icons-material/HelpOutline'
+import InputBase from '@mui/material/InputBase'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 
 // General
 
 export default function Header() {
-  const classes = useStyles({})
-
   return (
-    <div className={classes.grow}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
-              <Typography variant="h5" className={classes.title}>
+              <Typography variant="h5">
                 &nbsp;<strong>Frictionless Application</strong>
               </Typography>
             </Grid>
             <Grid item xs={7}>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  position: 'relative',
+                  borderRadius: 'shape.borderRadius',
+                  backgroundColor: alpha('#fff', 0.15),
+                  '&:hover': {
+                    backgroundColor: alpha('#fff', 0.25),
+                  },
+                  marginLeft: 1,
+                  marginRight: 4,
+                }}
+              >
+                <Box
+                  sx={{
+                    padding: [0, 2],
+                    height: '100%',
+                    position: 'absolute',
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
                   <SearchIcon />
-                </div>
+                </Box>
                 <InputBase
                   placeholder="Select File…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
+                  sx={{
+                    color: 'inherit',
+                    padding: [1, 1, 1, 0],
+                    paddingLeft: '2em',
+                    width: '100%',
+                    md: {
+                      width: '20ch',
+                    },
                   }}
                   inputProps={{ 'aria-label': 'search' }}
                 />
-              </div>
+              </Box>
             </Grid>
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
@@ -49,82 +75,6 @@ export default function Header() {
           </Grid>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   )
 }
-
-// Styles
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    grow: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-    },
-    search: {
-      flexGrow: 1,
-      position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(4),
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: '100%',
-      position: 'absolute',
-      pointerEvents: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    inputRoot: {
-      color: 'inherit',
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-    sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      marginLeft: theme.spacing(3),
-      marginRight: theme.spacing(3),
-      minWidth: 270,
-    },
-    select: {
-      color: 'white',
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  })
-)
