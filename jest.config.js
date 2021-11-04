@@ -1,12 +1,12 @@
 const jestConfig = {
-  preset: "ts-jest",
-  displayName: "node",
-  testMatch: ["**/test/**/*.ts"],
-  testPathIgnorePatterns: ["/node_modules/", "setup.ts"],
-  testEnvironment: "node",
+  preset: 'ts-jest',
+  displayName: 'node',
+  testMatch: ['**/test/**/*.ts'],
+  testPathIgnorePatterns: ['/node_modules/', 'setup.ts'],
+  testEnvironment: 'node',
   testTimeout: 10000,
   collectCoverage: false,
-  coverageReporters: ["text-summary", "html", "lcov"],
+  coverageReporters: ['text-summary', 'html', 'lcov'],
   coverageThreshold: {
     global: {
       branches: 40,
@@ -15,6 +15,6 @@ const jestConfig = {
       lines: 40,
     },
   },
-};
+}
 
-module.exports = jestConfig;
+module.exports = jestConfig

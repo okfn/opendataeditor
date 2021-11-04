@@ -31,7 +31,7 @@
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
     "prepare": "husky install",
     "pretest": "npm run lint",
-    "server": "nodemon --transpile-only src/server/process/program.ts server",
+    "server": "nodemon src/main.ts",
     "test": "jest --coverage",
     "update": "ncu -u"
   },

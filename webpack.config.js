@@ -1,31 +1,27 @@
-const path = require("path");
-const webpack = require("webpack");
-const NODE_ENV = process.env.NODE_ENV || "development";
-const DEBUG = process.env.DEBUG || false;
+const path = require('path')
+const webpack = require('webpack')
+const NODE_ENV = process.env.NODE_ENV || 'development'
+const DEBUG = process.env.DEBUG || false
 
 // Base
 
 const webpackConfig = {
-  entry: ["./src/index.tsx"],
+  entry: ['./src/index.ts'],
   output: {
-    path: path.resolve(__dirname, "dist"),
-    publicPath: "/dist/",
-    filename: "application.js",
-    library: "application",
-    libraryTarget: "umd",
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+    filename: 'application.js',
+    library: 'application',
+    libraryTarget: 'umd',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
-  // TODO: remove
-  node: {
-    fs: "empty",
+    extensions: ['.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        loader: 'ts-loader',
         options: {
           transpileOnly: false,
           onlyCompileBundledFiles: true,
@@ -36,41 +32,41 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
-          name: "[name].[ext]?[hash]",
+          name: '[name].[ext]?[hash]',
         },
       },
     ],
   },
   plugins: [new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG })],
-};
+}
 
 // Development
 
-if (NODE_ENV === "development") {
-  webpackConfig.mode = "development";
-  webpackConfig.devServer = { hot: true };
-  webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+if (NODE_ENV === 'development') {
+  webpackConfig.mode = 'development'
+  webpackConfig.devServer = { hot: true }
+  webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin())
 }
 
 // Testing
 
-if (NODE_ENV === "testing") {
-  webpackConfig.mode = "development";
+if (NODE_ENV === 'testing') {
+  webpackConfig.mode = 'development'
 }
 
 // Production
 
-if (NODE_ENV === "production") {
-  webpackConfig.mode = "production";
-  webpackConfig.output.filename = "application.min.js";
+if (NODE_ENV === 'production') {
+  webpackConfig.mode = 'production'
+  webpackConfig.output.filename = 'application.min.js'
 }
 
 // System
 
-module.exports = webpackConfig;
+module.exports = webpackConfig
