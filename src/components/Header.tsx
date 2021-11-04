@@ -1,13 +1,13 @@
 import React from 'react'
 import { alpha, createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
-import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 import InputBase from '@material-ui/core/InputBase'
+import Grid from '@material-ui/core/Grid'
 
 // General
 
@@ -17,28 +17,36 @@ export default function Header() {
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant="h5" className={classes.title}>
-            &nbsp;<strong>Frictionless Application</strong>
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search or query…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-          <Box mr={-2.2}>
-            <Button color="inherit">
-              <HelpOutline />
-            </Button>
-          </Box>
+        <Toolbar disableGutters>
+          <Grid container>
+            <Grid item xs={3}>
+              <Typography variant="h5" className={classes.title}>
+                &nbsp;<strong>Frictionless Application</strong>
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Select File…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={2}>
+              <Grid container justifyContent="flex-end">
+                <Button color="inherit">
+                  <HelpOutline />
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
