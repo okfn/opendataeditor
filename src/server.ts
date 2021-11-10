@@ -1,8 +1,10 @@
 import cors from 'cors'
 import morgan from 'morgan'
+import multer from 'multer'
 import express from 'express'
 export type IRequest = express.Request
 export type IResponse = express.Response
+const upload = multer()
 
 export class Server {
   protected app: express.Express
@@ -14,7 +16,7 @@ export class Server {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(morgan('tiny'))
     this.app.use(cors())
-    this.app.get('/', this.home)
+    this.app.post('/', upload.single('file'), this.main)
   }
 
   // Listen
@@ -33,7 +35,9 @@ export class Server {
 
   // Routes
 
-  protected async home(_request: IRequest, response: IResponse) {
+  protected async main(request: IRequest, response: IResponse) {
+    console.log(request.file)
+    console.log(request.body)
     response.send('Hello World!')
   }
 }

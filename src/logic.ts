@@ -15,8 +15,15 @@ async function uploadFile(state: any, action: any) {
   let file = null
   if (files.length) {
     file = files[0]
+    // TODO: add size limit
     const buffer = await file.arrayBuffer()
-    console.log(buffer)
+    const body = new FormData()
+    body.append('data', JSON.stringify({ a: 1, b: 2 }))
+    body.append('file', new Blob([buffer]), file.name)
+    await fetch('http://localhost:8000', {
+      method: 'POST',
+      body: body,
+    })
   }
   return { ...state, file }
 }
