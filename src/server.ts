@@ -51,10 +51,11 @@ export class Server {
     })
     fs.promises.writeFile(path, request.file.buffer)
     const command = `frictionless describe ${path} --json`
-    const { stdout, stderr } = await promiseExec(command)
-    console.log(stdout)
-    console.log(stderr)
+    const { stdout } = await promiseExec(command)
+    const resource = JSON.parse(stdout)
+    resource.path = request.file.originalname
+    resource.name = pathmodule.parse(request.file.originalname).name
     cleanup()
-    response.json({ error: false })
+    response.json({ error: false, resource })
   }
 }

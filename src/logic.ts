@@ -12,18 +12,21 @@ export async function reducer(state: any, action: any) {
 
 async function uploadFile(state: any, action: any) {
   const { files } = action
-  let file = null
   if (files.length) {
-    file = files[0]
+    const file = files[0]
     // TODO: add size limit
     const buffer = await file.arrayBuffer()
     const body = new FormData()
     body.append('data', JSON.stringify({ a: 1, b: 2 }))
     body.append('file', new Blob([buffer]), file.name)
-    await fetch('http://localhost:8000', {
+    const response = await fetch('http://localhost:8000', {
       method: 'POST',
       body: body,
     })
+    const data = await response.json()
+    const resource = data.resource
+    console.log(resource)
+    return { ...state, file, resource }
   }
-  return { ...state, file }
+  return state
 }
