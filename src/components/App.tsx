@@ -8,10 +8,11 @@ import Header from './Header'
 import Menu from './Menu'
 import * as logic from '../logic'
 import * as themes from '../themes'
+import * as helpers from '../helpers'
 
 export default function App() {
   // TODO: rebase on useContext
-  const [state, dispatch] = React.useReducer(logic.reducer, logic.initialState)
+  const [state, dispatch] = helpers.useAsyncReducer(logic.reducer, logic.initialState)
 
   return (
     <ThemeProvider theme={themes.DEFAULT}>
