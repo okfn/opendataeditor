@@ -31,7 +31,7 @@ export default function App() {
           <Grid item xs={3}>
             <Menu />
           </Grid>
-          <Grid item xs={9} sx={{ borderLeft: 'dotted 1px #ddd', minHeight: '50vh' }}>
+          <Grid item xs={9} sx={{ borderLeft: 'solid 1px #eee', minHeight: '50vh' }}>
             <Content state={state} />
           </Grid>
         </Grid>

@@ -1,6 +1,8 @@
 import * as React from 'react'
-import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
+import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -93,7 +95,29 @@ export default function BasicTabs(props: BasicTabsProps) {
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Schema
+        <Grid container>
+          <Grid item xs={6}>
+            <Box sx={{ mr: 2, borderRight: 'solid 1px #eee' }}>
+              <Box sx={{ mb: 2 }}>
+                <TextField label="Name" defaultValue={resource.schema.fields[0].name} />
+              </Box>
+              <Box sx={{ mb: 2 }}>
+                <TextField label="Type" defaultValue={resource.schema.fields[0].type} />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            {resource.schema.fields.map((field: any, index: any) => (
+              <Button
+                variant={index === 0 ? 'contained' : 'outlined'}
+                key={field.name}
+                sx={{ mr: 2 }}
+              >
+                {field.name}
+              </Button>
+            ))}
+          </Grid>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Dialect
