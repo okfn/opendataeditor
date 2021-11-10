@@ -10,7 +10,11 @@ import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
-export default function Header() {
+export interface HeaderProps {
+  dispatch: any
+}
+
+export default function Header(props: HeaderProps) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -27,9 +31,15 @@ export default function Header() {
                   <UploadFileIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
+                  type="file"
                   placeholder="Select File…"
                   inputProps={{ 'aria-label': 'search' }}
-                  type="file"
+                  onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                    props.dispatch({
+                      type: 'UPLOAD_FILE',
+                      files: ev.target.files,
+                    })
+                  }
                 />
               </Search>
             </Grid>

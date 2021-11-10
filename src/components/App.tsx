@@ -6,13 +6,17 @@ import Box from '@mui/material/Box'
 import Content from './Content'
 import Header from './Header'
 import Menu from './Menu'
+import * as logic from '../logic'
 import * as themes from '../themes'
 
 export default function App() {
+  // TODO: rebase on useContext
+  const [state, dispatch] = React.useReducer(logic.reducer, logic.initialState)
+
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <CssBaseline />
-      <Header />
+      <Header dispatch={dispatch} />
       <Box
         sx={{
           height: 'calc(100% - 72px)',
@@ -27,7 +31,7 @@ export default function App() {
             <Menu />
           </Grid>
           <Grid item xs={9} sx={{ borderLeft: 'dotted 1px #ddd', minHeight: '50vh' }}>
-            <Content />
+            <Content state={state} />
           </Grid>
         </Grid>
       </Box>
