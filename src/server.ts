@@ -1,12 +1,15 @@
 import fs from 'fs'
+import util from 'util'
 import cors from 'cors'
 import morgan from 'morgan'
 import multer from 'multer'
 import express from 'express'
 import pathmodule from 'path'
 import { file } from 'tmp-promise'
+import { exec } from 'child_process'
 export type IRequest = express.Request
 export type IResponse = express.Response
+const promiseExec = util.promisify(exec)
 const upload = multer()
 
 export class Server {
@@ -47,6 +50,10 @@ export class Server {
       postfix: pathmodule.extname(request.file.originalname),
     })
     fs.promises.writeFile(path, request.file.buffer)
+    const command = `frictionless describe ${path} --json`
+    const { stdout, stderr } = await promiseExec(command)
+    console.log(stdout)
+    console.log(stderr)
     cleanup()
     response.json({ error: false })
   }
