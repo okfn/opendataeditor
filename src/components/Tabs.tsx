@@ -58,11 +58,11 @@ export default function BasicTabs(props: BasicTabsProps) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Resource" {...a11yProps(0)} />
-          <Tab label="Detector" {...a11yProps(1)} />
+          <Tab label="Schema" {...a11yProps(1)} />
           <Tab label="Dialect" {...a11yProps(2)} />
           <Tab label="Layout" {...a11yProps(3)} />
-          <Tab label="Schema" {...a11yProps(4)} />
-          <Tab label="Stats" {...a11yProps(5)} />
+          <Tab label="Stats" {...a11yProps(4)} />
+          <Tab label="Detector" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -97,27 +97,6 @@ export default function BasicTabs(props: BasicTabsProps) {
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Buffer" defaultValue={10000} />
-        </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Sample" defaultValue={100} />
-        </Box>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Delimiter" defaultValue={','} />
-        </Box>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Box sx={{ mb: 2 }}>
-          <TextField select label="Header" defaultValue={'yes'} sx={{ width: '200px' }}>
-            <MenuItem value={'yes'}>Yes</MenuItem>
-            <MenuItem value={'no'}>No</MenuItem>
-          </TextField>
-        </Box>
-      </TabPanel>
-      <TabPanel value={value} index={4}>
         <Grid container>
           <Grid item xs={6}>
             <Box sx={{ mr: 2, borderRight: 'solid 1px #eee' }}>
@@ -142,9 +121,30 @@ export default function BasicTabs(props: BasicTabsProps) {
           </Grid>
         </Grid>
       </TabPanel>
-      <TabPanel value={value} index={5}>
+      <TabPanel value={value} index={2}>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Delimiter" defaultValue={','} />
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Box sx={{ mb: 2 }}>
+          <TextField select label="Header" defaultValue={'yes'} sx={{ width: '200px' }}>
+            <MenuItem value={'yes'}>Yes</MenuItem>
+            <MenuItem value={'no'}>No</MenuItem>
+          </TextField>
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <Box sx={{ mb: 2 }}>
           <TextField label="Rows" disabled defaultValue={resource.stats.rows} />
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Buffer" defaultValue={10000} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Sample" defaultValue={100} />
         </Box>
       </TabPanel>
     </Box>
