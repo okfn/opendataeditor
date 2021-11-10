@@ -46,7 +46,7 @@ export default function Menu() {
   }
 
   return (
-    <Box sx={{ ml: 2 }}>
+    <Box sx={{ ml: 2, mt: 2 }}>
       <Stepper nonLinear activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
