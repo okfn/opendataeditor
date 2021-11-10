@@ -1,7 +1,10 @@
+import fs from 'fs'
 import cors from 'cors'
 import morgan from 'morgan'
 import multer from 'multer'
 import express from 'express'
+import pathmodule from 'path'
+import { file } from 'tmp-promise'
 export type IRequest = express.Request
 export type IResponse = express.Response
 const upload = multer()
@@ -36,8 +39,15 @@ export class Server {
   // Routes
 
   protected async main(request: IRequest, response: IResponse) {
-    console.log(request.file)
-    console.log(request.body)
-    response.send('Hello World!')
+    if (!request.file) {
+      response.json({ error: true })
+      return
+    }
+    const { path, cleanup } = await file({
+      postfix: pathmodule.extname(request.file.originalname),
+    })
+    fs.promises.writeFile(path, request.file.buffer)
+    cleanup()
+    response.json({ error: false })
   }
 }
