@@ -1,5 +1,3 @@
-import * as helpers from './helpers'
-
 export const initialState = { file: null }
 
 // TODO: remove any
@@ -17,8 +15,8 @@ async function uploadFile(state: any, action: any) {
   let file = null
   if (files.length) {
     file = files[0]
-    const text = await helpers.readFileAsText(file)
-    console.log(text)
+    const buffer = await file.arrayBuffer()
+    console.log(buffer)
   }
   return { ...state, file }
 }
