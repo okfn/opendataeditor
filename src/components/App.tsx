@@ -32,7 +32,7 @@ export default function App() {
             <Menu />
           </Grid>
           <Grid item xs={9} sx={{ borderLeft: 'solid 1px #eee', minHeight: '50vh' }}>
-            <Content state={state} />
+            <Content state={state} dispatch={dispatch} />
           </Grid>
         </Grid>
       </Box>

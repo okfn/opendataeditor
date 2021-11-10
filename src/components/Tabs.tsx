@@ -43,6 +43,7 @@ function a11yProps(index: number) {
 
 export interface BasicTabsProps {
   state: any
+  dispatch: any
 }
 
 export default function BasicTabs(props: BasicTabsProps) {
@@ -75,7 +76,16 @@ export default function BasicTabs(props: BasicTabsProps) {
           />
         </Box>
         <Box sx={{ mb: 2 }}>
-          <TextField label="Name" defaultValue={resource.name} />
+          <TextField
+            label="Name"
+            defaultValue={resource.name}
+            onChange={(ev) =>
+              props.dispatch({
+                type: 'UPDATE_RESOURCE',
+                update: { name: ev.target.value },
+              })
+            }
+          />
         </Box>
         <Box sx={{ mb: 2 }}>
           <TextField label="Title" defaultValue={resource.title || ''} />

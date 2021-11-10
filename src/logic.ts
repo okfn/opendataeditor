@@ -5,9 +5,18 @@ export async function reducer(state: any, action: any) {
   switch (action.type) {
     case 'UPLOAD_FILE':
       return uploadFile(state, action)
+    case 'UPDATE_RESOURCE':
+      return updateResource(state, action)
     default:
       return state
   }
+}
+
+function updateResource(state: any, action: any) {
+  if (!state.resource) return state
+  let { resource } = state
+  resource = { ...resource, ...action.update }
+  return { ...state, resource }
 }
 
 async function uploadFile(state: any, action: any) {
