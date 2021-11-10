@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import SearchIcon from '@mui/icons-material/Search'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import HelpOutline from '@mui/icons-material/HelpOutline'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
@@ -24,11 +24,12 @@ export default function Header() {
             <Grid item xs={7}>
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon />
+                  <UploadFileIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Select File…"
                   inputProps={{ 'aria-label': 'search' }}
+                  type="file"
                 />
               </Search>
             </Grid>
@@ -73,17 +74,15 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
+  width: '100%',
+  '& ::file-selector-button': {
+    display: 'none',
+  },
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
   },
 }))
