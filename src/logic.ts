@@ -1,3 +1,5 @@
+import * as helpers from './helpers'
+
 export const initialState = { file: null }
 
 // TODO: remove any
@@ -11,5 +13,12 @@ export async function reducer(state: any, action: any) {
 }
 
 async function uploadFile(state: any, action: any) {
-  return { ...state, file: action.files[0] }
+  const { files } = action
+  let file = null
+  if (files.length) {
+    file = files[0]
+    const text = await helpers.readFileAsText(file)
+    console.log(text)
+  }
+  return { ...state, file }
 }
