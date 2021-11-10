@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
@@ -37,8 +38,13 @@ function a11yProps(index: number) {
   }
 }
 
-export default function BasicTabs() {
+export interface BasicTabsProps {
+  state: any
+}
+
+export default function BasicTabs(props: BasicTabsProps) {
   const [value, setValue] = React.useState(0)
+  const { resource } = props.state
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -56,7 +62,35 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Resource
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            label="Path"
+            variant="outlined"
+            defaultValue={resource.path}
+            disabled
+          />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Name" defaultValue={resource.name} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Title" defaultValue={resource.title || ''} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Description" defaultValue={resource.description || ''} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Scheme" defaultValue={resource.scheme || ''} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Format" defaultValue={resource.format || ''} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Hashing" defaultValue={resource.hashing || ''} />
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <TextField label="Encoding" defaultValue={resource.encoding || ''} />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Schema

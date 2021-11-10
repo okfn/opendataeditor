@@ -6,10 +6,6 @@ export interface ContentProps {
 }
 
 export default function Content(props: ContentProps) {
-  return (
-    <div>
-      <BasicTabs />
-      <div>{props.state.file ? props.state.file.name : 'no file'}</div>
-    </div>
-  )
+  const { state } = props
+  return <div>{state.resource && <BasicTabs state={state} />}</div>
 }
