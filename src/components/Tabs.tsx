@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
+import Detector from './describe/Detector'
 import Stats from './describe/Stats'
 
 interface TabPanelProps {
@@ -149,12 +150,7 @@ export default function BasicTabs(props: BasicTabsProps) {
         <Stats state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={5}>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Buffer" defaultValue={10000} />
-        </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Sample" defaultValue={100} />
-        </Box>
+        <Detector />
       </TabPanel>
     </Box>
   )
