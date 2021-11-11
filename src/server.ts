@@ -24,7 +24,7 @@ export class Server {
     this.app.use(cors())
     // TODO: add serving '/docs' as a static endpoint?
     this.app.post('/api/describe', upload.single('file'), this.describe)
-    this.app.post('/api/describe', upload.single('file'), this.describe)
+    this.app.post('/api/extract', upload.single('file'), this.extract)
   }
 
   // Listen

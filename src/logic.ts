@@ -1,4 +1,4 @@
-export const initialState = { file: null, resource: null, page: 'home' }
+export const initialState = { file: null, resource: null, rows: null, page: 'home' }
 
 // TODO: remove any
 export async function reducer(state: any, action: any) {
@@ -32,15 +32,29 @@ async function uploadFile(state: any, action: any) {
     // TODO: add size limit
     const buffer = await file.arrayBuffer()
     const body = new FormData()
-    body.append('data', JSON.stringify({ a: 1, b: 2 }))
+    body.append('data', JSON.stringify({}))
     body.append('file', new Blob([buffer]), file.name)
-    const response = await fetch('http://localhost:8000/api/describe', {
+
+    // TODO: move to a proper place
+    // Describe
+    const response1 = await fetch('http://localhost:8000/api/describe', {
       method: 'POST',
       body: body,
     })
-    const data = await response.json()
-    const resource = data.resource
-    return { ...state, file, resource, page: 'describe' }
+    const data1 = await response1.json()
+    const resource = data1.resource
+
+    // TODO: move to a proper place
+    // Extract
+    const response2 = await fetch('http://localhost:8000/api/extract', {
+      method: 'POST',
+      body: body,
+    })
+    const data2 = await response2.json()
+    const rows = data2.rows
+    console.log(rows)
+
+    return { ...state, file, resource, rows, page: 'describe' }
   }
   return state
 }
