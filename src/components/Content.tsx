@@ -1,5 +1,5 @@
 import * as React from 'react'
-import BasicTabs from './Tabs'
+import Describe from './describe/Describe'
 
 export interface ContentProps {
   state: any
@@ -8,5 +8,5 @@ export interface ContentProps {
 
 export default function Content(props: ContentProps) {
   const { state, dispatch } = props
-  return <div>{state.resource && <BasicTabs state={state} dispatch={dispatch} />}</div>
+  return <div>{state.resource && <Describe state={state} dispatch={dispatch} />}</div>
 }
