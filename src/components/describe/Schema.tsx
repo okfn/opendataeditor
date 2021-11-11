@@ -11,38 +11,62 @@ interface SchemaProps {
 }
 
 export default function Schema(props: SchemaProps) {
-  const { resource } = props.state
   return (
     <Grid container>
-      <Grid item xs={6}>
-        <Typography variant="h6">Field</Typography>
-        <FormControl>
-          <TextField
-            label="Name"
-            margin="normal"
-            defaultValue={resource.schema.fields[0].name}
-          />
-          <TextField
-            label="Type"
-            margin="normal"
-            defaultValue={resource.schema.fields[0].type}
-          />
-        </FormControl>
+      <Grid item xs={3}>
+        <General state={props.state} />
       </Grid>
-      <Grid item xs={6}>
-        <Typography variant="h6">Select</Typography>
-        <Box>
-          {resource.schema.fields.map((field: any, index: any) => (
-            <Button
-              variant={index === 0 ? 'contained' : 'outlined'}
-              key={field.name}
-              sx={{ mt: 1, mr: 2 }}
-            >
-              {field.name}
-            </Button>
-          ))}
-        </Box>
+      <Grid item xs={3}>
+        <Field state={props.state} />
+      </Grid>
+      <Grid item xs={3}>
+        <Fields state={props.state} />
       </Grid>
     </Grid>
+  )
+}
+
+function General(props: SchemaProps) {
+  const { schema } = props.state.resource
+  return (
+    <FormControl>
+      <Typography variant="h6">General</Typography>
+      <TextField
+        label="Missing Values"
+        margin="normal"
+        defaultValue={schema.missingValues}
+      />
+    </FormControl>
+  )
+}
+
+function Field(props: SchemaProps) {
+  const { schema } = props.state.resource
+  return (
+    <FormControl>
+      <Typography variant="h6">Field</Typography>
+      <TextField label="Name" margin="normal" defaultValue={schema.fields[0].name} />
+      <TextField label="Type" margin="normal" defaultValue={schema.fields[0].type} />
+    </FormControl>
+  )
+}
+
+function Fields(props: SchemaProps) {
+  const { schema } = props.state.resource
+  return (
+    <Box>
+      <Typography variant="h6">Fields</Typography>
+      <Box>
+        {schema.fields.map((field: any, index: any) => (
+          <Button
+            variant={index === 0 ? 'contained' : 'outlined'}
+            key={field.name}
+            sx={{ mt: 2, mr: 2 }}
+          >
+            {field.name}
+          </Button>
+        ))}
+      </Box>
+    </Box>
   )
 }
