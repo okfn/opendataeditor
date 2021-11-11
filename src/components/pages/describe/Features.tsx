@@ -4,7 +4,6 @@ import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 
 interface FeaturesProps {
   state: any
@@ -52,6 +51,7 @@ function Dialect(props: FeaturesProps) {
   return (
     <FormControl>
       <Typography variant="h6">Dialect</Typography>
+      <TextField label="Code" disabled margin="normal" defaultValue={'csv'} />
       <TextField label="Delimiter" margin="normal" defaultValue={dialect.delimiter} />
     </FormControl>
   )
@@ -59,9 +59,9 @@ function Dialect(props: FeaturesProps) {
 
 function Control() {
   return (
-    <Box>
+    <FormControl>
       <Typography variant="h6">Control</Typography>
-      <Box sx={{ mt: 1 }}>No supported options</Box>
-    </Box>
+      <TextField label="Code" disabled margin="normal" defaultValue={'local'} />
+    </FormControl>
   )
 }
