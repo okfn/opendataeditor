@@ -3,10 +3,10 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Resource from './Resource'
-import Detector from './Detector'
-import Features from './Features'
-import Schema from './Schema'
+import Resource from './describe/Resource'
+import Detector from './describe/Detector'
+import Features from './describe/Features'
+import Schema from './describe/Schema'
 
 export interface DescribeProps {
   state: any

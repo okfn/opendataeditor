@@ -3,9 +3,9 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Display from './Display'
-import Metrics from './Metrics'
-import Export from './Export'
+import Display from './extract/Display'
+import Metrics from './extract/Metrics'
+import Export from './extract/Export'
 
 export interface DescribeProps {
   state: any

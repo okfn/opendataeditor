@@ -21,8 +21,8 @@ export default function Header(props: HeaderProps) {
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
-              <Typography variant="h5" sx={{ ml: 2 }}>
-                &nbsp;<strong>Frictionless Application</strong>
+              <Typography variant="h5" sx={{ ml: 2, mt: '4px' }}>
+                <strong>Frictionless Application</strong>
               </Typography>
             </Grid>
             <Grid item xs={7}>

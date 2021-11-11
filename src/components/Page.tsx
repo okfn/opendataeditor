@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Describe from './describe/Describe'
-import Extract from './extract/Extract'
+import Describe from './pages/Describe'
+import Extract from './pages/Extract'
 import Home from './pages/Home'
 
 export interface PageProps {
