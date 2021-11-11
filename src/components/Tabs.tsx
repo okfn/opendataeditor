@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
+import Stats from './describe/Stats'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -145,9 +146,7 @@ export default function BasicTabs(props: BasicTabsProps) {
         </Box>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Box sx={{ mb: 2 }}>
-          <TextField label="Rows" disabled defaultValue={resource.stats.rows} />
-        </Box>
+        <Stats state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <Box sx={{ mb: 2 }}>
