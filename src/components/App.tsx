@@ -3,8 +3,8 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import Content from './Content'
 import Header from './Header'
+import Page from './Page'
 import Menu from './Menu'
 import * as logic from '../logic'
 import * as themes from '../themes'
@@ -29,10 +29,10 @@ export default function App() {
       >
         <Grid container>
           <Grid item xs={3}>
-            <Menu />
+            <Menu state={state} dispatch={dispatch} />
           </Grid>
           <Grid item xs={9} sx={{ borderLeft: 'solid 1px #eee', minHeight: '50vh' }}>
-            <Content state={state} dispatch={dispatch} />
+            <Page state={state} dispatch={dispatch} />
           </Grid>
         </Grid>
       </Box>

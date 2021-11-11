@@ -1,15 +1,21 @@
-export const initialState = { file: null }
+export const initialState = { file: null, resource: null, page: 'home' }
 
 // TODO: remove any
 export async function reducer(state: any, action: any) {
   switch (action.type) {
-    case 'UPLOAD_FILE':
-      return uploadFile(state, action)
+    case 'SET_PAGE':
+      return setPage(state, action)
     case 'UPDATE_RESOURCE':
       return updateResource(state, action)
+    case 'UPLOAD_FILE':
+      return uploadFile(state, action)
     default:
       return state
   }
+}
+
+function setPage(state: any, action: any) {
+  return { ...state, page: action.page }
 }
 
 function updateResource(state: any, action: any) {
@@ -34,8 +40,7 @@ async function uploadFile(state: any, action: any) {
     })
     const data = await response.json()
     const resource = data.resource
-    console.log(resource)
-    return { ...state, file, resource }
+    return { ...state, file, resource, page: 'describe' }
   }
   return state
 }
