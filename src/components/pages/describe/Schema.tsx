@@ -36,6 +36,7 @@ function General(props: SchemaProps) {
         margin="normal"
         defaultValue={schema.missingValues}
       />
+      <TextField label="Primary Key" margin="normal" defaultValue={schema.primaryKey} />
     </FormControl>
   )
 }

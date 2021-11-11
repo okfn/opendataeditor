@@ -21,7 +21,11 @@ export default function Header(props: HeaderProps) {
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
-              <Typography variant="h5" sx={{ ml: 2, mt: '4px' }}>
+              <Typography
+                variant="h5"
+                sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
+                onClick={() => props.dispatch({ type: 'SET_PAGE', page: 'home' })}
+              >
                 <strong>Frictionless Application</strong>
               </Typography>
             </Grid>
