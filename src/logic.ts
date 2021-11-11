@@ -34,7 +34,7 @@ async function uploadFile(state: any, action: any) {
     const body = new FormData()
     body.append('data', JSON.stringify({ a: 1, b: 2 }))
     body.append('file', new Blob([buffer]), file.name)
-    const response = await fetch('http://localhost:8000', {
+    const response = await fetch('http://localhost:8000/api/describe', {
       method: 'POST',
       body: body,
     })

@@ -22,7 +22,7 @@ export class Server {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(morgan('tiny'))
     this.app.use(cors())
-    this.app.post('/', upload.single('file'), this.main)
+    this.app.post('/api/describe', upload.single('file'), this.describe)
   }
 
   // Listen
@@ -41,7 +41,7 @@ export class Server {
 
   // Routes
 
-  protected async main(request: IRequest, response: IResponse) {
+  protected async describe(request: IRequest, response: IResponse) {
     if (!request.file) {
       response.json({ error: true })
       return
