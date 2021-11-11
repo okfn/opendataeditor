@@ -22,6 +22,8 @@ export class Server {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(morgan('tiny'))
     this.app.use(cors())
+    // TODO: add serving '/docs' as a static endpoint?
+    this.app.post('/api/describe', upload.single('file'), this.describe)
     this.app.post('/api/describe', upload.single('file'), this.describe)
   }
 
@@ -57,5 +59,21 @@ export class Server {
     resource.name = pathmodule.parse(request.file.originalname).name
     cleanup()
     response.json({ error: false, resource })
+  }
+
+  protected async extract(request: IRequest, response: IResponse) {
+    if (!request.file) {
+      response.json({ error: true })
+      return
+    }
+    const { path, cleanup } = await file({
+      postfix: pathmodule.extname(request.file.originalname),
+    })
+    fs.promises.writeFile(path, request.file.buffer)
+    const command = `frictionless extract ${path} --json`
+    const { stdout } = await promiseExec(command)
+    const rows = JSON.parse(stdout)
+    cleanup()
+    response.json({ error: false, rows })
   }
 }
