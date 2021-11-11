@@ -5,9 +5,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Resource from './Resource'
 import Detector from './Detector'
-import Dialect from './Dialect'
+import Features from './Features'
 import Schema from './Schema'
-import Layout from './Layout'
 
 export interface DescribeProps {
   state: any
@@ -27,9 +26,8 @@ export default function Describe(props: DescribeProps) {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Resource" {...a11yProps(0)} />
           <Tab label="Schema" {...a11yProps(1)} />
-          <Tab label="Dialect" {...a11yProps(2)} />
-          <Tab label="Layout" {...a11yProps(3)} />
-          <Tab label="Detector" {...a11yProps(4)} />
+          <Tab label="Features" {...a11yProps(2)} />
+          <Tab label="Detector" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -39,12 +37,9 @@ export default function Describe(props: DescribeProps) {
         <Schema state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Dialect />
+        <Features state={props.state} dispatch={props.dispatch} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Layout />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
         <Detector />
       </TabPanel>
     </Box>

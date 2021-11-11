@@ -19,8 +19,8 @@ export default function Schema(props: SchemaProps) {
       <Grid item xs={3}>
         <Field state={props.state} />
       </Grid>
-      <Grid item xs={3}>
-        <Fields state={props.state} />
+      <Grid item xs={6}>
+        <Name state={props.state} />
       </Grid>
     </Grid>
   )
@@ -47,15 +47,16 @@ function Field(props: SchemaProps) {
       <Typography variant="h6">Field</Typography>
       <TextField label="Name" margin="normal" defaultValue={schema.fields[0].name} />
       <TextField label="Type" margin="normal" defaultValue={schema.fields[0].type} />
+      <TextField label="Format" margin="normal" defaultValue={schema.fields[0].format} />
     </FormControl>
   )
 }
 
-function Fields(props: SchemaProps) {
+function Name(props: SchemaProps) {
   const { schema } = props.state.resource
   return (
     <Box>
-      <Typography variant="h6">Fields</Typography>
+      <Typography variant="h6">Name</Typography>
       <Box>
         {schema.fields.map((field: any, index: any) => (
           <Button
