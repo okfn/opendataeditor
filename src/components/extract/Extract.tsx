@@ -3,10 +3,9 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Resource from './Resource'
-import Detector from './Detector'
-import Features from './Features'
-import Schema from './Schema'
+import Display from './Display'
+import Metrics from './Metrics'
+import Export from './Export'
 
 export interface DescribeProps {
   state: any
@@ -24,23 +23,19 @@ export default function Describe(props: DescribeProps) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Resource" {...a11yProps(0)} />
-          <Tab label="Schema" {...a11yProps(1)} />
-          <Tab label="Features" {...a11yProps(2)} />
-          <Tab label="Detector" {...a11yProps(3)} />
+          <Tab label="Display" {...a11yProps(0)} />
+          <Tab label="Metrics" {...a11yProps(1)} />
+          <Tab label="Export" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Resource state={props.state} dispatch={props.dispatch} />
+        <Display state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Schema state={props.state} />
+        <Metrics state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Features state={props.state} dispatch={props.dispatch} />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Detector />
+        <Export />
       </TabPanel>
     </Box>
   )

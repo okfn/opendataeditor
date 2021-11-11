@@ -27,7 +27,7 @@ export default function Menu(props: MenuProps) {
     <Box sx={{ ml: 2, mt: 2 }}>
       <Stepper nonLinear activeStep={currentIndex} orientation="vertical">
         {settings.STEPS.map((step, index) => (
-          <Step key={step.label}>
+          <Step disabled={!props.state.resource} key={step.label}>
             <StepButton color="inherit" onClick={handleStep(index)}>
               {step.label}
             </StepButton>
