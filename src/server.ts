@@ -50,7 +50,7 @@ export class Server {
       postfix: pathmodule.extname(request.file.originalname),
     })
     fs.promises.writeFile(path, request.file.buffer)
-    const command = `frictionless describe ${path} --json --stats`
+    const command = `frictionless describe ${path} --json --stats --expand`
     const { stdout } = await promiseExec(command)
     const resource = JSON.parse(stdout)
     resource.path = request.file.originalname

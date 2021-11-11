@@ -5,9 +5,9 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Detector from './describe/Detector'
+import Layout from './describe/Layout'
 import Stats from './describe/Stats'
 
 interface TabPanelProps {
@@ -139,12 +139,7 @@ export default function BasicTabs(props: BasicTabsProps) {
         </Box>
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Box sx={{ mb: 2 }}>
-          <TextField select label="Header" defaultValue={'yes'} sx={{ width: '200px' }}>
-            <MenuItem value={'yes'}>Yes</MenuItem>
-            <MenuItem value={'no'}>No</MenuItem>
-          </TextField>
-        </Box>
+        <Layout />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <Stats state={props.state} />
