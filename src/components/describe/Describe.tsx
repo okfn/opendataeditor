@@ -8,7 +8,6 @@ import Detector from './Detector'
 import Dialect from './Dialect'
 import Schema from './Schema'
 import Layout from './Layout'
-import Stats from './Stats'
 
 export interface DescribeProps {
   state: any
@@ -30,8 +29,7 @@ export default function Describe(props: DescribeProps) {
           <Tab label="Schema" {...a11yProps(1)} />
           <Tab label="Dialect" {...a11yProps(2)} />
           <Tab label="Layout" {...a11yProps(3)} />
-          <Tab label="Stats" {...a11yProps(4)} />
-          <Tab label="Detector" {...a11yProps(5)} />
+          <Tab label="Detector" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -47,9 +45,6 @@ export default function Describe(props: DescribeProps) {
         <Layout />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Stats state={props.state} />
-      </TabPanel>
-      <TabPanel value={value} index={5}>
         <Detector />
       </TabPanel>
     </Box>
