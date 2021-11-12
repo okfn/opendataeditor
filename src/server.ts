@@ -25,6 +25,7 @@ export class Server {
     // TODO: add serving '/docs' as a static endpoint?
     this.app.post('/api/describe', upload.single('file'), this.describe)
     this.app.post('/api/extract', upload.single('file'), this.extract)
+    this.app.post('/api/validate', upload.single('file'), this.validate)
   }
 
   // Listen
@@ -75,5 +76,21 @@ export class Server {
     const rows = JSON.parse(stdout)
     cleanup()
     response.json({ error: false, rows })
+  }
+
+  protected async validate(request: IRequest, response: IResponse) {
+    if (!request.file) {
+      response.json({ error: true })
+      return
+    }
+    const { path, cleanup } = await file({
+      postfix: pathmodule.extname(request.file.originalname),
+    })
+    fs.promises.writeFile(path, request.file.buffer)
+    const command = `frictionless validate ${path} --json`
+    const { stdout } = await promiseExec(command)
+    const report = JSON.parse(stdout)
+    cleanup()
+    response.json({ error: false, report })
   }
 }
