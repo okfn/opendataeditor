@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Report from '../Report'
-import Checks from './validate/Checks'
+import Inquiry from '../Inquiry'
 
 export interface ValidateProps {
   state: any
@@ -23,14 +23,14 @@ export default function Validate(props: ValidateProps) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Report" {...a11yProps(0)} />
-          <Tab label="Checks" {...a11yProps(1)} />
+          <Tab label="Inquiry" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <Report report={props.state.report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Checks state={props.state} />
+        <Inquiry state={props.state} />
       </TabPanel>
     </Box>
   )
