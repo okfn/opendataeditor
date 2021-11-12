@@ -21,6 +21,7 @@
   "rules": {
     "indent": "off",
     "no-unused-vars": "off",
+    "multiline-ternary": "off",
     "import/no-duplicates": "off",
     "no-use-before-define": "off",
     "no-useless-constructor": "off",

@@ -27,7 +27,7 @@ export default function Validate(props: ValidateProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Report state={props.state} />
+        <Report report={props.state.report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Checks state={props.state} />
