@@ -3,15 +3,15 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Result from './transform/Result'
-import Steps from './transform/Steps'
+import Metrics from '../Metrics'
+import Table from '../Table'
 
-export interface TransformProps {
+export interface DescribeProps {
   state: any
   dispatch: any
 }
 
-export default function Transform(props: TransformProps) {
+export default function Describe(props: DescribeProps) {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -22,15 +22,15 @@ export default function Transform(props: TransformProps) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Result" {...a11yProps(0)} />
-          <Tab label="Steps" {...a11yProps(1)} />
+          <Tab label="Table" {...a11yProps(0)} />
+          <Tab label="Metrics" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Result state={props.state} />
+        <Table state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Steps state={props.state} />
+        <Metrics state={props.state} />
       </TabPanel>
     </Box>
   )

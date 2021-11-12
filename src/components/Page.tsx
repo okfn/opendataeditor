@@ -1,9 +1,9 @@
 import * as React from 'react'
-import Describe from './pages/Describe'
-import Extract from './pages/Extract'
-import Validate from './pages/Validate'
-import Transform from './pages/Transform'
-import Home from './pages/Home'
+import Describe from './Pages/Describe'
+import Extract from './Pages/Extract'
+import Validate from './Pages/Validate'
+import Transform from './Pages/Transform'
+import Home from './Pages/Home'
 
 export interface PageProps {
   state: any

@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 
-interface DisplayProps {
+interface TableProps {
   state: any
 }
 
-export default function Display(props: DisplayProps) {
+export default function Table(props: TableProps) {
   const rows = props.state.rows.map((row: any, index: number) => ({ ...row, id: index }))
   const columns = props.state.resource.schema.fields.map((field: any) => {
     return {

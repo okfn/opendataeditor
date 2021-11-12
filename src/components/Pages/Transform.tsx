@@ -3,16 +3,15 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Display from './extract/Display'
-import Metrics from './extract/Metrics'
-import Export from './extract/Export'
+import Pipeline from '../Pipeline'
+import Status from '../Status'
 
-export interface DescribeProps {
+export interface TransformProps {
   state: any
   dispatch: any
 }
 
-export default function Describe(props: DescribeProps) {
+export default function Transform(props: TransformProps) {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -23,19 +22,15 @@ export default function Describe(props: DescribeProps) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Display" {...a11yProps(0)} />
-          <Tab label="Metrics" {...a11yProps(1)} />
-          <Tab label="Export" {...a11yProps(2)} />
+          <Tab label="Status" {...a11yProps(0)} />
+          <Tab label="Pipeline" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Display state={props.state} />
+        <Status state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Metrics state={props.state} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Export />
+        <Pipeline state={props.state} />
       </TabPanel>
     </Box>
   )
