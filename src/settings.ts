@@ -1,4 +1,4 @@
-export const PORT = 8000
+export const PORT = 7070
 export const STEPS = [
   {
     label: 'Describe',

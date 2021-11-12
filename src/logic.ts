@@ -43,7 +43,7 @@ async function uploadFile(state: any, action: any) {
 
     // TODO: move to a proper place
     // Describe
-    const response1 = await fetch('http://localhost:8000/api/describe', {
+    const response1 = await fetch('http://localhost:7070/api/describe', {
       method: 'POST',
       body: body,
     })
@@ -52,7 +52,7 @@ async function uploadFile(state: any, action: any) {
 
     // TODO: move to a proper place
     // Extract
-    const response2 = await fetch('http://localhost:8000/api/extract', {
+    const response2 = await fetch('http://localhost:7070/api/extract', {
       method: 'POST',
       body: body,
     })
@@ -61,7 +61,7 @@ async function uploadFile(state: any, action: any) {
 
     // TODO: move to a proper place
     // Validate
-    const response3 = await fetch('http://localhost:8000/api/validate', {
+    const response3 = await fetch('http://localhost:7070/api/validate', {
       method: 'POST',
       body: body,
     })
