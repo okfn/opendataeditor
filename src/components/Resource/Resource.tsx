@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 
-interface ResourceProps {
+export interface ResourceProps {
   state: any
   dispatch: any
 }
