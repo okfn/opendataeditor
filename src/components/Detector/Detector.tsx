@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import { IDetector } from '../../interfaces/detector'
+import * as helpers from '../../helpers'
 
 const detector: IDetector = {
   bufferSize: 10000,
@@ -62,6 +63,7 @@ function General() {
 }
 
 function Field() {
+  const detector = React.useContext(Context)
   return (
     <FormControl>
       <Typography variant="h6">Field</Typography>
@@ -82,6 +84,7 @@ function Field() {
 }
 
 function Schema() {
+  const detector = React.useContext(Context)
   return (
     <FormControl>
       <Typography variant="h6">Schema</Typography>
@@ -101,13 +104,20 @@ function Schema() {
 }
 
 function Actions() {
+  const detector = React.useContext(Context)
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
         <Button variant="contained">Save</Button>
         <Button variant="contained">Restore</Button>
-        <Button variant="contained">Export</Button>
+        <Button
+          variant="contained"
+          download="detector.json"
+          href={helpers.exportDescriptor(detector)}
+        >
+          Export
+        </Button>
       </Stack>
     </Box>
   )
