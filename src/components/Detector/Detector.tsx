@@ -3,16 +3,19 @@ import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import { IDetector } from '../../interfaces/detector'
 
-const detector = {
+const detector: IDetector = {
   bufferSize: 10000,
   sampleSize: 100,
-  fieldType: null,
-  fieldNames: null,
 }
 
-const Context = React.createContext(detector)
+const Context = React.createContext({} as IDetector)
 
 export default function Detector() {
   return (
@@ -28,6 +31,7 @@ export default function Detector() {
           <Schema />
         </Grid>
       </Grid>
+      <Actions />
     </Context.Provider>
   )
 }
@@ -61,8 +65,18 @@ function Field() {
   return (
     <FormControl>
       <Typography variant="h6">Field</Typography>
-      <TextField label="Type" margin="normal" defaultValue={detector.fieldType} />
-      <TextField label="Names" margin="normal" defaultValue={''} />
+      <TextField
+        label="Type"
+        margin="normal"
+        defaultValue={detector.fieldType}
+        onChange={(ev) => (detector.fieldType = ev.target.value)}
+      />
+      <TextField
+        label="Names"
+        margin="normal"
+        defaultValue={(detector.fieldNames || []).join(',')}
+        onChange={(ev) => (detector.fieldNames = ev.target.value.split(','))}
+      />
     </FormControl>
   )
 }
@@ -73,14 +87,28 @@ function Schema() {
       <Typography variant="h6">Schema</Typography>
       <TextField
         select
-        margin="normal"
         label="Sync"
-        defaultValue={'false'}
-        sx={{ width: '200px' }}
+        defaultValue={'no'}
+        onChange={(ev) => (detector.schemaSync = ev.target.value === 'yes')}
+        sx={{ width: '30ch' }}
+        margin="normal"
       >
-        <MenuItem value={'true'}>Yes</MenuItem>
-        <MenuItem value={'false'}>No</MenuItem>
+        <MenuItem value={'yes'}>Yes</MenuItem>
+        <MenuItem value={'no'}>No</MenuItem>
       </TextField>
     </FormControl>
+  )
+}
+
+function Actions() {
+  return (
+    <Box>
+      <Divider sx={{ mt: 2, mb: 3 }} />
+      <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
+        <Button variant="contained">Save</Button>
+        <Button variant="contained">Restore</Button>
+        <Button variant="contained">Export</Button>
+      </Stack>
+    </Box>
   )
 }
