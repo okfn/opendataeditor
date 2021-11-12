@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Resource from './describe/Resource'
 import Detector from './describe/Detector'
 import Features from './describe/Features'
-import Schema from './describe/Schema'
+import Schema from '../Schema'
 
 export interface DescribeProps {
   state: any
