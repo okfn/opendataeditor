@@ -1,4 +1,10 @@
-export const initialState = { file: null, resource: null, rows: null, page: 'home' }
+export const initialState = {
+  file: null,
+  resource: null,
+  rows: null,
+  report: null,
+  page: 'home',
+}
 
 // TODO: remove any
 export async function reducer(state: any, action: any) {
@@ -52,9 +58,18 @@ async function uploadFile(state: any, action: any) {
     })
     const data2 = await response2.json()
     const rows = data2.rows
-    console.log(rows)
 
-    return { ...state, file, resource, rows, page: 'describe' }
+    // TODO: move to a proper place
+    // Validate
+    const response3 = await fetch('http://localhost:8000/api/validate', {
+      method: 'POST',
+      body: body,
+    })
+    const data3 = await response3.json()
+    const report = data3.report
+    console.log(report)
+
+    return { ...state, file, resource, rows, report, page: 'describe' }
   }
   return state
 }
