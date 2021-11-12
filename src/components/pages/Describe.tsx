@@ -4,8 +4,8 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Resource from '../Resource'
-import Detector from './describe/Detector'
-import Features from './describe/Features'
+import Detector from '../Detector'
+import Features from '../Features'
 import Schema from '../Schema'
 
 export interface DescribeProps {
