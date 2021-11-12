@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportError } from '../../../../interfaces/report'
+import { IReportError } from '../../interfaces/report'
 
-interface TableProps {
+export interface TableProps {
   reportError: IReportError
   visibleRowsCount: number
   rowPositions: number[]

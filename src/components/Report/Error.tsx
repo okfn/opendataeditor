@@ -1,10 +1,10 @@
 import { marked } from 'marked'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { IReportError } from '../../../../interfaces/report'
+import { IReportError } from '../../interfaces/report'
 import Table from './Table'
 
-interface ErrorProps {
+export interface ErrorProps {
   reportError: IReportError
 }
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportTask, IReportError } from '../../../../interfaces/report'
+import { IReportTask, IReportError } from '../../interfaces/report'
 import Error from './Error'
 
-interface TaskProps {
+export interface TaskProps {
   task: IReportTask
   taskNumber: number
   tasksCount: number

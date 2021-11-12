@@ -3,7 +3,7 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Report from './validate/Report'
+import Report from '../Report'
 import Checks from './validate/Checks'
 
 export interface ValidateProps {
