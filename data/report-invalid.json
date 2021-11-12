@@ -1,0 +1,254 @@
+{
+  "version": "4.6.0",
+  "time": 0.022,
+  "errors": [],
+  "tasks": [
+    {
+      "resource": {
+        "path": "data/invalid.csv",
+        "name": "invalid",
+        "profile": "tabular-data-resource",
+        "scheme": "file",
+        "format": "csv",
+        "hashing": "md5",
+        "encoding": "utf-8",
+        "schema": {
+          "fields": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "field3",
+              "type": "integer"
+            },
+            {
+              "name": "name2",
+              "type": "integer"
+            }
+          ]
+        },
+        "stats": {
+          "hash": "8c73c3d9d59088dcb2508e0b348bf8a8",
+          "bytes": 50,
+          "fields": 4,
+          "rows": 4
+        }
+      },
+      "time": 0.022,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [
+        {
+          "label": "",
+          "fieldName": "field3",
+          "fieldNumber": 3,
+          "fieldPosition": 3,
+          "labels": [
+            "id",
+            "name",
+            "",
+            "name"
+          ],
+          "rowPositions": [
+            1
+          ],
+          "code": "blank-label",
+          "name": "Blank Label",
+          "tags": [
+            "#table",
+            "#header",
+            "#label"
+          ],
+          "note": "",
+          "message": "Label in the header in field at position \"3\" is blank",
+          "description": "A label in the header row is missing a value. Label should be provided and not be blank."
+        },
+        {
+          "label": "name",
+          "fieldName": "name2",
+          "fieldNumber": 4,
+          "fieldPosition": 4,
+          "labels": [
+            "id",
+            "name",
+            "",
+            "name"
+          ],
+          "rowPositions": [
+            1
+          ],
+          "code": "duplicate-label",
+          "name": "Duplicate Label",
+          "tags": [
+            "#table",
+            "#header",
+            "#label"
+          ],
+          "note": "at position \"2\"",
+          "message": "Label \"name\" in the header at position \"4\" is duplicated to a label: at position \"2\"",
+          "description": "Two columns in the header row have the same value. Column names should be unique."
+        },
+        {
+          "cell": "",
+          "fieldName": "field3",
+          "fieldNumber": 3,
+          "fieldPosition": 3,
+          "cells": [
+            "1",
+            "english"
+          ],
+          "rowNumber": 1,
+          "rowPosition": 2,
+          "code": "missing-cell",
+          "name": "Missing Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"2\" has a missing cell in field \"field3\" at position \"3\"",
+          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        },
+        {
+          "cell": "",
+          "fieldName": "name2",
+          "fieldNumber": 4,
+          "fieldPosition": 4,
+          "cells": [
+            "1",
+            "english"
+          ],
+          "rowNumber": 1,
+          "rowPosition": 2,
+          "code": "missing-cell",
+          "name": "Missing Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"2\" has a missing cell in field \"name2\" at position \"4\"",
+          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        },
+        {
+          "cell": "",
+          "fieldName": "field3",
+          "fieldNumber": 3,
+          "fieldPosition": 3,
+          "cells": [
+            "1",
+            "english"
+          ],
+          "rowNumber": 2,
+          "rowPosition": 3,
+          "code": "missing-cell",
+          "name": "Missing Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"3\" has a missing cell in field \"field3\" at position \"3\"",
+          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        },
+        {
+          "cell": "",
+          "fieldName": "name2",
+          "fieldNumber": 4,
+          "fieldPosition": 4,
+          "cells": [
+            "1",
+            "english"
+          ],
+          "rowNumber": 2,
+          "rowPosition": 3,
+          "code": "missing-cell",
+          "name": "Missing Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"3\" has a missing cell in field \"name2\" at position \"4\"",
+          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        },
+        {
+          "cells": [],
+          "rowNumber": 3,
+          "rowPosition": 4,
+          "code": "blank-row",
+          "name": "Blank Row",
+          "tags": [
+            "#table",
+            "#row"
+          ],
+          "note": "",
+          "message": "Row at position \"4\" is completely blank",
+          "description": "This row is empty. A row should contain at least one value."
+        },
+        {
+          "cell": "3",
+          "fieldName": "",
+          "fieldNumber": 4,
+          "fieldPosition": 5,
+          "cells": [
+            "2",
+            "german",
+            "1",
+            "2",
+            "3"
+          ],
+          "rowNumber": 4,
+          "rowPosition": 5,
+          "code": "extra-cell",
+          "name": "Extra Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"5\" has an extra value in field at position \"5\"",
+          "description": "This row has more values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        }
+      ],
+      "stats": {
+        "errors": 8
+      },
+      "valid": false
+    }
+  ],
+  "stats": {
+    "errors": 8,
+    "tasks": 1
+  },
+  "valid": false
+}
