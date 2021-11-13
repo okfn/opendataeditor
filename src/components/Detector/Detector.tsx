@@ -26,6 +26,8 @@ interface DetectorState {
   onSave: (detector: IDetector) => void
   isUpdated: boolean
   update: (patch: object) => void
+  revert: () => void
+  save: () => void
 }
 
 const { Provider, useStore } = createContext<DetectorState>()
@@ -36,12 +38,24 @@ export default function Detector(props: DetectorProps) {
   return (
     <Provider
       createStore={() =>
-        create<DetectorState>((set) => ({
+        create<DetectorState>((set, get) => ({
           detector,
           initialDetector: cloneDeep(detector),
           onSave,
           isUpdated: false,
-          update: (patch) => set((state) => ({ ...state, ...patch, isUpdated: true })),
+          update: (patch) => {
+            const { detector } = get()
+            set({ isUpdated: true, detector: { ...detector, ...patch } })
+          },
+          revert: () => {
+            const { initialDetector } = get()
+            set({ detector: cloneDeep(initialDetector), isUpdated: false })
+          },
+          save: () => {
+            const { onSave, detector } = get()
+            set({ initialDetector: cloneDeep(detector), isUpdated: false })
+            onSave(detector)
+          },
         }))
       }
     >
@@ -71,7 +85,7 @@ function General() {
         type="number"
         label="Buffer Size"
         inputProps={{ min: 0, step: 10000 }}
-        defaultValue={detector.bufferSize}
+        value={detector.bufferSize}
         onChange={(ev) => update({ bufferSize: parseInt(ev.target.value) })}
         margin="normal"
       />
@@ -79,7 +93,7 @@ function General() {
         type="number"
         label="Sample Size"
         inputProps={{ min: 0, step: 100 }}
-        defaultValue={detector.sampleSize}
+        value={detector.sampleSize}
         onChange={(ev) => update({ sampleSize: parseInt(ev.target.value) })}
         margin="normal"
       />
@@ -96,13 +110,13 @@ function Field() {
       <TextField
         label="Type"
         margin="normal"
-        defaultValue={detector.fieldType}
+        value={detector.fieldType}
         onChange={(ev) => update({ fieldType: ev.target.value })}
       />
       <TextField
         label="Names"
         margin="normal"
-        defaultValue={(detector.fieldNames || []).join(',')}
+        value={(detector.fieldNames || []).join(',')}
         onChange={(ev) => update({ fieldNames: ev.target.value.split(',') })}
       />
     </FormControl>
@@ -118,7 +132,7 @@ function Schema() {
       <TextField
         select
         label="Sync"
-        defaultValue={detector.schemaSync ? 'yes' : 'no'}
+        value={detector.schemaSync ? 'yes' : 'no'}
         onChange={(ev) => update({ schemaSync: ev.target.value === 'yes' })}
         sx={{ width: '30ch' }}
         margin="normal"
@@ -132,10 +146,9 @@ function Schema() {
 
 function Actions() {
   const detector = useStore((state) => state.detector)
-  const initialDetector = useStore((state) => state.initialDetector)
-  const onSave = useStore((state) => state.onSave)
   const isUpdated = useStore((state) => state.isUpdated)
-  const update = useStore((state) => state.update)
+  const revert = useStore((state) => state.revert)
+  const save = useStore((state) => state.save)
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
@@ -147,20 +160,10 @@ function Actions() {
         >
           Export
         </Button>
-        <Button
-          variant="contained"
-          disabled={!isUpdated}
-          onClick={() => update({ detector: initialDetector, isUpdated: false })}
-          color="error"
-        >
+        <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
           Revert
         </Button>
-        <Button
-          variant="contained"
-          disabled={!isUpdated}
-          onClick={() => onSave(detector)}
-          color="success"
-        >
+        <Button variant="contained" disabled={!isUpdated} onClick={save} color="success">
           Save
         </Button>
       </Stack>
