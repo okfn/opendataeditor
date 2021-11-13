@@ -120,15 +120,29 @@ function Preview() {
 
 function General() {
   const schema = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">General</Typography>
       <TextField
         label="Missing Values"
         margin="normal"
-        defaultValue={schema.missingValues}
+        value={schema.missingValues.join(',')}
+        onChange={(ev) => update({ missingValues: ev.target.value.split(',') })}
       />
-      <TextField label="Primary Key" margin="normal" defaultValue={schema.primaryKey} />
+      <TextField
+        label="Primary Key"
+        margin="normal"
+        value={(schema.primaryKey || []).join(',')}
+        onChange={(ev) => update({ primaryKey: ev.target.value.split(',') })}
+      />
+      <TextField
+        label="Foreign Keys"
+        margin="normal"
+        value={schema.foreignKeys || ''}
+        onChange={(ev) => update({ foreignKeys: ev.target.value })}
+        multiline
+      />
     </FormControl>
   )
 }
