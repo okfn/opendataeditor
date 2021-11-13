@@ -77,7 +77,8 @@
     "react-spring": "^9.3.0",
     "slugify": "^1.6.1",
     "through2": "^4.0.2",
-    "ts-essentials": "^9.0.0"
+    "ts-essentials": "^9.0.0",
+    "zustand": "^3.6.5"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.2.9",
