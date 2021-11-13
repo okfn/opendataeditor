@@ -1,6 +1,7 @@
 export const initialState = {
   file: null,
   resource: null,
+  text: null,
   rows: null,
   report: null,
   page: 'home',
@@ -49,7 +50,8 @@ async function uploadFile(state: any, action: any) {
       alert('Currently only CSV files under 10Mb are supported')
       return state
     }
-    // TODO: add size limit
+    // TODO: implement properly
+    const text = await file.text()
     const buffer = await file.arrayBuffer()
     const body = new FormData()
     body.append('data', JSON.stringify({}))
@@ -82,7 +84,7 @@ async function uploadFile(state: any, action: any) {
     const data3 = await response3.json()
     const report = data3.report
 
-    return { ...state, file, resource, rows, report, page: 'describe' }
+    return { ...state, file, resource, text, rows, report, page: 'describe' }
   }
   return state
 }
