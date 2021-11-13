@@ -7,9 +7,10 @@ export default {
   component: Detector,
 } as Meta
 
-const Template: Story = (args) => <Detector {...args} />
+const Template: Story<Parameters<typeof Detector>[0]> = (args) => <Detector {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  detector: { bufferSize: 10000, sampleSize: 100 },
   onSave: (detector: any) => console.log(detector),
 }

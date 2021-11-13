@@ -16,7 +16,7 @@ import { IDetector } from '../../interfaces/detector'
 import * as helpers from '../../helpers'
 
 interface DetectorProps {
-  detector?: IDetector
+  detector: IDetector
   onSave?: (detector: IDetector) => void
 }
 
@@ -33,9 +33,8 @@ interface DetectorState {
 }
 
 function makeStore(props: DetectorProps) {
+  const detector = props.detector
   const onSave = props.onSave || noop
-  // TODO: move the default to a proper place
-  const detector = props.detector || { bufferSize: 10000, sampleSize: 100 }
   return create<DetectorState>((set, get) => ({
     next: cloneDeep(detector),
     prev: detector,

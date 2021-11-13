@@ -16,7 +16,7 @@ import { IFeatures } from '../../interfaces/features'
 import * as helpers from '../../helpers'
 
 interface FeaturesProps {
-  features?: IFeatures
+  features: IFeatures
   onSave?: (features: IFeatures) => void
 }
 
@@ -33,13 +33,8 @@ interface FeaturesState {
 }
 
 function makeStore(props: FeaturesProps) {
+  const features = props.features
   const onSave = props.onSave || noop
-  // TODO: move the default to a proper place
-  const features = props.features || {
-    layout: { header: true, headerRows: [1] },
-    dialect: { code: 'csv', delimiter: ',' },
-    control: { code: 'local' },
-  }
   return create<FeaturesState>((set, get) => ({
     next: cloneDeep(features),
     prev: features,

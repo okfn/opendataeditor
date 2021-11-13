@@ -33,8 +33,8 @@ interface ResourceState {
 }
 
 function makeStore(props: ResourceProps) {
-  const onSave = props.onSave || noop
   const resource = props.resource
+  const onSave = props.onSave || noop
   return create<ResourceState>((set, get) => ({
     next: cloneDeep(resource),
     prev: resource,

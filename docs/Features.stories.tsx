@@ -7,9 +7,14 @@ export default {
   component: Features,
 } as Meta
 
-const Template: Story = (args) => <Features {...args} />
+const Template: Story<Parameters<typeof Features>[0]> = (args) => <Features {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  features: {
+    layout: { header: true, headerRows: [1] },
+    dialect: { code: 'csv', delimiter: ',' },
+    control: { code: 'local' },
+  },
   onSave: (features: any) => console.log(features),
 }

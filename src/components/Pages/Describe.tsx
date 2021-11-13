@@ -31,16 +31,33 @@ export default function Describe(props: DescribeProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Resource resource={props.state.resource} />
+        <Resource
+          resource={props.state.resource}
+          onSave={(resource) =>
+            props.dispatch({ type: 'UPDATE_RESOURCE', update: resource })
+          }
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schema state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Features />
+        <Features
+          features={{
+            layout: props.state.resource.layout,
+            dialect: props.state.resource.dialect,
+            control: props.state.resource.control,
+          }}
+          onSave={(features) =>
+            props.dispatch({ type: 'UPDATE_RESOURCE', update: features })
+          }
+        />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Detector />
+        <Detector
+          detector={props.state.detector}
+          onSave={(detector) => props.dispatch({ type: 'UPDATE_DETECTOR', detector })}
+        />
       </TabPanel>
     </Box>
   )

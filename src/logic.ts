@@ -4,6 +4,7 @@ export const initialState = {
   rows: null,
   report: null,
   page: 'home',
+  detector: { bufferSize: 10000, sampleSize: 100 },
 }
 
 // TODO: remove any
@@ -13,6 +14,8 @@ export async function reducer(state: any, action: any) {
       return setPage(state, action)
     case 'UPDATE_RESOURCE':
       return updateResource(state, action)
+    case 'UPDATE_DETECTOR':
+      return updateDetector(state, action)
     case 'UPLOAD_FILE':
       return uploadFile(state, action)
     default:
@@ -29,6 +32,12 @@ function updateResource(state: any, action: any) {
   let { resource } = state
   resource = { ...resource, ...action.update }
   return { ...state, resource }
+}
+
+function updateDetector(state: any, action: any) {
+  let { detector } = state
+  detector = { ...detector, ...action.detector }
+  return { ...state, detector }
 }
 
 async function uploadFile(state: any, action: any) {
