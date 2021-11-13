@@ -184,7 +184,7 @@ function Actions() {
           onClick={preview}
           color="info"
         >
-          Source
+          Preview
         </Button>
         <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
           Revert
