@@ -39,7 +39,12 @@ export default function Describe(props: DescribeProps) {
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Schema state={props.state} />
+        <Schema
+          schema={props.state.resource.schema}
+          onSave={(schema) =>
+            props.dispatch({ type: 'UPDATE_RESOURCE', update: { schema } })
+          }
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Features

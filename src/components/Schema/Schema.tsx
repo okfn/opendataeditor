@@ -7,8 +7,6 @@ import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
-// import RemoveIcon from '@mui/icons-material/Remove'
-// import AddIcon from '@mui/icons-material/Add'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -89,11 +87,11 @@ function makeStore(props: SchemaProps) {
     },
     revert: () => {
       const { prev } = get()
-      set({ next: cloneDeep(prev), isUpdated: false })
+      set({ next: cloneDeep(prev), isUpdated: false, fieldIndex: 0 })
     },
     save: () => {
       const { onSave, next } = get()
-      set({ prev: cloneDeep(next), isUpdated: false })
+      set({ prev: cloneDeep(next), isUpdated: false, fieldIndex: 0 })
       onSave(next)
     },
   }))
