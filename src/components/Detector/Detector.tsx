@@ -189,7 +189,7 @@ function Actions() {
         <Button
           variant={isPreview ? 'outlined' : 'contained'}
           onClick={preview}
-          color="info"
+          color="warning"
         >
           Preview
         </Button>
