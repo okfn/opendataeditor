@@ -35,6 +35,11 @@ async function uploadFile(state: any, action: any) {
   const { files } = action
   if (files.length) {
     const file = files[0]
+    if (file.type !== 'text/csv' || file.size > 10000000) {
+      // TODO: clean file input
+      alert('Currently only CSV files under 10Mb are supported')
+      return state
+    }
     // TODO: add size limit
     const buffer = await file.arrayBuffer()
     const body = new FormData()
@@ -67,7 +72,6 @@ async function uploadFile(state: any, action: any) {
     })
     const data3 = await response3.json()
     const report = data3.report
-    console.log(report)
 
     return { ...state, file, resource, rows, report, page: 'describe' }
   }
