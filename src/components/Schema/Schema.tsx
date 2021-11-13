@@ -7,7 +7,8 @@ import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
-import AddIcon from '@mui/icons-material/Add'
+// import RemoveIcon from '@mui/icons-material/Remove'
+// import AddIcon from '@mui/icons-material/Add'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -28,9 +29,10 @@ interface SchemaState {
   isPreview: boolean
   isUpdated: boolean
   fieldIndex: number
-  addField: () => void
   setField: (fieldIndex: number) => void
   updateField: (patch: object) => void
+  removeField: () => void
+  addField: () => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
@@ -47,6 +49,16 @@ function makeStore(props: SchemaProps) {
     isPreview: false,
     isUpdated: false,
     fieldIndex: 0,
+    setField: (fieldIndex) => {
+      set({ fieldIndex })
+    },
+    updateField: (patch) => {
+      const { next, fieldIndex } = get()
+      const schema = produce(next, (schema) => {
+        schema.fields[fieldIndex] = { ...schema.fields[fieldIndex], ...patch }
+      })
+      set({ next: schema })
+    },
     addField: () => {
       const { next } = get()
       const schema = produce(next, (schema) => {
@@ -59,15 +71,12 @@ function makeStore(props: SchemaProps) {
       const fieldIndex = schema.fields.length - 1
       set({ next: schema, fieldIndex })
     },
-    updateField: (patch) => {
+    removeField: () => {
       const { next, fieldIndex } = get()
       const schema = produce(next, (schema) => {
-        schema.fields[fieldIndex] = { ...schema.fields[fieldIndex], ...patch }
+        schema.fields.splice(fieldIndex, 1)
       })
-      set({ next: schema })
-    },
-    setField: (fieldIndex) => {
-      set({ fieldIndex })
+      set({ next: schema, fieldIndex: Math.max(fieldIndex - 1, 0) })
     },
     update: (patch) => {
       const { next } = get()
@@ -187,11 +196,30 @@ function Field() {
 function Name() {
   const schema = useStore((state) => state.next)
   const fieldIndex = useStore((state) => state.fieldIndex)
-  const addField = useStore((state) => state.addField)
   const setField = useStore((state) => state.setField)
+  const addField = useStore((state) => state.addField)
+  const removeField = useStore((state) => state.removeField)
   return (
     <Box>
       <Typography variant="h6">Name</Typography>
+      <Box sx={{ pb: 2, borderBottom: 'dashed 1px #ccc' }}>
+        <Button
+          variant="outlined"
+          color="success"
+          sx={{ mt: 2, mr: 2 }}
+          onClick={addField}
+        >
+          Add Field
+        </Button>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ mt: 2, mr: 2 }}
+          onClick={removeField}
+        >
+          Remove Field
+        </Button>
+      </Box>
       <Box>
         {schema.fields.map((field: any, index: any) => (
           <Button
@@ -203,9 +231,6 @@ function Name() {
             {field.name}
           </Button>
         ))}
-        <Button variant="outlined" sx={{ mt: 2, mr: 2 }} onClick={addField}>
-          <AddIcon />
-        </Button>
       </Box>
     </Box>
   )
