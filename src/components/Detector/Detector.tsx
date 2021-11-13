@@ -24,8 +24,10 @@ interface DetectorState {
   next: IDetector
   prev: IDetector
   onSave: (detector: IDetector) => void
+  isPreview: boolean
   isUpdated: boolean
   update: (patch: object) => void
+  preview: () => void
   revert: () => void
   save: () => void
 }
@@ -38,10 +40,15 @@ function makeStore(props: DetectorProps) {
     next: cloneDeep(detector),
     prev: detector,
     onSave,
+    isPreview: false,
     isUpdated: false,
     update: (patch) => {
       const { next } = get()
       set({ next: { ...next, ...patch }, isUpdated: true })
+    },
+    preview: () => {
+      const { isPreview } = get()
+      set({ isPreview: !isPreview })
     },
     revert: () => {
       const { prev } = get()
@@ -59,19 +66,36 @@ const { Provider, useStore } = createContext<DetectorState>()
 export default function Detector(props: DetectorProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Grid container>
-        <Grid item xs={3}>
-          <General />
-        </Grid>
-        <Grid item xs={3}>
-          <Field />
-        </Grid>
-        <Grid item xs={3}>
-          <Schema />
-        </Grid>
-      </Grid>
+      <Editor />
       <Actions />
     </Provider>
+  )
+}
+
+function Editor() {
+  const isPreview = useStore((state) => state.isPreview)
+  if (isPreview) return <Preview />
+  return (
+    <Grid container>
+      <Grid item xs={3}>
+        <General />
+      </Grid>
+      <Grid item xs={3}>
+        <Field />
+      </Grid>
+      <Grid item xs={3}>
+        <Schema />
+      </Grid>
+    </Grid>
+  )
+}
+
+function Preview() {
+  const detector = useStore((state) => state.next)
+  return (
+    <pre>
+      <code>{JSON.stringify(detector, null, 2)}</code>
+    </pre>
   )
 }
 
@@ -146,7 +170,9 @@ function Schema() {
 
 function Actions() {
   const detector = useStore((state) => state.next)
+  const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
+  const preview = useStore((state) => state.preview)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
   return (
@@ -159,6 +185,13 @@ function Actions() {
           href={helpers.exportDescriptor(detector)}
         >
           Export
+        </Button>
+        <Button
+          variant={isPreview ? 'outlined' : 'contained'}
+          onClick={preview}
+          color="info"
+        >
+          Source
         </Button>
         <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
           Revert
