@@ -57,26 +57,27 @@ function makeStore(props: SchemaProps) {
       const schema = produce(next, (schema) => {
         schema.fields[fieldIndex] = { ...schema.fields[fieldIndex], ...patch }
       })
-      set({ next: schema })
+      set({ next: schema, isUpdated: true })
     },
     addField: () => {
       const { next } = get()
       const schema = produce(next, (schema) => {
         schema.fields.push({
+          // TODO: fix the problem with the same keys (it breaks the component)
           name: `field${next.fields.length}`,
           type: 'string',
           format: 'default',
         })
       })
       const fieldIndex = schema.fields.length - 1
-      set({ next: schema, fieldIndex })
+      set({ next: schema, fieldIndex, isUpdated: true })
     },
     removeField: () => {
       const { next, fieldIndex } = get()
       const schema = produce(next, (schema) => {
         schema.fields.splice(fieldIndex, 1)
       })
-      set({ next: schema, fieldIndex: Math.max(fieldIndex - 1, 0) })
+      set({ next: schema, fieldIndex: Math.max(fieldIndex - 1, 0), isUpdated: true })
     },
     update: (patch) => {
       const { next } = get()
