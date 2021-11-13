@@ -27,7 +27,9 @@ interface SchemaState {
   onSave: (schema: ISchema) => void
   isPreview: boolean
   isUpdated: boolean
+  fieldIndex: number
   addField: () => void
+  setField: (fieldIndex: number) => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
@@ -43,6 +45,7 @@ function makeStore(props: SchemaProps) {
     onSave,
     isPreview: false,
     isUpdated: false,
+    fieldIndex: 0,
     addField: () => {
       const { next } = get()
       const schema = produce(next, (schema) => {
@@ -52,7 +55,11 @@ function makeStore(props: SchemaProps) {
           format: 'default',
         })
       })
-      set({ next: schema })
+      const fieldIndex = schema.fields.length - 1
+      set({ next: schema, fieldIndex })
+    },
+    setField: (fieldIndex) => {
+      set({ fieldIndex })
     },
     update: (patch) => {
       const { next } = get()
@@ -127,27 +134,31 @@ function General() {
 }
 
 function Field() {
-  const schema = useStore((state) => state.next)
+  const fieldIndex = useStore((state) => state.fieldIndex)
+  const field = useStore((state) => state.next.fields[fieldIndex])
   return (
     <FormControl>
       <Typography variant="h6">Field</Typography>
-      <TextField label="Name" margin="normal" defaultValue={schema.fields[0].name} />
-      <TextField label="Type" margin="normal" defaultValue={schema.fields[0].type} />
-      <TextField label="Format" margin="normal" defaultValue={schema.fields[0].format} />
+      <TextField label="Name" margin="normal" value={field.name} />
+      <TextField label="Type" margin="normal" value={field.type} />
+      <TextField label="Format" margin="normal" value={field.format} />
     </FormControl>
   )
 }
 
 function Name() {
   const schema = useStore((state) => state.next)
+  const fieldIndex = useStore((state) => state.fieldIndex)
   const addField = useStore((state) => state.addField)
+  const setField = useStore((state) => state.setField)
   return (
     <Box>
       <Typography variant="h6">Name</Typography>
       <Box>
         {schema.fields.map((field: any, index: any) => (
           <Button
-            variant={index === 0 ? 'contained' : 'outlined'}
+            variant={index === fieldIndex ? 'contained' : 'outlined'}
+            onClick={() => setField(index)}
             key={field.name}
             sx={{ mt: 2, mr: 2 }}
           >
