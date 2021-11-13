@@ -37,7 +37,7 @@ export default function Describe(props: DescribeProps) {
         <Schema state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Features state={props.state} dispatch={props.dispatch} />
+        <Features />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <Detector />

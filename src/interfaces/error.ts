@@ -1,5 +1,3 @@
-// TODO: improve type system
-
 export interface IError {
   code: string
   name: string

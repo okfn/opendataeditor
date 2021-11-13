@@ -1,33 +1,87 @@
 import * as React from 'react'
+import create from 'zustand'
+import noop from 'lodash/noop'
+import cloneDeep from 'lodash/cloneDeep'
+import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import { IFeatures } from '../../interfaces/features'
+import * as helpers from '../../helpers'
 
 interface FeaturesProps {
-  state: any
-  dispatch: any
+  features?: IFeatures
+  onSave?: (features: IFeatures) => void
 }
 
+interface FeaturesState {
+  next: IFeatures
+  prev: IFeatures
+  onSave: (features: IFeatures) => void
+  isUpdated: boolean
+  update: (patch: object) => void
+  revert: () => void
+  save: () => void
+}
+
+function makeStore(props: FeaturesProps) {
+  const onSave = props.onSave || noop
+  // TODO: move the default to a proper place
+  const features = props.features || {
+    layout: { header: true, headerRows: [1] },
+    dialect: { code: 'csv', delimiter: ',' },
+    control: { code: 'local' },
+  }
+  return create<FeaturesState>((set, get) => ({
+    next: cloneDeep(features),
+    prev: features,
+    onSave,
+    isUpdated: false,
+    update: (patch) => {
+      const { next } = get()
+      set({ next: { ...next, ...patch }, isUpdated: true })
+    },
+    revert: () => {
+      const { prev } = get()
+      set({ next: cloneDeep(prev), isUpdated: false })
+    },
+    save: () => {
+      const { onSave, next } = get()
+      set({ prev: cloneDeep(next), isUpdated: false })
+      onSave(next)
+    },
+  }))
+}
+
+const { Provider, useStore } = createContext<FeaturesState>()
 export default function Features(props: FeaturesProps) {
   return (
-    <Grid container>
-      <Grid item xs={3}>
-        <Layout state={props.state} dispatch={props.dispatch} />
+    <Provider createStore={() => makeStore(props)}>
+      <Grid container>
+        <Grid item xs={3}>
+          <Layout />
+        </Grid>
+        <Grid item xs={3}>
+          <Dialect />
+        </Grid>
+        <Grid item xs={3}>
+          <Control />
+        </Grid>
       </Grid>
-      <Grid item xs={3}>
-        <Dialect state={props.state} dispatch={props.dispatch} />
-      </Grid>
-      <Grid item xs={3}>
-        <Control />
-      </Grid>
-    </Grid>
+      <Actions />
+    </Provider>
   )
 }
 
-function Layout(props: FeaturesProps) {
-  const { layout } = props.state.resource
+function Layout() {
+  const layout = useStore((state) => state.next.layout)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">Layout</Typography>
@@ -35,24 +89,41 @@ function Layout(props: FeaturesProps) {
         select
         margin="normal"
         label="Header"
-        defaultValue={layout.header ? 'true' : 'false'}
-        sx={{ width: '200px' }}
+        value={layout.header ? 'yes' : 'no'}
+        onChange={(ev) =>
+          update({ layout: { ...layout, header: ev.target.value === 'yes' } })
+        }
+        sx={{ width: '30ch' }}
       >
-        <MenuItem value={'true'}>Yes</MenuItem>
-        <MenuItem value={'false'}>No</MenuItem>
+        <MenuItem value={'yes'}>Yes</MenuItem>
+        <MenuItem value={'no'}>No</MenuItem>
       </TextField>
+      <TextField
+        label="Header Rows"
+        margin="normal"
+        value={(layout.headerRows || []).join(',')}
+        onChange={(ev) =>
+          update({ layout: { ...layout, headerRows: ev.target.value.split(',') } })
+        }
+      />
     </FormControl>
   )
 }
 
-function Dialect(props: FeaturesProps) {
-  // TODO: handle different format
-  const { dialect } = props.state.resource
+// TODO: handle different formats
+function Dialect() {
+  const dialect = useStore((state) => state.next.dialect)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">Dialect</Typography>
-      <TextField label="Code" disabled margin="normal" defaultValue={'csv'} />
-      <TextField label="Delimiter" margin="normal" defaultValue={dialect.delimiter} />
+      <TextField label="Code" disabled margin="normal" defaultValue={dialect.code} />
+      <TextField
+        label="Delimiter"
+        margin="normal"
+        value={dialect.delimiter}
+        onChange={(ev) => update({ dialect: { ...dialect, delimiter: ev.target.value } })}
+      />
     </FormControl>
   )
 }
@@ -63,5 +134,32 @@ function Control() {
       <Typography variant="h6">Control</Typography>
       <TextField label="Code" disabled margin="normal" defaultValue={'local'} />
     </FormControl>
+  )
+}
+
+function Actions() {
+  const dialect = useStore((state) => state.next)
+  const isUpdated = useStore((state) => state.isUpdated)
+  const revert = useStore((state) => state.revert)
+  const save = useStore((state) => state.save)
+  return (
+    <Box>
+      <Divider sx={{ mt: 2, mb: 3 }} />
+      <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
+        <Button
+          variant="contained"
+          download="features.json"
+          href={helpers.exportDescriptor(dialect)}
+        >
+          Export
+        </Button>
+        <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
+          Revert
+        </Button>
+        <Button variant="contained" disabled={!isUpdated} onClick={save} color="success">
+          Save
+        </Button>
+      </Stack>
+    </Box>
   )
 }

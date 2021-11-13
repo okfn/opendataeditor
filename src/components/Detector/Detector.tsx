@@ -1,6 +1,7 @@
 import * as React from 'react'
-import noop from 'lodash/noop'
 import create from 'zustand'
+import noop from 'lodash/noop'
+import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
@@ -34,7 +35,7 @@ function makeStore(props: DetectorProps) {
   // TODO: move the default to a proper place
   const detector = props.detector || { bufferSize: 10000, sampleSize: 100 }
   return create<DetectorState>((set, get) => ({
-    next: detector,
+    next: cloneDeep(detector),
     prev: detector,
     onSave,
     isUpdated: false,
@@ -44,11 +45,11 @@ function makeStore(props: DetectorProps) {
     },
     revert: () => {
       const { prev } = get()
-      set({ next: prev, isUpdated: false })
+      set({ next: cloneDeep(prev), isUpdated: false })
     },
     save: () => {
       const { onSave, next } = get()
-      set({ prev: next, isUpdated: false })
+      set({ prev: cloneDeep(next), isUpdated: false })
       onSave(next)
     },
   }))
