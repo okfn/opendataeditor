@@ -30,6 +30,7 @@ interface SchemaState {
   fieldIndex: number
   addField: () => void
   setField: (fieldIndex: number) => void
+  updateField: (patch: object) => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
@@ -57,6 +58,13 @@ function makeStore(props: SchemaProps) {
       })
       const fieldIndex = schema.fields.length - 1
       set({ next: schema, fieldIndex })
+    },
+    updateField: (patch) => {
+      const { next, fieldIndex } = get()
+      const schema = produce(next, (schema) => {
+        schema.fields[fieldIndex] = { ...schema.fields[fieldIndex], ...patch }
+      })
+      set({ next: schema })
     },
     setField: (fieldIndex) => {
       set({ fieldIndex })
@@ -150,12 +158,28 @@ function General() {
 function Field() {
   const fieldIndex = useStore((state) => state.fieldIndex)
   const field = useStore((state) => state.next.fields[fieldIndex])
+  const updateField = useStore((state) => state.updateField)
   return (
     <FormControl>
       <Typography variant="h6">Field</Typography>
-      <TextField label="Name" margin="normal" value={field.name} />
-      <TextField label="Type" margin="normal" value={field.type} />
-      <TextField label="Format" margin="normal" value={field.format} />
+      <TextField
+        label="Name"
+        margin="normal"
+        value={field.name}
+        onChange={(ev) => updateField({ name: ev.target.value })}
+      />
+      <TextField
+        label="Type"
+        margin="normal"
+        value={field.type}
+        onChange={(ev) => updateField({ type: ev.target.value })}
+      />
+      <TextField
+        label="Format"
+        margin="normal"
+        value={field.format}
+        onChange={(ev) => updateField({ format: ev.target.value })}
+      />
     </FormControl>
   )
 }
