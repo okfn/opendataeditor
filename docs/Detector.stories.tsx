@@ -10,4 +10,6 @@ export default {
 const Template: Story = (args) => <Detector {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  onSave: (detector: any) => console.log(detector),
+}

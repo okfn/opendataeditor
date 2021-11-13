@@ -1,6 +1,7 @@
 import * as React from 'react'
+import create from 'zustand'
+import createContext from 'zustand/context'
 import noop from 'lodash/noop'
-import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
@@ -19,20 +20,31 @@ interface DetectorProps {
   onSave?: (detector: IDetector) => void
 }
 
-interface DetectorContext {
-  prev: IDetector
-  next: IDetector
+interface DetectorState {
+  detector: IDetector
+  initialDetector: IDetector
   onSave: (detector: IDetector) => void
+  isUpdated: boolean
+  update: (patch: object) => void
 }
 
-const Context = React.createContext({} as DetectorContext)
+const { Provider, useStore } = createContext<DetectorState>()
 
 export default function Detector(props: DetectorProps) {
   const onSave = props.onSave || noop
   const detector = props.detector || { bufferSize: 10000, sampleSize: 100 }
-  const context = { prev: detector, next: cloneDeep(detector), onSave }
   return (
-    <Context.Provider value={context}>
+    <Provider
+      createStore={() =>
+        create<DetectorState>((set) => ({
+          detector,
+          initialDetector: cloneDeep(detector),
+          onSave,
+          isUpdated: false,
+          update: (patch) => set((state) => ({ ...state, ...patch, isUpdated: true })),
+        }))
+      }
+    >
       <Grid container>
         <Grid item xs={3}>
           <General />
@@ -45,12 +57,13 @@ export default function Detector(props: DetectorProps) {
         </Grid>
       </Grid>
       <Actions />
-    </Context.Provider>
+    </Provider>
   )
 }
 
 function General() {
-  const context = React.useContext(Context)
+  const detector = useStore((state) => state.detector)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">General</Typography>
@@ -58,16 +71,16 @@ function General() {
         type="number"
         label="Buffer Size"
         inputProps={{ min: 0, step: 10000 }}
-        defaultValue={context.next.bufferSize}
-        onChange={(ev) => (context.next.bufferSize = parseInt(ev.target.value))}
+        defaultValue={detector.bufferSize}
+        onChange={(ev) => update({ bufferSize: parseInt(ev.target.value) })}
         margin="normal"
       />
       <TextField
         type="number"
         label="Sample Size"
         inputProps={{ min: 0, step: 100 }}
-        defaultValue={context.next.sampleSize}
-        onChange={(ev) => (context.next.sampleSize = parseInt(ev.target.value))}
+        defaultValue={detector.sampleSize}
+        onChange={(ev) => update({ sampleSize: parseInt(ev.target.value) })}
         margin="normal"
       />
     </FormControl>
@@ -75,36 +88,38 @@ function General() {
 }
 
 function Field() {
-  const context = React.useContext(Context)
+  const detector = useStore((state) => state.detector)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">Field</Typography>
       <TextField
         label="Type"
         margin="normal"
-        defaultValue={context.next.fieldType}
-        onChange={(ev) => (context.next.fieldType = ev.target.value)}
+        defaultValue={detector.fieldType}
+        onChange={(ev) => update({ fieldType: ev.target.value })}
       />
       <TextField
         label="Names"
         margin="normal"
-        defaultValue={(context.next.fieldNames || []).join(',')}
-        onChange={(ev) => (context.next.fieldNames = ev.target.value.split(','))}
+        defaultValue={(detector.fieldNames || []).join(',')}
+        onChange={(ev) => update({ fieldNames: ev.target.value.split(',') })}
       />
     </FormControl>
   )
 }
 
 function Schema() {
-  const context = React.useContext(Context)
+  const detector = useStore((state) => state.detector)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">Schema</Typography>
       <TextField
         select
         label="Sync"
-        defaultValue={context.next.schemaSync ? 'yes' : 'no'}
-        onChange={(ev) => (context.next.schemaSync = ev.target.value === 'yes')}
+        defaultValue={detector.schemaSync ? 'yes' : 'no'}
+        onChange={(ev) => update({ schemaSync: ev.target.value === 'yes' })}
         sx={{ width: '30ch' }}
         margin="normal"
       >
@@ -116,32 +131,37 @@ function Schema() {
 }
 
 function Actions() {
-  const context = React.useContext(Context)
-  const isUpdated = !isEqual(context.next, context.prev)
+  const detector = useStore((state) => state.detector)
+  const initialDetector = useStore((state) => state.initialDetector)
+  const onSave = useStore((state) => state.onSave)
+  const isUpdated = useStore((state) => state.isUpdated)
+  const update = useStore((state) => state.update)
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
         <Button
           variant="contained"
-          disabled={!isUpdated}
-          onClick={() => context.onSave(context.next)}
-        >
-          Save
-        </Button>
-        <Button
-          variant="contained"
-          disabled={!isUpdated}
-          onClick={() => (context.next = cloneDeep(context.prev))}
-        >
-          Restore
-        </Button>
-        <Button
-          variant="contained"
           download="detector.json"
-          href={helpers.exportDescriptor(context.next)}
+          href={helpers.exportDescriptor(detector)}
         >
           Export
+        </Button>
+        <Button
+          variant="contained"
+          disabled={!isUpdated}
+          onClick={() => update({ detector: initialDetector, isUpdated: false })}
+          color="error"
+        >
+          Revert
+        </Button>
+        <Button
+          variant="contained"
+          disabled={!isUpdated}
+          onClick={() => onSave(detector)}
+          color="success"
+        >
+          Save
         </Button>
       </Stack>
     </Box>
