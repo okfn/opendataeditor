@@ -1,4 +1,5 @@
 import * as React from 'react'
+import produce from 'immer'
 import create from 'zustand'
 import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
@@ -26,6 +27,7 @@ interface SchemaState {
   onSave: (schema: ISchema) => void
   isPreview: boolean
   isUpdated: boolean
+  addField: () => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
@@ -41,6 +43,17 @@ function makeStore(props: SchemaProps) {
     onSave,
     isPreview: false,
     isUpdated: false,
+    addField: () => {
+      const { next } = get()
+      const schema = produce(next, (schema) => {
+        schema.fields.push({
+          name: `field${next.fields.length}`,
+          type: 'string',
+          format: 'default',
+        })
+      })
+      set({ next: schema })
+    },
     update: (patch) => {
       const { next } = get()
       set({ next: { ...next, ...patch }, isUpdated: true })
@@ -82,7 +95,7 @@ function Editor() {
       <Grid item xs={3}>
         <Field />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={6}>
         <Name />
       </Grid>
     </Grid>
@@ -127,6 +140,7 @@ function Field() {
 
 function Name() {
   const schema = useStore((state) => state.next)
+  const addField = useStore((state) => state.addField)
   return (
     <Box>
       <Typography variant="h6">Name</Typography>
@@ -140,7 +154,7 @@ function Name() {
             {field.name}
           </Button>
         ))}
-        <Button variant="outlined" sx={{ mt: 2, mr: 2 }}>
+        <Button variant="outlined" sx={{ mt: 2, mr: 2 }} onClick={addField}>
           <AddIcon />
         </Button>
       </Box>
