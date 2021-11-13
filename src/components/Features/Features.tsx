@@ -24,8 +24,10 @@ interface FeaturesState {
   next: IFeatures
   prev: IFeatures
   onSave: (features: IFeatures) => void
+  isPreview: boolean
   isUpdated: boolean
   update: (patch: object) => void
+  preview: () => void
   revert: () => void
   save: () => void
 }
@@ -42,10 +44,15 @@ function makeStore(props: FeaturesProps) {
     next: cloneDeep(features),
     prev: features,
     onSave,
+    isPreview: false,
     isUpdated: false,
     update: (patch) => {
       const { next } = get()
       set({ next: { ...next, ...patch }, isUpdated: true })
+    },
+    preview: () => {
+      const { isPreview } = get()
+      set({ isPreview: !isPreview })
     },
     revert: () => {
       const { prev } = get()
@@ -63,19 +70,36 @@ const { Provider, useStore } = createContext<FeaturesState>()
 export default function Features(props: FeaturesProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Grid container>
-        <Grid item xs={3}>
-          <Layout />
-        </Grid>
-        <Grid item xs={3}>
-          <Dialect />
-        </Grid>
-        <Grid item xs={3}>
-          <Control />
-        </Grid>
-      </Grid>
+      <Editor />
       <Actions />
     </Provider>
+  )
+}
+
+function Editor() {
+  const isPreview = useStore((state) => state.isPreview)
+  if (isPreview) return <Preview />
+  return (
+    <Grid container>
+      <Grid item xs={3}>
+        <Layout />
+      </Grid>
+      <Grid item xs={3}>
+        <Dialect />
+      </Grid>
+      <Grid item xs={3}>
+        <Control />
+      </Grid>
+    </Grid>
+  )
+}
+
+function Preview() {
+  const features = useStore((state) => state.next)
+  return (
+    <pre>
+      <code>{JSON.stringify(features, null, 2)}</code>
+    </pre>
   )
 }
 
@@ -139,7 +163,9 @@ function Control() {
 
 function Actions() {
   const dialect = useStore((state) => state.next)
+  const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
+  const preview = useStore((state) => state.preview)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
   return (
@@ -152,6 +178,13 @@ function Actions() {
           href={helpers.exportDescriptor(dialect)}
         >
           Export
+        </Button>
+        <Button
+          variant={isPreview ? 'outlined' : 'contained'}
+          onClick={preview}
+          color="info"
+        >
+          Source
         </Button>
         <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
           Revert
