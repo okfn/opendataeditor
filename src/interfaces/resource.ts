@@ -1,14 +1,19 @@
+import { ISchema } from './schema'
+
 export interface IResource {
   path: string
   name: string
+  title?: string
+  description?: string
+  scheme: string
+  format: string
+  hashing: string
+  encoding: string
   schema: ISchema
-}
-
-export interface ISchema {
-  fields: IField[]
-}
-
-export interface IField {
-  name: string
-  type: string
+  stats: {
+    hash: string
+    bytes: number
+    fields: number
+    rows: number
+  }
 }

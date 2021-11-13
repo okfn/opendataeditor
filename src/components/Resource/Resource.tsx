@@ -1,33 +1,82 @@
 import * as React from 'react'
+import create from 'zustand'
+import noop from 'lodash/noop'
+import cloneDeep from 'lodash/cloneDeep'
+import createContext from 'zustand/context'
 import capitalize from 'lodash/capitalize'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import { IResource } from '../../interfaces/resource'
+import * as helpers from '../../helpers'
 
 export interface ResourceProps {
-  state: any
-  dispatch: any
+  resource: IResource
+  onSave?: (resource: IResource) => void
 }
 
+interface ResourceState {
+  next: IResource
+  prev: IResource
+  onSave: (resource: IResource) => void
+  isUpdated: boolean
+  update: (patch: object) => void
+  revert: () => void
+  save: () => void
+}
+
+function makeStore(props: ResourceProps) {
+  const onSave = props.onSave || noop
+  const resource = props.resource
+  return create<ResourceState>((set, get) => ({
+    next: cloneDeep(resource),
+    prev: resource,
+    onSave,
+    isUpdated: false,
+    update: (patch) => {
+      const { next } = get()
+      set({ next: { ...next, ...patch }, isUpdated: true })
+    },
+    revert: () => {
+      const { prev } = get()
+      set({ next: cloneDeep(prev), isUpdated: false })
+    },
+    save: () => {
+      const { onSave, next } = get()
+      set({ prev: cloneDeep(next), isUpdated: false })
+      onSave(next)
+    },
+  }))
+}
+
+const { Provider, useStore } = createContext<ResourceState>()
 export default function Resource(props: ResourceProps) {
   return (
-    <Grid container>
-      <Grid item xs={3}>
-        <General state={props.state} dispatch={props.dispatch} />
+    <Provider createStore={() => makeStore(props)}>
+      <Grid container>
+        <Grid item xs={3}>
+          <General />
+        </Grid>
+        <Grid item xs={3}>
+          <Details />
+        </Grid>
+        <Grid item xs={3}>
+          <Stats />
+        </Grid>
       </Grid>
-      <Grid item xs={3}>
-        <Details state={props.state} dispatch={props.dispatch} />
-      </Grid>
-      <Grid item xs={3}>
-        <Stats state={props.state} dispatch={props.dispatch} />
-      </Grid>
-    </Grid>
+      <Actions />
+    </Provider>
   )
 }
 
-function General(props: ResourceProps) {
-  const { resource } = props.state
+function General() {
+  const resource = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">General</Typography>
@@ -35,45 +84,58 @@ function General(props: ResourceProps) {
       <TextField
         label="Name"
         margin="normal"
-        defaultValue={resource.name}
-        onChange={(ev) =>
-          props.dispatch({
-            type: 'UPDATE_RESOURCE',
-            update: { name: ev.target.value },
-          })
-        }
+        value={resource.name}
+        onChange={(ev) => update({ name: ev.target.value })}
       />
-      <TextField label="Title" margin="normal" defaultValue={resource.title || ''} />
+      <TextField
+        label="Title"
+        margin="normal"
+        value={resource.title || ''}
+        onChange={(ev) => update({ title: ev.target.value })}
+      />
       <TextField
         label="Description"
         margin="normal"
         multiline
-        defaultValue={resource.description || ''}
+        value={resource.description || ''}
+        onChange={(ev) => update({ description: ev.target.value })}
       />
     </FormControl>
   )
 }
 
-function Details(props: ResourceProps) {
-  const { resource } = props.state
+function Details() {
+  const resource = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">Details</Typography>
-      <TextField label="Scheme" margin="normal" defaultValue={resource.scheme || ''} />
-      <TextField label="Format" margin="normal" defaultValue={resource.format || ''} />
-      <TextField label="Hashing" margin="normal" defaultValue={resource.hashing || ''} />
+      <TextField label="Scheme" margin="normal" disabled defaultValue={resource.scheme} />
+      <TextField
+        label="Format"
+        margin="normal"
+        value={resource.format}
+        onChange={(ev) => update({ format: ev.target.value })}
+      />
+      <TextField
+        label="Hashing"
+        margin="normal"
+        value={resource.hashing}
+        onChange={(ev) => update({ hashing: ev.target.value })}
+      />
       <TextField
         label="Encoding"
         margin="normal"
-        defaultValue={resource.encoding || ''}
+        value={resource.encoding}
+        onChange={(ev) => update({ encoding: ev.target.value })}
       />
     </FormControl>
   )
 }
 
-function Stats(props: ResourceProps) {
+function Stats() {
+  const resource = useStore((state) => state.next)
   const keys = ['hash', 'bytes', 'fields', 'rows']
-  const { resource } = props.state
   return (
     <FormControl>
       <Typography variant="h6">Stats</Typography>
@@ -83,9 +145,37 @@ function Stats(props: ResourceProps) {
           disabled
           margin="normal"
           label={capitalize(key)}
+          /* @ts-ignore */
           defaultValue={resource.stats[key]}
         />
       ))}
     </FormControl>
+  )
+}
+
+function Actions() {
+  const resource = useStore((state) => state.next)
+  const isUpdated = useStore((state) => state.isUpdated)
+  const revert = useStore((state) => state.revert)
+  const save = useStore((state) => state.save)
+  return (
+    <Box>
+      <Divider sx={{ mt: 2, mb: 3 }} />
+      <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
+        <Button
+          variant="contained"
+          download={`${resource.name}.resource.json`}
+          href={helpers.exportDescriptor(resource)}
+        >
+          Export
+        </Button>
+        <Button variant="contained" disabled={!isUpdated} onClick={revert} color="error">
+          Revert
+        </Button>
+        <Button variant="contained" disabled={!isUpdated} onClick={save} color="success">
+          Save
+        </Button>
+      </Stack>
+    </Box>
   )
 }
