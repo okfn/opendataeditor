@@ -1,8 +1,7 @@
 import * as React from 'react'
+import noop from 'lodash/noop'
 import create from 'zustand'
 import createContext from 'zustand/context'
-import noop from 'lodash/noop'
-import cloneDeep from 'lodash/cloneDeep'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
@@ -21,8 +20,8 @@ interface DetectorProps {
 }
 
 interface DetectorState {
-  detector: IDetector
-  initialDetector: IDetector
+  next: IDetector
+  prev: IDetector
   onSave: (detector: IDetector) => void
   isUpdated: boolean
   update: (patch: object) => void
@@ -30,35 +29,35 @@ interface DetectorState {
   save: () => void
 }
 
-const { Provider, useStore } = createContext<DetectorState>()
-
-export default function Detector(props: DetectorProps) {
+function makeStore(props: DetectorProps) {
   const onSave = props.onSave || noop
+  // TODO: move the default to a proper place
   const detector = props.detector || { bufferSize: 10000, sampleSize: 100 }
+  return create<DetectorState>((set, get) => ({
+    next: detector,
+    prev: detector,
+    onSave,
+    isUpdated: false,
+    update: (patch) => {
+      const { next } = get()
+      set({ next: { ...next, ...patch }, isUpdated: true })
+    },
+    revert: () => {
+      const { prev } = get()
+      set({ next: prev, isUpdated: false })
+    },
+    save: () => {
+      const { onSave, next } = get()
+      set({ prev: next, isUpdated: false })
+      onSave(next)
+    },
+  }))
+}
+
+const { Provider, useStore } = createContext<DetectorState>()
+export default function Detector(props: DetectorProps) {
   return (
-    <Provider
-      createStore={() =>
-        create<DetectorState>((set, get) => ({
-          detector,
-          initialDetector: cloneDeep(detector),
-          onSave,
-          isUpdated: false,
-          update: (patch) => {
-            const { detector } = get()
-            set({ isUpdated: true, detector: { ...detector, ...patch } })
-          },
-          revert: () => {
-            const { initialDetector } = get()
-            set({ detector: cloneDeep(initialDetector), isUpdated: false })
-          },
-          save: () => {
-            const { onSave, detector } = get()
-            set({ initialDetector: cloneDeep(detector), isUpdated: false })
-            onSave(detector)
-          },
-        }))
-      }
-    >
+    <Provider createStore={() => makeStore(props)}>
       <Grid container>
         <Grid item xs={3}>
           <General />
@@ -76,7 +75,7 @@ export default function Detector(props: DetectorProps) {
 }
 
 function General() {
-  const detector = useStore((state) => state.detector)
+  const detector = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
@@ -102,7 +101,7 @@ function General() {
 }
 
 function Field() {
-  const detector = useStore((state) => state.detector)
+  const detector = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
@@ -124,7 +123,7 @@ function Field() {
 }
 
 function Schema() {
-  const detector = useStore((state) => state.detector)
+  const detector = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
@@ -145,7 +144,7 @@ function Schema() {
 }
 
 function Actions() {
-  const detector = useStore((state) => state.detector)
+  const detector = useStore((state) => state.next)
   const isUpdated = useStore((state) => state.isUpdated)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
