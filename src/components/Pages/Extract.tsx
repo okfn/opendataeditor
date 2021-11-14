@@ -3,7 +3,6 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Metrics from '../Metrics'
 import Table from '../Table'
 import File from '../File'
 
@@ -25,7 +24,6 @@ export default function Describe(props: DescribeProps) {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Table" {...a11yProps(0)} />
           <Tab label="File" {...a11yProps(1)} />
-          <Tab label="Metrics" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -33,9 +31,6 @@ export default function Describe(props: DescribeProps) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <File state={props.state} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Metrics state={props.state} />
       </TabPanel>
     </Box>
   )
