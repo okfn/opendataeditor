@@ -10,9 +10,6 @@ import * as logic from '../logic'
 import * as themes from '../themes'
 import * as helpers from '../helpers'
 
-// TODO: move export/preview to the right column as a vertical tabs
-// TODO: add YAML export/preview
-
 export default function App() {
   // TODO: rebase on useContext
   const [state, dispatch] = helpers.useAsyncReducer(logic.reducer, logic.initialState)
