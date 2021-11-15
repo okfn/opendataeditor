@@ -12,69 +12,69 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { ISchema } from '../../interfaces/schema'
+import { IInquiryTask } from '../../interfaces/inquiry'
 import * as helpers from '../../helpers'
 
-export interface SchemaProps {
-  schema: ISchema
-  onSave?: (schema: ISchema) => void
+export interface TaskProps {
+  task: IInquiryTask
+  onSave?: (task: IInquiryTask) => void
 }
 
-interface SchemaState {
-  next: ISchema
-  prev: ISchema
-  onSave: (schema: ISchema) => void
+interface TaskState {
+  next: IInquiryTask
+  prev: IInquiryTask
+  onSave: (task: IInquiryTask) => void
   isPreview: boolean
   isUpdated: boolean
-  fieldIndex: number
-  setField: (fieldIndex: number) => void
-  updateField: (patch: object) => void
-  removeField: () => void
-  addField: () => void
+  checkIndex: number
+  setCheck: (checkIndex: number) => void
+  updateCheck: (patch: object) => void
+  removeCheck: () => void
+  addCheck: () => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
   save: () => void
 }
 
-function makeStore(props: SchemaProps) {
-  const schema = props.schema
+function makeStore(props: TaskProps) {
+  const task = props.task
   const onSave = props.onSave || noop
-  return create<SchemaState>((set, get) => ({
-    next: cloneDeep(schema),
-    prev: schema,
+  return create<TaskState>((set, get) => ({
+    next: cloneDeep(task),
+    prev: task,
     onSave,
     isPreview: false,
     isUpdated: false,
-    fieldIndex: 0,
-    setField: (fieldIndex) => {
-      set({ fieldIndex })
+    checkIndex: 0,
+    setCheck: (checkIndex) => {
+      set({ checkIndex })
     },
-    updateField: (patch) => {
-      const { next, fieldIndex } = get()
-      const schema = produce(next, (schema) => {
-        schema.fields[fieldIndex] = { ...schema.fields[fieldIndex], ...patch }
+    updateCheck: (patch) => {
+      const { next, checkIndex } = get()
+      const task = produce(next, (task) => {
+        task.checks[checkIndex] = { ...task.checks[checkIndex], ...patch }
       })
-      set({ next: schema, isUpdated: true })
+      set({ next: task, isUpdated: true })
     },
-    addField: () => {
+    addCheck: () => {
       const { next } = get()
-      const schema = produce(next, (schema) => {
-        schema.fields.push({
-          name: `field${next.fields.length}`,
-          type: 'string',
-          format: 'default',
+      const task = produce(next, (task) => {
+        task.checks.push({
+          code: 'duplicate-row',
+          descriptor: '',
         })
       })
-      const fieldIndex = schema.fields.length - 1
-      set({ next: schema, fieldIndex, isUpdated: true })
+      const checkIndex = task.checks.length - 1
+      set({ next: task, checkIndex, isUpdated: true })
+      console.log(get())
     },
-    removeField: () => {
-      const { next, fieldIndex } = get()
-      const schema = produce(next, (schema) => {
-        schema.fields.splice(fieldIndex, 1)
+    removeCheck: () => {
+      const { next, checkIndex } = get()
+      const task = produce(next, (task) => {
+        task.checks.splice(checkIndex, 1)
       })
-      set({ next: schema, fieldIndex: Math.max(fieldIndex - 1, 0), isUpdated: true })
+      set({ next: task, checkIndex: Math.max(checkIndex - 1, 0), isUpdated: true })
     },
     update: (patch) => {
       const { next } = get()
@@ -86,18 +86,18 @@ function makeStore(props: SchemaProps) {
     },
     revert: () => {
       const { prev } = get()
-      set({ next: cloneDeep(prev), isUpdated: false, fieldIndex: 0 })
+      set({ next: cloneDeep(prev), isUpdated: false, checkIndex: 0 })
     },
     save: () => {
       const { onSave, next } = get()
-      set({ prev: cloneDeep(next), isUpdated: false, fieldIndex: 0 })
+      set({ prev: cloneDeep(next), isUpdated: false, checkIndex: 0 })
       onSave(next)
     },
   }))
 }
 
-const { Provider, useStore } = createContext<SchemaState>()
-export default function Schema(props: SchemaProps) {
+const { Provider, useStore } = createContext<TaskState>()
+export default function Task(props: TaskProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Editor />
@@ -115,7 +115,7 @@ function Editor() {
         <General />
       </Grid>
       <Grid item xs={3}>
-        <Fields />
+        <Checks />
       </Grid>
       <Grid item xs={6}>
         <Menu />
@@ -125,67 +125,59 @@ function Editor() {
 }
 
 function Preview() {
-  const resource = useStore((state) => state.next)
+  const task = useStore((state) => state.next)
   return (
     <pre>
-      <code>{JSON.stringify(resource, null, 2)}</code>
+      <code>{JSON.stringify(task, null, 2)}</code>
     </pre>
   )
 }
 
 function General() {
-  const schema = useStore((state) => state.next)
+  const task = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">General</Typography>
       <TextField
-        label="Missing Values"
+        label="Pick Errors"
         margin="normal"
-        value={schema.missingValues.join(',')}
-        onChange={(ev) => update({ missingValues: ev.target.value.split(',') })}
-      />
-      <TextField
-        label="Primary Key"
-        margin="normal"
-        value={(schema.primaryKey || []).join(',')}
-        onChange={(ev) => update({ primaryKey: ev.target.value.split(',') })}
-      />
-      <TextField
-        label="Foreign Keys"
-        margin="normal"
-        value={schema.foreignKeys || ''}
-        onChange={(ev) => update({ foreignKeys: ev.target.value })}
         multiline
+        value={(task.pickErrors || []).join(',')}
+        onChange={(ev) => update({ pickErrors: ev.target.value.split(',') })}
+      />
+      <TextField
+        label="Skip Errors"
+        margin="normal"
+        multiline
+        value={(task.skipErrors || []).join(',')}
+        onChange={(ev) => update({ skipErrors: ev.target.value.split(',') })}
+      />
+      <TextField
+        type="number"
+        label="Limit Errors"
+        margin="normal"
+        inputProps={{ min: 1 }}
+        value={task.limitErrors || ''}
+        onChange={(ev) => update({ limitErrors: parseInt(ev.target.value) })}
       />
     </FormControl>
   )
 }
 
-function Fields() {
-  const fieldIndex = useStore((state) => state.fieldIndex)
-  const field = useStore((state) => state.next.fields[fieldIndex])
-  const updateField = useStore((state) => state.updateField)
+function Checks() {
+  const checkIndex = useStore((state) => state.checkIndex)
+  const check = useStore((state) => state.next.checks[checkIndex])
+  const updateField = useStore((state) => state.updateCheck)
   return (
     <FormControl>
-      <Typography variant="h6">Fields</Typography>
+      <Typography variant="h6">Checks</Typography>
+      <TextField label="Code" margin="normal" value={check.code} disabled />
       <TextField
-        label="Name"
+        label="Descriptor"
         margin="normal"
-        value={field.name}
-        onChange={(ev) => updateField({ name: ev.target.value })}
-      />
-      <TextField
-        label="Type"
-        margin="normal"
-        value={field.type}
-        onChange={(ev) => updateField({ type: ev.target.value })}
-      />
-      <TextField
-        label="Format"
-        margin="normal"
-        value={field.format}
-        onChange={(ev) => updateField({ format: ev.target.value })}
+        value={check.descriptor || ''}
+        onChange={(ev) => updateField({ descriptor: ev.target.value })}
       />
     </FormControl>
   )
@@ -193,10 +185,10 @@ function Fields() {
 
 function Menu() {
   const schema = useStore((state) => state.next)
-  const fieldIndex = useStore((state) => state.fieldIndex)
-  const setField = useStore((state) => state.setField)
-  const addField = useStore((state) => state.addField)
-  const removeField = useStore((state) => state.removeField)
+  const checkIndex = useStore((state) => state.checkIndex)
+  const setCheck = useStore((state) => state.setCheck)
+  const addCheck = useStore((state) => state.addCheck)
+  const removeCheck = useStore((state) => state.removeCheck)
   return (
     <Box>
       <Typography variant="h6">&nbsp;</Typography>
@@ -205,28 +197,28 @@ function Menu() {
           variant="outlined"
           color="success"
           sx={{ mt: 2, mr: 2 }}
-          onClick={addField}
+          onClick={addCheck}
         >
-          Add Field
+          Add Check
         </Button>
         <Button
           variant="outlined"
           color="error"
           sx={{ mt: 2, mr: 2 }}
-          onClick={removeField}
+          onClick={removeCheck}
         >
-          Remove Field
+          Remove Check
         </Button>
       </Box>
       <Box>
-        {schema.fields.map((field: any, index: any) => (
+        {schema.checks.map((check: any, index: any) => (
           <Button
-            variant={index === fieldIndex ? 'contained' : 'outlined'}
-            onClick={() => setField(index)}
+            variant={index === checkIndex ? 'contained' : 'outlined'}
+            onClick={() => setCheck(index)}
             key={index}
             sx={{ mt: 2, mr: 2 }}
           >
-            {field.name}
+            {check.code}
           </Button>
         ))}
       </Box>
@@ -235,7 +227,7 @@ function Menu() {
 }
 
 function Actions() {
-  const schema = useStore((state) => state.next)
+  const task = useStore((state) => state.next)
   const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
@@ -247,8 +239,8 @@ function Actions() {
       <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
         <Button
           variant="contained"
-          download={'schema.json'}
-          href={helpers.exportDescriptor(schema)}
+          download={'inqury-task.json'}
+          href={helpers.exportDescriptor(task)}
         >
           Export
         </Button>

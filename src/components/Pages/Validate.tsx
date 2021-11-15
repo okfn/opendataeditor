@@ -30,7 +30,11 @@ export default function Validate(props: ValidateProps) {
         <Report report={props.state.report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Inquiry state={props.state} />
+        <Inquiry
+          inquiry={{
+            tasks: [{ checks: [{ code: 'baseline', descriptor: '' }] }],
+          }}
+        />
       </TabPanel>
     </Box>
   )
