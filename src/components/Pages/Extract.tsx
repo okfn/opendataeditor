@@ -30,7 +30,7 @@ export default function Describe(props: DescribeProps) {
         <Table schema={props.state.resource.schema} rows={props.state.rows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <File state={props.state} />
+        <File text={props.state.text} />
       </TabPanel>
     </Box>
   )

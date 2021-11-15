@@ -2,15 +2,16 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 
 interface FileProps {
-  state: any
+  // TODO: use proper prop (buffer/bytes?)
+  text: string
 }
 
 export default function File(props: FileProps) {
-  if (!props.state.text) return null
+  if (!props.text) return null
   return (
     <Box sx={{ width: '100%', overflow: 'auto' }}>
-      <pre>
-        <code>{props.state.text}</code>
+      <pre style={{ marginTop: 0 }}>
+        <code>{props.text}</code>
       </pre>
     </Box>
   )
