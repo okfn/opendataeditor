@@ -12,25 +12,25 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { IInquiryTask } from '../../interfaces/inquiry'
+import { IPipelineTask } from '../../interfaces/pipeline'
 import * as helpers from '../../helpers'
 
 export interface TaskProps {
-  task: IInquiryTask
-  onSave?: (task: IInquiryTask) => void
+  task: IPipelineTask
+  onSave?: (task: IPipelineTask) => void
 }
 
 interface TaskState {
-  next: IInquiryTask
-  prev: IInquiryTask
-  onSave: (task: IInquiryTask) => void
+  next: IPipelineTask
+  prev: IPipelineTask
+  onSave: (task: IPipelineTask) => void
   isPreview: boolean
   isUpdated: boolean
-  checkIndex: number
-  setCheck: (checkIndex: number) => void
-  updateCheck: (patch: object) => void
-  removeCheck: () => void
-  addCheck: () => void
+  stepIndex: number
+  setStep: (stepIndex: number) => void
+  updateStep: (patch: object) => void
+  removeStep: () => void
+  addStep: () => void
   update: (patch: object) => void
   preview: () => void
   revert: () => void
@@ -46,35 +46,35 @@ function makeStore(props: TaskProps) {
     onSave,
     isPreview: false,
     isUpdated: false,
-    checkIndex: 0,
-    setCheck: (checkIndex) => {
-      set({ checkIndex })
+    stepIndex: 0,
+    setStep: (stepIndex) => {
+      set({ stepIndex })
     },
-    updateCheck: (patch) => {
-      const { next, checkIndex } = get()
+    updateStep: (patch) => {
+      const { next, stepIndex } = get()
       const task = produce(next, (task) => {
-        task.checks[checkIndex] = { ...task.checks[checkIndex], ...patch }
+        task.steps[stepIndex] = { ...task.steps[stepIndex], ...patch }
       })
       set({ next: task, isUpdated: true })
     },
-    addCheck: () => {
+    addStep: () => {
       const { next } = get()
       const task = produce(next, (task) => {
-        task.checks.push({
-          code: 'duplicate-row',
+        task.steps.push({
+          code: 'field-add',
           descriptor: '',
         })
       })
-      const checkIndex = task.checks.length - 1
-      set({ next: task, checkIndex, isUpdated: true })
+      const stepIndex = task.steps.length - 1
+      set({ next: task, stepIndex, isUpdated: true })
       console.log(get())
     },
-    removeCheck: () => {
-      const { next, checkIndex } = get()
+    removeStep: () => {
+      const { next, stepIndex } = get()
       const task = produce(next, (task) => {
-        task.checks.splice(checkIndex, 1)
+        task.steps.splice(stepIndex, 1)
       })
-      set({ next: task, checkIndex: Math.max(checkIndex - 1, 0), isUpdated: true })
+      set({ next: task, stepIndex: Math.max(stepIndex - 1, 0), isUpdated: true })
     },
     update: (patch) => {
       const { next } = get()
@@ -86,11 +86,11 @@ function makeStore(props: TaskProps) {
     },
     revert: () => {
       const { prev } = get()
-      set({ next: cloneDeep(prev), isUpdated: false, checkIndex: 0 })
+      set({ next: cloneDeep(prev), isUpdated: false, stepIndex: 0 })
     },
     save: () => {
       const { onSave, next } = get()
-      set({ prev: cloneDeep(next), isUpdated: false, checkIndex: 0 })
+      set({ prev: cloneDeep(next), isUpdated: false, stepIndex: 0 })
       onSave(next)
     },
   }))
@@ -115,7 +115,7 @@ function Editor() {
         <General />
       </Grid>
       <Grid item xs={3}>
-        <Checks />
+        <Steps />
       </Grid>
       <Grid item xs={6}>
         <Menu />
@@ -135,48 +135,38 @@ function Preview() {
 
 function General() {
   const task = useStore((state) => state.next)
-  const update = useStore((state) => state.update)
+  // const update = useStore((state) => state.update)
   return (
     <FormControl>
       <Typography variant="h6">General</Typography>
       <TextField
-        label="Pick Errors"
+        disabled
+        label="Source"
         margin="normal"
-        multiline
-        value={(task.pickErrors || []).join(',')}
-        onChange={(ev) => update({ pickErrors: ev.target.value.split(',') })}
+        value={task.source?.path || ''}
       />
       <TextField
-        label="Skip Errors"
+        disabled
+        label="Target"
         margin="normal"
-        multiline
-        value={(task.skipErrors || []).join(',')}
-        onChange={(ev) => update({ skipErrors: ev.target.value.split(',') })}
-      />
-      <TextField
-        type="number"
-        label="Limit Errors"
-        margin="normal"
-        inputProps={{ min: 1 }}
-        value={task.limitErrors || ''}
-        onChange={(ev) => update({ limitErrors: parseInt(ev.target.value) })}
+        value={task.source?.path || ''}
       />
     </FormControl>
   )
 }
 
-function Checks() {
-  const checkIndex = useStore((state) => state.checkIndex)
-  const check = useStore((state) => state.next.checks[checkIndex])
-  const updateField = useStore((state) => state.updateCheck)
+function Steps() {
+  const stepIndex = useStore((state) => state.stepIndex)
+  const step = useStore((state) => state.next.steps[stepIndex])
+  const updateField = useStore((state) => state.updateStep)
   return (
     <FormControl>
-      <Typography variant="h6">Checks</Typography>
-      <TextField label="Code" margin="normal" value={check.code} disabled />
+      <Typography variant="h6">Steps</Typography>
+      <TextField label="Code" margin="normal" value={step.code} disabled />
       <TextField
         label="Descriptor"
         margin="normal"
-        value={check.descriptor || ''}
+        value={step.descriptor || ''}
         onChange={(ev) => updateField({ descriptor: ev.target.value })}
       />
     </FormControl>
@@ -185,10 +175,10 @@ function Checks() {
 
 function Menu() {
   const task = useStore((state) => state.next)
-  const checkIndex = useStore((state) => state.checkIndex)
-  const setCheck = useStore((state) => state.setCheck)
-  const addCheck = useStore((state) => state.addCheck)
-  const removeCheck = useStore((state) => state.removeCheck)
+  const stepIndex = useStore((state) => state.stepIndex)
+  const setStep = useStore((state) => state.setStep)
+  const addStep = useStore((state) => state.addStep)
+  const removeStep = useStore((state) => state.removeStep)
   return (
     <Box>
       <Typography variant="h6">&nbsp;</Typography>
@@ -197,28 +187,28 @@ function Menu() {
           variant="outlined"
           color="success"
           sx={{ mt: 2, mr: 2 }}
-          onClick={addCheck}
+          onClick={addStep}
         >
-          Add Check
+          Add Step
         </Button>
         <Button
           variant="outlined"
           color="error"
           sx={{ mt: 2, mr: 2 }}
-          onClick={removeCheck}
+          onClick={removeStep}
         >
-          Remove Check
+          Remove Step
         </Button>
       </Box>
       <Box>
-        {task.checks.map((check: any, index: any) => (
+        {task.steps.map((step: any, index: any) => (
           <Button
-            variant={index === checkIndex ? 'contained' : 'outlined'}
-            onClick={() => setCheck(index)}
+            variant={index === stepIndex ? 'contained' : 'outlined'}
+            onClick={() => setStep(index)}
             key={index}
             sx={{ mt: 2, mr: 2 }}
           >
-            {check.code}
+            {step.code}
           </Button>
         ))}
       </Box>

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Pipeline from '../Pipeline'
 import Status from '../Status'
+import { IResource } from '../../interfaces/resource'
 
 export interface TransformProps {
   state: any
@@ -30,7 +31,16 @@ export default function Transform(props: TransformProps) {
         <Status state={props.state} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Pipeline state={props.state} />
+        <Pipeline
+          pipeline={{
+            tasks: [
+              {
+                source: { path: 'table.csv' } as IResource,
+                steps: [{ code: 'table-normalize', descriptor: '' }],
+              },
+            ],
+          }}
+        />
       </TabPanel>
     </Box>
   )

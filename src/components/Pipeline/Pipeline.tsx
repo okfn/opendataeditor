@@ -1,9 +1,16 @@
 import * as React from 'react'
+import noop from 'lodash/noop'
+import { IPipeline } from '../../interfaces/pipeline'
+import Task from './Task'
 
-interface PipelineProps {
-  state: any
+export interface PipelineProps {
+  pipeline: IPipeline
+  onSave?: (pipeline: IPipeline) => void
 }
 
-export default function Pipeline(_props: PipelineProps) {
-  return <div>Pipeline</div>
+export default function Pipeline(props: PipelineProps) {
+  const pipeline = props.pipeline
+  const onSave = props.onSave || noop
+  if (!pipeline.tasks.length) return null
+  return <Task task={pipeline.tasks[0]} onSave={(task) => onSave({ tasks: [task] })} />
 }

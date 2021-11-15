@@ -3,7 +3,7 @@
 ## Demo (15.11-16.11)
 
 + implement Inquiry component draft
-- implement Pipeline component draft
++ implement Pipeline component draft
 ---
 - implement draft pipeline running
 - implement Status component draft
