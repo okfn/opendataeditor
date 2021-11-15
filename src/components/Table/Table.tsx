@@ -1,15 +1,18 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
+import { ISchema } from '../../interfaces/schema'
+import { IRow } from '../../interfaces/row'
 
 // TODO: add buttons to show metrics (min/max/average/etc)?
 
 interface TableProps {
-  state: any
+  schema: ISchema
+  rows: IRow
 }
 
 export default function Table(props: TableProps) {
-  const rows = props.state.rows.map((row: any, index: number) => ({ ...row, id: index }))
-  const columns = props.state.resource.schema.fields.map((field: any) => {
+  const rows = props.rows.map((row: any, index: number) => ({ ...row, id: index }))
+  const columns = props.schema.fields.map((field: any) => {
     return {
       field: field.name,
       headerName: field.title || field.name,
