@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep'
+
 export const initialState = {
   file: null,
   resource: null,
@@ -6,6 +8,7 @@ export const initialState = {
   report: null,
   page: 'home',
   detector: { bufferSize: 10000, sampleSize: 100 },
+  pipeline: null,
 }
 
 // TODO: remove any
@@ -17,6 +20,8 @@ export async function reducer(state: any, action: any) {
       return updateResource(state, action)
     case 'UPDATE_DETECTOR':
       return updateDetector(state, action)
+    case 'UPDATE_PIPELINE':
+      return updatePipeline(state, action)
     case 'UPLOAD_FILE':
       return uploadFile(state, action)
     default:
@@ -31,7 +36,7 @@ async function setPage(state: any, action: any) {
   } else if (action.page === 'validate') {
     patch = await validate(state.file, state.resource)
   } else if (action.page === 'transform') {
-    patch = await transform(state.file, state.resource)
+    patch = await transform(state.file, state.resource, state.pipeline)
   }
   return { ...state, page: action.page, ...patch }
 }
@@ -41,6 +46,10 @@ function updateResource(state: any, action: any) {
   let { resource } = state
   resource = { ...resource, ...action.update }
   return { ...state, resource }
+}
+
+function updatePipeline(state: any, action: any) {
+  return { ...state, pipeline: action.pipeline }
 }
 
 function updateDetector(state: any, action: any) {
@@ -100,18 +109,32 @@ async function validate(file: File, resource: any) {
 }
 
 // TODO: move to a proper place
-async function transform(file: File, resource: any) {
+async function transform(file: File, resource: any, pipeline: any) {
   const body = new FormData()
   const buffer = await file.arrayBuffer()
-  const pipeline = {
-    tasks: [
-      {
-        type: 'resource',
-        source: resource,
-        steps: [{ code: 'table-normalize' }],
-      },
-    ],
+  if (pipeline) {
+    pipeline = cloneDeep(pipeline)
+    pipeline.tasks[0].type = 'resource'
+    pipeline.tasks[0].source = resource
+    for (const step of pipeline.tasks[0].steps) {
+      if (!step.descriptor) continue
+      const descriptor = JSON.parse(step.descriptor)
+      for (const [key, value] of Object.entries(descriptor)) {
+        step[key] = value
+      }
+    }
+  } else {
+    pipeline = {
+      tasks: [
+        {
+          type: 'resource',
+          source: resource,
+          steps: [{ code: 'table-normalize' }],
+        },
+      ],
+    }
   }
+  console.log(pipeline)
   body.append('file', new Blob([buffer]), file.name)
   body.append('pipeline', JSON.stringify(pipeline))
   const payload = { method: 'POST', body: body }

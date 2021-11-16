@@ -14,6 +14,14 @@ export interface TransformProps {
 
 export default function Transform(props: TransformProps) {
   const [value, setValue] = React.useState(0)
+  const pipeline = props.state.pipeline || {
+    tasks: [
+      {
+        source: { path: 'table.csv' } as IResource,
+        steps: [{ code: 'table-normalize', descriptor: '' }],
+      },
+    ],
+  }
   if (!props.state.status) return null
   return (
     <Box sx={{ width: '100%' }}>
@@ -35,14 +43,8 @@ export default function Transform(props: TransformProps) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Pipeline
-          pipeline={{
-            tasks: [
-              {
-                source: { path: 'table.csv' } as IResource,
-                steps: [{ code: 'table-normalize', descriptor: '' }],
-              },
-            ],
-          }}
+          pipeline={pipeline}
+          onSave={(pipeline) => props.dispatch({ type: 'UPDATE_PIPELINE', pipeline })}
         />
       </TabPanel>
     </Box>
