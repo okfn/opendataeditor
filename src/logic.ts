@@ -26,10 +26,12 @@ export async function reducer(state: any, action: any) {
 
 async function setPage(state: any, action: any) {
   let patch = {}
-  switch (action.page) {
-    case 'extract': {
-      patch = await extract(state.file, state.resource)
-    }
+  if (action.page === 'extract') {
+    patch = await extract(state.file, state.resource)
+  } else if (action.page === 'validate') {
+    patch = await validate(state.file, state.resource)
+  } else if (action.page === 'transform') {
+    patch = await transform(state.file, state.resource)
   }
   return { ...state, page: action.page, ...patch }
 }
@@ -58,21 +60,8 @@ async function uploadFile(state: any, action: any) {
     }
     // TODO: implement properly
     const text = await file.text()
-    const { resource } = await describe(file)
-    const { report } = await validate(file, resource)
-    const { status, targetRows } = await transform(file, resource)
-
-    return {
-      ...state,
-      file,
-      resource,
-      text,
-      rows: [],
-      report,
-      page: 'describe',
-      status,
-      targetRows,
-    }
+    const patch = await describe(file)
+    return { ...state, file, text, page: 'describe', ...patch }
   }
   return state
 }

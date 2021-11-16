@@ -14,15 +14,15 @@ export interface TransformProps {
 
 export default function Transform(props: TransformProps) {
   const [value, setValue] = React.useState(0)
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
-
+  if (!props.state.status) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          aria-label="basic tabs example"
+        >
           <Tab label="Status" {...a11yProps(0)} />
           <Tab label="Pipeline" {...a11yProps(1)} />
         </Tabs>

@@ -6,22 +6,22 @@ import Box from '@mui/material/Box'
 import Table from '../Table'
 import File from '../File'
 
-export interface DescribeProps {
+export interface ExtractProps {
   state: any
   dispatch: any
 }
 
-export default function Describe(props: DescribeProps) {
+export default function Extract(props: ExtractProps) {
   const [value, setValue] = React.useState(0)
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
-
+  if (!props.state.rows) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          aria-label="basic tabs example"
+        >
           <Tab label="Table" {...a11yProps(0)} />
           <Tab label="File" {...a11yProps(1)} />
         </Tabs>

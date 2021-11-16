@@ -12,16 +12,16 @@ export interface ValidateProps {
 }
 
 export default function Validate(props: ValidateProps) {
+  if (!props.state.report) return null
   const [value, setValue] = React.useState(0)
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
-
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          aria-label="basic tabs example"
+        >
           <Tab label="Report" {...a11yProps(0)} />
           <Tab label="Inquiry" {...a11yProps(1)} />
         </Tabs>
