@@ -11,8 +11,8 @@
 + rebase extract CLI call on using resource.json
 + make extract/validate/transform react to changes
 + implement Status component draft
++ create v1 issues (electron integration + docs/tests/issues)
 - finish support for fk/check/step descriptors
-- create v1 issues (electron integration + docs/tests/issues)
 
 ## Initial (17.11-20.11)
 
