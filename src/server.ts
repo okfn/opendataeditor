@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import multer from 'multer'
 import express from 'express'
 import pathmodule from 'path'
+import * as tmp from 'tmp-promise'
 import { file } from 'tmp-promise'
 import { exec } from 'child_process'
 export type IRequest = express.Request
@@ -26,6 +27,7 @@ export class Server {
     this.app.post('/api/describe', upload.single('file'), this.describe)
     this.app.post('/api/extract', upload.single('file'), this.extract)
     this.app.post('/api/validate', upload.single('file'), this.validate)
+    this.app.post('/api/transform', upload.single('file'), this.transform)
   }
 
   // Listen
@@ -92,5 +94,29 @@ export class Server {
     const report = JSON.parse(stdout)
     cleanup()
     response.json({ error: false, report })
+  }
+
+  protected async transform(request: any, response: IResponse) {
+    if (!request.file) {
+      response.json({ error: true })
+      return
+    }
+    const dir = await tmp.dir({ unsafeCleanup: true })
+    const pipeline = JSON.parse(request.body.pipeline)
+    const sourcePath = `${dir.path}/source.csv`
+    const targetPath = `${dir.path}/target.csv`
+    const pipelinePath = `${dir.path}/pipeline.json`
+    pipeline.tasks[0].source.path = sourcePath
+    pipeline.tasks[0].steps.push({ code: 'table-write', path: targetPath })
+    fs.promises.writeFile(sourcePath, request.file.buffer)
+    fs.promises.writeFile(pipelinePath, JSON.stringify(pipeline))
+    const command1 = `frictionless transform ${pipelinePath} --json`
+    const result1 = await promiseExec(command1)
+    const status = JSON.parse(result1.stdout)
+    const command2 = `frictionless extract ${targetPath} --json`
+    const result2 = await promiseExec(command2)
+    const targetRows = JSON.parse(result2.stdout)
+    response.json({ error: false, status, targetRows })
+    dir.cleanup()
   }
 }

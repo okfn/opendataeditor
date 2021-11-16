@@ -54,7 +54,6 @@ async function uploadFile(state: any, action: any) {
     const text = await file.text()
     const buffer = await file.arrayBuffer()
     const body = new FormData()
-    body.append('data', JSON.stringify({}))
     body.append('file', new Blob([buffer]), file.name)
 
     // TODO: move to a proper place
@@ -84,7 +83,43 @@ async function uploadFile(state: any, action: any) {
     const data3 = await response3.json()
     const report = data3.report
 
-    return { ...state, file, resource, text, rows, report, page: 'describe' }
+    const { status, targetRows } = await transform(file)
+    console.log(status)
+    console.log(targetRows)
+
+    return {
+      ...state,
+      file,
+      resource,
+      text,
+      rows,
+      report,
+      page: 'describe',
+      status,
+      targetRows,
+    }
   }
   return state
+}
+
+// TODO: move to a proper place
+async function transform(file: File) {
+  const body = new FormData()
+  const buffer = await file.arrayBuffer()
+  const pipeline = {
+    tasks: [
+      {
+        type: 'resource',
+        source: { path: file.name },
+        steps: [{ code: 'table-normalize' }],
+      },
+    ],
+  }
+  body.append('file', new Blob([buffer]), file.name)
+  body.append('pipeline', JSON.stringify(pipeline))
+  const response = await fetch('http://localhost:7070/api/transform', {
+    method: 'POST',
+    body: body,
+  })
+  return response.json()
 }
