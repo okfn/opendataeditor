@@ -74,18 +74,9 @@ async function uploadFile(state: any, action: any) {
     const data2 = await response2.json()
     const rows = data2.rows
 
-    // TODO: move to a proper place
-    // Validate
-    const response3 = await fetch('http://localhost:7070/api/validate', {
-      method: 'POST',
-      body: body,
-    })
-    const data3 = await response3.json()
-    const report = data3.report
-
-    const { status, targetRows } = await transform(file)
-    console.log(status)
-    console.log(targetRows)
+    const { report } = await validate(file, resource)
+    const { status, targetRows } = await transform(file, resource)
+    console.log(report)
 
     return {
       ...state,
@@ -103,14 +94,28 @@ async function uploadFile(state: any, action: any) {
 }
 
 // TODO: move to a proper place
-async function transform(file: File) {
+async function validate(file: File, resource: any) {
+  const body = new FormData()
+  const buffer = await file.arrayBuffer()
+  const inquiry = { tasks: [{ source: resource }] }
+  body.append('file', new Blob([buffer]), file.name)
+  body.append('inquiry', JSON.stringify(inquiry))
+  const response = await fetch('http://localhost:7070/api/validate', {
+    method: 'POST',
+    body: body,
+  })
+  return response.json()
+}
+
+// TODO: move to a proper place
+async function transform(file: File, resource: any) {
   const body = new FormData()
   const buffer = await file.arrayBuffer()
   const pipeline = {
     tasks: [
       {
         type: 'resource',
-        source: { path: file.name },
+        source: resource,
         steps: [{ code: 'table-normalize' }],
       },
     ],

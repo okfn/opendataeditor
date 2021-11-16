@@ -80,20 +80,23 @@ export class Server {
     response.json({ error: false, rows })
   }
 
-  protected async validate(request: IRequest, response: IResponse) {
+  protected async validate(request: any, response: IResponse) {
     if (!request.file) {
       response.json({ error: true })
       return
     }
-    const { path, cleanup } = await file({
-      postfix: pathmodule.extname(request.file.originalname),
-    })
-    fs.promises.writeFile(path, request.file.buffer)
-    const command = `frictionless validate ${path} --json`
-    const { stdout } = await promiseExec(command)
-    const report = JSON.parse(stdout)
-    cleanup()
+    const dir = await tmp.dir({ unsafeCleanup: true })
+    const inqiury = JSON.parse(request.body.inquiry)
+    const sourcePath = `${dir.path}/source.csv`
+    const inqiuryPath = `${dir.path}/inquiry.json`
+    inqiury.tasks[0].source.path = sourcePath
+    fs.promises.writeFile(sourcePath, request.file.buffer)
+    fs.promises.writeFile(inqiuryPath, JSON.stringify(inqiury))
+    const command1 = `frictionless validate ${inqiuryPath} --json`
+    const result1 = await promiseExec(command1)
+    const report = JSON.parse(result1.stdout)
     response.json({ error: false, report })
+    dir.cleanup()
   }
 
   protected async transform(request: any, response: IResponse) {
