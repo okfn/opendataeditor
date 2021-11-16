@@ -172,7 +172,12 @@ function Checks() {
   return (
     <FormControl>
       <Typography variant="h6">Checks</Typography>
-      <TextField label="Code" margin="normal" value={check.code} disabled />
+      <TextField
+        label="Code"
+        margin="normal"
+        value={check.code}
+        onChange={(ev) => updateField({ code: ev.target.value })}
+      />
       <TextField
         label="Descriptor"
         margin="normal"

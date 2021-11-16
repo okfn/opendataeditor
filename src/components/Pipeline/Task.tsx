@@ -162,7 +162,12 @@ function Steps() {
   return (
     <FormControl>
       <Typography variant="h6">Steps</Typography>
-      <TextField label="Code" margin="normal" value={step.code} disabled />
+      <TextField
+        label="Code"
+        margin="normal"
+        value={step.code}
+        onChange={(ev) => updateField({ code: ev.target.value })}
+      />
       <TextField
         label="Descriptor"
         margin="normal"

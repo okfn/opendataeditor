@@ -10,10 +10,9 @@
 + rebase validate CLI call on using inquiry.json
 + rebase extract CLI call on using resource.json
 + make extract/validate/transform react to changes
-- finish support for fk/check/step descriptors
 - implement Status component draft
+- finish support for fk/check/step descriptors
 - create v1 issues (electron integration + docs/tests/issues)
-- deploy to secret application.frictionlessdata.io
 
 ## Initial (17.11-20.11)
 
@@ -21,3 +20,4 @@
 - add YAML export/preview
 - rebase global app state on zustand
 - clean/imporve everything
+- deploy to secret application.frictionlessdata.io
