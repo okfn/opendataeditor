@@ -7,8 +7,10 @@
 ---
 + implement draft pipeline running
 + rebase transform CLI call on using pipeline.json
-- rebase validate CLI call on using inquiry.json
-- rebase extract CLI call on using resource.json
++ rebase validate CLI call on using inquiry.json
++ rebase extract CLI call on using resource.json
+- make extract/validate/transform react to changes
+- finish support for fk/check/step descriptors
 - implement Status component draft
 - create v1 issues (electron integration + docs/tests/issues)
 - deploy to secret application.frictionlessdata.io

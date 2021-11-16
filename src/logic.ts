@@ -52,31 +52,10 @@ async function uploadFile(state: any, action: any) {
     }
     // TODO: implement properly
     const text = await file.text()
-    const buffer = await file.arrayBuffer()
-    const body = new FormData()
-    body.append('file', new Blob([buffer]), file.name)
-
-    // TODO: move to a proper place
-    // Describe
-    const response1 = await fetch('http://localhost:7070/api/describe', {
-      method: 'POST',
-      body: body,
-    })
-    const data1 = await response1.json()
-    const resource = data1.resource
-
-    // TODO: move to a proper place
-    // Extract
-    const response2 = await fetch('http://localhost:7070/api/extract', {
-      method: 'POST',
-      body: body,
-    })
-    const data2 = await response2.json()
-    const rows = data2.rows
-
+    const { resource } = await describe(file)
+    const { rows } = await extract(file, resource)
     const { report } = await validate(file, resource)
     const { status, targetRows } = await transform(file, resource)
-    console.log(report)
 
     return {
       ...state,
@@ -94,16 +73,35 @@ async function uploadFile(state: any, action: any) {
 }
 
 // TODO: move to a proper place
+async function describe(file: File) {
+  const body = new FormData()
+  const buffer = await file.arrayBuffer()
+  body.append('file', new Blob([buffer]), file.name)
+  const payload = { method: 'POST', body: body }
+  const response = await fetch('http://localhost:7070/api/describe', payload)
+  return await response.json()
+}
+
+// TODO: move to a proper place
+async function extract(file: File, resource: any) {
+  const body = new FormData()
+  const buffer = await file.arrayBuffer()
+  body.append('file', new Blob([buffer]), file.name)
+  body.append('resource', JSON.stringify(resource))
+  const payload = { method: 'POST', body: body }
+  const response = await fetch('http://localhost:7070/api/extract', payload)
+  return response.json()
+}
+
+// TODO: move to a proper place
 async function validate(file: File, resource: any) {
   const body = new FormData()
   const buffer = await file.arrayBuffer()
   const inquiry = { tasks: [{ source: resource }] }
   body.append('file', new Blob([buffer]), file.name)
   body.append('inquiry', JSON.stringify(inquiry))
-  const response = await fetch('http://localhost:7070/api/validate', {
-    method: 'POST',
-    body: body,
-  })
+  const payload = { method: 'POST', body: body }
+  const response = await fetch('http://localhost:7070/api/validate', payload)
   return response.json()
 }
 
@@ -122,9 +120,7 @@ async function transform(file: File, resource: any) {
   }
   body.append('file', new Blob([buffer]), file.name)
   body.append('pipeline', JSON.stringify(pipeline))
-  const response = await fetch('http://localhost:7070/api/transform', {
-    method: 'POST',
-    body: body,
-  })
+  const payload = { method: 'POST', body: body }
+  const response = await fetch('http://localhost:7070/api/transform', payload)
   return response.json()
 }

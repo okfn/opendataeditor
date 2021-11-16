@@ -64,20 +64,23 @@ export class Server {
     response.json({ error: false, resource })
   }
 
-  protected async extract(request: IRequest, response: IResponse) {
+  protected async extract(request: any, response: IResponse) {
     if (!request.file) {
       response.json({ error: true })
       return
     }
-    const { path, cleanup } = await file({
-      postfix: pathmodule.extname(request.file.originalname),
-    })
-    fs.promises.writeFile(path, request.file.buffer)
-    const command = `frictionless extract ${path} --json`
-    const { stdout } = await promiseExec(command)
-    const rows = JSON.parse(stdout)
-    cleanup()
+    const dir = await tmp.dir({ unsafeCleanup: true })
+    const resource = JSON.parse(request.body.resource)
+    const sourcePath = `${dir.path}/source.csv`
+    const resourcePath = `${dir.path}/resource.json`
+    resource.path = sourcePath
+    fs.promises.writeFile(sourcePath, request.file.buffer)
+    fs.promises.writeFile(resourcePath, JSON.stringify(resource))
+    const command1 = `frictionless extract ${resourcePath} --trusted --json`
+    const result1 = await promiseExec(command1)
+    const rows = JSON.parse(result1.stdout)
     response.json({ error: false, rows })
+    dir.cleanup()
   }
 
   protected async validate(request: any, response: IResponse) {
