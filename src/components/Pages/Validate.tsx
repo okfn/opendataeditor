@@ -12,8 +12,8 @@ export interface ValidateProps {
 }
 
 export default function Validate(props: ValidateProps) {
-  if (!props.state.report) return null
   const [value, setValue] = React.useState(0)
+  if (!props.state.report) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
