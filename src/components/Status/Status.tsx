@@ -1,9 +1,13 @@
 import * as React from 'react'
+import { ISchema } from '../../interfaces/schema'
+import { IRow } from '../../interfaces/row'
+import Table from '../Table'
 
 interface StatusProps {
-  state: any
+  schema: ISchema
+  rows: IRow
 }
 
-export default function Status(_props: StatusProps) {
-  return <div>Status</div>
+export default function Status(props: StatusProps) {
+  return <Table schema={props.schema} rows={props.rows} />
 }

@@ -10,7 +10,7 @@
 + rebase validate CLI call on using inquiry.json
 + rebase extract CLI call on using resource.json
 + make extract/validate/transform react to changes
-- implement Status component draft
++ implement Status component draft
 - finish support for fk/check/step descriptors
 - create v1 issues (electron integration + docs/tests/issues)
 

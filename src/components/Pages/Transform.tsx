@@ -28,7 +28,10 @@ export default function Transform(props: TransformProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Status state={props.state} />
+        <Status
+          schema={props.state.status.tasks[0].target.schema}
+          rows={props.state.targetRows}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Pipeline
