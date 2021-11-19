@@ -6,18 +6,13 @@ import Box from '@mui/material/Box'
 import Header from './Header'
 import Page from './Page'
 import Menu from './Menu'
-import * as logic from '../logic'
 import * as themes from '../themes'
-import * as helpers from '../helpers'
 
 export default function App() {
-  // TODO: rebase on useContext
-  const [state, dispatch] = helpers.useAsyncReducer(logic.reducer, logic.initialState)
-
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <CssBaseline />
-      <Header dispatch={dispatch} />
+      <Header />
       <Box
         sx={{
           height: 'calc(100% - 72px)',
@@ -29,10 +24,10 @@ export default function App() {
       >
         <Grid container>
           <Grid item xs={3}>
-            <Menu state={state} dispatch={dispatch} />
+            <Menu />
           </Grid>
           <Grid item xs={9} sx={{ borderLeft: 'solid 1px #eee', minHeight: '50vh' }}>
-            <Page state={state} dispatch={dispatch} />
+            <Page />
           </Grid>
         </Grid>
       </Box>

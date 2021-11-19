@@ -5,24 +5,15 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Pipeline from '../Pipeline'
 import Status from '../Status'
-import { IResource } from '../../interfaces/resource'
+import { useStore } from '../../store'
 
-export interface TransformProps {
-  state: any
-  dispatch: any
-}
-
-export default function Transform(props: TransformProps) {
+export default function Transform() {
   const [value, setValue] = React.useState(0)
-  const pipeline = props.state.pipeline || {
-    tasks: [
-      {
-        source: { path: 'table.csv' } as IResource,
-        steps: [{ code: 'table-normalize', descriptor: '' }],
-      },
-    ],
-  }
-  if (!props.state.status) return null
+  const pipeline = useStore((state) => state.pipeline)
+  const status = useStore((state) => state.status)
+  const targetRows = useStore((state) => state.targetRows)
+  const updatePipeline = useStore((state) => state.updatePipeline)
+  if (!pipeline || !status || !targetRows) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -36,16 +27,10 @@ export default function Transform(props: TransformProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Status
-          schema={props.state.status.tasks[0].target.schema}
-          rows={props.state.targetRows}
-        />
+        <Status schema={status.target.schema} rows={targetRows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Pipeline
-          pipeline={pipeline}
-          onSave={(pipeline) => props.dispatch({ type: 'UPDATE_PIPELINE', pipeline })}
-        />
+        <Pipeline pipeline={pipeline} onSave={(pipeline) => updatePipeline(pipeline)} />
       </TabPanel>
     </Box>
   )

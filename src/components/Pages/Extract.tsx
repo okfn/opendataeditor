@@ -5,15 +5,14 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Table from '../Table'
 import File from '../File'
+import { useStore } from '../../store'
 
-export interface ExtractProps {
-  state: any
-  dispatch: any
-}
-
-export default function Extract(props: ExtractProps) {
+export default function Extract() {
   const [value, setValue] = React.useState(0)
-  if (!props.state.rows) return null
+  const text = useStore((state) => state.text)
+  const rows = useStore((state) => state.rows)
+  const resource = useStore((state) => state.resource)
+  if (!resource || !text || !rows) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -27,10 +26,10 @@ export default function Extract(props: ExtractProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Table schema={props.state.resource.schema} rows={props.state.rows} />
+        <Table schema={resource.schema} rows={rows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <File text={props.state.text} />
+        <File text={text} />
       </TabPanel>
     </Box>
   )

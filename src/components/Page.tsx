@@ -4,23 +4,19 @@ import Extract from './Pages/Extract'
 import Validate from './Pages/Validate'
 import Transform from './Pages/Transform'
 import Home from './Pages/Home'
+import { useStore } from '../store'
 
-export interface PageProps {
-  state: any
-  dispatch: any
-}
-
-export default function Page(props: PageProps) {
-  const { state, dispatch } = props
-  switch (state.page) {
+export default function Page() {
+  const page = useStore((state) => state.page)
+  switch (page) {
     case 'describe':
-      return <Describe state={state} dispatch={dispatch} />
+      return <Describe />
     case 'extract':
-      return <Extract state={state} dispatch={dispatch} />
+      return <Extract />
     case 'validate':
-      return <Validate state={state} dispatch={dispatch} />
+      return <Validate />
     case 'transform':
-      return <Transform state={state} dispatch={dispatch} />
+      return <Transform />
     default:
       return <Home />
   }

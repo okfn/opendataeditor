@@ -11,8 +11,6 @@ const Template: Story<Parameters<typeof Inquiry>[0]> = (args) => <Inquiry {...ar
 
 export const Default = Template.bind({})
 Default.args = {
-  inquiry: {
-    tasks: [{ checks: [{ code: 'baseline' }] }],
-  },
+  inquiry: { checks: [{ code: 'baseline' }] },
   onSave: (inquiry: any) => console.log(inquiry),
 }

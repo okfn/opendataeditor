@@ -1,4 +1,5 @@
 import { ISchema } from './schema'
+import { ILayout, IDialect, IControl } from './features'
 
 export interface IResource {
   path: string
@@ -9,6 +10,9 @@ export interface IResource {
   format: string
   hashing: string
   encoding: string
+  control: IControl
+  dialect: IDialect
+  layout: ILayout
   schema: ISchema
   stats: {
     hash: string

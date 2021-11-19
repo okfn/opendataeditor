@@ -8,26 +8,24 @@ import StepContent from '@mui/material/StepContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import * as settings from '../settings'
+import { useStore } from '../store'
 
-interface MenuProps {
-  state: any
-  dispatch: any
-}
-
-export default function Menu(props: MenuProps) {
-  const { page } = props.state
+export default function Menu() {
+  const page = useStore((state) => state.page)
+  const setPage = useStore((state) => state.setPage)
+  const resource = useStore((state) => state.resource)
   const currentIndex = findIndex(settings.STEPS, { page })
 
   const handleStep = (index: number) => () => {
     const step = settings.STEPS[index]
-    props.dispatch({ type: 'SET_PAGE', page: step.page })
+    setPage(step.page)
   }
 
   return (
     <Box sx={{ ml: 2, mt: 2 }}>
       <Stepper nonLinear activeStep={currentIndex} orientation="vertical">
         {settings.STEPS.map((step, index) => (
-          <Step disabled={!props.state.resource} key={step.label}>
+          <Step disabled={!resource} key={step.label}>
             <StepButton color="inherit" onClick={handleStep(index)}>
               {step.label}
             </StepButton>

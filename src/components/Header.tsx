@@ -9,12 +9,11 @@ import HelpOutline from '@mui/icons-material/HelpOutline'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import { useStore } from '../store'
 
-export interface HeaderProps {
-  dispatch: any
-}
-
-export default function Header(props: HeaderProps) {
+export default function Header() {
+  const setPage = useStore((state) => state.setPage)
+  const uploadFile = useStore((state) => state.uploadFile)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -24,7 +23,7 @@ export default function Header(props: HeaderProps) {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
-                onClick={() => props.dispatch({ type: 'SET_PAGE', page: 'home' })}
+                onClick={() => setPage('home')}
               >
                 <strong>Frictionless Application</strong>
               </Typography>
@@ -39,10 +38,7 @@ export default function Header(props: HeaderProps) {
                   placeholder="Select File…"
                   inputProps={{ 'aria-label': 'search' }}
                   onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                    props.dispatch({
-                      type: 'UPLOAD_FILE',
-                      files: ev.target.files,
-                    })
+                    ev.target.files ? uploadFile(ev.target.files[0]) : null
                   }
                 />
               </Search>

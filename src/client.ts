@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
-import cloneDeep from 'lodash/cloneDeep'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
 import { IReport } from './interfaces/report'
@@ -35,6 +34,7 @@ export class Client {
     return response.json() as Promise<{ rows: IRow[] }>
   }
 
+  // TODO: replace resource by inquiry
   async validate(file: File, resource: IResource) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
@@ -46,33 +46,9 @@ export class Client {
     return response.json() as Promise<{ report: IReport }>
   }
 
-  async transform(file: File, resource: IResource, pipeline: IPipeline) {
+  async transform(file: File, pipeline: IPipeline) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
-    if (pipeline) {
-      pipeline = cloneDeep(pipeline)
-      pipeline.tasks[0].type = 'resource'
-      pipeline.tasks[0].source = resource
-      for (const step of pipeline.tasks[0].steps) {
-        if (!step.descriptor) continue
-        const descriptor = JSON.parse(step.descriptor)
-        for (const [key, value] of Object.entries(descriptor)) {
-          // @ts-ignore
-          step[key] = value
-        }
-      }
-    } else {
-      pipeline = {
-        tasks: [
-          {
-            type: 'resource',
-            source: resource,
-            // @ts-ignore
-            steps: [{ code: 'table-normalize' }],
-          },
-        ],
-      }
-    }
     body.append('file', new Blob([buffer]), file.name)
     body.append('pipeline', JSON.stringify(pipeline))
     const payload = { method: 'POST', body: body }

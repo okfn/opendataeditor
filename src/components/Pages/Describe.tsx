@@ -7,23 +7,23 @@ import Resource from '../Resource'
 import Detector from '../Detector'
 import Features from '../Features'
 import Schema from '../Schema'
+import { useStore } from '../../store'
 
-export interface DescribeProps {
-  state: any
-  dispatch: any
-}
-
-export default function Describe(props: DescribeProps) {
+export default function Describe() {
   const [value, setValue] = React.useState(0)
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
-
+  const detector = useStore((state) => state.detector)
+  const resource = useStore((state) => state.resource)
+  const updateDetector = useStore((state) => state.updateDetector)
+  const updateResource = useStore((state) => state.updateResource)
+  if (!resource) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          aria-label="basic tabs example"
+        >
           <Tab label="Resource" {...a11yProps(0)} />
           <Tab label="Schema" {...a11yProps(1)} />
           <Tab label="Features" {...a11yProps(2)} />
@@ -31,38 +31,26 @@ export default function Describe(props: DescribeProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Resource
-          resource={props.state.resource}
-          onSave={(resource) =>
-            props.dispatch({ type: 'UPDATE_RESOURCE', update: resource })
-          }
-        />
+        <Resource resource={resource} onSave={(resource) => updateResource(resource)} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schema
-          schema={props.state.resource.schema}
-          onSave={(schema) =>
-            props.dispatch({ type: 'UPDATE_RESOURCE', update: { schema } })
-          }
+          schema={resource.schema}
+          onSave={(schema) => updateResource({ schema })}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Features
           features={{
-            layout: props.state.resource.layout,
-            dialect: props.state.resource.dialect,
-            control: props.state.resource.control,
+            layout: resource.layout,
+            dialect: resource.dialect,
+            control: resource.control,
           }}
-          onSave={(features) =>
-            props.dispatch({ type: 'UPDATE_RESOURCE', update: features })
-          }
+          onSave={(features) => updateResource(features)}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Detector
-          detector={props.state.detector}
-          onSave={(detector) => props.dispatch({ type: 'UPDATE_DETECTOR', detector })}
-        />
+        <Detector detector={detector} onSave={(detector) => updateDetector(detector)} />
       </TabPanel>
     </Box>
   )

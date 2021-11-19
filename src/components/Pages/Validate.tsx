@@ -5,15 +5,13 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Report from '../Report'
 import Inquiry from '../Inquiry'
+import { useStore } from '../../store'
 
-export interface ValidateProps {
-  state: any
-  dispatch: any
-}
-
-export default function Validate(props: ValidateProps) {
+export default function Validate() {
   const [value, setValue] = React.useState(0)
-  if (!props.state.report) return null
+  const inquiry = useStore((state) => state.inquiry)
+  const report = useStore((state) => state.report)
+  if (!inquiry || !report) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -27,14 +25,10 @@ export default function Validate(props: ValidateProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Report report={props.state.report} />
+        <Report report={report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Inquiry
-          inquiry={{
-            tasks: [{ checks: [{ code: 'baseline', descriptor: '' }] }],
-          }}
-        />
+        <Inquiry inquiry={inquiry} />
       </TabPanel>
     </Box>
   )
