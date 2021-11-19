@@ -126,3 +126,5 @@ export class Server {
     dir.cleanup()
   }
 }
+
+export const server = new Server()
