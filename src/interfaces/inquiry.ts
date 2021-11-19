@@ -1,10 +1,8 @@
 import { IResource } from './resource'
 
-export interface IInquiry {
-  tasks: IInquiryTask[]
-}
+// TODO: sync in frictionless@5
 
-export interface IInquiryTask {
+export interface IInquiry {
   // TODO: make required
   source?: IResource
   checks: ICheck[]

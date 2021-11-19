@@ -1,10 +1,8 @@
 import { IResource } from './resource'
 
-export interface IPipeline {
-  tasks: IPipelineTask[]
-}
+// TODO: sync in frictionless@5
 
-export interface IPipelineTask {
+export interface IPipeline {
   // TODO: make required
   source?: IResource
   type: string
