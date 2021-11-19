@@ -6,7 +6,7 @@ export interface IState {
 }
 
 export interface ILogic {
-  uploadFile: (file: File) => void
+  setPage: (page: string) => void
 }
 
 export const initialState = {
@@ -15,15 +15,7 @@ export const initialState = {
 
 export const useStore = create<IState | ILogic>((set) => ({
   ...initialState,
-  uploadFile: (file) => {
-    if (file.type !== 'text/csv' || file.size > 10000000) {
-      // TODO: clean file input
-      alert('Currently only CSV files under 10Mb are supported')
-      set({})
-    }
-    // TODO: implement properly
-    // const text = await file.text()
-    // const patch = await describe(file)
-    // return { ...state, file, text, page: 'describe', ...patch }
+  setPage: (page) => {
+    set({ page })
   },
 }))

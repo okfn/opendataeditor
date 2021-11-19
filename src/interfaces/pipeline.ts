@@ -7,6 +7,7 @@ export interface IPipeline {
 export interface IPipelineTask {
   // TODO: make required
   source?: IResource
+  type: string
   steps: IStep[]
 }
 

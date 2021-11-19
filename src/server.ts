@@ -30,8 +30,6 @@ export class Server {
     this.app.post('/api/transform', upload.single('file'), this.transform)
   }
 
-  // Listen
-
   start({ port }: { port: number }) {
     this.server = this.app.listen(port, () => {
       console.log(`Server listening on port ${port}!`)
@@ -44,7 +42,7 @@ export class Server {
     }
   }
 
-  // Routes
+  // Actions
 
   protected async describe(request: IRequest, response: IResponse) {
     if (!request.file) {
