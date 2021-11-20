@@ -221,22 +221,22 @@ function Actions() {
         <Grid item xs={3}>
           <Button
             variant="contained"
-            onClick={preview}
-            sx={{ width: '100%' }}
-            color="info"
-          >
-            Import
-          </Button>
-        </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
             download={`${resource.name}.resource.json`}
             href={helpers.exportDescriptor(resource)}
             sx={{ width: '100%' }}
             color="info"
           >
             Export
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
+          <Button
+            variant="contained"
+            onClick={preview}
+            sx={{ width: '100%' }}
+            color="info"
+          >
+            Import
           </Button>
         </Grid>
         <Grid item xs={3}>
