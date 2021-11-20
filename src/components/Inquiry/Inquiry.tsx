@@ -167,8 +167,9 @@ function General() {
 
 function Checks() {
   const checkIndex = useStore((state) => state.checkIndex)
-  const check = useStore((state) => state.next.checks[checkIndex])
+  const check = useStore((state) => (state.next.checks || [])[checkIndex])
   const updateField = useStore((state) => state.updateCheck)
+  if (!check) return null
   return (
     <FormControl>
       <Typography variant="h6">Checks</Typography>

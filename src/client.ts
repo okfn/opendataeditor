@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import App from './components/App'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
+import { IDetector } from './interfaces/detector'
+import { IInquiry } from './interfaces/inquiry'
 import { IReport } from './interfaces/report'
 import { IStatus } from './interfaces/status'
 import { IRow } from './interfaces/row'
@@ -15,10 +17,11 @@ export class Client {
 
   // Actions
 
-  async describe(file: File) {
+  async describe(file: File, detector: IDetector) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
     body.append('file', new Blob([buffer]), file.name)
+    body.append('detector', JSON.stringify(detector))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/describe', payload)
     return response.json() as Promise<{ resource: IResource }>
@@ -31,29 +34,33 @@ export class Client {
     body.append('resource', JSON.stringify(resource))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/extract', payload)
-    return response.json() as Promise<{ rows: IRow[] }>
+    const content = await response.json()
+    return content as { report: IRow[] }
   }
 
-  // TODO: replace resource by inquiry
-  async validate(file: File, resource: IResource) {
+  async validate(file: File, inquiry: IInquiry) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
-    const inquiry = { tasks: [{ source: resource }] }
+    const inquiryV4 = { tasks: [inquiry] }
     body.append('file', new Blob([buffer]), file.name)
-    body.append('inquiry', JSON.stringify(inquiry))
+    body.append('inquiry', JSON.stringify(inquiryV4))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/validate', payload)
-    return response.json() as Promise<{ report: IReport }>
+    const content = await response.json()
+    return content as { report: IReport }
   }
 
   async transform(file: File, pipeline: IPipeline) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
+    const pipelineV4 = { tasks: [pipeline] }
     body.append('file', new Blob([buffer]), file.name)
-    body.append('pipeline', JSON.stringify(pipeline))
+    body.append('pipeline', JSON.stringify(pipelineV4))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/transform', payload)
-    return response.json() as Promise<{ status: IStatus; targetRows: IRow[] }>
+    const contentV4 = await response.json()
+    const content = { ...contentV4, status: contentV4.status.tasks[0] }
+    return content as { status: IStatus; targetRows: IRow[] }
   }
 }
 

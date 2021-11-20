@@ -11,7 +11,7 @@ import { IRow } from './interfaces/row'
 export interface IState {
   page: string
   file?: File
-  detector: IDetector
+  detector?: IDetector
   resource?: IResource
   inquiry?: IInquiry
   report?: IReport
@@ -33,10 +33,6 @@ export interface ILogic {
 
 export const initialState = {
   page: 'home',
-  detector: {
-    bufferSize: 10000,
-    sampleSize: 100,
-  },
 }
 
 export const useStore = create<IState & ILogic>((set, get) => ({
@@ -46,12 +42,12 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   setPage: async (page) => {
     let patch = {}
-    const { file, resource, pipeline } = get()
-    if (!file || !resource || !pipeline) return
+    const { file, resource, inquiry, pipeline } = get()
+    if (!file || !resource || !inquiry || !pipeline) return
     if (page === 'extract') {
       patch = await client.extract(file, resource)
     } else if (page === 'validate') {
-      patch = await client.validate(file, resource)
+      patch = await client.validate(file, inquiry)
     } else if (page === 'transform') {
       patch = await client.transform(file, pipeline)
     }
@@ -67,10 +63,13 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       alert('Currently only CSV files under 10Mb are supported')
       return
     }
+    const detector = { bufferSize: 10000, sampleSize: 100 }
+    const { resource } = await client.describe(file, detector)
+    const inquiry = { source: resource, checks: [] }
+    const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    const patch = await client.describe(file)
-    set({ page: 'describe', text, ...patch })
+    set({ page: 'describe', file, detector, resource, inquiry, pipeline, text })
   },
 
   // Metadata

@@ -157,8 +157,9 @@ function General() {
 
 function Steps() {
   const stepIndex = useStore((state) => state.stepIndex)
-  const step = useStore((state) => state.next.steps[stepIndex])
+  const step = useStore((state) => (state.next.steps || [])[stepIndex])
   const updateField = useStore((state) => state.updateStep)
+  if (!step) return null
   return (
     <FormControl>
       <Typography variant="h6">Steps</Typography>

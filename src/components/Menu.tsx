@@ -26,7 +26,11 @@ export default function Menu() {
       <Stepper nonLinear activeStep={currentIndex} orientation="vertical">
         {settings.STEPS.map((step, index) => (
           <Step disabled={!resource} key={step.label}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton
+              color="inherit"
+              icon={step.label[0].toUpperCase()}
+              onClick={handleStep(index)}
+            >
               {step.label}
             </StepButton>
             <StepContent>

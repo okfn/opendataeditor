@@ -15,7 +15,7 @@ export default function Describe() {
   const resource = useStore((state) => state.resource)
   const updateDetector = useStore((state) => state.updateDetector)
   const updateResource = useStore((state) => state.updateResource)
-  if (!resource) return null
+  if (!detector || !resource) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
