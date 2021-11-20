@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import { ISchema } from '../../interfaces/schema'
-import { IRow } from '../../interfaces/row'
+import { ISchema, IRow } from '../../interfaces'
 
 // TODO: add buttons to show metrics (min/max/average/etc)?
 

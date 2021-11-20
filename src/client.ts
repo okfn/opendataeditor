@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './components/App'
+// TODO: remove components dependency
+import Application from './components/Application'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
@@ -11,7 +12,7 @@ import { IRow } from './interfaces/row'
 
 export class Client {
   start(element: any) {
-    ReactDOM.render(React.createElement(App, {}, null), element)
+    ReactDOM.render(React.createElement(Application, {}, null), element)
     return { dispose: () => ReactDOM.unmountComponentAtNode(element) }
   }
 

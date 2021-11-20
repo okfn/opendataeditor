@@ -1,12 +1,7 @@
 import create from 'zustand'
-import { client } from './client'
-import { IInquiry } from './interfaces/inquiry'
-import { IDetector } from './interfaces/detector'
-import { IResource } from './interfaces/resource'
-import { IPipeline } from './interfaces/pipeline'
-import { IReport } from './interfaces/report'
-import { IStatus } from './interfaces/status'
-import { IRow } from './interfaces/row'
+import { client } from '../../client'
+import { IReport, IStatus, IRow } from '../../interfaces'
+import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
   page: string

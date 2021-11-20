@@ -3,11 +3,11 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Resource from '../Resource'
-import Detector from '../Detector'
-import Features from '../Features'
-import Schema from '../Schema'
-import { useStore } from '../../store'
+import Resource from '../../Resource'
+import Detector from '../../Detector'
+import Features from '../../Features'
+import Schema from '../../Schema'
+import { useStore } from '../store'
 
 export default function Describe() {
   const [value, setValue] = React.useState(0)

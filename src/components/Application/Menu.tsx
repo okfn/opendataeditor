@@ -7,8 +7,8 @@ import StepButton from '@mui/material/StepButton'
 import StepContent from '@mui/material/StepContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import * as settings from '../settings'
-import { useStore } from '../store'
+import * as settings from '../../settings'
+import { useStore } from './store'
 
 export default function Menu() {
   const page = useStore((state) => state.page)

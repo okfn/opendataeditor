@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportTask, IReportError } from '../../interfaces/report'
+import { IReportTask, IReportError } from '../../interfaces'
 import Error from './Error'
 
 export interface TaskProps {

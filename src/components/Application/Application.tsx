@@ -6,9 +6,11 @@ import Box from '@mui/material/Box'
 import Header from './Header'
 import Page from './Page'
 import Menu from './Menu'
-import * as themes from '../themes'
+import * as themes from '../../themes'
 
-export default function App() {
+// TODO: get client/settings?/theme? as props to decouple the component
+
+export default function Application() {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <CssBaseline />

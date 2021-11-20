@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportError } from '../../interfaces/report'
+import { IReportError } from '../../interfaces'
 
 export interface TableProps {
   reportError: IReportError

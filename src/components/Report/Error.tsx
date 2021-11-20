@@ -1,7 +1,7 @@
 import { marked } from 'marked'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { IReportError } from '../../interfaces/report'
+import { IReportError } from '../../interfaces'
 import Table from './Table'
 
 export interface ErrorProps {

@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { ISchema } from '../../interfaces/schema'
+import { ISchema } from '../../interfaces'
 import * as helpers from '../../helpers'
 
 export interface SchemaProps {

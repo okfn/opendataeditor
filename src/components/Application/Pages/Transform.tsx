@@ -3,16 +3,17 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Table from '../Table'
-import File from '../File'
-import { useStore } from '../../store'
+import Pipeline from '../../Pipeline'
+import Status from '../../Status'
+import { useStore } from '../store'
 
-export default function Extract() {
+export default function Transform() {
   const [value, setValue] = React.useState(0)
-  const text = useStore((state) => state.text)
-  const rows = useStore((state) => state.rows)
-  const resource = useStore((state) => state.resource)
-  if (!resource || !text || !rows) return null
+  const pipeline = useStore((state) => state.pipeline)
+  const status = useStore((state) => state.status)
+  const targetRows = useStore((state) => state.targetRows)
+  const updatePipeline = useStore((state) => state.updatePipeline)
+  if (!pipeline || !status || !targetRows) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -21,15 +22,15 @@ export default function Extract() {
           onChange={(_, newValue) => setValue(newValue)}
           aria-label="basic tabs example"
         >
-          <Tab label="Table" {...a11yProps(0)} />
-          <Tab label="File" {...a11yProps(1)} />
+          <Tab label="Status" {...a11yProps(0)} />
+          <Tab label="Pipeline" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Table schema={resource.schema} rows={rows} />
+        <Status schema={status.target.schema} rows={targetRows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <File text={text} />
+        <Pipeline pipeline={pipeline} onSave={(pipeline) => updatePipeline(pipeline)} />
       </TabPanel>
     </Box>
   )

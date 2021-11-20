@@ -3,17 +3,15 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Pipeline from '../Pipeline'
-import Status from '../Status'
-import { useStore } from '../../store'
+import Report from '../../Report'
+import Inquiry from '../../Inquiry'
+import { useStore } from '../store'
 
-export default function Transform() {
+export default function Validate() {
   const [value, setValue] = React.useState(0)
-  const pipeline = useStore((state) => state.pipeline)
-  const status = useStore((state) => state.status)
-  const targetRows = useStore((state) => state.targetRows)
-  const updatePipeline = useStore((state) => state.updatePipeline)
-  if (!pipeline || !status || !targetRows) return null
+  const inquiry = useStore((state) => state.inquiry)
+  const report = useStore((state) => state.report)
+  if (!inquiry || !report) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -22,15 +20,15 @@ export default function Transform() {
           onChange={(_, newValue) => setValue(newValue)}
           aria-label="basic tabs example"
         >
-          <Tab label="Status" {...a11yProps(0)} />
-          <Tab label="Pipeline" {...a11yProps(1)} />
+          <Tab label="Report" {...a11yProps(0)} />
+          <Tab label="Inquiry" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Status schema={status.target.schema} rows={targetRows} />
+        <Report report={report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Pipeline pipeline={pipeline} onSave={(pipeline) => updatePipeline(pipeline)} />
+        <Inquiry inquiry={inquiry} />
       </TabPanel>
     </Box>
   )

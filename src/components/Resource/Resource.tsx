@@ -14,7 +14,7 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
-import { IResource } from '../../interfaces/resource'
+import { IResource } from '../../interfaces'
 import * as helpers from '../../helpers'
 
 export interface ResourceProps {

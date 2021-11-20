@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { IPipeline } from '../../interfaces/pipeline'
+import { IPipeline } from '../../interfaces'
 import * as helpers from '../../helpers'
 
 export interface PipelineProps {

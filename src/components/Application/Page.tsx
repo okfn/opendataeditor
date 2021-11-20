@@ -4,7 +4,7 @@ import Extract from './Pages/Extract'
 import Validate from './Pages/Validate'
 import Transform from './Pages/Transform'
 import Home from './Pages/Home'
-import { useStore } from '../store'
+import { useStore } from './store'
 
 export default function Page() {
   const page = useStore((state) => state.page)

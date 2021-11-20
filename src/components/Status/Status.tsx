@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { ISchema } from '../../interfaces/schema'
-import { IRow } from '../../interfaces/row'
+import { ISchema, IRow } from '../../interfaces'
 import Table from '../Table'
 
 interface StatusProps {

@@ -1,7 +1,7 @@
 import jsonschema from 'jsonschema'
 import React, { useState } from 'react'
 import profile from '../../profiles/report.json'
-import { IReport } from '../../interfaces/report'
+import { IReport } from '../../interfaces'
 import Task from './Task'
 
 export interface ReportProps {

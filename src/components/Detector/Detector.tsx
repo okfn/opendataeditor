@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { IDetector } from '../../interfaces/detector'
+import { IDetector } from '../../interfaces'
 import * as helpers from '../../helpers'
 
 interface DetectorProps {
