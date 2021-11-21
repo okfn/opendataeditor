@@ -21,7 +21,7 @@
 + import editor UI
 + proper JSON/YAML export
 + proper JSON/YAML preview
-- implement import
++ implement import
 - improve listing UIs
 - don't change page on file upload
 - implement CSV/EXCEL export

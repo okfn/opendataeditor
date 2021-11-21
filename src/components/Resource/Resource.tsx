@@ -221,6 +221,7 @@ function Actions() {
   const previewFormat = useStore((state) => state.previewFormat)
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
+  const update = useStore((state) => state.update)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
 
@@ -230,12 +231,24 @@ function Actions() {
     const text = JSON.stringify(resource, null, 2)
     const blob = new Blob([text], { type: 'text/json;charset=utf-8' })
     FileSaver.saveAs(blob, `${resource.name}.resource.json`)
+    // TODO: fix this hack
+    preview('')
   }
 
   const exportYaml = () => {
     const text = yaml.dump(resource)
     const blob = new Blob([text], { type: 'text/yaml;charset=utf-8' })
     FileSaver.saveAs(blob, `${resource.name}.resource.yaml`)
+    // TODO: fix this hack
+    preview('')
+  }
+
+  const importFile = async (file: File) => {
+    const text = (await file.text()).trim()
+    // TODO: handle errors
+    const resource = text.startsWith('{') ? JSON.parse(text) : yaml.load(text)
+    update(resource)
+    save()
   }
 
   // Render
@@ -272,14 +285,19 @@ function Actions() {
           </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
-          <Button
-            variant="contained"
-            color="info"
-            aria-label="import"
-            sx={{ width: '100%' }}
-          >
-            Import
-          </Button>
+          <label htmlFor="import-button">
+            <input
+              id="import-button"
+              type="file"
+              style={{ display: 'none' }}
+              onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                ev.target.files ? importFile(ev.target.files[0]) : null
+              }
+            />
+            <Button variant="contained" component="span" color="info" fullWidth>
+              Import
+            </Button>
+          </label>
         </Grid>
         <Grid item xs={3}>
           <Button
