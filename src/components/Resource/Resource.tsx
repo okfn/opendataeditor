@@ -19,7 +19,6 @@ import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
 // import MenuButton from '../Library/MenuButton'
 import { IResource } from '../../interfaces'
-import * as helpers from '../../helpers'
 
 export interface ResourceProps {
   resource: IResource
@@ -101,9 +100,11 @@ function Editor() {
 function Preview() {
   const resource = useStore((state) => state.next)
   return (
-    <pre>
-      <code>{JSON.stringify(resource, null, 2)}</code>
-    </pre>
+    <Box sx={{ maxHeight: '350px', overflowY: 'auto' }}>
+      <pre>
+        <code>{JSON.stringify(resource, null, 2)}</code>
+      </pre>
+    </Box>
   )
 }
 
@@ -215,7 +216,7 @@ function Actions() {
   const resource = useStore((state) => state.next)
   // const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
-  // const preview = useStore((state) => state.preview)
+  const preview = useStore((state) => state.preview)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
 
@@ -254,15 +255,17 @@ function Actions() {
           </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
-          <Button
+          <ButtonGroup
             variant="contained"
-            download={`${resource.name}.resource.json`}
-            href={helpers.exportDescriptor(resource)}
-            sx={{ width: '100%' }}
             color="info"
+            aria-label="export"
+            sx={{ width: '100%' }}
           >
-            Import
-          </Button>
+            <Button sx={{ width: '60%' }}>Import</Button>
+            <Button sx={{ width: '40%' }} onClick={preview}>
+              Preview
+            </Button>
+          </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
           <Button
