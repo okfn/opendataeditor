@@ -22,28 +22,32 @@ import { IResource } from '../../interfaces'
 
 export interface ResourceProps {
   resource: IResource
-  onSave?: (resource: IResource) => void
+  onCommit?: (resource: IResource) => void
+  onRevert?: (resource: IResource) => void
 }
 
 interface ResourceState {
   next: IResource
   prev: IResource
-  onSave: (resource: IResource) => void
+  onCommit: (resource: IResource) => void
+  onRevert: (resource: IResource) => void
   previewFormat?: string
   isUpdated: boolean
   update: (patch: object) => void
   preview: (format: string) => void
   revert: () => void
-  save: () => void
+  commit: () => void
 }
 
 function makeStore(props: ResourceProps) {
   const resource = props.resource
-  const onSave = props.onSave || noop
+  const onCommit = props.onCommit || noop
+  const onRevert = props.onRevert || noop
   return create<ResourceState>((set, get) => ({
     next: cloneDeep(resource),
     prev: resource,
-    onSave,
+    onCommit,
+    onRevert,
     isUpdated: false,
     update: (patch) => {
       const { next } = get()
@@ -53,14 +57,15 @@ function makeStore(props: ResourceProps) {
       const { previewFormat } = get()
       set({ previewFormat: previewFormat !== format ? format : undefined })
     },
-    revert: () => {
-      const { prev } = get()
-      set({ next: cloneDeep(prev), isUpdated: false })
-    },
-    save: () => {
-      const { onSave, next } = get()
+    commit: () => {
+      const { onCommit, next } = get()
       set({ prev: cloneDeep(next), isUpdated: false })
-      onSave(next)
+      onCommit(next)
+    },
+    revert: () => {
+      const { onRevert, next, prev } = get()
+      set({ next: cloneDeep(prev), isUpdated: false })
+      onRevert(next)
     },
   }))
 }
@@ -222,8 +227,8 @@ function Actions() {
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
   const update = useStore((state) => state.update)
+  const commit = useStore((state) => state.commit)
   const revert = useStore((state) => state.revert)
-  const save = useStore((state) => state.save)
 
   // Actions
 
@@ -248,7 +253,7 @@ function Actions() {
     // TODO: handle errors
     const resource = text.startsWith('{') ? JSON.parse(text) : yaml.load(text)
     update(resource)
-    save()
+    commit()
   }
 
   // Render
@@ -303,7 +308,7 @@ function Actions() {
           <Button
             variant="contained"
             disabled={!isUpdated}
-            onClick={save}
+            onClick={commit}
             color="success"
             sx={{ width: '100%' }}
           >
