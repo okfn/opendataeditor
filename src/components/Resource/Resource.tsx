@@ -59,6 +59,8 @@ function makeStore(props: ResourceProps) {
     importer: async (file) => {
       const text = (await file.text()).trim()
       const isYaml = !text.startsWith('{')
+      // TODO: handle errors
+      // TODO: validate descriptor
       const descriptor = isYaml ? yaml.load(text) : JSON.parse(text)
       set({ descriptor })
     },
