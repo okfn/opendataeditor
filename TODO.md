@@ -20,10 +20,12 @@
 + finish rebasing on a new store/client/server
 + import editor UI
 + proper JSON/YAML export
-- proper JSON/YAML preview
++ proper JSON/YAML preview
 - implement import
 - improve listing UIs
 - don't change page on file upload
 - implement CSV/EXCEL export
+- keep selected tab on a page
+- add clear input file button
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io

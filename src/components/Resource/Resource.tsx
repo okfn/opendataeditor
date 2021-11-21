@@ -29,10 +29,10 @@ interface ResourceState {
   next: IResource
   prev: IResource
   onSave: (resource: IResource) => void
-  isPreview: boolean
+  previewFormat?: string
   isUpdated: boolean
   update: (patch: object) => void
-  preview: () => void
+  preview: (format: string) => void
   revert: () => void
   save: () => void
 }
@@ -44,15 +44,14 @@ function makeStore(props: ResourceProps) {
     next: cloneDeep(resource),
     prev: resource,
     onSave,
-    isPreview: false,
     isUpdated: false,
     update: (patch) => {
       const { next } = get()
       set({ next: { ...next, ...patch }, isUpdated: true })
     },
-    preview: () => {
-      const { isPreview } = get()
-      set({ isPreview: !isPreview })
+    preview: (format) => {
+      const { previewFormat } = get()
+      set({ previewFormat: previewFormat !== format ? format : undefined })
     },
     revert: () => {
       const { prev } = get()
@@ -77,8 +76,8 @@ export default function Resource(props: ResourceProps) {
 }
 
 function Editor() {
-  const isPreview = useStore((state) => state.isPreview)
-  if (isPreview) return <Preview />
+  const previewFormat = useStore((state) => state.previewFormat)
+  if (previewFormat) return <Preview />
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -98,11 +97,16 @@ function Editor() {
 }
 
 function Preview() {
+  const previewFormat = useStore((state) => state.previewFormat)
   const resource = useStore((state) => state.next)
   return (
-    <Box sx={{ maxHeight: '350px', overflowY: 'auto' }}>
-      <pre>
-        <code>{JSON.stringify(resource, null, 2)}</code>
+    <Box sx={{ maxHeight: '352px', overflowY: 'auto' }}>
+      <pre style={{ marginTop: 0 }}>
+        <code>
+          {previewFormat === 'json'
+            ? JSON.stringify(resource, null, 2)
+            : yaml.dump(resource)}
+        </code>
       </pre>
     </Box>
   )
@@ -214,7 +218,7 @@ function Stats() {
 
 function Actions() {
   const resource = useStore((state) => state.next)
-  // const isPreview = useStore((state) => state.isPreview)
+  const previewFormat = useStore((state) => state.previewFormat)
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
   const revert = useStore((state) => state.revert)
@@ -247,25 +251,35 @@ function Actions() {
             aria-label="export"
             sx={{ width: '100%' }}
           >
-            <Button onClick={exportJson} sx={{ width: '60%' }}>
+            <Button
+              onClick={() => (previewFormat === 'yaml' ? exportYaml() : exportJson())}
+              sx={{ width: '60%' }}
+            >
               Export
             </Button>
-            <Button onClick={exportJson}>JSON</Button>
-            <Button onClick={exportYaml}>YAML</Button>
+            <Button
+              onClick={() => preview('json')}
+              color={previewFormat === 'json' ? 'warning' : 'info'}
+            >
+              JSON
+            </Button>
+            <Button
+              onClick={() => preview('yaml')}
+              color={previewFormat === 'yaml' ? 'warning' : 'info'}
+            >
+              YAML
+            </Button>
           </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
-          <ButtonGroup
+          <Button
             variant="contained"
             color="info"
-            aria-label="export"
+            aria-label="import"
             sx={{ width: '100%' }}
           >
-            <Button sx={{ width: '50%' }} onClick={preview}>
-              Preview
-            </Button>
-            <Button sx={{ width: '50%' }}>Import</Button>
-          </ButtonGroup>
+            Import
+          </Button>
         </Grid>
         <Grid item xs={3}>
           <Button
