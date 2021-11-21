@@ -17,9 +17,11 @@
 ## Initial (17.11-20.11)
 
 + rebase global app state on zustand
-- finish rebasing on a new store/client/server
++ finish rebasing on a new store/client/server
++ import editor UI
++ proper JSON/YAML export
++ proper JSON/YAML preview
 - improve listing UIs
-- move export/preview to the right column as a vertical tabs
-- add YAML export/preview
+- implement CSV/EXCEL export
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io

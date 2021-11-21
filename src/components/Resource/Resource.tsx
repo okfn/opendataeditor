@@ -16,7 +16,8 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
-import MenuButton from '../Library/MenuButton'
+import ButtonGroup from '@mui/material/ButtonGroup'
+// import MenuButton from '../Library/MenuButton'
 import { IResource } from '../../interfaces'
 import * as helpers from '../../helpers'
 
@@ -239,14 +240,18 @@ function Actions() {
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <MenuButton
-            width="100%"
-            label="Export"
-            options={[
-              { label: 'JSON', onClick: exportJson },
-              { label: 'YAML', onClick: exportYaml },
-            ]}
-          ></MenuButton>
+          <ButtonGroup
+            variant="contained"
+            color="info"
+            aria-label="export"
+            sx={{ width: '100%' }}
+          >
+            <Button onClick={exportJson} sx={{ width: '60%' }}>
+              Export
+            </Button>
+            <Button onClick={exportJson}>JSON</Button>
+            <Button onClick={exportYaml}>YAML</Button>
+          </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
           <Button
