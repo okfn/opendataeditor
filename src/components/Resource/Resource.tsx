@@ -1,6 +1,8 @@
 import * as React from 'react'
 import create from 'zustand'
 import noop from 'lodash/noop'
+import yaml from 'js-yaml'
+import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import capitalize from 'lodash/capitalize'
@@ -14,6 +16,7 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
+import MenuButton from '../Library/MenuButton'
 import { IResource } from '../../interfaces'
 import * as helpers from '../../helpers'
 
@@ -211,28 +214,45 @@ function Actions() {
   const resource = useStore((state) => state.next)
   // const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
-  const preview = useStore((state) => state.preview)
+  // const preview = useStore((state) => state.preview)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
+
+  // Actions
+
+  const exportJson = () => {
+    const text = JSON.stringify(resource, null, 2)
+    const blob = new Blob([text], { type: 'text/json;charset=utf-8' })
+    FileSaver.saveAs(blob, `${resource.name}.resource.json`)
+  }
+
+  const exportYaml = () => {
+    const text = yaml.dump(resource)
+    const blob = new Blob([text], { type: 'text/yaml;charset=utf-8' })
+    FileSaver.saveAs(blob, `${resource.name}.resource.yaml`)
+  }
+
+  // Render
+
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <Button
-            variant="contained"
-            download={`${resource.name}.resource.json`}
-            href={helpers.exportDescriptor(resource)}
-            sx={{ width: '100%' }}
-            color="info"
-          >
-            Export
-          </Button>
+          <MenuButton
+            width="100%"
+            label="Export"
+            options={[
+              { label: 'JSON', onClick: exportJson },
+              { label: 'YAML', onClick: exportYaml },
+            ]}
+          ></MenuButton>
         </Grid>
         <Grid item xs={3}>
           <Button
             variant="contained"
-            onClick={preview}
+            download={`${resource.name}.resource.json`}
+            href={helpers.exportDescriptor(resource)}
             sx={{ width: '100%' }}
             color="info"
           >
