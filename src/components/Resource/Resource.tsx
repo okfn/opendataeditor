@@ -214,7 +214,7 @@ function Stats() {
           margin="normal"
           label={capitalize(key)}
           /* @ts-ignore */
-          defaultValue={resource.stats[key]}
+          value={resource.stats[key]}
         />
       ))}
     </FormControl>
@@ -253,7 +253,6 @@ function Actions() {
     // TODO: handle errors
     const resource = text.startsWith('{') ? JSON.parse(text) : yaml.load(text)
     update(resource)
-    commit()
   }
 
   // Render
