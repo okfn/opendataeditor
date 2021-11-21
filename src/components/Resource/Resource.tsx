@@ -17,55 +17,67 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
-// import MenuButton from '../Library/MenuButton'
 import { IResource } from '../../interfaces'
 
 export interface ResourceProps {
-  resource: IResource
-  onCommit?: (resource: IResource) => void
-  onRevert?: (resource: IResource) => void
+  descriptor: IResource
+  onCommit?: (descriptor: IResource) => void
+  onRevert?: (descriptor: IResource) => void
 }
 
 interface ResourceState {
-  next: IResource
-  prev: IResource
-  onCommit: (resource: IResource) => void
-  onRevert: (resource: IResource) => void
-  previewFormat?: string
-  isUpdated: boolean
-  update: (patch: object) => void
+  descriptor: IResource
+  checkpoint: IResource
+  onCommit: (descriptor: IResource) => void
+  onRevert: (descriptor: IResource) => void
+  isPreview?: boolean
+  isUpdated?: boolean
+  exportFormat: string
+  exporter: () => void
+  importer: (file: File) => void
   preview: (format: string) => void
-  revert: () => void
+  update: (patch: object) => void
   commit: () => void
+  revert: () => void
 }
 
 function makeStore(props: ResourceProps) {
-  const resource = props.resource
-  const onCommit = props.onCommit || noop
-  const onRevert = props.onRevert || noop
   return create<ResourceState>((set, get) => ({
-    next: cloneDeep(resource),
-    prev: resource,
-    onCommit,
-    onRevert,
-    isUpdated: false,
-    update: (patch) => {
-      const { next } = get()
-      set({ next: { ...next, ...patch }, isUpdated: true })
+    descriptor: cloneDeep(props.descriptor),
+    checkpoint: cloneDeep(props.descriptor),
+    onCommit: props.onCommit || noop,
+    onRevert: props.onRevert || noop,
+    exportFormat: 'json',
+    exporter: () => {
+      const { descriptor, exportFormat } = get()
+      const isYaml = exportFormat === 'yaml'
+      const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
+      const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
+      FileSaver.saveAs(blob, `${descriptor.name}.resource.${exportFormat}`)
+      set({ isPreview: false })
+    },
+    importer: async (file) => {
+      const text = (await file.text()).trim()
+      const isYaml = !text.startsWith('{')
+      const descriptor = isYaml ? yaml.load(text) : JSON.parse(text)
+      set({ descriptor })
     },
     preview: (format) => {
-      const { previewFormat } = get()
-      set({ previewFormat: previewFormat !== format ? format : undefined })
+      set({ exportFormat: format, isPreview: true })
     },
-    commit: () => {
-      const { onCommit, next } = get()
-      set({ prev: cloneDeep(next), isUpdated: false })
-      onCommit(next)
+    update: (patch) => {
+      const { descriptor } = get()
+      set({ descriptor: { ...descriptor, ...patch }, isUpdated: true })
     },
     revert: () => {
-      const { onRevert, next, prev } = get()
-      set({ next: cloneDeep(prev), isUpdated: false })
-      onRevert(next)
+      const { onRevert, descriptor, checkpoint } = get()
+      set({ descriptor: cloneDeep(checkpoint), isUpdated: false })
+      onRevert(descriptor)
+    },
+    commit: () => {
+      const { onCommit, descriptor } = get()
+      set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
+      onCommit(descriptor)
     },
   }))
 }
@@ -81,8 +93,8 @@ export default function Resource(props: ResourceProps) {
 }
 
 function Editor() {
-  const previewFormat = useStore((state) => state.previewFormat)
-  if (previewFormat) return <Preview />
+  const isPreview = useStore((state) => state.isPreview)
+  if (isPreview) return <Preview />
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -102,16 +114,14 @@ function Editor() {
 }
 
 function Preview() {
-  const previewFormat = useStore((state) => state.previewFormat)
-  const resource = useStore((state) => state.next)
+  const exportFormat = useStore((state) => state.exportFormat)
+  const descriptor = useStore((state) => state.descriptor)
+  const isYaml = exportFormat === 'yaml'
+  const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
   return (
-    <Box sx={{ maxHeight: '352px', overflowY: 'auto' }}>
+    <Box sx={{ height: '352px', overflowY: 'auto' }}>
       <pre style={{ marginTop: 0 }}>
-        <code>
-          {previewFormat === 'json'
-            ? JSON.stringify(resource, null, 2)
-            : yaml.dump(resource)}
-        </code>
+        <code>{text}</code>
       </pre>
     </Box>
   )
@@ -143,29 +153,29 @@ function Help() {
 }
 
 function General() {
-  const resource = useStore((state) => state.next)
+  const descriptor = useStore((state) => state.descriptor)
   const update = useStore((state) => state.update)
   return (
     <FormControl fullWidth>
       <Typography variant="h6">General</Typography>
-      <TextField label="Path" margin="normal" defaultValue={resource.path} disabled />
+      <TextField label="Path" margin="normal" defaultValue={descriptor.path} disabled />
       <TextField
         label="Name"
         margin="normal"
-        value={resource.name}
+        value={descriptor.name}
         onChange={(ev) => update({ name: ev.target.value })}
       />
       <TextField
         label="Title"
         margin="normal"
-        value={resource.title || ''}
+        value={descriptor.title || ''}
         onChange={(ev) => update({ title: ev.target.value })}
       />
       <TextField
         label="Description"
         margin="normal"
         multiline
-        value={resource.description || ''}
+        value={descriptor.description || ''}
         onChange={(ev) => update({ description: ev.target.value })}
       />
     </FormControl>
@@ -173,28 +183,28 @@ function General() {
 }
 
 function Details() {
-  const resource = useStore((state) => state.next)
+  const descriptor = useStore((state) => state.descriptor)
   const update = useStore((state) => state.update)
   return (
     <FormControl fullWidth>
       <Typography variant="h6">Details</Typography>
-      <TextField label="Scheme" margin="normal" disabled defaultValue={resource.scheme} />
+      <TextField label="Scheme" margin="normal" disabled value={descriptor.scheme} />
       <TextField
         label="Format"
         margin="normal"
-        value={resource.format}
+        value={descriptor.format}
         onChange={(ev) => update({ format: ev.target.value })}
       />
       <TextField
         label="Hashing"
         margin="normal"
-        value={resource.hashing}
+        value={descriptor.hashing}
         onChange={(ev) => update({ hashing: ev.target.value })}
       />
       <TextField
         label="Encoding"
         margin="normal"
-        value={resource.encoding}
+        value={descriptor.encoding}
         onChange={(ev) => update({ encoding: ev.target.value })}
       />
     </FormControl>
@@ -202,7 +212,7 @@ function Details() {
 }
 
 function Stats() {
-  const resource = useStore((state) => state.next)
+  const descriptor = useStore((state) => state.descriptor)
   const keys = ['hash', 'bytes', 'fields', 'rows']
   return (
     <FormControl fullWidth>
@@ -214,7 +224,7 @@ function Stats() {
           margin="normal"
           label={capitalize(key)}
           /* @ts-ignore */
-          value={resource.stats[key]}
+          value={descriptor.stats[key]}
         />
       ))}
     </FormControl>
@@ -222,41 +232,16 @@ function Stats() {
 }
 
 function Actions() {
-  const resource = useStore((state) => state.next)
-  const previewFormat = useStore((state) => state.previewFormat)
+  const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
+  const exportFormat = useStore((state) => state.exportFormat)
+  const exporter = useStore((state) => state.exporter)
+  const importer = useStore((state) => state.importer)
   const preview = useStore((state) => state.preview)
-  const update = useStore((state) => state.update)
   const commit = useStore((state) => state.commit)
   const revert = useStore((state) => state.revert)
-
-  // Actions
-
-  const exportJson = () => {
-    const text = JSON.stringify(resource, null, 2)
-    const blob = new Blob([text], { type: 'text/json;charset=utf-8' })
-    FileSaver.saveAs(blob, `${resource.name}.resource.json`)
-    // TODO: fix this hack
-    preview('')
-  }
-
-  const exportYaml = () => {
-    const text = yaml.dump(resource)
-    const blob = new Blob([text], { type: 'text/yaml;charset=utf-8' })
-    FileSaver.saveAs(blob, `${resource.name}.resource.yaml`)
-    // TODO: fix this hack
-    preview('')
-  }
-
-  const importFile = async (file: File) => {
-    const text = (await file.text()).trim()
-    // TODO: handle errors
-    const resource = text.startsWith('{') ? JSON.parse(text) : yaml.load(text)
-    update(resource)
-  }
-
-  // Render
-
+  const jsonColor = isPreview && exportFormat === 'json' ? 'warning' : 'info'
+  const yamlColor = isPreview && exportFormat === 'yaml' ? 'warning' : 'info'
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
@@ -268,22 +253,13 @@ function Actions() {
             aria-label="export"
             sx={{ width: '100%' }}
           >
-            <Button
-              onClick={() => (previewFormat === 'yaml' ? exportYaml() : exportJson())}
-              sx={{ width: '60%' }}
-            >
+            <Button onClick={exporter} sx={{ width: '60%' }}>
               Export
             </Button>
-            <Button
-              onClick={() => preview('json')}
-              color={previewFormat === 'json' ? 'warning' : 'info'}
-            >
+            <Button onClick={() => preview('json')} color={jsonColor}>
               JSON
             </Button>
-            <Button
-              onClick={() => preview('yaml')}
-              color={previewFormat === 'yaml' ? 'warning' : 'info'}
-            >
+            <Button onClick={() => preview('yaml')} color={yamlColor}>
               YAML
             </Button>
           </ButtonGroup>
@@ -295,7 +271,7 @@ function Actions() {
               type="file"
               style={{ display: 'none' }}
               onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                ev.target.files ? importFile(ev.target.files[0]) : null
+                ev.target.files ? importer(ev.target.files[0]) : null
               }
             />
             <Button variant="contained" component="span" color="info" fullWidth>

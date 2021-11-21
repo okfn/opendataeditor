@@ -11,7 +11,7 @@ const Template: Story<Parameters<typeof Resource>[0]> = (args) => <Resource {...
 
 export const Default = Template.bind({})
 Default.args = {
-  resource: {
+  descriptor: {
     path: 'table.csv',
     name: 'table',
     scheme: 'file',

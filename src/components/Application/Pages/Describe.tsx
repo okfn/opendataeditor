@@ -31,7 +31,10 @@ export default function Describe() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Resource resource={resource} onCommit={(resource) => updateResource(resource)} />
+        <Resource
+          descriptor={resource}
+          onCommit={(resource) => updateResource(resource)}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schema
