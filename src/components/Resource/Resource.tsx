@@ -261,10 +261,10 @@ function Actions() {
             aria-label="export"
             sx={{ width: '100%' }}
           >
-            <Button sx={{ width: '60%' }}>Import</Button>
-            <Button sx={{ width: '40%' }} onClick={preview}>
+            <Button sx={{ width: '50%' }} onClick={preview}>
               Preview
             </Button>
+            <Button sx={{ width: '50%' }}>Import</Button>
           </ButtonGroup>
         </Grid>
         <Grid item xs={3}>
@@ -275,7 +275,7 @@ function Actions() {
             color="success"
             sx={{ width: '100%' }}
           >
-            Apply
+            Commit
           </Button>
         </Grid>
         <Grid item xs={3}>
