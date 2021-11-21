@@ -146,7 +146,7 @@ function General() {
   const resource = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <Typography variant="h6">General</Typography>
       <TextField label="Path" margin="normal" defaultValue={resource.path} disabled />
       <TextField
@@ -176,7 +176,7 @@ function Details() {
   const resource = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <Typography variant="h6">Details</Typography>
       <TextField label="Scheme" margin="normal" disabled defaultValue={resource.scheme} />
       <TextField
@@ -205,7 +205,7 @@ function Stats() {
   const resource = useStore((state) => state.next)
   const keys = ['hash', 'bytes', 'fields', 'rows']
   return (
-    <FormControl sx={{ width: '100%' }}>
+    <FormControl fullWidth>
       <Typography variant="h6">Stats</Typography>
       {keys.map((key) => (
         <TextField
@@ -310,7 +310,7 @@ function Actions() {
             disabled={!isUpdated}
             onClick={commit}
             color="success"
-            sx={{ width: '100%' }}
+            fullWidth
           >
             Commit
           </Button>
@@ -321,7 +321,7 @@ function Actions() {
             disabled={!isUpdated}
             onClick={revert}
             color="error"
-            sx={{ width: '100%' }}
+            fullWidth
           >
             Revert
           </Button>

@@ -28,5 +28,5 @@ Default.args = {
       rows: 2,
     },
   },
-  onSave: (resource: any) => console.log(resource),
+  onCommit: (resource: any) => console.log(resource),
 }
