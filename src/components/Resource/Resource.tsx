@@ -47,6 +47,7 @@ function makeStore(props: ResourceProps) {
     checkpoint: cloneDeep(props.descriptor),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
+    // TODO: move json to settings
     exportFormat: 'json',
     exporter: () => {
       const { descriptor, exportFormat } = get()
@@ -54,7 +55,8 @@ function makeStore(props: ResourceProps) {
       const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
       FileSaver.saveAs(blob, `${descriptor.name}.resource.${exportFormat}`)
-      set({ isPreview: false })
+      // TODO: move json to settings
+      set({ exportFormat: 'json', isPreview: false })
     },
     importer: async (file) => {
       const text = (await file.text()).trim()
@@ -65,7 +67,14 @@ function makeStore(props: ResourceProps) {
       set({ descriptor })
     },
     preview: (format) => {
-      set({ exportFormat: format, isPreview: true })
+      const { exportFormat, isPreview } = get()
+      // TODO: review the logic
+      if (format !== exportFormat || !isPreview) {
+        set({ exportFormat: format, isPreview: true })
+      } else {
+        // TODO: move json to settings
+        set({ exportFormat: 'json', isPreview: false })
+      }
     },
     update: (patch) => {
       const { descriptor } = get()
