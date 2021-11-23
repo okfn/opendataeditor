@@ -8,6 +8,7 @@ export const ENCODINGS = ['utf-8', 'iso-8859-1']
 
 export const DEFAULT_PORT = 7070
 export const DEFAULT_EXPORT_FORMAT = 'json'
+export const DEFAULT_FIELD_CONFIDENCE = 0.9
 
 // Others
 

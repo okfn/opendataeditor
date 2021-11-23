@@ -49,7 +49,10 @@ export default function Describe() {
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Strategy strategy={strategy} onSave={(strategy) => updateStrategy(strategy)} />
+        <Strategy
+          descriptor={strategy}
+          onCommit={(strategy) => updateStrategy(strategy)}
+        />
       </TabPanel>
     </Box>
   )

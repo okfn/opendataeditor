@@ -122,8 +122,8 @@ function Editor() {
 }
 
 function Preview() {
-  const exportFormat = useStore((state) => state.exportFormat)
   const descriptor = useStore((state) => state.descriptor)
+  const exportFormat = useStore((state) => state.exportFormat)
   const isYaml = exportFormat === 'yaml'
   const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
   return (
