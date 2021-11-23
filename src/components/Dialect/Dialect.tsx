@@ -12,18 +12,18 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { IDetector } from '../../interfaces'
+import { IDialect } from '../../interfaces'
 import * as helpers from '../../helpers'
 
-interface DetectorProps {
-  detector: IDetector
-  onSave?: (detector: IDetector) => void
+interface DialectProps {
+  dialect: IDialect
+  onSave?: (dialect: IDialect) => void
 }
 
-interface DetectorState {
-  next: IDetector
-  prev: IDetector
-  onSave: (detector: IDetector) => void
+interface DialectState {
+  next: IDialect
+  prev: IDialect
+  onSave: (dialect: IDialect) => void
   isPreview: boolean
   isUpdated: boolean
   update: (patch: object) => void
@@ -32,12 +32,12 @@ interface DetectorState {
   save: () => void
 }
 
-function makeStore(props: DetectorProps) {
-  const detector = props.detector
+function makeStore(props: DialectProps) {
+  const dialect = props.dialect
   const onSave = props.onSave || noop
-  return create<DetectorState>((set, get) => ({
-    next: cloneDeep(detector),
-    prev: detector,
+  return create<DialectState>((set, get) => ({
+    next: cloneDeep(dialect),
+    prev: dialect,
     onSave,
     isPreview: false,
     isUpdated: false,
@@ -61,8 +61,8 @@ function makeStore(props: DetectorProps) {
   }))
 }
 
-const { Provider, useStore } = createContext<DetectorState>()
-export default function Detector(props: DetectorProps) {
+const { Provider, useStore } = createContext<DialectState>()
+export default function Dialect(props: DialectProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Editor />
@@ -77,98 +77,86 @@ function Editor() {
   return (
     <Grid container>
       <Grid item xs={3}>
-        <General />
+        <Reading />
       </Grid>
       <Grid item xs={3}>
-        <Field />
+        <Parsing />
       </Grid>
       <Grid item xs={3}>
-        <Schema />
+        <Loading />
       </Grid>
     </Grid>
   )
 }
 
 function Preview() {
-  const detector = useStore((state) => state.next)
+  const dialect = useStore((state) => state.next)
   return (
     <pre>
-      <code>{JSON.stringify(detector, null, 2)}</code>
+      <code>{JSON.stringify(dialect, null, 2)}</code>
     </pre>
   )
 }
 
-function General() {
-  const detector = useStore((state) => state.next)
+function Reading() {
+  const dialect = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
-      <Typography variant="h6">General</Typography>
-      <TextField
-        type="number"
-        label="Buffer Size"
-        inputProps={{ min: 0, step: 10000 }}
-        value={detector.bufferSize}
-        onChange={(ev) => update({ bufferSize: parseInt(ev.target.value) })}
-        margin="normal"
-      />
-      <TextField
-        type="number"
-        label="Sample Size"
-        inputProps={{ min: 0, step: 100 }}
-        value={detector.sampleSize}
-        onChange={(ev) => update({ sampleSize: parseInt(ev.target.value) })}
-        margin="normal"
-      />
-    </FormControl>
-  )
-}
-
-function Field() {
-  const detector = useStore((state) => state.next)
-  const update = useStore((state) => state.update)
-  return (
-    <FormControl>
-      <Typography variant="h6">Field</Typography>
-      <TextField
-        label="Type"
-        margin="normal"
-        value={detector.fieldType}
-        onChange={(ev) => update({ fieldType: ev.target.value })}
-      />
-      <TextField
-        label="Names"
-        margin="normal"
-        value={(detector.fieldNames || []).join(',')}
-        onChange={(ev) => update({ fieldNames: ev.target.value.split(',') })}
-      />
-    </FormControl>
-  )
-}
-
-function Schema() {
-  const detector = useStore((state) => state.next)
-  const update = useStore((state) => state.update)
-  return (
-    <FormControl>
-      <Typography variant="h6">Schema</Typography>
+      <Typography variant="h6">Reading</Typography>
       <TextField
         select
-        label="Sync"
-        value={detector.schemaSync ? 'yes' : 'no'}
-        onChange={(ev) => update({ schemaSync: ev.target.value === 'yes' })}
-        sx={{ width: '30ch' }}
         margin="normal"
+        label="Header"
+        value={dialect.header ? 'yes' : 'no'}
+        onChange={(ev) =>
+          update({ dialect: { ...dialect, header: ev.target.value === 'yes' } })
+        }
+        sx={{ width: '30ch' }}
       >
         <MenuItem value={'yes'}>Yes</MenuItem>
         <MenuItem value={'no'}>No</MenuItem>
       </TextField>
+      <TextField
+        label="Header Rows"
+        margin="normal"
+        value={(dialect.headerRows || []).join(',')}
+        onChange={(ev) =>
+          update({ dialect: { ...dialect, headerRows: ev.target.value.split(',') } })
+        }
+      />
+    </FormControl>
+  )
+}
+
+// TODO: handle different formats
+function Parsing() {
+  const dialect = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
+  return (
+    <FormControl>
+      <Typography variant="h6">Parsing</Typography>
+      <TextField
+        label="Delimiter"
+        margin="normal"
+        value={dialect.delimiter}
+        onChange={(ev) => update({ dialect: { ...dialect, delimiter: ev.target.value } })}
+      />
+    </FormControl>
+  )
+}
+
+function Loading() {
+  return (
+    <FormControl>
+      <Typography variant="h6">Loading</Typography>
+      <TextField label="Code" disabled margin="normal" defaultValue={'local'} />
     </FormControl>
   )
 }
 
 function Actions() {
-  const detector = useStore((state) => state.next)
+  const dialect = useStore((state) => state.next)
   const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
@@ -180,8 +168,8 @@ function Actions() {
       <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
         <Button
           variant="contained"
-          download="detector.json"
-          href={helpers.exportDescriptor(detector)}
+          download="dialect.json"
+          href={helpers.exportDescriptor(dialect)}
         >
           Export
         </Button>

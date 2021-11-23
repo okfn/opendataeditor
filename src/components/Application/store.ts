@@ -1,12 +1,12 @@
 import create from 'zustand'
 import { client } from '../../client'
 import { IReport, IStatus, IRow } from '../../interfaces'
-import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
+import { IInquiry, IStrategy, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
   page: string
   file?: File
-  detector?: IDetector
+  strategy?: IStrategy
   resource?: IResource
   inquiry?: IInquiry
   report?: IReport
@@ -20,7 +20,7 @@ export interface IState {
 export interface ILogic {
   setPage: (page: string) => void
   uploadFile: (file: File) => void
-  updateDetector: (patch: Partial<IDetector>) => void
+  updateStrategy: (patch: Partial<IStrategy>) => void
   updateResource: (patch: Partial<IResource>) => void
   updateInquiry: (patch: Partial<IInquiry>) => void
   updatePipeline: (patch: Partial<IPipeline>) => void
@@ -58,20 +58,20 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       alert('Currently only CSV files under 10Mb are supported')
       return
     }
-    const detector = { bufferSize: 10000, sampleSize: 100 }
-    const { resource } = await client.describe(file, detector)
+    const strategy = { bufferSize: 10000, sampleSize: 100 }
+    const { resource } = await client.describe(file, strategy)
     const inquiry = { source: resource, checks: [] }
     const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    set({ page: 'describe', file, detector, resource, inquiry, pipeline, text })
+    set({ page: 'describe', file, strategy, resource, inquiry, pipeline, text })
   },
 
   // Metadata
 
-  updateDetector: (patch) => {
-    const { detector } = get()
-    if (detector) set({ detector: { ...detector, ...patch } })
+  updateStrategy: (patch) => {
+    const { strategy } = get()
+    if (strategy) set({ strategy: { ...strategy, ...patch } })
   },
   updateResource: (patch) => {
     const { resource } = get()

@@ -12,18 +12,18 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { IFeatures } from '../../interfaces'
+import { IStrategy } from '../../interfaces'
 import * as helpers from '../../helpers'
 
-interface FeaturesProps {
-  features: IFeatures
-  onSave?: (features: IFeatures) => void
+interface StrategyProps {
+  strategy: IStrategy
+  onSave?: (strategy: IStrategy) => void
 }
 
-interface FeaturesState {
-  next: IFeatures
-  prev: IFeatures
-  onSave: (features: IFeatures) => void
+interface StrategyState {
+  next: IStrategy
+  prev: IStrategy
+  onSave: (strategy: IStrategy) => void
   isPreview: boolean
   isUpdated: boolean
   update: (patch: object) => void
@@ -32,12 +32,12 @@ interface FeaturesState {
   save: () => void
 }
 
-function makeStore(props: FeaturesProps) {
-  const features = props.features
+function makeStore(props: StrategyProps) {
+  const strategy = props.strategy
   const onSave = props.onSave || noop
-  return create<FeaturesState>((set, get) => ({
-    next: cloneDeep(features),
-    prev: features,
+  return create<StrategyState>((set, get) => ({
+    next: cloneDeep(strategy),
+    prev: strategy,
     onSave,
     isPreview: false,
     isUpdated: false,
@@ -61,8 +61,8 @@ function makeStore(props: FeaturesProps) {
   }))
 }
 
-const { Provider, useStore } = createContext<FeaturesState>()
-export default function Features(props: FeaturesProps) {
+const { Provider, useStore } = createContext<StrategyState>()
+export default function Strategy(props: StrategyProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Editor />
@@ -77,87 +77,98 @@ function Editor() {
   return (
     <Grid container>
       <Grid item xs={3}>
-        <Layout />
+        <General />
       </Grid>
       <Grid item xs={3}>
-        <Dialect />
+        <Field />
       </Grid>
       <Grid item xs={3}>
-        <Control />
+        <Schema />
       </Grid>
     </Grid>
   )
 }
 
 function Preview() {
-  const features = useStore((state) => state.next)
+  const strategy = useStore((state) => state.next)
   return (
     <pre>
-      <code>{JSON.stringify(features, null, 2)}</code>
+      <code>{JSON.stringify(strategy, null, 2)}</code>
     </pre>
   )
 }
 
-function Layout() {
-  const layout = useStore((state) => state.next.layout)
+function General() {
+  const strategy = useStore((state) => state.next)
   const update = useStore((state) => state.update)
   return (
     <FormControl>
-      <Typography variant="h6">Layout</Typography>
+      <Typography variant="h6">General</Typography>
+      <TextField
+        type="number"
+        label="Buffer Size"
+        inputProps={{ min: 0, step: 10000 }}
+        value={strategy.bufferSize}
+        onChange={(ev) => update({ bufferSize: parseInt(ev.target.value) })}
+        margin="normal"
+      />
+      <TextField
+        type="number"
+        label="Sample Size"
+        inputProps={{ min: 0, step: 100 }}
+        value={strategy.sampleSize}
+        onChange={(ev) => update({ sampleSize: parseInt(ev.target.value) })}
+        margin="normal"
+      />
+    </FormControl>
+  )
+}
+
+function Field() {
+  const strategy = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
+  return (
+    <FormControl>
+      <Typography variant="h6">Field</Typography>
+      <TextField
+        label="Type"
+        margin="normal"
+        value={strategy.fieldType}
+        onChange={(ev) => update({ fieldType: ev.target.value })}
+      />
+      <TextField
+        label="Names"
+        margin="normal"
+        value={(strategy.fieldNames || []).join(',')}
+        onChange={(ev) => update({ fieldNames: ev.target.value.split(',') })}
+      />
+    </FormControl>
+  )
+}
+
+function Schema() {
+  const strategy = useStore((state) => state.next)
+  const update = useStore((state) => state.update)
+  return (
+    <FormControl>
+      <Typography variant="h6">Schema</Typography>
       <TextField
         select
-        margin="normal"
-        label="Header"
-        value={layout.header ? 'yes' : 'no'}
-        onChange={(ev) =>
-          update({ layout: { ...layout, header: ev.target.value === 'yes' } })
-        }
+        label="Sync"
+        value={strategy.schemaSync ? 'yes' : 'no'}
+        onChange={(ev) => update({ schemaSync: ev.target.value === 'yes' })}
         sx={{ width: '30ch' }}
+        margin="normal"
       >
         <MenuItem value={'yes'}>Yes</MenuItem>
         <MenuItem value={'no'}>No</MenuItem>
       </TextField>
-      <TextField
-        label="Header Rows"
-        margin="normal"
-        value={(layout.headerRows || []).join(',')}
-        onChange={(ev) =>
-          update({ layout: { ...layout, headerRows: ev.target.value.split(',') } })
-        }
-      />
-    </FormControl>
-  )
-}
-
-// TODO: handle different formats
-function Dialect() {
-  const dialect = useStore((state) => state.next.dialect)
-  const update = useStore((state) => state.update)
-  return (
-    <FormControl>
-      <Typography variant="h6">Dialect</Typography>
-      <TextField label="Code" disabled margin="normal" defaultValue={dialect.code} />
-      <TextField
-        label="Delimiter"
-        margin="normal"
-        value={dialect.delimiter}
-        onChange={(ev) => update({ dialect: { ...dialect, delimiter: ev.target.value } })}
-      />
-    </FormControl>
-  )
-}
-
-function Control() {
-  return (
-    <FormControl>
-      <Typography variant="h6">Control</Typography>
-      <TextField label="Code" disabled margin="normal" defaultValue={'local'} />
     </FormControl>
   )
 }
 
 function Actions() {
-  const dialect = useStore((state) => state.next)
+  const strategy = useStore((state) => state.next)
   const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
   const preview = useStore((state) => state.preview)
@@ -169,8 +180,8 @@ function Actions() {
       <Stack spacing={2} direction="row" sx={{ pl: 0 }}>
         <Button
           variant="contained"
-          download="features.json"
-          href={helpers.exportDescriptor(dialect)}
+          download="strategy.json"
+          href={helpers.exportDescriptor(strategy)}
         >
           Export
         </Button>

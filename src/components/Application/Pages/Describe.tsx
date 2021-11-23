@@ -4,18 +4,18 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Resource from '../../Resource'
-import Detector from '../../Detector'
-import Features from '../../Features'
+import Strategy from '../../Strategy'
+import Dialect from '../../Dialect'
 import Schema from '../../Schema'
 import { useStore } from '../store'
 
 export default function Describe() {
   const [value, setValue] = React.useState(0)
-  const detector = useStore((state) => state.detector)
+  const strategy = useStore((state) => state.strategy)
   const resource = useStore((state) => state.resource)
-  const updateDetector = useStore((state) => state.updateDetector)
+  const updateStrategy = useStore((state) => state.updateStrategy)
   const updateResource = useStore((state) => state.updateResource)
-  if (!detector || !resource) return null
+  if (!strategy || !resource) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -26,8 +26,8 @@ export default function Describe() {
         >
           <Tab label="Resource" {...a11yProps(0)} />
           <Tab label="Schema" {...a11yProps(1)} />
-          <Tab label="Features" {...a11yProps(2)} />
-          <Tab label="Detector" {...a11yProps(3)} />
+          <Tab label="Dialect" {...a11yProps(2)} />
+          <Tab label="Strategy" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -43,17 +43,13 @@ export default function Describe() {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Features
-          features={{
-            layout: resource.layout,
-            dialect: resource.dialect,
-            control: resource.control,
-          }}
-          onSave={(features) => updateResource(features)}
+        <Dialect
+          dialect={resource.dialect}
+          onSave={(dialect) => updateResource({ dialect })}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Detector detector={detector} onSave={(detector) => updateDetector(detector)} />
+        <Strategy strategy={strategy} onSave={(strategy) => updateStrategy(strategy)} />
       </TabPanel>
     </Box>
   )

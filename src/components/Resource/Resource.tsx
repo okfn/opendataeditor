@@ -255,7 +255,7 @@ function Help() {
           The Data Resource format describes a data resource such as an individual file or
           data table. The essence of a Data Resource is a path to the data file it
           describes. A range of other properties can be declared to provide a richer set
-          of metadata including Table Schema for tabular data and File Features.
+          of metadata including Table Schema for tabular data and File Dialect.
         </Typography>
       </CardContent>
       <CardActions sx={{ pt: 0 }}>
