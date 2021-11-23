@@ -11,6 +11,6 @@ const Template: Story<Parameters<typeof Strategy>[0]> = (args) => <Strategy {...
 
 export const Default = Template.bind({})
 Default.args = {
-  strategy: { bufferSize: 10000, sampleSize: 100 },
+  descriptor: { bufferSize: 10000, sampleSize: 100 },
   onSave: (strategy: any) => console.log(strategy),
 }

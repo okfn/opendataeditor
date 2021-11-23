@@ -39,3 +39,4 @@
 
 - protect users from losing changes by selecting another tab
 - react on changes like - re-run describe / update stats / etc
+- extract re-usable Metadata/Descriptor components (actions/columns/etc)

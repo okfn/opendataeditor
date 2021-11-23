@@ -44,8 +44,8 @@ export default function Describe() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Dialect
-          dialect={resource.dialect}
-          onSave={(dialect) => updateResource({ dialect })}
+          descriptor={resource.dialect}
+          onCommit={(dialect) => updateResource({ dialect })}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>

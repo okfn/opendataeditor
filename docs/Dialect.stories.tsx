@@ -11,7 +11,7 @@ const Template: Story<Parameters<typeof Dialect>[0]> = (args) => <Dialect {...ar
 
 export const Default = Template.bind({})
 Default.args = {
-  dialect: {
+  descriptor: {
     header: true,
     headerRows: [1],
     delimiter: ',',
