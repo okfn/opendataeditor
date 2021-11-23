@@ -22,8 +22,10 @@
 + proper JSON/YAML export
 + proper JSON/YAML preview
 + implement import
++ rename dialect/strategy
 - improve detector
-- improve dialect (rename from features)
+- improve dialect
+- improve schema
 - improve listing UIs
 - don't change page on file upload
 - implement CSV/EXCEL export
