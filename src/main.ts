@@ -3,4 +3,4 @@ import * as settings from './settings'
 
 // Main
 
-server.start({ port: settings.PORT })
+server.start({ port: settings.DEFAULT_PORT })

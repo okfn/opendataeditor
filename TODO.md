@@ -22,6 +22,8 @@
 + proper JSON/YAML export
 + proper JSON/YAML preview
 + implement import
+- improve detector
+- improve dialect (rename from features)
 - improve listing UIs
 - don't change page on file upload
 - implement CSV/EXCEL export
@@ -30,3 +32,8 @@
 - fix second time import doesn't work
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io
+
+## MVP
+
+- protect users from losing changes by selecting another tab
+- react on changes like - re-run describe / update stats / etc

@@ -1,10 +1,22 @@
-export const PORT = 7070
+// Genearl
+
+export const FORMATS = ['csv', 'xlsx']
+export const HASHINGS = ['md5', 'sha256']
+export const ENCODINGS = ['utf-8', 'iso-8859-1']
+
+// Defaults
+
+export const DEFAULT_PORT = 7070
+export const DEFAULT_EXPORT_FORMAT = 'json'
+
+// Others
+
 export const STEPS = [
   {
     label: 'Describe',
     page: 'describe',
     description:
-      "You can infer, edit and save metadata of your data tables. It's a first step for ensuring data quality and usability.",
+      "You can infer, edit and save metadata of your data tables. It's a first step for ensuring data quality and usability. You can use this mode in isolation just e.g. uploading a file, editing a schema, and exporting it. Another option is to commit changes globally to be used in extract, validate, and transform modes.",
   },
   {
     label: 'Extract',

@@ -9,6 +9,7 @@ import capitalize from 'lodash/capitalize'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
@@ -18,6 +19,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { IResource } from '../../interfaces'
+import * as settings from '../../settings'
 
 export interface ResourceProps {
   descriptor: IResource
@@ -30,7 +32,9 @@ interface ResourceState {
   checkpoint: IResource
   onCommit: (descriptor: IResource) => void
   onRevert: (descriptor: IResource) => void
+  // TODO: handle all the state in previewFormat?
   isPreview?: boolean
+  // TODO: use deep equality check instead of the flag
   isUpdated?: boolean
   exportFormat: string
   exporter: () => void
@@ -47,34 +51,27 @@ function makeStore(props: ResourceProps) {
     checkpoint: cloneDeep(props.descriptor),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
-    // TODO: move json to settings
-    exportFormat: 'json',
+    exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
       const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
       FileSaver.saveAs(blob, `${descriptor.name}.resource.${exportFormat}`)
-      // TODO: move json to settings
-      set({ exportFormat: 'json', isPreview: false })
+      set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
     },
     importer: async (file) => {
       const text = (await file.text()).trim()
       const isYaml = !text.startsWith('{')
-      // TODO: handle errors
-      // TODO: validate descriptor
+      // TODO: handle errors and validate descriptor
       const descriptor = isYaml ? yaml.load(text) : JSON.parse(text)
-      set({ descriptor })
+      set({ descriptor, isUpdated: true })
     },
     preview: (format) => {
-      const { exportFormat, isPreview } = get()
-      // TODO: review the logic
-      if (format !== exportFormat || !isPreview) {
-        set({ exportFormat: format, isPreview: true })
-      } else {
-        // TODO: move json to settings
-        set({ exportFormat: 'json', isPreview: false })
-      }
+      let { exportFormat, isPreview } = get()
+      isPreview = !isPreview || exportFormat !== format
+      exportFormat = isPreview ? format : settings.DEFAULT_EXPORT_FORMAT
+      set({ exportFormat, isPreview })
     },
     update: (patch) => {
       const { descriptor } = get()
@@ -109,9 +106,6 @@ function Editor() {
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
-        <Help />
-      </Grid>
-      <Grid item xs={3}>
         <General />
       </Grid>
       <Grid item xs={3}>
@@ -119,6 +113,9 @@ function Editor() {
       </Grid>
       <Grid item xs={3}>
         <Stats />
+      </Grid>
+      <Grid item xs={3}>
+        <Help />
       </Grid>
     </Grid>
   )
@@ -135,31 +132,6 @@ function Preview() {
         <code>{text}</code>
       </pre>
     </Box>
-  )
-}
-
-function Help() {
-  return (
-    <Card variant="outlined" sx={{ height: 'calc(100% - 8px)' }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Help
-        </Typography>
-        <Typography variant="h5" component="div">
-          Resource
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          describe
-        </Typography>
-        <Typography variant="body2">
-          Frictionless is a framework to describe, extract, validate, and transform
-          tabular data in Python.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
   )
 }
 
@@ -201,23 +173,47 @@ function Details() {
       <Typography variant="h6">Details</Typography>
       <TextField label="Scheme" margin="normal" disabled value={descriptor.scheme} />
       <TextField
+        select
         label="Format"
-        margin="normal"
         value={descriptor.format}
         onChange={(ev) => update({ format: ev.target.value })}
-      />
-      <TextField
-        label="Hashing"
         margin="normal"
+        fullWidth
+      >
+        {settings.FORMATS.map((format) => (
+          <MenuItem key={format} value={format}>
+            {format}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        select
+        label="Hashing"
         value={descriptor.hashing}
         onChange={(ev) => update({ hashing: ev.target.value })}
-      />
-      <TextField
-        label="Encoding"
         margin="normal"
+        fullWidth
+      >
+        {settings.HASHINGS.map((hashing) => (
+          <MenuItem key={hashing} value={hashing}>
+            {hashing}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        select
+        label="Encoding"
         value={descriptor.encoding}
         onChange={(ev) => update({ encoding: ev.target.value })}
-      />
+        margin="normal"
+        fullWidth
+      >
+        {settings.ENCODINGS.map((encoding) => (
+          <MenuItem key={encoding} value={encoding}>
+            {encoding}
+          </MenuItem>
+        ))}
+      </TextField>
     </FormControl>
   )
 }
@@ -242,6 +238,40 @@ function Stats() {
   )
 }
 
+function Help() {
+  return (
+    <Card variant="outlined" sx={{ height: 'calc(100% - 8px)' }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Help
+        </Typography>
+        <Typography variant="h5" component="div">
+          Resource
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          describe
+        </Typography>
+        <Typography variant="body2">
+          The Data Resource format describes a data resource such as an individual file or
+          data table. The essence of a Data Resource is a path to the data file it
+          describes. A range of other properties can be declared to provide a richer set
+          of metadata including Table Schema for tabular data and File Features.
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ pt: 0 }}>
+        <Button
+          size="small"
+          component="a"
+          target="_blank"
+          href="https://framework.frictionlessdata.io/docs/guides/describing-data#describing-a-resource"
+        >
+          Learn More
+        </Button>
+      </CardActions>
+    </Card>
+  )
+}
+
 function Actions() {
   const isPreview = useStore((state) => state.isPreview)
   const isUpdated = useStore((state) => state.isUpdated)
@@ -251,8 +281,8 @@ function Actions() {
   const preview = useStore((state) => state.preview)
   const commit = useStore((state) => state.commit)
   const revert = useStore((state) => state.revert)
-  const jsonColor = isPreview && exportFormat === 'json' ? 'warning' : 'info'
-  const yamlColor = isPreview && exportFormat === 'yaml' ? 'warning' : 'info'
+  const isJsonPreview = isPreview && exportFormat === 'json'
+  const isYamlPreview = isPreview && exportFormat === 'yaml'
   return (
     <Box>
       <Divider sx={{ mt: 2, mb: 3 }} />
@@ -264,13 +294,25 @@ function Actions() {
             aria-label="export"
             sx={{ width: '100%' }}
           >
-            <Button onClick={exporter} sx={{ width: '60%' }}>
+            <Button
+              title={`Export descriptor as ${exportFormat.toUpperCase()}`}
+              onClick={exporter}
+              sx={{ width: '60%' }}
+            >
               Export
             </Button>
-            <Button onClick={() => preview('json')} color={jsonColor}>
+            <Button
+              title="Toggle JSON preview"
+              onClick={() => preview('json')}
+              color={isJsonPreview ? 'warning' : 'info'}
+            >
               JSON
             </Button>
-            <Button onClick={() => preview('yaml')} color={yamlColor}>
+            <Button
+              title="Toggle YAML preview"
+              onClick={() => preview('yaml')}
+              color={isYamlPreview ? 'warning' : 'info'}
+            >
               YAML
             </Button>
           </ButtonGroup>
@@ -278,20 +320,29 @@ function Actions() {
         <Grid item xs={3}>
           <label htmlFor="import-button">
             <input
-              id="import-button"
               type="file"
+              id="import-button"
+              accept=".json, .yaml"
               style={{ display: 'none' }}
-              onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                ev.target.files ? importer(ev.target.files[0]) : null
-              }
+              onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                if (ev.target.files) importer(ev.target.files[0])
+                ev.target.value = ''
+              }}
             />
-            <Button variant="contained" component="span" color="info" fullWidth>
+            <Button
+              title="Import descriptor as JSON or YAML"
+              variant="contained"
+              component="span"
+              color="info"
+              fullWidth
+            >
               Import
             </Button>
           </label>
         </Grid>
         <Grid item xs={3}>
           <Button
+            title="Commit changes to use them further"
             variant="contained"
             disabled={!isUpdated}
             onClick={commit}
@@ -303,6 +354,7 @@ function Actions() {
         </Grid>
         <Grid item xs={3}>
           <Button
+            title="Revert changes to the initial state"
             variant="contained"
             disabled={!isUpdated}
             onClick={revert}
