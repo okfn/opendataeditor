@@ -1,6 +1,6 @@
 # TODO
 
-## Demo (15.11-16.11)
+## Demo (16.11)
 
 + implement Inquiry component draft
 + implement Pipeline component draft
@@ -14,7 +14,7 @@
 + create v1 issues (electron integration + docs/tests/issues)
 + finish support for fk/check/step descriptors
 
-## Initial (17.11-20.11)
+## Initial (28.11)
 
 + rebase global app state on zustand
 + finish rebasing on a new store/client/server
@@ -23,10 +23,11 @@
 + proper JSON/YAML preview
 + implement import
 + rename dialect/strategy
-- improve detector
-- improve dialect
-- improve schema
-- improve listing UIs
++ improve detector
++ improve dialect
+- improve schema (including listing UIs)
+- improve inquiry
+- improve pipeline
 - don't change page on file upload
 - implement CSV/EXCEL export
 - keep selected tab on a page
@@ -35,7 +36,7 @@
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io
 
-## MVP
+## MVP (19.12)
 
 - protect users from losing changes by selecting another tab
 - react on changes like - re-run describe / update stats / etc
