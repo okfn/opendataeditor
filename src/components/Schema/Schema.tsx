@@ -8,7 +8,7 @@ import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
-import SettingsIcon from '@mui/icons-material/Settings'
+// import SettingsIcon from '@mui/icons-material/Settings'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
@@ -192,7 +192,11 @@ function General() {
         endIcon={page === 'foreignKeys' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('foreignKeys')}
         sx={{
-          '&:hover': { textDecoration: 'underline' },
+          '&:hover': {
+            textDecoration: 'underline',
+            borderColor: '#333',
+            backgroundColor: 'white',
+          },
           color: '#777',
           borderColor: '#ccc',
           textDecoration: page === 'foreignKeys' ? 'underline' : 'normal',
@@ -212,7 +216,11 @@ function General() {
         endIcon={page === 'fields' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('fields')}
         sx={{
-          '&:hover': { textDecoration: 'underline' },
+          '&:hover': {
+            textDecoration: 'underline',
+            borderColor: '#333',
+            backgroundColor: 'white',
+          },
           color: '#777',
           borderColor: '#ccc',
           textDecoration: page === 'fields' ? 'underline' : 'normal',
