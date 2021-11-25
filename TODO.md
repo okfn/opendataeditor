@@ -28,6 +28,7 @@
 - improve schema (including listing UIs)
 - improve inquiry
 - improve pipeline
+- add scenarios (help) to the home page
 - don't change page on file upload
 - implement CSV/EXCEL export
 - keep selected tab on a page
