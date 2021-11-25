@@ -6,6 +6,8 @@ import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import SettingsIcon from '@mui/icons-material/Settings'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
@@ -187,9 +189,12 @@ function General() {
         size="large"
         color="info"
         variant="outlined"
-        endIcon={<SettingsIcon />}
+        endIcon={page === 'foreignKeys' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('foreignKeys')}
         sx={{
+          '&:hover': { textDecoration: 'underline' },
+          color: '#777',
+          borderColor: '#ccc',
           textDecoration: page === 'foreignKeys' ? 'underline' : 'normal',
           justifyContent: 'space-between',
           textTransform: 'initial',
@@ -204,9 +209,12 @@ function General() {
         size="large"
         color="info"
         variant="outlined"
-        endIcon={<SettingsIcon />}
+        endIcon={page === 'fields' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('fields')}
         sx={{
+          '&:hover': { textDecoration: 'underline' },
+          color: '#777',
+          borderColor: '#ccc',
           textDecoration: page === 'fields' ? 'underline' : 'normal',
           justifyContent: 'space-between',
           textTransform: 'initial',
@@ -229,9 +237,30 @@ function ForeignKeys() {
 }
 
 function Fields() {
+  const descriptor = useStore((state) => state.descriptor)
   return (
     <FormControl fullWidth>
       <Typography variant="h6">Fields</Typography>
+      <Box>
+        {descriptor.fields.map((field) => (
+          <Button
+            fullWidth
+            size="large"
+            color="info"
+            variant="outlined"
+            endIcon={field.type.toUpperCase()}
+            key={field.name}
+            sx={{
+              justifyContent: 'space-between',
+              textTransform: 'initial',
+              p: [2, 2],
+              mt: 2,
+            }}
+          >
+            {field.name}
+          </Button>
+        ))}
+      </Box>
     </FormControl>
   )
 }
