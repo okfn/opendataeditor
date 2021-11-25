@@ -38,8 +38,8 @@ export default function Describe() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Schema
-          schema={resource.schema}
-          onSave={(schema) => updateResource({ schema })}
+          descriptor={resource.schema}
+          onCommit={(schema) => updateResource({ schema })}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
