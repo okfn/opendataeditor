@@ -11,9 +11,12 @@ const Template: Story<Parameters<typeof Schema>[0]> = (args) => <Schema {...args
 
 export const Default = Template.bind({})
 Default.args = {
-  schema: {
-    fields: [{ name: 'id', type: 'integer', format: 'default' }],
+  descriptor: {
+    fields: [
+      { name: 'id', type: 'integer', format: 'default' },
+      { name: 'name', type: 'string', format: 'default' },
+    ],
     missingValues: [''],
   },
-  onSave: (schema: any) => console.log(schema),
+  onCommit: (schema: any) => console.log(schema),
 }

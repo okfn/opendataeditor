@@ -8,6 +8,7 @@ import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
@@ -143,11 +144,19 @@ function General() {
         onChange={(ev) => update({ missingValues: ev.target.value.split(',') })}
       />
       <TextField
+        select
         label="Primary Key"
         margin="normal"
-        value={(descriptor.primaryKey || []).join(',')}
-        onChange={(ev) => update({ primaryKey: ev.target.value.split(',') })}
-      />
+        value={descriptor.primaryKey || []}
+        onChange={(ev) => update({ primaryKey: ev.target.value })}
+        SelectProps={{ multiple: true }}
+      >
+        {descriptor.fields.map((field) => (
+          <MenuItem key={field.name} value={field.name}>
+            {field.name}
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         label="Foreign Keys"
         margin="normal"
