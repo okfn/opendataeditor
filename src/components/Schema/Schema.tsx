@@ -134,15 +134,30 @@ function Preview() {
 function General() {
   const descriptor = useStore((state) => state.descriptor)
   const update = useStore((state) => state.update)
+  // TODO: allow free input instead of predefined list
+  const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
+  const encodeMissingValue = (value: string) => (value === '' ? '""' : value)
+  const decodeMissingValue = (value: string) => (value === '""' ? '' : value)
   return (
     <FormControl fullWidth>
       <Typography variant="h6">General</Typography>
       <TextField
+        select
         label="Missing Values"
         margin="normal"
-        value={descriptor.missingValues.join(',')}
-        onChange={(ev) => update({ missingValues: ev.target.value.split(',') })}
-      />
+        value={descriptor.missingValues.map(encodeMissingValue) || []}
+        onChange={(ev) =>
+          // @ts-ignore
+          update({ missingValues: ev.target.value.map(decodeMissingValue) })
+        }
+        SelectProps={{ multiple: true }}
+      >
+        {MISSING_VALUES.map((value) => (
+          <MenuItem key={value} value={value}>
+            {value}
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         select
         label="Primary Key"
@@ -191,10 +206,10 @@ function Help() {
           describe
         </Typography>
         <Typography variant="body2">
-          Table Schema is a specification for providing a &quote;schema&quote; (similar to
-          a database schema) for tabular data. This information includes the expected data
-          type for each value in a column , constraints on the value , and the expected
-          format of the data.
+          Table Schema is a specification for providing a schema (similar to a database
+          schema) for tabular data. This information includes the expected data type for
+          each value in a column , constraints on the value , and the expected format of
+          the data.
         </Typography>
       </CardContent>
       <CardActions sx={{ pt: 0 }}>
