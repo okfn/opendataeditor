@@ -6,6 +6,7 @@ import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import TextField from '@mui/material/TextField'
+import SettingsIcon from '@mui/icons-material/Settings'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
@@ -27,6 +28,7 @@ export interface SchemaProps {
 }
 
 interface SchemaState {
+  page: string
   descriptor: ISchema
   checkpoint: ISchema
   onCommit: (descriptor: ISchema) => void
@@ -36,6 +38,7 @@ interface SchemaState {
   // TODO: use deep equality check instead of the flag
   isUpdated?: boolean
   exportFormat: string
+  setPage: (page: string) => void
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
@@ -46,11 +49,15 @@ interface SchemaState {
 
 function makeStore(props: SchemaProps) {
   return create<SchemaState>((set, get) => ({
+    page: 'fields',
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
+    setPage: (page) => {
+      set({ page })
+    },
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
@@ -100,6 +107,7 @@ export default function Schema(props: SchemaProps) {
 }
 
 function Editor() {
+  const page = useStore((state) => state.page)
   const isPreview = useStore((state) => state.isPreview)
   if (isPreview) return <Preview />
   return (
@@ -108,7 +116,7 @@ function Editor() {
         <General />
       </Grid>
       <Grid item xs={6}>
-        <Fields />
+        {page === 'fields' ? <Fields /> : <ForeignKeys />}
       </Grid>
       <Grid item xs={3}>
         <Help />
@@ -132,7 +140,9 @@ function Preview() {
 }
 
 function General() {
+  const page = useStore((state) => state.page)
   const descriptor = useStore((state) => state.descriptor)
+  const setPage = useStore((state) => state.setPage)
   const update = useStore((state) => state.update)
   // TODO: allow free input instead of predefined list
   const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
@@ -172,14 +182,48 @@ function General() {
           </MenuItem>
         ))}
       </TextField>
-      <TextField
-        label="Foreign Keys"
-        margin="normal"
-        value=""
-        onChange={() => {}}
-        multiline
-      />
-      <TextField label="Fields" margin="normal" value="" onChange={() => {}} multiline />
+      <Button
+        fullWidth
+        size="large"
+        color="info"
+        variant="outlined"
+        endIcon={<SettingsIcon />}
+        onClick={() => setPage('foreignKeys')}
+        sx={{
+          textDecoration: page === 'foreignKeys' ? 'underline' : 'normal',
+          justifyContent: 'space-between',
+          textTransform: 'initial',
+          p: [2, 2],
+          mt: 2,
+        }}
+      >
+        Foreign Keys
+      </Button>
+      <Button
+        fullWidth
+        size="large"
+        color="info"
+        variant="outlined"
+        endIcon={<SettingsIcon />}
+        onClick={() => setPage('fields')}
+        sx={{
+          textDecoration: page === 'fields' ? 'underline' : 'normal',
+          justifyContent: 'space-between',
+          textTransform: 'initial',
+          p: [2, 2],
+          mt: 2,
+        }}
+      >
+        Fields
+      </Button>
+    </FormControl>
+  )
+}
+
+function ForeignKeys() {
+  return (
+    <FormControl fullWidth>
+      <Typography variant="h6">Foreign Keys</Typography>
     </FormControl>
   )
 }
