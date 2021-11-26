@@ -3,15 +3,16 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Report from '../../Report'
-import Inquiry from '../../Inquiry'
-import { useStore } from '../store'
+import Table from '../Table'
+import Query from '../Query'
+import { useStore } from './store'
 
-export default function Validate() {
+export default function Extract() {
   const [value, setValue] = React.useState(0)
-  const inquiry = useStore((state) => state.inquiry)
-  const report = useStore((state) => state.report)
-  if (!inquiry || !report) return null
+  const text = useStore((state) => state.text)
+  const rows = useStore((state) => state.rows)
+  const resource = useStore((state) => state.resource)
+  if (!resource || !text || !rows) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -20,15 +21,15 @@ export default function Validate() {
           onChange={(_, newValue) => setValue(newValue)}
           aria-label="basic tabs example"
         >
-          <Tab label="Report" {...a11yProps(0)} />
-          <Tab label="Inquiry" {...a11yProps(1)} />
+          <Tab label="Table" {...a11yProps(0)} />
+          <Tab label="Query" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Report report={report} />
+        <Table schema={resource.schema} rows={rows} text={text} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Inquiry inquiry={inquiry} />
+        <Query />
       </TabPanel>
     </Box>
   )

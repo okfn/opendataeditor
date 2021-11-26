@@ -3,9 +3,9 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Pipeline from '../../Pipeline'
-import Status from '../../Status'
-import { useStore } from '../store'
+import Pipeline from '../Pipeline'
+import Status from '../Status'
+import { useStore } from './store'
 
 export default function Transform() {
   const [value, setValue] = React.useState(0)

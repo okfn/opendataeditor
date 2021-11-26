@@ -1,10 +1,10 @@
 import * as React from 'react'
-import Home from './Pages/Home'
-import Config from './Pages/Config'
-import Describe from './Pages/Describe'
-import Extract from './Pages/Extract'
-import Validate from './Pages/Validate'
-import Transform from './Pages/Transform'
+import Home from './Home'
+import Config from './Config'
+import Describe from './Describe'
+import Extract from './Extract'
+import Validate from './Validate'
+import Transform from './Transform'
 import { useStore } from './store'
 
 export default function Page() {
