@@ -35,6 +35,8 @@
 - add clear input file button
 - fix second time import doesn't work
 - add help text to field editing (on active)
+- style scroll for listings
+- move strategy to settings (switch dialect/schema)?
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io
 

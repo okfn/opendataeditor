@@ -236,7 +236,7 @@ function Fields() {
           onChange={(ev) => setSearchQuery(ev.target.value)}
         />
       </Typography>
-      <Box>
+      <Box sx={{ maxHeight: '310px', overflowY: 'auto' }}>
         {fields.map((field) => (
           <Button
             fullWidth
