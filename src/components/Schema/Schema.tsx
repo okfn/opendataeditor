@@ -5,6 +5,7 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
+import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
@@ -40,7 +41,9 @@ interface SchemaState {
   // TODO: use deep equality check instead of the flag
   isUpdated?: boolean
   exportFormat: string
+  searchQuery?: string
   setPage: (page: string) => void
+  setSearchQuery: (searchQuery: string) => void
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
@@ -57,9 +60,8 @@ function makeStore(props: SchemaProps) {
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
-    setPage: (page) => {
-      set({ page })
-    },
+    setPage: (page) => set({ page }),
+    setSearchQuery: (searchQuery) => set({ searchQuery }),
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
@@ -184,54 +186,26 @@ function General() {
           </MenuItem>
         ))}
       </TextField>
-      <Button
+      <Switch
         fullWidth
         size="large"
         color="info"
         variant="outlined"
         endIcon={page === 'foreignKeys' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('foreignKeys')}
-        sx={{
-          '&:hover': {
-            textDecoration: 'underline',
-            borderColor: '#333',
-            backgroundColor: 'white',
-          },
-          color: '#777',
-          borderColor: '#ccc',
-          textDecoration: page === 'foreignKeys' ? 'underline' : 'normal',
-          justifyContent: 'space-between',
-          textTransform: 'initial',
-          p: [2, 2],
-          mt: 2,
-        }}
       >
         Foreign Keys
-      </Button>
-      <Button
+      </Switch>
+      <Switch
         fullWidth
         size="large"
         color="info"
         variant="outlined"
         endIcon={page === 'fields' ? <ArrowRightIcon /> : <ArrowDropDownIcon />}
         onClick={() => setPage('fields')}
-        sx={{
-          '&:hover': {
-            textDecoration: 'underline',
-            borderColor: '#333',
-            backgroundColor: 'white',
-          },
-          color: '#777',
-          borderColor: '#ccc',
-          textDecoration: page === 'fields' ? 'underline' : 'normal',
-          justifyContent: 'space-between',
-          textTransform: 'initial',
-          p: [2, 2],
-          mt: 2,
-        }}
       >
         Fields
-      </Button>
+      </Switch>
     </FormControl>
   )
 }
@@ -246,11 +220,24 @@ function ForeignKeys() {
 
 function Fields() {
   const descriptor = useStore((state) => state.descriptor)
+  const searchQuery = useStore((state) => state.searchQuery)
+  const setSearchQuery = useStore((state) => state.setSearchQuery)
+  const fields = searchQuery
+    ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
+    : descriptor.fields
   return (
     <FormControl fullWidth>
-      <Typography variant="h6">Fields</Typography>
+      <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        Fields
+        <Search
+          type="text"
+          placeholder="Search..."
+          value={searchQuery || ''}
+          onChange={(ev) => setSearchQuery(ev.target.value)}
+        />
+      </Typography>
       <Box>
-        {descriptor.fields.map((field) => (
+        {fields.map((field) => (
           <Button
             fullWidth
             size="large"
@@ -403,3 +390,26 @@ function Actions() {
     </Box>
   )
 }
+
+const Switch = styled(Button)(({ theme }) => ({
+  '&:hover': {
+    borderColor: '#333',
+    backgroundColor: 'white',
+  },
+  color: '#777',
+  borderColor: '#ccc',
+  justifyContent: 'space-between',
+  textTransform: 'initial',
+  padding: [theme.spacing(2), theme.spacing(2)],
+  marginTop: theme.spacing(2),
+}))
+
+const Search = styled('input')({
+  borderRadius: '4px',
+  border: 'solid 1px #ccc',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+  '&:focus': {
+    outline: 'none',
+  },
+})
