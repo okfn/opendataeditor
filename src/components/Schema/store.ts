@@ -1,4 +1,5 @@
 import create from 'zustand'
+import produce from 'immer'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
@@ -20,15 +21,16 @@ interface SchemaState {
   isUpdated?: boolean
   exportFormat: string
   searchQuery?: string
-  elementIndex?: number
+  selectedIndex: number
   isGridView?: boolean
 }
 
 interface SchemaLogic {
   setPage: (page: string) => void
   setSearchQuery: (searchQuery: string) => void
-  setElementIndex: (index: number) => void
+  setSelectedIndex: (index: number) => void
   toggleIsGridView: () => void
+  updateField: (patch: object) => void
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
@@ -45,13 +47,24 @@ export function makeStore(props: SchemaProps) {
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
+    selectedIndex: 0,
   }
   return create<SchemaState & SchemaLogic>((set, get) => ({
     ...initialState,
     setPage: (page) => set({ page }),
     setSearchQuery: (searchQuery) => set({ searchQuery }),
     toggleIsGridView: () => set({ isGridView: !get().isGridView }),
-    setElementIndex: (elementIndex) => set({ elementIndex }),
+    setSelectedIndex: (selectedIndex) => set({ selectedIndex }),
+    updateField: (patch) => {
+      const { descriptor, selectedIndex } = get()
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        descriptor.fields[selectedIndex] = {
+          ...descriptor.fields[selectedIndex],
+          ...patch,
+        }
+      })
+      set({ descriptor: newDescriptor, isUpdated: true })
+    },
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'

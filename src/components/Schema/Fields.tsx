@@ -14,7 +14,7 @@ export default function Fields() {
   const setSearchQuery = useStore((state) => state.setSearchQuery)
   const isGridView = useStore((state) => state.isGridView)
   const toggleIsGridView = useStore((state) => state.toggleIsGridView)
-  const setElementIndex = useStore((state) => state.setElementIndex)
+  const setSelectedIndex = useStore((state) => state.setSelectedIndex)
   const setPage = useStore((state) => state.setPage)
   const fields = searchQuery
     ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
@@ -53,7 +53,7 @@ export default function Fields() {
             variant="outlined"
             endIcon={isGridView ? null : field.type.toUpperCase()}
             onClick={() => {
-              setElementIndex(index)
+              setSelectedIndex(index)
               setPage('field')
             }}
             key={field.name}
