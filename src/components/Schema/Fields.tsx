@@ -14,6 +14,8 @@ export default function Fields() {
   const setSearchQuery = useStore((state) => state.setSearchQuery)
   const isGridView = useStore((state) => state.isGridView)
   const toggleIsGridView = useStore((state) => state.toggleIsGridView)
+  const setElementIndex = useStore((state) => state.setElementIndex)
+  const setPage = useStore((state) => state.setPage)
   const fields = searchQuery
     ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
     : descriptor.fields
@@ -44,12 +46,16 @@ export default function Fields() {
         </IconButton>
       </Typography>
       <Box sx={{ maxHeight: '310px', overflowY: 'auto' }}>
-        {fields.map((field) => (
+        {fields.map((field, index) => (
           <Button
             size="large"
             color="info"
             variant="outlined"
             endIcon={isGridView ? null : field.type.toUpperCase()}
+            onClick={() => {
+              setElementIndex(index)
+              setPage('field')
+            }}
             key={field.name}
             sx={{
               width: isGridView ? 'inherit' : '100%',

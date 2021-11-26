@@ -20,12 +20,14 @@ interface SchemaState {
   isUpdated?: boolean
   exportFormat: string
   searchQuery?: string
+  elementIndex?: number
   isGridView?: boolean
 }
 
 interface SchemaLogic {
   setPage: (page: string) => void
   setSearchQuery: (searchQuery: string) => void
+  setElementIndex: (index: number) => void
   toggleIsGridView: () => void
   exporter: () => void
   importer: (file: File) => void
@@ -49,6 +51,7 @@ export function makeStore(props: SchemaProps) {
     setPage: (page) => set({ page }),
     setSearchQuery: (searchQuery) => set({ searchQuery }),
     toggleIsGridView: () => set({ isGridView: !get().isGridView }),
+    setElementIndex: (elementIndex) => set({ elementIndex }),
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
