@@ -26,6 +26,7 @@
 + improve detector
 + improve dialect
 - improve schema (including listing UIs)
+- improve query
 - improve inquiry
 - improve pipeline
 - add scenarios (help) to the home page

@@ -8,5 +8,5 @@ interface StatusProps {
 }
 
 export default function Status(props: StatusProps) {
-  return <Table schema={props.schema} rows={props.rows} />
+  return <Table schema={props.schema} rows={props.rows} text={''} />
 }

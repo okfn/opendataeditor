@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Table from '../../Table'
-import File from '../../File'
+import Query from '../../Query'
 import { useStore } from '../store'
 
 export default function Extract() {
@@ -22,14 +22,14 @@ export default function Extract() {
           aria-label="basic tabs example"
         >
           <Tab label="Table" {...a11yProps(0)} />
-          <Tab label="File" {...a11yProps(1)} />
+          <Tab label="Query" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Table schema={resource.schema} rows={rows} />
+        <Table schema={resource.schema} rows={rows} text={text} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <File text={text} />
+        <Query />
       </TabPanel>
     </Box>
   )

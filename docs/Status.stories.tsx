@@ -22,4 +22,5 @@ Default.args = {
     { id: 1, name: 'english' },
     { id: 2, name: '中国人' },
   ],
+  text: '1,english\n2,中国人\n',
 }
