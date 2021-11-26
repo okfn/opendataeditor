@@ -1,4 +1,4 @@
-export interface IStrategy {
+export interface IDetector {
   bufferSize: number
   sampleSize: number
   fieldType?: string

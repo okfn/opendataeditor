@@ -17,20 +17,20 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import { IStrategy } from '../../interfaces'
+import { IDetector } from '../../interfaces'
 import * as settings from '../../settings'
 
-export interface StrategyProps {
-  descriptor: IStrategy
-  onCommit?: (descriptor: IStrategy) => void
-  onRevert?: (descriptor: IStrategy) => void
+export interface DetectorProps {
+  descriptor: IDetector
+  onCommit?: (descriptor: IDetector) => void
+  onRevert?: (descriptor: IDetector) => void
 }
 
-interface StrategyState {
-  descriptor: IStrategy
-  checkpoint: IStrategy
-  onCommit: (descriptor: IStrategy) => void
-  onRevert: (descriptor: IStrategy) => void
+interface DetectorState {
+  descriptor: IDetector
+  checkpoint: IDetector
+  onCommit: (descriptor: IDetector) => void
+  onRevert: (descriptor: IDetector) => void
   // TODO: handle all the state in previewFormat?
   isPreview?: boolean
   // TODO: use deep equality check instead of the flag
@@ -44,8 +44,8 @@ interface StrategyState {
   revert: () => void
 }
 
-function makeStore(props: StrategyProps) {
-  return create<StrategyState>((set, get) => ({
+function makeStore(props: DetectorProps) {
+  return create<DetectorState>((set, get) => ({
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
     onCommit: props.onCommit || noop,
@@ -56,7 +56,7 @@ function makeStore(props: StrategyProps) {
       const isYaml = exportFormat === 'yaml'
       const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
-      FileSaver.saveAs(blob, `strategy.${exportFormat}`)
+      FileSaver.saveAs(blob, `detector.${exportFormat}`)
       set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
     },
     importer: async (file) => {
@@ -89,8 +89,8 @@ function makeStore(props: StrategyProps) {
   }))
 }
 
-const { Provider, useStore } = createContext<StrategyState>()
-export default function Strategy(props: StrategyProps) {
+const { Provider, useStore } = createContext<DetectorState>()
+export default function Detector(props: DetectorProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Editor />
@@ -228,15 +228,15 @@ function Help() {
           Help
         </Typography>
         <Typography variant="h5" component="div">
-          Strategy
+          Detector
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           describe
         </Typography>
         <Typography variant="body2">
-          The Strategy (previously known as Detector) can be used in various places within
-          the data flows. The main purpose of this class is to tweak how different aspects
-          of metadata are detected.
+          The Detector can be used in various places within the data flows. The main
+          purpose of this class is to tweak how different aspects of metadata are
+          detected.
         </Typography>
       </CardContent>
       <CardActions sx={{ pt: 0 }}>

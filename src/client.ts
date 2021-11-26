@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import Application from './components/Application'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
-import { IStrategy } from './interfaces/strategy'
+import { IDetector } from './interfaces/detector'
 import { IInquiry } from './interfaces/inquiry'
 import { IReport } from './interfaces/report'
 import { IStatus } from './interfaces/status'
@@ -18,11 +18,11 @@ export class Client {
 
   // Actions
 
-  async describe(file: File, strategy: IStrategy) {
+  async describe(file: File, detector: IDetector) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
     body.append('file', new Blob([buffer]), file.name)
-    body.append('strategy', JSON.stringify(strategy))
+    body.append('detector', JSON.stringify(detector))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/describe', payload)
     return response.json() as Promise<{ resource: IResource }>

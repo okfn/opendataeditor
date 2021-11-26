@@ -37,6 +37,7 @@
 - add help text to field editing (on active)
 - style scroll for listings
 - move strategy to settings (switch dialect/schema)?
+- report should accept descriptor instead of report
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io
 

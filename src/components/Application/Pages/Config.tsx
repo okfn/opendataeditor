@@ -3,16 +3,15 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Resource from '../../Resource'
-import Dialect from '../../Dialect'
-import Schema from '../../Schema'
+import Detector from '../../Detector'
 import { useStore } from '../store'
 
 export default function Describe() {
   const [value, setValue] = React.useState(0)
-  const resource = useStore((state) => state.resource)
-  const updateResource = useStore((state) => state.updateResource)
-  if (!resource) return null
+  const detector = useStore((state) => state.detector)
+  const updateDetector = useStore((state) => state.updateDetector)
+  // TODO: add detector to initial state
+  if (!detector) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -21,27 +20,13 @@ export default function Describe() {
           onChange={(_, newValue) => setValue(newValue)}
           aria-label="basic tabs example"
         >
-          <Tab label="Resource" {...a11yProps(0)} />
-          <Tab label="Dialect" {...a11yProps(1)} />
-          <Tab label="Schema" {...a11yProps(2)} />
+          <Tab label="Detector" {...a11yProps(0)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <Resource
-          descriptor={resource}
-          onCommit={(resource) => updateResource(resource)}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Dialect
-          descriptor={resource.dialect}
-          onCommit={(dialect) => updateResource({ dialect })}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Schema
-          descriptor={resource.schema}
-          onCommit={(schema) => updateResource({ schema })}
+      <TabPanel value={value} index={3}>
+        <Detector
+          descriptor={detector}
+          onCommit={(detector) => updateDetector(detector)}
         />
       </TabPanel>
     </Box>
