@@ -42,6 +42,7 @@
 - clean/imporve everything
 - extract tab as a library compoenent
 - deploy to secret application.frictionlessdata.io
+- second click on config should return to prev page
 
 ## MVP (19.12)
 
