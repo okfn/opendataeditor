@@ -7,11 +7,13 @@ import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
+import GridViewIcon from '@mui/icons-material/GridView'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 // import SettingsIcon from '@mui/icons-material/Settings'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
@@ -42,8 +44,10 @@ interface SchemaState {
   isUpdated?: boolean
   exportFormat: string
   searchQuery?: string
+  isGridView?: boolean
   setPage: (page: string) => void
   setSearchQuery: (searchQuery: string) => void
+  toggleIsGridView: () => void
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
@@ -62,6 +66,7 @@ function makeStore(props: SchemaProps) {
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setPage: (page) => set({ page }),
     setSearchQuery: (searchQuery) => set({ searchQuery }),
+    toggleIsGridView: () => set({ isGridView: !get().isGridView }),
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
@@ -222,30 +227,48 @@ function Fields() {
   const descriptor = useStore((state) => state.descriptor)
   const searchQuery = useStore((state) => state.searchQuery)
   const setSearchQuery = useStore((state) => state.setSearchQuery)
+  const isGridView = useStore((state) => state.isGridView)
+  const toggleIsGridView = useStore((state) => state.toggleIsGridView)
   const fields = searchQuery
     ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
     : descriptor.fields
   return (
     <FormControl fullWidth>
-      <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Typography variant="h6">
         Fields
         <Search
           type="text"
           placeholder="Search..."
           value={searchQuery || ''}
           onChange={(ev) => setSearchQuery(ev.target.value)}
+          sx={{ float: 'right', height: '30px' }}
         />
+        <IconButton
+          sx={{
+            float: 'right',
+            color: isGridView ? 'warning.main' : '#777',
+            p: 0,
+            mt: '5px',
+            mr: '10px',
+          }}
+          aria-label="Show grid"
+          title="Toggle grid view"
+          onClick={() => toggleIsGridView()}
+        >
+          <GridViewIcon />
+        </IconButton>
       </Typography>
       <Box sx={{ maxHeight: '310px', overflowY: 'auto' }}>
         {fields.map((field) => (
           <Button
-            fullWidth
             size="large"
             color="info"
             variant="outlined"
-            endIcon={field.type.toUpperCase()}
+            endIcon={isGridView ? null : field.type.toUpperCase()}
             key={field.name}
             sx={{
+              width: isGridView ? 'inherit' : '100%',
+              marginRight: isGridView ? 2 : 0,
               justifyContent: 'space-between',
               textTransform: 'initial',
               p: [2, 2],
@@ -276,8 +299,8 @@ function Help() {
         <Typography variant="body2">
           Table Schema is a specification for providing a schema (similar to a database
           schema) for tabular data. This information includes the expected data type for
-          each value in a column , constraints on the value , and the expected format of
-          the data.
+          each value in a column, constraints on the value, and the expected format of the
+          data.
         </Typography>
       </CardContent>
       <CardActions sx={{ pt: 0 }}>

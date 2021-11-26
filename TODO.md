@@ -29,6 +29,7 @@
 - improve query
 - improve inquiry
 - improve pipeline
+- rework export/preview/import buttons (use format selection)
 - add scenarios (help) to the home page
 - don't change page on file upload
 - implement CSV/EXCEL export
@@ -41,8 +42,11 @@
 - report should accept descriptor instead of report
 - clean/imporve everything
 - extract tab as a library compoenent
-- deploy to secret application.frictionlessdata.io
 - second click on config should return to prev page
+- add an ability to sort items in listings?
+- ---
+- deploy to secret application.frictionlessdata.io
+- prepare for user testing sessions
 
 ## MVP (19.12)
 
