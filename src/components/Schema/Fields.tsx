@@ -15,6 +15,7 @@ export default function Fields() {
   const isGridView = useStore((state) => state.isGridView)
   const toggleIsGridView = useStore((state) => state.toggleIsGridView)
   const setSelectedIndex = useStore((state) => state.setSelectedIndex)
+  const addField = useStore((state) => state.addField)
   const setPage = useStore((state) => state.setPage)
   const fields = searchQuery
     ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
@@ -23,6 +24,9 @@ export default function Fields() {
     <FormControl fullWidth>
       <Typography variant="h6">
         Fields
+        <Button sx={{ m: 0, p: 0, ml: 2 }} onClick={() => addField()}>
+          Add Field
+        </Button>
         <Search
           type="text"
           placeholder="Search..."
@@ -56,7 +60,7 @@ export default function Fields() {
               setSelectedIndex(index)
               setPage('field')
             }}
-            key={field.name}
+            key={index}
             sx={{
               width: isGridView ? 'inherit' : '100%',
               marginRight: isGridView ? 2 : 0,

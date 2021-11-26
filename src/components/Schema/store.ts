@@ -30,7 +30,9 @@ interface SchemaLogic {
   setSearchQuery: (searchQuery: string) => void
   setSelectedIndex: (index: number) => void
   toggleIsGridView: () => void
+  removeField: () => void
   updateField: (patch: object) => void
+  addField: () => void
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
@@ -64,6 +66,30 @@ export function makeStore(props: SchemaProps) {
         }
       })
       set({ descriptor: newDescriptor, isUpdated: true })
+    },
+    addField: () => {
+      const { descriptor } = get()
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        descriptor.fields.push({
+          name: 'newField',
+          type: 'string',
+          format: 'default',
+        })
+      })
+      const selectedIndex = newDescriptor.fields.length - 1
+      set({ descriptor: newDescriptor, selectedIndex, page: 'field', isUpdated: true })
+    },
+    removeField: () => {
+      const { descriptor, selectedIndex } = get()
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        descriptor.fields.splice(selectedIndex, 1)
+      })
+      set({
+        descriptor: newDescriptor,
+        selectedIndex: Math.max(selectedIndex - 1, 0),
+        isUpdated: true,
+        page: 'fields',
+      })
     },
     exporter: () => {
       const { descriptor, exportFormat } = get()
