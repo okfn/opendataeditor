@@ -5,13 +5,15 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
-import HelpOutline from '@mui/icons-material/HelpOutline'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
 export default function Header() {
+  const page = useStore((state) => state.page)
   const setPage = useStore((state) => state.setPage)
   const uploadFile = useStore((state) => state.uploadFile)
   return (
@@ -45,8 +47,15 @@ export default function Header() {
             </Grid>
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
-                <Button color="inherit">
-                  <HelpOutline />
+                <Button
+                  color={page === 'config' ? 'warning' : 'inherit'}
+                  title="Open configuration menu"
+                  onClick={() => setPage('config')}
+                >
+                  <SettingsIcon />
+                </Button>
+                <Button color="inherit" title="Show help information">
+                  <HelpOutlineIcon />
                 </Button>
               </Grid>
             </Grid>

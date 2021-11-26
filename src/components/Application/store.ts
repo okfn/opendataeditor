@@ -6,7 +6,7 @@ import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 export interface IState {
   page: string
   file?: File
-  detector?: IDetector
+  detector: IDetector
   resource?: IResource
   inquiry?: IInquiry
   report?: IReport
@@ -28,6 +28,8 @@ export interface ILogic {
 
 export const initialState = {
   page: 'home',
+  // TODO: move to settings or server-side
+  detector: { bufferSize: 10000, sampleSize: 100 },
 }
 
 export const useStore = create<IState & ILogic>((set, get) => ({
@@ -35,10 +37,14 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   // Page
 
+  // TODO: rewrite
   setPage: async (page) => {
     let patch = {}
     const { file, resource, inquiry, pipeline } = get()
-    if (!file || !resource || !inquiry || !pipeline) return
+    if (!file || !resource || !inquiry || !pipeline) {
+      set({ page })
+      return
+    }
     if (page === 'extract') {
       patch = await client.extract(file, resource)
     } else if (page === 'validate') {
@@ -58,13 +64,13 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       alert('Currently only CSV files under 10Mb are supported')
       return
     }
-    const detector = { bufferSize: 10000, sampleSize: 100 }
+    const { detector } = get()
     const { resource } = await client.describe(file, detector)
     const inquiry = { source: resource, checks: [] }
     const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    set({ page: 'describe', file, detector, resource, inquiry, pipeline, text })
+    set({ page: 'describe', file, resource, inquiry, pipeline, text })
   },
 
   // Metadata

@@ -231,12 +231,12 @@ function Help() {
           Detector
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          describe
+          overview
         </Typography>
         <Typography variant="body2">
-          The Detector can be used in various places within the data flows. The main
-          purpose of this class is to tweak how different aspects of metadata are
-          detected.
+          The Detector is used to configure how the describe command run. You can tweak
+          different aspects like buffer and sample size, as well, as set field types or
+          sync a schema with the provided data file
         </Typography>
       </CardContent>
       <CardActions sx={{ pt: 0 }}>

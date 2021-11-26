@@ -39,6 +39,7 @@
 - move strategy to settings (switch dialect/schema)?
 - report should accept descriptor instead of report
 - clean/imporve everything
+- extract tab as a library compoenent
 - deploy to secret application.frictionlessdata.io
 
 ## MVP (19.12)

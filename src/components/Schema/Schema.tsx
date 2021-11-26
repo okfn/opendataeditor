@@ -271,7 +271,7 @@ function Help() {
           Schema
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          describe
+          overview
         </Typography>
         <Typography variant="body2">
           Table Schema is a specification for providing a schema (similar to a database

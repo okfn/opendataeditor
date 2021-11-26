@@ -23,7 +23,7 @@ export default function Describe() {
           <Tab label="Detector" {...a11yProps(0)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={3}>
+      <TabPanel value={value} index={0}>
         <Detector
           descriptor={detector}
           onCommit={(detector) => updateDetector(detector)}

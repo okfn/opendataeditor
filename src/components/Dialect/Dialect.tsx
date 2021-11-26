@@ -215,7 +215,7 @@ function Help() {
           Dialect
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          describe
+          overview
         </Typography>
         <Typography variant="body2">
           The File Dialect desctiptor provides information about various data aspecs. It
