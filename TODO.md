@@ -34,6 +34,7 @@
 - keep selected tab on a page
 - add clear input file button
 - fix second time import doesn't work
+- add help text to field editing (on active)
 - clean/imporve everything
 - deploy to secret application.frictionlessdata.io
 
