@@ -8,7 +8,6 @@ import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import Select from '@mui/material/Select'
-// import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Constraints from './Constraints'
 import ForeignKeys from './ForeignKeys'
@@ -28,27 +27,22 @@ export default function Elements() {
 
 function Header() {
   const elementIndex = useStore((state) => state.elementIndex)
-  // const setElementIndex = useStore((state) => state.setElementIndex)
   return (
     <Typography variant="h6">
       {elementIndex === undefined ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'space-between', lineHeight: '40px' }}
-        >
-          <Box>
-            <TypeSelect />
-            <AddButton />
-            <GridButton />
-          </Box>
+        <React.Fragment>
+          <TypeSelect />
+          <AddButton />
           <SearchInput />
-        </Box>
+          <GridButton />
+        </React.Fragment>
       ) : (
-        <Box component="span" sx={{ lineHeight: '40px' }}>
+        <React.Fragment>
           <TypeSelect />
           <ElementSelect />
           <RemoveButton />
           <ModeButton />
-        </Box>
+        </React.Fragment>
       )}
     </Typography>
   )
@@ -56,10 +50,23 @@ function Header() {
 
 function TypeSelect() {
   const elementType = useStore((state) => state.elementType)
+  const elementIndex = useStore((state) => state.elementIndex)
   const setElementType = useStore((state) => state.setElementType)
   const setElementIndex = useStore((state) => state.setElementIndex)
+  if (elementIndex !== undefined) {
+    return (
+      <span>
+        <Button sx={{ m: 0, p: 0, mr: 1, mt: '4px' }} onClick={() => setElementIndex()}>
+          Fields
+        </Button>
+      </span>
+    )
+  }
+  // if (elementIndex !== undefined) {
+  // return 'Field [name]'
+  // }
   return (
-    <FormControl>
+    <FormControl sx={{ mr: 1 }}>
       <InputLabel id="edit1" sx={{ color: 'info.main' }}>
         Edit
       </InputLabel>
@@ -73,7 +80,7 @@ function TypeSelect() {
           setElementIndex()
         }}
         sx={{
-          width: '140px',
+          width: '150px',
           '& .MuiOutlinedInput-input': {
             fontWeight: 'bold',
             color: 'info.main',
@@ -105,7 +112,7 @@ export function ElementSelect() {
   return (
     <FormControl>
       <InputLabel id="edit2" sx={{ color: 'info.main' }}>
-        Field
+        Edit
       </InputLabel>
       <Select
         size="small"
@@ -114,8 +121,7 @@ export function ElementSelect() {
         value={elementIndex}
         onChange={(ev) => setElementIndex(parseInt(ev.target.value as string))}
         sx={{
-          ml: 1,
-          width: '140px',
+          width: '150px',
           '& .MuiOutlinedInput-input': {
             fontWeight: 'bold',
             color: 'info.main',
@@ -142,7 +148,7 @@ function AddButton() {
   const elementType = useStore((state) => state.elementType)
   const addElement = useStore((state) => state.addElement)
   return (
-    <Button onClick={() => addElement()}>
+    <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => addElement()}>
       Add {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
@@ -154,6 +160,7 @@ function GridButton() {
   return (
     <Button
       color={isElementGrid ? 'warning' : 'info'}
+      sx={{ m: 0, p: 0, ml: 2, mt: '4px' }}
       onClick={() => toggleIsElementGrid()}
     >
       Grid View
@@ -165,7 +172,7 @@ function RemoveButton() {
   const elementType = useStore((state) => state.elementType)
   const removeElement = useStore((state) => state.removeElement)
   return (
-    <Button onClick={() => removeElement()}>
+    <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => removeElement()}>
       Remove {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
@@ -175,15 +182,19 @@ function ModeButton() {
   const elementType = useStore((state) => state.elementType)
   const setElementMode = useStore((state) => state.setElementMode)
   if (elementType !== 'field') return null
-  return <Button onClick={() => setElementMode('constraints')}>Constraints</Button>
+  return (
+    <Button
+      sx={{ m: 0, p: 0, ml: 2, mt: '4px' }}
+      onClick={() => setElementMode('constraints')}
+    >
+      Constraints
+    </Button>
+  )
 }
 
-// function BackButton() {
-// const setElementIndex = useStore((state) => state.setElementIndex)
-// return <Button onClick={() => setElementIndex()}>Fields</Button>
-// }
-
-// function GridViewButton() {
+// function GridButton() {
+// const isElementGrid = useStore((state) => state.isElementGrid)
+// const toggleIsElementGrid = useStore((state) => state.toggleIsElementGrid)
 // return (
 // <IconButton
 // sx={{
@@ -212,11 +223,13 @@ function SearchInput() {
       value={elementQuery || ''}
       onChange={(ev) => setElementQuery(ev.target.value)}
       sx={{
-        width: '140px',
-        paddingLeft: 1,
-        paddingRight: 1,
+        float: 'right',
+        height: '36px',
+        width: '150px',
         borderRadius: '4px',
         border: 'solid 1px #ccc',
+        paddingLeft: '8px',
+        paddingRight: '8px',
         '&:focus': {
           outline: 'none',
         },
