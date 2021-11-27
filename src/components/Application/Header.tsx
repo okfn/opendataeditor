@@ -13,8 +13,8 @@ import Box from '@mui/material/Box'
 import { useStore } from './store'
 
 export default function Header() {
-  const page = useStore((state) => state.page)
-  const setPage = useStore((state) => state.setPage)
+  const contentType = useStore((state) => state.contentType)
+  const setContentType = useStore((state) => state.setContentType)
   const uploadFile = useStore((state) => state.uploadFile)
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -25,7 +25,7 @@ export default function Header() {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
-                onClick={() => setPage('home')}
+                onClick={() => setContentType('home')}
               >
                 <strong>Frictionless Application</strong>
               </Typography>
@@ -48,9 +48,9 @@ export default function Header() {
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
                 <Button
-                  color={page === 'config' ? 'warning' : 'inherit'}
+                  color={contentType === 'config' ? 'warning' : 'inherit'}
                   title="Open configuration menu"
-                  onClick={() => setPage('config')}
+                  onClick={() => setContentType('config')}
                 >
                   <SettingsIcon />
                 </Button>

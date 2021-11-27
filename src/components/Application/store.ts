@@ -4,7 +4,7 @@ import { IReport, IStatus, IRow } from '../../interfaces'
 import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
-  page: string
+  contentType: string
   file?: File
   detector: IDetector
   resource?: IResource
@@ -18,7 +18,7 @@ export interface IState {
 }
 
 export interface ILogic {
-  setPage: (page: string) => void
+  setContentType: (contentType: string) => void
   uploadFile: (file: File) => void
   updateDetector: (patch: Partial<IDetector>) => void
   updateResource: (patch: Partial<IResource>) => void
@@ -27,7 +27,7 @@ export interface ILogic {
 }
 
 export const initialState = {
-  page: 'home',
+  contentType: 'home',
   // TODO: move to settings or server-side
   detector: { bufferSize: 10000, sampleSize: 100 },
 }
@@ -38,21 +38,21 @@ export const useStore = create<IState & ILogic>((set, get) => ({
   // Page
 
   // TODO: rewrite
-  setPage: async (page) => {
+  setContentType: async (contentType) => {
     let patch = {}
     const { file, resource, inquiry, pipeline } = get()
     if (!file || !resource || !inquiry || !pipeline) {
-      set({ page })
+      set({ contentType })
       return
     }
-    if (page === 'extract') {
+    if (contentType === 'extract') {
       patch = await client.extract(file, resource)
-    } else if (page === 'validate') {
+    } else if (contentType === 'validate') {
       patch = await client.validate(file, inquiry)
-    } else if (page === 'transform') {
+    } else if (contentType === 'transform') {
       patch = await client.transform(file, pipeline)
     }
-    set({ page, ...patch })
+    set({ contentType, ...patch })
   },
 
   // File
@@ -70,7 +70,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    set({ page: 'describe', file, resource, inquiry, pipeline, text })
+    set({ contentType: 'describe', file, resource, inquiry, pipeline, text })
   },
 
   // Metadata

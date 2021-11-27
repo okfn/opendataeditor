@@ -6,12 +6,12 @@ import { useStore } from '../store'
 
 export default function Fields() {
   const descriptor = useStore((state) => state.descriptor)
-  const searchQuery = useStore((state) => state.searchQuery)
-  const isGridView = useStore((state) => state.isGridView)
-  const setSelectedIndex = useStore((state) => state.setSelectedIndex)
-  const setPage = useStore((state) => state.setPage)
-  const fields = searchQuery
-    ? descriptor.fields.filter((field) => field.name.includes(searchQuery))
+  const elementQuery = useStore((state) => state.elementQuery)
+  const isElementGrid = useStore((state) => state.isElementGrid)
+  const setElementIndex = useStore((state) => state.setElementIndex)
+  const setElementType = useStore((state) => state.setElementType)
+  const fields = elementQuery
+    ? descriptor.fields.filter((field) => field.name.includes(elementQuery))
     : descriptor.fields
   return (
     <FormControl fullWidth>
@@ -21,15 +21,15 @@ export default function Fields() {
             size="large"
             color="info"
             variant="outlined"
-            endIcon={isGridView ? null : field.type.toUpperCase()}
+            endIcon={isElementGrid ? null : field.type.toUpperCase()}
             onClick={() => {
-              setSelectedIndex(index)
-              setPage('field')
+              setElementIndex(index)
+              setElementType('field')
             }}
             key={index}
             sx={{
-              width: isGridView ? 'inherit' : '100%',
-              marginRight: isGridView ? 2 : 0,
+              width: isElementGrid ? 'inherit' : '100%',
+              marginRight: isElementGrid ? 2 : 0,
               justifyContent: 'space-between',
               textTransform: 'initial',
               p: [2, 2],

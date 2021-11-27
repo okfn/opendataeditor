@@ -7,24 +7,23 @@ import StepButton from '@mui/material/StepButton'
 import StepContent from '@mui/material/StepContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import * as settings from '../../settings'
 import { useStore } from './store'
 
 export default function Menu() {
-  const page = useStore((state) => state.page)
-  const setPage = useStore((state) => state.setPage)
+  const contentType = useStore((state) => state.contentType)
+  const setContentType = useStore((state) => state.setContentType)
   const resource = useStore((state) => state.resource)
-  const currentIndex = findIndex(settings.STEPS, { page })
+  const currentIndex = findIndex(steps, { contentType })
 
   const handleStep = (index: number) => () => {
-    const step = settings.STEPS[index]
-    setPage(step.page)
+    const step = steps[index]
+    setContentType(step.contentType)
   }
 
   return (
     <Box sx={{ ml: 2, mt: 2 }}>
       <Stepper nonLinear activeStep={currentIndex} orientation="vertical">
-        {settings.STEPS.map((step, index) => (
+        {steps.map((step, index) => (
           <Step disabled={!resource} key={step.label}>
             <StepButton
               color="inherit"
@@ -38,7 +37,7 @@ export default function Menu() {
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
-                    disabled={index === settings.STEPS.length - 1}
+                    disabled={index === steps.length - 1}
                     variant="contained"
                     onClick={handleStep(index + 1)}
                     sx={{ mt: 1, mr: 1 }}
@@ -61,3 +60,30 @@ export default function Menu() {
     </Box>
   )
 }
+
+const steps = [
+  {
+    label: 'Describe',
+    contentType: 'describe',
+    description:
+      "You can infer, edit and save metadata of your data tables. It's a first step for ensuring data quality and usability. You can use this mode in isolation just e.g. uploading a file, editing a schema, and exporting it. Another option is to commit changes globally to be used in extract, validate, and transform modes.",
+  },
+  {
+    label: 'Extract',
+    contentType: 'extract',
+    description:
+      'You can read your data using a unified tabular interface. Data quality and consistency are guaranteed by a schema.',
+  },
+  {
+    label: 'Validate',
+    contentType: 'validate',
+    description:
+      'You can validate data tables, resources, and datasets. Frictionless generates a unified validation report.',
+  },
+  {
+    label: 'Transform',
+    contentType: 'transform',
+    description:
+      'You can clean, reshape, and transfer your data tables and datasets. Frictionless provides a pipeline capability.',
+  },
+]

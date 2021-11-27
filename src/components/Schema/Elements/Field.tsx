@@ -7,10 +7,10 @@ import Grid from '@mui/material/Grid'
 import { useStore } from '../store'
 
 export default function Field() {
-  const selectedIndex = useStore((state) => state.selectedIndex)
+  const elementIndex = useStore((state) => state.elementIndex)
   const removeField = useStore((state) => state.removeField)
   const updateField = useStore((state) => state.updateField)
-  const field = useStore((state) => state.descriptor.fields[selectedIndex])
+  const field = useStore((state) => state.descriptor.fields[elementIndex])
   if (!field) return null
   return (
     <FormControl fullWidth>
