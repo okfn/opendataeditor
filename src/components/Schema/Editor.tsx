@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import { useStore } from './store'
 import Preview from './Preview'
 import General from './General'
-import Page from './Page'
+import Elements from './Elements'
 import Help from './Help'
 
 export default function Editor() {
@@ -15,7 +15,7 @@ export default function Editor() {
         <General />
       </Grid>
       <Grid item xs={6}>
-        <Page />
+        <Elements />
       </Grid>
       <Grid item xs={3}>
         <Help />

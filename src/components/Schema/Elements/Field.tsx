@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-import { useStore } from './store'
+import { useStore } from '../store'
 
 export default function Field() {
   const selectedIndex = useStore((state) => state.selectedIndex)
