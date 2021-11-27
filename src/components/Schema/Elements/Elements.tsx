@@ -1,8 +1,8 @@
 import * as React from 'react'
-import GridViewIcon from '@mui/icons-material/GridView'
+// import GridViewIcon from '@mui/icons-material/GridView'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
+// import IconButton from '@mui/material/IconButton'
 import InputLabel from '@mui/material/InputLabel'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
@@ -40,7 +40,6 @@ function Header() {
         <React.Fragment>
           <ElementSelect />
           <RemoveButton />
-          <BackButton />
           <ModeButton />
         </React.Fragment>
       )}
@@ -67,7 +66,9 @@ function TypeSelect() {
   // }
   return (
     <FormControl sx={{ mr: 1 }}>
-      <InputLabel id="edit1">Edit</InputLabel>
+      <InputLabel id="edit1" sx={{ color: 'info.main' }}>
+        Edit
+      </InputLabel>
       <Select
         size="small"
         labelId="edit1"
@@ -76,6 +77,19 @@ function TypeSelect() {
         onChange={(ev) => {
           setElementType(ev.target.value)
           setElementIndex()
+        }}
+        sx={{
+          width: '150px',
+          '& .MuiOutlinedInput-input': {
+            fontWeight: 'bold',
+            color: 'info.main',
+          },
+          '& .MuiSelect-icon': {
+            color: 'info.main',
+          },
+          '& fieldset': {
+            borderColor: 'info.main',
+          },
         }}
       >
         <MenuItem value="field">Fields</MenuItem>
@@ -96,14 +110,28 @@ export function ElementSelect() {
   // TODO: revmoe "as" usage
   return (
     <FormControl>
-      <InputLabel id="edit2">Edit</InputLabel>
+      <InputLabel id="edit2" sx={{ color: 'info.main' }}>
+        Edit
+      </InputLabel>
       <Select
         size="small"
         labelId="edit2"
         label="Edit"
         value={elementIndex}
         onChange={(ev) => setElementIndex(parseInt(ev.target.value as string))}
-        sx={{ maxWidth: '150px' }}
+        sx={{
+          width: '150px',
+          '& .MuiOutlinedInput-input': {
+            fontWeight: 'bold',
+            color: 'info.main',
+          },
+          '& .MuiSelect-icon': {
+            color: 'info.main',
+          },
+          '& fieldset': {
+            borderColor: 'info.main',
+          },
+        }}
       >
         {descriptor.fields.map((field, index) => (
           <MenuItem key={index} value={index}>
@@ -121,6 +149,20 @@ function AddButton() {
   return (
     <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => addElement()}>
       Add {elementType === 'field' ? 'Field' : 'Foreign Key'}
+    </Button>
+  )
+}
+
+function GridButton() {
+  const isElementGrid = useStore((state) => state.isElementGrid)
+  const toggleIsElementGrid = useStore((state) => state.toggleIsElementGrid)
+  return (
+    <Button
+      color={isElementGrid ? 'warning' : 'info'}
+      sx={{ m: 0, p: 0, ml: 2, mt: '4px' }}
+      onClick={() => toggleIsElementGrid()}
+    >
+      Grid View
     </Button>
   )
 }
@@ -149,38 +191,26 @@ function ModeButton() {
   )
 }
 
-function BackButton() {
-  return null
-  const elementType = useStore((state) => state.elementType)
-  const setElementIndex = useStore((state) => state.setElementIndex)
-  if (elementType !== 'field') return null
-  return (
-    <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => setElementIndex()}>
-      Show Fields
-    </Button>
-  )
-}
-
-function GridButton() {
-  const isElementGrid = useStore((state) => state.isElementGrid)
-  const toggleIsElementGrid = useStore((state) => state.toggleIsElementGrid)
-  return (
-    <IconButton
-      sx={{
-        float: 'right',
-        color: isElementGrid ? 'warning.main' : '#777',
-        p: 0,
-        mt: '8px',
-        mr: '10px',
-      }}
-      aria-label="Show grid"
-      title="Toggle grid view"
-      onClick={() => toggleIsElementGrid()}
-    >
-      <GridViewIcon />
-    </IconButton>
-  )
-}
+// function GridButton() {
+// const isElementGrid = useStore((state) => state.isElementGrid)
+// const toggleIsElementGrid = useStore((state) => state.toggleIsElementGrid)
+// return (
+// <IconButton
+// sx={{
+// float: 'right',
+// color: isElementGrid ? 'warning.main' : '#777',
+// p: 0,
+// mt: '8px',
+// mr: '10px',
+// }}
+// aria-label="Show grid"
+// title="Toggle grid view"
+// onClick={() => toggleIsElementGrid()}
+// >
+// <GridViewIcon />
+// </IconButton>
+// )
+// }
 
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
