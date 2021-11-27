@@ -5,6 +5,9 @@ import FormControl from '@mui/material/FormControl'
 import GridViewIcon from '@mui/icons-material/GridView'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
@@ -23,8 +26,18 @@ export default function Fields() {
   return (
     <FormControl fullWidth>
       <Typography variant="h6">
-        Fields
-        <Button sx={{ m: 0, p: 0, ml: 2 }} onClick={() => addField()}>
+        <InputLabel id="edit">Edit</InputLabel>
+        <Select
+          size="small"
+          labelId="edit"
+          label="Edit"
+          value="fields"
+          onChange={(ev) => setPage(ev.target.value)}
+        >
+          <MenuItem value="fields">Fields</MenuItem>
+          <MenuItem value="foreignKeys">Foreign Keys</MenuItem>
+        </Select>
+        <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => addField()}>
           Add Field
         </Button>
         <Search
@@ -32,14 +45,14 @@ export default function Fields() {
           placeholder="Search..."
           value={searchQuery || ''}
           onChange={(ev) => setSearchQuery(ev.target.value)}
-          sx={{ float: 'right', height: '30px' }}
+          sx={{ float: 'right', height: '36px' }}
         />
         <IconButton
           sx={{
             float: 'right',
             color: isGridView ? 'warning.main' : '#777',
             p: 0,
-            mt: '5px',
+            mt: '8px',
             mr: '10px',
           }}
           aria-label="Show grid"
