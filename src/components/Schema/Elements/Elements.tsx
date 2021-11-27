@@ -60,7 +60,7 @@ function TypeSelect() {
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
     <FormControl>
-      <InputLabel id="edit1" sx={{ color: 'info.main' }}>
+      <InputLabel id="edit1" sx={{ color: 'black' }}>
         Edit
       </InputLabel>
       <Select
@@ -73,16 +73,17 @@ function TypeSelect() {
           setElementIndex()
         }}
         sx={{
-          width: '140px',
+          width: '130px',
           '& .MuiOutlinedInput-input': {
-            fontWeight: 'bold',
-            color: 'info.main',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'black',
           },
           '& .MuiSelect-icon': {
-            color: 'info.main',
+            color: 'black',
           },
           '& fieldset': {
-            borderColor: 'info.main',
+            borderColor: 'black',
           },
         }}
       >
@@ -104,8 +105,8 @@ export function ElementSelect() {
   // TODO: revmoe "as" usage
   return (
     <FormControl>
-      <InputLabel id="edit2" sx={{ color: 'info.main' }}>
-        Field
+      <InputLabel id="edit2" sx={{ color: 'black' }}>
+        Edit
       </InputLabel>
       <Select
         size="small"
@@ -115,16 +116,17 @@ export function ElementSelect() {
         onChange={(ev) => setElementIndex(parseInt(ev.target.value as string))}
         sx={{
           ml: 1,
-          width: '140px',
+          width: '130px',
           '& .MuiOutlinedInput-input': {
-            fontWeight: 'bold',
-            color: 'info.main',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'black',
           },
           '& .MuiSelect-icon': {
-            color: 'info.main',
+            color: 'black',
           },
           '& fieldset': {
-            borderColor: 'info.main',
+            borderColor: 'black',
           },
         }}
       >

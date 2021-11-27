@@ -15,7 +15,7 @@ export default function General() {
   const decodeMissingValue = (value: string) => (value === '""' ? '' : value)
   return (
     <Box>
-      <Typography sx={{ pt: '6px', pb: '2px' }} variant="h6">
+      <Typography sx={{ pt: '6px', pb: '6px' }} variant="h6">
         General
       </Typography>
       <FormControl fullWidth>
