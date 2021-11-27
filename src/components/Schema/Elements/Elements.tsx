@@ -40,6 +40,7 @@ function Header() {
         <React.Fragment>
           <ElementSelect />
           <RemoveButton />
+          <BackButton />
           <ModeButton />
         </React.Fragment>
       )}
@@ -49,10 +50,23 @@ function Header() {
 
 function TypeSelect() {
   const elementType = useStore((state) => state.elementType)
+  const elementIndex = useStore((state) => state.elementIndex)
   const setElementType = useStore((state) => state.setElementType)
   const setElementIndex = useStore((state) => state.setElementIndex)
+  if (elementIndex !== undefined) {
+    return (
+      <span>
+        <Button sx={{ m: 0, p: 0, mr: 1, mt: '4px' }} onClick={() => setElementIndex()}>
+          Fields
+        </Button>
+      </span>
+    )
+  }
+  // if (elementIndex !== undefined) {
+  // return 'Field [name]'
+  // }
   return (
-    <FormControl>
+    <FormControl sx={{ mr: 1 }}>
       <InputLabel id="edit1">Edit</InputLabel>
       <Select
         size="small"
@@ -71,7 +85,7 @@ function TypeSelect() {
   )
 }
 
-function ElementSelect() {
+export function ElementSelect() {
   const descriptor = useStore((state) => state.descriptor)
   const elementType = useStore((state) => state.elementType)
   const elementIndex = useStore((state) => state.elementIndex)
@@ -79,6 +93,7 @@ function ElementSelect() {
   // TODO: remove
   if (elementType !== 'field') return null
   if (elementIndex === undefined) return null
+  // TODO: revmoe "as" usage
   return (
     <FormControl>
       <InputLabel id="edit2">Edit</InputLabel>
@@ -87,7 +102,8 @@ function ElementSelect() {
         labelId="edit2"
         label="Edit"
         value={elementIndex}
-        onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
+        onChange={(ev) => setElementIndex(parseInt(ev.target.value as string))}
+        sx={{ maxWidth: '150px' }}
       >
         {descriptor.fields.map((field, index) => (
           <MenuItem key={index} value={index}>
@@ -129,6 +145,18 @@ function ModeButton() {
       onClick={() => setElementMode('constraints')}
     >
       Constraints
+    </Button>
+  )
+}
+
+function BackButton() {
+  return null
+  const elementType = useStore((state) => state.elementType)
+  const setElementIndex = useStore((state) => state.setElementIndex)
+  if (elementType !== 'field') return null
+  return (
+    <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => setElementIndex()}>
+      Show Fields
     </Button>
   )
 }
