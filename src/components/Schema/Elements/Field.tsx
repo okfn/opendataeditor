@@ -1,25 +1,16 @@
 import * as React from 'react'
 import FormControl from '@mui/material/FormControl'
-import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import { useStore } from '../store'
 
 export default function Field() {
   const elementIndex = useStore((state) => state.elementIndex)
-  const removeField = useStore((state) => state.removeField)
   const updateField = useStore((state) => state.updateField)
+  if (elementIndex === undefined) return null
   const field = useStore((state) => state.descriptor.fields[elementIndex])
-  if (!field) return null
   return (
     <FormControl fullWidth>
-      <Typography variant="h6">
-        Fields &raquo; {field.name}
-        <Button sx={{ m: 0, p: 0, ml: 2 }} onClick={() => removeField()}>
-          Remove Field
-        </Button>
-      </Typography>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <FormControl fullWidth>

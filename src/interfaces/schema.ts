@@ -1,9 +1,8 @@
 export interface ISchema {
   fields: IField[]
-  missingValues: string[]
   primaryKey?: string[]
-  // TODO: remove string support
-  foreignKeys?: string | object[]
+  foreignKeys?: IForeignKey[]
+  missingValues: string[]
 }
 
 export interface IField {
@@ -13,4 +12,9 @@ export interface IField {
   title?: string
   description?: string
   rdfType?: string
+}
+
+export interface IForeignKey {
+  name?: string
+  field: string[]
 }

@@ -25,7 +25,8 @@ interface SchemaState {
   // Elements
 
   elementType: string
-  elementIndex: number
+  elementMode: string
+  elementIndex?: number
   elementQuery?: string
   isElementGrid?: boolean
 }
@@ -46,7 +47,8 @@ interface SchemaLogic {
   // Elements
 
   setElementType: (elementType: string) => void
-  setElementIndex: (index: number) => void
+  setElementMode: (elementMode: string) => void
+  setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery: string) => void
   toggleIsElementGrid: () => void
 }
@@ -63,8 +65,8 @@ export function makeStore(props: SchemaProps) {
 
     // Elements
 
-    elementType: 'fields',
-    elementIndex: 0,
+    elementType: 'field',
+    elementMode: 'general',
   }
   return create<SchemaState & SchemaLogic>((set, get) => ({
     ...initialState,
@@ -108,6 +110,7 @@ export function makeStore(props: SchemaProps) {
     },
     updateField: (patch) => {
       const { descriptor, elementIndex } = get()
+      if (elementIndex === undefined) return
       const newDescriptor = produce(descriptor, (descriptor) => {
         descriptor.fields[elementIndex] = {
           ...descriptor.fields[elementIndex],
@@ -135,6 +138,7 @@ export function makeStore(props: SchemaProps) {
     },
     removeField: () => {
       const { descriptor, elementIndex } = get()
+      if (elementIndex === undefined) return
       const newDescriptor = produce(descriptor, (descriptor) => {
         descriptor.fields.splice(elementIndex, 1)
       })
@@ -149,6 +153,7 @@ export function makeStore(props: SchemaProps) {
     // Elements
 
     setElementType: (elementType) => set({ elementType }),
+    setElementMode: (elementMode) => set({ elementMode }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
     setElementQuery: (elementQuery) => set({ elementQuery }),
     toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),

@@ -26,11 +26,13 @@ export default function Elements() {
 }
 
 function Header() {
+  const elementType = useStore((state) => state.elementType)
   const isElementGrid = useStore((state) => state.isElementGrid)
   const elementQuery = useStore((state) => state.elementQuery)
   const setElementQuery = useStore((state) => state.setElementQuery)
   const toggleIsElementGrid = useStore((state) => state.toggleIsElementGrid)
   const setElementType = useStore((state) => state.setElementType)
+  const setElementIndex = useStore((state) => state.setElementIndex)
   const addField = useStore((state) => state.addField)
   return (
     <Box>
@@ -41,11 +43,14 @@ function Header() {
             size="small"
             labelId="edit"
             label="Edit"
-            value="fields"
-            onChange={(ev) => setElementType(ev.target.value)}
+            value={elementType}
+            onChange={(ev) => {
+              setElementType(ev.target.value)
+              setElementIndex()
+            }}
           >
-            <MenuItem value="fields">Fields</MenuItem>
-            <MenuItem value="foreignKeys">Foreign Keys</MenuItem>
+            <MenuItem value="field">Fields</MenuItem>
+            <MenuItem value="foreignKey">Foreign Keys</MenuItem>
           </Select>
         </FormControl>
         <Button sx={{ m: 0, p: 0, ml: 2, mt: '4px' }} onClick={() => addField()}>
@@ -79,16 +84,15 @@ function Header() {
 
 function Content() {
   const elementType = useStore((state) => state.elementType)
+  const elementMode = useStore((state) => state.elementMode)
+  const elementIndex = useStore((state) => state.elementIndex)
   switch (elementType) {
-    case 'constraints':
-      return <Constraints />
-    case 'foreignKeys':
-      return <ForeignKeys />
     case 'foreignKey':
+      if (elementIndex === undefined) return <ForeignKeys />
       return <ForeignKey />
-    case 'fields':
-      return <Fields />
     case 'field':
+      if (elementIndex === undefined) return <Fields />
+      if (elementMode === 'constraints') return <Constraints />
       return <Field />
     default:
       return null
