@@ -25,31 +25,33 @@
 + rename dialect/strategy
 + improve detector
 + improve dialect
++ move strategy to settings (switch dialect/schema)?
++ fix second time import doesn't work
 - improve schema (including listing UIs)
+- rework export/preview/import buttons (use format selection)
 - improve query
 - improve inquiry
 - improve pipeline
-- rework export/preview/import buttons (use format selection)
 - add scenarios (help) to the home page
 - don't change page on file upload
-- implement CSV/EXCEL export
 - keep selected tab on a page
-- add clear input file button
-- fix second time import doesn't work
 - add help text to field editing (on active)
 - style scroll for listings
-- move strategy to settings (switch dialect/schema)?
 - report should accept descriptor instead of report
-- clean/imporve everything
-- extract tab as a library compoenent
 - second click on config should return to prev page
-- add an ability to sort items in listings?
+- implement CSV/EXCEL export
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions
+- prepare package issue for Edgar
 
 ## MVP (19.12)
 
 - protect users from losing changes by selecting another tab
 - react on changes like - re-run describe / update stats / etc
 - extract re-usable Metadata/Descriptor components (actions/columns/etc)
+- add an ability to sort items in listings?
+- extract tab as a library compoenent
+- clean/imporve everything
+- add clear input file button
+- ability to upload schema/dialect?

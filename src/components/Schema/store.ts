@@ -51,6 +51,8 @@ interface SchemaLogic {
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery: string) => void
   toggleIsElementGrid: () => void
+  addElement: () => void
+  removeElement: () => void
 }
 
 export function makeStore(props: SchemaProps) {
@@ -129,12 +131,23 @@ export function makeStore(props: SchemaProps) {
         })
       })
       const elementIndex = newDescriptor.fields.length - 1
-      set({
-        descriptor: newDescriptor,
-        elementIndex,
-        elementType: 'field',
-        isUpdated: true,
+      set({ descriptor: newDescriptor, elementIndex, isUpdated: true })
+    },
+    // TODO: finish
+    addElement: () => {
+      let { elementIndex } = get()
+      const { descriptor, elementType } = get()
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        if (elementType === 'field') {
+          descriptor.fields.push({ name: 'newField', type: 'string', format: 'default' })
+          elementIndex = descriptor.fields.length - 1
+        } else if (elementType === 'foreignKey') {
+          descriptor.foreignKeys = descriptor.foreignKeys || []
+          descriptor.foreignKeys.push({ name: 'newFK', field: ['newField'] })
+          elementIndex = descriptor.foreignKeys.length - 1
+        }
       })
+      set({ descriptor: newDescriptor, elementIndex, isUpdated: true })
     },
     removeField: () => {
       const { descriptor, elementIndex } = get()
@@ -144,10 +157,22 @@ export function makeStore(props: SchemaProps) {
       })
       set({
         descriptor: newDescriptor,
-        elementIndex: Math.max(elementIndex - 1, 0),
+        elementIndex: undefined,
         isUpdated: true,
-        elementType: 'fields',
       })
+    },
+    removeElement: () => {
+      const { descriptor, elementType, elementIndex } = get()
+      if (elementIndex === undefined) return
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        if (elementType === 'field') {
+          descriptor.fields.splice(elementIndex, 1)
+        } else if (elementType === 'foreignKey') {
+          descriptor.foreignKeys = descriptor.foreignKeys || []
+          descriptor.foreignKeys.splice(elementIndex, 1)
+        }
+      })
+      set({ descriptor: newDescriptor, elementIndex: undefined, isUpdated: true })
     },
 
     // Elements
