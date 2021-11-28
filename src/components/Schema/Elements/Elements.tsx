@@ -24,7 +24,7 @@ export default function Elements() {
 
 function Header() {
   const elementIndex = useStore((state) => state.elementIndex)
-  return elementIndex === undefined ? <ListingHeader /> : <ElementHeader />
+  return elementIndex === undefined ? <ListingHeader /> : <ItemHeader />
 }
 
 function ListingHeader() {
@@ -46,17 +46,17 @@ function ListingHeader() {
   )
 }
 
-function ElementHeader() {
+function ItemHeader() {
   return (
     <Heading variant="h6">
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <TypeSelect />
+              <BackButton />
             </Grid>
             <Grid item xs={6}>
-              <ElementSelect />
+              <ItemSelect />
             </Grid>
           </Grid>
         </Grid>
@@ -91,7 +91,7 @@ function TypeSelect() {
   )
 }
 
-export function ElementSelect() {
+export function ItemSelect() {
   const descriptor = useStore((state) => state.descriptor)
   const elementType = useStore((state) => state.elementType)
   const elementIndex = useStore((state) => state.elementIndex)
@@ -140,6 +140,32 @@ function GridButton() {
   )
 }
 
+function BackButton() {
+  const setElementIndex = useStore((state) => state.setElementIndex)
+  return (
+    <Button
+      fullWidth
+      color="info"
+      variant="outlined"
+      onClick={() => setElementIndex()}
+      sx={{
+        m: 0,
+        height: '100%',
+        textTransform: 'inherit',
+        fontSize: '18px',
+        fontWeight: 500,
+        textAlign: 'left',
+        justifyContent: 'flex-start',
+        textDecoration: 'underline !important',
+        borderColor: 'info.main',
+        mt: '-3px',
+      }}
+    >
+      Fields
+    </Button>
+  )
+}
+
 function RemoveButton() {
   const elementType = useStore((state) => state.elementType)
   const removeElement = useStore((state) => state.removeElement)
@@ -156,11 +182,6 @@ function ModeButton() {
   if (elementType !== 'field') return null
   return <Button onClick={() => setElementMode('constraints')}>Constraints</Button>
 }
-
-// function BackButton() {
-// const setElementIndex = useStore((state) => state.setElementIndex)
-// return <Button onClick={() => setElementIndex()}>Fields</Button>
-// }
 
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
