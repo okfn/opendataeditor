@@ -37,6 +37,7 @@ interface SchemaLogic {
   exporter: () => void
   importer: (file: File) => void
   preview: (format: string) => void
+  // TODO: type the patch
   update: (patch: object) => void
   commit: () => void
   revert: () => void

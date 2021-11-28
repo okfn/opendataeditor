@@ -1,15 +1,11 @@
 import * as React from 'react'
-// import GridViewIcon from '@mui/icons-material/GridView'
-import FormControl from '@mui/material/FormControl'
-import Typography from '@mui/material/Typography'
-// import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
-import Button from '@mui/material/Button'
-import Select from '@mui/material/Select'
-// import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
+import Heading from '../../Library/Heading'
+import HeadingSelector from '../../Library/HeadingSelector'
 import Constraints from './Constraints'
 import ForeignKeys from './ForeignKeys'
 import ForeignKey from './ForeignKey'
@@ -28,29 +24,48 @@ export default function Elements() {
 
 function Header() {
   const elementIndex = useStore((state) => state.elementIndex)
-  // const setElementIndex = useStore((state) => state.setElementIndex)
+  return elementIndex === undefined ? <ListingHeader /> : <ElementHeader />
+}
+
+function ListingHeader() {
   return (
-    <Typography variant="h6">
-      {elementIndex === undefined ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'space-between', lineHeight: '40px' }}
-        >
-          <Box>
-            <TypeSelect />
-            <AddButton />
-            <GridButton />
-          </Box>
-          <SearchInput />
-        </Box>
-      ) : (
-        <Box component="span" sx={{ lineHeight: '40px' }}>
+    <Heading variant="h6">
+      <Grid container spacing={1}>
+        <Grid item xs={3}>
           <TypeSelect />
-          <ElementSelect />
+        </Grid>
+        <Grid item xs={6}>
+          <AddButton />
+          <GridButton />
+        </Grid>
+        <Grid item xs={3}>
+          <SearchInput />
+        </Grid>
+      </Grid>
+    </Heading>
+  )
+}
+
+function ElementHeader() {
+  return (
+    <Heading variant="h6">
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <TypeSelect />
+            </Grid>
+            <Grid item xs={6}>
+              <ElementSelect />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={6}>
           <RemoveButton />
           <ModeButton />
-        </Box>
-      )}
-    </Typography>
+        </Grid>
+      </Grid>
+    </Heading>
   )
 }
 
@@ -59,38 +74,20 @@ function TypeSelect() {
   const setElementType = useStore((state) => state.setElementType)
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
-    <FormControl>
-      <InputLabel id="edit1" sx={{ color: 'black' }}>
-        Edit
-      </InputLabel>
-      <Select
-        size="small"
-        labelId="edit1"
-        label="Edit"
-        value={elementType}
-        onChange={(ev) => {
-          setElementType(ev.target.value)
-          setElementIndex()
-        }}
-        sx={{
-          width: '130px',
-          '& .MuiOutlinedInput-input': {
-            fontSize: '18px',
-            fontWeight: '500',
-            color: 'black',
-          },
-          '& .MuiSelect-icon': {
-            color: 'black',
-          },
-          '& fieldset': {
-            borderColor: 'black',
-          },
-        }}
-      >
-        <MenuItem value="field">Fields</MenuItem>
-        <MenuItem value="foreignKey">Foreign Keys</MenuItem>
-      </Select>
-    </FormControl>
+    <HeadingSelector
+      select
+      fullWidth
+      label="Edit"
+      margin="none"
+      value={elementType}
+      onChange={(ev) => {
+        setElementType(ev.target.value)
+        setElementIndex()
+      }}
+    >
+      <MenuItem value="field">Fields</MenuItem>
+      <MenuItem value="foreignKey">Foreign Keys</MenuItem>
+    </HeadingSelector>
   )
 }
 
@@ -102,41 +99,21 @@ export function ElementSelect() {
   // TODO: remove
   if (elementType !== 'field') return null
   if (elementIndex === undefined) return null
-  // TODO: revmoe "as" usage
   return (
-    <FormControl>
-      <InputLabel id="edit2" sx={{ color: 'black' }}>
-        Edit
-      </InputLabel>
-      <Select
-        size="small"
-        labelId="edit2"
-        label="Edit"
-        value={elementIndex}
-        onChange={(ev) => setElementIndex(parseInt(ev.target.value as string))}
-        sx={{
-          ml: 1,
-          width: '130px',
-          '& .MuiOutlinedInput-input': {
-            fontSize: '18px',
-            fontWeight: '500',
-            color: 'black',
-          },
-          '& .MuiSelect-icon': {
-            color: 'black',
-          },
-          '& fieldset': {
-            borderColor: 'black',
-          },
-        }}
-      >
-        {descriptor.fields.map((field, index) => (
-          <MenuItem key={index} value={index}>
-            {field.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <HeadingSelector
+      select
+      fullWidth
+      label="Edit"
+      type="number"
+      value={elementIndex}
+      onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
+    >
+      {descriptor.fields.map((field, index) => (
+        <MenuItem key={index} value={index}>
+          {field.name}
+        </MenuItem>
+      ))}
+    </HeadingSelector>
   )
 }
 
@@ -185,25 +162,6 @@ function ModeButton() {
 // return <Button onClick={() => setElementIndex()}>Fields</Button>
 // }
 
-// function GridViewButton() {
-// return (
-// <IconButton
-// sx={{
-// float: 'right',
-// color: isElementGrid ? 'warning.main' : '#777',
-// p: 0,
-// mt: '8px',
-// mr: '10px',
-// }}
-// aria-label="Show grid"
-// title="Toggle grid view"
-// onClick={() => toggleIsElementGrid()}
-// >
-// <GridViewIcon />
-// </IconButton>
-// )
-// }
-
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
   const setElementQuery = useStore((state) => state.setElementQuery)
@@ -214,7 +172,7 @@ function SearchInput() {
       value={elementQuery || ''}
       onChange={(ev) => setElementQuery(ev.target.value)}
       sx={{
-        width: '140px',
+        height: '100%',
         paddingLeft: 1,
         paddingRight: 1,
         borderRadius: '4px',
