@@ -77,7 +77,7 @@ function TypeSelect() {
     <HeadingSelector
       select
       fullWidth
-      label="Edit"
+      label="Select"
       margin="none"
       value={elementType}
       onChange={(ev) => {
@@ -103,7 +103,7 @@ export function ItemSelect() {
     <HeadingSelector
       select
       fullWidth
-      label="Edit"
+      label="Select"
       type="number"
       value={elementIndex}
       onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
