@@ -1,22 +1,16 @@
-import TextField from '@mui/material/TextField'
+import TextField, { TextFieldProps } from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
 
-const HeadingSelector = styled(TextField)(() => ({
+const HeadingSelector = styled(TextField)<TextFieldProps>(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'black',
+      borderColor: theme.palette.info.main,
     },
     '&:hover fieldset': {
-      borderColor: 'black',
-    },
-    '&:hover legend': {
-      color: 'black',
+      borderColor: theme.palette.info.main,
     },
     '&.Mui-focused fieldset': {
-      borderColor: 'black',
-    },
-    '&.Mui-focused legend': {
-      color: 'black',
+      borderColor: theme.palette.info.main,
     },
   },
   '& .MuiOutlinedInput-input': {
@@ -25,10 +19,13 @@ const HeadingSelector = styled(TextField)(() => ({
     minHeight: '23px',
     fontSize: '18px',
     fontWeight: '500',
-    color: 'black',
+    color: theme.palette.info.main,
+  },
+  '& .MuiInputLabel-root': {
+    color: theme.palette.info.main,
   },
   '& .MuiSelect-icon': {
-    color: 'black',
+    color: theme.palette.info.main,
   },
 }))
 
