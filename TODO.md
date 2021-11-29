@@ -46,6 +46,7 @@
 - renabe xField to xInput (currently messing with schema.field)
 - add helper texts to buttons
 - rebase search on text field
+- decide blue/black for heading selectors/buttons (black makes more sense)
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions
