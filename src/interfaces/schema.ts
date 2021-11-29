@@ -12,6 +12,8 @@ export interface IField {
   title?: string
   description?: string
   missingValues?: string[]
+  // TODO: improve type
+  constraints?: { [key: string]: any }
   rdfType?: string
   arrayItem?: string
   trueValues?: string[]

@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Heading from '../Library/Heading'
 import ValuesField from '../Library/ValuesField'
-import * as settings from './settings'
+import * as settings from '../../settings'
 import { useStore } from './store'
 
 export default function General() {

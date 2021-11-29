@@ -5,8 +5,8 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
-import { ISchema } from '../../interfaces'
 import { SchemaProps } from './Schema'
+import { ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
 interface SchemaState {
@@ -25,10 +25,10 @@ interface SchemaState {
   // Elements
 
   elementType: string
-  elementMode: string
   elementIndex?: number
   elementQuery?: string
   isElementGrid?: boolean
+  isElementExtra?: boolean
 }
 
 interface SchemaLogic {
@@ -49,10 +49,10 @@ interface SchemaLogic {
   // Elements
 
   setElementType: (elementType: string) => void
-  setElementMode: (elementMode: string) => void
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery: string) => void
   toggleIsElementGrid: () => void
+  toggleIsElementExtra: () => void
   addElement: () => void
   removeElement: () => void
 }
@@ -70,7 +70,6 @@ export function makeStore(props: SchemaProps) {
     // Elements
 
     elementType: 'field',
-    elementMode: 'general',
   }
   return create<SchemaState & SchemaLogic>((set, get) => ({
     ...initialState,
@@ -180,10 +179,10 @@ export function makeStore(props: SchemaProps) {
     // Elements
 
     setElementType: (elementType) => set({ elementType }),
-    setElementMode: (elementMode) => set({ elementMode }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
     setElementQuery: (elementQuery) => set({ elementQuery }),
     toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),
+    toggleIsElementExtra: () => set({ isElementExtra: !get().isElementExtra }),
   }))
 }
 

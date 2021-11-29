@@ -13,6 +13,20 @@ import Fields from './Fields'
 import Field from './Field'
 import { useStore } from '../store'
 
+// TODO: rework
+export const ELEMENTS = {
+  field: {
+    title: 'Field',
+    element: Field,
+    listing: Fields,
+  },
+  foreignKey: {
+    title: 'Foreign Key',
+    element: ForeignKey,
+    listing: ForeignKeys,
+  },
+}
+
 export default function Elements() {
   return (
     <Box>
@@ -121,7 +135,7 @@ function AddButton() {
   const elementType = useStore((state) => state.elementType)
   const addElement = useStore((state) => state.addElement)
   return (
-    <Button onClick={() => addElement()}>
+    <Button color="info" onClick={() => addElement()}>
       Add {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
@@ -170,17 +184,23 @@ function RemoveButton() {
   const elementType = useStore((state) => state.elementType)
   const removeElement = useStore((state) => state.removeElement)
   return (
-    <Button onClick={() => removeElement()}>
+    <Button color="info" onClick={() => removeElement()}>
       Remove {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
 }
 
 function ModeButton() {
-  const elementType = useStore((state) => state.elementType)
-  const setElementMode = useStore((state) => state.setElementMode)
-  if (elementType !== 'field') return null
-  return <Button onClick={() => setElementMode('constraints')}>Constraints</Button>
+  const isElementExtra = useStore((state) => state.isElementExtra)
+  const toggleIsElementExtra = useStore((state) => state.toggleIsElementExtra)
+  return (
+    <Button
+      color={isElementExtra ? 'warning' : 'info'}
+      onClick={() => toggleIsElementExtra()}
+    >
+      Constraints
+    </Button>
+  )
 }
 
 function SearchInput() {
@@ -208,12 +228,12 @@ function SearchInput() {
 
 function Content() {
   const elementType = useStore((state) => state.elementType)
-  const elementMode = useStore((state) => state.elementMode)
   const elementIndex = useStore((state) => state.elementIndex)
+  const isElementExtra = useStore((state) => state.isElementExtra)
   switch (elementType) {
     case 'field':
       if (elementIndex === undefined) return <Fields />
-      if (elementMode === 'constraints') return <Constraints />
+      if (isElementExtra) return <Constraints />
       return <Field />
     case 'foreignKey':
       if (elementIndex === undefined) return <ForeignKeys />

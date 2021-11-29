@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import YesNoField from '../../Library/YesNoField'
 import ValuesField from '../../Library/ValuesField'
 import DescriptorField from '../../Library/DescriptorField'
-import * as settings from '../settings'
+import * as settings from '../../../settings'
 import { useStore } from '../store'
 
 export default function Field() {
