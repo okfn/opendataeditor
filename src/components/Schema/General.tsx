@@ -3,8 +3,8 @@ import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Heading from '../Library/Heading'
+import MissingValues from './Library/MissingValues'
 import { useStore } from './store'
-import * as settings from './settings'
 
 export default function General() {
   const descriptor = useStore((state) => state.descriptor)
@@ -12,23 +12,10 @@ export default function General() {
   return (
     <Box>
       <Heading variant="h6">General</Heading>
-      <TextField
-        select
-        fullWidth
-        label="Missing Values"
-        margin="normal"
-        value={encodeMissingValues(descriptor.missingValues)}
-        onChange={(ev) =>
-          update({ missingValues: decodeMissingValues((ev.target as any).value) })
-        }
-        SelectProps={{ multiple: true }}
-      >
-        {settings.MISSING_VALUES.map((value) => (
-          <MenuItem key={value} value={value}>
-            {value}
-          </MenuItem>
-        ))}
-      </TextField>
+      <MissingValues
+        value={descriptor.missingValues}
+        handleChange={(missingValues) => update({ missingValues })}
+      />
       <TextField
         select
         fullWidth
@@ -46,12 +33,4 @@ export default function General() {
       </TextField>
     </Box>
   )
-}
-
-function encodeMissingValues(missingValues: string[]) {
-  return missingValues.map((value) => (value === '' ? '""' : value))
-}
-
-function decodeMissingValues(missingValues: string[]) {
-  return missingValues.map((value) => (value === '""' ? '' : value))
 }

@@ -11,6 +11,7 @@ export interface IField {
   format: string
   title?: string
   description?: string
+  missingValues?: string[]
   rdfType?: string
 }
 
