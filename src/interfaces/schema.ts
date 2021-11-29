@@ -13,6 +13,13 @@ export interface IField {
   description?: string
   missingValues?: string[]
   rdfType?: string
+  arrayItem?: string
+  trueValues?: string[]
+  falseValues?: string[]
+  bareNumber?: boolean
+  floatNumber?: boolean
+  decimalChar?: string
+  groupChar?: string
 }
 
 export interface IForeignKey {

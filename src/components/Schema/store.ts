@@ -42,6 +42,7 @@ interface SchemaLogic {
   commit: () => void
   revert: () => void
   removeField: () => void
+  // TODO: type the patch
   updateField: (patch: object) => void
   addField: () => void
 

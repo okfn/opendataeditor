@@ -18,7 +18,7 @@ export default function SplitButton(props: SplitButtonProps) {
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(1)
 
-  // Actions
+  // Handle
 
   const handleClick = () => {
     props.buttons[selectedIndex].onClick()

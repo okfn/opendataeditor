@@ -3,7 +3,8 @@ import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Heading from '../Library/Heading'
-import MissingValues from './Library/MissingValues'
+import ValuesField from '../Library/ValuesField'
+import * as settings from './settings'
 import { useStore } from './store'
 
 export default function General() {
@@ -12,8 +13,10 @@ export default function General() {
   return (
     <Box>
       <Heading variant="h6">General</Heading>
-      <MissingValues
-        value={descriptor.missingValues}
+      <ValuesField
+        type="missing"
+        values={descriptor.missingValues}
+        options={settings.MISSING_VALUES}
         handleChange={(missingValues) => update({ missingValues })}
       />
       <TextField

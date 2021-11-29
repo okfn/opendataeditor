@@ -1,3 +1,5 @@
+// TODO: don't use caps?
+
 // Genearl
 
 export const FORMATS = ['csv', 'xlsx']
