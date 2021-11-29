@@ -44,6 +44,7 @@
 - make yaml default
 - have Columns in library to simplify Grid usage
 - renabe xField to xInput (currently messing with schema.field)
+- add helper texts to buttons
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions
