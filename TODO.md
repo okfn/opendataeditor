@@ -40,6 +40,7 @@
 - report should accept descriptor instead of report
 - second click on config should return to prev page
 - implement CSV/EXCEL export
+- make yaml default
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions

@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import YesNoField from '../../Library/YesNoField'
 import ValuesField from '../../Library/ValuesField'
+import DescriptorField from '../../Library/DescriptorField'
 import * as settings from '../settings'
 import { useStore } from '../store'
 
@@ -17,12 +18,11 @@ export default function Field() {
   // Compose
 
   const ArrayItem = () => (
-    <TextField
-      fullWidth
+    <DescriptorField
+      type="yaml"
       label="Array Item"
-      margin="normal"
-      value={field.arrayItem || ''}
-      onChange={(ev) => updateField({ arrayItem: ev.target.value })}
+      value={field.arrayItem}
+      handleChange={(arrayItem) => updateField({ arrayItem })}
     />
   )
 
