@@ -32,6 +32,7 @@
 - improve query
 - improve inquiry
 - improve pipeline
+- ---
 - add scenarios (help) to the home page
 - don't change page on file upload
 - keep selected tab on a page
@@ -41,6 +42,8 @@
 - second click on config should return to prev page
 - implement CSV/EXCEL export
 - make yaml default
+- have Columns in library to simplify Grid usage
+- renabe xField to xInput (currently messing with schema.field)
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions
