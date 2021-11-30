@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField'
 import YesNoField from '../../Library/YesNoField'
+import InputField from '../../Library/InputField'
 import * as settings from '../../../settings'
 import { useStore } from '../store'
 
@@ -26,78 +26,68 @@ export default function Constraints() {
   )
 
   const Minimum = () => (
-    <TextField
-      fullWidth
+    <InputField
       type="number"
       label="Minimum"
-      margin="normal"
       value={constraints.minimum}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, minimum: ev.target.value } })
+      handleChange={(minimum) =>
+        updateField({ constraints: { ...constraints, minimum } })
       }
     />
   )
 
   const Maximum = () => (
-    <TextField
-      fullWidth
+    <InputField
       type="number"
       label="Maximum"
-      margin="normal"
       value={constraints.maximum}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, maximum: ev.target.value } })
+      handleChange={(maximum) =>
+        updateField({ constraints: { ...constraints, maximum } })
       }
     />
   )
 
   const MinLength = () => (
-    <TextField
-      fullWidth
+    <InputField
       type="number"
       label="Min Length"
-      margin="normal"
       value={constraints.minLength}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, minLength: ev.target.value } })
+      handleChange={(minLength) =>
+        updateField({ constraints: { ...constraints, minLength } })
       }
     />
   )
 
   const MaxLength = () => (
-    <TextField
-      fullWidth
+    <InputField
       type="number"
       label="Max Length"
-      margin="normal"
       value={constraints.maxLength}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, maxLength: ev.target.value } })
+      handleChange={(maxLength) =>
+        updateField({ constraints: { ...constraints, maxLength } })
       }
     />
   )
 
   const Pattern = () => (
-    <TextField
-      fullWidth
+    <InputField
+      type="string"
       label="Pattern"
-      margin="normal"
       value={constraints.pattern}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, pattern: ev.target.value } })
+      handleChange={(pattern) =>
+        updateField({ constraints: { ...constraints, pattern } })
       }
     />
   )
 
   // TODO: fix editing
   const Enum = () => (
-    <TextField
-      fullWidth
+    <InputField
+      type="string"
       label="Enum"
-      margin="normal"
       value={(constraints.enum || []).join(',')}
-      onChange={(ev) =>
-        updateField({ constraints: { ...constraints, enum: ev.target.value.split(',') } })
+      handleChange={(value) =>
+        updateField({ constraints: { ...constraints, enum: value } })
       }
     />
   )
