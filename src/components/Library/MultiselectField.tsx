@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 // TODO: rework? merge with SelectField?
 // TODO: handle different value types properly (string/number/etc)
 
-interface SelectFieldProps {
+interface MultiselectFieldProps {
   type?: string
   label: string
   value: any
@@ -13,7 +13,7 @@ interface SelectFieldProps {
   handleChange: (value: any) => void
 }
 
-export default function SelectField(props: SelectFieldProps) {
+export default function MultiselectField(props: MultiselectFieldProps) {
   const options = props.options.map((option) =>
     typeof option === 'string' ? { label: option, value: option } : option
   )
