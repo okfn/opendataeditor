@@ -9,6 +9,8 @@ import { SchemaProps } from './Schema'
 import { ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
+// TODO: refactor - use slices?
+
 interface SchemaState {
   // General
 

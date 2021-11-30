@@ -18,16 +18,16 @@ export default function Editor() {
     return <NormalMode />
   }
 
+  const PreviewMode = () => (
+    <Preview descriptor={descriptor} format={exportFormat} height="352px" />
+  )
+
   const NormalMode = () => (
     <Columns spacing={3} layout={[3, 6, 3]}>
       <General />
       <Elements />
       <Help />
     </Columns>
-  )
-
-  const PreviewMode = () => (
-    <Preview descriptor={descriptor} format={exportFormat} height="352px" />
   )
 
   return <Editor />
