@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
+import Columns from '../../Library/Columns'
 import InputField from '../../Library/InputField'
 import YesNoField from '../../Library/YesNoField'
 import * as settings from '../../../settings'
@@ -10,10 +11,50 @@ export default function Constraints() {
   const updateField = useStore((state) => state.updateField)
   const field = useStore((state) => state.descriptor.fields[elementIndex])
   const constraints = field.constraints || {}
-  // @ts-ignore
-  const FIELD = settings.FIELDS[field.type]
+  const FIELD = (settings.FIELDS as any)[field.type]
 
-  // Compose
+  // Components
+
+  const Constraints = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={6}>
+        {FIELD.constraints.map((type: string) => (
+          <Constraint key={type} type={type} />
+        ))}
+      </Grid>
+    </Grid>
+  )
+
+  const Constraint = (props: { type: string }) => {
+    switch (props.type) {
+      case 'required':
+        return <Required />
+      case 'minLength':
+        return <MinLengthConstraint />
+      case 'minimum':
+        return <MinimumConstraint />
+      case 'pattern':
+        return <Pattern />
+      case 'enum':
+        return <Enum />
+      default:
+        return null
+    }
+  }
+
+  const MinLengthConstraint = () => (
+    <Columns spacing={1}>
+      <MinLength />
+      <MaxLength />
+    </Columns>
+  )
+
+  const MinimumConstraint = () => (
+    <Columns spacing={1}>
+      <Minimum />
+      <Maximum />
+    </Columns>
+  )
 
   const Required = () => (
     <YesNoField
@@ -92,50 +133,5 @@ export default function Constraints() {
     />
   )
 
-  const Constraint = (props: { type: string }) => {
-    switch (props.type) {
-      case 'required':
-        return <Required />
-      case 'minLength':
-        return (
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <MinLength />
-            </Grid>
-            <Grid item xs={6}>
-              <MaxLength />
-            </Grid>
-          </Grid>
-        )
-      case 'minimum':
-        return (
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Minimum />
-            </Grid>
-            <Grid item xs={6}>
-              <Maximum />
-            </Grid>
-          </Grid>
-        )
-      case 'pattern':
-        return <Pattern />
-      case 'enum':
-        return <Enum />
-      default:
-        return null
-    }
-  }
-
-  // Render
-
-  return (
-    <Grid container spacing={3}>
-      <Grid item xs={6}>
-        {FIELD.constraints.map((type: string) => (
-          <Constraint key={type} type={type} />
-        ))}
-      </Grid>
-    </Grid>
-  )
+  return <Constraints />
 }

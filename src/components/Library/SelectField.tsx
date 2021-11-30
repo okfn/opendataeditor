@@ -23,6 +23,7 @@ export default function SelectField(props: SelectFieldProps) {
       label={props.label}
       margin="normal"
       value={props.value}
+      disabled={props.options.length < 2}
       onChange={(ev) => props.handleChange((ev.target as any).value)}
     >
       {options.map((option) => (
