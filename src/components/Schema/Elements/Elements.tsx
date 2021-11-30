@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Heading from '../../Library/Heading'
+import HeadingButton from '../../Library/HeadingButton'
 import HeadingSelector from '../../Library/HeadingSelector'
 import Constraints from './Constraints'
 import ForeignKeys from './ForeignKeys'
@@ -157,26 +158,14 @@ function GridButton() {
 function BackButton() {
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
-    <Button
+    <HeadingButton
       fullWidth
       color="info"
       variant="outlined"
       onClick={() => setElementIndex()}
-      sx={{
-        m: 0,
-        height: '100%',
-        textTransform: 'inherit',
-        fontSize: '18px',
-        fontWeight: 500,
-        textAlign: 'left',
-        justifyContent: 'flex-start',
-        // textDecoration: 'underline !important',
-        borderColor: 'info.main',
-        mt: '-3px',
-      }}
     >
       Fields
-    </Button>
+    </HeadingButton>
   )
 }
 
