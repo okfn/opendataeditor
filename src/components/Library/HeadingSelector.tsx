@@ -4,13 +4,13 @@ import { styled } from '@mui/material/styles'
 const HeadingSelector = styled(TextField)<TextFieldProps>(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: theme.palette.info.main,
+      borderColor: theme.palette.common.black,
     },
     '&:hover fieldset': {
-      borderColor: theme.palette.info.main,
+      borderColor: theme.palette.common.black,
     },
     '&.Mui-focused fieldset': {
-      borderColor: theme.palette.info.main,
+      borderColor: theme.palette.common.black,
     },
   },
   '& .MuiOutlinedInput-input': {
@@ -19,13 +19,13 @@ const HeadingSelector = styled(TextField)<TextFieldProps>(({ theme }) => ({
     minHeight: '23px',
     fontSize: '18px',
     fontWeight: '500',
-    color: theme.palette.info.main,
+    color: theme.palette.common.black,
   },
   '& .MuiInputLabel-root': {
-    color: theme.palette.info.main,
+    color: theme.palette.common.black,
   },
   '& .MuiSelect-icon': {
-    color: theme.palette.info.main,
+    color: theme.palette.common.black,
   },
 }))
 

@@ -10,8 +10,13 @@ const HeadingButton = styled(Button)(({ theme }) => ({
   textAlign: 'left',
   justifyContent: 'flex-start',
   // textDecoration: 'underline !important',
-  borderColor: theme.palette.info.main,
+  borderColor: theme.palette.common.black,
+  color: theme.palette.common.black,
   marginTop: '-3px',
+  '&:hover': {
+    borderColor: theme.palette.common.black,
+    backgroundColor: theme.palette.grey[50],
+  },
 }))
 
 export default HeadingButton
