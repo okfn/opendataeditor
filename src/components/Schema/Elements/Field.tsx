@@ -55,14 +55,9 @@ export default function Field() {
   )
 
   const Format = () => {
-    switch (FIELD.formats.includes('*')) {
-      case true:
-        return <FreeFormat />
-      case false:
-        return <SelectFormat />
-      default:
-        return null
-    }
+    const isFree = FIELD.formats.includes('*')
+    if (isFree) return <FreeFormat />
+    return <SelectFormat />
   }
 
   const FreeFormat = () => (

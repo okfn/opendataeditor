@@ -48,6 +48,7 @@
 - rebase search on text field
 - decide blue/black for heading selectors/buttons (black makes more sense)
 - fix the search/indexes problem in the listings
+- implement Excel/TabularView mode (a button near the config button)
 - ---
 - deploy to secret application.frictionlessdata.io
 - prepare for user testing sessions

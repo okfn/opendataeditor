@@ -5,6 +5,8 @@ import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 
+// TODO: move to Library
+
 export default function Help() {
   return (
     <Card variant="outlined" sx={{ height: 'calc(100% - 8px)' }}>

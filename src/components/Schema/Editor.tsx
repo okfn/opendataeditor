@@ -1,25 +1,34 @@
 import * as React from 'react'
-import Grid from '@mui/material/Grid'
-import { useStore } from './store'
-import Preview from './Preview'
+import Columns from '../Library/Columns'
+import Preview from '../Library/Preview'
+import Help from './Help'
 import General from './General'
 import Elements from './Elements'
-import Help from './Help'
+import { useStore } from './store'
 
 export default function Editor() {
   const isPreview = useStore((state) => state.isPreview)
-  if (isPreview) return <Preview />
-  return (
-    <Grid container spacing={3}>
-      <Grid item xs={3}>
-        <General />
-      </Grid>
-      <Grid item xs={6}>
-        <Elements />
-      </Grid>
-      <Grid item xs={3}>
-        <Help />
-      </Grid>
-    </Grid>
+  const descriptor = useStore((state) => state.descriptor)
+  const exportFormat = useStore((state) => state.exportFormat)
+
+  // Components
+
+  const Editor = () => {
+    if (isPreview) return <PreviewMode />
+    return <NormalMode />
+  }
+
+  const NormalMode = () => (
+    <Columns spacing={3} layout={[3, 6, 3]}>
+      <General />
+      <Elements />
+      <Help />
+    </Columns>
   )
+
+  const PreviewMode = () => (
+    <Preview descriptor={descriptor} format={exportFormat} height="352px" />
+  )
+
+  return <Editor />
 }
