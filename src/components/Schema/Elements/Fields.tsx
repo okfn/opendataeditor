@@ -20,6 +20,7 @@ export default function Fields() {
           variant="outlined"
           endIcon={isElementGrid ? null : field.type.toUpperCase()}
           onClick={() => setElementIndex(index)}
+          title="View field"
           key={index}
           sx={{
             width: isElementGrid ? 'inherit' : '100%',

@@ -112,7 +112,7 @@ function AddButton() {
   const elementType = useStore((state) => state.elementType)
   const addElement = useStore((state) => state.addElement)
   return (
-    <Button color="info" onClick={() => addElement()}>
+    <Button color="info" title="Add a new field" onClick={() => addElement()}>
       Add {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
@@ -125,6 +125,7 @@ function GridButton() {
     <Button
       color={isElementGrid ? 'warning' : 'info'}
       onClick={() => toggleIsElementGrid()}
+      title="Toggle grid view"
     >
       Grid View
     </Button>
@@ -139,6 +140,7 @@ function BackButton() {
       color="info"
       variant="outlined"
       onClick={() => setElementIndex()}
+      title="Return to fields"
     >
       Fields
     </HeadingButton>
@@ -149,7 +151,7 @@ function RemoveButton() {
   const elementType = useStore((state) => state.elementType)
   const removeElement = useStore((state) => state.removeElement)
   return (
-    <Button color="info" onClick={() => removeElement()}>
+    <Button title="Remove field" color="info" onClick={() => removeElement()}>
       Remove {elementType === 'field' ? 'Field' : 'Foreign Key'}
     </Button>
   )
@@ -162,6 +164,7 @@ function ModeButton() {
     <Button
       color={isElementExtra ? 'warning' : 'info'}
       onClick={() => toggleIsElementExtra()}
+      title="Toggle constraints view"
     >
       Constraints
     </Button>

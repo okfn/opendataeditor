@@ -26,7 +26,6 @@ export default function SelectField(props: SelectFieldProps) {
       value={props.value}
       disabled={props.options.length < 2}
       onChange={(ev) => props.handleChange((ev.target as any).value)}
-      SelectProps={{ multiple: true }}
     >
       {options.map((option) => (
         <MenuItem key={option.label} value={option.value}>
