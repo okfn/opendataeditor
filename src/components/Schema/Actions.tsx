@@ -3,6 +3,9 @@ import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import ButtonGroup from '@mui/material/ButtonGroup'
+import ImportButton from '../Library/ImportButton'
+import CommitButton from '../Library/CommitButton'
+import RevertButton from '../Library/RevertButton'
 import Columns from '../Library/Columns'
 import { useStore } from './store'
 
@@ -62,64 +65,19 @@ function Export() {
   )
 }
 
-// TODO: Implement in Library
 function Import() {
   const importer = useStore((state) => state.importer)
-  return (
-    <label htmlFor="import-button">
-      <input
-        type="file"
-        id="import-button"
-        accept=".json, .yaml"
-        style={{ display: 'none' }}
-        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-          if (ev.target.files) importer(ev.target.files[0])
-          ev.target.value = ''
-        }}
-      />
-      <Button
-        title="Import descriptor as JSON or YAML"
-        variant="contained"
-        component="span"
-        color="info"
-        fullWidth
-      >
-        Import
-      </Button>
-    </label>
-  )
+  return <ImportButton handleImport={importer} />
 }
 
 function Commit() {
   const isUpdated = useStore((state) => state.isUpdated)
   const commit = useStore((state) => state.commit)
-  return (
-    <Button
-      title="Commit changes to use them further"
-      variant="contained"
-      disabled={!isUpdated}
-      onClick={commit}
-      color="success"
-      fullWidth
-    >
-      Commit
-    </Button>
-  )
+  return <CommitButton disabled={!isUpdated} handleClick={commit} />
 }
 
 function Revert() {
   const isUpdated = useStore((state) => state.isUpdated)
   const revert = useStore((state) => state.revert)
-  return (
-    <Button
-      title="Revert changes to the initial state"
-      variant="contained"
-      disabled={!isUpdated}
-      onClick={revert}
-      color="error"
-      fullWidth
-    >
-      Revert
-    </Button>
-  )
+  return <RevertButton disabled={!isUpdated} handleClick={revert} />
 }
