@@ -2,7 +2,9 @@ import * as React from 'react'
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import InputField from '../../Library/InputField'
 import YesNoField from '../../Library/YesNoField'
+import SelectField from '../../Library/SelectField'
 import ValuesField from '../../Library/ValuesField'
 import DescriptorField from '../../Library/DescriptorField'
 import * as settings from '../../../settings'
@@ -26,6 +28,7 @@ export default function Field() {
     />
   )
 
+  // TODO: add values enabled by default?
   const TrueValues = () => (
     <ValuesField
       type="true"
@@ -35,6 +38,7 @@ export default function Field() {
     />
   )
 
+  // TODO: add values enabled by default?
   const FalseValues = () => (
     <ValuesField
       type="false"
@@ -61,22 +65,18 @@ export default function Field() {
   )
 
   const DecimalChar = () => (
-    <TextField
-      fullWidth
+    <InputField
       label="Decimal Char"
-      margin="normal"
       value={field.decimalChar || settings.DEFAULT_DECIMAL_CHAR}
-      onChange={(ev) => updateField({ decimalChar: ev.target.value })}
+      handleChange={(decimalChar) => updateField({ decimalChar })}
     />
   )
 
   const GroupChar = () => (
-    <TextField
-      fullWidth
+    <InputField
       label="Group Char"
-      margin="normal"
       value={field.groupChar || settings.DEFAULT_GROUP_CHAR}
-      onChange={(ev) => updateField({ groupChar: ev.target.value })}
+      handleChange={(groupChar) => updateField({ groupChar })}
     />
   )
 
@@ -129,29 +129,19 @@ export default function Field() {
   return (
     <Grid container spacing={3}>
       <Grid item xs={6}>
-        <TextField
-          fullWidth
+        <InputField
           label="Name"
-          margin="normal"
           value={field.name}
-          onChange={(ev) => updateField({ name: ev.target.value })}
+          handleChange={(name) => updateField({ name })}
         />
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <TextField
-              select
-              fullWidth
+            <SelectField
               label="Type"
-              margin="normal"
               value={field.type}
-              onChange={(ev) => updateField({ type: ev.target.value })}
-            >
-              {Object.keys(settings.FIELDS).map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type}
-                </MenuItem>
-              ))}
-            </TextField>
+              options={Object.keys(settings.FIELDS)}
+              handleChange={(type) => updateField({ type })}
+            />
           </Grid>
           <Grid item xs={6}>
             {FIELD.formats.includes('*') ? (

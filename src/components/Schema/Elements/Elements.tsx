@@ -2,8 +2,8 @@ import * as React from 'react'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import Columns from '../../Library/Columns'
 import Heading from '../../Library/Heading'
 import HeadingButton from '../../Library/HeadingButton'
 import HeadingSelector from '../../Library/HeadingSelector'
@@ -13,20 +13,6 @@ import ForeignKey from './ForeignKey'
 import Fields from './Fields'
 import Field from './Field'
 import { useStore } from '../store'
-
-// TODO: rework
-export const ELEMENTS = {
-  field: {
-    title: 'Field',
-    element: Field,
-    listing: Fields,
-  },
-  foreignKey: {
-    title: 'Foreign Key',
-    element: ForeignKey,
-    listing: ForeignKeys,
-  },
-}
 
 export default function Elements() {
   return (
@@ -45,18 +31,14 @@ function Header() {
 function ListingHeader() {
   return (
     <Heading variant="h6">
-      <Grid container spacing={1}>
-        <Grid item xs={3}>
-          <TypeSelect />
-        </Grid>
-        <Grid item xs={6}>
+      <Columns spacing={1} layout={[3, 6, 3]}>
+        <TypeSelect />
+        <Box>
           <AddButton />
           <GridButton />
-        </Grid>
-        <Grid item xs={3}>
-          <SearchInput />
-        </Grid>
-      </Grid>
+        </Box>
+        <SearchInput />
+      </Columns>
     </Heading>
   )
 }
@@ -64,22 +46,16 @@ function ListingHeader() {
 function ItemHeader() {
   return (
     <Heading variant="h6">
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <BackButton />
-            </Grid>
-            <Grid item xs={6}>
-              <ItemSelect />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={6}>
+      <Columns spacing={3}>
+        <Columns spacing={1}>
+          <BackButton />
+          <ItemSelect />
+        </Columns>
+        <Box>
           <RemoveButton />
           <ModeButton />
-        </Grid>
-      </Grid>
+        </Box>
+      </Columns>
     </Heading>
   )
 }

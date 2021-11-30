@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 // TODO: handle different value types properly (string/number/etc)
 
 interface InputFieldProps {
-  type: string
+  type?: string
   label: string
   value: any
   handleChange: (value: any) => void
