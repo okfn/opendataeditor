@@ -270,7 +270,7 @@ function Actions() {
       <Grid container spacing={3}>
         <Grid item xs={3}>
           <ButtonGroup
-            variant="contained"
+            variant="outlined"
             color="info"
             aria-label="export"
             sx={{ width: '100%' }}
@@ -312,7 +312,7 @@ function Actions() {
             />
             <Button
               title="Import descriptor as JSON or YAML"
-              variant="contained"
+              variant="outlined"
               component="span"
               color="info"
               fullWidth
@@ -324,7 +324,7 @@ function Actions() {
         <Grid item xs={3}>
           <Button
             title="Commit changes to use them further"
-            variant="contained"
+            variant="outlined"
             disabled={!isUpdated}
             onClick={commit}
             color="success"
@@ -336,7 +336,7 @@ function Actions() {
         <Grid item xs={3}>
           <Button
             title="Revert changes to the initial state"
-            variant="contained"
+            variant="outlined"
             disabled={!isUpdated}
             onClick={revert}
             color="error"

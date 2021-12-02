@@ -1,16 +1,29 @@
 import * as React from 'react'
-import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import { assert } from 'ts-essentials'
 import Columns from '../../Library/Columns'
+import Resource from '../../Resource'
+import Dialect from '../../Dialect'
+import Schema from '../../Schema'
+import Query from '../../Query'
+import Inquiry from '../../Inquiry'
+import Pipeline from '../../Pipeline'
+import { useStore } from '../store'
 
-export default function Help() {
+export default function Metadata() {
   const [value, setValue] = React.useState(0)
+  const resource = useStore((state) => state.resource)
+  const inquiry = useStore((state) => state.inquiry)
+  const pipeline = useStore((state) => state.pipeline)
+  const updateResource = useStore((state) => state.updateResource)
+  const updateInquiry = useStore((state) => state.updateInquiry)
+  const updatePipeline = useStore((state) => state.updatePipeline)
+  assert(resource)
+  assert(inquiry)
+  assert(pipeline)
   return (
     <Columns spacing={3} layout={[3, 9]}>
       <Tabs
@@ -25,31 +38,40 @@ export default function Help() {
           '& .MuiButtonBase-root': { alignItems: 'flex-start' },
         }}
       >
-        <Tab label="Introduction" {...a11yProps(0)} />
-        <Tab label="Getting Started" {...a11yProps(1)} />
-        <Tab label="Describe Data" {...a11yProps(2)} />
-        <Tab label="Extract Data" {...a11yProps(3)} />
-        <Tab label="Validate Data" {...a11yProps(4)} />
-        <Tab label="Transform Data" {...a11yProps(5)} />
+        <Tab label="Resource" {...a11yProps(0)} />
+        <Tab label="Dialect" {...a11yProps(1)} />
+        <Tab label="Schema" {...a11yProps(2)} />
+        <Tab label="Query" {...a11yProps(3)} />
+        <Tab label="Inqiury" {...a11yProps(3)} />
+        <Tab label="Pipeline" {...a11yProps(4)} />
       </Tabs>
       <React.Fragment>
         <TabPanel value={value} index={0}>
-          <Introduction />
+          <Resource
+            descriptor={resource}
+            onCommit={(resource) => updateResource(resource)}
+          />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>comming soon</div>
+          <Dialect
+            descriptor={resource.dialect}
+            onCommit={(dialect) => updateResource({ dialect })}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>comming soon</div>
+          <Schema
+            descriptor={resource.schema}
+            onCommit={(schema) => updateResource({ schema })}
+          />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <div>comming soon</div>
+          <Query />
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <div>comming soon</div>
+          <Inquiry inquiry={inquiry} onSave={(inqiury) => updateInquiry(inqiury)} />
         </TabPanel>
         <TabPanel value={value} index={5}>
-          <div>comming soon</div>
+          <Pipeline pipeline={pipeline} onSave={(pipeline) => updatePipeline(pipeline)} />
         </TabPanel>
       </React.Fragment>
     </Columns>
@@ -87,29 +109,4 @@ function a11yProps(index: number) {
     id: `vertical-tab-${index}`,
     'aria-controls': `vertical-tabpanel-${index}`,
   }
-}
-
-function Introduction() {
-  return (
-    <Card variant="outlined">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Help
-        </Typography>
-        <Typography variant="h5" component="div">
-          Frictionless Application
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          overview
-        </Typography>
-        <Typography variant="body2">
-          Frictionless is a framework to describe, extract, validate, and transform
-          tabular data in Python.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-  )
 }

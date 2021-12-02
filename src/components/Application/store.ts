@@ -55,6 +55,8 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       alert('Currently only CSV files under 10Mb are supported')
       return
     }
+    // TODO: find a proper place for it
+    const text = await file.text()
     const { detector } = get()
     // TODO: make unblocking
     const { resource } = await client.describe(file, detector)
@@ -62,8 +64,6 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { rows } = await client.extract(file, resource)
     const inquiry = { source: resource, checks: [] }
     const pipeline = { source: resource, type: 'resource', steps: [] }
-    // TODO: find a proper place for it
-    const text = await file.text()
     set({ contentType: 'data', file, resource, rows, inquiry, pipeline, text })
   },
 

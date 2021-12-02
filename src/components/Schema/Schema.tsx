@@ -4,6 +4,8 @@ import { Provider, makeStore } from './store'
 import Actions from './Actions'
 import Editor from './Editor'
 
+//TODO: rename to handleCommit/Revert?
+
 export interface SchemaProps {
   descriptor: ISchema
   onCommit?: (descriptor: ISchema) => void

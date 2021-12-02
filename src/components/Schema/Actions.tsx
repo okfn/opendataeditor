@@ -35,7 +35,7 @@ function Export() {
   const isYamlPreview = isPreview && exportFormat === 'yaml'
   return (
     <ButtonGroup
-      variant="contained"
+      variant="outlined"
       color="info"
       aria-label="export"
       sx={{ width: '100%' }}

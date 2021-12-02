@@ -22,6 +22,7 @@ export default function Conig() {
         onChange={(_, newValue) => setValue(newValue)}
         aria-label="Vertical tabs example"
         sx={{
+          // height: '100%',
           borderRight: 1,
           borderColor: 'divider',
           '& .MuiButtonBase-root': { alignItems: 'flex-start' },

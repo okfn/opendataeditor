@@ -10,7 +10,7 @@ export default function PreviewButton(props: PreviewButtonProps) {
     <Button
       fullWidth
       color="info"
-      variant="contained"
+      variant="outlined"
       title="Preview descriptor in selected format"
       onClick={() => props.handleClick()}
     >
