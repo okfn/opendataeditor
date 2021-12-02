@@ -64,7 +64,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    set({ contentType: 'describe', file, resource, rows, inquiry, pipeline, text })
+    set({ contentType: 'data', file, resource, rows, inquiry, pipeline, text })
   },
 
   // Metadata

@@ -8,6 +8,8 @@ import Columns from '../../Library/Columns'
 import { useStore } from '../store'
 
 export default function Footer() {
+  const contentType = useStore((state) => state.contentType)
+  if (contentType !== 'data') return null
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', pl: 2, pr: 2 }}>
       <Columns spacing={3} layout={[3, 9]}>

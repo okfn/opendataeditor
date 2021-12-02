@@ -4,10 +4,10 @@ import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import Columns from '../Library/Columns'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import Columns from '../../Library/Columns'
 
 export default function Help() {
   const [value, setValue] = React.useState(0)
