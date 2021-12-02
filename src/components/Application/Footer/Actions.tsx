@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { assert } from 'ts-essentials'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
@@ -55,12 +56,15 @@ function Export() {
 }
 
 function Source() {
+  const isSourceView = useStore((state) => state.isSourceView)
+  const toggleSourceView = useStore((state) => state.toggleSourceView)
   return (
     <Button
-      title="Commit changes to use them further"
-      variant="contained"
-      color="info"
       fullWidth
+      variant="contained"
+      title="Toogle source view"
+      color={isSourceView ? 'warning' : 'info'}
+      onClick={() => toggleSourceView()}
     >
       Source
     </Button>
@@ -68,27 +72,37 @@ function Source() {
 }
 
 function Report() {
+  const report = useStore((state) => state.report)
+  const isReportView = useStore((state) => state.isReportView)
+  const toggleReportView = useStore((state) => state.toggleReportView)
+  assert(report)
   return (
     <Button
-      title="Revert changes to the initial state"
-      variant="contained"
-      color="success"
       fullWidth
+      variant="contained"
+      title="Toggle report view"
+      color={isReportView ? 'warning' : report.valid ? 'success' : 'error'}
+      onClick={() => toggleReportView()}
     >
-      Report (Valid)
+      Report ({report.valid ? 'Valid' : 'Invalid'})
     </Button>
   )
 }
 
 function Errors() {
+  const report = useStore((state) => state.report)
+  const isErrorsView = useStore((state) => state.isErrorsView)
+  // const toggleErrorsView = useStore((state) => state.toggleErrorsView)
+  assert(report)
   return (
     <Button
-      title="Commit changes to use them further"
-      variant="contained"
-      color="success"
       fullWidth
+      variant="contained"
+      title="Toggle errors view"
+      color={isErrorsView ? 'warning' : report.valid ? 'success' : 'error'}
+      onClick={() => alert('Under development')}
     >
-      Errors (0)
+      Errors ({report.stats.errors})
     </Button>
   )
 }

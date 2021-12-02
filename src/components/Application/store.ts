@@ -17,12 +17,16 @@ export interface IState {
   targetRows?: IRow[]
   isMetadataOpen?: boolean
   isSourceView?: boolean
+  isReportView?: boolean
+  isErrorsView?: boolean
 }
 
 export interface ILogic {
   setContentType: (contentType: string) => void
   toggleMetadataOpen: () => void
   toggleSourceView: () => void
+  toggleReportView: () => void
+  toggleErrorsView: () => void
   uploadFile: (file: File) => void
   updateDetector: (patch: Partial<IDetector>) => void
   updateResource: (patch: Partial<IResource>) => void
@@ -44,7 +48,10 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   setContentType: (contentType) => set({ contentType }),
   toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
-  toggleSourceView: () => set({ isSourceView: !get().isSourceView }),
+  toggleSourceView: () => set({ isSourceView: !get().isSourceView, isReportView: false }),
+  toggleReportView: () => set({ isReportView: !get().isReportView, isSourceView: false }),
+  toggleErrorsView: () =>
+    set({ isErrorsView: !get().isErrorsView, isSourceView: false, isReportView: false }),
 
   // File
 
@@ -63,8 +70,9 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     // TODO: make unblocking
     const { rows } = await client.extract(file, resource)
     const inquiry = { source: resource, checks: [] }
+    const { report } = await client.validate(file, inquiry)
     const pipeline = { source: resource, type: 'resource', steps: [] }
-    set({ contentType: 'data', file, resource, rows, inquiry, pipeline, text })
+    set({ contentType: 'data', file, resource, rows, inquiry, report, pipeline, text })
   },
 
   // Metadata
