@@ -36,7 +36,7 @@ export class Client {
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/extract', payload)
     const content = await response.json()
-    return content as { report: IRow[] }
+    return content as { rows: IRow[] }
   }
 
   async validate(file: File, inquiry: IInquiry) {

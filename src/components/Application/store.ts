@@ -65,12 +65,15 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       return
     }
     const { detector } = get()
+    // TODO: make unblocking
     const { resource } = await client.describe(file, detector)
+    // TODO: make unblocking
+    const { rows } = await client.extract(file, resource)
     const inquiry = { source: resource, checks: [] }
     const pipeline = { source: resource, type: 'resource', steps: [] }
     // TODO: find a proper place for it
     const text = await file.text()
-    set({ contentType: 'describe', file, resource, inquiry, pipeline, text })
+    set({ contentType: 'describe', file, resource, rows, inquiry, pipeline, text })
   },
 
   // Metadata
