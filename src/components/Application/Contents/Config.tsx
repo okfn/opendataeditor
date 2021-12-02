@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Detector from '../../Detector'
 import { useStore } from '../store'
 
-export default function Describe() {
+export default function Config() {
   const [value, setValue] = React.useState(0)
   const detector = useStore((state) => state.detector)
   const updateDetector = useStore((state) => state.updateDetector)

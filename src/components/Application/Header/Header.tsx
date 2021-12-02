@@ -4,15 +4,17 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import WindowIcon from '@mui/icons-material/Window'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { useStore } from './store'
+import { useStore } from '../store'
 
 export default function Header() {
+  const file = useStore((state) => state.file)
   const contentType = useStore((state) => state.contentType)
   const setContentType = useStore((state) => state.setContentType)
   const uploadFile = useStore((state) => state.uploadFile)
@@ -48,13 +50,25 @@ export default function Header() {
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
                 <Button
+                  title="Open data viewer"
+                  color={contentType === 'data' ? 'warning' : 'inherit'}
+                  onClick={() => setContentType('data')}
+                  disabled={!file}
+                >
+                  <WindowIcon />
+                </Button>
+                <Button
+                  title="Open configuration"
                   color={contentType === 'config' ? 'warning' : 'inherit'}
-                  title="Open configuration menu"
                   onClick={() => setContentType('config')}
                 >
                   <SettingsIcon />
                 </Button>
-                <Button color="warning" title="Show help information">
+                <Button
+                  title="Open documentation"
+                  color={contentType === 'help' ? 'warning' : 'inherit'}
+                  onClick={() => setContentType('help')}
+                >
                   <HelpOutlineIcon />
                 </Button>
               </Grid>

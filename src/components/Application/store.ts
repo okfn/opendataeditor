@@ -15,10 +15,14 @@ export interface IState {
   text?: string
   rows?: IRow[]
   targetRows?: IRow[]
+  isMetadataOpen?: boolean
+  isSourceView?: boolean
 }
 
 export interface ILogic {
   setContentType: (contentType: string) => void
+  toggleMetadataOpen: () => void
+  toggleSourceView: () => void
   uploadFile: (file: File) => void
   updateDetector: (patch: Partial<IDetector>) => void
   updateResource: (patch: Partial<IResource>) => void
@@ -27,7 +31,8 @@ export interface ILogic {
 }
 
 export const initialState = {
-  contentType: 'home',
+  isHelpView: true,
+  contentType: 'help',
   // TODO: move to settings or server-side
   detector: { bufferSize: 10000, sampleSize: 100 },
 }
@@ -37,23 +42,9 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   // Page
 
-  // TODO: rewrite
-  setContentType: async (contentType) => {
-    let patch = {}
-    const { file, resource, inquiry, pipeline } = get()
-    if (!file || !resource || !inquiry || !pipeline) {
-      set({ contentType })
-      return
-    }
-    if (contentType === 'extract') {
-      patch = await client.extract(file, resource)
-    } else if (contentType === 'validate') {
-      patch = await client.validate(file, inquiry)
-    } else if (contentType === 'transform') {
-      patch = await client.transform(file, pipeline)
-    }
-    set({ contentType, ...patch })
-  },
+  setContentType: (contentType) => set({ contentType }),
+  toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
+  toggleSourceView: () => set({ isSourceView: !get().isSourceView }),
 
   // File
 

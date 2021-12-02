@@ -14,6 +14,8 @@ import Fields from './Fields'
 import Field from './Field'
 import { useStore } from '../store'
 
+// TODO: renamed Elements to Element/Content?
+
 export default function Elements() {
   return (
     <Box>
