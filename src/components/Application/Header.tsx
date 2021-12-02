@@ -20,7 +20,7 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
         <Toolbar disableGutters>
-          <Grid container>
+          <Grid container spacing={3}>
             <Grid item xs={3}>
               <Typography
                 variant="h5"
@@ -54,7 +54,7 @@ export default function Header() {
                 >
                   <SettingsIcon />
                 </Button>
-                <Button color="inherit" title="Show help information">
+                <Button color="warning" title="Show help information">
                   <HelpOutlineIcon />
                 </Button>
               </Grid>
