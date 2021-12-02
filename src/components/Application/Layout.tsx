@@ -9,8 +9,9 @@ import { useStore } from './store'
 // TODO: rebase pixel values by theme.spacing(8)
 
 export default function Layout() {
+  const contentType = useStore((state) => state.contentType)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const footerHeight = isMetadataOpen ? '544px' : '64px'
+  const footerHeight = contentType === 'data' && isMetadataOpen ? '544px' : '64px'
   const contentHeight = `calc(100vh - 64px - ${footerHeight})`
   return (
     <React.Fragment>

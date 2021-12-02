@@ -6,6 +6,8 @@ import { useStore } from '../store'
 
 export default function Footer() {
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
+  const contentType = useStore((state) => state.contentType)
+  if (contentType !== 'data') return null
   return (
     <Box>
       <Box
