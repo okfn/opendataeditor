@@ -5,21 +5,91 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Columns from '../Library/Columns'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
 
 export default function Help() {
+  const [value, setValue] = React.useState(0)
   return (
     <Columns spacing={3} layout={[3, 9]}>
-      <Navigation />
-      <Document />
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={(_, newValue) => setValue(newValue)}
+        aria-label="Vertical tabs example"
+        sx={{
+          borderRight: 1,
+          borderColor: 'divider',
+          '& .MuiButtonBase-root': { alignItems: 'flex-start' },
+        }}
+      >
+        <Tab label="Introduction" {...a11yProps(0)} />
+        <Tab label="Getting Started" {...a11yProps(1)} />
+        <Tab label="Describe Data" {...a11yProps(2)} />
+        <Tab label="Extract Data" {...a11yProps(3)} />
+        <Tab label="Validate Data" {...a11yProps(4)} />
+        <Tab label="Transform Data" {...a11yProps(5)} />
+      </Tabs>
+      <React.Fragment>
+        <TabPanel value={value} index={0}>
+          <Introduction />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <div>comming soon</div>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <div>comming soon</div>
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <div>comming soon</div>
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          <div>comming soon</div>
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          <div>comming soon</div>
+        </TabPanel>
+      </React.Fragment>
     </Columns>
   )
 }
 
-function Navigation() {
-  return null
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
 }
 
-function Document() {
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
+  }
+}
+
+function Introduction() {
   return (
     <Card variant="outlined">
       <CardContent>
