@@ -18,7 +18,7 @@ export default function Header() {
   const uploadFile = useStore((state) => state.uploadFile)
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar>
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
