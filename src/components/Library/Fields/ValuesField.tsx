@@ -9,6 +9,7 @@ interface ValuesFieldProps {
   type: 'missing' | 'true' | 'false'
   values: string[]
   options: string[]
+  size?: 'small' | 'medium'
   handleChange: (value: string[]) => void
 }
 
@@ -17,8 +18,9 @@ export default function ValuesField(props: ValuesFieldProps) {
     <TextField
       select
       fullWidth
-      label={`${capitalize(props.type)} Values`}
       margin="normal"
+      size={props.size || 'medium'}
+      label={`${capitalize(props.type)} Values`}
       value={encodeValues(props.values)}
       onChange={(ev) => props.handleChange(decodeValues((ev.target as any).value))}
       SelectProps={{ multiple: true }}

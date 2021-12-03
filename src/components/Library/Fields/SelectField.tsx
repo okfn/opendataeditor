@@ -10,6 +10,7 @@ interface SelectFieldProps {
   label: string
   value: any
   options: string[] | { label: string; value: any }[]
+  size?: 'small' | 'medium'
   handleChange: (value: any) => void
 }
 
@@ -24,6 +25,7 @@ export default function SelectField(props: SelectFieldProps) {
       label={props.label}
       margin="normal"
       value={props.value}
+      size={props.size || 'medium'}
       disabled={props.options.length < 2}
       onChange={(ev) => props.handleChange((ev.target as any).value)}
     >

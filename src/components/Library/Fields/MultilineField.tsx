@@ -7,6 +7,7 @@ interface MultilineFieldProps {
   type?: string
   label: string
   value: any
+  size?: 'small' | 'medium'
   handleChange: (value: any) => void
 }
 
@@ -19,6 +20,7 @@ export default function MultilineField(props: MultilineFieldProps) {
       margin="normal"
       label={props.label}
       value={props.value}
+      size={props.size || 'medium'}
       onChange={(ev) => props.handleChange(ev.target.value as any)}
     />
   )

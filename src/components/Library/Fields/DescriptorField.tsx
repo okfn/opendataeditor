@@ -7,6 +7,7 @@ interface DescriptorFieldProps {
   type: 'yaml' | 'json'
   label: string
   value?: string
+  size?: 'small' | 'medium'
   handleChange: (value: boolean) => void
 }
 
@@ -19,6 +20,7 @@ export default function DescriptorField(props: DescriptorFieldProps) {
       multiline
       margin="normal"
       label={props.label}
+      size={props.size || 'medium'}
       defaultValue={props.value ? encode(props.value).trim() : null}
       onBlur={(ev) => {
         ev.preventDefault()
