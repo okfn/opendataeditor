@@ -5,6 +5,7 @@ import Header from './Header'
 import Footer from './Footer'
 import { useStore } from './store'
 
+// TODO: merge with app?
 // TODO: add transition animation
 // TODO: rebase pixel values by theme.spacing(8)
 

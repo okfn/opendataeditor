@@ -1,13 +1,12 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import { ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
 import Actions from './Actions'
 import Editor from './Editor'
 
-// TODO: rebase on theme.spacing
 // TODO: remove borderTop hack
-// TODO: rename to handleCommit/Revert?
 
 export interface SchemaProps {
   descriptor: ISchema
@@ -16,13 +15,14 @@ export interface SchemaProps {
 }
 
 export default function Schema(props: SchemaProps) {
+  const theme = useTheme()
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Box sx={{ height: '464px' }}>
-        <Box sx={{ height: '400px', borderTop: 'solid 1px white' }}>
+      <Box sx={{ height: theme.spacing(58) }}>
+        <Box sx={{ height: theme.spacing(50), borderTop: 'solid 1px white' }}>
           <Editor />
         </Box>
-        <Box sx={{ height: '64px' }}>
+        <Box sx={{ height: theme.spacing(8) }}>
           <Actions />
         </Box>
       </Box>
