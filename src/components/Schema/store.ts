@@ -36,9 +36,10 @@ interface SchemaState {
 interface SchemaLogic {
   // General
 
+  setExportFormat: (format: string) => void
+  togglePreview: () => void
   exporter: () => void
   importer: (file: File) => void
-  preview: (format: string) => void
   // TODO: type the patch
   update: (patch: object) => void
   commit: () => void
@@ -78,6 +79,8 @@ export function makeStore(props: SchemaProps) {
 
     // General
 
+    setExportFormat: (exportFormat) => set({ exportFormat }),
+    togglePreview: () => set({ isPreview: !get().isPreview }),
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
@@ -92,12 +95,6 @@ export function makeStore(props: SchemaProps) {
       // TODO: handle errors and validate descriptor
       const descriptor = isYaml ? yaml.load(text) : JSON.parse(text)
       set({ descriptor, isUpdated: true })
-    },
-    preview: (format) => {
-      let { exportFormat, isPreview } = get()
-      isPreview = !isPreview || exportFormat !== format
-      exportFormat = isPreview ? format : settings.DEFAULT_EXPORT_FORMAT
-      set({ exportFormat, isPreview })
     },
     update: (patch) => {
       const { descriptor } = get()
