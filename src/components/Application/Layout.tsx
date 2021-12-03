@@ -11,7 +11,7 @@ import { useStore } from './store'
 export default function Layout() {
   const contentType = useStore((state) => state.contentType)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const footerHeight = contentType === 'data' && isMetadataOpen ? '544px' : '64px'
+  const footerHeight = contentType === 'data' && isMetadataOpen ? '552px' : '64px'
   const contentHeight = `calc(100vh - 64px - ${footerHeight})`
   return (
     <React.Fragment>

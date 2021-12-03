@@ -23,7 +23,7 @@ export default function Footer() {
         <Actions />
       </Box>
       {isMetadataOpen ? (
-        <Box sx={{ p: 2, borderTop: 'solid 1px #ddd' }}>
+        <Box sx={{ padding: 2, paddingBottom: 0, borderTop: 'solid 1px #ddd' }}>
           <Metadata />
         </Box>
       ) : null}

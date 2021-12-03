@@ -26,8 +26,8 @@ function ToggleMetadata() {
   const toggleMetadataOpen = useStore((state) => state.toggleMetadataOpen)
   return (
     <Button
-      color="info"
       fullWidth
+      color="info"
       variant="outlined"
       title="Toggle metadata editor"
       endIcon={isMetadataOpen ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
