@@ -9,13 +9,17 @@ import Columns from '../Library/Columns'
 import { useStore } from './store'
 
 export default function Actions() {
+  const isUpdated = useStore((state) => state.isUpdated)
+  const importer = useStore((state) => state.importer)
+  const commit = useStore((state) => state.commit)
+  const revert = useStore((state) => state.revert)
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
       <Columns spacing={3}>
         <Export />
-        <Import />
-        <Commit />
-        <Revert />
+        <ImportButton handleImport={importer} />
+        <CommitButton disabled={!isUpdated} handleClick={commit} />
+        <RevertButton disabled={!isUpdated} handleClick={revert} />
       </Columns>
     </Box>
   )
@@ -59,21 +63,4 @@ function Export() {
       </Button>
     </ButtonGroup>
   )
-}
-
-function Import() {
-  const importer = useStore((state) => state.importer)
-  return <ImportButton handleImport={importer} />
-}
-
-function Commit() {
-  const isUpdated = useStore((state) => state.isUpdated)
-  const commit = useStore((state) => state.commit)
-  return <CommitButton disabled={!isUpdated} handleClick={commit} />
-}
-
-function Revert() {
-  const isUpdated = useStore((state) => state.isUpdated)
-  const revert = useStore((state) => state.revert)
-  return <RevertButton disabled={!isUpdated} handleClick={revert} />
 }

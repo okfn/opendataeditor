@@ -16,8 +16,8 @@ interface SchemaState {
 
   descriptor: ISchema
   checkpoint: ISchema
-  onCommit: (descriptor: ISchema) => void
-  onRevert: (descriptor: ISchema) => void
+  handleCommit: (descriptor: ISchema) => void
+  handleRevert: (descriptor: ISchema) => void
   // TODO: handle all the state in previewFormat?
   isPreview?: boolean
   // TODO: use deep equality check instead of the flag
@@ -65,8 +65,8 @@ export function makeStore(props: SchemaProps) {
 
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
-    onCommit: props.onCommit || noop,
-    onRevert: props.onRevert || noop,
+    handleCommit: props.handleCommit || noop,
+    handleRevert: props.handleRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
     // Elements
@@ -104,14 +104,14 @@ export function makeStore(props: SchemaProps) {
       set({ descriptor: { ...descriptor, ...patch }, isUpdated: true })
     },
     revert: () => {
-      const { onRevert, descriptor, checkpoint } = get()
+      const { handleRevert, descriptor, checkpoint } = get()
       set({ descriptor: cloneDeep(checkpoint), isUpdated: false })
-      onRevert(descriptor)
+      handleRevert(descriptor)
     },
     commit: () => {
-      const { onCommit, descriptor } = get()
+      const { handleCommit, descriptor } = get()
       set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
-      onCommit(descriptor)
+      handleCommit(descriptor)
     },
     updateField: (patch) => {
       const { descriptor, elementIndex } = get()

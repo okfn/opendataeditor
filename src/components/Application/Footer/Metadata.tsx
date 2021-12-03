@@ -61,7 +61,7 @@ export default function Metadata() {
         <TabPanel value={value} index={2}>
           <Schema
             descriptor={resource.schema}
-            onCommit={(schema) => updateResource({ schema })}
+            handleCommit={(schema) => updateResource({ schema })}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
