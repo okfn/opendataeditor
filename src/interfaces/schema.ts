@@ -25,6 +25,9 @@ export interface IField {
 }
 
 export interface IForeignKey {
-  name?: string
   field: string[]
+  reference: {
+    field: string[]
+    resource: string
+  }
 }

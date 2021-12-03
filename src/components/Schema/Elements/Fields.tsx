@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Button from '@mui/material/Button'
+import ItemButton from '../../Library/Buttons/ItemButton'
 import Box from '@mui/material/Box'
 import { useStore } from '../store'
 
@@ -12,27 +12,16 @@ export default function Fields() {
     ? descriptor.fields.filter((field) => field.name.includes(elementQuery))
     : descriptor.fields
   return (
-    <Box sx={{ maxHeight: '310px', overflowY: 'auto' }}>
+    <Box sx={{ height: '320px', overflowY: 'auto' }}>
       {fields.map((field, index) => (
-        <Button
-          size="large"
-          color="info"
-          variant="outlined"
-          endIcon={isElementGrid ? null : field.type.toUpperCase()}
-          onClick={() => setElementIndex(index)}
-          title="View field"
+        <ItemButton
           key={index}
-          sx={{
-            width: isElementGrid ? 'inherit' : '100%',
-            marginRight: isElementGrid ? 2 : 0,
-            justifyContent: 'space-between',
-            textTransform: 'initial',
-            p: [2, 2],
-            mt: 2,
-          }}
-        >
-          {field.name}
-        </Button>
+          index={index}
+          name={field.name}
+          type={field.type}
+          isGrid={isElementGrid}
+          handleClick={() => setElementIndex(index)}
+        />
       ))}
     </Box>
   )
