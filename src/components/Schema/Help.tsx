@@ -6,7 +6,7 @@ export default function Help() {
     <HelpCard
       title="Schema"
       subtitle="overview"
-      height="352px"
+      height="100%"
       link="https://framework.frictionlessdata.io/docs/guides/describing-data#describing-a-schema"
     >
       Table Schema is a specification for providing a schema (similar to a database

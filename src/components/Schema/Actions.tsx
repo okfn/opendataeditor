@@ -8,11 +8,9 @@ import RevertButton from '../Library/Buttons/RevertButton'
 import Columns from '../Library/Columns'
 import { useStore } from './store'
 
-// TODO: review divider
-
 export default function Actions() {
   return (
-    <Box sx={{ mt: 2, borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
       <Columns spacing={3}>
         <Export />
         <Import />

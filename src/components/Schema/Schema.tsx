@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import { ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
 import Actions from './Actions'
@@ -15,8 +16,10 @@ export interface SchemaProps {
 export default function Schema(props: SchemaProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Editor />
-      <Actions />
+      <Box sx={{ height: '464px' }}>
+        <Editor />
+        <Actions />
+      </Box>
     </Provider>
   )
 }

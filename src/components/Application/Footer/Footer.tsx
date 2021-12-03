@@ -12,18 +12,18 @@ export default function Footer() {
     <Box>
       <Box
         sx={{
+          height: '64px',
+          lineHeight: '62px',
+          paddingLeft: 2,
+          paddingRight: 2,
           borderTop: 'solid 1px #ddd',
-          lineHeight: '63px',
-          pl: 2,
-          pr: 2,
-          // backgroundColor: 'grey.200',
-          // borderColor: 'grey.400',
+          borderBottom: 'solid 1px #ddd',
         }}
       >
         <Actions />
       </Box>
       {isMetadataOpen ? (
-        <Box sx={{ padding: 2, paddingBottom: 0, borderTop: 'solid 1px #ddd' }}>
+        <Box sx={{ padding: 2, paddingBottom: 0 }}>
           <Metadata />
         </Box>
       ) : null}

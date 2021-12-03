@@ -8,7 +8,7 @@ import Box from '@mui/material/Box'
 interface PreviewProps {
   descriptor: object
   format: string
-  height: string
+  height?: string
 }
 
 export default function Preview(props: PreviewProps) {
@@ -17,8 +17,8 @@ export default function Preview(props: PreviewProps) {
     ? yaml.dump(props.descriptor)
     : JSON.stringify(props.descriptor, null, 2)
   return (
-    <Box sx={{ height: props.height, overflowY: 'auto' }}>
-      <pre style={{ marginTop: 0 }}>
+    <Box sx={{ height: props.height || '100%', overflowY: 'auto' }}>
+      <pre style={{ marginTop: 0, marginBottom: 0 }}>
         <code>{text}</code>
       </pre>
     </Box>

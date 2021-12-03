@@ -7,6 +7,7 @@ import File from '../../File'
 import { useStore } from '../store'
 
 // TODO: rework
+// TODO: use AutoSizer?
 
 export default function Data() {
   const contentType = useStore((state) => state.contentType)
@@ -17,7 +18,7 @@ export default function Data() {
   const rows = useStore((state) => state.rows)
   const text = useStore((state) => state.text)
   const report = useStore((state) => state.report)
-  const footerHeight = contentType === 'data' && isMetadataOpen ? '552px' : '64px'
+  const footerHeight = contentType === 'data' && isMetadataOpen ? '544px' : '64px'
   const contentHeight = `calc(100vh - 64px - ${footerHeight})`
   assert(resource)
   assert(rows)

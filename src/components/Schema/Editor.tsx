@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
 import Help from './Help'
@@ -14,13 +15,14 @@ export default function Editor() {
   // Components
 
   const Editor = () => {
-    if (isPreview) return <PreviewMode />
-    return <NormalMode />
+    return (
+      <Box sx={{ height: '400px', borderTop: 'solid 1px white' }}>
+        {isPreview ? <PreviewMode /> : <NormalMode />}
+      </Box>
+    )
   }
 
-  const PreviewMode = () => (
-    <Preview descriptor={descriptor} format={exportFormat} height="352px" />
-  )
+  const PreviewMode = () => <Preview descriptor={descriptor} format={exportFormat} />
 
   const NormalMode = () => (
     <Columns spacing={3} layout={[3, 6, 3]}>
