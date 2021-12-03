@@ -146,7 +146,10 @@ export function makeStore(props: SchemaProps) {
           elementIndex = descriptor.fields.length - 1
         } else if (elementType === 'foreignKey') {
           descriptor.foreignKeys = descriptor.foreignKeys || []
-          descriptor.foreignKeys.push({ name: 'newFK', field: ['newField'] })
+          descriptor.foreignKeys.push({
+            field: ['newField'],
+            reference: { field: ['otherField'], resource: 'self' },
+          })
           elementIndex = descriptor.foreignKeys.length - 1
         }
       })
