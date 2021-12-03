@@ -12,7 +12,7 @@ export default function CommitButton(props: CommitButtonProps) {
       fullWidth
       color="success"
       variant="outlined"
-      title="Commit changes to use them further"
+      title="Commit changes"
       disabled={props.disabled}
       onClick={() => props.handleClick()}
     >

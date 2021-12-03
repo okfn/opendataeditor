@@ -21,7 +21,7 @@ export default function ImportButton(props: ImportButtonProps) {
         }}
       />
       <Button
-        title="Import descriptor as JSON or YAML"
+        title="Import as JSON or YAML"
         variant="outlined"
         component="span"
         color="info"

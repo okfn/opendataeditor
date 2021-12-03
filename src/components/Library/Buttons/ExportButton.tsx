@@ -61,14 +61,14 @@ export default function ExportButton(props: ExportButtonProps) {
         <Button
           onClick={() => props.handleExport()}
           sx={{ width: '60%' }}
-          title="Export descriptor in selected format"
+          title={`Export as ${props.options[selectedIndex].toUpperCase()}`}
         >
           Export
         </Button>
         <Button
           sx={{ width: '30%' }}
           color={props.isPreview ? 'warning' : 'info'}
-          title="Preview descriptor in selected format"
+          title={`Preview as ${props.options[selectedIndex].toUpperCase()}`}
           onClick={() => props.handlePreview()}
         >
           {props.options[selectedIndex]}
@@ -76,7 +76,7 @@ export default function ExportButton(props: ExportButtonProps) {
         <Button
           size="small"
           sx={{ width: '10%' }}
-          title="Select descriptor format"
+          title="Change format"
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
