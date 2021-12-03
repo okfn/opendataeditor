@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { assert } from 'ts-essentials'
 import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ExportButton from '../../Library/Buttons/ExportButton'
 import Columns from '../../Library/Columns'
 import { useStore } from '../store'
 
@@ -38,20 +38,16 @@ function ToggleMetadata() {
   )
 }
 
+// TODO: support preview as CSV?
 function Export() {
   return (
-    <ButtonGroup
+    <ExportButton
+      format="csv"
+      options={['csv', 'xlsx']}
+      handleExport={() => alert('Under development')}
+      setFormat={() => {}}
       variant="contained"
-      color="info"
-      aria-label="export"
-      sx={{ width: '100%' }}
-    >
-      <Button title="Export descriptor" sx={{ width: '60%' }}>
-        Export
-      </Button>
-      <Button title="Toggle JSON preview">CSV</Button>
-      <Button title="Toggle YAML preview">EXCEL</Button>
-    </ButtonGroup>
+    />
   )
 }
 

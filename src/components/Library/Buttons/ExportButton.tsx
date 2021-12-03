@@ -15,15 +15,17 @@ interface ExportButtonProps {
   format: string
   options: string[]
   isPreview?: boolean
+  handlePreview?: () => void
   handleExport: () => void
-  handlePreview: () => void
   setFormat: (format: string) => void
+  variant?: 'outlined' | 'contained'
 }
 
 export default function ExportButton(props: ExportButtonProps) {
+  const variant = props.variant || 'outlined'
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
-  const [selectedIndex, setSelectedIndex] = React.useState(1)
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
 
   // Handle
 
@@ -54,7 +56,7 @@ export default function ExportButton(props: ExportButtonProps) {
       <ButtonGroup
         fullWidth
         color="info"
-        variant="outlined"
+        variant={variant}
         ref={anchorRef}
         aria-label="split button"
       >
@@ -68,8 +70,10 @@ export default function ExportButton(props: ExportButtonProps) {
         <Button
           sx={{ width: '30%' }}
           color={props.isPreview ? 'warning' : 'info'}
-          title={`Preview as ${props.options[selectedIndex].toUpperCase()}`}
-          onClick={() => props.handlePreview()}
+          title={`${props.handlePreview ? 'Preview' : 'Export'} as ${props.options[
+            selectedIndex
+          ].toUpperCase()}`}
+          onClick={() => (props.handlePreview || props.handleExport)()}
         >
           {props.options[selectedIndex]}
         </Button>
