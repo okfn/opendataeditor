@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -13,8 +12,7 @@ import { useStore } from './store'
 
 export default function Actions() {
   return (
-    <Box>
-      <Divider sx={{ mt: 2, mb: 3 }} />
+    <Box sx={{ mt: 2, borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
       <Columns spacing={3}>
         <Export />
         <Import />
