@@ -8,9 +8,9 @@ import Columns from '../../Library/Columns'
 import Resource from '../../Resource'
 import Dialect from '../../Dialect'
 import Schema from '../../Schema'
-import Query from '../../Query'
-import Inquiry from '../../Inquiry'
-import Pipeline from '../../Pipeline'
+// import Query from '../../Query'
+// import Inquiry from '../../Inquiry'
+// import Pipeline from '../../Pipeline'
 import { useStore } from '../store'
 
 export default function Metadata() {
@@ -19,8 +19,8 @@ export default function Metadata() {
   const inquiry = useStore((state) => state.inquiry)
   const pipeline = useStore((state) => state.pipeline)
   const updateResource = useStore((state) => state.updateResource)
-  const updateInquiry = useStore((state) => state.updateInquiry)
-  const updatePipeline = useStore((state) => state.updatePipeline)
+  // const updateInquiry = useStore((state) => state.updateInquiry)
+  // const updatePipeline = useStore((state) => state.updatePipeline)
   assert(resource)
   assert(inquiry)
   assert(pipeline)
@@ -65,13 +65,13 @@ export default function Metadata() {
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Query />
+          Under development
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <Inquiry inquiry={inquiry} onSave={(inqiury) => updateInquiry(inqiury)} />
+          Under development
         </TabPanel>
         <TabPanel value={value} index={5}>
-          <Pipeline pipeline={pipeline} onSave={(pipeline) => updatePipeline(pipeline)} />
+          Under development
         </TabPanel>
       </React.Fragment>
     </Columns>

@@ -27,7 +27,7 @@ export default function Header() {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
-                onClick={() => setContentType('help')}
+                onClick={() => (file ? setContentType('data') : null)}
               >
                 <strong>Frictionless Application</strong>
               </Typography>

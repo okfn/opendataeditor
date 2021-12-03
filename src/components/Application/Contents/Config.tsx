@@ -29,9 +29,9 @@ export default function Conig() {
         }}
       >
         <Tab label="Detector" {...a11yProps(0)} />
-        <Tab label="Config 2" {...a11yProps(1)} />
-        <Tab label="Config 3" {...a11yProps(2)} />
-        <Tab label="Config 4" {...a11yProps(3)} />
+        <Tab label="Import" {...a11yProps(1)} />
+        <Tab label="Export" {...a11yProps(2)} />
+        <Tab label="Theme" {...a11yProps(3)} />
       </Tabs>
       <React.Fragment>
         <TabPanel value={value} index={0}>
@@ -41,13 +41,13 @@ export default function Conig() {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
       </React.Fragment>
     </Columns>

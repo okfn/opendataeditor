@@ -37,19 +37,19 @@ export default function Help() {
           <Introduction />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
         <TabPanel value={value} index={5}>
-          <div>coming soon</div>
+          <div>Under development</div>
         </TabPanel>
       </React.Fragment>
     </Columns>
