@@ -1,4 +1,5 @@
 import create from 'zustand'
+import { assert } from 'ts-essentials'
 import { client } from '../../client'
 import { IReport, IStatus, IRow } from '../../interfaces'
 import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
@@ -81,9 +82,15 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { detector } = get()
     if (detector) set({ detector: { ...detector, ...patch } })
   },
-  updateResource: (patch) => {
-    const { resource } = get()
-    if (resource) set({ resource: { ...resource, ...patch } })
+  updateResource: async (patch) => {
+    const { file, resource } = get()
+    assert(file)
+    assert(resource)
+    const newResource = { ...resource, ...patch }
+    const { rows } = await client.extract(file, newResource)
+    const inquiry = { source: newResource, checks: [] }
+    const { report } = await client.validate(file, inquiry)
+    set({ resource: newResource, rows, inquiry, report })
   },
   updateInquiry: (patch) => {
     const { inquiry } = get()
