@@ -28,5 +28,6 @@ Default.args = {
       rows: 2,
     },
   },
-  onCommit: (resource: any) => console.log(resource),
+  handleCommit: (resource: any) => console.log(resource),
+  handleRevert: (resource: any) => console.log(resource),
 }

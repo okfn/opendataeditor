@@ -1,6 +1,8 @@
 import * as React from 'react'
+import noop from 'lodash/noop'
 import TextField from '@mui/material/TextField'
 
+// TODO: fix it loosing focus
 // TODO: handle different value types properly (string/number/etc)
 
 interface InputFieldProps {
@@ -8,10 +10,12 @@ interface InputFieldProps {
   label: string
   value: any
   size?: 'small' | 'medium'
-  handleChange: (value: any) => void
+  disabled?: boolean
+  handleChange?: (value: any) => void
 }
 
 export default function InputField(props: InputFieldProps) {
+  const handleChange = props.handleChange || noop
   return (
     <TextField
       fullWidth
@@ -20,7 +24,8 @@ export default function InputField(props: InputFieldProps) {
       label={props.label}
       value={props.value}
       size={props.size || 'medium'}
-      onChange={(ev) => props.handleChange(ev.target.value as any)}
+      disabled={props.disabled}
+      onChange={(ev) => handleChange(ev.target.value as any)}
     />
   )
 }

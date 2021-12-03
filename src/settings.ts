@@ -10,7 +10,7 @@ export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 // Defaults
 
 export const DEFAULT_PORT = 7070
-export const DEFAULT_EXPORT_FORMAT = 'json'
+export const DEFAULT_EXPORT_FORMAT = 'yaml'
 export const DEFAULT_FIELD_CONFIDENCE = 0.9
 export const DEFAULT_HEADER_JOIN = ' '
 export const DEFAULT_DECIMAL_CHAR = '.'

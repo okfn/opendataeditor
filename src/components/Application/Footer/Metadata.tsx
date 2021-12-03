@@ -49,7 +49,7 @@ export default function Metadata() {
         <TabPanel value={value} index={0}>
           <Resource
             descriptor={resource}
-            onCommit={(resource) => updateResource(resource)}
+            handleCommit={(resource) => updateResource(resource)}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
