@@ -55,7 +55,7 @@ export default function Metadata() {
         <TabPanel value={value} index={1}>
           <Dialect
             descriptor={resource.dialect}
-            onCommit={(dialect) => updateResource({ dialect })}
+            handleCommit={(dialect) => updateResource({ dialect })}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>

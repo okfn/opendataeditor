@@ -5,7 +5,7 @@ import SelectField from '../Library/Fields/SelectField'
 import * as settings from '../../settings'
 import { useStore } from './store'
 
-export default function General() {
+export default function Details() {
   const descriptor = useStore((state) => state.descriptor)
   const update = useStore((state) => state.update)
 
