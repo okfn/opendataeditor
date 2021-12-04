@@ -8,7 +8,7 @@ interface DescriptorFieldProps {
   label: string
   value?: string
   size?: 'small' | 'medium'
-  handleChange: (value: boolean) => void
+  onChange: (value: boolean) => void
 }
 
 export default function DescriptorField(props: DescriptorFieldProps) {
@@ -26,7 +26,7 @@ export default function DescriptorField(props: DescriptorFieldProps) {
         ev.preventDefault()
         try {
           const value = decode(ev.target.value)
-          if (isPlainObject(value)) props.handleChange(value)
+          if (isPlainObject(value)) props.onChange(value)
         } catch (error) {}
       }}
     />

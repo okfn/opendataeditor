@@ -60,9 +60,7 @@ export default function Constraints() {
     <YesNoField
       label="Required"
       value={constraints.required || false}
-      handleChange={(required) =>
-        updateField({ constraints: { ...constraints, required } })
-      }
+      onChange={(required) => updateField({ constraints: { ...constraints, required } })}
     />
   )
 
@@ -71,9 +69,7 @@ export default function Constraints() {
       type="number"
       label="Minimum"
       value={constraints.minimum}
-      handleChange={(minimum) =>
-        updateField({ constraints: { ...constraints, minimum } })
-      }
+      onChange={(minimum) => updateField({ constraints: { ...constraints, minimum } })}
     />
   )
 
@@ -82,9 +78,7 @@ export default function Constraints() {
       type="number"
       label="Maximum"
       value={constraints.maximum}
-      handleChange={(maximum) =>
-        updateField({ constraints: { ...constraints, maximum } })
-      }
+      onChange={(maximum) => updateField({ constraints: { ...constraints, maximum } })}
     />
   )
 
@@ -93,7 +87,7 @@ export default function Constraints() {
       type="number"
       label="Min Length"
       value={constraints.minLength}
-      handleChange={(minLength) =>
+      onChange={(minLength) =>
         updateField({ constraints: { ...constraints, minLength } })
       }
     />
@@ -104,7 +98,7 @@ export default function Constraints() {
       type="number"
       label="Max Length"
       value={constraints.maxLength}
-      handleChange={(maxLength) =>
+      onChange={(maxLength) =>
         updateField({ constraints: { ...constraints, maxLength } })
       }
     />
@@ -115,9 +109,7 @@ export default function Constraints() {
       type="string"
       label="Pattern"
       value={constraints.pattern}
-      handleChange={(pattern) =>
-        updateField({ constraints: { ...constraints, pattern } })
-      }
+      onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
     />
   )
 
@@ -127,9 +119,7 @@ export default function Constraints() {
       type="string"
       label="Enum"
       value={(constraints.enum || []).join(',')}
-      handleChange={(value) =>
-        updateField({ constraints: { ...constraints, enum: value } })
-      }
+      onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )
 

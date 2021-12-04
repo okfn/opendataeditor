@@ -11,7 +11,7 @@ interface MultiselectFieldProps {
   value: any
   options: string[] | { label: string; value: any }[]
   size?: 'small' | 'medium'
-  handleChange: (value: any) => void
+  onChange: (value: any) => void
 }
 
 export default function MultiselectField(props: MultiselectFieldProps) {
@@ -27,7 +27,7 @@ export default function MultiselectField(props: MultiselectFieldProps) {
       value={props.value}
       size={props.size || 'medium'}
       disabled={props.options.length < 2}
-      onChange={(ev) => props.handleChange((ev.target as any).value)}
+      onChange={(ev) => props.onChange((ev.target as any).value)}
       SelectProps={{ multiple: true }}
     >
       {options.map((option) => (

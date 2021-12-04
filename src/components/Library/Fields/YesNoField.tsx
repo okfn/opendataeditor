@@ -6,7 +6,7 @@ interface YesNoFieldProps {
   label: string
   value: boolean
   size?: 'small' | 'medium'
-  handleChange: (value: boolean) => void
+  onChange: (value: boolean) => void
 }
 
 export default function YesNoField(props: YesNoFieldProps) {
@@ -18,7 +18,7 @@ export default function YesNoField(props: YesNoFieldProps) {
       size={props.size || 'medium'}
       label={props.label}
       value={props.value ? 'yes' : 'no'}
-      onChange={(ev) => props.handleChange(ev.target.value === 'yes')}
+      onChange={(ev) => props.onChange(ev.target.value === 'yes')}
     >
       <MenuItem value={'yes'}>Yes</MenuItem>
       <MenuItem value={'no'}>No</MenuItem>

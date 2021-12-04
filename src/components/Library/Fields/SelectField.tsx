@@ -11,7 +11,7 @@ interface SelectFieldProps {
   value: any
   options: string[] | { label: string; value: any }[]
   size?: 'small' | 'medium'
-  handleChange: (value: any) => void
+  onChange: (value: any) => void
 }
 
 export default function SelectField(props: SelectFieldProps) {
@@ -27,7 +27,7 @@ export default function SelectField(props: SelectFieldProps) {
       value={props.value}
       size={props.size || 'medium'}
       disabled={props.options.length < 2}
-      onChange={(ev) => props.handleChange((ev.target as any).value)}
+      onChange={(ev) => props.onChange((ev.target as any).value)}
     >
       {options.map((option) => (
         <MenuItem key={option.label} value={option.value}>

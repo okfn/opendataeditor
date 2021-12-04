@@ -21,7 +21,7 @@ export default function Parsing() {
       <InputField
         label="Delimiter"
         value={descriptor.delimiter}
-        handleChange={(delimiter) => update({ delimiter })}
+        onChange={(delimiter) => update({ delimiter })}
       />
     </React.Fragment>
   )

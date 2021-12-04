@@ -25,7 +25,7 @@ export default function Reading() {
     <YesNoField
       label="Header"
       value={descriptor.header || settings.DEFAULT_HEADER}
-      handleChange={(header) => update({ header })}
+      onChange={(header) => update({ header })}
     />
   )
 
@@ -33,7 +33,7 @@ export default function Reading() {
     <InputField
       label="Header Rows"
       value={descriptor.headerRows}
-      handleChange={(headerRows) => update({ headerRows })}
+      onChange={(headerRows) => update({ headerRows })}
     />
   )
 
@@ -41,7 +41,7 @@ export default function Reading() {
     <InputField
       label="Header Join"
       value={descriptor.headerJoin}
-      handleChange={(headerJoin) => update({ headerJoin })}
+      onChange={(headerJoin) => update({ headerJoin })}
     />
   )
 
@@ -49,7 +49,7 @@ export default function Reading() {
     <YesNoField
       label="Header Case"
       value={descriptor.headerCase || settings.DEFAULT_HEADER_CASE}
-      handleChange={(headerCase) => update({ headerCase })}
+      onChange={(headerCase) => update({ headerCase })}
     />
   )
 

@@ -30,7 +30,7 @@ function Format() {
       label="Format"
       value={format}
       options={settings.FORMATS}
-      handleChange={(format) => update({ format })}
+      onChange={(format) => update({ format })}
     />
   )
 }
@@ -43,7 +43,7 @@ function Hashing() {
       label="Hashing"
       value={hashing}
       options={settings.HASHINGS}
-      handleChange={(hashing) => update({ hashing })}
+      onChange={(hashing) => update({ hashing })}
     />
   )
 }
@@ -56,7 +56,7 @@ function Encoding() {
       label="Encoding"
       value={encoding}
       options={settings.ENCODINGS}
-      handleChange={(encoding) => update({ encoding })}
+      onChange={(encoding) => update({ encoding })}
     />
   )
 }

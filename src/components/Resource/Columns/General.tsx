@@ -24,9 +24,7 @@ function Path() {
 function Name() {
   const name = useStore((state) => state.descriptor.name)
   const update = useStore((state) => state.update)
-  return (
-    <InputField label="Name" value={name} handleChange={(name) => update({ name })} />
-  )
+  return <InputField label="Name" value={name} onChange={(name) => update({ name })} />
 }
 
 function Title() {
@@ -36,7 +34,7 @@ function Title() {
     <InputField
       label="Title"
       value={title || ''}
-      handleChange={(title) => update({ title })}
+      onChange={(title) => update({ title })}
     />
   )
 }
@@ -48,7 +46,7 @@ function Description() {
     <MultilineField
       label="Description"
       value={description || ''}
-      handleChange={(description) => update({ description })}
+      onChange={(description) => update({ description })}
     />
   )
 }

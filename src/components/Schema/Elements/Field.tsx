@@ -41,7 +41,7 @@ export default function Field() {
     <InputField
       label="Name"
       value={field.name}
-      handleChange={(name) => updateField({ name })}
+      onChange={(name) => updateField({ name })}
     />
   )
 
@@ -50,7 +50,7 @@ export default function Field() {
       label="Type"
       value={field.type}
       options={Object.keys(settings.FIELDS)}
-      handleChange={(type) => updateField({ type })}
+      onChange={(type) => updateField({ type })}
     />
   )
 
@@ -64,7 +64,7 @@ export default function Field() {
     <InputField
       label="Format"
       value={field.format}
-      handleChange={(format) => updateField({ format })}
+      onChange={(format) => updateField({ format })}
     />
   )
 
@@ -73,7 +73,7 @@ export default function Field() {
       label="Format"
       value={field.format}
       options={FIELD.formats}
-      handleChange={(format) => updateField({ format })}
+      onChange={(format) => updateField({ format })}
     />
   )
 
@@ -81,7 +81,7 @@ export default function Field() {
     <InputField
       label="Title"
       value={field.title || ''}
-      handleChange={(title) => updateField({ title })}
+      onChange={(title) => updateField({ title })}
     />
   )
 
@@ -89,7 +89,7 @@ export default function Field() {
     <MultilineField
       label="Description"
       value={field.description || ''}
-      handleChange={(description) => updateField({ description })}
+      onChange={(description) => updateField({ description })}
     />
   )
 
@@ -98,7 +98,7 @@ export default function Field() {
       type="missing"
       values={field.missingValues || []}
       options={settings.MISSING_VALUES}
-      handleChange={(missingValues) => updateField({ missingValues })}
+      onChange={(missingValues) => updateField({ missingValues })}
     />
   )
 
@@ -106,7 +106,7 @@ export default function Field() {
     <InputField
       label="RDF Type"
       value={field.rdfType || ''}
-      handleChange={(rdfType) => updateField({ rdfType })}
+      onChange={(rdfType) => updateField({ rdfType })}
     />
   )
 
@@ -163,7 +163,7 @@ export default function Field() {
       type="yaml"
       label="Array Item"
       value={field.arrayItem}
-      handleChange={(arrayItem) => updateField({ arrayItem })}
+      onChange={(arrayItem) => updateField({ arrayItem })}
     />
   )
 
@@ -173,7 +173,7 @@ export default function Field() {
       type="true"
       values={field.trueValues || []}
       options={settings.TRUE_VALUES}
-      handleChange={(trueValues) => updateField({ trueValues })}
+      onChange={(trueValues) => updateField({ trueValues })}
     />
   )
 
@@ -183,7 +183,7 @@ export default function Field() {
       type="false"
       values={field.falseValues || []}
       options={settings.FALSE_VALUES}
-      handleChange={(falseValues) => updateField({ falseValues })}
+      onChange={(falseValues) => updateField({ falseValues })}
     />
   )
 
@@ -191,7 +191,7 @@ export default function Field() {
     <YesNoField
       label="Bare Number"
       value={field.bareNumber || settings.DEFAULT_BARE_NUMBER}
-      handleChange={(bareNumber) => updateField({ bareNumber })}
+      onChange={(bareNumber) => updateField({ bareNumber })}
     />
   )
 
@@ -199,7 +199,7 @@ export default function Field() {
     <YesNoField
       label="Float Number"
       value={field.floatNumber || false}
-      handleChange={(floatNumber) => updateField({ floatNumber })}
+      onChange={(floatNumber) => updateField({ floatNumber })}
     />
   )
 
@@ -207,7 +207,7 @@ export default function Field() {
     <InputField
       label="Decimal Char"
       value={field.decimalChar || settings.DEFAULT_DECIMAL_CHAR}
-      handleChange={(decimalChar) => updateField({ decimalChar })}
+      onChange={(decimalChar) => updateField({ decimalChar })}
     />
   )
 
@@ -215,7 +215,7 @@ export default function Field() {
     <InputField
       label="Group Char"
       value={field.groupChar || settings.DEFAULT_GROUP_CHAR}
-      handleChange={(groupChar) => updateField({ groupChar })}
+      onChange={(groupChar) => updateField({ groupChar })}
     />
   )
 

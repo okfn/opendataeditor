@@ -11,11 +11,11 @@ interface InputFieldProps {
   value: any
   size?: 'small' | 'medium'
   disabled?: boolean
-  handleChange?: (value: any) => void
+  onChange?: (value: any) => void
 }
 
 export default function InputField(props: InputFieldProps) {
-  const handleChange = props.handleChange || noop
+  const onChange = props.onChange || noop
   return (
     <TextField
       fullWidth
@@ -25,7 +25,7 @@ export default function InputField(props: InputFieldProps) {
       value={props.value}
       size={props.size || 'medium'}
       disabled={props.disabled}
-      onChange={(ev) => handleChange(ev.target.value as any)}
+      onChange={(ev) => onChange(ev.target.value as any)}
     />
   )
 }

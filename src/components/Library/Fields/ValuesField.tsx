@@ -10,7 +10,7 @@ interface ValuesFieldProps {
   values: string[]
   options: string[]
   size?: 'small' | 'medium'
-  handleChange: (value: string[]) => void
+  onChange: (value: string[]) => void
 }
 
 export default function ValuesField(props: ValuesFieldProps) {
@@ -22,7 +22,7 @@ export default function ValuesField(props: ValuesFieldProps) {
       size={props.size || 'medium'}
       label={`${capitalize(props.type)} Values`}
       value={encodeValues(props.values)}
-      onChange={(ev) => props.handleChange(decodeValues((ev.target as any).value))}
+      onChange={(ev) => props.onChange(decodeValues((ev.target as any).value))}
       SelectProps={{ multiple: true }}
     >
       {props.options.map((option) => (

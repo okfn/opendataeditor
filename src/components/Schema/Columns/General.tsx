@@ -24,7 +24,7 @@ export default function General() {
       type="missing"
       values={descriptor.missingValues}
       options={settings.MISSING_VALUES}
-      handleChange={(missingValues) => update({ missingValues })}
+      onChange={(missingValues) => update({ missingValues })}
     />
   )
 
@@ -33,7 +33,7 @@ export default function General() {
       label="Primary Key"
       value={descriptor.primaryKey || []}
       options={descriptor.fields.map((field) => field.name)}
-      handleChange={(primaryKey) => update({ primaryKey })}
+      onChange={(primaryKey) => update({ primaryKey })}
     />
   )
 
