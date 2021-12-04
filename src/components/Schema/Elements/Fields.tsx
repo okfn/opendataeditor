@@ -6,13 +6,13 @@ import { useStore } from '../store'
 
 export default function Fields() {
   const theme = useTheme()
-  const descriptor = useStore((state) => state.descriptor)
+  const fields = useStore((state) => state.descriptor.fields)
   const elementQuery = useStore((state) => state.elementQuery)
   const isElementGrid = useStore((state) => state.isElementGrid)
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
     <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
-      {descriptor.fields.map(
+      {fields.map(
         (field, index) =>
           (!elementQuery || field.name.includes(elementQuery)) && (
             <ItemButton

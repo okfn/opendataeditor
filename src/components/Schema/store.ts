@@ -12,6 +12,7 @@ import { ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
+
 interface SchemaState {
   // General
 
@@ -19,9 +20,7 @@ interface SchemaState {
   checkpoint: ISchema
   onCommit: (descriptor: ISchema) => void
   onRevert: (descriptor: ISchema) => void
-  // TODO: handle all the state in previewFormat?
   isPreview?: boolean
-  // TODO: use deep equality check instead of the flag
   isUpdated?: boolean
   exportFormat: string
 
@@ -48,7 +47,6 @@ interface SchemaLogic {
   removeField: () => void
   // TODO: type the patch
   updateField: (patch: object) => void
-  addField: () => void
 
   // Elements
 
@@ -121,18 +119,6 @@ export function makeStore(props: SchemaProps) {
         }
       })
       set({ descriptor: newDescriptor, isUpdated: true })
-    },
-    addField: () => {
-      const { descriptor } = get()
-      const newDescriptor = produce(descriptor, (descriptor) => {
-        descriptor.fields.push({
-          name: 'newField',
-          type: 'string',
-          format: 'default',
-        })
-      })
-      const elementIndex = newDescriptor.fields.length - 1
-      set({ descriptor: newDescriptor, elementIndex, isUpdated: true })
     },
     // TODO: finish
     addElement: () => {

@@ -13,9 +13,7 @@ interface DialectState {
   checkpoint: IDialect
   onCommit: (descriptor: IDialect) => void
   onRevert: (descriptor: IDialect) => void
-  // TODO: handle all the state in previewFormat?
   isPreview?: boolean
-  // TODO: use deep equality check instead of the flag
   isUpdated?: boolean
   exportFormat: string
   setExportFormat: (format: string) => void

@@ -56,6 +56,7 @@ function Format() {
   const updateField = useStore((state) => state.updateField)
   const format = useStore(select(selectors.field, (field) => field.format))
   const type = useStore(select(selectors.field, (field) => field.type))
+  // TODO: remove any
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
   return isFree ? (
