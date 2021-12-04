@@ -5,12 +5,12 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
+import { assert } from 'ts-essentials'
 import { SchemaProps } from './Schema'
 import { ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
-
 interface SchemaState {
   // General
 
@@ -188,4 +188,13 @@ export function makeStore(props: SchemaProps) {
   }))
 }
 
+export const selectors = {
+  field: (state: SchemaState) => {
+    const elementIndex = state.elementIndex
+    assert(elementIndex !== undefined)
+    const field = state.descriptor.fields[elementIndex]
+    assert(field !== undefined)
+    return field
+  },
+}
 export const { Provider, useStore } = createContext<SchemaState & SchemaLogic>()

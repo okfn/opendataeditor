@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { createSelector } from 'reselect'
 import Box from '@mui/material/Box'
 import Columns from '../../Library/Columns'
 import InputField from '../../Library/Fields/InputField'
@@ -8,13 +9,11 @@ import ValuesField from '../../Library/Fields/ValuesField'
 import MultilineField from '../../Library/Fields/MultilineField'
 import DescriptorField from '../../Library/Fields/DescriptorField'
 import * as settings from '../../../settings'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function Field() {
-  const elementIndex = useStore((state) => state.elementIndex) as number
+  const field = useStore(selectors.field)
   const updateField = useStore((state) => state.updateField)
-  const field = useStore((state) => state.descriptor.fields[elementIndex])
-  const FIELD = (settings.FIELDS as any)[field.type]
 
   // Components
 
@@ -35,62 +34,6 @@ export default function Field() {
         <Extras />
       </Box>
     </Columns>
-  )
-
-  const Name = () => (
-    <InputField
-      label="Name"
-      value={field.name}
-      onChange={(name) => updateField({ name })}
-    />
-  )
-
-  const Type = () => (
-    <SelectField
-      label="Type"
-      value={field.type}
-      options={Object.keys(settings.FIELDS)}
-      onChange={(type) => updateField({ type })}
-    />
-  )
-
-  const Format = () => {
-    const isFree = FIELD.formats.includes('*')
-    if (isFree) return <FreeFormat />
-    return <SelectFormat />
-  }
-
-  const FreeFormat = () => (
-    <InputField
-      label="Format"
-      value={field.format}
-      onChange={(format) => updateField({ format })}
-    />
-  )
-
-  const SelectFormat = () => (
-    <SelectField
-      label="Format"
-      value={field.format}
-      options={FIELD.formats}
-      onChange={(format) => updateField({ format })}
-    />
-  )
-
-  const Title = () => (
-    <InputField
-      label="Title"
-      value={field.title || ''}
-      onChange={(title) => updateField({ title })}
-    />
-  )
-
-  const Description = () => (
-    <MultilineField
-      label="Description"
-      value={field.description || ''}
-      onChange={(description) => updateField({ description })}
-    />
   )
 
   const MissingValues = () => (
@@ -220,4 +163,71 @@ export default function Field() {
   )
 
   return <Field />
+}
+
+function Name() {
+  const updateField = useStore((state) => state.updateField)
+  const name = useStore(createSelector(selectors.field, (field) => field.name))
+  return (
+    <InputField label="Name" value={name} onChange={(name) => updateField({ name })} />
+  )
+}
+
+function Type() {
+  const updateField = useStore((state) => state.updateField)
+  const type = useStore(createSelector(selectors.field, (field) => field.type))
+  return (
+    <SelectField
+      label="Type"
+      value={type}
+      options={Object.keys(settings.FIELDS)}
+      onChange={(type) => updateField({ type })}
+    />
+  )
+}
+
+function Format() {
+  const updateField = useStore((state) => state.updateField)
+  const format = useStore(createSelector(selectors.field, (field) => field.format))
+  const type = useStore(createSelector(selectors.field, (field) => field.type))
+  const FIELD = (settings.FIELDS as any)[type]
+  const isFree = FIELD.formats.includes('*')
+  return isFree ? (
+    <InputField
+      label="Format"
+      value={format}
+      onChange={(format) => updateField({ format })}
+    />
+  ) : (
+    <SelectField
+      label="Format"
+      value={format}
+      options={FIELD.formats}
+      onChange={(format) => updateField({ format })}
+    />
+  )
+}
+
+function Title() {
+  const updateField = useStore((state) => state.updateField)
+  const title = useStore(createSelector(selectors.field, (field) => field.title))
+  return (
+    <InputField
+      label="Title"
+      value={title}
+      onChange={(title) => updateField({ title })}
+    />
+  )
+}
+
+function Description() {
+  const updateField = useStore((state) => state.updateField)
+  const desc = useStore(createSelector(selectors.field, (field) => field.description))
+  return (
+    <MultilineField
+      label="Description"
+      value={desc || ''}
+      onChange={(description) => updateField({ description })}
+    />
+  )
 }
