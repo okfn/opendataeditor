@@ -8,8 +8,6 @@ import { IResource } from '../../interfaces'
 import { ResourceProps } from './Resource'
 import * as settings from '../../settings'
 
-// TODO: decide on using onEvent/handleEvent/?
-
 interface ResourceState {
   descriptor: IResource
   checkpoint: IResource

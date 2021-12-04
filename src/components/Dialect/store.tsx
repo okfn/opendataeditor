@@ -8,8 +8,6 @@ import { IDialect } from '../../interfaces'
 import { DialectProps } from './Dialect'
 import * as settings from '../../settings'
 
-// TODO: decide on using onEvent/handleEvent/?
-
 interface DialectState {
   descriptor: IDialect
   checkpoint: IDialect

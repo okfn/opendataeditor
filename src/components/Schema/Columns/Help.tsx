@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import HelpCard from '../../Library/HelpCard'
 
-// TODO: remove height calc
-//
+// TODO: remove height calc?
+
 export default function Help() {
   const theme = useTheme()
   return (

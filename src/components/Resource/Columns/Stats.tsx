@@ -4,11 +4,7 @@ import InputField from '../../Library/Fields/InputField'
 import { useStore } from '../store'
 
 export default function Stats() {
-  const descriptor = useStore((state) => state.descriptor)
-
-  // Components
-
-  const Stats = () => (
+  return (
     <React.Fragment>
       <HeadingBox>Stats</HeadingBox>
       <Hash />
@@ -17,30 +13,24 @@ export default function Stats() {
       <Rows />
     </React.Fragment>
   )
+}
 
-  const Hash = () => (
-    <React.Fragment>
-      <InputField disabled label="Hash" value={descriptor.stats.hash} />
-    </React.Fragment>
-  )
+function Hash() {
+  const hash = useStore((state) => state.descriptor.stats.hash)
+  return <InputField disabled label="Hash" value={hash} />
+}
 
-  const Bytes = () => (
-    <React.Fragment>
-      <InputField disabled label="Bytes" value={descriptor.stats.bytes} />
-    </React.Fragment>
-  )
+function Bytes() {
+  const bytes = useStore((state) => state.descriptor.stats.bytes)
+  return <InputField disabled label="Bytes" value={bytes} />
+}
 
-  const Fields = () => (
-    <React.Fragment>
-      <InputField disabled label="Fields" value={descriptor.stats.fields} />
-    </React.Fragment>
-  )
+function Fields() {
+  const fields = useStore((state) => state.descriptor.stats.fields)
+  return <InputField disabled label="Fields" value={fields} />
+}
 
-  const Rows = () => (
-    <React.Fragment>
-      <InputField disabled label="Rows" value={descriptor.stats.rows} />
-    </React.Fragment>
-  )
-
-  return <Stats />
+function Rows() {
+  const rows = useStore((state) => state.descriptor.stats.rows)
+  return <InputField disabled label="Rows" value={rows} />
 }

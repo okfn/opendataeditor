@@ -6,12 +6,7 @@ import * as settings from '../../../settings'
 import { useStore } from '../store'
 
 export default function Details() {
-  const descriptor = useStore((state) => state.descriptor)
-  const update = useStore((state) => state.update)
-
-  // Components
-
-  const Details = () => (
+  return (
     <React.Fragment>
       <HeadingBox>Details</HeadingBox>
       <Scheme />
@@ -20,39 +15,48 @@ export default function Details() {
       <Encoding />
     </React.Fragment>
   )
+}
 
-  const Scheme = () => (
-    <React.Fragment>
-      <InputField disabled label="Scheme" value={descriptor.scheme} />
-    </React.Fragment>
-  )
+function Scheme() {
+  const scheme = useStore((state) => state.descriptor.scheme)
+  return <InputField disabled label="Scheme" value={scheme} />
+}
 
-  const Format = () => (
+function Format() {
+  const format = useStore((state) => state.descriptor.format)
+  const update = useStore((state) => state.update)
+  return (
     <SelectField
       label="Format"
-      value={descriptor.format}
+      value={format}
       options={settings.FORMATS}
       handleChange={(format) => update({ format })}
     />
   )
+}
 
-  const Hashing = () => (
+function Hashing() {
+  const hashing = useStore((state) => state.descriptor.hashing)
+  const update = useStore((state) => state.update)
+  return (
     <SelectField
       label="Hashing"
-      value={descriptor.hashing}
+      value={hashing}
       options={settings.HASHINGS}
       handleChange={(hashing) => update({ hashing })}
     />
   )
+}
 
-  const Encoding = () => (
+function Encoding() {
+  const encoding = useStore((state) => state.descriptor.encoding)
+  const update = useStore((state) => state.update)
+  return (
     <SelectField
       label="Encoding"
-      value={descriptor.encoding}
+      value={encoding}
       options={settings.ENCODINGS}
       handleChange={(encoding) => update({ encoding })}
     />
   )
-
-  return <Details />
 }

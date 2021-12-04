@@ -5,12 +5,7 @@ import MultilineField from '../../Library/Fields/MultilineField'
 import { useStore } from '../store'
 
 export default function General() {
-  const descriptor = useStore((state) => state.descriptor)
-  const update = useStore((state) => state.update)
-
-  // Components
-
-  const General = () => (
+  return (
     <React.Fragment>
       <HeadingBox>General</HeadingBox>
       <Path />
@@ -19,36 +14,41 @@ export default function General() {
       <Description />
     </React.Fragment>
   )
+}
 
-  const Path = () => (
-    <React.Fragment>
-      <InputField disabled label="Path" value={descriptor.path} />
-    </React.Fragment>
+function Path() {
+  const path = useStore((state) => state.descriptor.path)
+  return <InputField disabled label="Path" value={path} />
+}
+
+function Name() {
+  const name = useStore((state) => state.descriptor.name)
+  const update = useStore((state) => state.update)
+  return (
+    <InputField label="Name" value={name} handleChange={(name) => update({ name })} />
   )
+}
 
-  const Name = () => (
-    <InputField
-      label="Name"
-      value={descriptor.name}
-      handleChange={(name) => update({ name })}
-    />
-  )
-
-  const Title = () => (
+function Title() {
+  const title = useStore((state) => state.descriptor.title)
+  const update = useStore((state) => state.update)
+  return (
     <InputField
       label="Title"
-      value={descriptor.title || ''}
+      value={title || ''}
       handleChange={(title) => update({ title })}
     />
   )
+}
 
-  const Description = () => (
+function Description() {
+  const description = useStore((state) => state.descriptor.description)
+  const update = useStore((state) => state.update)
+  return (
     <MultilineField
       label="Description"
-      value={descriptor.description || ''}
+      value={description || ''}
       handleChange={(description) => update({ description })}
     />
   )
-
-  return <General />
 }
