@@ -6,7 +6,7 @@ interface ItemButtonProps {
   name: string
   type: string
   isGrid?: boolean
-  handleClick: () => void
+  onClick: () => void
 }
 
 export default function ItemButton(props: ItemButtonProps) {
@@ -16,7 +16,7 @@ export default function ItemButton(props: ItemButtonProps) {
       color="info"
       variant="outlined"
       endIcon={props.isGrid ? null : props.type.toUpperCase()}
-      onClick={() => props.handleClick()}
+      onClick={() => props.onClick()}
       title="View field"
       key={props.index}
       sx={{

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 
 interface PreviewButtonProps {
-  handleClick: () => void
+  onClick: () => void
 }
 
 export default function PreviewButton(props: PreviewButtonProps) {
@@ -12,7 +12,7 @@ export default function PreviewButton(props: PreviewButtonProps) {
       color="info"
       variant="outlined"
       title="Preview descriptor in selected format"
-      onClick={() => props.handleClick()}
+      onClick={() => props.onClick()}
     >
       Commit
     </Button>

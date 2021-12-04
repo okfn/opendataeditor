@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 
 interface CommitButtonProps {
   disabled?: boolean
-  handleClick: () => void
+  onClick: () => void
 }
 
 export default function CommitButton(props: CommitButtonProps) {
@@ -14,7 +14,7 @@ export default function CommitButton(props: CommitButtonProps) {
       variant="outlined"
       title="Commit changes"
       disabled={props.disabled}
-      onClick={() => props.handleClick()}
+      onClick={() => props.onClick()}
     >
       Commit
     </Button>

@@ -24,13 +24,13 @@ export default function Actions() {
           format={exportFormat}
           options={['yaml', 'json']}
           isPreview={isPreview}
-          handleExport={exporter}
-          handlePreview={togglePreview}
+          onExport={exporter}
+          onPreview={togglePreview}
           setFormat={setExportFormat}
         />
-        <ImportButton handleImport={importer} />
-        <CommitButton disabled={!isUpdated} handleClick={commit} />
-        <RevertButton disabled={!isUpdated} handleClick={revert} />
+        <ImportButton onImport={importer} />
+        <CommitButton disabled={!isUpdated} onClick={commit} />
+        <RevertButton disabled={!isUpdated} onClick={revert} />
       </Columns>
     </Box>
   )

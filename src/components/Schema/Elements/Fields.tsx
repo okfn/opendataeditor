@@ -20,7 +20,7 @@ export default function Fields() {
           name={field.name}
           type={field.type}
           isGrid={isElementGrid}
-          handleClick={() => setElementIndex(index)}
+          onClick={() => setElementIndex(index)}
         />
       ))}
     </Box>

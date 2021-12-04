@@ -24,7 +24,7 @@ export default function ForeignKeys() {
             name={fk.field.join(',')}
             type={'fk'}
             isGrid={isElementGrid}
-            handleClick={() => setElementIndex(index)}
+            onClick={() => setElementIndex(index)}
           />
         ))}
       </Box>

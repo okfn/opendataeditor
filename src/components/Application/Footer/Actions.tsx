@@ -44,7 +44,7 @@ function Export() {
     <ExportButton
       format="csv"
       options={['csv', 'xlsx']}
-      handleExport={() => alert('Under development')}
+      onExport={() => alert('Under development')}
       setFormat={() => {}}
       variant="contained"
     />

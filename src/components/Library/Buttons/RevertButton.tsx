@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 
 interface RevertButtonProps {
   disabled?: boolean
-  handleClick: () => void
+  onClick: () => void
 }
 
 export default function RevertButton(props: RevertButtonProps) {
@@ -14,7 +14,7 @@ export default function RevertButton(props: RevertButtonProps) {
       variant="outlined"
       title="Revert changes"
       disabled={props.disabled}
-      onClick={() => props.handleClick()}
+      onClick={() => props.onClick()}
     >
       Revert
     </Button>

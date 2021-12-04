@@ -15,8 +15,8 @@ interface ExportButtonProps {
   format: string
   options: string[]
   isPreview?: boolean
-  handlePreview?: () => void
-  handleExport: () => void
+  onPreview?: () => void
+  onExport: () => void
   setFormat: (format: string) => void
   variant?: 'outlined' | 'contained'
 }
@@ -61,7 +61,7 @@ export default function ExportButton(props: ExportButtonProps) {
         aria-label="split button"
       >
         <Button
-          onClick={() => props.handleExport()}
+          onClick={() => props.onExport()}
           sx={{ width: '60%' }}
           title={`Export as ${props.options[selectedIndex].toUpperCase()}`}
         >
@@ -70,10 +70,10 @@ export default function ExportButton(props: ExportButtonProps) {
         <Button
           sx={{ width: '30%' }}
           color={props.isPreview ? 'warning' : 'info'}
-          title={`${props.handlePreview ? 'Preview' : 'Export'} as ${props.options[
+          title={`${props.onPreview ? 'Preview' : 'Export'} as ${props.options[
             selectedIndex
           ].toUpperCase()}`}
-          onClick={() => (props.handlePreview || props.handleExport)()}
+          onClick={() => (props.onPreview || props.onExport)()}
         >
           {props.options[selectedIndex]}
         </Button>
