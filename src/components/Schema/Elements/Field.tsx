@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createSelector } from 'reselect'
+import { createSelector as select } from 'reselect'
 import Box from '@mui/material/Box'
 import Columns from '../../Library/Columns'
 import InputField from '../../Library/Fields/InputField'
@@ -12,12 +12,7 @@ import * as settings from '../../../settings'
 import { useStore, selectors } from '../store'
 
 export default function Field() {
-  const field = useStore(selectors.field)
-  const updateField = useStore((state) => state.updateField)
-
-  // Components
-
-  const Field = () => (
+  return (
     <Columns spacing={3}>
       <Box>
         <Name />
@@ -35,139 +30,11 @@ export default function Field() {
       </Box>
     </Columns>
   )
-
-  const MissingValues = () => (
-    <ValuesField
-      type="missing"
-      values={field.missingValues || []}
-      options={settings.MISSING_VALUES}
-      onChange={(missingValues) => updateField({ missingValues })}
-    />
-  )
-
-  const RdfType = () => (
-    <InputField
-      label="RDF Type"
-      value={field.rdfType || ''}
-      onChange={(rdfType) => updateField({ rdfType })}
-    />
-  )
-
-  const Extras = () => {
-    switch (field.type) {
-      case 'array':
-        return <ArrayExtras />
-      case 'boolean':
-        return <BooleanExtras />
-      case 'integer':
-        return <IntegerExtras />
-      case 'number':
-        return <NumberExtras />
-      default:
-        return null
-    }
-  }
-
-  const ArrayExtras = () => (
-    <React.Fragment>
-      <ArrayItem />
-    </React.Fragment>
-  )
-
-  const BooleanExtras = () => (
-    <React.Fragment>
-      <TrueValues />
-      <FalseValues />
-    </React.Fragment>
-  )
-
-  const IntegerExtras = () => (
-    <React.Fragment>
-      <BareNumber />
-      <GroupChar />
-    </React.Fragment>
-  )
-
-  const NumberExtras = () => (
-    <React.Fragment>
-      <Columns spacing={1}>
-        <BareNumber />
-        <GroupChar />
-      </Columns>
-      <Columns spacing={1}>
-        <FloatNumber />
-        <DecimalChar />
-      </Columns>
-    </React.Fragment>
-  )
-
-  const ArrayItem = () => (
-    <DescriptorField
-      type="yaml"
-      label="Array Item"
-      value={field.arrayItem}
-      onChange={(arrayItem) => updateField({ arrayItem })}
-    />
-  )
-
-  // TODO: add values enabled by default?
-  const TrueValues = () => (
-    <ValuesField
-      type="true"
-      values={field.trueValues || []}
-      options={settings.TRUE_VALUES}
-      onChange={(trueValues) => updateField({ trueValues })}
-    />
-  )
-
-  // TODO: add values enabled by default?
-  const FalseValues = () => (
-    <ValuesField
-      type="false"
-      values={field.falseValues || []}
-      options={settings.FALSE_VALUES}
-      onChange={(falseValues) => updateField({ falseValues })}
-    />
-  )
-
-  const BareNumber = () => (
-    <YesNoField
-      label="Bare Number"
-      value={field.bareNumber || settings.DEFAULT_BARE_NUMBER}
-      onChange={(bareNumber) => updateField({ bareNumber })}
-    />
-  )
-
-  const FloatNumber = () => (
-    <YesNoField
-      label="Float Number"
-      value={field.floatNumber || false}
-      onChange={(floatNumber) => updateField({ floatNumber })}
-    />
-  )
-
-  const DecimalChar = () => (
-    <InputField
-      label="Decimal Char"
-      value={field.decimalChar || settings.DEFAULT_DECIMAL_CHAR}
-      onChange={(decimalChar) => updateField({ decimalChar })}
-    />
-  )
-
-  const GroupChar = () => (
-    <InputField
-      label="Group Char"
-      value={field.groupChar || settings.DEFAULT_GROUP_CHAR}
-      onChange={(groupChar) => updateField({ groupChar })}
-    />
-  )
-
-  return <Field />
 }
 
 function Name() {
   const updateField = useStore((state) => state.updateField)
-  const name = useStore(createSelector(selectors.field, (field) => field.name))
+  const name = useStore(select(selectors.field, (field) => field.name))
   return (
     <InputField label="Name" value={name} onChange={(name) => updateField({ name })} />
   )
@@ -175,7 +42,7 @@ function Name() {
 
 function Type() {
   const updateField = useStore((state) => state.updateField)
-  const type = useStore(createSelector(selectors.field, (field) => field.type))
+  const type = useStore(select(selectors.field, (field) => field.type))
   return (
     <SelectField
       label="Type"
@@ -188,8 +55,8 @@ function Type() {
 
 function Format() {
   const updateField = useStore((state) => state.updateField)
-  const format = useStore(createSelector(selectors.field, (field) => field.format))
-  const type = useStore(createSelector(selectors.field, (field) => field.type))
+  const format = useStore(select(selectors.field, (field) => field.format))
+  const type = useStore(select(selectors.field, (field) => field.type))
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
   return isFree ? (
@@ -210,7 +77,7 @@ function Format() {
 
 function Title() {
   const updateField = useStore((state) => state.updateField)
-  const title = useStore(createSelector(selectors.field, (field) => field.title))
+  const title = useStore(select(selectors.field, (field) => field.title))
   return (
     <InputField
       label="Title"
@@ -222,12 +89,180 @@ function Title() {
 
 function Description() {
   const updateField = useStore((state) => state.updateField)
-  const desc = useStore(createSelector(selectors.field, (field) => field.description))
+  const descriptor = useStore(select(selectors.field, (field) => field.description))
   return (
     <MultilineField
       label="Description"
-      value={desc || ''}
+      value={descriptor || ''}
       onChange={(description) => updateField({ description })}
+    />
+  )
+}
+
+function MissingValues() {
+  const updateField = useStore((state) => state.updateField)
+  const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
+  return (
+    <ValuesField
+      type="missing"
+      values={missingValues || []}
+      options={settings.MISSING_VALUES}
+      onChange={(missingValues) => updateField({ missingValues })}
+    />
+  )
+}
+
+function RdfType() {
+  const updateField = useStore((state) => state.updateField)
+  const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
+  return (
+    <InputField
+      label="RDF Type"
+      value={rdfType || ''}
+      onChange={(rdfType) => updateField({ rdfType })}
+    />
+  )
+}
+
+function Extras() {
+  const type = useStore(select(selectors.field, (field) => field.type))
+  switch (type) {
+    case 'array':
+      return <ArrayExtras />
+    case 'boolean':
+      return <BooleanExtras />
+    case 'integer':
+      return <IntegerExtras />
+    case 'number':
+      return <NumberExtras />
+    default:
+      return null
+  }
+}
+
+function ArrayExtras() {
+  return (
+    <React.Fragment>
+      <ArrayItem />
+    </React.Fragment>
+  )
+}
+
+function BooleanExtras() {
+  return (
+    <React.Fragment>
+      <TrueValues />
+      <FalseValues />
+    </React.Fragment>
+  )
+}
+
+function IntegerExtras() {
+  return (
+    <React.Fragment>
+      <BareNumber />
+      <GroupChar />
+    </React.Fragment>
+  )
+}
+function NumberExtras() {
+  return (
+    <React.Fragment>
+      <Columns spacing={1}>
+        <BareNumber />
+        <GroupChar />
+      </Columns>
+      <Columns spacing={1}>
+        <FloatNumber />
+        <DecimalChar />
+      </Columns>
+    </React.Fragment>
+  )
+}
+
+function ArrayItem() {
+  const updateField = useStore((state) => state.updateField)
+  const arrayItem = useStore(select(selectors.field, (field) => field.arrayItem))
+  return (
+    <DescriptorField
+      type="yaml"
+      label="Array Item"
+      value={arrayItem}
+      onChange={(arrayItem) => updateField({ arrayItem })}
+    />
+  )
+}
+
+function TrueValues() {
+  const updateField = useStore((state) => state.updateField)
+  const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
+  return (
+    <ValuesField
+      type="true"
+      values={trueValues || []}
+      options={settings.TRUE_VALUES}
+      onChange={(trueValues) => updateField({ trueValues })}
+    />
+  )
+}
+
+function FalseValues() {
+  const updateField = useStore((state) => state.updateField)
+  const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
+  return (
+    <ValuesField
+      type="false"
+      values={falseValues || []}
+      options={settings.FALSE_VALUES}
+      onChange={(falseValues) => updateField({ falseValues })}
+    />
+  )
+}
+
+function BareNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const bareNumber = useStore(select(selectors.field, (field) => field.bareNumber))
+  return (
+    <YesNoField
+      label="Bare Number"
+      value={bareNumber || settings.DEFAULT_BARE_NUMBER}
+      onChange={(bareNumber) => updateField({ bareNumber })}
+    />
+  )
+}
+
+function FloatNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const floatNumber = useStore(select(selectors.field, (field) => field.floatNumber))
+  return (
+    <YesNoField
+      label="Float Number"
+      value={floatNumber || false}
+      onChange={(floatNumber) => updateField({ floatNumber })}
+    />
+  )
+}
+
+function DecimalChar() {
+  const updateField = useStore((state) => state.updateField)
+  const decimalChar = useStore(select(selectors.field, (field) => field.decimalChar))
+  return (
+    <InputField
+      label="Decimal Char"
+      value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
+      onChange={(decimalChar) => updateField({ decimalChar })}
+    />
+  )
+}
+
+function GroupChar() {
+  const updateField = useStore((state) => state.updateField)
+  const groupChar = useStore(select(selectors.field, (field) => field.groupChar))
+  return (
+    <InputField
+      label="Group Char"
+      value={groupChar || settings.DEFAULT_GROUP_CHAR}
+      onChange={(groupChar) => updateField({ groupChar })}
     />
   )
 }
