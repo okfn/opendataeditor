@@ -18,8 +18,8 @@ export default function Resource(props: ResourceProps) {
   const theme = useTheme()
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Box sx={{ height: theme.spacing(58) }}>
-        <Box sx={{ height: theme.spacing(50), borderTop: 'solid 1px white' }}>
+      <Box sx={{ height: theme.spacing(56) }}>
+        <Box sx={{ height: theme.spacing(48), borderTop: 'solid 1px white' }}>
           <Editor />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
