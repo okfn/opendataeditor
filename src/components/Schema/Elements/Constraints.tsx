@@ -4,18 +4,15 @@ import Columns from '../../Library/Columns'
 import InputField from '../../Library/Fields/InputField'
 import YesNoField from '../../Library/Fields/YesNoField'
 import * as settings from '../../../settings'
-import { useStore } from '../store'
+import { useStore, selectors, select } from '../store'
+
+// TODO: rebase on proper constraint selectors/updaters
 
 export default function Constraints() {
-  const elementIndex = useStore((state) => state.elementIndex) as number
-  const updateField = useStore((state) => state.updateField)
-  const field = useStore((state) => state.descriptor.fields[elementIndex])
-  const constraints = field.constraints || {}
+  const field = useStore(selectors.field)
+  // TODO: remove any
   const FIELD = (settings.FIELDS as any)[field.type]
-
-  // Components
-
-  const Constraints = () => (
+  return (
     <Grid container spacing={3}>
       <Grid item xs={6}>
         {FIELD.constraints.map((type: string) => (
@@ -24,47 +21,59 @@ export default function Constraints() {
       </Grid>
     </Grid>
   )
+}
 
-  const Constraint = (props: { type: string }) => {
-    switch (props.type) {
-      case 'required':
-        return <Required />
-      case 'minLength':
-        return <MinLengthConstraint />
-      case 'minimum':
-        return <MinimumConstraint />
-      case 'pattern':
-        return <Pattern />
-      case 'enum':
-        return <Enum />
-      default:
-        return null
-    }
+function Constraint(props: { type: string }) {
+  switch (props.type) {
+    case 'required':
+      return <Required />
+    case 'minLength':
+      return <MinLengthConstraint />
+    case 'minimum':
+      return <MinimumConstraint />
+    case 'pattern':
+      return <Pattern />
+    case 'enum':
+      return <Enum />
+    default:
+      return null
   }
+}
 
-  const MinLengthConstraint = () => (
+function MinLengthConstraint() {
+  return (
     <Columns spacing={1}>
       <MinLength />
       <MaxLength />
     </Columns>
   )
+}
 
-  const MinimumConstraint = () => (
+function MinimumConstraint() {
+  return (
     <Columns spacing={1}>
       <Minimum />
       <Maximum />
     </Columns>
   )
+}
 
-  const Required = () => (
+function Required() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <YesNoField
       label="Required"
       value={constraints.required || false}
       onChange={(required) => updateField({ constraints: { ...constraints, required } })}
     />
   )
+}
 
-  const Minimum = () => (
+function Minimum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="number"
       label="Minimum"
@@ -72,8 +81,12 @@ export default function Constraints() {
       onChange={(minimum) => updateField({ constraints: { ...constraints, minimum } })}
     />
   )
+}
 
-  const Maximum = () => (
+function Maximum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="number"
       label="Maximum"
@@ -81,8 +94,12 @@ export default function Constraints() {
       onChange={(maximum) => updateField({ constraints: { ...constraints, maximum } })}
     />
   )
+}
 
-  const MinLength = () => (
+function MinLength() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="number"
       label="Min Length"
@@ -92,8 +109,12 @@ export default function Constraints() {
       }
     />
   )
+}
 
-  const MaxLength = () => (
+function MaxLength() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="number"
       label="Max Length"
@@ -103,8 +124,12 @@ export default function Constraints() {
       }
     />
   )
+}
 
-  const Pattern = () => (
+function Pattern() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="string"
       label="Pattern"
@@ -112,9 +137,12 @@ export default function Constraints() {
       onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
     />
   )
+}
 
-  // TODO: fix editing
-  const Enum = () => (
+function Enum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
+  return (
     <InputField
       type="string"
       label="Enum"
@@ -122,6 +150,4 @@ export default function Constraints() {
       onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )
-
-  return <Constraints />
 }

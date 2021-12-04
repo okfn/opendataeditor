@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { createSelector as select } from 'reselect'
 import Box from '@mui/material/Box'
 import Columns from '../../Library/Columns'
 import InputField from '../../Library/Fields/InputField'
@@ -9,7 +8,7 @@ import ValuesField from '../../Library/Fields/ValuesField'
 import MultilineField from '../../Library/Fields/MultilineField'
 import DescriptorField from '../../Library/Fields/DescriptorField'
 import * as settings from '../../../settings'
-import { useStore, selectors } from '../store'
+import { useStore, selectors, select } from '../store'
 
 export default function Field() {
   return (

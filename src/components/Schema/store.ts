@@ -5,6 +5,7 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { SchemaProps } from './Schema'
 import { ISchema } from '../../interfaces'
@@ -188,6 +189,7 @@ export function makeStore(props: SchemaProps) {
   }))
 }
 
+export const select = createSelector
 export const selectors = {
   field: (state: SchemaState) => {
     const elementIndex = state.elementIndex
