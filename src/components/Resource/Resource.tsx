@@ -10,8 +10,8 @@ import Editor from './Editor'
 
 export interface ResourceProps {
   descriptor: IResource
-  handleCommit?: (descriptor: IResource) => void
-  handleRevert?: (descriptor: IResource) => void
+  onCommit?: (descriptor: IResource) => void
+  onRevert?: (descriptor: IResource) => void
 }
 
 export default function Resource(props: ResourceProps) {

@@ -10,8 +10,8 @@ import Editor from './Editor'
 
 export interface SchemaProps {
   descriptor: ISchema
-  handleCommit?: (descriptor: ISchema) => void
-  handleRevert?: (descriptor: ISchema) => void
+  onCommit?: (descriptor: ISchema) => void
+  onRevert?: (descriptor: ISchema) => void
 }
 
 export default function Schema(props: SchemaProps) {

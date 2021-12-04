@@ -11,8 +11,8 @@ import * as settings from '../../settings'
 interface ResourceState {
   descriptor: IResource
   checkpoint: IResource
-  handleCommit: (descriptor: IResource) => void
-  handleRevert: (descriptor: IResource) => void
+  onCommit: (descriptor: IResource) => void
+  onRevert: (descriptor: IResource) => void
   // TODO: handle all the state in previewFormat?
   isPreview?: boolean
   // TODO: use deep equality check instead of the flag
@@ -31,8 +31,8 @@ export function makeStore(props: ResourceProps) {
   return create<ResourceState>((set, get) => ({
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
-    handleCommit: props.handleCommit || noop,
-    handleRevert: props.handleRevert || noop,
+    onCommit: props.onCommit || noop,
+    onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -56,14 +56,14 @@ export function makeStore(props: ResourceProps) {
       set({ descriptor: { ...descriptor, ...patch }, isUpdated: true })
     },
     revert: () => {
-      const { handleRevert, descriptor, checkpoint } = get()
+      const { onRevert, descriptor, checkpoint } = get()
       set({ descriptor: cloneDeep(checkpoint), isUpdated: false })
-      handleRevert(descriptor)
+      onRevert(descriptor)
     },
     commit: () => {
-      const { handleCommit, descriptor } = get()
+      const { onCommit, descriptor } = get()
       set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
-      handleCommit(descriptor)
+      onCommit(descriptor)
     },
   }))
 }

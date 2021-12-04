@@ -49,19 +49,19 @@ export default function Metadata() {
         <TabPanel value={value} index={0}>
           <Resource
             descriptor={resource}
-            handleCommit={(resource) => updateResource(resource)}
+            onCommit={(resource) => updateResource(resource)}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Dialect
             descriptor={resource.dialect}
-            handleCommit={(dialect) => updateResource({ dialect })}
+            onCommit={(dialect) => updateResource({ dialect })}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <Schema
             descriptor={resource.schema}
-            handleCommit={(schema) => updateResource({ schema })}
+            onCommit={(schema) => updateResource({ schema })}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>

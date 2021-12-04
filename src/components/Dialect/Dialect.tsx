@@ -10,8 +10,8 @@ import Editor from './Editor'
 
 export interface DialectProps {
   descriptor: IDialect
-  handleCommit?: (descriptor: IDialect) => void
-  handleRevert?: (descriptor: IDialect) => void
+  onCommit?: (descriptor: IDialect) => void
+  onRevert?: (descriptor: IDialect) => void
 }
 
 export default function Dialect(props: DialectProps) {

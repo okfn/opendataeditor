@@ -16,6 +16,6 @@ Default.args = {
     headerRows: [1],
     delimiter: ',',
   },
-  handleCommit: (dialect: any) => console.log(dialect),
-  handleRevert: (dialect: any) => console.log(dialect),
+  onCommit: (dialect: any) => console.log(dialect),
+  onRevert: (dialect: any) => console.log(dialect),
 }
