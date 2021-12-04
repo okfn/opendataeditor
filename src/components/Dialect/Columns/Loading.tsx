@@ -3,20 +3,14 @@ import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
 
 export default function Loading() {
-  // Components
-
-  const Loading = () => (
+  return (
     <React.Fragment>
       <HeadingBox>Loading</HeadingBox>
       <Code />
     </React.Fragment>
   )
+}
 
-  const Code = () => (
-    <React.Fragment>
-      <InputField disabled label="Code" value="local" />
-    </React.Fragment>
-  )
-
-  return <Loading />
+function Code() {
+  return <InputField disabled label="Code" value="local" />
 }

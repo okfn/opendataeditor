@@ -1,11 +1,12 @@
 import * as React from 'react'
-import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 
-// TODO: remove height
+// TODO: review geometry porps/logic
 
 interface HelpCardProps {
   title: string
@@ -15,8 +16,12 @@ interface HelpCardProps {
 }
 
 export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) {
+  const theme = useTheme()
   return (
-    <Card variant="outlined" sx={{ height: props.height || '100%' }}>
+    <Card
+      variant="outlined"
+      sx={{ height: `calc(${props.height || '100%'} - ${theme.spacing(1)})` }}
+    >
       <CardContent>
         <Typography
           sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}

@@ -6,12 +6,7 @@ import * as settings from '../../../settings'
 import { useStore } from '../store'
 
 export default function Reading() {
-  const descriptor = useStore((state) => state.descriptor)
-  const update = useStore((state) => state.update)
-
-  // Components
-
-  const Reading = () => (
+  return (
     <React.Fragment>
       <HeadingBox>Reading</HeadingBox>
       <Header />
@@ -20,38 +15,52 @@ export default function Reading() {
       <HeaderCase />
     </React.Fragment>
   )
+}
 
-  const Header = () => (
+function Header() {
+  const header = useStore((state) => state.descriptor.header)
+  const update = useStore((state) => state.update)
+  return (
     <YesNoField
       label="Header"
-      value={descriptor.header || settings.DEFAULT_HEADER}
+      value={header || settings.DEFAULT_HEADER}
       onChange={(header) => update({ header })}
     />
   )
+}
 
-  const HeaderRows = () => (
+function HeaderRows() {
+  const headerRows = useStore((state) => state.descriptor.headerRows)
+  const update = useStore((state) => state.update)
+  return (
     <InputField
       label="Header Rows"
-      value={descriptor.headerRows}
+      value={headerRows}
       onChange={(headerRows) => update({ headerRows })}
     />
   )
+}
 
-  const HeaderJoin = () => (
+function HeaderJoin() {
+  const headerJoin = useStore((state) => state.descriptor.headerJoin)
+  const update = useStore((state) => state.update)
+  return (
     <InputField
       label="Header Join"
-      value={descriptor.headerJoin}
+      value={headerJoin}
       onChange={(headerJoin) => update({ headerJoin })}
     />
   )
+}
 
-  const HeaderCase = () => (
+function HeaderCase() {
+  const headerCase = useStore((state) => state.descriptor.headerCase)
+  const update = useStore((state) => state.update)
+  return (
     <YesNoField
       label="Header Case"
-      value={descriptor.headerCase || settings.DEFAULT_HEADER_CASE}
+      value={headerCase || settings.DEFAULT_HEADER_CASE}
       onChange={(headerCase) => update({ headerCase })}
     />
   )
-
-  return <Reading />
 }
