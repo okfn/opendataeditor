@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
-import Help from './Help'
-import General from './General'
-import Details from './Details'
-import Stats from './Stats'
+import Help from './Columns/Help'
+import General from './Columns/General'
+import Details from './Columns/Details'
+import Stats from './Columns/Stats'
 import { useStore } from './store'
 
 export default function Editor() {

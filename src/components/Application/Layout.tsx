@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Content from './Contents'
+import Content from './Content'
 import Header from './Header'
 import Footer from './Footer'
 import { useStore } from './store'

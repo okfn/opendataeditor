@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
-import Help from './Help'
-import Reading from './Reading'
-import Parsing from './Parsing'
-import Loading from './Loading'
+import Reading from './Columns/Reading'
+import Parsing from './Columns/Parsing'
+import Loading from './Columns/Loading'
+import Help from './Columns/Help'
 import { useStore } from './store'
 
 export default function Editor() {

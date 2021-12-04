@@ -1,9 +1,9 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import ValuesField from '../Library/Fields/ValuesField'
-import MultiselectField from '../Library/Fields/MultiselectField'
-import * as settings from '../../settings'
-import { useStore } from './store'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import ValuesField from '../../Library/Fields/ValuesField'
+import MultiselectField from '../../Library/Fields/MultiselectField'
+import * as settings from '../../../settings'
+import { useStore } from '../store'
 
 export default function General() {
   const descriptor = useStore((state) => state.descriptor)
@@ -13,7 +13,7 @@ export default function General() {
 
   const General = () => (
     <React.Fragment>
-      <Heading variant="h6">General</Heading>
+      <HeadingBox>General</HeadingBox>
       <MissingValues />
       <PrimaryKey />
     </React.Fragment>

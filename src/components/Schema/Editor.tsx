@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
-import Help from './Help'
-import General from './General'
-import Elements from './Elements'
+import Help from './Columns/Help'
+import General from './Columns/General'
+import Element from './Columns/Element'
 import { useStore } from './store'
 
 export default function Editor() {
@@ -14,7 +14,7 @@ export default function Editor() {
   return (
     <Columns spacing={3} layout={[3, 6, 3]}>
       <General />
-      <Elements />
+      <Element />
       <Help />
     </Columns>
   )

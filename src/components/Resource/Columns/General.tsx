@@ -1,8 +1,8 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import InputField from '../Library/Fields/InputField'
-import MultilineField from '../Library/Fields/MultilineField'
-import { useStore } from './store'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
+import MultilineField from '../../Library/Fields/MultilineField'
+import { useStore } from '../store'
 
 export default function General() {
   const descriptor = useStore((state) => state.descriptor)
@@ -12,7 +12,7 @@ export default function General() {
 
   const General = () => (
     <React.Fragment>
-      <Heading variant="h6">General</Heading>
+      <HeadingBox>General</HeadingBox>
       <Path />
       <Name />
       <Title />

@@ -1,13 +1,13 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import InputField from '../Library/Fields/InputField'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
 
 export default function Loading() {
   // Components
 
   const Loading = () => (
     <React.Fragment>
-      <Heading variant="h6">Loading</Heading>
+      <HeadingBox>Loading</HeadingBox>
       <Code />
     </React.Fragment>
   )

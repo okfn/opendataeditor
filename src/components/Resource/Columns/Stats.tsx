@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import InputField from '../Library/Fields/InputField'
-import { useStore } from './store'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
+import { useStore } from '../store'
 
 export default function Stats() {
   const descriptor = useStore((state) => state.descriptor)
@@ -10,7 +10,7 @@ export default function Stats() {
 
   const Stats = () => (
     <React.Fragment>
-      <Heading variant="h6">Stats</Heading>
+      <HeadingBox>Stats</HeadingBox>
       <Hash />
       <Bytes />
       <Fields />

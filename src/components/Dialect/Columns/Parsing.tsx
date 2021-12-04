@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import InputField from '../Library/Fields/InputField'
-import { useStore } from './store'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
+import { useStore } from '../store'
 
 export default function Parsing() {
   const descriptor = useStore((state) => state.descriptor)
@@ -11,7 +11,7 @@ export default function Parsing() {
 
   const Parsing = () => (
     <React.Fragment>
-      <Heading variant="h6">Parsing</Heading>
+      <HeadingBox>Parsing</HeadingBox>
       <Delimiter />
     </React.Fragment>
   )

@@ -4,19 +4,19 @@ import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../../Library/Columns'
-import Heading from '../../Library/Heading'
-import HeadingButton from '../../Library/Buttons/HeadingButton'
-import HeadingSelector from '../../Library/HeadingSelector'
-import Constraints from './Constraints'
-import ForeignKeys from './ForeignKeys'
-import ForeignKey from './ForeignKey'
-import Fields from './Fields'
-import Field from './Field'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import HeadingButton from '../../Library/Groups/HeadingButton'
+import HeadingSelector from '../../Library/Groups/HeadingSelector'
+import Constraints from '../Elements/Constraints'
+import ForeignKeys from '../Elements/ForeignKeys'
+import ForeignKey from '../Elements/ForeignKey'
+import Fields from '../Elements/Fields'
+import Field from '../Elements/Field'
 import { useStore } from '../store'
 
 // TODO: renamed Elements to Element/Content?
 
-export default function Elements() {
+export default function Element() {
   return (
     <Box>
       <Header />
@@ -32,7 +32,7 @@ function Header() {
 
 function ListingHeader() {
   return (
-    <Heading variant="h6">
+    <HeadingBox>
       <Columns spacing={1} layout={[3, 6, 3]}>
         <TypeSelect />
         <Box>
@@ -41,13 +41,13 @@ function ListingHeader() {
         </Box>
         <SearchInput />
       </Columns>
-    </Heading>
+    </HeadingBox>
   )
 }
 
 function ItemHeader() {
   return (
-    <Heading variant="h6">
+    <HeadingBox variant="h6">
       <Columns spacing={3}>
         <Columns spacing={1}>
           <BackButton />
@@ -58,7 +58,7 @@ function ItemHeader() {
           <ModeButton />
         </Box>
       </Columns>
-    </Heading>
+    </HeadingBox>
   )
 }
 

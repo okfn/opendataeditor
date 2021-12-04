@@ -1,7 +1,10 @@
+import * as React from 'react'
 import TextField, { TextFieldProps } from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
 
-const HeadingSelector = styled(TextField)<TextFieldProps>(({ theme }) => ({
+const HeadingSelector = styled((props: TextFieldProps) => (
+  <TextField size="small" {...props} />
+))<TextFieldProps>(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: theme.palette.common.black,
@@ -13,11 +16,10 @@ const HeadingSelector = styled(TextField)<TextFieldProps>(({ theme }) => ({
       borderColor: theme.palette.common.black,
     },
   },
-  '& .MuiOutlinedInput-input': {
-    // TODO: use theme.spacing(3)
-    height: '23px',
-    minHeight: '23px',
-    fontSize: '18px',
+  '& .MuiSelect-select': {
+    height: `calc(${theme.spacing(3)} - 1px) !important`,
+    minHeight: 'unset !important',
+    fontSize: theme.typography.h6.fontSize,
     fontWeight: '500',
     color: theme.palette.common.black,
   },

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import Heading from '../Library/Heading'
-import InputField from '../Library/Fields/InputField'
-import SelectField from '../Library/Fields/SelectField'
-import * as settings from '../../settings'
-import { useStore } from './store'
+import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
+import SelectField from '../../Library/Fields/SelectField'
+import * as settings from '../../../settings'
+import { useStore } from '../store'
 
 export default function Details() {
   const descriptor = useStore((state) => state.descriptor)
@@ -13,7 +13,7 @@ export default function Details() {
 
   const Details = () => (
     <React.Fragment>
-      <Heading variant="h6">Details</Heading>
+      <HeadingBox>Details</HeadingBox>
       <Scheme />
       <Format />
       <Hashing />

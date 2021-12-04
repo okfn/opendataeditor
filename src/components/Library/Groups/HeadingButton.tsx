@@ -3,9 +3,9 @@ import { styled } from '@mui/material/styles'
 
 const HeadingButton = styled(Button)(({ theme }) => ({
   margin: 0,
-  height: '100%',
+  height: theme.spacing(5),
   textTransform: 'inherit',
-  fontSize: '18px',
+  fontSize: theme.typography.h6.fontSize,
   fontWeight: 500,
   textAlign: 'left',
   justifyContent: 'flex-start',

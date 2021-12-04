@@ -26,7 +26,7 @@ export default function Data() {
   assert(text)
   assert(report)
   if (isSourceView) return <File text={text} />
-  if (isReportView) return <Report report={report} />
+  if (isReportView) return <Report descriptor={report} />
   return (
     <Box sx={{ m: -2 }}>
       <Table schema={resource.schema} rows={rows} height={contentHeight} />

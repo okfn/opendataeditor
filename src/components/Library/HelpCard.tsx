@@ -10,15 +10,19 @@ import CardContent from '@mui/material/CardContent'
 interface HelpCardProps {
   title: string
   subtitle: string
-  height: string
   link: string
+  height?: string
 }
 
 export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) {
   return (
-    <Card variant="outlined" sx={{ height: props.height }}>
+    <Card variant="outlined" sx={{ height: props.height || '100%' }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography
+          sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}
+          color="text.secondary"
+          gutterBottom
+        >
           Help
         </Typography>
         <Typography variant="h5" component="div">

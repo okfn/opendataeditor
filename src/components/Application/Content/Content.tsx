@@ -5,12 +5,12 @@ import Help from './Help'
 import Config from './Config'
 import { useStore } from '../store'
 
-export default function Contents() {
+export default function Content() {
   const contentType = useStore((state) => state.contentType)
 
   // Components
 
-  const Contents = () => (
+  const Content = () => (
     <Box sx={{ p: 2 }}>
       <ActiveContent />
     </Box>
@@ -29,5 +29,5 @@ export default function Contents() {
     }
   }
 
-  return <Contents />
+  return <Content />
 }
