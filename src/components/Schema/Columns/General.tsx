@@ -6,36 +6,38 @@ import * as settings from '../../../settings'
 import { useStore } from '../store'
 
 export default function General() {
-  const descriptor = useStore((state) => state.descriptor)
-  const update = useStore((state) => state.update)
-
-  // Components
-
-  const General = () => (
+  return (
     <React.Fragment>
       <HeadingBox>General</HeadingBox>
       <MissingValues />
       <PrimaryKey />
     </React.Fragment>
   )
+}
 
-  const MissingValues = () => (
+function MissingValues() {
+  const missingValues = useStore((state) => state.descriptor.missingValues)
+  const update = useStore((state) => state.update)
+  return (
     <ValuesField
       type="missing"
-      values={descriptor.missingValues}
+      values={missingValues}
       options={settings.MISSING_VALUES}
       onChange={(missingValues) => update({ missingValues })}
     />
   )
+}
 
-  const PrimaryKey = () => (
+function PrimaryKey() {
+  const primaryKey = useStore((state) => state.descriptor.primaryKey)
+  const fields = useStore((state) => state.descriptor.fields)
+  const update = useStore((state) => state.update)
+  return (
     <MultiselectField
       label="Primary Key"
-      value={descriptor.primaryKey || []}
-      options={descriptor.fields.map((field) => field.name)}
+      value={primaryKey || []}
+      options={fields.map((field) => field.name)}
       onChange={(primaryKey) => update({ primaryKey })}
     />
   )
-
-  return <General />
 }
