@@ -21,7 +21,7 @@ export default function Data() {
   const text = useStore((state) => state.text)
   const report = useStore((state) => state.report)
   const isFooterOpen = contentType === 'data' && isMetadataOpen
-  const footerHeight = isFooterOpen ? theme.spacing(66) : theme.spacing(8)
+  const footerHeight = isFooterOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(8)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
   assert(resource)
   assert(rows)

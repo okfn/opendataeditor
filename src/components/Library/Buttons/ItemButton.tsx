@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 
 interface ItemButtonProps {
@@ -10,6 +11,7 @@ interface ItemButtonProps {
 }
 
 export default function ItemButton(props: ItemButtonProps) {
+  const theme = useTheme()
   return (
     <Button
       size="large"
@@ -20,7 +22,7 @@ export default function ItemButton(props: ItemButtonProps) {
       title="View field"
       key={props.index}
       sx={{
-        height: '56px',
+        height: theme.spacing(7),
         width: props.isGrid ? 'inherit' : '100%',
         marginRight: props.isGrid ? 2 : 0,
         justifyContent: 'space-between',
