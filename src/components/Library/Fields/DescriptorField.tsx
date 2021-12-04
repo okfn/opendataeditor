@@ -2,11 +2,12 @@ import * as React from 'react'
 import yaml from 'js-yaml'
 import isPlainObject from 'lodash/isPlainObject'
 import TextField from '@mui/material/TextField'
+import { IDict } from '../../../interfaces'
 
 interface DescriptorFieldProps {
   type: 'yaml' | 'json'
   label: string
-  value?: string
+  value?: IDict
   size?: 'small' | 'medium'
   onChange: (value: boolean) => void
 }

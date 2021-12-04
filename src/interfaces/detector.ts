@@ -1,3 +1,5 @@
+import { IDict } from './common'
+
 export interface IDetector {
   bufferSize: number
   sampleSize: number
@@ -7,5 +9,5 @@ export interface IDetector {
   fieldFloatNumbers?: boolean
   fieldMissingValues?: string
   schemaSync?: boolean
-  schemaPatch?: object
+  schemaPatch?: IDict
 }

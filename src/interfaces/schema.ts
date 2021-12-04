@@ -1,3 +1,5 @@
+import { IDict } from './common'
+
 export interface ISchema {
   fields: IField[]
   primaryKey?: string[]
@@ -15,7 +17,7 @@ export interface IField {
   // TODO: improve type
   constraints?: { [key: string]: any }
   rdfType?: string
-  arrayItem?: string
+  arrayItem?: IDict
   trueValues?: string[]
   falseValues?: string[]
   bareNumber?: boolean

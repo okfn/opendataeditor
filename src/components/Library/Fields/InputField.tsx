@@ -11,6 +11,7 @@ interface InputFieldProps {
   value: any
   size?: 'small' | 'medium'
   disabled?: boolean
+  inputProps?: object
   onChange?: (value: any) => void
 }
 
@@ -25,6 +26,7 @@ export default function InputField(props: InputFieldProps) {
       value={props.value}
       size={props.size || 'medium'}
       disabled={props.disabled}
+      inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value as any)}
     />
   )
