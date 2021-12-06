@@ -184,6 +184,14 @@ export const selectors = {
   fieldNames: (state: SchemaState) => {
     return state.descriptor.fields.map((field) => field.name)
   },
+  foundFieldItems: (state: SchemaState) => {
+    const items = []
+    for (const [index, field] of state.descriptor.fields.entries()) {
+      if (state.elementQuery && !field.name.includes(state.elementQuery)) continue
+      items.push({ index, field })
+    }
+    return items
+  },
   foreignKey: (state: SchemaState) => {
     const elementIndex = state.elementIndex
     assert(elementIndex !== undefined)
@@ -194,6 +202,14 @@ export const selectors = {
   },
   foreignKeyNames: (state: SchemaState) => {
     return (state.descriptor.foreignKeys || []).map((fk) => fk.field.join(','))
+  },
+  foundForeignKeyItems: (state: SchemaState) => {
+    const items = []
+    for (const [index, fk] of (state.descriptor.foreignKeys || []).entries()) {
+      if (state.elementQuery && !fk.field.join(',').includes(state.elementQuery)) continue
+      items.push({ index, foreignKey: fk })
+    }
+    return items
   },
 }
 export const { Provider, useStore } = createContext<SchemaState & SchemaLogic>()

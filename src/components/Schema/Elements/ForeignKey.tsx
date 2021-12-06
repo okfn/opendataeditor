@@ -51,7 +51,7 @@ function TargetResource() {
   const reference = useStore(select(selectors.foreignKey, (fk) => fk.reference))
   return (
     <InputField
-      label="Target Field"
+      label="Target Resource"
       value={reference.resource}
       onChange={(resource) => updateElement({ reference: { ...reference, resource } })}
     />

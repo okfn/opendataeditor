@@ -3,11 +3,13 @@ import { useTheme } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 
 interface ItemButtonProps {
-  index: number
+  index?: number
   name: string
-  type: string
+  type?: string
+  title?: string
   isGrid?: boolean
-  onClick: () => void
+  disabled?: boolean
+  onClick?: () => void
 }
 
 export default function ItemButton(props: ItemButtonProps) {
@@ -17,10 +19,11 @@ export default function ItemButton(props: ItemButtonProps) {
       size="large"
       color="info"
       variant="outlined"
-      endIcon={props.isGrid ? null : props.type.toUpperCase()}
-      onClick={() => props.onClick()}
-      title="View field"
+      endIcon={props.type && !props.isGrid ? props.type.toUpperCase() : undefined}
+      onClick={() => (props.onClick ? props.onClick() : undefined)}
+      disabled={props.disabled}
       key={props.index}
+      title={props.title}
       sx={{
         height: theme.spacing(7),
         width: props.isGrid ? 'inherit' : '100%',
