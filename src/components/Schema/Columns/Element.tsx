@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { assert } from 'ts-essentials'
-import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../../Library/Columns'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import HeadingButton from '../../Library/Groups/HeadingButton'
+import HeadingSearch from '../../Library/Groups/HeadingSearch'
 import HeadingSelector from '../../Library/Groups/HeadingSelector'
 import Constraints from '../Elements/Constraints'
 import ForeignKeys from '../Elements/ForeignKeys'
@@ -189,26 +189,13 @@ function ExtraButton() {
   )
 }
 
-// TODO: rebase on TextField (move to Library/Groups?)
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
   const setElementQuery = useStore((state) => state.setElementQuery)
   return (
-    <InputBase
-      type="text"
-      placeholder="Search..."
-      value={elementQuery || ''}
-      onChange={(ev) => setElementQuery(ev.target.value)}
-      sx={{
-        height: '100%',
-        paddingLeft: 1,
-        paddingRight: 1,
-        borderRadius: '4px',
-        border: 'solid 1px #ccc',
-        '&:focus': {
-          outline: 'none',
-        },
-      }}
+    <HeadingSearch
+      value={elementQuery}
+      onChange={(elementQuery) => setElementQuery(elementQuery)}
     />
   )
 }
