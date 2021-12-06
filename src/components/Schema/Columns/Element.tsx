@@ -54,7 +54,7 @@ function ItemHeader() {
         </Columns>
         <Box>
           <RemoveButton />
-          <ModeButton />
+          <ExtraButton />
         </Box>
       </Columns>
     </HeadingBox>
@@ -172,7 +172,7 @@ function RemoveButton() {
   )
 }
 
-function ModeButton() {
+function ExtraButton() {
   const elementType = useStore((state) => state.elementType)
   const isElementExtra = useStore((state) => state.isElementExtra)
   const toggleIsElementExtra = useStore((state) => state.toggleIsElementExtra)
@@ -184,7 +184,7 @@ function ModeButton() {
       onClick={() => toggleIsElementExtra()}
       title="Toggle constraints view"
     >
-      Constraints
+      {ELEMENT.extraLabel}
     </Button>
   )
 }
@@ -231,6 +231,7 @@ const ELEMENTS = {
     item: Field,
     list: Fields,
     extra: Constraints,
+    extraLabel: 'Constraints',
     names: selectors.fieldNames,
   },
   foreignKey: {
@@ -239,6 +240,7 @@ const ELEMENTS = {
     item: ForeignKey,
     list: ForeignKeys,
     extra: null,
+    extraLabel: null,
     names: selectors.foreignKeyNames,
   },
 }
