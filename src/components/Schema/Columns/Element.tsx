@@ -125,7 +125,7 @@ function BackButton() {
       color="info"
       variant="outlined"
       onClick={() => setElementIndex()}
-      title="Return to listing"
+      title={`Return to ${ELEMENT.label.toLowerCase()}s`}
     >
       {ELEMENT.label}s
     </HeadingButton>
