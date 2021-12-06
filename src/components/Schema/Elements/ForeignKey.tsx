@@ -6,6 +6,7 @@ import SelectField from '../../Library/Fields/SelectField'
 import { useStore, selectors, select } from '../store'
 
 // TODO: fix logic/improve
+// TODO: support more than self-referencing
 
 export default function ForeignKey() {
   return (
@@ -13,35 +14,38 @@ export default function ForeignKey() {
       <Box>
         <SourceField />
         <TargetField />
+      </Box>
+      <Box>
         <TargetResource />
       </Box>
-      <Box></Box>
     </Columns>
   )
 }
 
 function SourceField() {
-  const updateElement = useStore((state) => state.updateElement)
-  const field = useStore(select(selectors.foreignKey, (fk) => fk.field))
+  const fields = useStore(select(selectors.foreignKey, (fk) => fk.fields))
   const fieldNames = useStore(selectors.fieldNames)
+  const updateElement = useStore((state) => state.updateElement)
   return (
     <SelectField
       label="Source Field"
-      value={field[0]}
+      value={fields[0]}
       options={fieldNames}
-      onChange={(name) => updateElement({ field: [name] })}
+      onChange={(name) => updateElement({ fields: [name] })}
     />
   )
 }
 
 function TargetField() {
-  const updateElement = useStore((state) => state.updateElement)
+  const fieldNames = useStore(selectors.fieldNames)
   const reference = useStore(select(selectors.foreignKey, (fk) => fk.reference))
+  const updateElement = useStore((state) => state.updateElement)
   return (
-    <InputField
+    <SelectField
       label="Target Field"
-      value={reference.field[0]}
-      onChange={(name) => updateElement({ reference: { ...reference, field: [name] } })}
+      value={reference.fields[0]}
+      options={fieldNames}
+      onChange={(name) => updateElement({ reference: { ...reference, fields: [name] } })}
     />
   )
 }
@@ -51,6 +55,7 @@ function TargetResource() {
   const reference = useStore(select(selectors.foreignKey, (fk) => fk.reference))
   return (
     <InputField
+      disabled
       label="Target Resource"
       value={reference.resource}
       onChange={(resource) => updateElement({ reference: { ...reference, resource } })}

@@ -130,8 +130,8 @@ export function makeStore(props: SchemaProps) {
           const name = descriptor.fields[0].name
           descriptor.foreignKeys = descriptor.foreignKeys || []
           descriptor.foreignKeys.push({
-            field: [name],
-            reference: { field: [name], resource: 'self' },
+            fields: [name],
+            reference: { fields: [name], resource: '' },
           })
           elementIndex = descriptor.foreignKeys.length - 1
         }
@@ -201,12 +201,13 @@ export const selectors = {
     return foreignKey
   },
   foreignKeyNames: (state: SchemaState) => {
-    return (state.descriptor.foreignKeys || []).map((fk) => fk.field.join(','))
+    return (state.descriptor.foreignKeys || []).map((fk) => fk.fields.join(','))
   },
   foundForeignKeyItems: (state: SchemaState) => {
     const items = []
     for (const [index, fk] of (state.descriptor.foreignKeys || []).entries()) {
-      if (state.elementQuery && !fk.field.join(',').includes(state.elementQuery)) continue
+      if (state.elementQuery && !fk.fields.join(',').includes(state.elementQuery))
+        continue
       items.push({ index, foreignKey: fk })
     }
     return items

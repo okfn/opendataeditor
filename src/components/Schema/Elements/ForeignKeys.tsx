@@ -24,7 +24,7 @@ function FoundItems() {
         <ItemButton
           key={index}
           index={index}
-          name={foreignKey.field.join(',')}
+          name={foreignKey.fields.join(',')}
           type={'fk'}
           isGrid={isElementGrid}
           onClick={() => setElementIndex(index)}
