@@ -37,7 +37,9 @@ function PrimaryKey() {
       label="Primary Key"
       value={primaryKey || []}
       options={fields.map((field) => field.name)}
-      onChange={(primaryKey) => update({ primaryKey })}
+      onChange={(primaryKey) =>
+        update({ primaryKey: primaryKey.length ? primaryKey : undefined })
+      }
     />
   )
 }
