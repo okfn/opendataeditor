@@ -9,6 +9,8 @@ const HeadingButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
   textAlign: 'left',
   justifyContent: 'flex-start',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
   // textDecoration: 'underline !important',
   borderColor: theme.palette.common.black,
   color: theme.palette.common.black,

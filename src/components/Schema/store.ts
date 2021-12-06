@@ -26,7 +26,7 @@ interface SchemaState {
 
   // Elements
 
-  elementType: string
+  elementType: 'field' | 'foreignKey'
   elementIndex?: number
   elementQuery?: string
   isElementGrid?: boolean
@@ -50,7 +50,7 @@ interface SchemaLogic {
 
   // Elements
 
-  setElementType: (elementType: string) => void
+  setElementType: (elementType: SchemaState['elementType']) => void
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery: string) => void
   toggleIsElementGrid: () => void
@@ -71,7 +71,7 @@ export function makeStore(props: SchemaProps) {
 
     // Elements
 
-    elementType: 'field',
+    elementType: 'field' as SchemaState['elementType'],
   }
   return create<SchemaState & SchemaLogic>((set, get) => ({
     ...initialState,
@@ -183,6 +183,20 @@ export const selectors = {
     const field = state.descriptor.fields[elementIndex]
     assert(field !== undefined)
     return field
+  },
+  fieldNames: (state: SchemaState) => {
+    return state.descriptor.fields.map((field) => field.name)
+  },
+  foreignKey: (state: SchemaState) => {
+    const elementIndex = state.elementIndex
+    assert(elementIndex !== undefined)
+    assert(state.descriptor.foreignKeys !== undefined)
+    const foreignKey = state.descriptor.foreignKeys[elementIndex]
+    assert(foreignKey !== undefined)
+    return foreignKey
+  },
+  foreignKeyNames: (state: SchemaState) => {
+    return (state.descriptor.foreignKeys || []).map((fk) => fk.field.join(','))
   },
 }
 export const { Provider, useStore } = createContext<SchemaState & SchemaLogic>()

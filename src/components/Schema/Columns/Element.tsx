@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { assert } from 'ts-essentials'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
@@ -12,7 +13,7 @@ import ForeignKeys from '../Elements/ForeignKeys'
 import ForeignKey from '../Elements/ForeignKey'
 import Fields from '../Elements/Fields'
 import Field from '../Elements/Field'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function Element() {
   return (
@@ -72,36 +73,13 @@ function TypeSelect() {
       margin="none"
       value={elementType}
       onChange={(ev) => {
-        setElementType(ev.target.value)
+        setElementType(ev.target.value as typeof elementType)
         setElementIndex()
       }}
     >
-      <MenuItem value="field">Fields</MenuItem>
-      <MenuItem value="foreignKey">Foreign Keys</MenuItem>
-    </HeadingSelector>
-  )
-}
-
-export function ItemSelect() {
-  const descriptor = useStore((state) => state.descriptor)
-  const elementType = useStore((state) => state.elementType)
-  const elementIndex = useStore((state) => state.elementIndex)
-  const setElementIndex = useStore((state) => state.setElementIndex)
-  // TODO: remove
-  if (elementType !== 'field') return null
-  if (elementIndex === undefined) return null
-  return (
-    <HeadingSelector
-      select
-      fullWidth
-      label="Select"
-      type="number"
-      value={elementIndex}
-      onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
-    >
-      {descriptor.fields.map((field, index) => (
-        <MenuItem key={index} value={index}>
-          {field.name}
+      {Object.values(ELEMENTS).map((element) => (
+        <MenuItem key={element.type} value={element.type}>
+          {element.label}s
         </MenuItem>
       ))}
     </HeadingSelector>
@@ -111,9 +89,14 @@ export function ItemSelect() {
 function AddButton() {
   const elementType = useStore((state) => state.elementType)
   const addElement = useStore((state) => state.addElement)
+  const ELEMENT = ELEMENTS[elementType]
   return (
-    <Button color="info" title="Add a new field" onClick={() => addElement()}>
-      Add {elementType === 'field' ? 'Field' : 'Foreign Key'}
+    <Button
+      color="info"
+      title={`Add a new ${ELEMENT.label.toLowerCase()}`}
+      onClick={() => addElement()}
+    >
+      Add {ELEMENT.label}
     </Button>
   )
 }
@@ -133,33 +116,68 @@ function GridButton() {
 }
 
 function BackButton() {
+  const elementType = useStore((state) => state.elementType)
   const setElementIndex = useStore((state) => state.setElementIndex)
+  const ELEMENT = ELEMENTS[elementType]
   return (
     <HeadingButton
       fullWidth
       color="info"
       variant="outlined"
       onClick={() => setElementIndex()}
-      title="Return to fields"
+      title="Return to listing"
     >
-      Fields
+      {ELEMENT.label}s
     </HeadingButton>
+  )
+}
+
+export function ItemSelect() {
+  const elementType = useStore((state) => state.elementType)
+  const elementIndex = useStore((state) => state.elementIndex)
+  const setElementIndex = useStore((state) => state.setElementIndex)
+  const ELEMENT = ELEMENTS[elementType]
+  const names = useStore(ELEMENT.names)
+  assert(elementIndex !== undefined)
+  return (
+    <HeadingSelector
+      select
+      fullWidth
+      label="Select"
+      type="number"
+      value={elementIndex}
+      onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
+    >
+      {names.map((name, index) => (
+        <MenuItem key={index} value={index}>
+          {name}
+        </MenuItem>
+      ))}
+    </HeadingSelector>
   )
 }
 
 function RemoveButton() {
   const elementType = useStore((state) => state.elementType)
   const removeElement = useStore((state) => state.removeElement)
+  const ELEMENT = ELEMENTS[elementType]
   return (
-    <Button title="Remove field" color="info" onClick={() => removeElement()}>
-      Remove {elementType === 'field' ? 'Field' : 'Foreign Key'}
+    <Button
+      title={`Remove ${ELEMENT.label.toLowerCase()}`}
+      color="info"
+      onClick={() => removeElement()}
+    >
+      Remove {ELEMENT.label}
     </Button>
   )
 }
 
 function ModeButton() {
+  const elementType = useStore((state) => state.elementType)
   const isElementExtra = useStore((state) => state.isElementExtra)
   const toggleIsElementExtra = useStore((state) => state.toggleIsElementExtra)
+  const ELEMENT = ELEMENTS[elementType]
+  if (!ELEMENT.extra) return null
   return (
     <Button
       color={isElementExtra ? 'warning' : 'info'}
@@ -171,6 +189,7 @@ function ModeButton() {
   )
 }
 
+// TODO: rebase on TextField (move to Library/Groups?)
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
   const setElementQuery = useStore((state) => state.setElementQuery)
@@ -198,15 +217,28 @@ function Content() {
   const elementType = useStore((state) => state.elementType)
   const elementIndex = useStore((state) => state.elementIndex)
   const isElementExtra = useStore((state) => state.isElementExtra)
-  switch (elementType) {
-    case 'field':
-      if (elementIndex === undefined) return <Fields />
-      if (isElementExtra) return <Constraints />
-      return <Field />
-    case 'foreignKey':
-      if (elementIndex === undefined) return <ForeignKeys />
-      return <ForeignKey />
-    default:
-      return null
-  }
+  const ELEMENT = ELEMENTS[elementType]
+  let Component = ELEMENT.item
+  if (elementIndex === undefined) Component = ELEMENT.list
+  if (isElementExtra && ELEMENT.extra) Component = ELEMENT.extra
+  return <Component />
+}
+
+const ELEMENTS = {
+  field: {
+    type: 'field',
+    label: 'Field',
+    item: Field,
+    list: Fields,
+    extra: Constraints,
+    names: selectors.fieldNames,
+  },
+  foreignKey: {
+    type: 'foreignKey',
+    label: 'Foreign Key',
+    item: ForeignKey,
+    list: ForeignKeys,
+    extra: null,
+    names: selectors.foreignKeyNames,
+  },
 }
