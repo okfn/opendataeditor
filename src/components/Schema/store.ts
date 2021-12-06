@@ -44,9 +44,6 @@ interface SchemaLogic {
   update: (patch: object) => void
   commit: () => void
   revert: () => void
-  removeField: () => void
-  // TODO: type the patch
-  updateField: (patch: object) => void
 
   // Elements
 
@@ -57,6 +54,8 @@ interface SchemaLogic {
   toggleIsElementExtra: () => void
   addElement: () => void
   removeElement: () => void
+  // TODO: type the patch
+  updateElement: (patch: object) => void
 }
 
 export function makeStore(props: SchemaProps) {
@@ -109,47 +108,35 @@ export function makeStore(props: SchemaProps) {
       set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
       onCommit(descriptor)
     },
-    updateField: (patch) => {
-      const { descriptor, elementIndex } = get()
-      if (elementIndex === undefined) return
-      const newDescriptor = produce(descriptor, (descriptor) => {
-        descriptor.fields[elementIndex] = {
-          ...descriptor.fields[elementIndex],
-          ...patch,
-        }
-      })
-      set({ descriptor: newDescriptor, isUpdated: true })
-    },
+
+    // Elements
+
+    setElementType: (elementType) => set({ elementType }),
+    setElementIndex: (elementIndex) => set({ elementIndex }),
+    setElementQuery: (elementQuery) => set({ elementQuery }),
+    toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),
+    toggleIsElementExtra: () => set({ isElementExtra: !get().isElementExtra }),
     // TODO: finish
     addElement: () => {
       let { elementIndex } = get()
       const { descriptor, elementType } = get()
       const newDescriptor = produce(descriptor, (descriptor) => {
         if (elementType === 'field') {
-          descriptor.fields.push({ name: 'newField', type: 'string', format: 'default' })
+          const name = `field${descriptor.fields.length}`
+          descriptor.fields.push({ name, type: 'string', format: 'default' })
           elementIndex = descriptor.fields.length - 1
         } else if (elementType === 'foreignKey') {
+          // TODO: catch no fields
+          const name = descriptor.fields[0].name
           descriptor.foreignKeys = descriptor.foreignKeys || []
           descriptor.foreignKeys.push({
-            field: ['newField'],
-            reference: { field: ['otherField'], resource: 'self' },
+            field: [name],
+            reference: { field: [name], resource: 'self' },
           })
           elementIndex = descriptor.foreignKeys.length - 1
         }
       })
       set({ descriptor: newDescriptor, elementIndex, isUpdated: true })
-    },
-    removeField: () => {
-      const { descriptor, elementIndex } = get()
-      if (elementIndex === undefined) return
-      const newDescriptor = produce(descriptor, (descriptor) => {
-        descriptor.fields.splice(elementIndex, 1)
-      })
-      set({
-        descriptor: newDescriptor,
-        elementIndex: undefined,
-        isUpdated: true,
-      })
     },
     removeElement: () => {
       const { descriptor, elementType, elementIndex } = get()
@@ -164,14 +151,24 @@ export function makeStore(props: SchemaProps) {
       })
       set({ descriptor: newDescriptor, elementIndex: undefined, isUpdated: true })
     },
-
-    // Elements
-
-    setElementType: (elementType) => set({ elementType }),
-    setElementIndex: (elementIndex) => set({ elementIndex }),
-    setElementQuery: (elementQuery) => set({ elementQuery }),
-    toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),
-    toggleIsElementExtra: () => set({ isElementExtra: !get().isElementExtra }),
+    updateElement: (patch) => {
+      const { descriptor, elementType, elementIndex } = get()
+      assert(elementIndex !== undefined)
+      const newDescriptor = produce(descriptor, (descriptor) => {
+        if (elementType === 'field') {
+          descriptor.fields[elementIndex] = {
+            ...descriptor.fields[elementIndex],
+            ...patch,
+          }
+        } else if (elementType === 'foreignKey') {
+          descriptor.foreignKeys![elementIndex] = {
+            ...descriptor.foreignKeys![elementIndex],
+            ...patch,
+          }
+        }
+      })
+      set({ descriptor: newDescriptor, isUpdated: true })
+    },
   }))
 }
 

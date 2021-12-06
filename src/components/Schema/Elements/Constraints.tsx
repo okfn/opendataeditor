@@ -59,45 +59,47 @@ function MinimumConstraint() {
 }
 
 function Required() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <YesNoField
       label="Required"
       value={constraints.required || false}
-      onChange={(required) => updateField({ constraints: { ...constraints, required } })}
+      onChange={(required) =>
+        updateElement({ constraints: { ...constraints, required } })
+      }
     />
   )
 }
 
 function Minimum() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
       type="number"
       label="Minimum"
       value={constraints.minimum}
-      onChange={(minimum) => updateField({ constraints: { ...constraints, minimum } })}
+      onChange={(minimum) => updateElement({ constraints: { ...constraints, minimum } })}
     />
   )
 }
 
 function Maximum() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
       type="number"
       label="Maximum"
       value={constraints.maximum}
-      onChange={(maximum) => updateField({ constraints: { ...constraints, maximum } })}
+      onChange={(maximum) => updateElement({ constraints: { ...constraints, maximum } })}
     />
   )
 }
 
 function MinLength() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
@@ -105,14 +107,14 @@ function MinLength() {
       label="Min Length"
       value={constraints.minLength}
       onChange={(minLength) =>
-        updateField({ constraints: { ...constraints, minLength } })
+        updateElement({ constraints: { ...constraints, minLength } })
       }
     />
   )
 }
 
 function MaxLength() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
@@ -120,34 +122,36 @@ function MaxLength() {
       label="Max Length"
       value={constraints.maxLength}
       onChange={(maxLength) =>
-        updateField({ constraints: { ...constraints, maxLength } })
+        updateElement({ constraints: { ...constraints, maxLength } })
       }
     />
   )
 }
 
 function Pattern() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
       type="string"
       label="Pattern"
       value={constraints.pattern}
-      onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
+      onChange={(pattern) => updateElement({ constraints: { ...constraints, pattern } })}
     />
   )
 }
 
 function Enum() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const constraints = useStore(select(selectors.field, (f) => f.constraints)) || {}
   return (
     <InputField
       type="string"
       label="Enum"
       value={(constraints.enum || []).join(',')}
-      onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
+      onChange={(value) =>
+        updateElement({ constraints: { ...constraints, enum: value } })
+      }
     />
   )
 }

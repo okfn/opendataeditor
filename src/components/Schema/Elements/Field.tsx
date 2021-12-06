@@ -32,28 +32,28 @@ export default function Field() {
 }
 
 function Name() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const name = useStore(select(selectors.field, (field) => field.name))
   return (
-    <InputField label="Name" value={name} onChange={(name) => updateField({ name })} />
+    <InputField label="Name" value={name} onChange={(name) => updateElement({ name })} />
   )
 }
 
 function Type() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const type = useStore(select(selectors.field, (field) => field.type))
   return (
     <SelectField
       label="Type"
       value={type}
       options={Object.keys(settings.FIELDS)}
-      onChange={(type) => updateField({ type })}
+      onChange={(type) => updateElement({ type })}
     />
   )
 }
 
 function Format() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const format = useStore(select(selectors.field, (field) => field.format))
   const type = useStore(select(selectors.field, (field) => field.type))
   // TODO: remove any
@@ -63,63 +63,63 @@ function Format() {
     <InputField
       label="Format"
       value={format}
-      onChange={(format) => updateField({ format })}
+      onChange={(format) => updateElement({ format })}
     />
   ) : (
     <SelectField
       label="Format"
       value={format}
       options={FIELD.formats}
-      onChange={(format) => updateField({ format })}
+      onChange={(format) => updateElement({ format })}
     />
   )
 }
 
 function Title() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const title = useStore(select(selectors.field, (field) => field.title))
   return (
     <InputField
       label="Title"
       value={title}
-      onChange={(title) => updateField({ title })}
+      onChange={(title) => updateElement({ title })}
     />
   )
 }
 
 function Description() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const descriptor = useStore(select(selectors.field, (field) => field.description))
   return (
     <MultilineField
       label="Description"
       value={descriptor || ''}
-      onChange={(description) => updateField({ description })}
+      onChange={(description) => updateElement({ description })}
     />
   )
 }
 
 function MissingValues() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
   return (
     <ValuesField
       type="missing"
       values={missingValues || []}
       options={settings.MISSING_VALUES}
-      onChange={(missingValues) => updateField({ missingValues })}
+      onChange={(missingValues) => updateElement({ missingValues })}
     />
   )
 }
 
 function RdfType() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
   return (
     <InputField
       label="RDF Type"
       value={rdfType || ''}
-      onChange={(rdfType) => updateField({ rdfType })}
+      onChange={(rdfType) => updateElement({ rdfType })}
     />
   )
 }
@@ -181,88 +181,88 @@ function NumberExtras() {
 }
 
 function ArrayItem() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const arrayItem = useStore(select(selectors.field, (field) => field.arrayItem))
   return (
     <DescriptorField
       type="yaml"
       label="Array Item"
       value={arrayItem}
-      onChange={(arrayItem) => updateField({ arrayItem })}
+      onChange={(arrayItem) => updateElement({ arrayItem })}
     />
   )
 }
 
 function TrueValues() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
   return (
     <ValuesField
       type="true"
       values={trueValues || []}
       options={settings.TRUE_VALUES}
-      onChange={(trueValues) => updateField({ trueValues })}
+      onChange={(trueValues) => updateElement({ trueValues })}
     />
   )
 }
 
 function FalseValues() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
   return (
     <ValuesField
       type="false"
       values={falseValues || []}
       options={settings.FALSE_VALUES}
-      onChange={(falseValues) => updateField({ falseValues })}
+      onChange={(falseValues) => updateElement({ falseValues })}
     />
   )
 }
 
 function BareNumber() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const bareNumber = useStore(select(selectors.field, (field) => field.bareNumber))
   return (
     <YesNoField
       label="Bare Number"
       value={bareNumber || settings.DEFAULT_BARE_NUMBER}
-      onChange={(bareNumber) => updateField({ bareNumber })}
+      onChange={(bareNumber) => updateElement({ bareNumber })}
     />
   )
 }
 
 function FloatNumber() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const floatNumber = useStore(select(selectors.field, (field) => field.floatNumber))
   return (
     <YesNoField
       label="Float Number"
       value={floatNumber || false}
-      onChange={(floatNumber) => updateField({ floatNumber })}
+      onChange={(floatNumber) => updateElement({ floatNumber })}
     />
   )
 }
 
 function DecimalChar() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const decimalChar = useStore(select(selectors.field, (field) => field.decimalChar))
   return (
     <InputField
       label="Decimal Char"
       value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
-      onChange={(decimalChar) => updateField({ decimalChar })}
+      onChange={(decimalChar) => updateElement({ decimalChar })}
     />
   )
 }
 
 function GroupChar() {
-  const updateField = useStore((state) => state.updateField)
+  const updateElement = useStore((state) => state.updateElement)
   const groupChar = useStore(select(selectors.field, (field) => field.groupChar))
   return (
     <InputField
       label="Group Char"
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
-      onChange={(groupChar) => updateField({ groupChar })}
+      onChange={(groupChar) => updateElement({ groupChar })}
     />
   )
 }
