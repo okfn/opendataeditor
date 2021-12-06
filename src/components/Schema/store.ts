@@ -49,7 +49,7 @@ interface SchemaLogic {
 
   setElementType: (elementType: SchemaState['elementType']) => void
   setElementIndex: (index?: number) => void
-  setElementQuery: (elementQuery: string) => void
+  setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
   toggleIsElementExtra: () => void
   addElement: () => void
