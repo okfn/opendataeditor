@@ -1,6 +1,8 @@
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 
+// TODO: fix ellipsis overflow
+
 const HeadingButton = styled(Button)(({ theme }) => ({
   margin: 0,
   height: theme.spacing(5),
@@ -11,6 +13,7 @@ const HeadingButton = styled(Button)(({ theme }) => ({
   justifyContent: 'flex-start',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
+  textOverflow: 'ellipsis',
   // textDecoration: 'underline !important',
   borderColor: theme.palette.common.black,
   color: theme.palette.common.black,

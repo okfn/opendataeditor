@@ -147,6 +147,7 @@ export function makeStore(props: SchemaProps) {
         } else if (elementType === 'foreignKey') {
           descriptor.foreignKeys = descriptor.foreignKeys || []
           descriptor.foreignKeys.splice(elementIndex, 1)
+          if (!descriptor.foreignKeys.length) delete descriptor.foreignKeys
         }
       })
       set({ descriptor: newDescriptor, elementIndex: undefined, isUpdated: true })
@@ -206,8 +207,8 @@ export const selectors = {
   foundForeignKeyItems: (state: SchemaState) => {
     const items = []
     for (const [index, fk] of (state.descriptor.foreignKeys || []).entries()) {
-      if (state.elementQuery && !fk.fields.join(',').includes(state.elementQuery))
-        continue
+      const name = fk.fields.join(',')
+      if (state.elementQuery && !name.includes(state.elementQuery)) continue
       items.push({ index, foreignKey: fk })
     }
     return items
