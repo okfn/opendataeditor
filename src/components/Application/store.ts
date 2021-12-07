@@ -2,13 +2,14 @@ import create from 'zustand'
 import { assert } from 'ts-essentials'
 import { client } from '../../client'
 import { IReport, IStatus, IRow } from '../../interfaces'
-import { IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
+import { IQuery, IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
   contentType: string
   file?: File
   detector: IDetector
   resource?: IResource
+  query?: IQuery
   inquiry?: IInquiry
   report?: IReport
   pipeline?: IPipeline
@@ -31,6 +32,7 @@ export interface ILogic {
   uploadFile: (file: File) => void
   updateDetector: (patch: Partial<IDetector>) => void
   updateResource: (patch: Partial<IResource>) => void
+  updateQuery: (patch: Partial<IQuery>) => void
   updateInquiry: (patch: Partial<IInquiry>) => void
   updatePipeline: (patch: Partial<IPipeline>) => void
 }
@@ -70,10 +72,22 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { resource } = await client.describe(file, detector)
     // TODO: make unblocking
     const { rows } = await client.extract(file, resource)
+    const query = {}
+    // TODO: handle v4-v5 in client
     const inquiry = { source: resource, checks: [] }
     const { report } = await client.validate(file, inquiry)
     const pipeline = { source: resource, type: 'resource', steps: [] }
-    set({ contentType: 'data', file, resource, rows, inquiry, report, pipeline, text })
+    set({
+      contentType: 'data',
+      file,
+      resource,
+      rows,
+      inquiry,
+      report,
+      pipeline,
+      text,
+      query,
+    })
   },
 
   // Metadata
@@ -88,9 +102,14 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(resource)
     const newResource = { ...resource, ...patch }
     const { rows } = await client.extract(file, newResource)
+    // TODO: handle v4-v5 in client
     const inquiry = { source: newResource, checks: [] }
     const { report } = await client.validate(file, inquiry)
     set({ resource: newResource, rows, inquiry, report })
+  },
+  updateQuery: (patch) => {
+    const { query } = get()
+    if (query) set({ query: { ...query, ...patch } })
   },
   updateInquiry: (patch) => {
     const { inquiry } = get()

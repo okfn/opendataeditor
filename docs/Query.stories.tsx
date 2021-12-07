@@ -10,4 +10,8 @@ export default {
 const Template: Story<Parameters<typeof Query>[0]> = (args) => <Query {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  descriptor: {},
+  onCommit: (query: any) => console.log(query),
+  onRevert: (query: any) => console.log(query),
+}
