@@ -12,47 +12,49 @@ import Box from '@mui/material/Box'
 export default function Help() {
   const [value, setValue] = React.useState(0)
   return (
-    <Columns spacing={3} layout={[3, 9]}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={(_, newValue) => setValue(newValue)}
-        aria-label="Vertical tabs example"
-        sx={{
-          borderRight: 1,
-          borderColor: 'divider',
-          '& .MuiButtonBase-root': { alignItems: 'flex-start' },
-        }}
-      >
-        <Tab label="Introduction" {...a11yProps(0)} />
-        <Tab label="Getting Started" {...a11yProps(1)} />
-        <Tab label="Describe Data" {...a11yProps(2)} />
-        <Tab label="Extract Data" {...a11yProps(3)} />
-        <Tab label="Validate Data" {...a11yProps(4)} />
-        <Tab label="Transform Data" {...a11yProps(5)} />
-      </Tabs>
-      <React.Fragment>
-        <TabPanel value={value} index={0}>
-          <Introduction />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <div>Under development</div>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <div>Under development</div>
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <div>Under development</div>
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          <div>Under development</div>
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          <div>Under development</div>
-        </TabPanel>
-      </React.Fragment>
-    </Columns>
+    <Box sx={{ padding: 2 }}>
+      <Columns spacing={3} layout={[3, 9]}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={(_, newValue) => setValue(newValue)}
+          aria-label="Vertical tabs example"
+          sx={{
+            borderRight: 1,
+            borderColor: 'divider',
+            '& .MuiButtonBase-root': { alignItems: 'flex-start' },
+          }}
+        >
+          <Tab label="Introduction" {...a11yProps(0)} />
+          <Tab label="Getting Started" {...a11yProps(1)} />
+          <Tab label="Describe Data" {...a11yProps(2)} />
+          <Tab label="Extract Data" {...a11yProps(3)} />
+          <Tab label="Validate Data" {...a11yProps(4)} />
+          <Tab label="Transform Data" {...a11yProps(5)} />
+        </Tabs>
+        <React.Fragment>
+          <TabPanel value={value} index={0}>
+            <Introduction />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <div>Under development</div>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <div>Under development</div>
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <div>Under development</div>
+          </TabPanel>
+          <TabPanel value={value} index={4}>
+            <div>Under development</div>
+          </TabPanel>
+          <TabPanel value={value} index={5}>
+            <div>Under development</div>
+          </TabPanel>
+        </React.Fragment>
+      </Columns>
+    </Box>
   )
 }
 

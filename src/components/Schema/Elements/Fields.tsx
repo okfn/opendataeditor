@@ -4,6 +4,8 @@ import ItemButton from '../../Library/Buttons/ItemButton'
 import Box from '@mui/material/Box'
 import { useStore, selectors } from '../store'
 
+// TODO: restyle scrolls (use Table's style)
+
 export default function Fields() {
   const theme = useTheme()
   const foundFieldItems = useStore(selectors.foundFieldItems)

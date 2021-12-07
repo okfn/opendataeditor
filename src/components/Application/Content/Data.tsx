@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import { assert } from 'ts-essentials'
-import Box from '@mui/material/Box'
 import Report from '../../Report'
 import Table from '../../Table'
 import File from '../../File'
@@ -30,9 +29,5 @@ export default function Data() {
   assert(report)
   if (isSourceView) return <File text={text} />
   if (isReportView) return <Report descriptor={report} />
-  return (
-    <Box sx={{ m: -2 }}>
-      <Table schema={resource.schema} rows={rows} height={contentHeight} />
-    </Box>
-  )
+  return <Table schema={resource.schema} rows={rows} height={contentHeight} />
 }

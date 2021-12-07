@@ -1,7 +1,7 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField'
 
-// TODO: handle different value types properly (string/number/etc)
+// TODO: shall we open a modal editor for this field?
 
 interface MultilineFieldProps {
   type?: string
