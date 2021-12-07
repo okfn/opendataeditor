@@ -40,6 +40,6 @@ function FoundItems() {
 function NotFoundItems() {
   const checks = useStore((state) => state.descriptor.checks)
   const elementQuery = useStore((state) => state.elementQuery)
-  const message = checks && checks.length && elementQuery ? 'found' : 'exist'
+  const message = checks && checks.length && elementQuery ? 'found' : 'added'
   return <ItemButton disabled name={`No extra checks ${message}`} />
 }

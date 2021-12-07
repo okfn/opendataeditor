@@ -16,6 +16,8 @@ export default function Data() {
   const isSourceView = useStore((state) => state.isSourceView)
   const isReportView = useStore((state) => state.isReportView)
   const resource = useStore((state) => state.resource)
+  const targetRows = useStore((state) => state.targetRows)
+  const status = useStore((state) => state.status)
   const rows = useStore((state) => state.rows)
   const text = useStore((state) => state.text)
   const report = useStore((state) => state.report)
@@ -29,5 +31,10 @@ export default function Data() {
   assert(report)
   if (isSourceView) return <File text={text} />
   if (isReportView) return <Report descriptor={report} />
+  if (status && targetRows) {
+    return (
+      <Table schema={status.target.schema} rows={targetRows} height={contentHeight} />
+    )
+  }
   return <Table schema={resource.schema} rows={rows} height={contentHeight} />
 }

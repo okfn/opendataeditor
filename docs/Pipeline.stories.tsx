@@ -11,9 +11,14 @@ const Template: Story<Parameters<typeof Pipeline>[0]> = (args) => <Pipeline {...
 
 export const Default = Template.bind({})
 Default.args = {
-  pipeline: {
-    source: { path: 'table.csv' },
-    steps: [{ code: 'table-normalize', descriptor: '' }],
+  descriptor: {},
+  schema: {
+    fields: [
+      { name: 'id', type: 'integer', format: 'default' },
+      { name: 'name', type: 'string', format: 'default' },
+    ],
+    missingValues: [''],
   },
-  onSave: (pipeline: any) => console.log(pipeline),
+  onCommit: (pipeline) => console.log(pipeline),
+  onRevert: (pipeline) => console.log(pipeline),
 }

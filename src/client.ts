@@ -55,10 +55,10 @@ export class Client {
     return content as { report: IReport }
   }
 
-  async transform(file: File, pipeline: IPipeline) {
+  async transform(file: File, resource: IResource, pipeline: IPipeline) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
-    const pipelineV4 = { tasks: [pipeline] }
+    const pipelineV4 = { tasks: [{ ...pipeline, source: resource, type: 'resource' }] }
     body.append('file', new Blob([buffer]), file.name)
     body.append('pipeline', JSON.stringify(pipelineV4))
     const payload = { method: 'POST', body: body }

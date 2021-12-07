@@ -10,7 +10,7 @@ import Dialect from '../../Dialect'
 import Schema from '../../Schema'
 import Query from '../../Query'
 import Inquiry from '../../Inquiry'
-// import Pipeline from '../../Pipeline'
+import Pipeline from '../../Pipeline'
 import { useStore } from '../store'
 
 export default function Metadata() {
@@ -22,7 +22,7 @@ export default function Metadata() {
   const updateResource = useStore((state) => state.updateResource)
   const updateQuery = useStore((state) => state.updateQuery)
   const updateInquiry = useStore((state) => state.updateInquiry)
-  // const updatePipeline = useStore((state) => state.updatePipeline)
+  const updatePipeline = useStore((state) => state.updatePipeline)
   assert(resource)
   assert(query)
   assert(inquiry)
@@ -82,7 +82,11 @@ export default function Metadata() {
           />
         </TabPanel>
         <TabPanel value={value} index={5}>
-          Under development
+          <Pipeline
+            descriptor={pipeline}
+            schema={resource.schema}
+            onCommit={(pipeline) => updatePipeline(pipeline)}
+          />
         </TabPanel>
       </React.Fragment>
     </Columns>

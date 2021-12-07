@@ -40,6 +40,6 @@ function FoundItems() {
 function NotFoundItems() {
   const foreignKeys = useStore((state) => state.descriptor.foreignKeys)
   const elementQuery = useStore((state) => state.elementQuery)
-  const message = (foreignKeys || []).length && elementQuery ? 'found' : 'exist'
+  const message = (foreignKeys || []).length && elementQuery ? 'found' : 'added'
   return <ItemButton disabled name={`No foreign keys ${message}`} />
 }

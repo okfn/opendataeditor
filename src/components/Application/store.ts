@@ -75,7 +75,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { rows } = await client.extract(file, resource, query)
     const inquiry = {}
     const { report } = await client.validate(file, resource, inquiry)
-    const pipeline = { source: resource, type: 'resource', steps: [] }
+    const pipeline = {}
     set({
       contentType: 'data',
       file,
@@ -124,8 +124,13 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { report } = await client.validate(file, resource, newInquiry)
     set({ inquiry: newInquiry, report })
   },
-  updatePipeline: (patch) => {
-    const { pipeline } = get()
-    if (pipeline) set({ pipeline: { ...pipeline, ...patch } })
+  updatePipeline: async (patch) => {
+    const { file, resource, pipeline } = get()
+    assert(file)
+    assert(resource)
+    assert(pipeline)
+    const newPipeline = { ...pipeline, ...patch }
+    const { status, targetRows } = await client.transform(file, resource, newPipeline)
+    set({ pipeline: newPipeline, status, targetRows })
   },
 }))

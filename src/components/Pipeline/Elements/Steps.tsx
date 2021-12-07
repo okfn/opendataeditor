@@ -6,31 +6,31 @@ import { useStore, selectors } from '../store'
 
 // TODO: restyle scrolls (use Table's style)
 
-export default function Fields() {
+export default function Steps() {
   const theme = useTheme()
-  const foundFieldItems = useStore(selectors.foundFieldItems)
+  const foundStepItems = useStore(selectors.foundStepItems)
   return (
     <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
-      {foundFieldItems.length ? <FoundItems /> : <NotFoundItems />}
+      {foundStepItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )
 }
 
 function FoundItems() {
-  const foundFieldItems = useStore(selectors.foundFieldItems)
+  const foundStepItems = useStore(selectors.foundStepItems)
   const isElementGrid = useStore((state) => state.isElementGrid)
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
     <React.Fragment>
-      {foundFieldItems.map(({ index, field }) => (
+      {foundStepItems.map(({ index, step }) => (
         <ItemButton
           key={index}
           index={index}
-          name={field.name}
-          type={field.type}
+          name={step.code}
+          type="step"
           isGrid={isElementGrid}
           onClick={() => setElementIndex(index)}
-          title="View field"
+          title="View step"
         />
       ))}
     </React.Fragment>
@@ -38,8 +38,8 @@ function FoundItems() {
 }
 
 function NotFoundItems() {
-  const fields = useStore((state) => state.descriptor.fields)
+  const steps = useStore((state) => state.descriptor.steps)
   const elementQuery = useStore((state) => state.elementQuery)
-  const message = fields.length && elementQuery ? 'found' : 'added'
-  return <ItemButton disabled name={`No fields ${message}`} />
+  const message = steps && steps.length && elementQuery ? 'found' : 'added'
+  return <ItemButton disabled name={`No extra steps ${message}`} />
 }

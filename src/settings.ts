@@ -22,15 +22,6 @@ export const DEFAULT_BARE_NUMBER = true
 // Structures
 // TODO: move to components?
 
-export const CHECKS = [
-  'duplicate-row',
-  'deviated-value',
-  'truncated-value',
-  'forbidden-value',
-  'sequential-value',
-  'row-constraint',
-]
-
 export const FIELDS = {
   any: {
     formats: ['default'],
@@ -95,3 +86,14 @@ export const FIELDS = {
     constraints: ['required', 'minimum', 'maximum', 'enum'],
   },
 }
+
+export const CHECKS = [
+  'duplicate-row',
+  'deviated-value',
+  'truncated-value',
+  'forbidden-value',
+  'sequential-value',
+  'row-constraint',
+]
+
+export const STEPS = ['field-add', 'field-remove', 'field-update']

@@ -1,16 +1,26 @@
-import { IResource } from './resource'
-
-// TODO: sync in frictionless@5
-
 export interface IPipeline {
-  // TODO: make required
-  source?: IResource
-  type: string
-  steps: IStep[]
+  type?: 'resource' | 'package'
+  steps?: IStep[]
 }
 
-export interface IStep {
-  code: string
-  // TODO: rebase on normal props
-  descriptor: string
+export type IStep = IFieldAddStep | IFieldRemoveStep | IFieldUpdateStep
+
+export interface IFieldAddStep {
+  code: 'field-add'
+  name: string
+  value?: any
+  formula?: string
+}
+
+export interface IFieldRemoveStep {
+  code: 'field-remove'
+  names: string[]
+}
+
+export interface IFieldUpdateStep {
+  code: 'field-update'
+  name: string
+  value?: any
+  formula?: string
+  newName?: string
 }

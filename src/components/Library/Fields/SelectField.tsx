@@ -9,8 +9,8 @@ interface SelectFieldProps {
   type?: string
   label: string
   value: any
-  options: string[] | { label: string; value: any }[]
   size?: 'small' | 'medium'
+  options: string[] | { label: string; value: any }[]
   onChange: (value: any) => void
 }
 
