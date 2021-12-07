@@ -4,13 +4,14 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
-import { IQuery } from '../../interfaces'
+import { IQuery, ISchema } from '../../interfaces'
 import { QueryProps } from './Query'
 import * as settings from '../../settings'
 
 interface QueryState {
   descriptor: IQuery
   checkpoint: IQuery
+  schema: ISchema
   onCommit: (descriptor: IQuery) => void
   onRevert: (descriptor: IQuery) => void
   isPreview?: boolean
@@ -29,6 +30,7 @@ export function makeStore(props: QueryProps) {
   return create<QueryState>((set, get) => ({
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
+    schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

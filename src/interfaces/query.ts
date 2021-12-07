@@ -7,4 +7,6 @@ export interface IQuery {
   skipRows?: (string | number)[]
   limitRows?: number
   offsetRows?: number
+  filterCells?: string[]
+  orderCells?: string
 }

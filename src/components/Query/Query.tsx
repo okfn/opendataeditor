@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import { IQuery } from '../../interfaces'
+import { IQuery, ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
 import Actions from './Actions'
 import Editor from './Editor'
@@ -10,6 +10,7 @@ import Editor from './Editor'
 
 export interface QueryProps {
   descriptor: IQuery
+  schema: ISchema
   onCommit?: (descriptor: IQuery) => void
   onRevert?: (descriptor: IQuery) => void
 }

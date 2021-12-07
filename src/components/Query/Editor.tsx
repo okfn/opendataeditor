@@ -1,10 +1,10 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
 import Help from './Columns/Help'
 import Fields from './Columns/Fields'
 import Rows from './Columns/Rows'
+import Cells from './Columns/Cells'
 import { useStore } from './store'
 
 export default function Editor() {
@@ -16,7 +16,7 @@ export default function Editor() {
     <Columns spacing={3}>
       <Fields />
       <Rows />
-      <Box />
+      <Cells />
       <Help />
     </Columns>
   )

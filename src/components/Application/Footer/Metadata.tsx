@@ -68,7 +68,11 @@ export default function Metadata() {
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Query descriptor={query} onCommit={(query) => updateQuery(query)} />
+          <Query
+            descriptor={query}
+            schema={resource.schema}
+            onCommit={(query) => updateQuery(query)}
+          />
         </TabPanel>
         <TabPanel value={value} index={4}>
           Under development
