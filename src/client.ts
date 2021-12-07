@@ -43,10 +43,10 @@ export class Client {
     return content as { rows: IRow[] }
   }
 
-  async validate(file: File, inquiry: IInquiry) {
+  async validate(file: File, resource: IResource, inquiry: IInquiry) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
-    const inquiryV4 = { tasks: [inquiry] }
+    const inquiryV4 = { tasks: [{ ...inquiry, source: resource }] }
     body.append('file', new Blob([buffer]), file.name)
     body.append('inquiry', JSON.stringify(inquiryV4))
     const payload = { method: 'POST', body: body }

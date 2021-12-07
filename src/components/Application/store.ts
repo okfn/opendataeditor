@@ -73,9 +73,8 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const query = {}
     // TODO: make unblocking
     const { rows } = await client.extract(file, resource, query)
-    // TODO: handle v4-v5 in client
-    const inquiry = { source: resource, checks: [] }
-    const { report } = await client.validate(file, inquiry)
+    const inquiry = {}
+    const { report } = await client.validate(file, resource, inquiry)
     const pipeline = { source: resource, type: 'resource', steps: [] }
     set({
       contentType: 'data',
@@ -97,16 +96,15 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     if (detector) set({ detector: { ...detector, ...patch } })
   },
   updateResource: async (patch) => {
-    const { file, resource, query } = get()
+    const { file, resource, query, inquiry } = get()
     assert(file)
     assert(resource)
     assert(query)
+    assert(inquiry)
     const newResource = { ...resource, ...patch }
     const { rows } = await client.extract(file, newResource, query)
-    // TODO: handle v4-v5 in client
-    const inquiry = { source: newResource, checks: [] }
-    const { report } = await client.validate(file, inquiry)
-    set({ resource: newResource, rows, inquiry, report })
+    const { report } = await client.validate(file, resource, inquiry)
+    set({ resource: newResource, rows, report })
   },
   updateQuery: async (patch) => {
     const { file, resource, query } = get()
@@ -115,11 +113,16 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(query)
     const newQuery = { ...query, ...patch }
     const { rows } = await client.extract(file, resource, newQuery)
-    if (query) set({ query: newQuery, rows })
+    set({ query: newQuery, rows })
   },
-  updateInquiry: (patch) => {
-    const { inquiry } = get()
-    if (inquiry) set({ inquiry: { ...inquiry, ...patch } })
+  updateInquiry: async (patch) => {
+    const { file, resource, inquiry } = get()
+    assert(file)
+    assert(resource)
+    assert(inquiry)
+    const newInquiry = { ...inquiry, ...patch }
+    const { report } = await client.validate(file, resource, newInquiry)
+    set({ inquiry: newInquiry, report })
   },
   updatePipeline: (patch) => {
     const { pipeline } = get()
