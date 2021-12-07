@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import cloneDeep from 'lodash/cloneDeep'
 // TODO: remove components dependency
 import Application from './components/Application'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
+import { IQuery } from './interfaces/query'
 import { IInquiry } from './interfaces/inquiry'
 import { IReport } from './interfaces/report'
 import { IStatus } from './interfaces/status'
@@ -28,11 +30,13 @@ export class Client {
     return response.json() as Promise<{ resource: IResource }>
   }
 
-  async extract(file: File, resource: IResource) {
+  async extract(file: File, resource: IResource, query: IQuery) {
     const body = new FormData()
     const buffer = await file.arrayBuffer()
+    const resourceV4 = cloneDeep(resource) as any
+    resourceV4.layout = query
     body.append('file', new Blob([buffer]), file.name)
-    body.append('resource', JSON.stringify(resource))
+    body.append('resource', JSON.stringify(resourceV4))
     const payload = { method: 'POST', body: body }
     const response = await fetch('http://localhost:7070/api/extract', payload)
     const content = await response.json()

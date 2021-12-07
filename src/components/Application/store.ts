@@ -70,9 +70,9 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { detector } = get()
     // TODO: make unblocking
     const { resource } = await client.describe(file, detector)
-    // TODO: make unblocking
-    const { rows } = await client.extract(file, resource)
     const query = {}
+    // TODO: make unblocking
+    const { rows } = await client.extract(file, resource, query)
     // TODO: handle v4-v5 in client
     const inquiry = { source: resource, checks: [] }
     const { report } = await client.validate(file, inquiry)
@@ -97,19 +97,25 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     if (detector) set({ detector: { ...detector, ...patch } })
   },
   updateResource: async (patch) => {
-    const { file, resource } = get()
+    const { file, resource, query } = get()
     assert(file)
     assert(resource)
+    assert(query)
     const newResource = { ...resource, ...patch }
-    const { rows } = await client.extract(file, newResource)
+    const { rows } = await client.extract(file, newResource, query)
     // TODO: handle v4-v5 in client
     const inquiry = { source: newResource, checks: [] }
     const { report } = await client.validate(file, inquiry)
     set({ resource: newResource, rows, inquiry, report })
   },
-  updateQuery: (patch) => {
-    const { query } = get()
-    if (query) set({ query: { ...query, ...patch } })
+  updateQuery: async (patch) => {
+    const { file, resource, query } = get()
+    assert(file)
+    assert(resource)
+    assert(query)
+    const newQuery = { ...query, ...patch }
+    const { rows } = await client.extract(file, resource, newQuery)
+    if (query) set({ query: newQuery, rows })
   },
   updateInquiry: (patch) => {
     const { inquiry } = get()
