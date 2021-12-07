@@ -12,6 +12,13 @@ const Template: Story<Parameters<typeof Query>[0]> = (args) => <Query {...args} 
 export const Default = Template.bind({})
 Default.args = {
   descriptor: {},
+  schema: {
+    fields: [
+      { name: 'id', type: 'integer', format: 'default' },
+      { name: 'name', type: 'string', format: 'default' },
+    ],
+    missingValues: [''],
+  },
   onCommit: (query: any) => console.log(query),
   onRevert: (query: any) => console.log(query),
 }

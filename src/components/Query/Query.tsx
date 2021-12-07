@@ -6,6 +6,7 @@ import { Provider, makeStore } from './store'
 import Actions from './Actions'
 import Editor from './Editor'
 
+// TODO: make schema optional
 // TODO: remove borderTop hack
 
 export interface QueryProps {
