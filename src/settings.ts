@@ -20,6 +20,16 @@ export const DEFAULT_GROUP_CHAR = ','
 export const DEFAULT_BARE_NUMBER = true
 
 // Structures
+// TODO: move to components?
+
+export const CHECKS = [
+  'duplicate-row',
+  'deviated-value',
+  'truncated-value',
+  'forbidden-value',
+  'sequential-value',
+  'row-constraint',
+]
 
 export const FIELDS = {
   any: {

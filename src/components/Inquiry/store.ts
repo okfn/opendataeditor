@@ -8,7 +8,7 @@ import createContext from 'zustand/context'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { InquiryProps } from './Inquiry'
-import { IInquiry } from '../../interfaces'
+import { IInquiry, ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
@@ -18,6 +18,7 @@ interface InquiryState {
 
   descriptor: IInquiry
   checkpoint: IInquiry
+  schema: ISchema
   onCommit: (descriptor: IInquiry) => void
   onRevert: (descriptor: IInquiry) => void
   isPreview?: boolean
@@ -64,6 +65,7 @@ export function makeStore(props: InquiryProps) {
 
     descriptor: cloneDeep(props.descriptor),
     checkpoint: cloneDeep(props.descriptor),
+    schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
