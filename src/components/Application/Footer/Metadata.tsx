@@ -14,7 +14,7 @@ import Pipeline from '../../Pipeline'
 import { useStore } from '../store'
 
 export default function Metadata() {
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = React.useState(2)
   const resource = useStore((state) => state.resource)
   const query = useStore((state) => state.query)
   const inquiry = useStore((state) => state.inquiry)

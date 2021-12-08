@@ -2,13 +2,15 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Library/Columns'
 import InputField from '../../Library/Fields/InputField'
-// import YesNoField from '../../Library/Fields/YesNoField'
+import YesNoField from '../../Library/Fields/YesNoField'
 import SelectField from '../../Library/Fields/SelectField'
 // import ValuesField from '../../Library/Fields/ValuesField'
 // import MultilineField from '../../Library/Fields/MultilineField'
 // import DescriptorField from '../../Library/Fields/DescriptorField'
 import * as settings from '../../../settings'
 import { useStore, selectors, select } from '../store'
+
+// TODO: rework
 
 export default function Step() {
   const code = useStore(select(selectors.step, (step) => step.code))
@@ -21,6 +23,8 @@ export default function Step() {
       return <FieldMoveStep />
     case 'field-remove':
       return <FieldRemoveStep />
+    case 'field-unpack':
+      return <FieldUnpackStep />
     case 'field-update':
       return <FieldUpdateStep />
     default:
@@ -73,6 +77,20 @@ function FieldRemoveStep() {
       <Box>
         <Code />
         <SourceNames />
+      </Box>
+      <Box />
+    </Columns>
+  )
+}
+
+function FieldUnpackStep() {
+  return (
+    <Columns>
+      <Box>
+        <Code />
+        <SourceName />
+        <ToNames />
+        <Preserve />
       </Box>
       <Box />
     </Columns>
@@ -200,6 +218,32 @@ function Position() {
       label="Position"
       value={position || ''}
       onChange={(value) => updateElement({ position: parseInt(value) })}
+    />
+  )
+}
+
+function ToNames() {
+  const updateElement = useStore((state) => state.updateElement)
+  // @ts-ignore
+  const toNames = useStore(select(selectors.step, (step) => step.toNames))
+  return (
+    <InputField
+      label="To Field Names"
+      value={(toNames || []).join(',')}
+      onChange={(value) => updateElement({ toNames: value.split(',') })}
+    />
+  )
+}
+
+function Preserve() {
+  const updateElement = useStore((state) => state.updateElement)
+  // @ts-ignore
+  const preserve = useStore(select(selectors.step, (step) => step.preserve))
+  return (
+    <YesNoField
+      label="Preserve"
+      value={preserve}
+      onChange={(preserve) => updateElement({ preserve })}
     />
   )
 }

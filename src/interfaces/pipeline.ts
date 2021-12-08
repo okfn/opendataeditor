@@ -8,6 +8,8 @@ export type IStep =
   | IFieldFilterStep
   | IFieldMoveStep
   | IFieldRemoveStep
+  | IFieldSplitStep
+  | IFieldUnpackStep
   | IFieldUpdateStep
 
 export interface IFieldAddStep {
@@ -31,6 +33,21 @@ export interface IFieldMoveStep {
 export interface IFieldRemoveStep {
   code: 'field-remove'
   names: string[]
+}
+
+export interface IFieldSplitStep {
+  code: 'field-split'
+  name: string
+  toNames: string[]
+  pattern: string
+  preserve?: boolean
+}
+
+export interface IFieldUnpackStep {
+  code: 'field-unpack'
+  name: string
+  toNames: string[]
+  preserve?: boolean
 }
 
 export interface IFieldUpdateStep {

@@ -101,5 +101,7 @@ export const STEPS = [
   'field-filter',
   'field-move',
   'field-remove',
+  'field-split',
+  'field-unpack',
   'field-update',
 ]
