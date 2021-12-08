@@ -4,7 +4,7 @@ import HelpCard from '../../Library/HelpCard'
 export default function Help() {
   return (
     <HelpCard
-      title="Resource"
+      title="Dialect"
       subtitle="overview"
       link="https://framework.frictionlessdata.io/docs/guides/describing-data#describing-a-resource"
     >

@@ -18,6 +18,14 @@ export const DEFAULT_HEADER_CASE = true
 export const DEFAULT_DECIMAL_CHAR = '.'
 export const DEFAULT_GROUP_CHAR = ','
 export const DEFAULT_BARE_NUMBER = true
+export const DEFAULT_DELIMITER = ','
+export const DEFAULT_LINE_TERMINATOR = '\\r\\n'
+export const DEFAULT_QUOTE_CHAR = '"'
+export const DEFAULT_DOUBLE_QUOTE = true
+export const DEFAULT_ESCAPE_CHAR = undefined
+export const DEFAULT_NULL_SEQUENCE = undefined
+export const DEFAULT_SKIP_INITIAL_SPACE = false
+export const DEFAULT_COMMENT_CHAR = undefined
 
 // Structures
 // TODO: move to components?
