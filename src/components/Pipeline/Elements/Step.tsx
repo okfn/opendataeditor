@@ -17,6 +17,8 @@ export default function Step() {
       return <FieldAddStep />
     case 'field-filter':
       return <FieldFilterStep />
+    case 'field-move':
+      return <FieldMoveStep />
     case 'field-remove':
       return <FieldRemoveStep />
     case 'field-update':
@@ -46,6 +48,19 @@ function FieldFilterStep() {
       <Box>
         <Code />
         <SourceNames />
+      </Box>
+      <Box />
+    </Columns>
+  )
+}
+
+function FieldMoveStep() {
+  return (
+    <Columns>
+      <Box>
+        <Code />
+        <SourceName />
+        <Position />
       </Box>
       <Box />
     </Columns>
@@ -171,6 +186,20 @@ function NewName() {
       label="New Name"
       value={newName || ''}
       onChange={(newName) => updateElement({ newName })}
+    />
+  )
+}
+
+function Position() {
+  const updateElement = useStore((state) => state.updateElement)
+  // @ts-ignore
+  const position = useStore(select(selectors.step, (step) => step.position))
+  return (
+    <InputField
+      type="number"
+      label="Position"
+      value={position || ''}
+      onChange={(value) => updateElement({ position: parseInt(value) })}
     />
   )
 }
