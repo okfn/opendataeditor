@@ -23,6 +23,8 @@ export default function Step() {
       return <FieldMoveStep />
     case 'field-remove':
       return <FieldRemoveStep />
+    case 'field-split':
+      return <FieldSplitStep />
     case 'field-unpack':
       return <FieldUnpackStep />
     case 'field-update':
@@ -79,6 +81,22 @@ function FieldRemoveStep() {
         <SourceNames />
       </Box>
       <Box />
+    </Columns>
+  )
+}
+
+function FieldSplitStep() {
+  return (
+    <Columns>
+      <Box>
+        <Code />
+        <SourceName />
+        <ToNames />
+        <Preserve />
+      </Box>
+      <Box>
+        <Pattern />
+      </Box>
     </Columns>
   )
 }
@@ -244,6 +262,19 @@ function Preserve() {
       label="Preserve"
       value={preserve}
       onChange={(preserve) => updateElement({ preserve })}
+    />
+  )
+}
+
+function Pattern() {
+  const updateElement = useStore((state) => state.updateElement)
+  // @ts-ignore
+  const pattern = useStore(select(selectors.step, (step) => step.pattern))
+  return (
+    <InputField
+      label="Pattern"
+      value={pattern || ''}
+      onChange={(pattern) => updateElement({ pattern })}
     />
   )
 }
