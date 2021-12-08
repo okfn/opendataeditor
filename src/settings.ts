@@ -96,4 +96,4 @@ export const CHECKS = [
   'row-constraint',
 ]
 
-export const STEPS = ['field-add', 'field-remove', 'field-update']
+export const STEPS = ['field-add', 'field-filter', 'field-remove', 'field-update']

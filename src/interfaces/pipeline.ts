@@ -3,13 +3,18 @@ export interface IPipeline {
   steps?: IStep[]
 }
 
-export type IStep = IFieldAddStep | IFieldRemoveStep | IFieldUpdateStep
+export type IStep = IFieldAddStep | IFieldFilterStep | IFieldRemoveStep | IFieldUpdateStep
 
 export interface IFieldAddStep {
   code: 'field-add'
   name: string
   value?: any
   formula?: string
+}
+
+export interface IFieldFilterStep {
+  code: 'field-filter'
+  names: string[]
 }
 
 export interface IFieldRemoveStep {

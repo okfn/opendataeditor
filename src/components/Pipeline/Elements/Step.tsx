@@ -15,6 +15,8 @@ export default function Step() {
   switch (code) {
     case 'field-add':
       return <FieldAddStep />
+    case 'field-filter':
+      return <FieldFilterStep />
     case 'field-remove':
       return <FieldRemoveStep />
     case 'field-update':
@@ -32,6 +34,18 @@ function FieldAddStep() {
         <TargetName />
         <Value />
         <Formula />
+      </Box>
+      <Box />
+    </Columns>
+  )
+}
+
+function FieldFilterStep() {
+  return (
+    <Columns>
+      <Box>
+        <Code />
+        <SourceNames />
       </Box>
       <Box />
     </Columns>
