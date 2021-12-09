@@ -17,7 +17,7 @@ export class Client {
     body.append('file', new Blob([buffer]), file.name)
     body.append('detector', JSON.stringify(detector))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/describe', payload)
+    const response = await fetch('http://localhost:4040/api/describe', payload)
     return response.json() as Promise<{ resource: IResource }>
   }
 
@@ -29,7 +29,7 @@ export class Client {
     body.append('file', new Blob([buffer]), file.name)
     body.append('resource', JSON.stringify(resourceV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/extract', payload)
+    const response = await fetch('http://localhost:4040/api/extract', payload)
     const content = await response.json()
     return content as { rows: IRow[] }
   }
@@ -41,7 +41,7 @@ export class Client {
     body.append('file', new Blob([buffer]), file.name)
     body.append('inquiry', JSON.stringify(inquiryV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/validate', payload)
+    const response = await fetch('http://localhost:4040/api/validate', payload)
     const content = await response.json()
     return content as { report: IReport }
   }
@@ -53,7 +53,7 @@ export class Client {
     body.append('file', new Blob([buffer]), file.name)
     body.append('pipeline', JSON.stringify(pipelineV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/transform', payload)
+    const response = await fetch('http://localhost:4040/api/transform', payload)
     const contentV4 = await response.json()
     const content = { ...contentV4, status: contentV4.status.tasks[0] }
     return content as { status: IStatus; targetRows: IRow[] }
