@@ -62,7 +62,10 @@ const webpackConfig = {
 
 if (NODE_ENV === 'development') {
   webpackConfig.mode = 'development'
-  webpackConfig.devServer = { static: './dist' }
+  webpackConfig.devServer = {
+    proxy: { '/api': 'http://localhost:4040' },
+    static: './dist',
+  }
 }
 
 // Testing
