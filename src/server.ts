@@ -8,6 +8,7 @@ import pathmodule from 'path'
 import * as tmp from 'tmp-promise'
 import { file } from 'tmp-promise'
 import { exec } from 'child_process'
+import * as settings from './settings'
 export type IRequest = express.Request
 export type IResponse = express.Response
 const promiseExec = util.promisify(exec)
@@ -32,7 +33,8 @@ export class Server {
     this.app.post('/api/transform', upload.single('file'), this.transform)
   }
 
-  start({ port }: { port: number }) {
+  start({ port }: { port?: number } = {}) {
+    port = port || parseInt(process.env.PORT || '') || settings.DEFAULT_PORT
     this.server = this.app.listen(port, () => {
       console.log(`Server listening on port ${port}!`)
     })
