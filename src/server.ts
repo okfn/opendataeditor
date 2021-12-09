@@ -13,17 +13,19 @@ export type IResponse = express.Response
 const promiseExec = util.promisify(exec)
 const upload = multer()
 
+// TODO: move server to Python
+
 export class Server {
   protected app: express.Express
   protected server?: any
 
   constructor() {
     this.app = express()
-    this.app.use(express.json({ limit: '10mb' }))
-    this.app.use(express.urlencoded({ extended: true }))
-    this.app.use(morgan('tiny'))
     this.app.use(cors())
-    // TODO: add serving '/docs' as a static endpoint?
+    this.app.use(morgan('tiny'))
+    this.app.use(express.static('dist'))
+    this.app.use(express.json({ limit: '100mb' }))
+    this.app.use(express.urlencoded({ extended: true }))
     this.app.post('/api/describe', upload.single('file'), this.describe)
     this.app.post('/api/extract', upload.single('file'), this.extract)
     this.app.post('/api/validate', upload.single('file'), this.validate)
