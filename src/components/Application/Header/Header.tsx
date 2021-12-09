@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
+import Chip from '@mui/material/Chip'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -29,7 +30,15 @@ export default function Header() {
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
                 onClick={() => (file ? setContentType('data') : null)}
               >
-                <strong>Frictionless Application</strong>
+                <strong>
+                  Frictionless Application{' '}
+                  <Chip
+                    size="small"
+                    label="alpha"
+                    variant="outlined"
+                    sx={{ color: 'white', borderRadius: 1 }}
+                  />
+                </strong>
               </Typography>
             </Grid>
             <Grid item xs={7}>
