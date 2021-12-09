@@ -1,8 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import cloneDeep from 'lodash/cloneDeep'
-// TODO: remove components dependency
-import Application from './components/Application'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
@@ -13,11 +9,6 @@ import { IStatus } from './interfaces/status'
 import { IRow } from './interfaces/row'
 
 export class Client {
-  start(element: any) {
-    ReactDOM.render(React.createElement(Application, {}, null), element)
-    return { dispose: () => ReactDOM.unmountComponentAtNode(element) }
-  }
-
   // Actions
 
   async describe(file: File, detector: IDetector) {
