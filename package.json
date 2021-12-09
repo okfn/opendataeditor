@@ -34,7 +34,7 @@
     "prepare": "husky install",
     "pretest": "npm run lint",
     "server": "nodemon src/main.ts",
-    "start": "echo 'Production run is under construnctin'",
+    "start": "node lib/main.js",
     "test": "jest --coverage",
     "update": "ncu -u"
   },
