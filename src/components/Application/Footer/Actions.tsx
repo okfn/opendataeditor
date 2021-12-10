@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { assert } from 'ts-essentials'
+import csv from 'papaparse'
+import FileSaver from 'file-saver'
 import Button from '@mui/material/Button'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -40,12 +42,24 @@ function ToggleMetadata() {
 
 // TODO: support preview as CSV?
 function Export() {
+  const name = useStore((state) => state.resource!.name)
+  const table = useStore((state) => state.table!)
+  const [format, setFormat] = React.useState('csv')
+  const handleExport = () => {
+    if (format === 'csv') {
+      const text = csv.unparse(table.rows)
+      const blob = new Blob([text], { type: 'text/csv;charset=utf-8' })
+      FileSaver.saveAs(blob, `${name}.csv`)
+    } else if (format === 'xlsx') {
+      alert('Under development')
+    }
+  }
   return (
     <ExportButton
-      format="csv"
+      format={format}
       options={['csv', 'xlsx']}
-      onExport={() => alert('Under development')}
-      setFormat={() => {}}
+      onExport={handleExport}
+      setFormat={setFormat}
       variant="contained"
     />
   )

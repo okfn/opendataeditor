@@ -70,10 +70,12 @@ export default function ExportButton(props: ExportButtonProps) {
         <Button
           sx={{ width: '30%' }}
           color={props.isPreview ? 'warning' : 'info'}
-          title={`${props.onPreview ? 'Preview' : 'Export'} as ${props.options[
-            selectedIndex
-          ].toUpperCase()}`}
-          onClick={() => (props.onPreview || props.onExport)()}
+          title={
+            props.onPreview
+              ? `Preview as ${props.options[selectedIndex].toUpperCase()}`
+              : 'Change format'
+          }
+          onClick={() => (props.onPreview || handleToggle)()}
         >
           {props.options[selectedIndex]}
         </Button>
