@@ -63,6 +63,7 @@
     "reselect": "^4.1.5",
     "tmp-promise": "^3.0.3",
     "ts-essentials": "^9.0.0",
+    "xlsx": "^0.17.4",
     "zustand": "^3.6.5"
   },
   "devDependencies": {

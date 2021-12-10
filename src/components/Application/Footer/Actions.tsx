@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { assert } from 'ts-essentials'
+import excel from 'xlsx'
 import csv from 'papaparse'
 import FileSaver from 'file-saver'
+import { assert } from 'ts-essentials'
 import Button from '@mui/material/Button'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -40,18 +41,23 @@ function ToggleMetadata() {
   )
 }
 
-// TODO: support preview as CSV?
 function Export() {
   const name = useStore((state) => state.resource!.name)
   const table = useStore((state) => state.table!)
   const [format, setFormat] = React.useState('csv')
+  // TODO: move to store
   const handleExport = () => {
     if (format === 'csv') {
       const text = csv.unparse(table.rows)
       const blob = new Blob([text], { type: 'text/csv;charset=utf-8' })
       FileSaver.saveAs(blob, `${name}.csv`)
     } else if (format === 'xlsx') {
-      alert('Under development')
+      const wb = excel.utils.book_new()
+      const ws = excel.utils.json_to_sheet(table.rows)
+      excel.utils.book_append_sheet(wb, ws)
+      const bytes = excel.write(wb, { bookType: 'xlsx', type: 'array' })
+      const blob = new Blob([bytes], { type: 'application/octet-stream' })
+      FileSaver.saveAs(blob, `${name}.xlsx`)
     }
   }
   return (
