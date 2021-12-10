@@ -57,7 +57,9 @@ export const useStore = create<IState & ILogic>((set, get) => ({
   // File
 
   uploadFile: async (nativeFile) => {
-    if (nativeFile.size > 10000000) {
+    const isCsv = nativeFile.name.endsWith('.csv')
+    const isExcel = nativeFile.name.endsWith('.xlsx')
+    if (!(isCsv || isExcel) || nativeFile.size > 10000000) {
       // TODO: clean file input
       alert('Currently only CSV and Excel files under 10Mb are supported')
       return
