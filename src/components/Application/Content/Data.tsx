@@ -16,25 +16,17 @@ export default function Data() {
   const isSourceView = useStore((state) => state.isSourceView)
   const isReportView = useStore((state) => state.isReportView)
   const resource = useStore((state) => state.resource)
-  const targetRows = useStore((state) => state.targetRows)
-  const status = useStore((state) => state.status)
-  const rows = useStore((state) => state.rows)
-  const text = useStore((state) => state.text)
+  const table = useStore((state) => state.table)
+  const file = useStore((state) => state.file)
   const report = useStore((state) => state.report)
   const isFooterOpen = contentType === 'data' && isMetadataOpen
   const footerHeight = isFooterOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(8)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
+  assert(file)
   assert(resource)
-  assert(rows)
-  // TODO: text might not be available while it will be still correct state
-  assert(text)
+  assert(table)
   assert(report)
-  if (isSourceView) return <File text={text} />
+  if (isSourceView) return <File file={file} />
   if (isReportView) return <Report descriptor={report} />
-  if (status && targetRows) {
-    return (
-      <Table schema={status.target.schema} rows={targetRows} height={contentHeight} />
-    )
-  }
-  return <Table schema={resource.schema} rows={rows} height={contentHeight} />
+  return <Table table={table} height={contentHeight} />
 }

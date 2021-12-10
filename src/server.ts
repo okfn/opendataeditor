@@ -128,8 +128,8 @@ export class Server {
       const status = JSON.parse(result1.stdout)
       const command2 = `frictionless extract ${targetPath} --json`
       const result2 = await promiseExec(command2)
-      const targetRows = JSON.parse(result2.stdout)
-      response.json({ error: false, status, targetRows })
+      const rows = JSON.parse(result2.stdout)
+      response.json({ error: false, status, rows })
       dir.cleanup()
     } catch (error) {
       response.json({ error: 'Internal error' })

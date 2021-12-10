@@ -1,22 +1,20 @@
 import create from 'zustand'
 import { assert } from 'ts-essentials'
 import { client } from '../../client'
-import { IReport, IStatus, IRow } from '../../interfaces'
+import { IReport, IStatus, ITable, IFile } from '../../interfaces'
 import { IQuery, IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
   contentType: string
-  file?: File
+  file?: IFile
   detector: IDetector
   resource?: IResource
   query?: IQuery
+  table?: ITable
   inquiry?: IInquiry
   report?: IReport
   pipeline?: IPipeline
   status?: IStatus
-  text?: string
-  rows?: IRow[]
-  targetRows?: IRow[]
   isMetadataOpen?: boolean
   isSourceView?: boolean
   isReportView?: boolean
@@ -58,21 +56,23 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   // File
 
-  uploadFile: async (file) => {
+  uploadFile: async (nativeFile) => {
     // TODO: implement properly
-    if (file.type !== 'text/csv' || file.size > 10000000) {
+    if (nativeFile.type !== 'text/csv' || nativeFile.size > 10000000) {
       // TODO: clean file input
       alert('Currently only CSV files under 10Mb are supported')
       return
     }
-    // TODO: find a proper place for it
-    const text = await file.text()
     const { detector } = get()
+    // TODO: improve
+    const bytes = await nativeFile.arrayBuffer()
+    const text = await nativeFile.text()
+    const file = { name: nativeFile.name, bytes, text }
     // TODO: make unblocking
     const { resource } = await client.describe(file, detector)
     const query = {}
     // TODO: make unblocking
-    const { rows } = await client.extract(file, resource, query)
+    const { table } = await client.extract(file, resource, query)
     const inquiry = {}
     const { report } = await client.validate(file, resource, inquiry)
     const pipeline = {}
@@ -80,11 +80,10 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       contentType: 'data',
       file,
       resource,
-      rows,
+      table,
       inquiry,
       report,
       pipeline,
-      text,
       query,
     })
   },
@@ -102,9 +101,9 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(query)
     assert(inquiry)
     const newResource = { ...resource, ...patch }
-    const { rows } = await client.extract(file, newResource, query)
+    const { table } = await client.extract(file, newResource, query)
     const { report } = await client.validate(file, resource, inquiry)
-    set({ resource: newResource, rows, report })
+    set({ resource: newResource, table, report })
   },
   updateQuery: async (patch) => {
     const { file, resource, query } = get()
@@ -112,8 +111,8 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(resource)
     assert(query)
     const newQuery = { ...query, ...patch }
-    const { rows } = await client.extract(file, resource, newQuery)
-    set({ query: newQuery, rows })
+    const { table } = await client.extract(file, resource, newQuery)
+    set({ query: newQuery, table })
   },
   updateInquiry: async (patch) => {
     const { file, resource, inquiry } = get()
@@ -130,7 +129,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(resource)
     assert(pipeline)
     const newPipeline = { ...pipeline, ...patch }
-    const { status, targetRows } = await client.transform(file, resource, newPipeline)
-    set({ pipeline: newPipeline, status, targetRows })
+    const { status, table } = await client.transform(file, resource, newPipeline)
+    set({ pipeline: newPipeline, status, table })
   },
 }))
