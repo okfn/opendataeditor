@@ -80,7 +80,9 @@ function Minimum() {
       type="number"
       label="Minimum"
       value={constraints.minimum}
-      onChange={(minimum) => updateElement({ constraints: { ...constraints, minimum } })}
+      onChange={(value) =>
+        updateElement({ constraints: { ...constraints, minimum: parseInt(value) } })
+      }
     />
   )
 }
@@ -93,7 +95,9 @@ function Maximum() {
       type="number"
       label="Maximum"
       value={constraints.maximum}
-      onChange={(maximum) => updateElement({ constraints: { ...constraints, maximum } })}
+      onChange={(value) =>
+        updateElement({ constraints: { ...constraints, maximum: parseInt(value) } })
+      }
     />
   )
 }
@@ -106,8 +110,8 @@ function MinLength() {
       type="number"
       label="Min Length"
       value={constraints.minLength}
-      onChange={(minLength) =>
-        updateElement({ constraints: { ...constraints, minLength } })
+      onChange={(value) =>
+        updateElement({ constraints: { ...constraints, minLength: parseInt(value) } })
       }
     />
   )
@@ -121,8 +125,8 @@ function MaxLength() {
       type="number"
       label="Max Length"
       value={constraints.maxLength}
-      onChange={(maxLength) =>
-        updateElement({ constraints: { ...constraints, maxLength } })
+      onChange={(value) =>
+        updateElement({ constraints: { ...constraints, maxLength: parseInt(value) } })
       }
     />
   )

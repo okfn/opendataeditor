@@ -103,7 +103,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     assert(inquiry)
     const newResource = { ...resource, ...patch }
     const { table } = await client.extract(file, newResource, query)
-    const { report } = await client.validate(file, resource, inquiry)
+    const { report } = await client.validate(file, newResource, inquiry)
     set({ resource: newResource, table, report })
   },
   updateQuery: async (patch) => {
