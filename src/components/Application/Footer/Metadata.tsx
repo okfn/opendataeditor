@@ -45,7 +45,7 @@ export default function Metadata() {
         <Tab label="Dialect" {...a11yProps(1)} />
         <Tab label="Schema" {...a11yProps(2)} />
         <Tab label="Query" {...a11yProps(3)} />
-        <Tab label="Inqiury" {...a11yProps(3)} />
+        <Tab label="Inquiry" {...a11yProps(3)} />
         <Tab label="Pipeline" {...a11yProps(4)} />
       </Tabs>
       <React.Fragment>
