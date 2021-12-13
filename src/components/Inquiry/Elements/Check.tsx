@@ -32,7 +32,7 @@ export default function Check() {
 
 function DuplicateRowCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
       </Box>
@@ -43,7 +43,7 @@ function DuplicateRowCheck() {
 
 function DeviatedValueCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <FieldName />
@@ -57,7 +57,7 @@ function DeviatedValueCheck() {
 
 function TruncatedValueCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
       </Box>
@@ -68,7 +68,7 @@ function TruncatedValueCheck() {
 
 function ForbiddenValueCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <FieldName />
@@ -81,7 +81,7 @@ function ForbiddenValueCheck() {
 
 function SequentialValueCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <FieldName />
@@ -93,7 +93,7 @@ function SequentialValueCheck() {
 
 function RowConstraintCheck() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <Formula />

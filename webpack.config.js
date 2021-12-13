@@ -1,18 +1,19 @@
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const DEBUG = process.env.DEBUG || false
 
 // Base
 
 const webpackConfig = {
-  entry: ['./src/index.ts'],
+  entry: ['./src/entry.ts'],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
     filename: 'application.js',
     library: 'application',
     libraryTarget: 'umd',
+    clean: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -43,15 +44,28 @@ const webpackConfig = {
       },
     ],
   },
-  plugins: [new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG })],
+  plugins: [
+    new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
+    new HtmlWebpackPlugin({
+      title: 'Frictionless Application',
+      favicon: 'assets/favicon.png',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1',
+        description:
+          'Data management application for Browser and Desktop that provides functionality to describe, extract, validate, and transform tabular data',
+      },
+    }),
+  ],
 }
 
 // Development
 
 if (NODE_ENV === 'development') {
   webpackConfig.mode = 'development'
-  webpackConfig.devServer = { hot: true }
-  webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin())
+  webpackConfig.devServer = {
+    proxy: { '/api': 'http://localhost:4040' },
+    static: './dist',
+  }
 }
 
 // Testing
@@ -64,7 +78,6 @@ if (NODE_ENV === 'testing') {
 
 if (NODE_ENV === 'production') {
   webpackConfig.mode = 'production'
-  webpackConfig.output.filename = 'application.min.js'
 }
 
 // System

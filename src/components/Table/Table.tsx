@@ -1,11 +1,10 @@
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
-import { ISchema, IRow } from '../../interfaces'
+import { ITable } from '../../interfaces'
 
 interface TableProps {
-  schema: ISchema
-  rows: IRow
+  table: ITable
   height?: string
 }
 
@@ -15,8 +14,8 @@ export default function Table(props: TableProps) {
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
         idProperty="table"
-        columns={props.schema.fields}
-        dataSource={props.rows as any}
+        columns={props.table.schema.fields}
+        dataSource={props.table.rows as any}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>

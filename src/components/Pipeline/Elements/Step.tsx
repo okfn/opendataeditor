@@ -36,7 +36,7 @@ export default function Step() {
 
 function FieldAddStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <TargetName />
@@ -50,7 +50,7 @@ function FieldAddStep() {
 
 function FieldFilterStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceNames />
@@ -62,7 +62,7 @@ function FieldFilterStep() {
 
 function FieldMoveStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceName />
@@ -75,7 +75,7 @@ function FieldMoveStep() {
 
 function FieldRemoveStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceNames />
@@ -87,7 +87,7 @@ function FieldRemoveStep() {
 
 function FieldSplitStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceName />
@@ -103,7 +103,7 @@ function FieldSplitStep() {
 
 function FieldUnpackStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceName />
@@ -117,7 +117,7 @@ function FieldUnpackStep() {
 
 function FieldUpdateStep() {
   return (
-    <Columns>
+    <Columns spacing={3}>
       <Box>
         <Code />
         <SourceName />

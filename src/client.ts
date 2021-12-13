@@ -1,8 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import cloneDeep from 'lodash/cloneDeep'
-// TODO: remove components dependency
-import Application from './components/Application'
 import { IPipeline } from './interfaces/pipeline'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
@@ -10,62 +6,58 @@ import { IQuery } from './interfaces/query'
 import { IInquiry } from './interfaces/inquiry'
 import { IReport } from './interfaces/report'
 import { IStatus } from './interfaces/status'
-import { IRow } from './interfaces/row'
+import { IFile } from './interfaces/file'
+import { IRow } from './interfaces/table'
 
 export class Client {
-  start(element: any) {
-    ReactDOM.render(React.createElement(Application, {}, null), element)
-    return { dispose: () => ReactDOM.unmountComponentAtNode(element) }
-  }
-
   // Actions
 
-  async describe(file: File, detector: IDetector) {
+  async describe(file: IFile, detector: IDetector) {
     const body = new FormData()
-    const buffer = await file.arrayBuffer()
-    body.append('file', new Blob([buffer]), file.name)
+    body.append('file', new Blob([file.bytes]), file.name)
     body.append('detector', JSON.stringify(detector))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/describe', payload)
-    return response.json() as Promise<{ resource: IResource }>
+    const response = await fetch('/api/describe', payload)
+    const { resource } = (await response.json()) as { resource: IResource }
+    return { resource }
   }
 
-  async extract(file: File, resource: IResource, query: IQuery) {
+  async extract(file: IFile, resource: IResource, query: IQuery) {
     const body = new FormData()
-    const buffer = await file.arrayBuffer()
     const resourceV4 = cloneDeep(resource) as any
     resourceV4.layout = query
-    body.append('file', new Blob([buffer]), file.name)
+    body.append('file', new Blob([file.bytes]), file.name)
     body.append('resource', JSON.stringify(resourceV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/extract', payload)
-    const content = await response.json()
-    return content as { rows: IRow[] }
+    const response = await fetch('/api/extract', payload)
+    const { rows } = (await response.json()) as { rows: IRow[] }
+    const table = { schema: resource.schema, rows }
+    return { table }
   }
 
-  async validate(file: File, resource: IResource, inquiry: IInquiry) {
+  async validate(file: IFile, resource: IResource, inquiry: IInquiry) {
     const body = new FormData()
-    const buffer = await file.arrayBuffer()
     const inquiryV4 = { tasks: [{ ...inquiry, source: resource }] }
-    body.append('file', new Blob([buffer]), file.name)
+    body.append('file', new Blob([file.bytes]), file.name)
     body.append('inquiry', JSON.stringify(inquiryV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/validate', payload)
-    const content = await response.json()
-    return content as { report: IReport }
+    const response = await fetch('/api/validate', payload)
+    const { report } = (await response.json()) as { report: IReport }
+    return { report }
   }
 
-  async transform(file: File, resource: IResource, pipeline: IPipeline) {
+  async transform(file: IFile, resource: IResource, pipeline: IPipeline) {
     const body = new FormData()
-    const buffer = await file.arrayBuffer()
     const pipelineV4 = { tasks: [{ ...pipeline, source: resource, type: 'resource' }] }
-    body.append('file', new Blob([buffer]), file.name)
+    body.append('file', new Blob([file.bytes]), file.name)
     body.append('pipeline', JSON.stringify(pipelineV4))
     const payload = { method: 'POST', body: body }
-    const response = await fetch('http://localhost:7070/api/transform', payload)
+    const response = await fetch('/api/transform', payload)
     const contentV4 = await response.json()
     const content = { ...contentV4, status: contentV4.status.tasks[0] }
-    return content as { status: IStatus; targetRows: IRow[] }
+    const { status, rows } = content as { status: IStatus; rows: IRow[] }
+    const table = { schema: status.target.schema, rows }
+    return { status, table }
   }
 }
 
