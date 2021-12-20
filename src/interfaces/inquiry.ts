@@ -13,6 +13,7 @@ export type ICheck =
   | IForbiddenValueCheck
   | ISequentialValueCheck
   | IRowConstraintCheck
+  | ITableDimensionsCheck
 
 export interface IDuplicateRowCheck {
   code: 'duplicate-row'
@@ -43,4 +44,14 @@ export interface ISequentialValueCheck {
 export interface IRowConstraintCheck {
   code: 'row-constraint'
   formula: string
+}
+
+export interface ITableDimensionsCheck {
+  code: 'table-dimensions'
+  numRows?: number
+  minRows?: number
+  maxRows?: number
+  numFields?: number
+  minFields?: number
+  maxFields?: number
 }

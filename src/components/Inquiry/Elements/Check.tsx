@@ -25,6 +25,8 @@ export default function Check() {
       return <SequentialValueCheck />
     case 'row-constraint':
       return <RowConstraintCheck />
+    case 'table-dimensions':
+      return <TableDimensionsCheck />
     default:
       return null
   }
@@ -100,6 +102,31 @@ function RowConstraintCheck() {
       </Box>
       <Box />
     </Columns>
+  )
+}
+
+function TableDimensionsCheck() {
+  return (
+    <Columns spacing={3}>
+      <Box>
+        <Code />
+        <NumRows />
+      </Box>
+    </Columns>
+  )
+}
+
+function NumRows() {
+  const updateElement = useStore((state) => state.updateElement)
+  // @ts-ignore
+  const numRows = useStore(select(selectors.check, (check) => check.numRows))
+  return (
+    <InputField
+      type="number"
+      label="Exact number of rows required"
+      value={numRows || ''}
+      onChange={(numRows) => updateElement({ numRows })}
+    />
   )
 }
 
