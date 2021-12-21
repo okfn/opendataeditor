@@ -110,22 +110,34 @@ function TableDimensionsCheck() {
     <Columns spacing={3}>
       <Box>
         <Code />
-        <NumRows />
+        <NumField checkArgument="numRows" label="Exact number of rows required" />
+        <NumField checkArgument="minRows" label="Minimum number of rows required" />
+        <NumField checkArgument="maxRows" label="Maximum number of rows required" />
+        <NumField checkArgument="numFields" label="Exact number of fields required" />
+        <NumField checkArgument="minFields" label="Minimum number of fields required" />
+        <NumField checkArgument="maxFields" label="Maximum number of fields required" />
       </Box>
     </Columns>
   )
 }
 
-function NumRows() {
+function NumField(props: { checkArgument: string; label: string }) {
   const updateElement = useStore((state) => state.updateElement)
-  // @ts-ignore
-  const numRows = useStore(select(selectors.check, (check) => check.numRows))
+  const stateFieldValue = useStore(
+    // @ts-ignore
+    select(selectors.check, (check) => check[props.checkArgument])
+  )
+  const newElement: { [checkArgument: string]: number } = {}
+  const onChange = function (newValue: string) {
+    newElement[props.checkArgument] = parseInt(newValue)
+    updateElement(newElement)
+  }
   return (
     <InputField
       type="number"
-      label="Exact number of rows required"
-      value={numRows || ''}
-      onChange={(numRows) => updateElement({ numRows })}
+      label={props.label}
+      value={stateFieldValue || ''}
+      onChange={onChange}
     />
   )
 }
