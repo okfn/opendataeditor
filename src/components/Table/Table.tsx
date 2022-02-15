@@ -37,12 +37,13 @@ export default function Table(props: TableProps) {
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
         headerProps: fieldPosition in errorIndex.label ? {style: {backgroundColor: 'red'}} : {},
-        onRender: (cellProps: any, context: any) => {
-          const {rowIndex, columnIndex} = context
+        render: ({value, cellProps, rowIndex, columnIndex}: any) => {
           const rowKey = `${rowIndex + 2}`
           const cellKey = `${rowIndex + 2},${columnIndex + 1}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
+          console.log(cellProps)
+          return value
         },
       }
     })
