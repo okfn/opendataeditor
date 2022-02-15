@@ -44,21 +44,13 @@ export default function Table(props: TableProps) {
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
         },
         cellDOMProps: ({ rowIndex, columnIndex }: any) => {
+          let error: IError | null = null
           const rowKey = `${rowIndex + 2}`
           const cellKey = `${rowIndex + 2},${columnIndex + 1}`
-          if (rowKey in errorIndex.row) {
-            return {
-              onClick: () => {
-                alert('Error')
-            }
-            }
-          }
-          if (cellKey in errorIndex.cell) {
-            return {
-            onClick: () => {
-              alert('Error')
-            }
-            }
+          if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
+          if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
+          if (error) {
+            return {onClick: () => { alert(error!.message)}}
           }
           return {}
         }
