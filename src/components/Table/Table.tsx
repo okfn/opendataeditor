@@ -8,7 +8,8 @@ import { ITable, IReport, IDict } from '../../interfaces'
 // Currently, we use a simplified connection between report and table
 // We rely on row/columnIndex provided by the ReactDataGrid API although
 // in general it will not match row/fieldPosition we use in Frictionless
-// because a header can be not on the first row etc
+// because a header can be not on the first row etc. Also, we don't show
+// extra cells ATM because `frictionless extract` doesn't return this data
 // ---
 // A proper implementation should be based on `frictionless extract` returning
 // a Table object where rows has their context (rowPosition, errors, blank etc)
@@ -36,9 +37,10 @@ export default function Table(props: TableProps) {
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
         onRender: (cellProps: any, context: any) => {
           const {rowIndex, columnIndex} = context
-          const key = `${rowIndex+1},${columnIndex+1}`
-          console.log(key)
-          if (key in errorIndex) cellProps.style.background = 'red'
+          const rowKey = `${rowIndex + 2}`
+          const cellKey = `${rowIndex + 2},${columnIndex + 1}`
+          if (rowKey in errorIndex.row) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
         },
       }
     })
@@ -56,16 +58,21 @@ export default function Table(props: TableProps) {
 }
 
 function createErrorIndex(report?: IReport) {
-  const errorIndex = {} as IDict
+  const errorIndex = {row: {}, cell: {}} as {row: IDict, cell: IDict}
   if (!report) return errorIndex
   const errorTask = report.tasks[0]
   if (!errorTask) return errorIndex
   for (const error of errorTask.errors) {
-    // TODO: support not only cell errors
     if (!error.rowPosition) continue
-    if (!error.fieldPosition) continue
-    const key = `${error.rowPosition},${error.fieldPosition}`
-    errorIndex[key] = error
+    if (!error.fieldPosition)  {
+      const rowKey = `${error.rowPosition}`
+      errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
+      errorIndex.row[rowKey].push(error)
+    } else {
+      const cellKey = `${error.rowPosition},${error.fieldPosition}`
+      errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
+      errorIndex.cell[cellKey].push(error)
+    }
   }
   return errorIndex
 }
