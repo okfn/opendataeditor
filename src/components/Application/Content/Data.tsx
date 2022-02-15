@@ -28,5 +28,5 @@ export default function Data() {
   assert(report)
   if (isSourceView) return <File file={file} />
   if (isReportView) return <Report descriptor={report} />
-  return <Table table={table} height={contentHeight} />
+  return <Table table={table} report={report} height={contentHeight} />
 }
