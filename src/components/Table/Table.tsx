@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
-import { ITable } from '../../interfaces'
+import { ITable, IReport } from '../../interfaces'
 
 // NOTE:
 // ---
@@ -13,9 +13,11 @@ import { ITable } from '../../interfaces'
 // A proper implementation should be based on `frictionless extract` returning
 // a Table object where rows has their context (rowNumber, errors, blank etc)
 // provided as a `_row` property. We need to implement it in frictionless@5
+// When it's implemented we don't need to take `report` as a prop
 
 interface TableProps {
   table: ITable
+  report?: IReport
   height?: string
 }
 
