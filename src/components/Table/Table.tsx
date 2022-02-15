@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
-import { ITable, IReport, IDict } from '../../interfaces'
+import { ITable, IReport, IError, IDict } from '../../interfaces'
 
 // NOTE:
 // ---
@@ -58,7 +58,7 @@ export default function Table(props: TableProps) {
 }
 
 function createErrorIndex(report?: IReport) {
-  const errorIndex = {row: {}, cell: {}} as {row: IDict, cell: IDict}
+  const errorIndex = {row: {}, cell: {}} as {row: IDict<IError[]>, cell: IDict<IError[]>}
   if (!report) return errorIndex
   const errorTask = report.tasks[0]
   if (!errorTask) return errorIndex
