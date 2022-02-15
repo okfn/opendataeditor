@@ -36,13 +36,16 @@ export default function Table(props: TableProps) {
         name: field.name,
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-        headerProps: fieldPosition in errorIndex.label ? {style: {backgroundColor: 'red'}} : {},
-        onRender: (cellProps: any, {rowIndex, columnIndex}: any) => {
+        headerProps:
+          fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
+        onRender: (cellProps: any, { rowIndex, columnIndex }: any) => {
           const rowKey = `${rowIndex + 2}`
           const cellKey = `${rowIndex + 2},${columnIndex + 1}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
         },
+        // TODO: support the same fro header/label errors
+        // TODO: rebase alert to dialoge window or right panel
         cellDOMProps: ({ rowIndex, columnIndex }: any) => {
           let error: IError | null = null
           const rowKey = `${rowIndex + 2}`
@@ -50,10 +53,14 @@ export default function Table(props: TableProps) {
           if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
           if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
           if (error) {
-            return {onClick: () => { alert(error!.message)}}
+            return {
+              onClick: () => {
+                alert(error!.message)
+              },
+            }
           }
           return {}
-        }
+        },
       }
     })
   }, [fields, errorIndex])
@@ -70,14 +77,14 @@ export default function Table(props: TableProps) {
 }
 
 interface IErrorIndex {
-  header: IDict<IError[]>,
-  label: IDict<IError[]>,
-  row: IDict<IError[]>,
+  header: IDict<IError[]>
+  label: IDict<IError[]>
+  row: IDict<IError[]>
   cell: IDict<IError[]>
 }
 
 function createErrorIndex(report?: IReport) {
-  const errorIndex: IErrorIndex = {header: {}, label: {}, row: {}, cell: {}}
+  const errorIndex: IErrorIndex = { header: {}, label: {}, row: {}, cell: {} }
   if (!report) return errorIndex
   const errorTask = report.tasks[0]
   if (!errorTask) return errorIndex
@@ -90,7 +97,7 @@ function createErrorIndex(report?: IReport) {
       const labelKey = `${error.fieldPosition}`
       errorIndex.label[labelKey] = errorIndex.label[labelKey] || []
       errorIndex.label[labelKey].push(error)
-    } else if (!error.fieldPosition)  {
+    } else if (!error.fieldPosition) {
       const rowKey = `${error.rowPosition}`
       errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
       errorIndex.row[rowKey].push(error)
