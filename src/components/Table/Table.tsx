@@ -17,6 +17,11 @@ export default function Table(props: TableProps) {
         name: field.name,
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+        onRender: (cellProps: any, context: any) => {
+          console.log(cellProps)
+          console.log(context)
+          // cellProps.style.background = 'red'
+        },
       }
     })
   }, [fields])
