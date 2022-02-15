@@ -3,6 +3,17 @@ import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
 import { ITable } from '../../interfaces'
 
+// NOTE:
+// ---
+// Currently, we use a simplified connection between report and table
+// We rely on row/columnIndex provided by the ReactDataGrid API although
+// in general it will not match row/columnNumber we use in Frictionless
+// because a header can be not on the first row etc
+// ---
+// A proper implementation should be based on `frictionless extract` returning
+// a Table object where rows has their context (rowNumber, errors, blank etc)
+// provided as a `_row` property. We need to implement it in frictionless@5
+
 interface TableProps {
   table: ITable
   height?: string
