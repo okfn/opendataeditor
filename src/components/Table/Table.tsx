@@ -42,7 +42,7 @@ export default function Table(props: TableProps) {
     for (const [index, row] of props.table.rows.entries()) {
       const _rowPosition = index + 2
       if (isErrorsView && !errorRowPositions.has(_rowPosition)) continue
-      dataSource.push({...row, _rowPosition })
+      dataSource.push({ ...row, _rowPosition })
     }
     return dataSource
   }, [props.table.rows, isErrorsView])
@@ -59,47 +59,52 @@ export default function Table(props: TableProps) {
         cellProps.style.background = '#EBEDF7'
         // cellProps.style.fontWeight = 'bold'
         cellProps.style.color = '#aaa'
-      }
+      },
     }
-    return [rowPositionColumn, ...fields.map((field, index) => {
-      const fieldPosition = index + 1
-      return {
-        name: field.name,
-        header: field.title || field.name,
-        type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-        width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
-        headerProps:
-          fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
-        render: (context: any) => {
-          let {value} = context
-          const {cellProps, data, columnIndex } = context
-          const rowKey = `${data._rowPosition}`
-          const cellKey = `${data._rowPosition},${columnIndex}`
-          if (rowKey in errorIndex.row) cellProps.style.background = 'red'
-          if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
-          if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
-          return value
-        },
-        // TODO: support the same for header/label errors
-        // TODO: rebase alert to dialoge window or right panel
-        cellDOMProps: (context: any) => {
-          const {data, columnIndex } = context
-          let error: IError | null = null
-          const rowKey = `${data._rowPosition}`
-          const cellKey = `${data._rowPosition},${columnIndex}`
-          if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
-          if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
-          if (error) {
-            return {
-              onClick: () => {
-                alert(error!.message)
-              },
+    return [
+      rowPositionColumn,
+      ...fields.map((field, index) => {
+        const fieldPosition = index + 1
+        return {
+          name: field.name,
+          header: field.title || field.name,
+          type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+          width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
+          headerProps:
+            fieldPosition in errorIndex.label
+              ? { style: { backgroundColor: 'red' } }
+              : {},
+          render: (context: any) => {
+            let { value } = context
+            const { cellProps, data, columnIndex } = context
+            const rowKey = `${data._rowPosition}`
+            const cellKey = `${data._rowPosition},${columnIndex}`
+            if (rowKey in errorIndex.row) cellProps.style.background = 'red'
+            if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
+            if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
+            return value
+          },
+          // TODO: support the same for header/label errors
+          // TODO: rebase alert to dialoge window or right panel
+          cellDOMProps: (context: any) => {
+            const { data, columnIndex } = context
+            let error: IError | null = null
+            const rowKey = `${data._rowPosition}`
+            const cellKey = `${data._rowPosition},${columnIndex}`
+            if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
+            if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
+            if (error) {
+              return {
+                onClick: () => {
+                  alert(error!.message)
+                },
+              }
             }
-          }
-          return {}
-        },
-      }
-    })]
+            return {}
+          },
+        }
+      }),
+    ]
   }, [fields, errorIndex, isErrorsView])
   return (
     <div style={{ height: '100%', width: '100%' }}>
