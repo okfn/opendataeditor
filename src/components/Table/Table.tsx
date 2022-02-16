@@ -41,11 +41,11 @@ export default function Table(props: TableProps) {
     const dataSource: IRow[] = []
     for (const [index, row] of props.table.rows.entries()) {
       const _rowPosition = index + 2
+      if (isErrorsView && !errorRowPositions.has(_rowPosition)) continue
       dataSource.push({...row, _rowPosition })
     }
     return dataSource
-  }, [props.table.rows])
-  console.log(errorRowPositions)
+  }, [props.table.rows, isErrorsView])
   const columns = React.useMemo(() => {
     const rowPositionColumn = {
       name: '_rowPosition',
