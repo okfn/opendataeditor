@@ -70,11 +70,13 @@ export default function Table(props: TableProps) {
         width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
         headerProps:
           fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
-        onRender: (cellProps: any, { rowIndex, columnIndex }: any) => {
+        render: ({cellProps, rowIndex, columnIndex, value }: any) => {
           const rowKey = `${rowIndex + 2}`
           const cellKey = `${rowIndex + 2},${columnIndex}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
+          return value
         },
         // TODO: support the same for header/label errors
         // TODO: rebase alert to dialoge window or right panel
