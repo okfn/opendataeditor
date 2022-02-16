@@ -108,7 +108,7 @@ function Report() {
 function Errors() {
   const report = useStore((state) => state.report)
   const isErrorsView = useStore((state) => state.isErrorsView)
-  // const toggleErrorsView = useStore((state) => state.toggleErrorsView)
+  const toggleErrorsView = useStore((state) => state.toggleErrorsView)
   assert(report)
   return (
     <Button
@@ -116,7 +116,7 @@ function Errors() {
       variant="contained"
       title="Toggle errors view"
       color={isErrorsView ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => alert('Under development')}
+      onClick={() => toggleErrorsView()}
     >
       Errors ({report.stats.errors})
     </Button>

@@ -8,6 +8,7 @@ export interface IError {
   fieldPosition?: number
   labels?: string[]
   cells?: string[]
+  cell?: any
 }
 
 export interface IHeaderError extends IError {}

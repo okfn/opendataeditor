@@ -15,6 +15,7 @@ export default function Data() {
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
   const isSourceView = useStore((state) => state.isSourceView)
   const isReportView = useStore((state) => state.isReportView)
+  const isErrorsView = useStore((state) => state.isErrorsView)
   const resource = useStore((state) => state.resource)
   const table = useStore((state) => state.table)
   const file = useStore((state) => state.file)
@@ -28,5 +29,12 @@ export default function Data() {
   assert(report)
   if (isSourceView) return <File file={file} />
   if (isReportView) return <Report descriptor={report} />
-  return <Table table={table} report={report} height={contentHeight} />
+  return (
+    <Table
+      table={table}
+      report={report}
+      height={contentHeight}
+      isErrorsView={isErrorsView}
+    />
+  )
 }
