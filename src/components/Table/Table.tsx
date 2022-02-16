@@ -20,14 +20,18 @@ interface TableProps {
   table: ITable
   report?: IReport
   height?: string
+  isErrorsView?: boolean
 }
 
 export default function Table(props: TableProps) {
-  const { report } = props
+  const { report, isErrorsView } = props
   const { fields } = props.table.schema
   const height = props.height || '600px'
   const errorIndex = React.useMemo(() => {
     return createErrorIndex(report)
+  }, [report])
+  const errorFieldPositions = React.useMemo(() => {
+    return createErrorFieldPositions(report)
   }, [report])
   const columns = React.useMemo(() => {
     return fields.map((field, index) => {
@@ -36,6 +40,7 @@ export default function Table(props: TableProps) {
         name: field.name,
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+        width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
         headerProps:
           fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
         onRender: (cellProps: any, { rowIndex, columnIndex }: any) => {
@@ -44,7 +49,7 @@ export default function Table(props: TableProps) {
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
         },
-        // TODO: support the same fro header/label errors
+        // TODO: support the same for header/label errors
         // TODO: rebase alert to dialoge window or right panel
         cellDOMProps: ({ rowIndex, columnIndex }: any) => {
           let error: IError | null = null
@@ -63,7 +68,7 @@ export default function Table(props: TableProps) {
         },
       }
     })
-  }, [fields, errorIndex])
+  }, [fields, errorIndex, isErrorsView])
   // TODO: idProperty should be table's PK
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -109,4 +114,15 @@ function createErrorIndex(report?: IReport) {
     }
   }
   return errorIndex
+}
+
+function createErrorFieldPositions(report?: IReport) {
+  const errorFieldPositions = new Set()
+  if (!report) return errorFieldPositions
+  const errorTask = report.tasks[0]
+  if (!errorTask) return errorFieldPositions
+  for (const error of errorTask.errors) {
+    if (error.fieldPosition) errorFieldPositions.add(error.fieldPosition)
+  }
+  return errorFieldPositions
 }
