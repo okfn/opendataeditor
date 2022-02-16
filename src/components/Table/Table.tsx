@@ -1,9 +1,10 @@
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
-import { ITable, IReport, IError, IDict } from '../../interfaces'
+import { ITable, IReport, IError, IDict, IRow } from '../../interfaces'
 
 // NOTE:
+// The code here is very prototypy!
 // ---
 // Currently, we use a simplified connection between report and table
 // We rely on row/columnIndex provided by the ReactDataGrid API although
@@ -37,8 +38,30 @@ export default function Table(props: TableProps) {
   const errorFieldPositions = React.useMemo(() => {
     return createErrorFieldPositions(report)
   }, [report])
+  const dataSource = React.useMemo(() => {
+    const dataSource: IRow[] = []
+    for (const [index, row] of props.table.rows.entries()) {
+      dataSource.push({...row, _rowPosition: index + 2 })
+    }
+    return dataSource
+  }, [props.table.rows])
+  console.log(dataSource)
   const columns = React.useMemo(() => {
-    return fields.map((field, index) => {
+    const rowPositionColumn = {
+      name: '_rowPosition',
+      header: '',
+      type: 'number',
+      width: 60,
+      textAlign: 'center' as any,
+      headerAlign: 'center' as any,
+      headerProps: { style: { backgroundColor: '#c5cae0' } },
+      onRender: (cellProps: any) => {
+        cellProps.style.background = '#EBEDF7'
+        // cellProps.style.fontWeight = 'bold'
+        cellProps.style.color = '#aaa'
+      }
+    }
+    return [rowPositionColumn, ...fields.map((field, index) => {
       const fieldPosition = index + 1
       return {
         name: field.name,
@@ -49,7 +72,7 @@ export default function Table(props: TableProps) {
           fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
         onRender: (cellProps: any, { rowIndex, columnIndex }: any) => {
           const rowKey = `${rowIndex + 2}`
-          const cellKey = `${rowIndex + 2},${columnIndex + 1}`
+          const cellKey = `${rowIndex + 2},${columnIndex}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
         },
@@ -58,7 +81,7 @@ export default function Table(props: TableProps) {
         cellDOMProps: ({ rowIndex, columnIndex }: any) => {
           let error: IError | null = null
           const rowKey = `${rowIndex + 2}`
-          const cellKey = `${rowIndex + 2},${columnIndex + 1}`
+          const cellKey = `${rowIndex + 2},${columnIndex}`
           if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
           if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
           if (error) {
@@ -71,10 +94,7 @@ export default function Table(props: TableProps) {
           return {}
         },
       }
-    })
-  }, [fields, errorIndex, isErrorsView])
-  const dataSource = React.useMemo(() => {
-    return props.table.rows
+    })]
   }, [fields, errorIndex, isErrorsView])
   // TODO: idProperty should be table's PK
   return (
