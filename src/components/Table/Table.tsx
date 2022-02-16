@@ -64,6 +64,7 @@ export default function Table(props: TableProps) {
       }
     })
   }, [fields, errorIndex])
+  // TODO: idProperty should be table's PK
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
