@@ -73,13 +73,16 @@ export default function Table(props: TableProps) {
       }
     })
   }, [fields, errorIndex, isErrorsView])
+  const dataSource = React.useMemo(() => {
+    return props.table.rows
+  }, [fields, errorIndex, isErrorsView])
   // TODO: idProperty should be table's PK
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
         idProperty="table"
         columns={columns}
-        dataSource={props.table.rows as any}
+        dataSource={dataSource}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>
