@@ -34,18 +34,18 @@ export default function Table(props: TableProps) {
   const errorRowPositions = React.useMemo(() => {
     return createErrorRowPositions(report)
   }, [report])
-  console.log(errorRowPositions)
   const errorFieldPositions = React.useMemo(() => {
     return createErrorFieldPositions(report)
   }, [report])
   const dataSource = React.useMemo(() => {
     const dataSource: IRow[] = []
     for (const [index, row] of props.table.rows.entries()) {
-      dataSource.push({...row, _rowPosition: index + 2 })
+      const _rowPosition = index + 2
+      dataSource.push({...row, _rowPosition })
     }
     return dataSource
   }, [props.table.rows])
-  console.log(dataSource)
+  console.log(errorRowPositions)
   const columns = React.useMemo(() => {
     const rowPositionColumn = {
       name: '_rowPosition',
@@ -70,9 +70,9 @@ export default function Table(props: TableProps) {
         width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
         headerProps:
           fieldPosition in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
-        render: ({cellProps, rowIndex, columnIndex, value }: any) => {
-          const rowKey = `${rowIndex + 2}`
-          const cellKey = `${rowIndex + 2},${columnIndex}`
+        render: ({cellProps, data, columnIndex, value }: any) => {
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${columnIndex}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
@@ -80,10 +80,10 @@ export default function Table(props: TableProps) {
         },
         // TODO: support the same for header/label errors
         // TODO: rebase alert to dialoge window or right panel
-        cellDOMProps: ({ rowIndex, columnIndex }: any) => {
+        cellDOMProps: ({ data, columnIndex }: any) => {
           let error: IError | null = null
-          const rowKey = `${rowIndex + 2}`
-          const cellKey = `${rowIndex + 2},${columnIndex}`
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${columnIndex}`
           if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
           if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
           if (error) {
@@ -98,11 +98,10 @@ export default function Table(props: TableProps) {
       }
     })]
   }, [fields, errorIndex, isErrorsView])
-  // TODO: idProperty should be table's PK
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
-        idProperty="table"
+        idProperty="_rowPosition"
         columns={columns}
         dataSource={dataSource}
         style={{ height, minHeight: height, borderBottom: 'none' }}
