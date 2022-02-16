@@ -30,6 +30,10 @@ export default function Table(props: TableProps) {
   const errorIndex = React.useMemo(() => {
     return createErrorIndex(report)
   }, [report])
+  const errorRowPositions = React.useMemo(() => {
+    return createErrorRowPositions(report)
+  }, [report])
+  console.log(errorRowPositions)
   const errorFieldPositions = React.useMemo(() => {
     return createErrorFieldPositions(report)
   }, [report])
@@ -114,6 +118,17 @@ function createErrorIndex(report?: IReport) {
     }
   }
   return errorIndex
+}
+
+function createErrorRowPositions(report?: IReport) {
+  const errorRowPositions = new Set()
+  if (!report) return errorRowPositions
+  const errorTask = report.tasks[0]
+  if (!errorTask) return errorRowPositions
+  for (const error of errorTask.errors) {
+    if (error.rowPosition) errorRowPositions.add(error.rowPosition)
+  }
+  return errorRowPositions
 }
 
 function createErrorFieldPositions(report?: IReport) {
