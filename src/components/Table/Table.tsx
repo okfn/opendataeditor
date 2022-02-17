@@ -20,7 +20,7 @@ import { ITable, IReport, IError, IDict, IRow } from '../../interfaces'
 // TODO: move to state
 // https://reactdatagrid.io/docs/miscellaneous#excel-like-cell-navigation-and-edit
 let inEdit: boolean
-const DEFAULT_ACTIVE_CELL: [number, number] = [0,0]
+const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 interface TableProps {
   table: ITable
   report?: IReport
