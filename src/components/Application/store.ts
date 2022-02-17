@@ -33,6 +33,7 @@ export interface ILogic {
   updateQuery: (patch: Partial<IQuery>) => void
   updateInquiry: (patch: Partial<IInquiry>) => void
   updatePipeline: (patch: Partial<IPipeline>) => void
+  updateTable: (rowPosition: number, fieldName: string, value: any) => void
 }
 
 export const initialState = {
@@ -132,5 +133,15 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const newPipeline = { ...pipeline, ...patch }
     const { status, table } = await client.transform(file, resource, newPipeline)
     set({ pipeline: newPipeline, status, table })
+  },
+  // TODO: implement properly
+  updateTable: (rowPosition, fieldName, value) => {
+    const { table } = get()
+    assert(table)
+    table.rows = table.rows.map((row, index) => {
+      if (rowPosition === index + 2) row[fieldName] = value
+      return row
+    })
+    set({ table: {...table} })
   },
 }))
