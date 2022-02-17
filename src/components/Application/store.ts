@@ -142,6 +142,6 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       if (rowPosition === index + 2) row[fieldName] = value
       return row
     })
-    set({ table: {...table} })
+    set({ table: { ...table } })
   },
 }))

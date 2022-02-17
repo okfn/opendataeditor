@@ -17,6 +17,10 @@ import { ITable, IReport, IError, IDict, IRow } from '../../interfaces'
 // provided as a `_row` property. We need to implement it in frictionless@5
 // When it's implemented we don't need to take `report` as a prop
 
+// TODO: move to state
+// https://reactdatagrid.io/docs/miscellaneous#excel-like-cell-navigation-and-edit
+let inEdit: boolean
+const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 interface TableProps {
   table: ITable
   report?: IReport
@@ -26,9 +30,13 @@ interface TableProps {
 }
 
 export default function Table(props: TableProps) {
+  const [gridRef, setGridRef] = React.useState(null)
   const { report, isErrorsView } = props
   const { fields } = props.table.schema
   const height = props.height || '600px'
+
+  // Errors
+
   const errorIndex = React.useMemo(() => {
     return createErrorIndex(report)
   }, [report])
@@ -38,6 +46,9 @@ export default function Table(props: TableProps) {
   const errorFieldPositions = React.useMemo(() => {
     return createErrorFieldPositions(report)
   }, [report])
+
+  // Data
+
   const dataSource = React.useMemo(() => {
     const dataSource: IRow[] = []
     for (const [index, row] of props.table.rows.entries()) {
@@ -47,12 +58,16 @@ export default function Table(props: TableProps) {
     }
     return dataSource
   }, [props.table.rows, isErrorsView])
+
+  // Columns
+
   const columns = React.useMemo(() => {
     const rowPositionColumn = {
       name: '_rowPosition',
       header: '',
       type: 'number',
       width: 60,
+      editable: false,
       textAlign: 'center' as any,
       headerAlign: 'center' as any,
       headerProps: { style: { backgroundColor: '#c5cae0' } },
@@ -107,21 +122,92 @@ export default function Table(props: TableProps) {
       }),
     ]
   }, [fields, errorIndex, isErrorsView])
+
+  // Actions
+
+  const onEditStart = () => {
+    inEdit = true
+  }
+
+  const onEditStop = () => {
+    requestAnimationFrame(() => {
+      inEdit = false
+      // @ts-ignore
+      gridRef.current.focus()
+    })
+  }
+
+  const onKeyDown = (event: any) => {
+    if (inEdit) {
+      return
+    }
+    // @ts-ignore
+    const grid = gridRef.current
+    let [rowIndex, colIndex] = grid.computedActiveCell
+
+    if (event.key === ' ' || event.key === 'Enter') {
+      const column = grid.getColumnBy(colIndex)
+      grid.startEdit({ columnId: column.name, rowIndex })
+      event.preventDefault()
+      return
+    }
+    if (event.key !== 'Tab') {
+      return
+    }
+    event.preventDefault()
+    event.stopPropagation()
+
+    const direction = event.shiftKey ? -1 : 1
+
+    const columns = grid.visibleColumns
+    const rowCount = grid.count
+
+    colIndex += direction
+    if (colIndex === -1) {
+      colIndex = columns.length - 1
+      rowIndex -= 1
+    }
+    if (colIndex === columns.length) {
+      rowIndex += 1
+      colIndex = 0
+    }
+    if (rowIndex < 0 || rowIndex === rowCount) {
+      return
+    }
+
+    grid.setActiveCell([rowIndex, colIndex])
+  }
+
   const onEditComplete = (context: any) => {
     const rowPosition = context.rowId
     const fieldName = context.columnId
     // TODO: improve this logic
-    const value = ["number"].includes(context.cellProps.type) ? parseInt(context.value) : context.value
+    const value = ['number'].includes(context.cellProps.type)
+      ? parseInt(context.value)
+      : context.value
     if (props.updateTable) props.updateTable(rowPosition, fieldName, value)
   }
+
+  // TODO: support copy/paste?
+  // TODO: disable selecting row number?
+  const onActiveCellChange = (context: any) => {
+    console.log(context)
+  }
+
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
+        defaultActiveCell={DEFAULT_ACTIVE_CELL}
         idProperty="_rowPosition"
+        handle={setGridRef as any}
         columns={columns}
         dataSource={dataSource}
         editable={true}
+        onKeyDown={onKeyDown}
+        onEditStart={onEditStart}
+        onEditStop={onEditStop}
         onEditComplete={onEditComplete}
+        onActiveCellChange={onActiveCellChange}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>
