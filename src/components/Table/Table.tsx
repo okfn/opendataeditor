@@ -67,6 +67,7 @@ export default function Table(props: TableProps) {
       header: '',
       type: 'number',
       width: 60,
+      editable: false,
       textAlign: 'center' as any,
       headerAlign: 'center' as any,
       headerProps: { style: { backgroundColor: '#c5cae0' } },
