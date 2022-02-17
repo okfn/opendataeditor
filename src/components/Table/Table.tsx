@@ -201,6 +201,7 @@ export default function Table(props: TableProps) {
         onEditStart={onEditStart}
         onEditStop={onEditStop}
         onEditComplete={onEditComplete}
+        onActiveCellChange={(context: any) => console.log(context)}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>
