@@ -16,6 +16,7 @@ export default function Data() {
   const isSourceView = useStore((state) => state.isSourceView)
   const isReportView = useStore((state) => state.isReportView)
   const isErrorsView = useStore((state) => state.isErrorsView)
+  const updateTable = useStore((state) => state.updateTable)
   const resource = useStore((state) => state.resource)
   const table = useStore((state) => state.table)
   const file = useStore((state) => state.file)
@@ -34,6 +35,7 @@ export default function Data() {
       table={table}
       report={report}
       height={contentHeight}
+      updateTable={updateTable}
       isErrorsView={isErrorsView}
     />
   )

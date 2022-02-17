@@ -21,6 +21,7 @@ interface TableProps {
   table: ITable
   report?: IReport
   height?: string
+  updateTable?: (rowPosition: number, fieldName: string, value: any) => void
   isErrorsView?: boolean
 }
 
@@ -106,12 +107,21 @@ export default function Table(props: TableProps) {
       }),
     ]
   }, [fields, errorIndex, isErrorsView])
+  const onEditComplete = (context: any) => {
+    const rowPosition = context.rowId
+    const fieldName = context.columnId
+    // TODO: improve this logic
+    const value = ["number"].includes(context.cellProps.type) ? parseInt(context.value) : context.value
+    if (props.updateTable) props.updateTable(rowPosition, fieldName, value)
+  }
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
         idProperty="_rowPosition"
         columns={columns}
         dataSource={dataSource}
+        editable={true}
+        onEditComplete={onEditComplete}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>
