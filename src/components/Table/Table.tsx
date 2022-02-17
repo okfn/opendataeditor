@@ -188,6 +188,12 @@ export default function Table(props: TableProps) {
     if (props.updateTable) props.updateTable(rowPosition, fieldName, value)
   }
 
+  // TODO: support copy/paste?
+  // TODO: disable selecting row number?
+  const onActiveCellChange = (context: any) => {
+    console.log(context)
+  }
+
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
@@ -201,7 +207,7 @@ export default function Table(props: TableProps) {
         onEditStart={onEditStart}
         onEditStop={onEditStop}
         onEditComplete={onEditComplete}
-        onActiveCellChange={(context: any) => console.log(context)}
+        onActiveCellChange={onActiveCellChange}
         style={{ height, minHeight: height, borderBottom: 'none' }}
       />
     </div>
