@@ -111,7 +111,9 @@ export default function Table(props: TableProps) {
     const rowPosition = context.rowId
     const fieldName = context.columnId
     // TODO: improve this logic
-    const value = ["number"].includes(context.cellProps.type) ? parseInt(context.value) : context.value
+    const value = ['number'].includes(context.cellProps.type)
+      ? parseInt(context.value)
+      : context.value
     if (props.updateTable) props.updateTable(rowPosition, fieldName, value)
   }
   return (
