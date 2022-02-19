@@ -43,10 +43,11 @@ export default function Table(props: TableProps) {
   const errorRowPositions = React.useMemo(() => {
     return createErrorRowPositions(report)
   }, [report])
-  const errorFieldPositions = React.useMemo(() => {
-    return createErrorFieldPositions(report)
+  console.log(errorRowPositions)
+  const errorFieldNames = React.useMemo(() => {
+    return createErrorFieldNames(report)
   }, [report])
-  console.log(errorFieldPositions)
+  console.log(errorFieldNames)
 
   // Data
 
@@ -81,6 +82,11 @@ export default function Table(props: TableProps) {
 
     const columns = []
     for (const field of fields) {
+      // TODO: support showing blank-row etc type of errors
+      if (isErrorsView && errorFieldNames.size) {
+        if (!errorFieldNames.has(field.name)) continue
+      }
+
       columns.push({
         name: field.name,
         header: field.title || field.name,
@@ -259,13 +265,13 @@ function createErrorRowPositions(report?: IReport) {
   return errorRowPositions
 }
 
-function createErrorFieldPositions(report?: IReport) {
-  const errorFieldPositions = new Set()
-  if (!report) return errorFieldPositions
+function createErrorFieldNames(report?: IReport) {
+  const errorFieldNames = new Set()
+  if (!report) return errorFieldNames
   const errorTask = report.tasks[0]
-  if (!errorTask) return errorFieldPositions
+  if (!errorTask) return errorFieldNames
   for (const error of errorTask.errors) {
-    if (error.fieldPosition) errorFieldPositions.add(error.fieldPosition)
+    if (error.fieldName) errorFieldNames.add(error.fieldName)
   }
-  return errorFieldPositions
+  return errorFieldNames
 }
