@@ -80,14 +80,13 @@ export default function Table(props: TableProps) {
     }
 
     const columns = []
-    for (const [index, field] of fields.entries()) {
-      const fieldPosition = index + 1
+    for (const field of fields) {
       columns.push({
         name: field.name,
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
         headerProps:
-          fieldPosition in errorIndex.label
+          field.name in errorIndex.label
             ? { style: { backgroundColor: 'red' } }
             : {},
         render: (context: any) => {
