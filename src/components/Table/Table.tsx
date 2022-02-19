@@ -92,9 +92,9 @@ export default function Table(props: TableProps) {
               : {},
           render: (context: any) => {
             let { value } = context
-            const { cellProps, data, columnIndex } = context
+            const { cellProps, data, } = context
             const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${columnIndex}`
+            const cellKey = `${data._rowPosition},${cellProps.name}`
             if (rowKey in errorIndex.row) cellProps.style.background = 'red'
             if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
             if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
@@ -103,10 +103,10 @@ export default function Table(props: TableProps) {
           // TODO: support the same for header/label errors
           // TODO: rebase alert to dialoge window or right panel
           cellDOMProps: (context: any) => {
-            const { data, columnIndex } = context
+            const { data, name } = context
             let error: IError | null = null
             const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${columnIndex}`
+            const cellKey = `${data._rowPosition},${name}`
             if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
             if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
             if (error) {
@@ -232,7 +232,7 @@ function createErrorIndex(report?: IReport) {
       errorIndex.header[headerKey] = errorIndex.header[headerKey] || []
       errorIndex.header[headerKey].push(error)
     } else if (!error.rowPosition) {
-      const labelKey = `${error.fieldPosition}`
+      const labelKey = `${error.fieldName}`
       errorIndex.label[labelKey] = errorIndex.label[labelKey] || []
       errorIndex.label[labelKey].push(error)
     } else if (!error.fieldPosition) {
@@ -240,7 +240,7 @@ function createErrorIndex(report?: IReport) {
       errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
       errorIndex.row[rowKey].push(error)
     } else {
-      const cellKey = `${error.rowPosition},${error.fieldPosition}`
+      const cellKey = `${error.rowPosition},${error.fieldName}`
       errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
       errorIndex.cell[cellKey].push(error)
     }
