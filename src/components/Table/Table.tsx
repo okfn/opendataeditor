@@ -43,9 +43,11 @@ export default function Table(props: TableProps) {
   const errorRowPositions = React.useMemo(() => {
     return createErrorRowPositions(report)
   }, [report])
-  const errorFieldPositions = React.useMemo(() => {
-    return createErrorFieldPositions(report)
+  console.log(errorRowPositions)
+  const errorFieldNames = React.useMemo(() => {
+    return createErrorFieldNames(report)
   }, [report])
+  console.log(errorFieldNames)
 
   // Data
 
@@ -77,50 +79,52 @@ export default function Table(props: TableProps) {
         cellProps.style.color = '#aaa'
       },
     }
-    return [
-      rowPositionColumn,
-      ...fields.map((field, index) => {
-        const fieldPosition = index + 1
-        return {
-          name: field.name,
-          header: field.title || field.name,
-          type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-          width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
-          headerProps:
-            fieldPosition in errorIndex.label
-              ? { style: { backgroundColor: 'red' } }
-              : {},
-          render: (context: any) => {
-            let { value } = context
-            const { cellProps, data, columnIndex } = context
-            const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${columnIndex}`
-            if (rowKey in errorIndex.row) cellProps.style.background = 'red'
-            if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
-            if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
-            return value
-          },
-          // TODO: support the same for header/label errors
-          // TODO: rebase alert to dialoge window or right panel
-          cellDOMProps: (context: any) => {
-            const { data, columnIndex } = context
-            let error: IError | null = null
-            const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${columnIndex}`
-            if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
-            if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
-            if (error) {
-              return {
-                onClick: () => {
-                  alert(error!.message)
-                },
-              }
+
+    const columns = []
+    for (const field of fields) {
+      // TODO: support showing blank-row etc type of errors
+      if (isErrorsView && errorFieldNames.size) {
+        if (!errorFieldNames.has(field.name)) continue
+      }
+
+      columns.push({
+        name: field.name,
+        header: field.title || field.name,
+        type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+        headerProps:
+          field.name in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
+        render: (context: any) => {
+          let { value } = context
+          const { cellProps, data } = context
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${cellProps.name}`
+          if (rowKey in errorIndex.row) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
+          return value
+        },
+        // TODO: support the same for header/label errors
+        // TODO: rebase alert to dialoge window or right panel
+        cellDOMProps: (context: any) => {
+          const { data, name } = context
+          let error: IError | null = null
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${name}`
+          if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
+          if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
+          if (error) {
+            return {
+              onClick: () => {
+                alert(error!.message)
+              },
             }
-            return {}
-          },
-        }
-      }),
-    ]
+          }
+          return {}
+        },
+      })
+    }
+
+    return [rowPositionColumn, ...columns]
   }, [fields, errorIndex, isErrorsView])
 
   // Actions
@@ -232,7 +236,7 @@ function createErrorIndex(report?: IReport) {
       errorIndex.header[headerKey] = errorIndex.header[headerKey] || []
       errorIndex.header[headerKey].push(error)
     } else if (!error.rowPosition) {
-      const labelKey = `${error.fieldPosition}`
+      const labelKey = `${error.fieldName}`
       errorIndex.label[labelKey] = errorIndex.label[labelKey] || []
       errorIndex.label[labelKey].push(error)
     } else if (!error.fieldPosition) {
@@ -240,7 +244,7 @@ function createErrorIndex(report?: IReport) {
       errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
       errorIndex.row[rowKey].push(error)
     } else {
-      const cellKey = `${error.rowPosition},${error.fieldPosition}`
+      const cellKey = `${error.rowPosition},${error.fieldName}`
       errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
       errorIndex.cell[cellKey].push(error)
     }
@@ -259,13 +263,13 @@ function createErrorRowPositions(report?: IReport) {
   return errorRowPositions
 }
 
-function createErrorFieldPositions(report?: IReport) {
-  const errorFieldPositions = new Set()
-  if (!report) return errorFieldPositions
+function createErrorFieldNames(report?: IReport) {
+  const errorFieldNames = new Set()
+  if (!report) return errorFieldNames
   const errorTask = report.tasks[0]
-  if (!errorTask) return errorFieldPositions
+  if (!errorTask) return errorFieldNames
   for (const error of errorTask.errors) {
-    if (error.fieldPosition) errorFieldPositions.add(error.fieldPosition)
+    if (error.fieldName) errorFieldNames.add(error.fieldName)
   }
-  return errorFieldPositions
+  return errorFieldNames
 }

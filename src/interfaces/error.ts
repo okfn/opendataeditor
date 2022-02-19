@@ -6,6 +6,7 @@ export interface IError {
   description: string
   rowPosition?: number
   fieldPosition?: number
+  fieldName?: string
   labels?: string[]
   cells?: string[]
   cell?: any
