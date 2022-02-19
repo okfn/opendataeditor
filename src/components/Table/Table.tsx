@@ -46,6 +46,7 @@ export default function Table(props: TableProps) {
   const errorFieldPositions = React.useMemo(() => {
     return createErrorFieldPositions(report)
   }, [report])
+  console.log(errorFieldPositions)
 
   // Data
 
@@ -85,7 +86,6 @@ export default function Table(props: TableProps) {
           name: field.name,
           header: field.title || field.name,
           type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-          width: isErrorsView && !errorFieldPositions.has(fieldPosition) ? 0 : undefined,
           headerProps:
             fieldPosition in errorIndex.label
               ? { style: { backgroundColor: 'red' } }
