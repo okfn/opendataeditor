@@ -78,49 +78,50 @@ export default function Table(props: TableProps) {
         cellProps.style.color = '#aaa'
       },
     }
-    return [
-      rowPositionColumn,
-      ...fields.map((field, index) => {
-        const fieldPosition = index + 1
-        return {
-          name: field.name,
-          header: field.title || field.name,
-          type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-          headerProps:
-            fieldPosition in errorIndex.label
-              ? { style: { backgroundColor: 'red' } }
-              : {},
-          render: (context: any) => {
-            let { value } = context
-            const { cellProps, data, } = context
-            const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${cellProps.name}`
-            if (rowKey in errorIndex.row) cellProps.style.background = 'red'
-            if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
-            if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
-            return value
-          },
-          // TODO: support the same for header/label errors
-          // TODO: rebase alert to dialoge window or right panel
-          cellDOMProps: (context: any) => {
-            const { data, name } = context
-            let error: IError | null = null
-            const rowKey = `${data._rowPosition}`
-            const cellKey = `${data._rowPosition},${name}`
-            if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
-            if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
-            if (error) {
-              return {
-                onClick: () => {
-                  alert(error!.message)
-                },
-              }
+
+    const columns = []
+    for (const [index, field] of fields.entries()) {
+      const fieldPosition = index + 1
+      columns.push({
+        name: field.name,
+        header: field.title || field.name,
+        type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+        headerProps:
+          fieldPosition in errorIndex.label
+            ? { style: { backgroundColor: 'red' } }
+            : {},
+        render: (context: any) => {
+          let { value } = context
+          const { cellProps, data, } = context
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${cellProps.name}`
+          if (rowKey in errorIndex.row) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
+          if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
+          return value
+        },
+        // TODO: support the same for header/label errors
+        // TODO: rebase alert to dialoge window or right panel
+        cellDOMProps: (context: any) => {
+          const { data, name } = context
+          let error: IError | null = null
+          const rowKey = `${data._rowPosition}`
+          const cellKey = `${data._rowPosition},${name}`
+          if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
+          if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
+          if (error) {
+            return {
+              onClick: () => {
+                alert(error!.message)
+              },
             }
-            return {}
-          },
-        }
-      }),
-    ]
+          }
+          return {}
+        },
+      })
+    }
+
+    return [rowPositionColumn, ...columns]
   }, [fields, errorIndex, isErrorsView])
 
   // Actions
