@@ -92,12 +92,10 @@ export default function Table(props: TableProps) {
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
         headerProps:
-          field.name in errorIndex.label
-            ? { style: { backgroundColor: 'red' } }
-            : {},
+          field.name in errorIndex.label ? { style: { backgroundColor: 'red' } } : {},
         render: (context: any) => {
           let { value } = context
-          const { cellProps, data, } = context
+          const { cellProps, data } = context
           const rowKey = `${data._rowPosition}`
           const cellKey = `${data._rowPosition},${cellProps.name}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
