@@ -25,6 +25,8 @@ export default function Check() {
       return <SequentialValueCheck />
     case 'row-constraint':
       return <RowConstraintCheck />
+    case 'table-dimensions':
+      return <TableDimensionsCheck />
     default:
       return null
   }
@@ -100,6 +102,43 @@ function RowConstraintCheck() {
       </Box>
       <Box />
     </Columns>
+  )
+}
+
+function TableDimensionsCheck() {
+  return (
+    <Columns spacing={3}>
+      <Box>
+        <Code />
+        <NumField checkArgument="numRows" label="Exact number of rows required" />
+        <NumField checkArgument="minRows" label="Minimum number of rows required" />
+        <NumField checkArgument="maxRows" label="Maximum number of rows required" />
+        <NumField checkArgument="numFields" label="Exact number of fields required" />
+        <NumField checkArgument="minFields" label="Minimum number of fields required" />
+        <NumField checkArgument="maxFields" label="Maximum number of fields required" />
+      </Box>
+    </Columns>
+  )
+}
+
+function NumField(props: { checkArgument: string; label: string }) {
+  const updateElement = useStore((state) => state.updateElement)
+  const stateFieldValue = useStore(
+    // @ts-ignore
+    select(selectors.check, (check) => check[props.checkArgument])
+  )
+  const newElement: { [checkArgument: string]: number } = {}
+  const onChange = function (newValue: string) {
+    newElement[props.checkArgument] = parseInt(newValue)
+    updateElement(newElement)
+  }
+  return (
+    <InputField
+      type="number"
+      label={props.label}
+      value={stateFieldValue || ''}
+      onChange={onChange}
+    />
   )
 }
 

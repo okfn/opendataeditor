@@ -102,6 +102,7 @@ export const CHECKS = [
   'forbidden-value',
   'sequential-value',
   'row-constraint',
+  'table-dimensions',
 ]
 
 export const STEPS = [

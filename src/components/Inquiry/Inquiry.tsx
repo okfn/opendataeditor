@@ -20,7 +20,7 @@ export default function Inquiry(props: InquiryProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Box sx={{ height: theme.spacing(56) }}>
-        <Box sx={{ height: theme.spacing(48), borderTop: 'solid 1px white' }}>
+        <Box sx={{ borderTop: 'solid 1px white' }}>
           <Editor />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
