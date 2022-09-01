@@ -19,6 +19,6 @@ Default.args = {
     ],
     missingValues: [''],
   },
-  onCommit: (pipeline) => console.log(pipeline),
-  onRevert: (pipeline) => console.log(pipeline),
+  onCommit: (pipeline: any) => console.log(pipeline),
+  onRevert: (pipeline: any) => console.log(pipeline),
 }
