@@ -1,11 +1,11 @@
 export interface IError {
-  code: string
-  name: string
-  tags: string[]
-  message: string
+  type: string
+  title: string
   description: string
-  rowPosition?: number
-  fieldPosition?: number
+  message: string
+  tags: string[]
+  rowNumber?: number
+  fieldNumber?: number
   fieldName?: string
   labels?: string[]
   cells?: string[]

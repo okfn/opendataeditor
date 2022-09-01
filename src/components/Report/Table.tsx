@@ -1,43 +1,49 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportError } from '../../interfaces'
 
 export interface TableProps {
-  reportError: IReportError
+  tags: string[]
+  labels: string[]
+  data: {
+    [rowNumber: number]: {
+      values: any[]
+      errors: Set<number>
+    }
+  }
   visibleRowsCount: number
-  rowPositions: number[]
+  rowNumbers: number[]
 }
 
 export default function Table(props: TableProps) {
-  const { reportError, visibleRowsCount, rowPositions } = props
-  const isHeaderVisible = reportError.tags.includes('#row')
-  let afterFailRowPosition = 1
-  if (rowPositions[rowPositions.length - 1]) {
-    afterFailRowPosition = rowPositions[rowPositions.length - 1] + 1
+  const { visibleRowsCount, rowNumbers } = props
+  const isHeaderVisible = props.tags.includes('#row')
+  let afterFailRowNumber = 1
+  if (rowNumbers[rowNumbers.length - 1]) {
+    afterFailRowNumber = rowNumbers[rowNumbers.length - 1] + 1
   } else {
-    afterFailRowPosition = 2
+    afterFailRowNumber = 2
   }
   return (
     <table className="table table-sm" style={{ display: 'table' }}>
       <tbody>
-        {reportError.header && isHeaderVisible && (
+        {props.labels && isHeaderVisible && (
           <tr className="before-fail">
             <td className="text-center">1</td>
-            {reportError.header.map((label, index) => (
+            {props.labels.map((label, index) => (
               <td key={index}>{label}</td>
             ))}
           </tr>
         )}
-        {rowPositions.map(
-          (rowPosition, index) =>
+        {rowNumbers.map(
+          (rowNumber, index) =>
             index < visibleRowsCount && (
               <tr key={index}>
-                <td className="result-row-index">{rowPosition || 1}</td>
-                {reportError.data[rowPosition].values.map((value, innerIndex) => (
+                <td className="result-row-index">{rowNumber || 1}</td>
+                {props.data[rowNumber].values.map((value, innerIndex) => (
                   <td
                     key={innerIndex}
                     className={classNames({
-                      fail: reportError.data[rowPosition].errors.has(innerIndex + 1),
+                      fail: props.data[rowNumber].errors.has(innerIndex + 1),
                     })}
                   >
                     {value}
@@ -47,8 +53,8 @@ export default function Table(props: TableProps) {
             )
         )}
         <tr className="after-fail">
-          <td className="result-row-index">{afterFailRowPosition}</td>
-          {reportError.header && reportError.header.map((_, index) => <td key={index} />)}
+          <td className="result-row-index">{afterFailRowNumber}</td>
+          {props.labels && props.labels.map((_, index) => <td key={index} />)}
         </tr>
       </tbody>
     </table>

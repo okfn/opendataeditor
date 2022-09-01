@@ -1,23 +1,33 @@
 import { marked } from 'marked'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { IReportError } from '../../interfaces'
 import Table from './Table'
 
-export interface ErrorProps {
-  reportError: IReportError
+export interface ErrorGroupProps {
+  count: number
+  type: string
+  title: string
+  description: string
+  messages: string[]
+  tags: string[]
+  labels: string[]
+  data: {
+    [rowNumber: number]: {
+      values: any[]
+      errors: Set<number>
+    }
+  }
 }
 
-export default function Error(props: ErrorProps) {
-  const { reportError } = props
+export default function ErrorGroup(props: ErrorGroupProps) {
   const [isDetailsVisible, setIsDetailsVisible] = useState(false)
   const [visibleRowsCount, setVisibleRowsCount] = useState(10)
-  const rowPositions = getRowPositions(reportError)
+  const rowNumbers = getRowNumbers(props)
   return (
     <div className="result">
       {/* Heading */}
       <div className="d-flex align-items-center">
-        <span className="count">{reportError.count} x</span>
+        <span className="count">{props.count} x</span>
         <a
           role="button"
           className={classNames({
@@ -29,24 +39,22 @@ export default function Error(props: ErrorProps) {
           onClick={() => setIsDetailsVisible(!isDetailsVisible)}
           aria-expanded="false"
         >
-          {reportError.name}
+          {props.title}
         </a>
       </div>
 
       {/* Error details */}
       <div className={classNames(['collapse', { show: isDetailsVisible }])}>
         <div className="error-details">
-          {reportError.description && (
+          {props.description && (
             <div className="error-description">
-              <div
-                dangerouslySetInnerHTML={{ __html: marked(reportError.description) }}
-              />
+              <div dangerouslySetInnerHTML={{ __html: marked(props.description) }} />
             </div>
           )}
           <div className="error-list">
             <p className="error-list-heading">The full list of error messages:</p>
             <ul>
-              {reportError.messages.map((message, index) => (
+              {props.messages.map((message, index) => (
                 <li key={index}>{message}</li>
               ))}
             </ul>
@@ -55,20 +63,22 @@ export default function Error(props: ErrorProps) {
       </div>
 
       {/* Table view */}
-      {!['source-error'].includes(reportError.code) && (
+      {!['source-error'].includes(props.type) && (
         <div className="table-view">
           <div className="inner">
             <Table
-              reportError={reportError}
+              tags={props.tags}
+              labels={props.labels}
+              data={props.data}
               visibleRowsCount={visibleRowsCount}
-              rowPositions={rowPositions}
+              rowNumbers={rowNumbers}
             />
           </div>
         </div>
       )}
 
       {/* Show more */}
-      {visibleRowsCount < rowPositions.length && (
+      {visibleRowsCount < rowNumbers.length && (
         <a
           className="show-more"
           onClick={() => setVisibleRowsCount(visibleRowsCount + 10)}
@@ -82,8 +92,8 @@ export default function Error(props: ErrorProps) {
 
 // Helpers
 
-function getRowPositions(reportError: IReportError) {
-  return Object.keys(reportError.data)
+function getRowNumbers(props: ErrorGroupProps) {
+  return Object.keys(props.data)
     .map((item) => parseInt(item, 10))
     .sort((a, b) => a - b)
 }

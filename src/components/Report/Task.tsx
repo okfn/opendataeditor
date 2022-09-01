@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportTask, IReportError } from '../../interfaces'
-import Error from './Error'
+import { IReportTask } from '../../interfaces'
+import ErrorGroup, { ErrorGroupProps } from './ErrorGroup'
 
 export interface TaskProps {
   task: IReportTask
@@ -11,23 +11,23 @@ export interface TaskProps {
 
 export default function Task(props: TaskProps) {
   const { task, taskNumber, tasksCount } = props
-  const taskFile = removeBaseUrl(task.resource.path || '')
+  const taskFile = removeBaseUrl(task.place || '')
   const splitTableFile = splitFilePath(taskFile)
-  const reportErrors = getReportErrors(task)
+  const errorGroups = getErrorGroups(task)
   return (
     <div className={classNames({ file: true, valid: task.valid, invalid: !task.valid })}>
       {/* Heading */}
       <h4 className="file-heading">
         <div className="inner">
-          <a className="file-name" href={task.resource.path}>
-            {task.resource.path ? (
+          <a className="file-name" href={task.place}>
+            {task.place ? (
               <span>
                 <strong>{splitTableFile.base}</strong>
                 <strong>{splitTableFile.sep}</strong>
                 <strong>{splitTableFile.name}</strong>
               </span>
             ) : (
-              <strong>{task.resource.name}</strong>
+              <strong>{task.name}</strong>
             )}
             {!task.valid && (
               <span
@@ -47,8 +47,8 @@ export default function Task(props: TaskProps) {
       </h4>
 
       {/* Error groups */}
-      {Object.values(reportErrors).map((reportError) => (
-        <Error key={reportError.code} reportError={reportError} />
+      {Object.values(errorGroups).map((errorGroup, type) => (
+        <ErrorGroup key={type} {...errorGroup} />
       ))}
     </div>
   )
@@ -69,57 +69,55 @@ export function splitFilePath(path: string) {
   }
 }
 
-export function getReportErrors(task: IReportTask) {
-  const reportErrors: { [code: string]: IReportError } = {}
+export function getErrorGroups(task: IReportTask) {
+  const errorGroups: { [code: string]: ErrorGroupProps } = {}
   for (const error of task.errors) {
-    const header = task.resource.schema.fields.map((field) => field.name)
-
-    // Prepare reportError
-    let reportError = reportErrors[error.code]
-    if (!reportError) {
-      reportError = {
+    // Prepare errorGroup
+    let errorGroup = errorGroups[error.type]
+    if (!errorGroup) {
+      errorGroup = {
         count: 0,
-        code: error.code,
-        name: error.name,
-        tags: error.tags,
+        type: error.type,
+        title: error.title,
         description: error.description,
-        header,
+        tags: error.tags,
+        labels: task.labels,
         messages: [],
         data: {},
       }
     }
 
     // Prepare cells
-    let data = reportError.data[error.rowPosition || 0]
+    let data = errorGroup.data[error.rowNumber || 0]
     if (!data) {
       const values = error.cells || error.labels || []
       data = { values, errors: new Set() }
     }
 
     // Ensure blank row
-    if (error.code === 'blank-row') {
-      data.values = header.map(() => '')
+    if (error.type === 'blank-row') {
+      data.values = task.labels.map(() => '')
     }
 
     // Ensure missing cell
-    if (error.code === 'missing-cell') {
+    if (error.type === 'missing-cell') {
       // TODO: use type system instead of "!"
-      data.values[error.fieldPosition! - 1] = ''
+      data.values[error.fieldNumber! - 1] = ''
     }
 
     // Add row errors
-    if (error.fieldPosition) {
-      data.errors.add(error.fieldPosition)
+    if (error.fieldNumber) {
+      data.errors.add(error.fieldNumber)
     } else if (data.values) {
       data.errors = new Set(data.values.map((_, index) => index + 1))
     }
 
-    // Save reportError
-    reportError.count += 1
-    reportError.messages.push(error.message)
-    reportError.data[error.rowPosition || 0] = data
-    reportErrors[error.code] = reportError
+    // Save errorGroup
+    errorGroup.count += 1
+    errorGroup.messages.push(error.message)
+    errorGroup.data[error.rowNumber || 0] = data
+    errorGroups[error.type] = errorGroup
   }
 
-  return reportErrors
+  return errorGroups
 }

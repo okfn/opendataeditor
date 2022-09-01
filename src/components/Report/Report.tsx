@@ -1,6 +1,4 @@
-import jsonschema from 'jsonschema'
 import React, { useState } from 'react'
-import profile from '../../profiles/report.json'
 import { IReport } from '../../interfaces'
 import Task from './Task'
 
@@ -21,28 +19,6 @@ export interface ReportProps {
 export default function Report(props: ReportProps) {
   const { debug } = props
   const [report, setReport] = useState(props.descriptor)
-
-  // Broken report
-  const reportValidation = jsonschema.validate(report, profile)
-  if (!reportValidation.valid) {
-    return (
-      <div className="frictionless-components-report">
-        <h5>
-          <strong>Invalid report</strong>
-        </h5>
-        <hr />
-        <div style={{ whiteSpace: 'pre', fontFamily: 'courier' }}>
-          {JSON.stringify(reportValidation.errors, null, 2)}
-        </div>
-        <hr />
-        <div style={{ whiteSpace: 'pre', fontFamily: 'courier' }}>
-          {JSON.stringify(report, null, 2)}
-        </div>
-      </div>
-    )
-  }
-
-  // Normal report
   const tasks = getSortedTasks(report)
   return (
     <div className="frictionless-components-report">
