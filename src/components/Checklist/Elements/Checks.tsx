@@ -26,7 +26,7 @@ function FoundItems() {
         <ItemButton
           key={index}
           index={index}
-          name={check.code}
+          name={check.type}
           type="check"
           isGrid={isElementGrid}
           onClick={() => setElementIndex(index)}

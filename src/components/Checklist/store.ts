@@ -7,20 +7,20 @@ import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { InquiryProps } from './Inquiry'
-import { IInquiry, ISchema } from '../../interfaces'
+import { ChecklistProps } from './Checklist'
+import { IChecklist, ISchema } from '../../interfaces'
 import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
 
-interface InquiryState {
+interface ChecklistState {
   // General
 
-  descriptor: IInquiry
-  checkpoint: IInquiry
+  descriptor: IChecklist
+  checkpoint: IChecklist
   schema: ISchema
-  onCommit: (descriptor: IInquiry) => void
-  onRevert: (descriptor: IInquiry) => void
+  onCommit: (descriptor: IChecklist) => void
+  onRevert: (descriptor: IChecklist) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -34,7 +34,7 @@ interface InquiryState {
   isElementExtra?: boolean
 }
 
-interface InquiryLogic {
+interface ChecklistLogic {
   // General
 
   setExportFormat: (format: string) => void
@@ -48,7 +48,7 @@ interface InquiryLogic {
 
   // Elements
 
-  setElementType: (elementType: InquiryState['elementType']) => void
+  setElementType: (elementType: ChecklistState['elementType']) => void
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
@@ -59,7 +59,7 @@ interface InquiryLogic {
   updateElement: (patch: object) => void
 }
 
-export function makeStore(props: InquiryProps) {
+export function makeStore(props: ChecklistProps) {
   const initialState = {
     // General
 
@@ -72,9 +72,9 @@ export function makeStore(props: InquiryProps) {
 
     // Elements
 
-    elementType: 'check' as InquiryState['elementType'],
+    elementType: 'check' as ChecklistState['elementType'],
   }
-  return create<InquiryState & InquiryLogic>((set, get) => ({
+  return create<ChecklistState & ChecklistLogic>((set, get) => ({
     ...initialState,
 
     // General
@@ -125,7 +125,7 @@ export function makeStore(props: InquiryProps) {
       const newDescriptor = produce(descriptor, (descriptor) => {
         if (elementType === 'check') {
           descriptor.checks = descriptor.checks || []
-          descriptor.checks.push({ code: 'duplicate-row' })
+          descriptor.checks.push({ type: 'duplicate-row' })
           elementIndex = descriptor.checks.length - 1
         }
       })
@@ -159,7 +159,7 @@ export function makeStore(props: InquiryProps) {
 
 export const select = createSelector
 export const selectors = {
-  check: (state: InquiryState) => {
+  check: (state: ChecklistState) => {
     const elementIndex = state.elementIndex
     assert(elementIndex !== undefined)
     assert(state.descriptor.checks !== undefined)
@@ -167,16 +167,16 @@ export const selectors = {
     assert(check !== undefined)
     return check
   },
-  checkNames: (state: InquiryState) => {
-    return (state.descriptor.checks || []).map((check) => check.code)
+  checkNames: (state: ChecklistState) => {
+    return (state.descriptor.checks || []).map((check) => check.type)
   },
-  foundCheckItems: (state: InquiryState) => {
+  foundCheckItems: (state: ChecklistState) => {
     const items = []
     for (const [index, check] of (state.descriptor.checks || []).entries()) {
-      if (state.elementQuery && !check.code.includes(state.elementQuery)) continue
+      if (state.elementQuery && !check.type.includes(state.elementQuery)) continue
       items.push({ index, check })
     }
     return items
   },
 }
-export const { Provider, useStore } = createContext<InquiryState & InquiryLogic>()
+export const { Provider, useStore } = createContext<ChecklistState & ChecklistLogic>()

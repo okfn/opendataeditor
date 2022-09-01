@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import { IInquiry, ISchema } from '../../interfaces'
+import { IChecklist, ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
 import Actions from './Actions'
 import Editor from './Editor'
 
 // TODO: remove borderTop hack
 
-export interface InquiryProps {
-  descriptor: IInquiry
+export interface ChecklistProps {
+  descriptor: IChecklist
   schema: ISchema
-  onCommit?: (descriptor: IInquiry) => void
-  onRevert?: (descriptor: IInquiry) => void
+  onCommit?: (descriptor: IChecklist) => void
+  onRevert?: (descriptor: IChecklist) => void
 }
 
-export default function Inquiry(props: InquiryProps) {
+export default function Checklist(props: ChecklistProps) {
   const theme = useTheme()
   return (
     <Provider createStore={() => makeStore(props)}>

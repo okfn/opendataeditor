@@ -11,7 +11,7 @@ import * as settings from '../../../settings'
 import { useStore, selectors, select } from '../store'
 
 export default function Check() {
-  const code = useStore(select(selectors.check, (check) => check.code))
+  const code = useStore(select(selectors.check, (check) => check.type))
   switch (code) {
     case 'duplicate-row':
       return <DuplicateRowCheck />
@@ -144,7 +144,7 @@ function NumField(props: { checkArgument: string; label: string }) {
 
 function Code() {
   const updateElement = useStore((state) => state.updateElement)
-  const code = useStore(select(selectors.check, (check) => check.code))
+  const code = useStore(select(selectors.check, (check) => check.type))
   return (
     <SelectField
       label="Code"

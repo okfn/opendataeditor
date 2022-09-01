@@ -9,8 +9,6 @@ export default function General() {
       <HeadingBox>General</HeadingBox>
       <PickErrors />
       <SkipErrors />
-      <LimitErrors />
-      <LimitMemory />
     </React.Fragment>
   )
 }
@@ -35,32 +33,6 @@ function SkipErrors() {
       label="Skip Errors"
       value={(skipErrors || []).join(',')}
       onChange={(value) => update({ skipErrors: value.split(',') })}
-    />
-  )
-}
-
-function LimitErrors() {
-  const limitErrors = useStore((state) => state.descriptor.limitErrors)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      type="number"
-      label="Limit Errors"
-      value={limitErrors || ''}
-      onChange={(value) => update({ limitErrors: parseInt(value) })}
-    />
-  )
-}
-
-function LimitMemory() {
-  const limitMemory = useStore((state) => state.descriptor.limitMemory)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      type="number"
-      label="Limit Memory"
-      value={limitMemory || ''}
-      onChange={(value) => update({ limitMemory: parseInt(value) })}
     />
   )
 }

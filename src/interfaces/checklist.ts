@@ -1,9 +1,10 @@
-export interface IInquiry {
+export interface IChecklist {
+  name?: string
+  title?: string
+  description?: string
   checks?: ICheck[]
   pickErrors?: string[]
   skipErrors?: string[]
-  limitErrors?: number
-  limitMemory?: number
 }
 
 export type ICheck =
@@ -16,38 +17,38 @@ export type ICheck =
   | ITableDimensionsCheck
 
 export interface IDuplicateRowCheck {
-  code: 'duplicate-row'
+  type: 'duplicate-row'
 }
 
 export interface IDeviatedValueCheck {
-  code: 'deviated-value'
+  type: 'deviated-value'
   fieldName: string
   average?: string
   interval?: number
 }
 
 export interface ITruncatedValueCheck {
-  code: 'truncated-value'
+  type: 'truncated-value'
 }
 
 export interface IForbiddenValueCheck {
-  code: 'forbidden-value'
+  type: 'forbidden-value'
   fieldName: string
   values?: any[]
 }
 
 export interface ISequentialValueCheck {
-  code: 'sequential-value'
+  type: 'sequential-value'
   fieldName: string
 }
 
 export interface IRowConstraintCheck {
-  code: 'row-constraint'
+  type: 'row-constraint'
   formula: string
 }
 
 export interface ITableDimensionsCheck {
-  code: 'table-dimensions'
+  type: 'table-dimensions'
   numRows?: number
   minRows?: number
   maxRows?: number

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Inquiry from '../src/components/Inquiry'
+import Checklist from '../src/components/Checklist'
 
 export default {
-  title: 'Components/Inquiry',
-  component: Inquiry,
+  title: 'Components/Checklist',
+  component: Checklist,
 } as Meta
 
-const Template: Story<Parameters<typeof Inquiry>[0]> = (args) => <Inquiry {...args} />
+const Template: Story<Parameters<typeof Checklist>[0]> = (args) => <Checklist {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -19,6 +19,6 @@ Default.args = {
     ],
     missingValues: [''],
   },
-  onCommit: (inquiry: any) => console.log(inquiry),
-  onRevert: (inquiry: any) => console.log(inquiry),
+  onCommit: (checklist: any) => console.log(checklist),
+  onRevert: (checklist: any) => console.log(checklist),
 }
