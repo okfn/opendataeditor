@@ -126,7 +126,7 @@ export function makeStore(props: PipelineProps) {
         if (elementType === 'step') {
           descriptor.steps = descriptor.steps || []
           // @ts-ignore
-          descriptor.steps.push({ code: 'field-add' })
+          descriptor.steps.push({ type: 'field-add' })
           elementIndex = descriptor.steps.length - 1
         }
       })
@@ -169,12 +169,12 @@ export const selectors = {
     return step
   },
   stepNames: (state: PipelineState) => {
-    return (state.descriptor.steps || []).map((step) => step.code)
+    return (state.descriptor.steps || []).map((step) => step.type)
   },
   foundStepItems: (state: PipelineState) => {
     const items = []
     for (const [index, step] of (state.descriptor.steps || []).entries()) {
-      if (state.elementQuery && !step.code.includes(state.elementQuery)) continue
+      if (state.elementQuery && !step.type.includes(state.elementQuery)) continue
       items.push({ index, step })
     }
     return items

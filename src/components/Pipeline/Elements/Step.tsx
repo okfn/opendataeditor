@@ -13,7 +13,7 @@ import { useStore, selectors, select } from '../store'
 // TODO: rework
 
 export default function Step() {
-  const code = useStore(select(selectors.step, (step) => step.code))
+  const code = useStore(select(selectors.step, (step) => step.type))
   switch (code) {
     case 'field-add':
       return <FieldAddStep />
@@ -133,7 +133,7 @@ function FieldUpdateStep() {
 
 function Code() {
   const updateElement = useStore((state) => state.updateElement)
-  const code = useStore(select(selectors.step, (step) => step.code))
+  const code = useStore(select(selectors.step, (step) => step.type))
   return (
     <SelectField
       label="Code"
