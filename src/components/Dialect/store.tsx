@@ -21,6 +21,7 @@ interface DialectState {
   exporter: () => void
   importer: (file: File) => void
   update: (patch: object) => void
+  updateCsv: (patch: object) => void
   commit: () => void
   revert: () => void
 }
@@ -52,6 +53,11 @@ export function makeStore(props: DialectProps) {
     update: (patch) => {
       const { descriptor } = get()
       set({ descriptor: { ...descriptor, ...patch }, isUpdated: true })
+    },
+    updateCsv: (patch) => {
+      const { descriptor } = get()
+      const csv = { ...(descriptor.csv || {}), ...patch }
+      set({ descriptor: { ...descriptor, csv }, isUpdated: true })
     },
     revert: () => {
       const { onRevert, descriptor, checkpoint } = get()

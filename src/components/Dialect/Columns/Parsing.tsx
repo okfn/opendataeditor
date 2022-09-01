@@ -13,104 +13,19 @@ export default function Parsing() {
       <HeadingBox>Parsing</HeadingBox>
       <Columns spacing={3}>
         <Box>
+          <CommentChar />
           <Delimiter />
           <QuoteChar />
           <DoubleQuote />
-          <SkipInitialSpace />
         </Box>
         <Box>
           <LineTerminator />
           <EscapeChar />
-          <CommentChar />
           <NullSequence />
+          <SkipInitialSpace />
         </Box>
       </Columns>
     </React.Fragment>
-  )
-}
-
-function Delimiter() {
-  const delimiter = useStore((state) => state.descriptor.delimiter)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      label="Delimiter"
-      value={delimiter || settings.DEFAULT_DELIMITER}
-      onChange={(delimiter) => update({ delimiter })}
-    />
-  )
-}
-
-function LineTerminator() {
-  // const lineTerminator = useStore((state) => state.descriptor.lineTerminator)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      disabled
-      label="Line Terminator"
-      value={settings.DEFAULT_LINE_TERMINATOR}
-      onChange={(lineTerminator) => update({ lineTerminator })}
-    />
-  )
-}
-
-function QuoteChar() {
-  const quoteChar = useStore((state) => state.descriptor.quoteChar)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      label="Quote Char"
-      value={quoteChar || settings.DEFAULT_QUOTE_CHAR}
-      onChange={(quoteChar) => update({ quoteChar })}
-    />
-  )
-}
-
-function DoubleQuote() {
-  const doubleQuote = useStore((state) => state.descriptor.doubleQuote)
-  const update = useStore((state) => state.update)
-  return (
-    <YesNoField
-      label="Double Quote"
-      value={doubleQuote || settings.DEFAULT_DOUBLE_QUOTE}
-      onChange={(doubleQuote) => update({ doubleQuote })}
-    />
-  )
-}
-
-function EscapeChar() {
-  const escapeChar = useStore((state) => state.descriptor.escapeChar)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      label="Escape Char"
-      value={escapeChar || settings.DEFAULT_ESCAPE_CHAR}
-      onChange={(escapeChar) => update({ escapeChar })}
-    />
-  )
-}
-
-function NullSequence() {
-  const nullSequence = useStore((state) => state.descriptor.nullSequence)
-  const update = useStore((state) => state.update)
-  return (
-    <InputField
-      label="Null Sequence"
-      value={nullSequence || settings.DEFAULT_NULL_SEQUENCE}
-      onChange={(nullSequence) => update({ nullSequence })}
-    />
-  )
-}
-
-function SkipInitialSpace() {
-  const skipInitialSpace = useStore((state) => state.descriptor.skipInitialSpace)
-  const update = useStore((state) => state.update)
-  return (
-    <YesNoField
-      label="Skip Initial Space"
-      value={skipInitialSpace || settings.DEFAULT_SKIP_INITIAL_SPACE}
-      onChange={(skipInitialSpace) => update({ skipInitialSpace })}
-    />
   )
 }
 
@@ -122,6 +37,91 @@ function CommentChar() {
       label="Comment Char"
       value={commentChar || settings.DEFAULT_COMMENT_CHAR}
       onChange={(commentChar) => update({ commentChar })}
+    />
+  )
+}
+
+function Delimiter() {
+  const delimiter = useStore((state) => state.descriptor.csv?.delimiter)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      label="Delimiter"
+      value={delimiter || settings.DEFAULT_DELIMITER}
+      onChange={(delimiter) => updateCsv({ delimiter })}
+    />
+  )
+}
+
+function LineTerminator() {
+  // const lineTerminator = useStore((state) => state.descriptor.lineTerminator)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      disabled
+      label="Line Terminator"
+      value={settings.DEFAULT_LINE_TERMINATOR}
+      onChange={(lineTerminator) => updateCsv({ lineTerminator })}
+    />
+  )
+}
+
+function QuoteChar() {
+  const quoteChar = useStore((state) => state.descriptor.csv?.quoteChar)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      label="Quote Char"
+      value={quoteChar || settings.DEFAULT_QUOTE_CHAR}
+      onChange={(quoteChar) => updateCsv({ quoteChar })}
+    />
+  )
+}
+
+function DoubleQuote() {
+  const doubleQuote = useStore((state) => state.descriptor.csv?.doubleQuote)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <YesNoField
+      label="Double Quote"
+      value={doubleQuote || settings.DEFAULT_DOUBLE_QUOTE}
+      onChange={(doubleQuote) => updateCsv({ doubleQuote })}
+    />
+  )
+}
+
+function EscapeChar() {
+  const escapeChar = useStore((state) => state.descriptor.csv?.escapeChar)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      label="Escape Char"
+      value={escapeChar || settings.DEFAULT_ESCAPE_CHAR}
+      onChange={(escapeChar) => updateCsv({ escapeChar })}
+    />
+  )
+}
+
+function NullSequence() {
+  const nullSequence = useStore((state) => state.descriptor.csv?.nullSequence)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      label="Null Sequence"
+      value={nullSequence || settings.DEFAULT_NULL_SEQUENCE}
+      onChange={(nullSequence) => updateCsv({ nullSequence })}
+    />
+  )
+}
+
+function SkipInitialSpace() {
+  const skipInitialSpace = useStore((state) => state.descriptor.csv?.skipInitialSpace)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <YesNoField
+      label="Skip Initial Space"
+      value={skipInitialSpace || settings.DEFAULT_SKIP_INITIAL_SPACE}
+      onChange={(skipInitialSpace) => updateCsv({ skipInitialSpace })}
     />
   )
 }

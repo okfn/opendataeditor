@@ -14,7 +14,7 @@ Default.args = {
   descriptor: {
     header: true,
     headerRows: [1],
-    delimiter: ',',
+    csv: { delimiter: ';' },
   },
   onCommit: (dialect: any) => console.log(dialect),
   onRevert: (dialect: any) => console.log(dialect),
