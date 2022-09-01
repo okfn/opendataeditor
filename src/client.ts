@@ -1,63 +1,80 @@
-import cloneDeep from 'lodash/cloneDeep'
-import { IPipeline } from './interfaces/pipeline'
+import omit from 'lodash/omit'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
-import { IQuery } from './interfaces/query'
-import { IInquiry } from './interfaces/inquiry'
 import { IReport } from './interfaces/report'
-import { IStatus } from './interfaces/status'
-import { IFile } from './interfaces/file'
-import { IRow } from './interfaces/table'
+import { ITable } from './interfaces/table'
+import { IToken } from './interfaces/session'
 
 export class Client {
-  // Actions
+  basepath: string = '/api'
 
-  async describe(file: IFile, detector: IDetector) {
-    const body = new FormData()
-    body.append('file', new Blob([file.bytes]), file.name)
-    body.append('detector', JSON.stringify(detector))
-    const payload = { method: 'POST', body: body }
-    const response = await fetch('/api/describe', payload)
-    const { resource } = (await response.json()) as { resource: IResource }
+  async request(path: string, props: { [key: string]: any; file?: File } = {}) {
+    if (this.basepath) path = this.basepath + path
+    const method = 'POST'
+    let headers
+    let body
+    if (props.file) {
+      body = new FormData()
+      body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
+      body.append('detector', JSON.stringify(omit(props, 'file')))
+    } else {
+      headers = { 'Content-Type': 'application/json;charset=utf-8' }
+      body = JSON.stringify(props)
+    }
+    const response = await fetch(path, { method, headers, body })
+    return response.json()
+  }
+
+  // Resource
+
+  async resourceDescribe(props: { token?: IToken; path: string; detector?: IDetector }) {
+    const response = await this.request('/resource/describe', props)
+    const { resource } = response as { resource: IResource }
     return { resource }
   }
 
-  async extract(file: IFile, resource: IResource, query: IQuery) {
-    const body = new FormData()
-    const resourceV4 = cloneDeep(resource) as any
-    resourceV4.layout = query
-    body.append('file', new Blob([file.bytes]), file.name)
-    body.append('resource', JSON.stringify(resourceV4))
-    const payload = { method: 'POST', body: body }
-    const response = await fetch('/api/extract', payload)
-    const { rows } = (await response.json()) as { rows: IRow[] }
-    const table = { schema: resource.schema, rows }
+  async resourceExtract(props: { token?: IToken; resource: IResource }) {
+    const data = await this.request('/resource/extract', props)
+    const { table } = data as { table: ITable }
     return { table }
   }
 
-  async validate(file: IFile, resource: IResource, inquiry: IInquiry) {
-    const body = new FormData()
-    const inquiryV4 = { tasks: [{ ...inquiry, source: resource }] }
-    body.append('file', new Blob([file.bytes]), file.name)
-    body.append('inquiry', JSON.stringify(inquiryV4))
-    const payload = { method: 'POST', body: body }
-    const response = await fetch('/api/validate', payload)
-    const { report } = (await response.json()) as { report: IReport }
+  async resourceValidate(props: { token?: IToken; resource: IResource }) {
+    const data = await this.request('/resource/validate', props)
+    const { report } = data as { report: IReport }
     return { report }
   }
 
-  async transform(file: IFile, resource: IResource, pipeline: IPipeline) {
-    const body = new FormData()
-    const pipelineV4 = { tasks: [{ ...pipeline, source: resource, type: 'resource' }] }
-    body.append('file', new Blob([file.bytes]), file.name)
-    body.append('pipeline', JSON.stringify(pipelineV4))
-    const payload = { method: 'POST', body: body }
-    const response = await fetch('/api/transform', payload)
-    const contentV4 = await response.json()
-    const content = { ...contentV4, status: contentV4.status.tasks[0] }
-    const { status, rows } = content as { status: IStatus; rows: IRow[] }
-    const table = { schema: status.target.schema, rows }
-    return { status, table }
+  async resourceTransform(props: { token?: IToken; resource: IResource }) {
+    const data = await this.request('/resource/transform', props)
+    const { resource, table } = data as { resource: IResource; table: ITable }
+    return { resource, table }
+  }
+
+  // Session
+
+  async sessionCreate() {
+    const data = await this.request('/session/create')
+    const { token } = data as { token: string }
+    return { token }
+  }
+
+  async sessionCreateFile(props: { token?: IToken; file: File }) {
+    const data = await this.request('/session/createFile', props)
+    const { path } = data as { path: string }
+    return { path }
+  }
+
+  async sessionDeleteFile(props: { token?: IToken; path: string }) {
+    const data = await this.request('/session/deleteFile', props)
+    const { path } = data as { path: string }
+    return { path }
+  }
+
+  async sessionListFiles(props: { token?: IToken }) {
+    const data = await this.request('/session/listFiles', props)
+    const { paths } = data as { paths: string[] }
+    return { paths }
   }
 }
 

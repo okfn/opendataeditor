@@ -1,20 +1,18 @@
 import create from 'zustand'
 import { assert } from 'ts-essentials'
 import { client } from '../../client'
-import { IReport, IStatus, ITable, IFile } from '../../interfaces'
+import { IReport, ITable } from '../../interfaces'
 import { IQuery, IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
   contentType: string
-  file?: IFile
+  token?: string
+  path?: string
+  paths: string[]
   detector: IDetector
   resource?: IResource
-  query?: IQuery
   table?: ITable
-  inquiry?: IInquiry
   report?: IReport
-  pipeline?: IPipeline
-  status?: IStatus
   isMetadataOpen?: boolean
   isSourceView?: boolean
   isReportView?: boolean
@@ -39,6 +37,7 @@ export interface ILogic {
 export const initialState = {
   isHelpView: true,
   contentType: 'help',
+  paths: [],
   // TODO: move to settings or server-side
   detector: { bufferSize: 10000, sampleSize: 100 },
 }
@@ -57,37 +56,22 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   // File
 
-  uploadFile: async (nativeFile) => {
-    const isCsv = nativeFile.name.endsWith('.csv')
-    const isExcel = nativeFile.name.endsWith('.xlsx')
-    if (!(isCsv || isExcel) || nativeFile.size > 10000000) {
+  uploadFile: async (file) => {
+    const isCsv = file.name.endsWith('.csv')
+    const isExcel = file.name.endsWith('.xlsx')
+    if (!(isCsv || isExcel) || file.size > 10000000) {
       // TODO: clean file input
       alert('Currently only CSV and Excel files under 10Mb are supported')
       return
     }
     const { detector } = get()
-    // TODO: improve
-    const bytes = await nativeFile.arrayBuffer()
-    const text = await nativeFile.text()
-    const file = { name: nativeFile.name, bytes, text }
-    // TODO: make unblocking
-    const { resource } = await client.describe(file, detector)
-    const query = {}
-    // TODO: make unblocking
-    const { table } = await client.extract(file, resource, query)
-    const inquiry = {}
-    const { report } = await client.validate(file, resource, inquiry)
-    const pipeline = {}
-    set({
-      contentType: 'data',
-      file,
-      resource,
-      table,
-      inquiry,
-      report,
-      pipeline,
-      query,
-    })
+    const { token } = await client.sessionCreate()
+    const { path } = await client.sessionCreateFile({ token, file })
+    const { paths } = await client.sessionListFiles({ token })
+    const { resource } = await client.resourceDescribe({ path, detector })
+    const { table } = await client.resourceExtract({ resource })
+    const { report } = await client.resourceValidate({ resource })
+    set({ contentType: 'data', token, path, paths, resource, table, report })
   },
 
   // Metadata
