@@ -32,7 +32,7 @@
     "format": "prettier --write '{src,test}/**/*.ts*' && eslint --fix '{src,test}/**/*.ts*'",
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
     "pretest": "npm run lint",
-    "server": "nodemon src/main.ts",
+    "server": "frictionless api",
     "start": "node lib/main.js",
     "test": "jest --coverage",
     "update": "ncu -u"
