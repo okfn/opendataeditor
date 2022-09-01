@@ -10,6 +10,10 @@ all: list
 list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
+install:
+	pip install -r requirements.txt
+	npm install
+
 release:
 	git checkout main && git pull origin && git fetch -p
 	@git log --pretty=format:"%C(yellow)%h%Creset %s%Cgreen%d" --reverse -20
