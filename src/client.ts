@@ -1,9 +1,9 @@
 import omit from 'lodash/omit'
 import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
+import { ISession } from './interfaces/common'
 import { IReport } from './interfaces/report'
 import { ITable } from './interfaces/table'
-import { IToken } from './interfaces/session'
 
 export class Client {
   basepath: string = '/api'
@@ -27,52 +27,56 @@ export class Client {
 
   // Resource
 
-  async resourceDescribe(props: { token?: IToken; path: string; detector?: IDetector }) {
+  async resourceDescribe(props: {
+    session?: ISession
+    path: string
+    detector?: IDetector
+  }) {
     const response = await this.request('/resource/describe', props)
     const { resource } = response as { resource: IResource }
     return { resource }
   }
 
-  async resourceExtract(props: { token?: IToken; resource: IResource }) {
+  async resourceExtract(props: { session?: ISession; resource: IResource }) {
     const data = await this.request('/resource/extract', props)
     const { table } = data as { table: ITable }
     return { table }
   }
 
-  async resourceValidate(props: { token?: IToken; resource: IResource }) {
+  async resourceValidate(props: { session?: ISession; resource: IResource }) {
     const data = await this.request('/resource/validate', props)
     const { report } = data as { report: IReport }
     return { report }
   }
 
-  async resourceTransform(props: { token?: IToken; resource: IResource }) {
+  async resourceTransform(props: { session?: ISession; resource: IResource }) {
     const data = await this.request('/resource/transform', props)
     const { resource, table } = data as { resource: IResource; table: ITable }
     return { resource, table }
   }
 
-  // Session
+  // Project
 
-  async sessionCreate() {
-    const data = await this.request('/session/create')
-    const { token } = data as { token: string }
-    return { token }
+  async projectCreate() {
+    const data = await this.request('/project/create')
+    const { session } = data as { session: string }
+    return { session }
   }
 
-  async sessionCreateFile(props: { token?: IToken; file: File }) {
-    const data = await this.request('/session/createFile', props)
+  async projectCreateFile(props: { session?: ISession; file: File }) {
+    const data = await this.request('/project/createFile', props)
     const { path } = data as { path: string }
     return { path }
   }
 
-  async sessionDeleteFile(props: { token?: IToken; path: string }) {
-    const data = await this.request('/session/deleteFile', props)
+  async projectDeleteFile(props: { session?: ISession; path: string }) {
+    const data = await this.request('/project/deleteFile', props)
     const { path } = data as { path: string }
     return { path }
   }
 
-  async sessionListFiles(props: { token?: IToken }) {
-    const data = await this.request('/session/listFiles', props)
+  async projectListFiles(props: { session?: ISession }) {
+    const data = await this.request('/project/listFiles', props)
     const { paths } = data as { paths: string[] }
     return { paths }
   }
