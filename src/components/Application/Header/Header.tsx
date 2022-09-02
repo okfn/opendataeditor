@@ -16,8 +16,6 @@ import { useStore } from '../store'
 
 export default function Header() {
   const file = useStore((state) => state.file)
-  const contentType = useStore((state) => state.contentType)
-  const setContentType = useStore((state) => state.setContentType)
   const uploadFile = useStore((state) => state.uploadFile)
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -25,11 +23,7 @@ export default function Header() {
         <Toolbar disableGutters>
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Typography
-                variant="h5"
-                sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
-                onClick={() => (file ? setContentType('data') : null)}
-              >
+              <Typography variant="h5" sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}>
                 <strong>
                   Frictionless Application{' '}
                   <Chip
@@ -58,26 +52,13 @@ export default function Header() {
             </Grid>
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
-                <Button
-                  title="Open data viewer"
-                  color={contentType === 'data' ? 'warning' : 'inherit'}
-                  onClick={() => setContentType('data')}
-                  disabled={!file}
-                >
+                <Button title="Open data viewer" disabled={!file}>
                   <WindowIcon />
                 </Button>
-                <Button
-                  title="Open configuration"
-                  color={contentType === 'config' ? 'warning' : 'inherit'}
-                  onClick={() => setContentType('config')}
-                >
+                <Button title="Open configuration">
                   <SettingsIcon />
                 </Button>
-                <Button
-                  title="Open documentation"
-                  color={contentType === 'help' ? 'warning' : 'inherit'}
-                  onClick={() => setContentType('help')}
-                >
+                <Button title="Open documentation">
                   <HelpOutlineIcon />
                 </Button>
               </Grid>

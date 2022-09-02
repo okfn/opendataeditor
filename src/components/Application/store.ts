@@ -2,10 +2,9 @@ import create from 'zustand'
 import { assert } from 'ts-essentials'
 import { client } from '../../client'
 import { IReport, ITable } from '../../interfaces'
-import { IQuery, IInquiry, IDetector, IResource, IPipeline } from '../../interfaces'
+import { IDetector, IResource, IPipeline } from '../../interfaces'
 
 export interface IState {
-  contentType: string
   token?: string
   path?: string
   paths: string[]
@@ -20,7 +19,6 @@ export interface IState {
 }
 
 export interface ILogic {
-  setContentType: (contentType: string) => void
   toggleMetadataOpen: () => void
   toggleSourceView: () => void
   toggleReportView: () => void
@@ -36,7 +34,6 @@ export interface ILogic {
 
 export const initialState = {
   isHelpView: true,
-  contentType: 'help',
   paths: [],
   // TODO: move to settings or server-side
   detector: { bufferSize: 10000, sampleSize: 100 },
@@ -47,7 +44,6 @@ export const useStore = create<IState & ILogic>((set, get) => ({
 
   // Page
 
-  setContentType: (contentType) => set({ contentType }),
   toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
   toggleSourceView: () => set({ isSourceView: !get().isSourceView, isReportView: false }),
   toggleReportView: () => set({ isReportView: !get().isReportView, isSourceView: false }),
@@ -71,7 +67,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { resource } = await client.resourceDescribe({ path, detector })
     const { table } = await client.resourceExtract({ resource })
     const { report } = await client.resourceValidate({ resource })
-    set({ contentType: 'data', token, path, paths, resource, table, report })
+    set({ token, path, paths, resource, table, report })
   },
 
   // Metadata

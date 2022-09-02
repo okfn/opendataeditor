@@ -11,7 +11,6 @@ import { useStore } from '../store'
 
 export default function Data() {
   const theme = useTheme()
-  const contentType = useStore((state) => state.contentType)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
   const isSourceView = useStore((state) => state.isSourceView)
   const isReportView = useStore((state) => state.isReportView)
@@ -21,7 +20,7 @@ export default function Data() {
   const table = useStore((state) => state.table)
   const file = useStore((state) => state.file)
   const report = useStore((state) => state.report)
-  const isFooterOpen = contentType === 'data' && isMetadataOpen
+  const isFooterOpen = isMetadataOpen
   const footerHeight = isFooterOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(8)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
   assert(file)

@@ -11,9 +11,8 @@ import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
-  const contentType = useStore((state) => state.contentType)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const isFooterOpen = contentType === 'data' && isMetadataOpen
+  const isFooterOpen = isMetadataOpen
   const footerHeight = isFooterOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(8)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
   const headerHeight = theme.spacing(8)
