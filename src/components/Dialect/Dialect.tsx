@@ -9,7 +9,7 @@ import Editor from './Editor'
 // TODO: remove borderTop hack
 
 export interface DialectProps {
-  descriptor: IDialect
+  descriptor?: IDialect
   onCommit?: (descriptor: IDialect) => void
   onRevert?: (descriptor: IDialect) => void
 }

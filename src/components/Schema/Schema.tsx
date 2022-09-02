@@ -9,7 +9,7 @@ import Editor from './Editor'
 // TODO: remove borderTop hack
 
 export interface SchemaProps {
-  descriptor: ISchema
+  descriptor?: ISchema
   onCommit?: (descriptor: ISchema) => void
   onRevert?: (descriptor: ISchema) => void
 }

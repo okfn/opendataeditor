@@ -16,7 +16,9 @@ export class Client {
     if (props.file) {
       body = new FormData()
       body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
-      body.append('data', JSON.stringify(omit(props, 'file')))
+      for (const [name, value] of Object.entries(omit(props, 'file'))) {
+        body.append(name, typeof value === 'string' ? value : JSON.stringify(value))
+      }
     } else {
       headers = { 'Content-Type': 'application/json;charset=utf-8' }
       body = JSON.stringify(props)

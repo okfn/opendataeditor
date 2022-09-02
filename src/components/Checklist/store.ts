@@ -13,12 +13,14 @@ import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
 
+const INITIAL_CHECKLIST: IChecklist = {}
+
 interface ChecklistState {
   // General
 
   descriptor: IChecklist
   checkpoint: IChecklist
-  schema: ISchema
+  schema?: ISchema
   onCommit: (descriptor: IChecklist) => void
   onRevert: (descriptor: IChecklist) => void
   isPreview?: boolean
@@ -63,8 +65,8 @@ export function makeStore(props: ChecklistProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor),
-    checkpoint: cloneDeep(props.descriptor),
+    descriptor: cloneDeep(props.descriptor || INITIAL_CHECKLIST),
+    checkpoint: cloneDeep(props.descriptor || INITIAL_CHECKLIST),
     schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,

@@ -9,8 +9,8 @@ import Editor from './Editor'
 // TODO: remove borderTop hack
 
 export interface ChecklistProps {
-  descriptor: IChecklist
-  schema: ISchema
+  descriptor?: IChecklist
+  schema?: ISchema
   onCommit?: (descriptor: IChecklist) => void
   onRevert?: (descriptor: IChecklist) => void
 }

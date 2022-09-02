@@ -9,7 +9,7 @@ import Editor from './Editor'
 // TODO: remove borderTop hack
 
 export interface ResourceProps {
-  descriptor: IResource
+  descriptor?: IResource
   onCommit?: (descriptor: IResource) => void
   onRevert?: (descriptor: IResource) => void
 }

@@ -9,8 +9,8 @@ import Editor from './Editor'
 // TODO: remove borderTop hack
 
 export interface PipelineProps {
-  descriptor: IPipeline
-  schema: ISchema
+  descriptor?: IPipeline
+  schema?: ISchema
   onCommit?: (descriptor: IPipeline) => void
   onRevert?: (descriptor: IPipeline) => void
 }

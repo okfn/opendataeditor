@@ -26,7 +26,7 @@ export default function Data() {
   return (
     <Table
       table={table}
-      schema={resource.schema}
+      schema={resource.schema!}
       report={report}
       height={contentHeight}
       updateTable={updateTable}

@@ -149,6 +149,15 @@ function SourceName() {
   // @ts-ignore
   const name = useStore(select(selectors.step, (step) => step.name))
   const schema = useStore((state) => state.schema)
+  if (!schema) {
+    return (
+      <InputField
+        label="Field Name"
+        value={name || ''}
+        onChange={(name) => updateElement({ name })}
+      />
+    )
+  }
   return (
     <SelectField
       label="Field Name"
@@ -164,6 +173,15 @@ function SourceNames() {
   // @ts-ignore
   const names = useStore(select(selectors.step, (step) => step.names))
   const schema = useStore((state) => state.schema)
+  if (!schema) {
+    return (
+      <InputField
+        label="Field Name"
+        value={(names || []).join(',')}
+        onChange={(name) => updateElement({ names: [name] })}
+      />
+    )
+  }
   return (
     <SelectField
       label="Field Name"

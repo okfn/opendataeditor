@@ -8,6 +8,8 @@ import { IResource } from '../../interfaces'
 import { ResourceProps } from './Resource'
 import * as settings from '../../settings'
 
+const INITIAL_RESOURCE: IResource = { path: 'table.csv' }
+
 interface ResourceState {
   descriptor: IResource
   checkpoint: IResource
@@ -27,8 +29,8 @@ interface ResourceState {
 
 export function makeStore(props: ResourceProps) {
   return create<ResourceState>((set, get) => ({
-    descriptor: cloneDeep(props.descriptor),
-    checkpoint: cloneDeep(props.descriptor),
+    descriptor: cloneDeep(props.descriptor || INITIAL_RESOURCE),
+    checkpoint: cloneDeep(props.descriptor || INITIAL_RESOURCE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

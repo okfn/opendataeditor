@@ -8,6 +8,8 @@ import { IDialect } from '../../interfaces'
 import { DialectProps } from './Dialect'
 import * as settings from '../../settings'
 
+const INITIAL_DIALECT: IDialect = {}
+
 interface DialectState {
   descriptor: IDialect
   checkpoint: IDialect
@@ -28,8 +30,8 @@ interface DialectState {
 
 export function makeStore(props: DialectProps) {
   return create<DialectState>((set, get) => ({
-    descriptor: cloneDeep(props.descriptor),
-    checkpoint: cloneDeep(props.descriptor),
+    descriptor: cloneDeep(props.descriptor || INITIAL_DIALECT),
+    checkpoint: cloneDeep(props.descriptor || INITIAL_DIALECT),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

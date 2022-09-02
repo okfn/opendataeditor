@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { assert } from 'ts-essentials'
 import Columns from '../../Library/Columns'
 import Resource from '../../Resource'
 import Dialect from '../../Dialect'
@@ -20,11 +19,7 @@ export default function Metadata() {
   const checklist = useStore((state) => state.resource?.checklist)
   const pipeline = useStore((state) => state.resource?.pipeline)
   const updateResource = useStore((state) => state.updateResource)
-  assert(resource)
-  assert(dialect)
-  assert(schema)
-  assert(checklist)
-  assert(pipeline)
+  if (!resource) return null
   return (
     <Columns spacing={3} layout={[3, 9]}>
       <Tabs

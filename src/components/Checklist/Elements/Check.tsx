@@ -160,6 +160,15 @@ function FieldName() {
   // @ts-ignore
   const fieldName = useStore(select(selectors.check, (check) => check.fieldName))
   const schema = useStore((state) => state.schema)
+  if (!schema) {
+    return (
+      <InputField
+        label="Field Name"
+        value={fieldName || ''}
+        onChange={(fieldName) => updateElement({ fieldName })}
+      />
+    )
+  }
   return (
     <SelectField
       label="Field Name"

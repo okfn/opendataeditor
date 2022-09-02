@@ -16,21 +16,21 @@ export default function Stats() {
 }
 
 function Hash() {
-  const sha256 = useStore((state) => state.descriptor.stats.sha256)
+  const sha256 = useStore((state) => state.descriptor.stats?.sha256)
   return <InputField disabled label="Hash" value={sha256} />
 }
 
 function Bytes() {
-  const bytes = useStore((state) => state.descriptor.stats.bytes)
+  const bytes = useStore((state) => state.descriptor.stats?.bytes)
   return <InputField disabled label="Bytes" value={bytes} />
 }
 
 function Fields() {
-  const fields = useStore((state) => state.descriptor.stats.fields)
+  const fields = useStore((state) => state.descriptor.stats?.fields)
   return <InputField disabled label="Fields" value={fields} />
 }
 
 function Rows() {
-  const rows = useStore((state) => state.descriptor.stats.rows)
+  const rows = useStore((state) => state.descriptor.stats?.rows)
   return <InputField disabled label="Rows" value={rows} />
 }

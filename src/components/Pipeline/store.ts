@@ -13,12 +13,14 @@ import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
 
+const INITIAL_PIPELINE: IPipeline = {}
+
 interface PipelineState {
   // General
 
   descriptor: IPipeline
   steppoint: IPipeline
-  schema: ISchema
+  schema?: ISchema
   onCommit: (descriptor: IPipeline) => void
   onRevert: (descriptor: IPipeline) => void
   isPreview?: boolean
@@ -63,8 +65,8 @@ export function makeStore(props: PipelineProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor),
-    steppoint: cloneDeep(props.descriptor),
+    descriptor: cloneDeep(props.descriptor || INITIAL_PIPELINE),
+    steppoint: cloneDeep(props.descriptor || INITIAL_PIPELINE),
     schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,

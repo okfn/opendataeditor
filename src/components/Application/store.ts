@@ -60,7 +60,7 @@ export const useStore = create<IState & ILogic>((set, get) => ({
     const { session } = await client.projectCreate()
     const { path } = await client.projectCreateFile({ session, file })
     const { paths } = await client.projectListFiles({ session })
-    const { resource } = await client.resourceDescribe({ path, detector })
+    const { resource } = await client.resourceDescribe({ session, path, detector })
     set({ session, path, paths })
     updateResource(resource)
   },

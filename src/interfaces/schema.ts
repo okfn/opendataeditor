@@ -4,7 +4,7 @@ export interface ISchema {
   fields: IField[]
   primaryKey?: string[]
   foreignKeys?: IForeignKey[]
-  missingValues: string[]
+  missingValues?: string[]
 }
 
 export interface IField {

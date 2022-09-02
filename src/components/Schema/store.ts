@@ -13,6 +13,8 @@ import * as settings from '../../settings'
 
 // TODO: refactor - use slices?
 
+const INITIAL_SCHEMA: ISchema = { fields: [] }
+
 interface SchemaState {
   // General
 
@@ -62,8 +64,8 @@ export function makeStore(props: SchemaProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor),
-    checkpoint: cloneDeep(props.descriptor),
+    descriptor: cloneDeep(props.descriptor || INITIAL_SCHEMA),
+    checkpoint: cloneDeep(props.descriptor || INITIAL_SCHEMA),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
