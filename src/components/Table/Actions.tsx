@@ -51,15 +51,15 @@ function Export() {
 }
 
 function Source() {
-  const isSourceView = useStore((state) => state.isSourceView)
-  const toggleSourceView = useStore((state) => state.toggleSourceView)
+  const contentType = useStore((state) => state.contentType)
+  const setContentType = useStore((state) => state.setContentType)
   return (
     <Button
       fullWidth
       variant="contained"
       title="Toogle source view"
-      color={isSourceView ? 'warning' : 'info'}
-      onClick={() => toggleSourceView()}
+      color={contentType === 'source' ? 'warning' : 'info'}
+      onClick={() => setContentType('source')}
     >
       Source
     </Button>
@@ -68,16 +68,16 @@ function Source() {
 
 function Report() {
   const report = useStore((state) => state.report)
-  const isReportView = useStore((state) => state.isReportView)
-  const toggleReportView = useStore((state) => state.toggleReportView)
+  const contentType = useStore((state) => state.contentType)
+  const setContentType = useStore((state) => state.setContentType)
   if (!report) return null
   return (
     <Button
       fullWidth
       variant="contained"
       title="Toggle report view"
-      color={isReportView ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => toggleReportView()}
+      color={contentType === 'report' ? 'warning' : report.valid ? 'success' : 'error'}
+      onClick={() => setContentType('report')}
     >
       Report ({report.valid ? 'Valid' : 'Invalid'})
     </Button>
@@ -86,16 +86,16 @@ function Report() {
 
 function Errors() {
   const report = useStore((state) => state.report)
-  const isErrorsView = useStore((state) => state.isErrorsView)
-  const toggleErrorsView = useStore((state) => state.toggleErrorsView)
+  const isOnlyErrors = useStore((state) => state.isOnlyErrors)
+  const toggleOnlyErrors = useStore((state) => state.toggleOnlyErrors)
   if (!report) return null
   return (
     <Button
       fullWidth
       variant="contained"
       title="Toggle errors view"
-      color={isErrorsView ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => toggleErrorsView()}
+      color={isOnlyErrors ? 'warning' : report.valid ? 'success' : 'error'}
+      onClick={() => toggleOnlyErrors()}
     >
       Errors ({report.stats.errors})
     </Button>

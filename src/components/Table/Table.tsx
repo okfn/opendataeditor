@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import '@inovua/reactdatagrid-community/index.css'
 import { ITable, ISchema, IReport } from '../../interfaces'
 import Actions from './Actions'
-import Editor from './Editor'
+import Content from './Content'
 
 export interface TableProps {
   name?: string
@@ -24,7 +24,7 @@ export default function Table(props: TableProps) {
     <Provider createStore={() => makeStore(props)}>
       <Box sx={{ height: theme.spacing(56) }}>
         <Box sx={{ height: theme.spacing(48), borderTop: 'solid 1px white' }}>
-          <Editor />
+          <Content />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Actions />

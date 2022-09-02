@@ -40,11 +40,9 @@ export default function Editor() {
   const errorRowNumbers = React.useMemo(() => {
     return createErrorRowNumbers(report)
   }, [report])
-  console.log(errorRowNumbers)
   const errorFieldNames = React.useMemo(() => {
     return createErrorFieldNames(report)
   }, [report])
-  console.log(errorFieldNames)
 
   // Data
 

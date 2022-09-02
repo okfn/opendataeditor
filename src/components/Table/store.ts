@@ -6,6 +6,8 @@ import { IReport, ITable } from '../../interfaces'
 import { ISchema } from '../../interfaces'
 import { TableProps } from './Table'
 
+type IContentType = 'table' | 'report' | 'source'
+
 export interface TableState {
   name: string
   table: ITable
@@ -13,16 +15,14 @@ export interface TableState {
   report?: IReport
   source?: string
   height: string
+  contentType: IContentType
   isOnlyErrors?: boolean
-  isReportView?: boolean
-  isSourceView?: boolean
   updateTable: (rowNumber: number, fieldName: string, value: any) => void
 }
 
 export interface TableLogic {
-  toggleSourceView: () => void
-  toggleReportView: () => void
-  toggleErrorsView: () => void
+  setContentType: (contentType: IContentType) => void
+  toggleOnlyErrors: () => void
 }
 
 export function makeStore(props: TableProps) {
@@ -30,7 +30,10 @@ export function makeStore(props: TableProps) {
     name: props.name || 'table',
     table: cloneDeep(props.table),
     schema: cloneDeep(props.schema),
+    report: props.report,
+    source: props.source,
     height: props.height || '600px',
+    contentType: 'table' as IContentType,
     updateTable: props.updateTable || noop,
   }
 
@@ -39,16 +42,11 @@ export function makeStore(props: TableProps) {
 
     // Page
 
-    toggleSourceView: () =>
-      set({ isSourceView: !get().isSourceView, isReportView: false }),
-    toggleReportView: () =>
-      set({ isReportView: !get().isReportView, isSourceView: false }),
-    toggleErrorsView: () =>
-      set({
-        isOnlyErrors: !get().isOnlyErrors,
-        isSourceView: false,
-        isReportView: false,
-      }),
+    setContentType: (contentType) => {
+      contentType = get().contentType !== contentType ? contentType : 'table'
+      set({ contentType })
+    },
+    toggleOnlyErrors: () => set({ isOnlyErrors: !get().isOnlyErrors }),
   }))
 }
 
