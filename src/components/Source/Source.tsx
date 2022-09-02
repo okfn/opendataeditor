@@ -3,15 +3,15 @@ import Box from '@mui/material/Box'
 
 // TODO: restyle scrolls (use Table's style)
 
-interface FileProps {
-  text: string
+interface SourceProps {
+  source: string
 }
 
-export default function File(props: FileProps) {
+export default function Source(props: SourceProps) {
   return (
     <Box sx={{ height: '100%', width: '100%', overflow: 'auto' }}>
       <pre style={{ margin: 0 }}>
-        <code>{props.text}</code>
+        <code>{props.source}</code>
       </pre>
     </Box>
   )
