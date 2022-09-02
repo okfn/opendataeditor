@@ -4,6 +4,8 @@ import Source from '../Source'
 import Editor from './Editor'
 import { useStore } from './store'
 
+// TODO: rename to Layout (add to other components)?
+
 export default function Content() {
   const report = useStore((state) => state.report)
   const source = useStore((state) => state.source)
