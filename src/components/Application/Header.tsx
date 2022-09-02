@@ -11,7 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { useStore } from '../store'
+import { useStore } from './store'
 
 export default function Header() {
   const uploadFile = useStore((state) => state.uploadFile)

@@ -24,7 +24,16 @@ export default function Table(props: TableProps) {
         <Box sx={{ borderTop: 'solid 1px white' }}>
           <Content />
         </Box>
-        <Box>
+        <Box
+          sx={{
+            height: '64px',
+            lineHeight: '62px',
+            paddingLeft: 2,
+            paddingRight: 2,
+            borderTop: 'solid 1px #ddd',
+            borderBottom: 'solid 1px #ddd',
+          }}
+        >
           <Actions />
         </Box>
       </Box>

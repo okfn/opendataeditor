@@ -30,7 +30,7 @@ export default function Editor() {
   const report = useStore((state) => state.report)
   const height = useStore((state) => state.height)
   const updateTable = useStore((state) => state.updateTable)
-  const isErrorsView = useStore((state) => state.isErrorsView)
+  const isOnlyErrors = useStore((state) => state.isOnlyErrors)
 
   // Errors
 
@@ -50,11 +50,11 @@ export default function Editor() {
     const dataSource: IRow[] = []
     for (const [index, row] of table.rows.entries()) {
       const _rowNumber = index + 2
-      if (isErrorsView && !errorRowNumbers.has(_rowNumber)) continue
+      if (isOnlyErrors && !errorRowNumbers.has(_rowNumber)) continue
       dataSource.push({ ...row, _rowNumber })
     }
     return dataSource
-  }, [table.rows, isErrorsView])
+  }, [table.rows, isOnlyErrors])
 
   // Columns
 
@@ -78,7 +78,7 @@ export default function Editor() {
     const columns = []
     for (const field of fields) {
       // TODO: support showing blank-row etc type of errors
-      if (isErrorsView && errorFieldNames.size) {
+      if (isOnlyErrors && errorFieldNames.size) {
         if (!errorFieldNames.has(field.name)) continue
       }
 
@@ -120,7 +120,7 @@ export default function Editor() {
     }
 
     return [rowNumberColumn, ...columns]
-  }, [fields, errorIndex, isErrorsView])
+  }, [fields, errorIndex, isOnlyErrors])
 
   // Actions
 
