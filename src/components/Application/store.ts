@@ -1,11 +1,11 @@
 import create from 'zustand'
 import { assert } from 'ts-essentials'
 import { client } from '../../client'
-import { IReport, ITable } from '../../interfaces'
-import { IDetector, IResource, IPipeline } from '../../interfaces'
+import { ISession, IReport, ITable } from '../../interfaces'
+import { IDetector, IResource } from '../../interfaces'
 
 export interface IState {
-  token?: string
+  session?: ISession
   path?: string
   paths: string[]
   detector: IDetector
@@ -26,14 +26,10 @@ export interface ILogic {
   uploadFile: (file: File) => void
   updateDetector: (patch: Partial<IDetector>) => void
   updateResource: (patch: Partial<IResource>) => void
-  updateQuery: (patch: Partial<IQuery>) => void
-  updateInquiry: (patch: Partial<IInquiry>) => void
-  updatePipeline: (patch: Partial<IPipeline>) => void
-  updateTable: (rowPosition: number, fieldName: string, value: any) => void
+  updateTable: (rowNumber: number, fieldName: string, value: any) => void
 }
 
 export const initialState = {
-  isHelpView: true,
   paths: [],
   // TODO: move to settings or server-side
   detector: { bufferSize: 10000, sampleSize: 100 },
@@ -60,66 +56,34 @@ export const useStore = create<IState & ILogic>((set, get) => ({
       alert('Currently only CSV and Excel files under 10Mb are supported')
       return
     }
-    const { detector } = get()
-    const { token } = await client.sessionCreate()
-    const { path } = await client.sessionCreateFile({ token, file })
-    const { paths } = await client.sessionListFiles({ token })
+    const { detector, updateResource } = get()
+    const { session } = await client.projectCreate()
+    const { path } = await client.projectCreateFile({ session, file })
+    const { paths } = await client.projectListFiles({ session })
     const { resource } = await client.resourceDescribe({ path, detector })
-    const { table } = await client.resourceExtract({ resource })
-    const { report } = await client.resourceValidate({ resource })
-    set({ token, path, paths, resource, table, report })
+    set({ session, path, paths })
+    updateResource(resource)
   },
 
   // Metadata
 
   updateDetector: (patch) => {
-    const { detector } = get()
-    if (detector) set({ detector: { ...detector, ...patch } })
+    const detector = { ...get().detector, ...patch }
+    set({ detector })
   },
   updateResource: async (patch) => {
-    const { file, resource, query, inquiry } = get()
-    assert(file)
-    assert(resource)
-    assert(query)
-    assert(inquiry)
-    const newResource = { ...resource, ...patch }
-    const { table } = await client.extract(file, newResource, query)
-    const { report } = await client.validate(file, newResource, inquiry)
-    set({ resource: newResource, table, report })
-  },
-  updateQuery: async (patch) => {
-    const { file, resource, query } = get()
-    assert(file)
-    assert(resource)
-    assert(query)
-    const newQuery = { ...query, ...patch }
-    const { table } = await client.extract(file, resource, newQuery)
-    set({ query: newQuery, table })
-  },
-  updateInquiry: async (patch) => {
-    const { file, resource, inquiry } = get()
-    assert(file)
-    assert(resource)
-    assert(inquiry)
-    const newInquiry = { ...inquiry, ...patch }
-    const { report } = await client.validate(file, resource, newInquiry)
-    set({ inquiry: newInquiry, report })
-  },
-  updatePipeline: async (patch) => {
-    const { file, resource, pipeline } = get()
-    assert(file)
-    assert(resource)
-    assert(pipeline)
-    const newPipeline = { ...pipeline, ...patch }
-    const { status, table } = await client.transform(file, resource, newPipeline)
-    set({ pipeline: newPipeline, status, table })
+    const { session } = get()
+    const resource = { ...get().resource, ...patch } as IResource
+    const { table } = await client.resourceExtract({ session, resource })
+    const { report } = await client.resourceValidate({ session, resource })
+    set({ resource, table, report })
   },
   // TODO: implement properly
-  updateTable: (rowPosition, fieldName, value) => {
+  updateTable: (rowNumber, fieldName, value) => {
     const { table } = get()
     assert(table)
     table.rows = table.rows.map((row, index) => {
-      if (rowPosition === index + 2) row[fieldName] = value
+      if (rowNumber === index + 2) row[fieldName] = value
       return row
     })
     set({ table: { ...table } })

@@ -13,8 +13,8 @@ import { useStore, selectors, select } from '../store'
 // TODO: rework
 
 export default function Step() {
-  const code = useStore(select(selectors.step, (step) => step.type))
-  switch (code) {
+  const type = useStore(select(selectors.step, (step) => step.type))
+  switch (type) {
     case 'field-add':
       return <FieldAddStep />
     case 'field-filter':
@@ -133,13 +133,13 @@ function FieldUpdateStep() {
 
 function Code() {
   const updateElement = useStore((state) => state.updateElement)
-  const code = useStore(select(selectors.step, (step) => step.type))
+  const type = useStore(select(selectors.step, (step) => step.type))
   return (
     <SelectField
       label="Code"
-      value={code}
+      value={type}
       options={settings.STEPS}
-      onChange={(code) => updateElement({ code })}
+      onChange={(type) => updateElement({ type })}
     />
   )
 }

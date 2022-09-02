@@ -1,19 +1,19 @@
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
-import { ITable, IReport, IError, IDict, IRow } from '../../interfaces'
+import { ITable, ISchema, IReport, IError, IDict, IRow } from '../../interfaces'
 
 // NOTE:
 // The code here is very prototypy!
 // ---
 // Currently, we use a simplified connection between report and table
 // We rely on row/columnIndex provided by the ReactDataGrid API although
-// in general it will not match row/fieldPosition we use in Frictionless
+// in general it will not match row/fieldNumber we use in Frictionless
 // because a header can be not on the first row etc. Also, we don't show
 // extra cells ATM because `frictionless extract` doesn't return this data
 // ---
 // A proper implementation should be based on `frictionless extract` returning
-// a Table object where rows has their context (rowPosition, errors, blank etc)
+// a Table object where rows has their context (rowNumber, errors, blank etc)
 // provided as a `_row` property. We need to implement it in frictionless@5
 // When it's implemented we don't need to take `report` as a prop
 
@@ -23,16 +23,17 @@ let inEdit: boolean
 const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 interface TableProps {
   table: ITable
+  schema: ISchema
   report?: IReport
   height?: string
-  updateTable?: (rowPosition: number, fieldName: string, value: any) => void
+  updateTable?: (rowNumber: number, fieldName: string, value: any) => void
   isErrorsView?: boolean
 }
 
 export default function Table(props: TableProps) {
   const [gridRef, setGridRef] = React.useState(null)
   const { report, isErrorsView } = props
-  const { fields } = props.table.schema
+  const { fields } = props.schema
   const height = props.height || '600px'
 
   // Errors
@@ -40,10 +41,10 @@ export default function Table(props: TableProps) {
   const errorIndex = React.useMemo(() => {
     return createErrorIndex(report)
   }, [report])
-  const errorRowPositions = React.useMemo(() => {
-    return createErrorRowPositions(report)
+  const errorRowNumbers = React.useMemo(() => {
+    return createErrorRowNumbers(report)
   }, [report])
-  console.log(errorRowPositions)
+  console.log(errorRowNumbers)
   const errorFieldNames = React.useMemo(() => {
     return createErrorFieldNames(report)
   }, [report])
@@ -54,9 +55,9 @@ export default function Table(props: TableProps) {
   const dataSource = React.useMemo(() => {
     const dataSource: IRow[] = []
     for (const [index, row] of props.table.rows.entries()) {
-      const _rowPosition = index + 2
-      if (isErrorsView && !errorRowPositions.has(_rowPosition)) continue
-      dataSource.push({ ...row, _rowPosition })
+      const _rowNumber = index + 2
+      if (isErrorsView && !errorRowNumbers.has(_rowNumber)) continue
+      dataSource.push({ ...row, _rowNumber })
     }
     return dataSource
   }, [props.table.rows, isErrorsView])
@@ -64,8 +65,8 @@ export default function Table(props: TableProps) {
   // Columns
 
   const columns = React.useMemo(() => {
-    const rowPositionColumn = {
-      name: '_rowPosition',
+    const rowNumberColumn = {
+      name: '_rowNumber',
       header: '',
       type: 'number',
       width: 60,
@@ -96,8 +97,8 @@ export default function Table(props: TableProps) {
         render: (context: any) => {
           let { value } = context
           const { cellProps, data } = context
-          const rowKey = `${data._rowPosition}`
-          const cellKey = `${data._rowPosition},${cellProps.name}`
+          const rowKey = `${data._rowNumber}`
+          const cellKey = `${data._rowNumber},${cellProps.name}`
           if (rowKey in errorIndex.row) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) cellProps.style.background = 'red'
           if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
@@ -108,8 +109,8 @@ export default function Table(props: TableProps) {
         cellDOMProps: (context: any) => {
           const { data, name } = context
           let error: IError | null = null
-          const rowKey = `${data._rowPosition}`
-          const cellKey = `${data._rowPosition},${name}`
+          const rowKey = `${data._rowNumber}`
+          const cellKey = `${data._rowNumber},${name}`
           if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
           if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
           if (error) {
@@ -124,7 +125,7 @@ export default function Table(props: TableProps) {
       })
     }
 
-    return [rowPositionColumn, ...columns]
+    return [rowNumberColumn, ...columns]
   }, [fields, errorIndex, isErrorsView])
 
   // Actions
@@ -183,13 +184,13 @@ export default function Table(props: TableProps) {
   }
 
   const onEditComplete = (context: any) => {
-    const rowPosition = context.rowId
+    const rowNumber = context.rowId
     const fieldName = context.columnId
     // TODO: improve this logic
     const value = ['number'].includes(context.cellProps.type)
       ? parseInt(context.value)
       : context.value
-    if (props.updateTable) props.updateTable(rowPosition, fieldName, value)
+    if (props.updateTable) props.updateTable(rowNumber, fieldName, value)
   }
 
   // TODO: support copy/paste?
@@ -202,7 +203,7 @@ export default function Table(props: TableProps) {
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
         defaultActiveCell={DEFAULT_ACTIVE_CELL}
-        idProperty="_rowPosition"
+        idProperty="_rowNumber"
         handle={setGridRef as any}
         columns={columns}
         dataSource={dataSource}
@@ -231,20 +232,20 @@ function createErrorIndex(report?: IReport) {
   const errorTask = report.tasks[0]
   if (!errorTask) return errorIndex
   for (const error of errorTask.errors) {
-    if (!error.rowPosition && !error.fieldPosition) {
+    if (!error.rowNumber && !error.fieldNumber) {
       const headerKey = '1'
       errorIndex.header[headerKey] = errorIndex.header[headerKey] || []
       errorIndex.header[headerKey].push(error)
-    } else if (!error.rowPosition) {
+    } else if (!error.rowNumber) {
       const labelKey = `${error.fieldName}`
       errorIndex.label[labelKey] = errorIndex.label[labelKey] || []
       errorIndex.label[labelKey].push(error)
-    } else if (!error.fieldPosition) {
-      const rowKey = `${error.rowPosition}`
+    } else if (!error.fieldNumber) {
+      const rowKey = `${error.rowNumber}`
       errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
       errorIndex.row[rowKey].push(error)
     } else {
-      const cellKey = `${error.rowPosition},${error.fieldName}`
+      const cellKey = `${error.rowNumber},${error.fieldName}`
       errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
       errorIndex.cell[cellKey].push(error)
     }
@@ -252,15 +253,15 @@ function createErrorIndex(report?: IReport) {
   return errorIndex
 }
 
-function createErrorRowPositions(report?: IReport) {
-  const errorRowPositions = new Set()
-  if (!report) return errorRowPositions
+function createErrorRowNumbers(report?: IReport) {
+  const errorRowNumbers = new Set()
+  if (!report) return errorRowNumbers
   const errorTask = report.tasks[0]
-  if (!errorTask) return errorRowPositions
+  if (!errorTask) return errorRowNumbers
   for (const error of errorTask.errors) {
-    if (error.rowPosition) errorRowPositions.add(error.rowPosition)
+    if (error.rowNumber) errorRowNumbers.add(error.rowNumber)
   }
-  return errorRowPositions
+  return errorRowNumbers
 }
 
 function createErrorFieldNames(report?: IReport) {

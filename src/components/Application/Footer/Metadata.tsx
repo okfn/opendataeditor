@@ -8,24 +8,22 @@ import Columns from '../../Library/Columns'
 import Resource from '../../Resource'
 import Dialect from '../../Dialect'
 import Schema from '../../Schema'
-import Query from '../../Query'
-import Inquiry from '../../Inquiry'
+import Checklist from '../../Checklist'
 import Pipeline from '../../Pipeline'
 import { useStore } from '../store'
 
 export default function Metadata() {
   const [value, setValue] = React.useState(2)
   const resource = useStore((state) => state.resource)
-  const query = useStore((state) => state.query)
-  const inquiry = useStore((state) => state.inquiry)
-  const pipeline = useStore((state) => state.pipeline)
+  const dialect = useStore((state) => state.resource?.dialect)
+  const schema = useStore((state) => state.resource?.schema)
+  const checklist = useStore((state) => state.resource?.checklist)
+  const pipeline = useStore((state) => state.resource?.pipeline)
   const updateResource = useStore((state) => state.updateResource)
-  const updateQuery = useStore((state) => state.updateQuery)
-  const updateInquiry = useStore((state) => state.updateInquiry)
-  const updatePipeline = useStore((state) => state.updatePipeline)
   assert(resource)
-  assert(query)
-  assert(inquiry)
+  assert(dialect)
+  assert(schema)
+  assert(checklist)
   assert(pipeline)
   return (
     <Columns spacing={3} layout={[3, 9]}>
@@ -44,8 +42,7 @@ export default function Metadata() {
         <Tab label="Resource" {...a11yProps(0)} />
         <Tab label="Dialect" {...a11yProps(1)} />
         <Tab label="Schema" {...a11yProps(2)} />
-        <Tab label="Query" {...a11yProps(3)} />
-        <Tab label="Inquiry" {...a11yProps(3)} />
+        <Tab label="Checklist" {...a11yProps(3)} />
         <Tab label="Pipeline" {...a11yProps(4)} />
       </Tabs>
       <React.Fragment>
@@ -57,35 +54,25 @@ export default function Metadata() {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Dialect
-            descriptor={resource.dialect}
+            descriptor={dialect}
             onCommit={(dialect) => updateResource({ dialect })}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Schema
-            descriptor={resource.schema}
-            onCommit={(schema) => updateResource({ schema })}
-          />
+          <Schema descriptor={schema} onCommit={(schema) => updateResource({ schema })} />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Query
-            descriptor={query}
-            schema={resource.schema}
-            onCommit={(query) => updateQuery(query)}
+          <Checklist
+            descriptor={checklist}
+            schema={schema}
+            onCommit={(checklist) => updateResource({ checklist })}
           />
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <Inquiry
-            descriptor={inquiry}
-            schema={resource.schema}
-            onCommit={(inquiry) => updateInquiry(inquiry)}
-          />
-        </TabPanel>
-        <TabPanel value={value} index={5}>
           <Pipeline
             descriptor={pipeline}
-            schema={resource.schema}
-            onCommit={(pipeline) => updatePipeline(pipeline)}
+            schema={schema}
+            onCommit={(pipeline) => updateResource({ pipeline })}
           />
         </TabPanel>
       </React.Fragment>
@@ -101,7 +88,6 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
-
   return (
     <div
       role="tabpanel"

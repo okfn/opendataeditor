@@ -11,14 +11,15 @@ const Template: Story<Parameters<typeof Table>[0]> = (args) => <Table {...args} 
 
 export const Default = Template.bind({})
 Default.args = {
+  schema: {
+    fields: [
+      { name: 'id', type: 'integer', format: 'default' },
+      { name: 'name', type: 'string', format: 'default' },
+    ],
+    missingValues: [''],
+  },
   table: {
-    schema: {
-      fields: [
-        { name: 'id', type: 'integer', format: 'default' },
-        { name: 'name', type: 'string', format: 'default' },
-      ],
-      missingValues: [''],
-    },
+    header: ['id', 'name'],
     rows: [
       { id: 1, name: 'english' },
       { id: 2, name: '中国人' },
