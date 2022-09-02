@@ -80,6 +80,12 @@ export class Client {
     const { paths } = data as { paths: string[] }
     return { paths }
   }
+
+  async projectReadFile(props: { session?: ISession; path: string }) {
+    const data = await this.request('/project/readFile', props)
+    const { text } = data as { text: string }
+    return { text }
+  }
 }
 
 export const client = new Client()
