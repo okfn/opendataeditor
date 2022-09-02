@@ -12,17 +12,19 @@ const Template: Story<Parameters<typeof Resource>[0]> = (args) => <Resource {...
 export const Default = Template.bind({})
 Default.args = {
   descriptor: {
-    path: 'table.csv',
     name: 'table',
+    type: 'table',
+    path: 'table.csv',
     scheme: 'file',
     format: 'csv',
-    hashing: 'md5',
     encoding: 'utf-8',
+    mediatype: 'text/csv',
     schema: {
       fields: [],
     },
     stats: {
-      hash: 'hash',
+      md5: 'hash',
+      sha256: 'hash',
       bytes: 30,
       fields: 2,
       rows: 2,

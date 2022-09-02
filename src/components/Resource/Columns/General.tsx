@@ -8,23 +8,23 @@ export default function General() {
   return (
     <React.Fragment>
       <HeadingBox>General</HeadingBox>
-      <Path />
       <Name />
+      <Type />
       <Title />
       <Description />
     </React.Fragment>
   )
 }
 
-function Path() {
-  const path = useStore((state) => state.descriptor.path)
-  return <InputField disabled label="Path" value={path} />
-}
-
 function Name() {
   const name = useStore((state) => state.descriptor.name)
   const update = useStore((state) => state.update)
   return <InputField label="Name" value={name} onChange={(name) => update({ name })} />
+}
+
+function Type() {
+  const type = useStore((state) => state.descriptor.type)
+  return <InputField disabled label="Type" value={type} />
 }
 
 function Title() {

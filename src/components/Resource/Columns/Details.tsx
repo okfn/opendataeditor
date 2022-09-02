@@ -9,12 +9,17 @@ export default function Details() {
   return (
     <React.Fragment>
       <HeadingBox>Details</HeadingBox>
+      <Path />
       <Scheme />
       <Format />
-      <Hashing />
       <Encoding />
     </React.Fragment>
   )
+}
+
+function Path() {
+  const path = useStore((state) => state.descriptor.path)
+  return <InputField disabled label="Path" value={path} />
 }
 
 function Scheme() {
@@ -31,19 +36,6 @@ function Format() {
       value={format}
       options={settings.FORMATS}
       onChange={(format) => update({ format })}
-    />
-  )
-}
-
-function Hashing() {
-  const hashing = useStore((state) => state.descriptor.hashing)
-  const update = useStore((state) => state.update)
-  return (
-    <SelectField
-      label="Hashing"
-      value={hashing}
-      options={settings.HASHINGS}
-      onChange={(hashing) => update({ hashing })}
     />
   )
 }

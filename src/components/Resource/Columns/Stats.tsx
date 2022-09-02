@@ -16,8 +16,8 @@ export default function Stats() {
 }
 
 function Hash() {
-  const hash = useStore((state) => state.descriptor.stats.hash)
-  return <InputField disabled label="Hash" value={hash} />
+  const sha256 = useStore((state) => state.descriptor.stats.sha256)
+  return <InputField disabled label="Hash" value={sha256} />
 }
 
 function Bytes() {
