@@ -9,13 +9,11 @@ import { useStore } from './store'
 
 export default function Actions() {
   return (
-    <Columns spacing={3} layout={[3, 9]}>
-      <Columns spacing={3}>
-        <Export />
-        <Source />
-        <Report />
-        <Errors />
-      </Columns>
+    <Columns spacing={3}>
+      <Export />
+      <Source />
+      <Report />
+      <Errors />
     </Columns>
   )
 }
