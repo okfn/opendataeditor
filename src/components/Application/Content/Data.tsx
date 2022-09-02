@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
-import { assert } from 'ts-essentials'
 import Table from '../../Table'
 import Report from '../../Report'
 import { useStore } from '../store'
@@ -21,9 +20,7 @@ export default function Data() {
   const isFooterOpen = isMetadataOpen
   const footerHeight = isFooterOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(8)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
-  assert(resource)
-  assert(table)
-  assert(report)
+  if (!resource || !table || !report) return null
   // if (isSourceView) return <File file={file} />
   if (isReportView) return <Report descriptor={report} />
   return (

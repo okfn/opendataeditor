@@ -11,18 +11,50 @@ export class Client {
   async request(path: string, props: { [key: string]: any; file?: File } = {}) {
     if (this.basepath) path = this.basepath + path
     const method = 'POST'
-    let headers
+    let headers = {}
     let body
     if (props.file) {
       body = new FormData()
       body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
-      body.append('detector', JSON.stringify(omit(props, 'file')))
+      body.append('data', JSON.stringify(omit(props, 'file')))
     } else {
       headers = { 'Content-Type': 'application/json;charset=utf-8' }
       body = JSON.stringify(props)
     }
     const response = await fetch(path, { method, headers, body })
     return response.json()
+  }
+
+  // Project
+
+  async projectCreate() {
+    const data = await this.request('/project/create')
+    const { session } = data as { session: string }
+    return { session }
+  }
+
+  async projectCreateFile(props: { session?: ISession; file: File }) {
+    const data = await this.request('/project/create-file', props)
+    const { path } = data as { path: string }
+    return { path }
+  }
+
+  async projectDeleteFile(props: { session?: ISession; path: string }) {
+    const data = await this.request('/project/delete-file', props)
+    const { path } = data as { path: string }
+    return { path }
+  }
+
+  async projectListFiles(props: { session?: ISession }) {
+    const data = await this.request('/project/list-files', props)
+    const { paths } = data as { paths: string[] }
+    return { paths }
+  }
+
+  async projectReadFile(props: { session?: ISession; path: string }) {
+    const data = await this.request('/project/read-file', props)
+    const { text } = data as { text: string }
+    return { text }
   }
 
   // Resource
@@ -53,38 +85,6 @@ export class Client {
     const data = await this.request('/resource/transform', props)
     const { resource, table } = data as { resource: IResource; table: ITable }
     return { resource, table }
-  }
-
-  // Project
-
-  async projectCreate() {
-    const data = await this.request('/project/create')
-    const { session } = data as { session: string }
-    return { session }
-  }
-
-  async projectCreateFile(props: { session?: ISession; file: File }) {
-    const data = await this.request('/project/createFile', props)
-    const { path } = data as { path: string }
-    return { path }
-  }
-
-  async projectDeleteFile(props: { session?: ISession; path: string }) {
-    const data = await this.request('/project/deleteFile', props)
-    const { path } = data as { path: string }
-    return { path }
-  }
-
-  async projectListFiles(props: { session?: ISession }) {
-    const data = await this.request('/project/listFiles', props)
-    const { paths } = data as { paths: string[] }
-    return { paths }
-  }
-
-  async projectReadFile(props: { session?: ISession; path: string }) {
-    const data = await this.request('/project/readFile', props)
-    const { text } = data as { text: string }
-    return { text }
   }
 }
 

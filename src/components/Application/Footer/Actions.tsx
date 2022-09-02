@@ -11,6 +11,8 @@ import Columns from '../../Library/Columns'
 import { useStore } from '../store'
 
 export default function Actions() {
+  const resource = useStore((state) => state.resource)
+  if (!resource) return null
   return (
     <Columns spacing={3} layout={[3, 9]}>
       <ToggleMetadata />
