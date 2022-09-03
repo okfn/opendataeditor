@@ -21,7 +21,7 @@ export default function Metadata() {
   const updateResource = useStore((state) => state.updateResource)
   if (!resource) return null
   return (
-    <Columns spacing={3} layout={[3, 9]}>
+    <Columns layout={[3, 9]}>
       <Tabs
         orientation="vertical"
         variant="scrollable"
@@ -29,8 +29,8 @@ export default function Metadata() {
         onChange={(_, newValue) => setValue(newValue)}
         aria-label="Vertical tabs example"
         sx={{
-          borderRight: 1,
-          borderColor: 'divider',
+          padding: 2,
+          paddingBottom: 0,
           '& .MuiButtonBase-root': { alignItems: 'flex-start' },
         }}
       >
@@ -40,7 +40,7 @@ export default function Metadata() {
         <Tab label="Checklist" {...a11yProps(3)} />
         <Tab label="Pipeline" {...a11yProps(4)} />
       </Tabs>
-      <React.Fragment>
+      <Box sx={{ borderLeft: 'solid 1px #ddd', padding: 2, paddingBottom: 0 }}>
         <TabPanel value={value} index={0}>
           <Resource
             descriptor={resource}
@@ -70,7 +70,7 @@ export default function Metadata() {
             onCommit={(pipeline) => updateResource({ pipeline })}
           />
         </TabPanel>
-      </React.Fragment>
+      </Box>
     </Columns>
   )
 }

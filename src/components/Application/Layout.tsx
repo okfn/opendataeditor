@@ -30,7 +30,7 @@ export default function Layout() {
       </Box>
       <Box sx={{ height: footerHeight }}>
         {isMetadataOpen ? (
-          <Box sx={{ padding: 2, paddingBottom: 0, borderTop: 'solid 1px #ddd' }}>
+          <Box sx={{ borderTop: 'solid 1px #ddd' }}>
             <Metadata />
           </Box>
         ) : null}
