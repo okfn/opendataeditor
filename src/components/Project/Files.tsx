@@ -6,8 +6,12 @@ import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import { useSpring, animated } from 'react-spring'
 import { TransitionProps } from '@mui/material/transitions'
+import { useStore } from './store'
 
 export default function Files() {
+  const paths = useStore((state) => state.paths)
+  const onPathChange = useStore((state) => state.onPathChange)
+  const tree = createTree(paths)
   return (
     <TreeView
       aria-label="customized"
@@ -17,18 +21,9 @@ export default function Files() {
       defaultEndIcon={<CloseSquare />}
       sx={{ padding: 1 }}
     >
-      <StyledTreeItem nodeId="2" label="Hello" />
-      <StyledTreeItem nodeId="3" label="Subtree with children">
-        <StyledTreeItem nodeId="6" label="Hello" />
-        <StyledTreeItem nodeId="7" label="Sub-subtree with children">
-          <StyledTreeItem nodeId="9" label="Child 1" />
-          <StyledTreeItem nodeId="10" label="Child 2" />
-          <StyledTreeItem nodeId="11" label="Child 3" />
-        </StyledTreeItem>
-        <StyledTreeItem nodeId="8" label="Hello" />
-      </StyledTreeItem>
-      <StyledTreeItem nodeId="4" label="World" />
-      <StyledTreeItem nodeId="5" label="Something something" />
+      {tree.sort(compareNodes).map((node: any) => (
+        <TreeNode node={node} key={node.name} onPathChange={onPathChange} />
+      ))}
     </TreeView>
   )
 }
@@ -99,3 +94,43 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
     borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
   },
 }))
+
+function TreeNode({ node, onPathChange }: any) {
+  return (
+    <StyledTreeItem
+      key={node.name}
+      nodeId={node.name}
+      label={node.name}
+      onClick={() => !node.children.length && onPathChange(node.path)}
+    >
+      {node.children.sort(compareNodes).map((node: any) => (
+        <TreeNode node={node} key={node.name} onPathChange={onPathChange} />
+      ))}
+    </StyledTreeItem>
+  )
+}
+
+function createTree(paths: string[]) {
+  const result: any = []
+  const level = { result }
+  paths.forEach((path) => {
+    ;(path as string).split('/').reduce((r: any, name) => {
+      if (!r[name]) {
+        r[name] = { result: [] }
+        r.result.push({
+          name,
+          children: r[name].result,
+          path,
+        })
+      }
+      return r[name]
+    }, level)
+  })
+  return result
+}
+
+function compareNodes(a: any, b: any) {
+  if (a.children.length && !b.children.length) return -1
+  if (!a.children.length && b.children.length) return 1
+  return 0
+}
