@@ -12,7 +12,8 @@ export interface ProjectState {
 }
 
 export interface ProjectLogic {
-  uploadFile: (file: File) => void
+  createFile: (file: File) => void
+  deleteFile: () => void
 }
 
 export function makeStore(props: ProjectProps) {
@@ -24,7 +25,7 @@ export function makeStore(props: ProjectProps) {
   return create<ProjectState & ProjectLogic>((set, get) => ({
     ...initialState,
 
-    uploadFile: async (file) => {
+    createFile: async (file) => {
       const isCsv = file.name.endsWith('.csv')
       const isExcel = file.name.endsWith('.xlsx')
       if (!(isCsv || isExcel) || file.size > 10000000) {
@@ -35,6 +36,16 @@ export function makeStore(props: ProjectProps) {
       const { session, onPathChange } = get()
       const { path } = await client.projectCreateFile({ session, file })
       const { paths } = await client.projectListFiles({ session })
+      set({ path, paths })
+      onPathChange(path)
+    },
+    deleteFile: async () => {
+      let path = get().path
+      const { session, onPathChange } = get()
+      if (!path) return
+      await client.projectDeleteFile({ session, path })
+      const { paths } = await client.projectListFiles({ session })
+      path = paths[0]
       set({ path, paths })
       onPathChange(path)
     },

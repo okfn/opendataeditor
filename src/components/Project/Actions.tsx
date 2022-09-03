@@ -5,7 +5,9 @@ import Columns from '../Library/Columns'
 import { useStore } from './store'
 
 export default function Actions() {
-  const uploadFile = useStore((state) => state.uploadFile)
+  const path = useStore((state) => state.path)
+  const createFile = useStore((state) => state.createFile)
+  const deleteFile = useStore((state) => state.deleteFile)
   return (
     <Box
       sx={{
@@ -22,15 +24,21 @@ export default function Actions() {
             hidden
             type="file"
             onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-              ev.target.files ? uploadFile(ev.target.files[0]) : null
+              ev.target.files ? createFile(ev.target.files[0]) : null
             }
           />
         </Button>
-        <Button fullWidth disabled variant="outlined" color="info">
-          Delete
-        </Button>
-        <Button fullWidth disabled variant="outlined" color="info">
+        <Button fullWidth disabled={!path} variant="outlined" color="info">
           Move
+        </Button>
+        <Button
+          fullWidth
+          disabled={!path}
+          variant="outlined"
+          color="error"
+          onClick={() => deleteFile()}
+        >
+          Delete
         </Button>
       </Columns>
     </Box>
