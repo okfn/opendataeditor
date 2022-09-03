@@ -16,13 +16,13 @@ export default function Actions() {
       }}
     >
       <Columns spacing={3}>
-        <Button fullWidth variant="outlined">
+        <Button fullWidth variant="outlined" color="info">
           Upload
         </Button>
-        <Button fullWidth disabled variant="outlined">
+        <Button fullWidth disabled variant="outlined" color="info">
           Delete
         </Button>
-        <Button fullWidth disabled variant="outlined">
+        <Button fullWidth disabled variant="outlined" color="info">
           Move
         </Button>
       </Columns>
