@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import SettingsIcon from '@mui/icons-material/Settings'
+// import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -35,7 +35,7 @@ export default function Header() {
                 </strong>
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Search>
                 <SearchIconWrapper>
                   <UploadFileIcon />
@@ -51,25 +51,15 @@ export default function Header() {
               </Search>
             </Grid>
             <Grid item xs={2}>
-              <Button
-                title="Open Metadata"
-                color="inherit"
-                onClick={() => toggleMetadataOpen()}
-                variant="outlined"
-                sx={{ marginLeft: 2, marginTop: '2px' }}
-              >
-                {isMetadataOpen ? 'Close' : 'Open'} Metadata
-              </Button>
-            </Grid>
-            <Grid item xs={1}>
-              <Grid container justifyContent="flex-end">
+              <Grid container justifyContent="space-between">
                 <Button
-                  title="Open Documentation"
+                  title="Open Metadata"
                   color="inherit"
-                  href="https://application.frictionlessdata.io"
-                  target="_blank"
+                  onClick={() => toggleMetadataOpen()}
+                  variant="outlined"
+                  sx={{ marginLeft: 2, marginTop: '2px' }}
                 >
-                  <SettingsIcon />
+                  {isMetadataOpen ? 'Close' : 'Open'} Metadata
                 </Button>
                 <Button
                   title="Open Documentation"

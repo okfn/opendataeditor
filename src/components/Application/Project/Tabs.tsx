@@ -24,7 +24,7 @@ export default function BasicTabs() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Files" {...a11yProps(0)} />
           <Tab label="Links" {...a11yProps(1)} />
-          <Tab label="Others" {...a11yProps(2)} />
+          <Tab label="Config" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

@@ -14,15 +14,15 @@ import { useStore } from './store'
 export default function Layout() {
   const theme = useTheme()
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const footerHeight = isMetadataOpen ? theme.spacing(56 + 8 + 2) : theme.spacing(0)
-  const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight})`
+  const footerHeight = isMetadataOpen ? theme.spacing(56 + 2) : theme.spacing(0)
+  const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight} - 1px)`
   const headerHeight = theme.spacing(8)
   return (
     <React.Fragment>
       <Box sx={{ height: headerHeight }}>
         <Header />
       </Box>
-      <Box sx={{ height: contentHeight, overflowY: 'auto' }}>
+      <Box sx={{ height: contentHeight, overflowY: 'hidden' }}>
         <Columns layout={[3, 9]}>
           <Project />
           <Data />
@@ -30,7 +30,7 @@ export default function Layout() {
       </Box>
       <Box sx={{ height: footerHeight }}>
         {isMetadataOpen ? (
-          <Box sx={{ padding: 2, paddingBottom: 0 }}>
+          <Box sx={{ padding: 2, paddingBottom: 0, borderTop: 'solid 1px #ddd' }}>
             <Metadata />
           </Box>
         ) : null}
