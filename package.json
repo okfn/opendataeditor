@@ -102,6 +102,7 @@
     "eslint-plugin-standard": "^4.1.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "http-proxy-middleware": "^2.0.6",
     "jasmine": "^3.10.0",
     "jasmine-fail-fast": "^2.0.1",
     "jest": "^27.3.1",

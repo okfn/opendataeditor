@@ -90,4 +90,5 @@ export class Client {
   }
 }
 
+// TODO: don't have it as a singletone?
 export const client = new Client()
