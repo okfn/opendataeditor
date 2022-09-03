@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import SettingsIcon from '@mui/icons-material/Settings'
+// import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -33,7 +33,7 @@ export default function Header() {
                 </strong>
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={8}>
               <Search>
                 <SearchIconWrapper>
                   <UploadFileIcon />
@@ -48,12 +48,14 @@ export default function Header() {
                 />
               </Search>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Grid container justifyContent="flex-end">
-                <Button title="Open configuration">
-                  <SettingsIcon />
-                </Button>
-                <Button title="Open documentation">
+                <Button
+                  title="Open documentation"
+                  color="inherit"
+                  href="https://application.frictionlessdata.io"
+                  target="_blank"
+                >
                   <HelpOutlineIcon />
                 </Button>
               </Grid>
