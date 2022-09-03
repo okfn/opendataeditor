@@ -22,23 +22,19 @@ export default function Layout() {
       <Box sx={{ height: headerHeight }}>
         <Header />
       </Box>
-      <Columns layout={[3, 9]}>
-        <Box>
+      <Box sx={{ height: contentHeight, overflowY: 'auto' }}>
+        <Columns layout={[3, 9]}>
           <Project />
-        </Box>
-        <Box>
-          <Box sx={{ height: contentHeight, overflowY: 'auto' }}>
-            <Data />
+          <Data />
+        </Columns>
+      </Box>
+      <Box sx={{ height: footerHeight }}>
+        {isMetadataOpen ? (
+          <Box sx={{ padding: 2, paddingBottom: 0 }}>
+            <Metadata />
           </Box>
-          <Box sx={{ height: footerHeight }}>
-            {isMetadataOpen ? (
-              <Box sx={{ padding: 2, paddingBottom: 0 }}>
-                <Metadata />
-              </Box>
-            ) : null}
-          </Box>
-        </Box>
-      </Columns>
+        ) : null}
+      </Box>
     </React.Fragment>
   )
 }

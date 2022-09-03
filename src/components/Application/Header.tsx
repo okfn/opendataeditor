@@ -21,7 +21,7 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
         <Toolbar disableGutters>
-          <Grid container spacing={3}>
+          <Grid container>
             <Grid item xs={3}>
               <Typography variant="h5" sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}>
                 <strong>
@@ -35,7 +35,7 @@ export default function Header() {
                 </strong>
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Search>
                 <SearchIconWrapper>
                   <UploadFileIcon />
@@ -51,11 +51,23 @@ export default function Header() {
               </Search>
             </Grid>
             <Grid item xs={2}>
+              <Button
+                title="Open Metadata"
+                color="inherit"
+                onClick={() => toggleMetadataOpen()}
+                variant="outlined"
+                sx={{ marginLeft: 2, marginTop: '2px' }}
+              >
+                {isMetadataOpen ? 'Close' : 'Open'} Metadata
+              </Button>
+            </Grid>
+            <Grid item xs={1}>
               <Grid container justifyContent="flex-end">
                 <Button
-                  title="Open Metadata"
-                  color={isMetadataOpen ? 'warning' : 'inherit'}
-                  onClick={() => toggleMetadataOpen()}
+                  title="Open Documentation"
+                  color="inherit"
+                  href="https://application.frictionlessdata.io"
+                  target="_blank"
                 >
                   <SettingsIcon />
                 </Button>
