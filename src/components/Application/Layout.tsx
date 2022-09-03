@@ -22,7 +22,7 @@ export default function Layout() {
       <Box sx={{ height: headerHeight }}>
         <Header />
       </Box>
-      <Columns spacing={3} layout={[3, 9]}>
+      <Columns layout={[3, 9]}>
         <Box>
           <Project />
         </Box>

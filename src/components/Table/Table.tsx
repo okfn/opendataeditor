@@ -21,7 +21,7 @@ export default function Table(props: TableProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Box>
-        <Box sx={{ borderTop: 'solid 1px white' }}>
+        <Box>
           <Content />
         </Box>
         <Box
