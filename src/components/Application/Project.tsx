@@ -1,6 +1,5 @@
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Tabs from './Tabs'
 import * as React from 'react'
 
@@ -13,11 +12,7 @@ export default function Project() {
       <Box sx={{ height: contentHeight }}>
         <Tabs />
       </Box>
-      <Box sx={{ height: footerHeight }}>
-        <Button fullWidth variant="outlined" title="Toogle source view" color="info">
-          Show Metadata
-        </Button>
-      </Box>
+      <Box sx={{ height: footerHeight }}></Box>
     </React.Fragment>
   )
 }
