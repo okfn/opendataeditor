@@ -9,10 +9,11 @@ import { TransitionProps } from '@mui/material/transitions'
 import { useStore } from './store'
 
 export default function Files() {
+  const path = useStore((state) => state.path)
   const paths = useStore((state) => state.paths)
   const listFiles = useStore((state) => state.listFiles)
   const selectFile = useStore((state) => state.selectFile)
-  const tree = createTree(paths)
+  const tree = indexTree(createTree(paths))
   React.useEffect(() => {
     listFiles().catch(console.error)
   }, [])
@@ -23,10 +24,11 @@ export default function Files() {
       defaultCollapseIcon={<MinusSquare />}
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
+      defaultSelected={path}
       sx={{ padding: 1 }}
     >
       {tree.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.name} onPathChange={selectFile} />
+        <TreeNode node={node} key={node.path} onPathChange={selectFile} />
       ))}
     </TreeView>
   )
@@ -102,13 +104,13 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
 function TreeNode({ node, onPathChange }: any) {
   return (
     <StyledTreeItem
-      key={node.name}
-      nodeId={node.name}
+      key={node.path}
+      nodeId={node.path}
       label={node.name}
       onClick={() => !node.children.length && onPathChange(node.path)}
     >
       {node.children.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.name} onPathChange={onPathChange} />
+        <TreeNode node={node} key={node.path} onPathChange={onPathChange} />
       ))}
     </StyledTreeItem>
   )
@@ -121,16 +123,20 @@ function createTree(paths: string[]) {
     ;(path as string).split('/').reduce((r: any, name) => {
       if (!r[name]) {
         r[name] = { result: [] }
-        r.result.push({
-          name,
-          children: r[name].result,
-          path,
-        })
+        r.result.push({ name, children: r[name].result })
       }
       return r[name]
     }, level)
   })
   return result
+}
+
+function indexTree(tree: any, basepath: string = '') {
+  for (const item of tree) {
+    item.path = basepath ? [basepath, item.name].join('/') : item.name
+    if (item.children) indexTree(item.children, item.path)
+  }
+  return tree
 }
 
 function compareNodes(a: any, b: any) {

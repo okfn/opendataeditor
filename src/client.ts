@@ -24,9 +24,9 @@ export class Client {
       body = JSON.stringify(props)
     }
     const response = await fetch(path, { method, headers, body })
-    const data = await response.json()
-    console.log({ path, input: props, output: data })
-    return data
+    const result = await response.json()
+    console.log({ path, ...props, result })
+    return result
   }
 
   // Project
