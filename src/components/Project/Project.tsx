@@ -8,7 +8,7 @@ import { ISession } from '../../interfaces'
 
 export interface ProjectProps {
   session?: ISession
-  onPathChange: (path: string) => void
+  onFileChange: (path?: string) => void
 }
 
 export default function Schema(props: ProjectProps) {

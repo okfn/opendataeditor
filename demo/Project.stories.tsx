@@ -12,5 +12,5 @@ const Template: Story<Parameters<typeof Project>[0]> = (args) => <Project {...ar
 export const Default = Template.bind({})
 Default.args = {
   session: '0ZboLklNFmEyRnUSnMgtMg',
-  onPathChange: (path: string) => console.log(path),
+  onFileChange: (path?: string) => console.log(path),
 }
