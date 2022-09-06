@@ -24,11 +24,14 @@ export default function Files() {
       defaultCollapseIcon={<MinusSquare />}
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
-      defaultSelected={path}
+      selected={path || ''}
+      onNodeSelect={(event: React.SyntheticEvent, nodeId: string) => {
+        selectFile(nodeId)
+      }}
       sx={{ padding: 1 }}
     >
       {tree.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.path} onPathChange={selectFile} />
+        <TreeNode node={node} key={node.path} />
       ))}
     </TreeView>
   )
@@ -101,16 +104,11 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
   },
 }))
 
-function TreeNode({ node, onPathChange }: any) {
+function TreeNode({ node }: any) {
   return (
-    <StyledTreeItem
-      key={node.path}
-      nodeId={node.path}
-      label={node.name}
-      onClick={() => !node.children.length && onPathChange(node.path)}
-    >
+    <StyledTreeItem key={node.path} nodeId={node.path} label={node.name}>
       {node.children.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.path} onPathChange={onPathChange} />
+        <TreeNode node={node} key={node.path} />
       ))}
     </StyledTreeItem>
   )
