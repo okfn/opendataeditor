@@ -10,8 +10,12 @@ import { useStore } from './store'
 
 export default function Files() {
   const paths = useStore((state) => state.paths)
+  const listFiles = useStore((state) => state.listFiles)
   const onPathChange = useStore((state) => state.onPathChange)
   const tree = createTree(paths)
+  React.useEffect(() => {
+    listFiles().catch(console.error)
+  }, [])
   return (
     <TreeView
       aria-label="customized"
