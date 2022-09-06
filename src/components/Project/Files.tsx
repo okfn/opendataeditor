@@ -11,7 +11,7 @@ import { useStore } from './store'
 export default function Files() {
   const paths = useStore((state) => state.paths)
   const listFiles = useStore((state) => state.listFiles)
-  const onPathChange = useStore((state) => state.onPathChange)
+  const selectFile = useStore((state) => state.selectFile)
   const tree = createTree(paths)
   React.useEffect(() => {
     listFiles().catch(console.error)
@@ -26,7 +26,7 @@ export default function Files() {
       sx={{ padding: 1 }}
     >
       {tree.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.name} onPathChange={onPathChange} />
+        <TreeNode node={node} key={node.name} onPathChange={selectFile} />
       ))}
     </TreeView>
   )

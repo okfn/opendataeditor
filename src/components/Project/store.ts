@@ -14,6 +14,7 @@ export interface ProjectState {
 export interface ProjectLogic {
   listFiles: () => Promise<void>
   createFile: (file: File) => Promise<void>
+  selectFile: (path: string) => void
   deleteFile: () => Promise<void>
 }
 
@@ -35,6 +36,11 @@ export function makeStore(props: ProjectProps) {
         if (path) onPathChange(path)
       }
       set({ path, paths })
+    },
+    selectFile: (path) => {
+      const { onPathChange } = get()
+      set({ path })
+      onPathChange(path)
     },
     createFile: async (file) => {
       const isCsv = file.name.endsWith('.csv')
