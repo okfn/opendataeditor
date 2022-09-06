@@ -8,7 +8,7 @@ export interface ProjectState {
   session?: ISession
   path?: string
   paths: string[]
-  onFileChange: (path?: string) => void
+  onPathChange: (path?: string) => void
 }
 
 export interface ProjectLogic {
@@ -21,7 +21,7 @@ export interface ProjectLogic {
 export function makeStore(props: ProjectProps) {
   const initialState = {
     session: props.session,
-    onFileChange: props.onFileChange,
+    onPathChange: props.onPathChange,
     paths: [],
   }
   return create<ProjectState & ProjectLogic>((set, get) => ({
@@ -33,10 +33,10 @@ export function makeStore(props: ProjectProps) {
       set({ paths })
     },
     selectFile: (path) => {
-      const { onFileChange } = get()
+      const { onPathChange } = get()
       if (get().path === path) return
       set({ path })
-      onFileChange(path)
+      onPathChange(path)
     },
     createFile: async (file) => {
       // TODO: rework this limitation

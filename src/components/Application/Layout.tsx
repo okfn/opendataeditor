@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import Data from './Data'
 import Header from './Header'
 import Metadata from './Metadata'
-import Project from './Project'
+import Project from '../Project'
 import { useStore } from './store'
 
 // TODO: merge with app?
@@ -13,6 +13,8 @@ import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
+  const session = useStore((state) => state.session)
+  const selectPath = useStore((state) => state.selectPath)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
   const footerHeight = isMetadataOpen ? theme.spacing(56 + 2) : theme.spacing(0)
   const contentHeight = `calc(100vh - ${theme.spacing(8)} - ${footerHeight} - 1px)`
@@ -24,7 +26,7 @@ export default function Layout() {
       </Box>
       <Box sx={{ height: contentHeight, overflowY: 'hidden' }}>
         <Columns layout={[3, 9]}>
-          <Project />
+          <Project session={session} onPathChange={selectPath} />
           <Data />
         </Columns>
       </Box>

@@ -14,7 +14,6 @@ import Box from '@mui/material/Box'
 import { useStore } from './store'
 
 export default function Header() {
-  const uploadFile = useStore((state) => state.uploadFile)
   const isMetadataOpen = useStore((state) => state.isMetadataOpen)
   const toggleMetadataOpen = useStore((state) => state.toggleMetadataOpen)
   return (
@@ -45,7 +44,7 @@ export default function Header() {
                   placeholder="Select File…"
                   inputProps={{ 'aria-label': 'search' }}
                   onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                    ev.target.files ? uploadFile(ev.target.files[0]) : null
+                    ev.target.files ? console.log(ev.target.files[0]) : null
                   }
                 />
               </Search>

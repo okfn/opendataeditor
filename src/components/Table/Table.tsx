@@ -18,7 +18,6 @@ export interface TableProps {
 }
 
 export default function Table(props: TableProps) {
-  console.log(props.height)
   return (
     <Provider createStore={() => makeStore(props)}>
       <Box>

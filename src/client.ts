@@ -23,9 +23,10 @@ export class Client {
       headers = { 'Content-Type': 'application/json;charset=utf-8' }
       body = JSON.stringify(props)
     }
-    console.log({ path, method, body })
     const response = await fetch(path, { method, headers, body })
-    return response.json()
+    const data = await response.json()
+    console.log({ path, input: props, output: data })
+    return data
   }
 
   // Project

@@ -20,11 +20,9 @@ export interface IState {
 
 export interface ILogic {
   toggleMetadataOpen: () => void
-  toggleSourceView: () => void
-  toggleReportView: () => void
-  toggleErrorsView: () => void
-  uploadFile: (file: File) => void
-  updateDetector: (patch: Partial<IDetector>) => void
+  ensureProject: () => Promise<void>
+  loadEverything: () => Promise<void>
+  selectPath: (path?: string) => void
   updateResource: (patch: Partial<IResource>) => void
   updateTable: (rowNumber: number, fieldName: string, value: any) => void
 }
@@ -38,38 +36,25 @@ export const initialState = {
 export const useStore = create<IState & ILogic>((set, get) => ({
   ...initialState,
 
-  // Page
-
   toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
-  toggleSourceView: () => set({ isSourceView: !get().isSourceView, isReportView: false }),
-  toggleReportView: () => set({ isReportView: !get().isReportView, isSourceView: false }),
-  toggleErrorsView: () =>
-    set({ isErrorsView: !get().isErrorsView, isSourceView: false, isReportView: false }),
-
-  // File
-
-  uploadFile: async (file) => {
-    const isCsv = file.name.endsWith('.csv')
-    const isExcel = file.name.endsWith('.xlsx')
-    if (!(isCsv || isExcel) || file.size > 10000000) {
-      // TODO: clean file input
-      alert('Currently only CSV and Excel files under 10Mb are supported')
-      return
-    }
-    const { detector, updateResource } = get()
+  ensureProject: async () => {
+    if (get().session) return
     const { session } = await client.projectCreate()
-    const { path } = await client.projectCreateFile({ session, file })
-    const { paths } = await client.projectListFiles({ session })
-    const { resource } = await client.resourceDescribe({ session, path, detector })
-    set({ session, path, paths })
-    updateResource(resource)
+    set({ session })
   },
-
-  // Metadata
-
-  updateDetector: (patch) => {
-    const detector = { ...get().detector, ...patch }
-    set({ detector })
+  selectPath: (path?: string) => {
+    console.log(path)
+    const { loadEverything } = get()
+    set({ path })
+    loadEverything().catch(console.error)
+  },
+  loadEverything: async () => {
+    const { session, path } = get()
+    if (!path) return
+    const { resource } = await client.resourceDescribe({ session, path })
+    const { table } = await client.resourceExtract({ session, resource })
+    const { report } = await client.resourceValidate({ session, resource })
+    set({ resource, table, report })
   },
   updateResource: async (patch) => {
     const { session } = get()
