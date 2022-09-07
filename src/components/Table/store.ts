@@ -14,10 +14,10 @@ export interface TableState {
   schema: ISchema
   report?: IReport
   source?: string
-  height: string
   contentType: IContentType
   isOnlyErrors?: boolean
   updateTable: (rowNumber: number, fieldName: string, value: any) => void
+  onMetadataClick: () => void
 }
 
 export interface TableLogic {
@@ -32,9 +32,9 @@ export function makeStore(props: TableProps) {
     schema: cloneDeep(props.schema),
     report: props.report,
     source: props.source,
-    height: props.height || '600px',
     contentType: 'table' as IContentType,
     updateTable: props.updateTable || noop,
+    onMetadataClick: props.onMetadataClick || noop,
   }
 
   return create<TableState & TableLogic>((set, get) => ({

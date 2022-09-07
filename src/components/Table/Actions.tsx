@@ -2,6 +2,7 @@ import * as React from 'react'
 import excel from 'xlsx'
 import csv from 'papaparse'
 import FileSaver from 'file-saver'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ExportButton from '../Library/Buttons/ExportButton'
 import Columns from '../Library/Columns'
@@ -9,12 +10,21 @@ import { useStore } from './store'
 
 export default function Actions() {
   return (
-    <Columns spacing={3}>
-      <Export />
-      <Source />
-      <Report />
-      <Errors />
-    </Columns>
+    <Box
+      sx={{
+        borderTop: 'solid 1px #ddd',
+        lineHeight: '63px',
+        paddingLeft: 2,
+        paddingRight: 2,
+      }}
+    >
+      <Columns spacing={3}>
+        <Export />
+        <Source />
+        <Metadata />
+        <Report />
+      </Columns>
+    </Box>
   )
 }
 
@@ -64,6 +74,21 @@ function Source() {
   )
 }
 
+function Metadata() {
+  const onMetadataClick = useStore((state) => state.onMetadataClick)
+  return (
+    <Button
+      fullWidth
+      variant="contained"
+      title="Toggle metadata"
+      color="info"
+      onClick={() => onMetadataClick()}
+    >
+      Metadata
+    </Button>
+  )
+}
+
 function Report() {
   const report = useStore((state) => state.report)
   const contentType = useStore((state) => state.contentType)
@@ -78,24 +103,6 @@ function Report() {
       onClick={() => setContentType('report')}
     >
       Report ({report.valid ? 'Valid' : 'Invalid'})
-    </Button>
-  )
-}
-
-function Errors() {
-  const report = useStore((state) => state.report)
-  const isOnlyErrors = useStore((state) => state.isOnlyErrors)
-  const toggleOnlyErrors = useStore((state) => state.toggleOnlyErrors)
-  if (!report) return null
-  return (
-    <Button
-      fullWidth
-      variant="contained"
-      title="Toggle errors view"
-      color={isOnlyErrors ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => toggleOnlyErrors()}
-    >
-      Errors ({report.stats.errors})
     </Button>
   )
 }

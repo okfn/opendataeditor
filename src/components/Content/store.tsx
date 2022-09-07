@@ -11,6 +11,7 @@ interface ContentState {
   table?: ITable
   report?: IReport
   isMetadataOpen?: boolean
+  toggleMetadataOpen: () => void
   loadEverything: () => Promise<void>
 }
 
@@ -18,6 +19,9 @@ export function makeStore(props: ContentProps) {
   return create<ContentState>((set, get) => ({
     session: props.session,
     path: props.path,
+    toggleMetadataOpen: () => {
+      set({ isMetadataOpen: !get().isMetadataOpen })
+    },
     loadEverything: async () => {
       const { session, path } = get()
       if (!path) return

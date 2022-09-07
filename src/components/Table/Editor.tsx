@@ -1,6 +1,6 @@
+import '@inovua/reactdatagrid-community/index.css'
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
-import '@inovua/reactdatagrid-community/index.css'
 import { IReport, IError, IDict, IRow } from '../../interfaces'
 import { useStore } from './store'
 
@@ -28,7 +28,6 @@ export default function Editor() {
   const table = useStore((state) => state.table)
   const fields = useStore((state) => state.schema.fields)
   const report = useStore((state) => state.report)
-  const height = useStore((state) => state.height)
   const updateTable = useStore((state) => state.updateTable)
   const isOnlyErrors = useStore((state) => state.isOnlyErrors)
 
@@ -207,7 +206,7 @@ export default function Editor() {
         onEditStop={onEditStop}
         onEditComplete={onEditComplete}
         onActiveCellChange={onActiveCellChange}
-        style={{ height, minHeight: height, borderBottom: 'none' }}
+        style={{ height: '100%', borderBottom: 'none' }}
       />
     </div>
   )
