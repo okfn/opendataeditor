@@ -61,11 +61,16 @@ export function LayoutWithTabs() {
       <TabPanel value={value} index={3}>
         <Checklist
           descriptor={checklist}
+          schema={schema}
           onCommit={(checklist) => update({ checklist })}
         />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Pipeline descriptor={pipeline} onCommit={(pipeline) => update({ pipeline })} />
+        <Pipeline
+          descriptor={pipeline}
+          schema={schema}
+          onCommit={(pipeline) => update({ pipeline })}
+        />
       </TabPanel>
     </Box>
   )

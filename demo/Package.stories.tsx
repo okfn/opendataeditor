@@ -9,14 +9,23 @@ export default {
 
 const Template: Story<Parameters<typeof Package>[0]> = (args) => <Package {...args} />
 
+const descriptor = {
+  name: 'name',
+  title: 'title',
+  description: 'description',
+  homepage: 'homepage',
+  resources: [],
+}
 export const Default = Template.bind({})
 Default.args = {
-  descriptor: {
-    name: 'name',
-    title: 'title',
-    description: 'description',
-    homepage: 'homepage',
-  },
-  onCommit: (descriptor: any) => console.log(descriptor),
-  onRevert: (descriptor: any) => console.log(descriptor),
+  descriptor,
+  onCommit: (pkg: any) => console.log(pkg),
+  onRevert: (pkg: any) => console.log(pkg),
+}
+export const WithTabs = Template.bind({})
+WithTabs.args = {
+  withTabs: true,
+  descriptor,
+  onCommit: (pkg: any) => console.log(pkg),
+  onRevert: (pkg: any) => console.log(pkg),
 }
