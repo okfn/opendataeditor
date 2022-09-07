@@ -5,15 +5,13 @@ import Editor from './Editor'
 
 export default function Layout() {
   return (
-    <React.Fragment>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box>
-        <Box>
-          <Editor />
-        </Box>
-        <Box>
-          <Actions />
-        </Box>
+        <Editor />
       </Box>
-    </React.Fragment>
+      <Box sx={{ marginTop: 'auto' }}>
+        <Actions />
+      </Box>
+    </Box>
   )
 }
