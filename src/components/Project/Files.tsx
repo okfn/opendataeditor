@@ -25,7 +25,7 @@ export default function Files() {
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
       selected={path || ''}
-      onNodeSelect={(event: React.SyntheticEvent, nodeId: string) => {
+      onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
         selectFile(nodeId)
       }}
       sx={{ padding: 1 }}
