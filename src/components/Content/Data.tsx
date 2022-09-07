@@ -14,7 +14,7 @@ export default function Layout() {
   if (!resource || !table || !report) return null
   return (
     <Box>
-      <Table height="100px" table={table} schema={resource.schema!} report={report} />
+      <Table height="200px" table={table} schema={resource.schema!} report={report} />
     </Box>
   )
 }

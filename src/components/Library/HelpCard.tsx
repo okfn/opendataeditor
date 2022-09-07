@@ -18,7 +18,7 @@ interface HelpCardProps {
 export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) {
   const theme = useTheme()
   return (
-    <Card variant="outlined" sx={{ height: theme.spacing(40) }}>
+    <Card variant="outlined" sx={{ height: theme.spacing(37), marginTop: 2 }}>
       <CardContent>
         <Typography
           sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}

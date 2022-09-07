@@ -31,15 +31,21 @@ export function LayoutWithTabs() {
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+  const theme = useTheme()
   const update = useStore((state) => state.update)
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
   const checklist = useStore((state) => state.descriptor.checklist)
   const pipeline = useStore((state) => state.descriptor.pipeline)
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+    <Box sx={{ width: '100%', height: theme.spacing(56) }}>
+      <Box sx={{ height: theme.spacing(6) }}>
+        <Tabs
+          sx={{ marginTop: '-1px', borderBottom: 1, borderColor: 'divider' }}
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
           <Tab label="Resource" {...a11yProps(0)} />
           <Tab label="Dialect" {...a11yProps(1)} />
           <Tab label="Schema" {...a11yProps(2)} />
@@ -92,7 +98,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
           <Typography component="div">{children}</Typography>
         </Box>
       )}
