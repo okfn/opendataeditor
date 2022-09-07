@@ -25,7 +25,7 @@ export default function ItemButton(props: ItemButtonProps) {
       key={props.index}
       title={props.title}
       sx={{
-        height: theme.spacing(7),
+        height: theme.spacing(5),
         width: props.isGrid ? 'inherit' : '100%',
         marginRight: props.isGrid ? 2 : 0,
         justifyContent: 'space-between',

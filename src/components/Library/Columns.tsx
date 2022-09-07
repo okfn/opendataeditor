@@ -11,7 +11,7 @@ interface ColumnsProps {
 export default function Columns(props: React.PropsWithChildren<ColumnsProps>) {
   const defaultWidth = Math.round(12 / React.Children.count(props.children)) as GridSize
   return (
-    <Grid container spacing={props.spacing}>
+    <Grid container columnSpacing={props.spacing}>
       {React.Children.map(props.children, (child, index) => (
         <Grid item key={index} md={props.layout ? props.layout[index] : defaultWidth}>
           {child}

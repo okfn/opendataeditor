@@ -15,7 +15,7 @@ export default function YesNoField(props: YesNoFieldProps) {
       select
       fullWidth
       margin="normal"
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       label={props.label}
       value={props.value ? 'yes' : 'no'}
       onChange={(ev) => props.onChange(ev.target.value === 'yes')}

@@ -21,7 +21,7 @@ export default function DescriptorField(props: DescriptorFieldProps) {
       multiline
       margin="normal"
       label={props.label}
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       defaultValue={props.value ? encode(props.value).trim() : null}
       onBlur={(ev) => {
         ev.preventDefault()

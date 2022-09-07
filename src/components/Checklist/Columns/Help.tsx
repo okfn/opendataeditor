@@ -9,8 +9,7 @@ export default function Help() {
       link="https://framework.frictionlessdata.io/docs/guides/validation-guide#validating-an-inquiry"
     >
       Checklist is a declarative representation of a validation rules. It gives you an
-      ability to create, export, ans share arbitrary validation rules containing settings
-      for custom checks and/or error settins.
+      ability to create, export, ans share arbitrary validation rules.
     </HelpCard>
   )
 }

@@ -24,7 +24,7 @@ export default function InputField(props: InputFieldProps) {
       margin="normal"
       label={props.label}
       value={props.value}
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       disabled={props.disabled}
       inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value as any)}

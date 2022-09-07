@@ -20,7 +20,7 @@ export default function MultilineField(props: MultilineFieldProps) {
       margin="normal"
       label={props.label}
       value={props.value}
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       onChange={(ev) => props.onChange(ev.target.value as any)}
     />
   )

@@ -9,9 +9,7 @@ export default function Help() {
       link="https://framework.frictionlessdata.io/docs/guides/describing-data#describing-a-resource"
     >
       The Data Resource format describes a data resource such as an individual file or
-      data table. The essence of a Data Resource is a path to the data file. Other
-      properties can be declared to provide a richer set of metadata including Table
-      Schema and File Dialect.
+      data table. The essence of a Data Resource is a path to the data file it describes.
     </HelpCard>
   )
 }

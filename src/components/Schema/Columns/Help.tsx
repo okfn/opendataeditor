@@ -10,7 +10,7 @@ export default function Help() {
     >
       Table Schema is a specification for providing a schema (similar to a database
       schema) for tabular data. It includes the expected data type for each value in a
-      column, constraints on the value, and the expected format of the data.
+      column.
     </HelpCard>
   )
 }

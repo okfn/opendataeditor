@@ -25,7 +25,7 @@ export default function SelectField(props: SelectFieldProps) {
       label={props.label}
       margin="normal"
       value={props.value}
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       disabled={props.options.length < 2}
       onChange={(ev) => props.onChange((ev.target as any).value)}
     >

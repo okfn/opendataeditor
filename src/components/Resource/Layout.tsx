@@ -12,13 +12,11 @@ import Actions from './Actions'
 import Editor from './Editor'
 import { useStore } from './store'
 
-// TODO: remove borderTop hack
-
 export default function Layout() {
   const theme = useTheme()
   return (
-    <Box sx={{ height: theme.spacing(56) }}>
-      <Box sx={{ height: theme.spacing(48), borderTop: 'solid 1px white' }}>
+    <Box sx={{ height: theme.spacing(50) }}>
+      <Box sx={{ height: theme.spacing(42) }}>
         <Editor />
       </Box>
       <Box sx={{ height: theme.spacing(8) }}>

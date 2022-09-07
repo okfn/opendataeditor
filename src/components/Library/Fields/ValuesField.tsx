@@ -19,7 +19,7 @@ export default function ValuesField(props: ValuesFieldProps) {
       select
       fullWidth
       margin="normal"
-      size={props.size || 'medium'}
+      size={props.size || 'small'}
       label={`${capitalize(props.type)} Values`}
       value={encodeValues(props.values)}
       onChange={(ev) => props.onChange(decodeValues((ev.target as any).value))}

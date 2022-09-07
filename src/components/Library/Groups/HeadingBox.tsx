@@ -9,6 +9,7 @@ const Heading = styled((props: TypographyProps) => (
   <Typography variant="h6" {...props} />
 ))(({ theme }) => ({
   lineHeight: theme.spacing(5),
+  marginTop: theme.spacing(2),
   marginBottom: theme.spacing(1),
 }))
 
