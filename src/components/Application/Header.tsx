@@ -11,11 +11,8 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { useStore } from './store'
 
 export default function Header() {
-  const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const toggleMetadataOpen = useStore((state) => state.toggleMetadataOpen)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
@@ -34,7 +31,7 @@ export default function Header() {
                 </strong>
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={8}>
               <Search>
                 <SearchIconWrapper>
                   <UploadFileIcon />
@@ -49,17 +46,8 @@ export default function Header() {
                 />
               </Search>
             </Grid>
-            <Grid item xs={2}>
-              <Grid container justifyContent="space-between">
-                <Button
-                  title="Open Metadata"
-                  color="inherit"
-                  onClick={() => toggleMetadataOpen()}
-                  variant="outlined"
-                  sx={{ marginLeft: 2, marginTop: '2px' }}
-                >
-                  {isMetadataOpen ? 'Close' : 'Open'} Metadata
-                </Button>
+            <Grid item xs={1}>
+              <Grid container justifyContent="flex-end">
                 <Button
                   title="Open Documentation"
                   color="inherit"
