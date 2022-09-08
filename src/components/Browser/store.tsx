@@ -7,7 +7,7 @@ import { ISession, IResource, IReport, ITable } from '../../interfaces'
 interface ContentState {
   // Data
   session?: ISession
-  path: string
+  path?: string
   resource?: IResource
   table?: ITable
   report?: IReport

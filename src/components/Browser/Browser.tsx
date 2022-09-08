@@ -3,14 +3,12 @@ import { Provider, makeStore } from './store'
 import { ISession } from '../../interfaces'
 import Layout from './Layout'
 
-// TODO: remove borderTop hack
-
-export interface ContentProps {
+export interface BrowserProps {
   session?: ISession
-  path: string
+  path?: string
 }
 
-export default function Content(props: ContentProps) {
+export default function Browser(props: BrowserProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
       <Layout />

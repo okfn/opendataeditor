@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
-import Chip from '@mui/material/Chip'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import LinkIcon from '@mui/icons-material/Input'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
@@ -12,26 +10,13 @@ import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
-export default function Status() {
+export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar>
+      <AppBar position="static">
         <Toolbar disableGutters>
           <Grid container>
-            <Grid item xs={3}>
-              <Typography variant="h5" sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}>
-                <strong>
-                  Frictionless Application{' '}
-                  <Chip
-                    size="small"
-                    label="alpha"
-                    variant="outlined"
-                    sx={{ color: 'white', borderRadius: 1 }}
-                  />
-                </strong>
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={10}>
               <Search>
                 <SearchIconWrapper>
                   <LinkIcon />
@@ -42,7 +27,7 @@ export default function Status() {
                 />
               </Search>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
                 <Button
                   title="Open Documentation"
