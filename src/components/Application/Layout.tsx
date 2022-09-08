@@ -2,9 +2,9 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Columns from '../Library/Columns'
 import Box from '@mui/material/Box'
-import Header from './Header'
-import Content from '../Content'
+import Status from '../Status'
 import Project from '../Project'
+import Content from '../Content'
 import { useStore } from './store'
 
 // TODO: merge with app?
@@ -25,7 +25,7 @@ export default function Layout() {
   return (
     <React.Fragment>
       <Box sx={{ height: headerHeight }}>
-        <Header />
+        <Status />
       </Box>
       <Box sx={{ height: contentHeight, overflowY: 'hidden' }}>
         <Columns layout={[3, 9]}>

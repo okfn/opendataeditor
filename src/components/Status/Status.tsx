@@ -5,14 +5,14 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
+import LinkIcon from '@mui/icons-material/Input'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 // import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
-export default function Header() {
+export default function Status() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
@@ -34,15 +34,11 @@ export default function Header() {
             <Grid item xs={8}>
               <Search>
                 <SearchIconWrapper>
-                  <UploadFileIcon />
+                  <LinkIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  type="file"
-                  placeholder="Select File…"
+                  placeholder="Provide a link to a data file or upload one on the left"
                   inputProps={{ 'aria-label': 'search' }}
-                  onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                    ev.target.files ? console.log(ev.target.files[0]) : null
-                  }
                 />
               </Search>
             </Grid>
