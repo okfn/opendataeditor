@@ -1,25 +1,15 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
-import Box from '@mui/material/Box'
-import Data from './Data'
-import Metadata from './Metadata'
+import Table from '../Table'
 import { useStore } from './store'
 
 export default function Layout() {
-  const theme = useTheme()
-  const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const metadataHeight = isMetadataOpen ? theme.spacing(56) : 0
-  const contentHeight = `calc(100% - ${metadataHeight}px)`
-  return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: contentHeight }}>
-        <Data />
-      </Box>
-      {isMetadataOpen && (
-        <Box sx={{ height: metadataHeight, marginTop: 'auto' }}>
-          <Metadata />
-        </Box>
-      )}
-    </Box>
-  )
+  const resource = useStore((state) => state.resource)
+  const table = useStore((state) => state.table)
+  const report = useStore((state) => state.report)
+  const loadEverything = useStore((state) => state.loadEverything)
+  React.useEffect(() => {
+    loadEverything().catch(console.error)
+  }, [])
+  if (!resource || !table || !report) return null
+  return <Table resource={resource} table={table} report={report} />
 }

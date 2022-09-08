@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { Provider, makeStore } from './store'
-import { ITable, ISchema, IReport } from '../../interfaces'
+import { ITable, ITablePatch, IReport, IResource } from '../../interfaces'
 import Layout from './Layout'
 
 export interface TableProps {
-  name?: string
+  resource: IResource
   table: ITable
-  schema: ISchema
   report?: IReport
   source?: string
-  updateTable?: (rowNumber: number, fieldName: string, value: any) => void
-  onMetadataClick?: () => void
-  isErrorsView?: boolean
+  makeQuery?: (query: string) => ITable
+  exportTable?: (format: string) => string
+  updateTable?: (patch: ITablePatch) => void
+  updateResource?: () => void
 }
 
 export default function Table(props: TableProps) {

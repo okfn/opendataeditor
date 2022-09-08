@@ -1,53 +1,61 @@
 import create from 'zustand'
-import noop from 'lodash/noop'
-import cloneDeep from 'lodash/cloneDeep'
 import createContext from 'zustand/context'
-import { IReport, ITable } from '../../interfaces'
-import { ISchema } from '../../interfaces'
+import { IResource, ITable, ITablePatch, IReport } from '../../interfaces'
 import { TableProps } from './Table'
 
-type IContentType = 'table' | 'report' | 'source'
+type IViewType = 'table' | 'report' | 'source'
 
 export interface TableState {
-  name: string
+  // Data
+
+  resource: IResource
   table: ITable
-  schema: ISchema
   report?: IReport
   source?: string
-  contentType: IContentType
-  isOnlyErrors?: boolean
-  updateTable: (rowNumber: number, fieldName: string, value: any) => void
-  onMetadataClick: () => void
-}
+  makeQuery?: (query: string) => ITable
+  updateTable?: (patch: ITablePatch) => void
+  exportTable?: (format: string) => string
+  updateResource?: () => void
+  viewType: IViewType
+  isMetadataOpen?: boolean
+  tablePatch: ITablePatch
 
-export interface TableLogic {
-  setContentType: (contentType: IContentType) => void
-  toggleOnlyErrors: () => void
+  // Logic
+
+  setViewType: (viewType: IViewType) => void
+  toggleMetadataOpen: () => void
+  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
+  commitPatch: () => void
+  revertPatch: () => void
 }
 
 export function makeStore(props: TableProps) {
-  const initialState = {
-    name: props.name || 'table',
-    table: cloneDeep(props.table),
-    schema: cloneDeep(props.schema),
-    report: props.report,
-    source: props.source,
-    contentType: 'table' as IContentType,
-    updateTable: props.updateTable || noop,
-    onMetadataClick: props.onMetadataClick || noop,
-  }
+  return create<TableState>((set, get) => ({
+    // Data
 
-  return create<TableState & TableLogic>((set, get) => ({
-    ...initialState,
+    ...props,
+    viewType: 'table' as IViewType,
+    tablePatch: {},
 
-    // Page
+    // Logic
 
-    setContentType: (contentType) => {
-      contentType = get().contentType !== contentType ? contentType : 'table'
-      set({ contentType })
+    setViewType: (viewType) => {
+      viewType = get().viewType !== viewType ? viewType : 'table'
+      set({ viewType })
     },
-    toggleOnlyErrors: () => set({ isOnlyErrors: !get().isOnlyErrors }),
+    toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
+    updatePatch: (rowNumber, fieldName, value) => {
+      const { tablePatch } = get()
+      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
+      set({ tablePatch: { ...tablePatch } })
+    },
+    commitPatch: () => {
+      const { updateTable, tablePatch } = get()
+      if (updateTable) updateTable(tablePatch)
+      set({ tablePatch: {} })
+    },
+    revertPatch: () => set({ tablePatch: {} }),
   }))
 }
 
-export const { Provider, useStore } = createContext<TableState & TableLogic>()
+export const { Provider, useStore } = createContext<TableState>()

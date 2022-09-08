@@ -5,23 +5,24 @@ import { ContentProps } from './Content'
 import { ISession, IResource, IReport, ITable } from '../../interfaces'
 
 interface ContentState {
+  // Data
   session?: ISession
   path: string
   resource?: IResource
   table?: ITable
   report?: IReport
-  isMetadataOpen?: boolean
-  toggleMetadataOpen: () => void
+
+  // Logic
   loadEverything: () => Promise<void>
 }
 
 export function makeStore(props: ContentProps) {
   return create<ContentState>((set, get) => ({
+    // Data
     session: props.session,
     path: props.path,
-    toggleMetadataOpen: () => {
-      set({ isMetadataOpen: !get().isMetadataOpen })
-    },
+
+    // Logic
     loadEverything: async () => {
       const { session, path } = get()
       if (!path) return

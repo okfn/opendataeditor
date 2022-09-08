@@ -1,10 +1,10 @@
 import * as React from 'react'
-import excel from 'xlsx'
-import csv from 'papaparse'
-import FileSaver from 'file-saver'
+import isEmpty from 'lodash/isEmpty'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ExportButton from '../Library/Buttons/ExportButton'
+import CommitButton from '../Library/Buttons/CommitButton'
+import RevertButton from '../Library/Buttons/RevertButton'
 import Columns from '../Library/Columns'
 import { useStore } from './store'
 
@@ -13,96 +13,73 @@ export default function Actions() {
     <Box
       sx={{
         borderTop: 'solid 1px #ddd',
-        lineHeight: '63px',
+        borderBottom: 'solid 1px #ddd',
+        lineHeight: '62px',
         paddingLeft: 2,
         paddingRight: 2,
       }}
     >
       <Columns spacing={3}>
         <Export />
-        <Source />
         <Metadata />
-        <Report />
+        <Commit />
+        <Revert />
       </Columns>
     </Box>
   )
 }
 
 function Export() {
-  const name = useStore((state) => state.name)
-  const table = useStore((state) => state.table!)
   const [format, setFormat] = React.useState('csv')
-  // TODO: move to store
-  const handleExport = () => {
-    if (format === 'csv') {
-      const text = csv.unparse(table.rows)
-      const blob = new Blob([text], { type: 'text/csv;charset=utf-8' })
-      FileSaver.saveAs(blob, `${name}.csv`)
-    } else if (format === 'xlsx') {
-      const wb = excel.utils.book_new()
-      const ws = excel.utils.json_to_sheet(table.rows)
-      excel.utils.book_append_sheet(wb, ws)
-      const bytes = excel.write(wb, { bookType: 'xlsx', type: 'array' })
-      const blob = new Blob([bytes], { type: 'application/octet-stream' })
-      FileSaver.saveAs(blob, `${name}.xlsx`)
-    }
-  }
+  const exportTable = useStore((state) => state.exportTable)
   return (
     <ExportButton
       format={format}
       options={['csv', 'xlsx']}
-      onExport={handleExport}
+      onExport={() => (exportTable ? exportTable(format) : undefined)}
+      onPreview={() => (exportTable ? exportTable(format) : undefined)}
       setFormat={setFormat}
       variant="contained"
     />
   )
 }
 
-function Source() {
-  const contentType = useStore((state) => state.contentType)
-  const setContentType = useStore((state) => state.setContentType)
-  return (
-    <Button
-      fullWidth
-      variant="contained"
-      title="Toogle source view"
-      color={contentType === 'source' ? 'warning' : 'info'}
-      onClick={() => setContentType('source')}
-    >
-      Source
-    </Button>
-  )
-}
-
 function Metadata() {
-  const onMetadataClick = useStore((state) => state.onMetadataClick)
+  const isMetadataOpen = useStore((state) => state.isMetadataOpen)
+  const toggleMetadataOpen = useStore((state) => state.toggleMetadataOpen)
   return (
     <Button
       fullWidth
       variant="contained"
       title="Toggle metadata"
-      color="info"
-      onClick={() => onMetadataClick()}
+      color={isMetadataOpen ? 'warning' : 'info'}
+      onClick={toggleMetadataOpen}
     >
       Metadata
     </Button>
   )
 }
 
-function Report() {
-  const report = useStore((state) => state.report)
-  const contentType = useStore((state) => state.contentType)
-  const setContentType = useStore((state) => state.setContentType)
-  if (!report) return null
+function Commit() {
+  const commitPatch = useStore((state) => state.commitPatch)
+  const tablePatch = useStore((state) => state.tablePatch)
   return (
-    <Button
-      fullWidth
+    <CommitButton
       variant="contained"
-      title="Toggle report view"
-      color={contentType === 'report' ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => setContentType('report')}
-    >
-      Report ({report.valid ? 'Valid' : 'Invalid'})
-    </Button>
+      disabled={isEmpty(tablePatch)}
+      onClick={commitPatch}
+    />
+  )
+}
+
+function Revert() {
+  const revertPatch = useStore((state) => state.revertPatch)
+  const tablePatch = useStore((state) => state.tablePatch)
+  return (
+    <RevertButton
+      variant="contained"
+      disabled={isEmpty(tablePatch)}
+      onClick={revertPatch}
+    />
   )
 }

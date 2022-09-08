@@ -26,21 +26,15 @@ const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 export default function Editor() {
   const [gridRef, setGridRef] = React.useState(null)
   const table = useStore((state) => state.table)
-  const fields = useStore((state) => state.schema.fields)
+  const fields = useStore((state) => state.table.schema.fields)
   const report = useStore((state) => state.report)
-  const updateTable = useStore((state) => state.updateTable)
-  const isOnlyErrors = useStore((state) => state.isOnlyErrors)
+  const tablePatch = useStore((state) => state.tablePatch)
+  const updatePatch = useStore((state) => state.updatePatch)
 
   // Errors
 
   const errorIndex = React.useMemo(() => {
     return createErrorIndex(report)
-  }, [report])
-  const errorRowNumbers = React.useMemo(() => {
-    return createErrorRowNumbers(report)
-  }, [report])
-  const errorFieldNames = React.useMemo(() => {
-    return createErrorFieldNames(report)
   }, [report])
 
   // Data
@@ -49,11 +43,11 @@ export default function Editor() {
     const dataSource: IRow[] = []
     for (const [index, row] of table.rows.entries()) {
       const _rowNumber = index + 2
-      if (isOnlyErrors && !errorRowNumbers.has(_rowNumber)) continue
-      dataSource.push({ ...row, _rowNumber })
+      const rowPatch = tablePatch[_rowNumber]
+      dataSource.push({ ...row, ...rowPatch, _rowNumber })
     }
     return dataSource
-  }, [table.rows, isOnlyErrors])
+  }, [table.rows, tablePatch])
 
   // Columns
 
@@ -76,11 +70,6 @@ export default function Editor() {
 
     const columns = []
     for (const field of fields) {
-      // TODO: support showing blank-row etc type of errors
-      if (isOnlyErrors && errorFieldNames.size) {
-        if (!errorFieldNames.has(field.name)) continue
-      }
-
       columns.push({
         name: field.name,
         header: field.title || field.name,
@@ -119,7 +108,7 @@ export default function Editor() {
     }
 
     return [rowNumberColumn, ...columns]
-  }, [fields, errorIndex, isOnlyErrors])
+  }, [fields, errorIndex])
 
   // Actions
 
@@ -183,7 +172,7 @@ export default function Editor() {
     const value = ['number'].includes(context.cellProps.type)
       ? parseInt(context.value)
       : context.value
-    if (updateTable) updateTable(rowNumber, fieldName, value)
+    updatePatch(rowNumber, fieldName, value)
   }
 
   // TODO: support copy/paste?
@@ -195,6 +184,7 @@ export default function Editor() {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
+        pagination={true}
         defaultActiveCell={DEFAULT_ACTIVE_CELL}
         idProperty="_rowNumber"
         handle={setGridRef as any}
@@ -244,26 +234,4 @@ function createErrorIndex(report?: IReport) {
     }
   }
   return errorIndex
-}
-
-function createErrorRowNumbers(report?: IReport) {
-  const errorRowNumbers = new Set()
-  if (!report) return errorRowNumbers
-  const errorTask = report.tasks[0]
-  if (!errorTask) return errorRowNumbers
-  for (const error of errorTask.errors) {
-    if (error.rowNumber) errorRowNumbers.add(error.rowNumber)
-  }
-  return errorRowNumbers
-}
-
-function createErrorFieldNames(report?: IReport) {
-  const errorFieldNames = new Set()
-  if (!report) return errorFieldNames
-  const errorTask = report.tasks[0]
-  if (!errorTask) return errorFieldNames
-  for (const error of errorTask.errors) {
-    if (error.fieldName) errorFieldNames.add(error.fieldName)
-  }
-  return errorFieldNames
 }
