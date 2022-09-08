@@ -49,7 +49,6 @@
     "@mui/system": "^5.0.6",
     "classnames": "^2.3.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
     "file-saver": "^2.0.5",
     "immer": "^9.0.6",
     "js-yaml": "^4.1.0",
@@ -58,14 +57,11 @@
     "marked": "^4.0.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
-    "papaparse": "^5.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-spring": "^9.5.2",
     "reselect": "^4.1.5",
-    "tmp-promise": "^3.0.3",
     "ts-essentials": "^9.0.0",
-    "xlsx": "^0.17.4",
     "zustand": "^3.6.5"
   },
   "devDependencies": {
