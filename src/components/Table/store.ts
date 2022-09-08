@@ -1,13 +1,16 @@
 import create from 'zustand'
 import createContext from 'zustand/context'
-import { IResource, ITable, ITablePatch, IReport } from '../../interfaces'
+import { client } from '../../client'
+import { IResource, ITable, ITablePatch, IReport, ISession } from '../../interfaces'
 import { TableProps } from './Table'
 
 export interface TableState {
   // Data
 
-  resource: IResource
-  table: ITable
+  session?: ISession
+  path: string
+  resource?: IResource
+  table?: ITable
   report?: IReport
   source?: string
   makeQuery?: (query: string) => ITable
@@ -19,7 +22,7 @@ export interface TableState {
 
   // Logic
 
-  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
+  updatePatch: (tablePatch: ITablePatch) => void
   commitPatch: () => void
   revertPatch: () => void
 }
@@ -33,10 +36,16 @@ export function makeStore(props: TableProps) {
 
     // Logic
 
-    updatePatch: (rowNumber, fieldName, value) => {
-      const { tablePatch } = get()
-      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
-      set({ tablePatch: { ...tablePatch } })
+    loadEverything: async () => {
+      const { session, path } = get()
+      if (!path) return
+      const { resource } = await client.resourceDescribe({ session, path })
+      const { table } = await client.resourceExtract({ session, resource })
+      const { report } = await client.resourceValidate({ session, resource })
+      set({ resource, table, report })
+    },
+    updatePatch: (tablePatch) => {
+      set({ tablePatch })
     },
     commitPatch: () => {
       const { updateTable, tablePatch } = get()

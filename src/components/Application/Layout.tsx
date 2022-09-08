@@ -4,9 +4,6 @@ import Project from '../Project'
 import Browser from '../Browser'
 import { useStore } from './store'
 
-// TODO: merge with app?
-// TODO: add transition animation
-
 export default function Layout() {
   const path = useStore((state) => state.path)
   const session = useStore((state) => state.session)
