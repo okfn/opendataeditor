@@ -22,7 +22,7 @@ export default function ImportButton(props: ImportButtonProps) {
       />
       <Button
         title="Import as JSON or YAML"
-        variant="outlined"
+        variant="contained"
         component="span"
         color="info"
         fullWidth

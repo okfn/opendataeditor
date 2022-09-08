@@ -12,7 +12,7 @@ export default function RevertButton(props: RevertButtonProps) {
     <Button
       fullWidth
       color="error"
-      variant={props.variant || 'outlined'}
+      variant={props.variant || 'contained'}
       title="Revert changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}

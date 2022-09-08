@@ -22,7 +22,7 @@ interface ExportButtonProps {
 }
 
 export default function ExportButton(props: ExportButtonProps) {
-  const variant = props.variant || 'outlined'
+  const variant = props.variant || 'contained'
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(0)
