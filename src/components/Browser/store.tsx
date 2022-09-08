@@ -1,10 +1,10 @@
 import create from 'zustand'
 import { client } from '../../client'
 import createContext from 'zustand/context'
-import { ContentProps } from './Content'
+import { BrowserProps } from './Browser'
 import { ISession, IResource, IReport, ITable } from '../../interfaces'
 
-interface ContentState {
+interface BrowserState {
   // Data
   session?: ISession
   path?: string
@@ -16,8 +16,8 @@ interface ContentState {
   loadEverything: () => Promise<void>
 }
 
-export function makeStore(props: ContentProps) {
-  return create<ContentState>((set, get) => ({
+export function makeStore(props: BrowserProps) {
+  return create<BrowserState>((set, get) => ({
     // Data
     session: props.session,
     path: props.path,
@@ -34,4 +34,4 @@ export function makeStore(props: ContentProps) {
   }))
 }
 
-export const { Provider, useStore } = createContext<ContentState>()
+export const { Provider, useStore } = createContext<BrowserState>()
