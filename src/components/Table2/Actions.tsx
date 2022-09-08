@@ -1,7 +1,10 @@
 import * as React from 'react'
+import isEmpty from 'lodash/isEmpty'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ExportButton from '../Library/Buttons/ExportButton'
+import CommitButton from '../Library/Buttons/CommitButton'
+import RevertButton from '../Library/Buttons/RevertButton'
 import Columns from '../Library/Columns'
 import { useStore } from './store'
 
@@ -10,16 +13,17 @@ export default function Actions() {
     <Box
       sx={{
         borderTop: 'solid 1px #ddd',
-        lineHeight: '63px',
+        borderBottom: 'solid 1px #ddd',
+        lineHeight: '62px',
         paddingLeft: 2,
         paddingRight: 2,
       }}
     >
       <Columns spacing={3}>
         <Export />
-        <Source />
         <Metadata />
-        <Report />
+        <Commit />
+        <Revert />
       </Columns>
     </Box>
   )
@@ -33,25 +37,10 @@ function Export() {
       format={format}
       options={['csv', 'xlsx']}
       onExport={() => (exportTable ? exportTable(format) : undefined)}
+      onPreview={() => (exportTable ? exportTable(format) : undefined)}
       setFormat={setFormat}
       variant="contained"
     />
-  )
-}
-
-function Source() {
-  const viewType = useStore((state) => state.viewType)
-  const setViewType = useStore((state) => state.setViewType)
-  return (
-    <Button
-      fullWidth
-      variant="contained"
-      title="Toogle source view"
-      color={viewType === 'source' ? 'warning' : 'info'}
-      onClick={() => setViewType('source')}
-    >
-      Source
-    </Button>
   )
 }
 
@@ -71,20 +60,26 @@ function Metadata() {
   )
 }
 
-function Report() {
-  const report = useStore((state) => state.report)
-  const viewType = useStore((state) => state.viewType)
-  const setViewType = useStore((state) => state.setViewType)
-  if (!report) return null
+function Commit() {
+  const commitPatch = useStore((state) => state.commitPatch)
+  const tablePatch = useStore((state) => state.tablePatch)
   return (
-    <Button
-      fullWidth
+    <CommitButton
       variant="contained"
-      title="Toggle report view"
-      color={viewType === 'report' ? 'warning' : report.valid ? 'success' : 'error'}
-      onClick={() => setViewType('report')}
-    >
-      Report ({report.valid ? 'Valid' : 'Invalid'})
-    </Button>
+      disabled={isEmpty(tablePatch)}
+      onClick={commitPatch}
+    />
+  )
+}
+
+function Revert() {
+  const revertPatch = useStore((state) => state.revertPatch)
+  const tablePatch = useStore((state) => state.tablePatch)
+  return (
+    <RevertButton
+      variant="contained"
+      disabled={isEmpty(tablePatch)}
+      onClick={revertPatch}
+    />
   )
 }

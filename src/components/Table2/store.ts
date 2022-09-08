@@ -8,7 +8,6 @@ type IViewType = 'table' | 'report' | 'source'
 export interface TableState {
   // Data
 
-  viewType: IViewType
   resource: IResource
   table: ITable2
   report?: IReport
@@ -17,22 +16,26 @@ export interface TableState {
   updateTable?: (patch: ITablePatch) => void
   exportTable?: (format: string) => string
   updateResource?: () => void
+  viewType: IViewType
   isMetadataOpen?: boolean
-  isOnlyErrors?: boolean
+  tablePatch: ITablePatch
 
   // Logic
 
   setViewType: (viewType: IViewType) => void
   toggleMetadataOpen: () => void
-  toggleOnlyErrors: () => void
+  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
+  commitPatch: () => void
+  revertPatch: () => void
 }
 
 export function makeStore(props: TableProps) {
   return create<TableState>((set, get) => ({
     // Data
 
-    viewType: 'table' as IViewType,
     ...props,
+    viewType: 'table' as IViewType,
+    tablePatch: {},
 
     // Logic
 
@@ -41,7 +44,17 @@ export function makeStore(props: TableProps) {
       set({ viewType })
     },
     toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
-    toggleOnlyErrors: () => set({ isOnlyErrors: !get().isOnlyErrors }),
+    updatePatch: (rowNumber, fieldName, value) => {
+      const { tablePatch } = get()
+      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
+      set({ tablePatch: { ...tablePatch } })
+    },
+    commitPatch: () => {
+      const { updateTable, tablePatch } = get()
+      if (updateTable) updateTable(tablePatch)
+      set({ tablePatch: {} })
+    },
+    revertPatch: () => set({ tablePatch: {} }),
   }))
 }
 
