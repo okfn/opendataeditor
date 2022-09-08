@@ -13,13 +13,12 @@ export interface TableState {
   makeQuery?: (query: string) => ITable
   updateTable?: (patch: ITablePatch) => void
   exportTable?: (format: string) => string
+  importTable?: () => void
   updateResource?: () => void
-  isMetadataOpen?: boolean
   tablePatch: ITablePatch
 
   // Logic
 
-  toggleMetadataOpen: () => void
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
@@ -34,7 +33,6 @@ export function makeStore(props: TableProps) {
 
     // Logic
 
-    toggleMetadataOpen: () => set({ isMetadataOpen: !get().isMetadataOpen }),
     updatePatch: (rowNumber, fieldName, value) => {
       const { tablePatch } = get()
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }

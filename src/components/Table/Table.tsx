@@ -10,6 +10,7 @@ export interface TableProps {
   source?: string
   makeQuery?: (query: string) => ITable
   exportTable?: (format: string) => string
+  importTable?: () => void
   updateTable?: (patch: ITablePatch) => void
   updateResource?: () => void
 }

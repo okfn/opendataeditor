@@ -56,7 +56,7 @@ function Delete() {
       fullWidth
       disabled={!path}
       variant="contained"
-      color="error"
+      color="warning"
       onClick={() => deleteFile()}
     >
       Delete

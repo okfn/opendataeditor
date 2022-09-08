@@ -11,7 +11,7 @@ export default function RevertButton(props: RevertButtonProps) {
   return (
     <Button
       fullWidth
-      color="error"
+      color="warning"
       variant={props.variant || 'contained'}
       title="Revert changes"
       disabled={props.disabled}

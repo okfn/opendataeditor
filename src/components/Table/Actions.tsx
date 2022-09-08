@@ -21,7 +21,7 @@ export default function Actions() {
     >
       <Columns spacing={3}>
         <Export />
-        <Metadata />
+        <Import />
         <Commit />
         <Revert />
       </Columns>
@@ -44,18 +44,17 @@ function Export() {
   )
 }
 
-function Metadata() {
-  const isMetadataOpen = useStore((state) => state.isMetadataOpen)
-  const toggleMetadataOpen = useStore((state) => state.toggleMetadataOpen)
+function Import() {
+  const importTable = useStore((state) => state.importTable)
   return (
     <Button
       fullWidth
       variant="contained"
-      title="Toggle metadata"
-      color={isMetadataOpen ? 'warning' : 'info'}
-      onClick={toggleMetadataOpen}
+      title="Import table"
+      color="info"
+      onClick={() => (importTable ? importTable() : undefined)}
     >
-      Metadata
+      Import
     </Button>
   )
 }
