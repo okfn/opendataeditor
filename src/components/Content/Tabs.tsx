@@ -3,17 +3,20 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import DataView from './Views/Data'
-import MetadataView from './Views/Metadata'
-import QueryView from './Views/Query'
-import ReportView from './Views/Report'
-import SourceView from './Views/Source'
+import Table from '../Table'
+import { useStore } from './store'
 
 export default function Editor() {
   const [value, setValue] = React.useState(0)
+  const resource = useStore((state) => state.resource)
+  const table = useStore((state) => state.table)
+  const report = useStore((state) => state.report)
+
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+
+  if (!resource || !table || !report) return null
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -21,24 +24,16 @@ export default function Editor() {
           <Tab label="Data" {...a11yProps(0)} />
           <Tab label="Metadata" {...a11yProps(1)} />
           <Tab label="Report" {...a11yProps(2)} />
-          <Tab label="Query" {...a11yProps(3)} />
-          <Tab label="Source" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DataView />
+        <Table resource={resource} table={table} report={report} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MetadataView />
+        Metadata
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ReportView />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <QueryView />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <SourceView />
+        Report
       </TabPanel>
     </Box>
   )
