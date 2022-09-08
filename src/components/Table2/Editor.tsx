@@ -184,6 +184,7 @@ export default function Editor() {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <ReactDataGrid
+        pagination={true}
         defaultActiveCell={DEFAULT_ACTIVE_CELL}
         idProperty="_rowNumber"
         handle={setGridRef as any}
