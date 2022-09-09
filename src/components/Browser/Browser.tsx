@@ -11,7 +11,7 @@ export interface BrowserProps {
 export default function Browser(props: BrowserProps) {
   return (
     <Provider createStore={() => makeStore(props)}>
-      <Layout />
+      <Layout path={props.path} />
     </Provider>
   )
 }

@@ -5,17 +5,18 @@ import Table from '../Table'
 import Header from './Header'
 import { useStore } from './store'
 
-export default function Layout() {
+export default function Layout(props: { path?: string }) {
   const theme = useTheme()
   const headerHeight = theme.spacing(8)
   const client = useStore((state) => state.client)
-  const path = useStore((state) => state.path)
+  // Fix with zustand@4
+  // const path = useStore((state) => state.path)
   return (
     <Box>
       <Box sx={{ height: headerHeight }}>
         <Header />
       </Box>
-      <Box>{path && <Table client={client} path={path} />}</Box>
+      <Box>{props.path && <Table client={client} path={props.path} />}</Box>
     </Box>
   )
 }
