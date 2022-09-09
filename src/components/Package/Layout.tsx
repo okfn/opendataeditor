@@ -63,32 +63,32 @@ export function LayoutWithTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Resource
-          descriptor={resource}
+          resource={resource}
           onCommit={(resource) => update({ resoures: [resource] })}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Dialect
-          descriptor={dialect}
+          dialect={dialect}
           onCommit={(dialect) => update({ resources: [{ ...resource, dialect }] })}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <Schema
-          descriptor={schema}
+          schema={schema}
           onCommit={(schema) => update({ resources: [{ ...resource, schema }] })}
         />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <Checklist
-          descriptor={checklist}
+          checklist={checklist}
           schema={schema}
           onCommit={(checklist) => update({ resources: [{ ...resource, checklist }] })}
         />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <Pipeline
-          descriptor={pipeline}
+          pipeline={pipeline}
           schema={schema}
           onCommit={(pipeline) => update({ resources: [{ ...resource, pipeline }] })}
         />
