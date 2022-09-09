@@ -43,7 +43,7 @@ function Files() {
       onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
         selectFile(nodeId)
       }}
-      sx={{ padding: 1 }}
+      sx={{ padding: 2 }}
     >
       {tree.sort(compareNodes).map((node: any) => (
         <TreeNode node={node} key={node.path} />
