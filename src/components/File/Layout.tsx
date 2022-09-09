@@ -7,7 +7,6 @@ import DataView from './Views/Data'
 import MetadataView from './Views/Metadata'
 import ReportView from './Views/Report'
 import SourceView from './Views/Source'
-import SqlView from './Views/Sql'
 
 export default function Editor() {
   const [value, setValue] = React.useState(0)
@@ -22,7 +21,6 @@ export default function Editor() {
           <Tab label="Metadata" {...a11yProps(1)} />
           <Tab label="Report" {...a11yProps(2)} />
           <Tab label="Source" {...a11yProps(3)} />
-          <Tab label="SQL" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -36,9 +34,6 @@ export default function Editor() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         <SourceView />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <SqlView />
       </TabPanel>
     </Box>
   )

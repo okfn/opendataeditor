@@ -1,3 +1,4 @@
+import noop from 'lodash/noop'
 import create from 'zustand'
 import createContext from 'zustand/context'
 import { Client } from '../../client'
@@ -13,11 +14,6 @@ export interface TableState {
   table?: ITable
   report?: IReport
   source?: string
-  makeQuery?: (query: string) => ITable
-  updateTable?: (patch: ITablePatch) => void
-  exportTable?: (format: string) => string
-  importTable?: () => void
-  updateResource?: () => void
   tablePatch: ITablePatch
 
   // Logic
@@ -27,6 +23,9 @@ export interface TableState {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
+  exportTable?: (format: string) => void
+  importTable?: () => void
+  updateResource?: () => void
 }
 
 export function makeStore(props: TableProps) {
@@ -57,11 +56,16 @@ export function makeStore(props: TableProps) {
       set({ tablePatch: { ...tablePatch } })
     },
     commitPatch: () => {
-      const { updateTable, tablePatch } = get()
-      if (updateTable) updateTable(tablePatch)
+      const { tablePatch } = get()
+      // TODO: implement server-side
+      console.log(tablePatch)
       set({ tablePatch: {} })
     },
     revertPatch: () => set({ tablePatch: {} }),
+    // TODO: implement
+    exportTable: noop,
+    importTable: noop,
+    updateResource: noop,
   }))
 }
 

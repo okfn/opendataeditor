@@ -39,11 +39,9 @@ export function makeStore(props: ProjectProps) {
       onPathChange(path)
     },
     createFile: async (file) => {
-      // TODO: rework this limitation
-      const isCsv = file.name.endsWith('.csv')
-      const isExcel = file.name.endsWith('.xlsx')
-      if (!(isCsv || isExcel) || file.size > 10000000) {
-        alert('Currently only CSV and Excel files under 10Mb are supported')
+      // TODO: show a proper error dialog
+      if (file.size > 10000000) {
+        alert('Currently only files under 10Mb are supported')
         return
       }
       const { client, listFiles, selectFile } = get()
