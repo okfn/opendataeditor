@@ -1,19 +1,18 @@
 import create from 'zustand'
 import createContext from 'zustand/context'
 import { BrowserProps } from './Browser'
-import { ISession } from '../../interfaces'
+import { Client } from '../../client'
 
 interface BrowserState {
   // Data
-  session?: ISession
+  client: Client
   path?: string
 }
 
 export function makeStore(props: BrowserProps) {
   return create<BrowserState>((_set, _get) => ({
     // Data
-    session: props.session,
-    path: props.path,
+    ...props,
   }))
 }
 

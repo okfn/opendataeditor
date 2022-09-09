@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Provider, makeStore } from './store'
-import { ISession } from '../../interfaces'
+import { Client } from '../../client'
 import Layout from './Layout'
 
 export interface TableProps {
-  session?: ISession
+  client: Client
   path: string
 }
 

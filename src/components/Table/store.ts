@@ -1,13 +1,13 @@
 import create from 'zustand'
 import createContext from 'zustand/context'
-import { client } from '../../client'
-import { IResource, ITable, ITablePatch, IReport, ISession } from '../../interfaces'
+import { Client } from '../../client'
+import { IResource, ITable, ITablePatch, IReport } from '../../interfaces'
 import { TableProps } from './Table'
 
 export interface TableState {
   // Data
 
-  session?: ISession
+  client: Client
   path: string
   resource?: IResource
   table?: ITable
@@ -37,11 +37,11 @@ export function makeStore(props: TableProps) {
     // Logic
 
     loadEverything: async () => {
-      const { session, path } = get()
+      const { client, path } = get()
       if (!path) return
-      const { resource } = await client.resourceDescribe({ session, path })
-      const { table } = await client.resourceExtract({ session, resource })
-      const { report } = await client.resourceValidate({ session, resource })
+      const { resource } = await client.resourceDescribe({ path })
+      const { table } = await client.resourceExtract({ resource })
+      const { report } = await client.resourceValidate({ resource })
       set({ resource, table, report })
     },
     updatePatch: (tablePatch) => {

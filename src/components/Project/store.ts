@@ -1,11 +1,10 @@
 import create from 'zustand'
 import createContext from 'zustand/context'
-import { client } from '../../client'
-import { ISession } from '../../interfaces'
+import { Client } from '../../client'
 import { ProjectProps } from './Project'
 
 export interface ProjectState {
-  session?: ISession
+  client: Client
   path?: string
   paths: string[]
   onPathChange: (path?: string) => void
@@ -19,17 +18,18 @@ export interface ProjectLogic {
 }
 
 export function makeStore(props: ProjectProps) {
-  const initialState = {
-    session: props.session,
+  return create<ProjectState & ProjectLogic>((set, get) => ({
+    // Data
+
+    client: props.client,
     onPathChange: props.onPathChange,
     paths: [],
-  }
-  return create<ProjectState & ProjectLogic>((set, get) => ({
-    ...initialState,
+
+    // Logic
 
     listFiles: async () => {
-      const { session } = get()
-      const { paths } = await client.projectListFiles({ session })
+      const { client } = get()
+      const { paths } = await client.projectListFiles()
       set({ paths })
     },
     selectFile: (path) => {
@@ -46,15 +46,15 @@ export function makeStore(props: ProjectProps) {
         alert('Currently only CSV and Excel files under 10Mb are supported')
         return
       }
-      const { session, listFiles, selectFile } = get()
-      const { path } = await client.projectCreateFile({ session, file })
+      const { client, listFiles, selectFile } = get()
+      const { path } = await client.projectCreateFile({ file })
       await listFiles()
       selectFile(path)
     },
     deleteFile: async () => {
-      const { session, path, listFiles, selectFile } = get()
+      const { client, path, listFiles, selectFile } = get()
       if (!path) return
-      await client.projectDeleteFile({ session, path })
+      await client.projectDeleteFile({ path })
       await listFiles()
       selectFile(undefined)
     },

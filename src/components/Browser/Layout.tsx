@@ -8,14 +8,14 @@ import { useStore } from './store'
 export default function Layout() {
   const theme = useTheme()
   const headerHeight = theme.spacing(8)
-  const session = useStore((state) => state.session)
+  const client = useStore((state) => state.client)
   const path = useStore((state) => state.path)
   return (
     <Box>
       <Box sx={{ height: headerHeight }}>
         <Header />
       </Box>
-      <Box>{path && <Table session={session} path={path} />}</Box>
+      <Box>{path && <Table client={client} path={path} />}</Box>
     </Box>
   )
 }

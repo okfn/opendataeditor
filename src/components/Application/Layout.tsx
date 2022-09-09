@@ -6,17 +6,17 @@ import { useStore } from './store'
 
 export default function Layout() {
   const path = useStore((state) => state.path)
-  const session = useStore((state) => state.session)
+  const client = useStore((state) => state.client)
   const selectPath = useStore((state) => state.selectPath)
-  const ensureProject = useStore((state) => state.ensureProject)
+  const ensureClient = useStore((state) => state.ensureClient)
   React.useEffect(() => {
-    ensureProject().catch(console.error)
+    ensureClient().catch(console.error)
   }, [])
-  if (!session) return null
+  if (!client) return null
   return (
     <Columns layout={[3, 9]}>
-      <Project session={session} onPathChange={selectPath} />
-      <Browser session={session} path={path} />
+      <Project client={client} onPathChange={selectPath} />
+      <Browser client={client} path={path} />
     </Columns>
   )
 }

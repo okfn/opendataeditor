@@ -1,28 +1,30 @@
 import create from 'zustand'
-import { client } from '../../client'
-import { ISession } from '../../interfaces'
+import createContext from 'zustand/context'
+import { Client } from '../../client'
+import { ApplicationProps } from './Application'
 
-export interface IState {
-  session?: ISession
+export interface ApplicationState {
+  client?: Client
   path?: string
-}
-
-export interface ILogic {
-  ensureProject: () => Promise<void>
+  ensureClient: () => Promise<void>
   selectPath: (path?: string) => void
 }
 
-export const initialState = {}
+export function makeStore(props: ApplicationProps) {
+  return create<ApplicationState>((set, get) => ({
+    // Data
+    ...props,
 
-export const useStore = create<IState & ILogic>((set, get) => ({
-  ...initialState,
+    // Logic
+    ensureClient: async () => {
+      if (get().client) return
+      const client = await Client.connect()
+      set({ client })
+    },
+    selectPath: (path) => {
+      set({ path })
+    },
+  }))
+}
 
-  ensureProject: async () => {
-    if (get().session) return
-    const { session } = await client.projectCreate()
-    set({ session })
-  },
-  selectPath: (path) => {
-    set({ path })
-  },
-}))
+export const { Provider, useStore } = createContext<ApplicationState>()

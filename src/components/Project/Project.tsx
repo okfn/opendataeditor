@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Provider, makeStore } from './store'
 import Layout from './Layout'
-import { ISession } from '../../interfaces'
+import { Client } from '../../client'
 
 export interface ProjectProps {
-  session?: ISession
+  client: Client
   onPathChange: (path?: string) => void
 }
 
