@@ -21,9 +21,9 @@ export default function Editor() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Data" {...a11yProps(0)} />
           <Tab label="Metadata" {...a11yProps(1)} />
-          <Tab label="Report" {...a11yProps(2)} />
+          <Tab label="Queries" {...a11yProps(2)} />
           <Tab label="Errors" {...a11yProps(3)} />
-          <Tab label="Query" {...a11yProps(4)} />
+          <Tab label="Report" {...a11yProps(4)} />
           <Tab label="Source" {...a11yProps(5)} />
         </Tabs>
       </Box>
@@ -34,13 +34,13 @@ export default function Editor() {
         <MetadataView />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ReportView />
+        <QueryView />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <ErrorsView />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <QueryView />
+        <ReportView />
       </TabPanel>
       <TabPanel value={value} index={5}>
         <SourceView />
