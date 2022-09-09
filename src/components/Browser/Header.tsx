@@ -10,7 +10,8 @@ import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
-export default function Header() {
+// TODO: rebase from props to state
+export default function Header(props: { path?: string }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -24,6 +25,7 @@ export default function Header() {
                 <StyledInputBase
                   placeholder="Provide a link to a data file or upload one on the left"
                   inputProps={{ 'aria-label': 'search' }}
+                  value={props.path}
                 />
               </Search>
             </Grid>

@@ -22,6 +22,7 @@ export interface TableState {
 
   // Logic
 
+  loadEverything: () => Promise<void>
   updatePatch: (tablePatch: ITablePatch) => void
   commitPatch: () => void
   revertPatch: () => void
