@@ -33,10 +33,12 @@ export function LayoutWithTabs() {
   }
   const theme = useTheme()
   const update = useStore((state) => state.update)
+  const type = useStore((state) => state.descriptor.type)
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
   const checklist = useStore((state) => state.descriptor.checklist)
   const pipeline = useStore((state) => state.descriptor.pipeline)
+  const isTable = (type || 'table') === 'table'
   return (
     <Box sx={{ width: '100%', height: theme.spacing(56) }}>
       <Box sx={{ height: theme.spacing(6) }}>
@@ -47,35 +49,43 @@ export function LayoutWithTabs() {
           aria-label="basic tabs example"
         >
           <Tab label="Resource" {...a11yProps(0)} />
-          <Tab label="Dialect" {...a11yProps(1)} />
-          <Tab label="Schema" {...a11yProps(2)} />
-          <Tab label="Checklist" {...a11yProps(3)} />
-          <Tab label="Pipeline" {...a11yProps(4)} />
+          {isTable && (
+            <React.Fragment>
+              <Tab label="Dialect" {...a11yProps(1)} />
+              <Tab label="Schema" {...a11yProps(2)} />
+              <Tab label="Checklist" {...a11yProps(3)} />
+              <Tab label="Pipeline" {...a11yProps(4)} />
+            </React.Fragment>
+          )}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <Layout />
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Dialect dialect={dialect} onCommit={(dialect) => update({ dialect })} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Schema schema={schema} onCommit={(schema) => update({ schema })} />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Checklist
-          checklist={checklist}
-          schema={schema}
-          onCommit={(checklist) => update({ checklist })}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Pipeline
-          pipeline={pipeline}
-          schema={schema}
-          onCommit={(pipeline) => update({ pipeline })}
-        />
-      </TabPanel>
+      {isTable && (
+        <React.Fragment>
+          <TabPanel value={value} index={1}>
+            <Dialect dialect={dialect} onCommit={(dialect) => update({ dialect })} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Schema schema={schema} onCommit={(schema) => update({ schema })} />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <Checklist
+              checklist={checklist}
+              schema={schema}
+              onCommit={(checklist) => update({ checklist })}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={4}>
+            <Pipeline
+              pipeline={pipeline}
+              schema={schema}
+              onCommit={(pipeline) => update({ pipeline })}
+            />
+          </TabPanel>
+        </React.Fragment>
+      )}
     </Box>
   )
 }
