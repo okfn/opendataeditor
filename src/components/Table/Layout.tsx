@@ -4,7 +4,6 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import DataView from './Views/Data'
-import ErrorsView from './Views/Errors'
 import MetadataView from './Views/Metadata'
 import QueryView from './Views/Query'
 import ReportView from './Views/Report'
@@ -21,10 +20,9 @@ export default function Editor() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Data" {...a11yProps(0)} />
           <Tab label="Metadata" {...a11yProps(1)} />
-          <Tab label="Queries" {...a11yProps(2)} />
-          <Tab label="Errors" {...a11yProps(3)} />
-          <Tab label="Report" {...a11yProps(4)} />
-          <Tab label="Source" {...a11yProps(5)} />
+          <Tab label="Report" {...a11yProps(2)} />
+          <Tab label="Source" {...a11yProps(3)} />
+          <Tab label="SQL" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -34,16 +32,13 @@ export default function Editor() {
         <MetadataView />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <QueryView />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <ErrorsView />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
         <ReportView />
       </TabPanel>
-      <TabPanel value={value} index={5}>
+      <TabPanel value={value} index={3}>
         <SourceView />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <QueryView />
       </TabPanel>
     </Box>
   )
