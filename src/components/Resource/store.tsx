@@ -13,8 +13,8 @@ const INITIAL_RESOURCE: IResource = { path: 'table.csv' }
 interface ResourceState {
   descriptor: IResource
   checkpoint: IResource
-  onCommit: (descriptor: IResource) => void
-  onRevert: (descriptor: IResource) => void
+  onCommit: (resource: IResource) => void
+  onRevert: (resource: IResource) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -29,8 +29,8 @@ interface ResourceState {
 
 export function makeStore(props: ResourceProps) {
   return create<ResourceState>((set, get) => ({
-    descriptor: cloneDeep(props.descriptor || INITIAL_RESOURCE),
-    checkpoint: cloneDeep(props.descriptor || INITIAL_RESOURCE),
+    descriptor: cloneDeep(props.resource || INITIAL_RESOURCE),
+    checkpoint: cloneDeep(props.resource || INITIAL_RESOURCE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

@@ -6,10 +6,10 @@ import Layout from './Layout'
 // TODO: remove borderTop hack
 
 export interface PipelineProps {
-  descriptor?: IPipeline
+  pipeline?: IPipeline
   schema?: ISchema
-  onCommit?: (descriptor: IPipeline) => void
-  onRevert?: (descriptor: IPipeline) => void
+  onCommit?: (pipeline: IPipeline) => void
+  onRevert?: (pipeline: IPipeline) => void
 }
 
 export default function Pipeline(props: PipelineProps) {

@@ -6,9 +6,9 @@ import Layout from './Layout'
 // TODO: remove borderTop hack
 
 export interface DialectProps {
-  descriptor?: IDialect
-  onCommit?: (descriptor: IDialect) => void
-  onRevert?: (descriptor: IDialect) => void
+  dialect?: IDialect
+  onCommit?: (dialect: IDialect) => void
+  onRevert?: (dialect: IDialect) => void
 }
 
 export default function Dialect(props: DialectProps) {

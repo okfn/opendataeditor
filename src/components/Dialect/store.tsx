@@ -13,8 +13,8 @@ const INITIAL_DIALECT: IDialect = {}
 interface DialectState {
   descriptor: IDialect
   checkpoint: IDialect
-  onCommit: (descriptor: IDialect) => void
-  onRevert: (descriptor: IDialect) => void
+  onCommit: (dialect: IDialect) => void
+  onRevert: (dialect: IDialect) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -30,13 +30,18 @@ interface DialectState {
 
 export function makeStore(props: DialectProps) {
   return create<DialectState>((set, get) => ({
-    descriptor: cloneDeep(props.descriptor || INITIAL_DIALECT),
-    checkpoint: cloneDeep(props.descriptor || INITIAL_DIALECT),
+    // Data
+
+    descriptor: cloneDeep(props.dialect || INITIAL_DIALECT),
+    checkpoint: cloneDeep(props.dialect || INITIAL_DIALECT),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
+
+    // Logic
+
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'

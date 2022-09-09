@@ -7,9 +7,9 @@ import Layout, { LayoutWithTabs } from './Layout'
 
 export interface PackageProps {
   withTabs?: boolean
-  descriptor?: IPackage
-  onCommit?: (descriptor: IPackage) => void
-  onRevert?: (descriptor: IPackage) => void
+  package?: IPackage
+  onCommit?: (pkg: IPackage) => void
+  onRevert?: (pkg: IPackage) => void
 }
 
 export default function Package(props: PackageProps) {

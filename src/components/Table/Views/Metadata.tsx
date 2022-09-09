@@ -11,7 +11,7 @@ export default function DataView() {
     <Box>
       <Editor />
       <Box sx={{ borderTop: 'solid 1px #ddd' }}>
-        <Resource descriptor={resource} withTabs={true} onCommit={updateResource} />
+        <Resource resource={resource} withTabs={true} onCommit={updateResource} />
       </Box>
     </Box>
   )

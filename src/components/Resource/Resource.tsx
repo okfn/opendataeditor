@@ -5,9 +5,9 @@ import Layout, { LayoutWithTabs } from './Layout'
 
 export interface ResourceProps {
   withTabs?: boolean
-  descriptor?: IResource
-  onCommit?: (descriptor: IResource) => void
-  onRevert?: (descriptor: IResource) => void
+  resource?: IResource
+  onCommit?: (resource: IResource) => void
+  onRevert?: (resource: IResource) => void
 }
 
 export default function Resource(props: ResourceProps) {

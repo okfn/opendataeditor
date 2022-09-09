@@ -8,7 +8,7 @@ export default function ReportView() {
   if (!report) return null
   return (
     <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
-      <Report descriptor={report} />
+      <Report report={report} />
     </Box>
   )
 }

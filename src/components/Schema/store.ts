@@ -20,8 +20,8 @@ interface SchemaState {
 
   descriptor: ISchema
   checkpoint: ISchema
-  onCommit: (descriptor: ISchema) => void
-  onRevert: (descriptor: ISchema) => void
+  onCommit: (schema: ISchema) => void
+  onRevert: (schema: ISchema) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -64,8 +64,8 @@ export function makeStore(props: SchemaProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor || INITIAL_SCHEMA),
-    checkpoint: cloneDeep(props.descriptor || INITIAL_SCHEMA),
+    descriptor: cloneDeep(props.schema || INITIAL_SCHEMA),
+    checkpoint: cloneDeep(props.schema || INITIAL_SCHEMA),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

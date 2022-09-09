@@ -21,8 +21,8 @@ interface ChecklistState {
   descriptor: IChecklist
   checkpoint: IChecklist
   schema?: ISchema
-  onCommit: (descriptor: IChecklist) => void
-  onRevert: (descriptor: IChecklist) => void
+  onCommit: (checklist: IChecklist) => void
+  onRevert: (checklist: IChecklist) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -65,8 +65,8 @@ export function makeStore(props: ChecklistProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor || INITIAL_CHECKLIST),
-    checkpoint: cloneDeep(props.descriptor || INITIAL_CHECKLIST),
+    descriptor: cloneDeep(props.checklist || INITIAL_CHECKLIST),
+    checkpoint: cloneDeep(props.checklist || INITIAL_CHECKLIST),
     schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,

@@ -3,13 +3,11 @@ import { IChecklist, ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
 import Layout from './Layout'
 
-// TODO: remove borderTop hack
-
 export interface ChecklistProps {
-  descriptor?: IChecklist
+  checklist?: IChecklist
   schema?: ISchema
-  onCommit?: (descriptor: IChecklist) => void
-  onRevert?: (descriptor: IChecklist) => void
+  onCommit?: (checklist: IChecklist) => void
+  onRevert?: (checklist: IChecklist) => void
 }
 
 export default function Checklist(props: ChecklistProps) {

@@ -6,9 +6,9 @@ import Layout from './Layout'
 // TODO: remove borderTop hack
 
 export interface SchemaProps {
-  descriptor?: ISchema
-  onCommit?: (descriptor: ISchema) => void
-  onRevert?: (descriptor: ISchema) => void
+  schema?: ISchema
+  onCommit?: (schema: ISchema) => void
+  onRevert?: (schema: ISchema) => void
 }
 
 export default function Schema(props: SchemaProps) {

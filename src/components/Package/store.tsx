@@ -13,8 +13,8 @@ const INITIAL_PACKAGE: IPackage = { resources: [] }
 interface PackageState {
   descriptor: IPackage
   checkpoint: IPackage
-  onCommit: (descriptor: IPackage) => void
-  onRevert: (descriptor: IPackage) => void
+  onCommit: (pkg: IPackage) => void
+  onRevert: (pkg: IPackage) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -29,8 +29,8 @@ interface PackageState {
 
 export function makeStore(props: PackageProps) {
   return create<PackageState>((set, get) => ({
-    descriptor: cloneDeep(props.descriptor || INITIAL_PACKAGE),
-    checkpoint: cloneDeep(props.descriptor || INITIAL_PACKAGE),
+    descriptor: cloneDeep(props.package || INITIAL_PACKAGE),
+    checkpoint: cloneDeep(props.package || INITIAL_PACKAGE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,

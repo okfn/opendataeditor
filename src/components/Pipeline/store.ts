@@ -19,10 +19,10 @@ interface PipelineState {
   // General
 
   descriptor: IPipeline
-  steppoint: IPipeline
+  checkpoint: IPipeline
   schema?: ISchema
-  onCommit: (descriptor: IPipeline) => void
-  onRevert: (descriptor: IPipeline) => void
+  onCommit: (pipeline: IPipeline) => void
+  onRevert: (pipeline: IPipeline) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -65,8 +65,8 @@ export function makeStore(props: PipelineProps) {
   const initialState = {
     // General
 
-    descriptor: cloneDeep(props.descriptor || INITIAL_PIPELINE),
-    steppoint: cloneDeep(props.descriptor || INITIAL_PIPELINE),
+    descriptor: cloneDeep(props.pipeline || INITIAL_PIPELINE),
+    checkpoint: cloneDeep(props.pipeline || INITIAL_PIPELINE),
     schema: props.schema,
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
@@ -103,13 +103,13 @@ export function makeStore(props: PipelineProps) {
       set({ descriptor: { ...descriptor, ...patch }, isUpdated: true })
     },
     revert: () => {
-      const { onRevert, descriptor, steppoint } = get()
-      set({ descriptor: cloneDeep(steppoint), isUpdated: false })
+      const { onRevert, descriptor, checkpoint } = get()
+      set({ descriptor: cloneDeep(checkpoint), isUpdated: false })
       onRevert(descriptor)
     },
     commit: () => {
       const { onCommit, descriptor } = get()
-      set({ steppoint: cloneDeep(descriptor), isUpdated: false })
+      set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
       onCommit(descriptor)
     },
 
