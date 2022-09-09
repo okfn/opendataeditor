@@ -23,7 +23,7 @@ export interface TableState {
   // Logic
 
   loadEverything: () => Promise<void>
-  updatePatch: (tablePatch: ITablePatch) => void
+  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
 }
@@ -45,8 +45,10 @@ export function makeStore(props: TableProps) {
       const { report } = await client.resourceValidate({ resource })
       set({ resource, table, report })
     },
-    updatePatch: (tablePatch) => {
-      set({ tablePatch })
+    updatePatch: (rowNumber, fieldName, value) => {
+      const { tablePatch } = get()
+      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
+      set({ tablePatch: { ...tablePatch } })
     },
     commitPatch: () => {
       const { updateTable, tablePatch } = get()
