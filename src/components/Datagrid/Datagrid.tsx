@@ -1,6 +1,8 @@
 import '@inovua/reactdatagrid-community/index.css'
 import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../themes'
 import { IReport, IError, IDict, IRow } from '../../interfaces'
 import { ITable, ITablePatch } from '../../interfaces'
 
@@ -190,23 +192,25 @@ export default function Datagrid(props: DatagridProps) {
   }
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <ReactDataGrid
-        pagination={true}
-        defaultActiveCell={DEFAULT_ACTIVE_CELL}
-        idProperty="_rowNumber"
-        handle={setGridRef as any}
-        columns={columns}
-        dataSource={dataSource}
-        editable={!!onUpdate}
-        onKeyDown={onKeyDown}
-        onEditStart={onEditStart}
-        onEditStop={onEditStop}
-        onEditComplete={onEditComplete}
-        onActiveCellChange={onActiveCellChange}
-        style={{ height: '100%', borderBottom: 'none' }}
-      />
-    </div>
+    <ThemeProvider theme={themes.DEFAULT}>
+      <div style={{ height: '100%', width: '100%' }}>
+        <ReactDataGrid
+          pagination={true}
+          defaultActiveCell={DEFAULT_ACTIVE_CELL}
+          idProperty="_rowNumber"
+          handle={setGridRef as any}
+          columns={columns}
+          dataSource={dataSource}
+          editable={!!onUpdate}
+          onKeyDown={onKeyDown}
+          onEditStart={onEditStart}
+          onEditStop={onEditStop}
+          onEditComplete={onEditComplete}
+          onActiveCellChange={onActiveCellChange}
+          style={{ height: '100%', borderBottom: 'none' }}
+        />
+      </div>
+    </ThemeProvider>
   )
 }
 
