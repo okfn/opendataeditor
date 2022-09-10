@@ -14,7 +14,7 @@ export function createStore(props: { name?: string }) {
   }))
 }
 
-export function getStore() {
+export function ensureStore() {
   const store = React.useContext(StoreContext)
   assert(store)
   return store
