@@ -7,6 +7,7 @@ import DataView from './Views/Data'
 import MetadataView from './Views/Metadata'
 import ReportView from './Views/Report'
 import SourceView from './Views/Source'
+import ChartView from './Views/Chart'
 import SqlView from './Views/Sql'
 
 export default function Editor() {
@@ -22,7 +23,8 @@ export default function Editor() {
           <Tab label="Metadata" {...a11yProps(1)} />
           <Tab label="Report" {...a11yProps(2)} />
           <Tab label="Source" {...a11yProps(3)} />
-          <Tab label="SQL" {...a11yProps(4)} />
+          <Tab label="Chart" {...a11yProps(4)} />
+          <Tab label="SQL" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -38,6 +40,9 @@ export default function Editor() {
         <SourceView />
       </TabPanel>
       <TabPanel value={value} index={4}>
+        <ChartView />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
         <SqlView />
       </TabPanel>
     </Box>
