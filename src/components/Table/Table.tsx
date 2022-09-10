@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Provider, makeStore } from './store'
 import { Client } from '../../client'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../themes'
 import Layout from './Layout'
 
 export interface TableProps {
@@ -10,8 +12,10 @@ export interface TableProps {
 
 export default function Table(props: TableProps) {
   return (
-    <Provider createStore={() => makeStore(props)}>
-      <Layout />
-    </Provider>
+    <ThemeProvider theme={themes.DEFAULT}>
+      <Provider createStore={() => makeStore(props)}>
+        <Layout />
+      </Provider>
+    </ThemeProvider>
   )
 }

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../themes'
 import Layout from './Layout'
 
 // TODO: remove borderTop hack
@@ -13,8 +15,10 @@ export interface SchemaProps {
 
 export default function Schema(props: SchemaProps) {
   return (
-    <Provider createStore={() => makeStore(props)}>
-      <Layout />
-    </Provider>
+    <ThemeProvider theme={themes.DEFAULT}>
+      <Provider createStore={() => makeStore(props)}>
+        <Layout />
+      </Provider>
+    </ThemeProvider>
   )
 }

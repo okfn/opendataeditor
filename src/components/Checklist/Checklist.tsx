@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { IChecklist, ISchema } from '../../interfaces'
 import { Provider, makeStore } from './store'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../themes'
 import Layout from './Layout'
 
 export interface ChecklistProps {
@@ -12,8 +14,10 @@ export interface ChecklistProps {
 
 export default function Checklist(props: ChecklistProps) {
   return (
-    <Provider createStore={() => makeStore(props)}>
-      <Layout />
-    </Provider>
+    <ThemeProvider theme={themes.DEFAULT}>
+      <Provider createStore={() => makeStore(props)}>
+        <Layout />
+      </Provider>
+    </ThemeProvider>
   )
 }

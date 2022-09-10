@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { IResource } from '../../interfaces'
 import { Provider, makeStore } from './store'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../themes'
 import Layout, { LayoutWithTabs } from './Layout'
 
 export interface ResourceProps {
@@ -12,8 +14,10 @@ export interface ResourceProps {
 
 export default function Resource(props: ResourceProps) {
   return (
-    <Provider createStore={() => makeStore(props)}>
-      {props.withTabs ? <LayoutWithTabs /> : <Layout />}
-    </Provider>
+    <ThemeProvider theme={themes.DEFAULT}>
+      <Provider createStore={() => makeStore(props)}>
+        {props.withTabs ? <LayoutWithTabs /> : <Layout />}
+      </Provider>
+    </ThemeProvider>
   )
 }

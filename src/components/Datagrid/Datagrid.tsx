@@ -179,13 +179,14 @@ export default function Datagrid(props: DatagridProps) {
     const value = ['number'].includes(context.cellProps.type)
       ? parseInt(context.value)
       : context.value
+    // TODO: call the callback only if the value is changed
     if (onUpdate) onUpdate(rowNumber, fieldName, value)
   }
 
   // TODO: support copy/paste?
   // TODO: disable selecting row number?
-  const onActiveCellChange = (context: any) => {
-    console.log(context)
+  const onActiveCellChange = (_context: any) => {
+    // console.log(context)
   }
 
   return (
