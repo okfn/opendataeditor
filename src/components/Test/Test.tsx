@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useStore } from 'zustand'
-import { StoreProvider, createStore, getStore } from './store'
+import { StoreProvider, createStore, ensureStore } from './store'
 
 export interface TestProps {
   name1?: string
@@ -26,7 +26,7 @@ function Level2(props: { name?: string }) {
 }
 
 function Level3() {
-  const store = getStore()
+  const store = ensureStore()
   const name = useStore(store, (state) => state.name)
   return <div>{name}</div>
 }
