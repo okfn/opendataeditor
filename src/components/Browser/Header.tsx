@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import { alpha, styled } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -12,8 +13,10 @@ import Box from '@mui/material/Box'
 
 // TODO: rebase from props to state
 export default function Header(props: { path?: string }) {
+  const theme = useTheme()
+  const height = theme.spacing(8)
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar disableGutters>
           <Grid container>

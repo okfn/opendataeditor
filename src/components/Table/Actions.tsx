@@ -13,8 +13,7 @@ export default function Actions() {
     <Box
       sx={{
         borderTop: 'solid 1px #ddd',
-        borderBottom: 'solid 1px #ddd',
-        lineHeight: '62px',
+        lineHeight: '63px',
         paddingLeft: 2,
         paddingRight: 2,
       }}

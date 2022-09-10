@@ -28,6 +28,7 @@ const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 export interface DatagridProps {
   table: ITable
   report: IReport
+  height?: string
   onUpdate?: (rowNumber: number, fieldName: string, value: any) => void
   tablePatch?: ITablePatch
 }
@@ -207,7 +208,7 @@ export default function Datagrid(props: DatagridProps) {
           onEditStop={onEditStop}
           onEditComplete={onEditComplete}
           onActiveCellChange={onActiveCellChange}
-          style={{ height: '100%', borderBottom: 'none' }}
+          style={{ height: props.height || '100%', borderBottom: 'none' }}
         />
       </div>
     </ThemeProvider>

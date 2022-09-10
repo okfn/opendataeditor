@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
@@ -14,9 +15,11 @@ export default function Editor() {
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+  const theme = useTheme()
+  const tabsHeight = `calc(${theme.spacing(6)} - 1px)`
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ height: tabsHeight, borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Data" {...a11yProps(0)} />
           <Tab label="Metadata" {...a11yProps(1)} />

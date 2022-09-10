@@ -6,7 +6,7 @@ import Editor from '../Editor'
 export default function DataView() {
   return (
     <Box>
-      <Editor />
+      <Editor editable={true} />
       <Actions />
     </Box>
   )

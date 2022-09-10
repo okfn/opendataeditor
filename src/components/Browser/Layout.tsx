@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import File from '../File'
 import Table from '../Table'
@@ -9,12 +8,10 @@ import { useStore } from './store'
 
 // TODO: rebase from props to state
 export default function Layout(props: { path?: string }) {
-  const theme = useTheme()
-  const headerHeight = theme.spacing(8)
   // const path = useStore((state) => state.path)
   return (
-    <Box>
-      <Box sx={{ height: headerHeight }}>
+    <Box sx={{ height: '100vh', overflow: 'hidden' }}>
+      <Box>
         <Header path={props.path} />
       </Box>
       <Box>
