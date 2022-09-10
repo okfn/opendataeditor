@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
@@ -11,8 +12,10 @@ import Actions from '../Actions'
 import { useStore } from '../store'
 
 export default function FilesView() {
+  const theme = useTheme()
+  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
       <Box>
         <Files />
       </Box>

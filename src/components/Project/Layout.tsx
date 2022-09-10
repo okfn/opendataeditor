@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
@@ -10,19 +9,15 @@ import LinksView from './Views/Links'
 import ConfigView from './Views/Config'
 
 export default function Layout() {
-  const theme = useTheme()
   const [value, setValue] = React.useState(0)
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
-  const headerHeight = theme.spacing(8)
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
-      <Box sx={{ height: headerHeight }}>
-        <Header />
-      </Box>
+    <Box sx={{ height: '100vh', overflow: 'hidden' }}>
+      <Header />
       <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ marginTop: '-1px', borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Files" {...a11yProps(0)} />
             <Tab label="Links" {...a11yProps(1)} />

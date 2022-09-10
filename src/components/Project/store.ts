@@ -4,13 +4,15 @@ import { Client } from '../../client'
 import { ProjectProps } from './Project'
 
 export interface ProjectState {
+  // Data
+
   client: Client
   path?: string
   paths: string[]
   onPathChange: (path?: string) => void
-}
 
-export interface ProjectLogic {
+  // Logic
+
   listFiles: () => Promise<void>
   createFile: (file: File) => Promise<void>
   selectFile: (path?: string) => void
@@ -18,7 +20,7 @@ export interface ProjectLogic {
 }
 
 export function makeStore(props: ProjectProps) {
-  return create<ProjectState & ProjectLogic>((set, get) => ({
+  return create<ProjectState>((set, get) => ({
     // Data
 
     client: props.client,
@@ -58,4 +60,4 @@ export function makeStore(props: ProjectProps) {
     },
   }))
 }
-export const { Provider, useStore } = createContext<ProjectState & ProjectLogic>()
+export const { Provider, useStore } = createContext<ProjectState>()
