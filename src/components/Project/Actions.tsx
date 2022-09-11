@@ -26,7 +26,7 @@ export default function Actions() {
 function Upload() {
   const createFile = useStore((state) => state.createFile)
   return (
-    <Button fullWidth variant="outlined" color="info" component="label">
+    <Button fullWidth variant="text" color="info" component="label">
       Upload
       <input
         hidden
@@ -42,7 +42,7 @@ function Upload() {
 function Move() {
   const path = useStore((state) => state.path)
   return (
-    <Button fullWidth disabled={!path} variant="outlined" color="info">
+    <Button fullWidth disabled={!path} variant="text" color="info">
       Move
     </Button>
   )
@@ -55,7 +55,7 @@ function Delete() {
     <Button
       fullWidth
       disabled={!path}
-      variant="outlined"
+      variant="text"
       color="warning"
       onClick={() => deleteFile()}
     >
