@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Provider, makeStore } from './store'
+import { StoreProvider, createStore } from './store'
 import { Client } from '../../client'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../themes'
@@ -11,11 +11,12 @@ export interface BrowserProps {
 }
 
 export default function Browser(props: BrowserProps) {
+  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <Provider createStore={() => makeStore(props)}>
-        <Layout path={props.path} />
-      </Provider>
+      <StoreProvider value={store}>
+        <Layout />
+      </StoreProvider>
     </ThemeProvider>
   )
 }

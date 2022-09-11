@@ -1,16 +1,20 @@
-import create from 'zustand'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
-import createContext from 'zustand/context'
 import { IDialect } from '../../interfaces'
 import { DialectProps } from './Dialect'
 import * as settings from '../../settings'
 
 const INITIAL_DIALECT: IDialect = {}
 
-interface DialectState {
+interface State {
+  // Data
+
   descriptor: IDialect
   checkpoint: IDialect
   onCommit: (dialect: IDialect) => void
@@ -20,6 +24,9 @@ interface DialectState {
   exportFormat: string
   setExportFormat: (format: string) => void
   togglePreview: () => void
+
+  // Logic
+
   exporter: () => void
   importer: (file: File) => void
   update: (patch: object) => void
@@ -28,8 +35,8 @@ interface DialectState {
   revert: () => void
 }
 
-export function makeStore(props: DialectProps) {
-  return create<DialectState>((set, get) => ({
+export function createStore(props: DialectProps) {
+  return create<State>((set, get) => ({
     // Data
 
     descriptor: cloneDeep(props.dialect || INITIAL_DIALECT),
@@ -79,4 +86,11 @@ export function makeStore(props: DialectProps) {
   }))
 }
 
-export const { Provider, useStore } = createContext<DialectState>()
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider

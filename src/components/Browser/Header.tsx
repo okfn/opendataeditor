@@ -10,11 +10,13 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import { useStore } from './store'
 
 // TODO: rebase from props to state
-export default function Header(props: { path?: string }) {
+export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
+  const path = useStore((state) => state.path)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static">
@@ -28,7 +30,7 @@ export default function Header(props: { path?: string }) {
                 <StyledInputBase
                   placeholder="Provide a link to a data file or upload one on the left"
                   inputProps={{ 'aria-label': 'search' }}
-                  value={props.path}
+                  value={path}
                 />
               </Search>
             </Grid>

@@ -1,16 +1,21 @@
-import create from 'zustand'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
-import createContext from 'zustand/context'
 import { IPackage } from '../../interfaces'
 import { PackageProps } from './Package'
 import * as settings from '../../settings'
 
 const INITIAL_PACKAGE: IPackage = { resources: [] }
 
-interface PackageState {
+interface State {
+  // Data
+
+  withTabs?: boolean
   descriptor: IPackage
   checkpoint: IPackage
   onCommit: (pkg: IPackage) => void
@@ -20,6 +25,9 @@ interface PackageState {
   exportFormat: string
   setExportFormat: (format: string) => void
   togglePreview: () => void
+
+  // Logic
+
   exporter: () => void
   importer: (file: File) => void
   update: (patch: object) => void
@@ -27,8 +35,11 @@ interface PackageState {
   revert: () => void
 }
 
-export function makeStore(props: PackageProps) {
-  return create<PackageState>((set, get) => ({
+export function createStore(props: PackageProps) {
+  return create<State>((set, get) => ({
+    // Data
+
+    withTabs: props.withTabs,
     descriptor: cloneDeep(props.package || INITIAL_PACKAGE),
     checkpoint: cloneDeep(props.package || INITIAL_PACKAGE),
     onCommit: props.onCommit || noop,
@@ -36,6 +47,9 @@ export function makeStore(props: PackageProps) {
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
+
+    // Logic
+
     exporter: () => {
       const { descriptor, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
@@ -68,4 +82,11 @@ export function makeStore(props: PackageProps) {
   }))
 }
 
-export const { Provider, useStore } = createContext<PackageState>()
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider

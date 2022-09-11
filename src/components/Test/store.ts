@@ -1,24 +1,23 @@
 import * as React from 'react'
+import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
-import { StoreApi } from 'zustand'
-import { createContext } from 'react'
 import { assert } from 'ts-essentials'
 
-export interface TestState {
+export interface State {
   name: string
 }
 
 export function createStore(props: { name?: string }) {
-  return create<TestState>((_set, _get) => ({
+  return create<State>((_set, _get) => ({
     name: props.name || 'name',
   }))
 }
 
-export function ensureStore() {
+export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)
-  assert(store)
-  return store
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
 }
 
-const StoreContext = createContext<StoreApi<TestState> | null>(null)
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
 export const StoreProvider = StoreContext.Provider

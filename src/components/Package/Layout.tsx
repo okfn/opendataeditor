@@ -13,9 +13,12 @@ import Checklist from '../Checklist'
 import Pipeline from '../Pipeline'
 import { useStore } from './store'
 
-// TODO: remove borderTop hack
-
 export default function Layout() {
+  const withTabs = useStore((state) => state.withTabs)
+  return withTabs ? <LayoutWithTabs /> : <LayoutWithoutTabs />
+}
+
+function LayoutWithoutTabs() {
   const theme = useTheme()
   return (
     <Box sx={{ height: theme.spacing(50) }}>
@@ -59,7 +62,7 @@ export function LayoutWithTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Layout />
+        <LayoutWithoutTabs />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Resource

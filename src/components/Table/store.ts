@@ -1,11 +1,13 @@
 import noop from 'lodash/noop'
-import create from 'zustand'
-import createContext from 'zustand/context'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { IResource, ITable, ITablePatch, IReport } from '../../interfaces'
 import { TableProps } from './Table'
 
-export interface TableState {
+export interface State {
   // Data
 
   client: Client
@@ -28,8 +30,8 @@ export interface TableState {
   updateResource?: () => void
 }
 
-export function makeStore(props: TableProps) {
-  return create<TableState>((set, get) => ({
+export function createStore(props: TableProps) {
+  return create<State>((set, get) => ({
     // Data
 
     ...props,
@@ -69,4 +71,11 @@ export function makeStore(props: TableProps) {
   }))
 }
 
-export const { Provider, useStore } = createContext<TableState>()
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider

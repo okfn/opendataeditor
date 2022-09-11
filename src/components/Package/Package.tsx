@@ -1,11 +1,9 @@
 import * as React from 'react'
+import { StoreProvider, createStore } from './store'
 import { IPackage } from '../../interfaces'
-import { Provider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../themes'
-import Layout, { LayoutWithTabs } from './Layout'
-
-// TODO: remove borderTop hack
+import Layout from './Layout'
 
 export interface PackageProps {
   withTabs?: boolean
@@ -15,11 +13,12 @@ export interface PackageProps {
 }
 
 export default function Package(props: PackageProps) {
+  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <Provider createStore={() => makeStore(props)}>
-        {props.withTabs ? <LayoutWithTabs /> : <Layout />}
-      </Provider>
+      <StoreProvider value={store}>
+        <Layout />
+      </StoreProvider>
     </ThemeProvider>
   )
 }

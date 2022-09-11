@@ -1,12 +1,13 @@
-import create from 'zustand'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import produce from 'immer'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
-import createContext from 'zustand/context'
 import { createSelector } from 'reselect'
-import { assert } from 'ts-essentials'
 import { SchemaProps } from './Schema'
 import { ISchema } from '../../interfaces'
 import * as settings from '../../settings'
@@ -16,7 +17,7 @@ import * as settings from '../../settings'
 const INITIAL_SCHEMA: ISchema = { fields: [] }
 
 interface SchemaState {
-  // General
+  // General (data)
 
   descriptor: ISchema
   checkpoint: ISchema
@@ -26,17 +27,7 @@ interface SchemaState {
   isUpdated?: boolean
   exportFormat: string
 
-  // Elements
-
-  elementType: 'field' | 'foreignKey'
-  elementIndex?: number
-  elementQuery?: string
-  isElementGrid?: boolean
-  isElementExtra?: boolean
-}
-
-interface SchemaLogic {
-  // General
+  // General (logic)
 
   setExportFormat: (format: string) => void
   togglePreview: () => void
@@ -47,7 +38,15 @@ interface SchemaLogic {
   commit: () => void
   revert: () => void
 
-  // Elements
+  // Elements (data)
+
+  elementType: 'field' | 'foreignKey'
+  elementIndex?: number
+  elementQuery?: string
+  isElementGrid?: boolean
+  isElementExtra?: boolean
+
+  // Elements (logic)
 
   setElementType: (elementType: SchemaState['elementType']) => void
   setElementIndex: (index?: number) => void
@@ -60,9 +59,9 @@ interface SchemaLogic {
   updateElement: (patch: object) => void
 }
 
-export function makeStore(props: SchemaProps) {
-  const initialState = {
-    // General
+export function createStore(props: SchemaProps) {
+  return create<SchemaState>((set, get) => ({
+    // General (data)
 
     descriptor: cloneDeep(props.schema || INITIAL_SCHEMA),
     checkpoint: cloneDeep(props.schema || INITIAL_SCHEMA),
@@ -70,14 +69,7 @@ export function makeStore(props: SchemaProps) {
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
-    // Elements
-
-    elementType: 'field' as SchemaState['elementType'],
-  }
-  return create<SchemaState & SchemaLogic>((set, get) => ({
-    ...initialState,
-
-    // General
+    // General (logic)
 
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -111,7 +103,11 @@ export function makeStore(props: SchemaProps) {
       onCommit(descriptor)
     },
 
-    // Elements
+    // Elements (data)
+
+    elementType: 'field' as SchemaState['elementType'],
+
+    // Elements (logic)
 
     setElementType: (elementType) => set({ elementType }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
@@ -216,4 +212,12 @@ export const selectors = {
     return items
   },
 }
-export const { Provider, useStore } = createContext<SchemaState & SchemaLogic>()
+
+export function useStore<R>(selector: (state: SchemaState) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<SchemaState> | null>(null)
+export const StoreProvider = StoreContext.Provider

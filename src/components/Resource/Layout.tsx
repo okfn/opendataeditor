@@ -13,6 +13,11 @@ import Editor from './Editor'
 import { useStore } from './store'
 
 export default function Layout() {
+  const withTabs = useStore((state) => state.withTabs)
+  return withTabs ? <LayoutWithTabs /> : <LayoutWithoutTabs />
+}
+
+function LayoutWithoutTabs() {
   const theme = useTheme()
   return (
     <Box sx={{ height: theme.spacing(50) }}>
@@ -60,7 +65,7 @@ export function LayoutWithTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Layout />
+        <LayoutWithoutTabs />
       </TabPanel>
       {isTable && (
         <React.Fragment>

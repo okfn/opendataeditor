@@ -1,12 +1,13 @@
-import create from 'zustand'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import produce from 'immer'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
-import createContext from 'zustand/context'
 import { createSelector } from 'reselect'
-import { assert } from 'ts-essentials'
 import { PipelineProps } from './Pipeline'
 import { IPipeline, ISchema } from '../../interfaces'
 import * as settings from '../../settings'
@@ -15,8 +16,8 @@ import * as settings from '../../settings'
 
 const INITIAL_PIPELINE: IPipeline = {}
 
-interface PipelineState {
-  // General
+interface State {
+  // General (data)
 
   descriptor: IPipeline
   checkpoint: IPipeline
@@ -27,17 +28,7 @@ interface PipelineState {
   isUpdated?: boolean
   exportFormat: string
 
-  // Elements
-
-  elementType: 'step'
-  elementIndex?: number
-  elementQuery?: string
-  isElementGrid?: boolean
-  isElementExtra?: boolean
-}
-
-interface PipelineLogic {
-  // General
+  // General (logic)
 
   setExportFormat: (format: string) => void
   togglePreview: () => void
@@ -48,9 +39,17 @@ interface PipelineLogic {
   commit: () => void
   revert: () => void
 
-  // Elements
+  // Elements (data)
 
-  setElementType: (elementType: PipelineState['elementType']) => void
+  elementType: 'step'
+  elementIndex?: number
+  elementQuery?: string
+  isElementGrid?: boolean
+  isElementExtra?: boolean
+
+  // Elements (logic)
+
+  setElementType: (elementType: State['elementType']) => void
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
@@ -61,9 +60,9 @@ interface PipelineLogic {
   updateElement: (patch: object) => void
 }
 
-export function makeStore(props: PipelineProps) {
-  const initialState = {
-    // General
+export function createStore(props: PipelineProps) {
+  return create<State>((set, get) => ({
+    // General (data)
 
     descriptor: cloneDeep(props.pipeline || INITIAL_PIPELINE),
     checkpoint: cloneDeep(props.pipeline || INITIAL_PIPELINE),
@@ -72,14 +71,7 @@ export function makeStore(props: PipelineProps) {
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
-    // Elements
-
-    elementType: 'step' as PipelineState['elementType'],
-  }
-  return create<PipelineState & PipelineLogic>((set, get) => ({
-    ...initialState,
-
-    // General
+    // General (logic)
 
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -113,7 +105,11 @@ export function makeStore(props: PipelineProps) {
       onCommit(descriptor)
     },
 
-    // Elements
+    // Elements (data)
+
+    elementType: 'step' as State['elementType'],
+
+    // Elements (logic)
 
     setElementType: (elementType) => set({ elementType }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
@@ -162,7 +158,7 @@ export function makeStore(props: PipelineProps) {
 
 export const select = createSelector
 export const selectors = {
-  step: (state: PipelineState) => {
+  step: (state: State) => {
     const elementIndex = state.elementIndex
     assert(elementIndex !== undefined)
     assert(state.descriptor.steps !== undefined)
@@ -170,10 +166,10 @@ export const selectors = {
     assert(step !== undefined)
     return step
   },
-  stepNames: (state: PipelineState) => {
+  stepNames: (state: State) => {
     return (state.descriptor.steps || []).map((step) => step.type)
   },
-  foundStepItems: (state: PipelineState) => {
+  foundStepItems: (state: State) => {
     const items = []
     for (const [index, step] of (state.descriptor.steps || []).entries()) {
       if (state.elementQuery && !step.type.includes(state.elementQuery)) continue
@@ -182,4 +178,12 @@ export const selectors = {
     return items
   },
 }
-export const { Provider, useStore } = createContext<PipelineState & PipelineLogic>()
+
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider

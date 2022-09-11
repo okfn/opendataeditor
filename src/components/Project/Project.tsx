@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Provider, makeStore } from './store'
+import { StoreProvider, createStore } from './store'
 import Layout from './Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../themes'
@@ -11,11 +11,12 @@ export interface ProjectProps {
 }
 
 export default function Schema(props: ProjectProps) {
+  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <Provider createStore={() => makeStore(props)}>
+      <StoreProvider value={store}>
         <Layout />
-      </Provider>
+      </StoreProvider>
     </ThemeProvider>
   )
 }

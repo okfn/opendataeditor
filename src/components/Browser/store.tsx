@@ -1,19 +1,30 @@
-import create from 'zustand'
-import createContext from 'zustand/context'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
+import { assert } from 'ts-essentials'
 import { BrowserProps } from './Browser'
 import { Client } from '../../client'
 
-interface BrowserState {
+interface State {
   // Data
+
   client: Client
   path?: string
 }
 
-export function makeStore(props: BrowserProps) {
-  return create<BrowserState>((_set, _get) => ({
+export function createStore(props: BrowserProps) {
+  return create<State>((_set, _get) => ({
     // Data
+
     ...props,
   }))
 }
 
-export const { Provider, useStore } = createContext<BrowserState>()
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider

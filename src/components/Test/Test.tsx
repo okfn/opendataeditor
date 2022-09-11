@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { useStore } from 'zustand'
-import { StoreProvider, createStore, ensureStore } from './store'
+import { StoreProvider, createStore, useStore } from './store'
 
 export interface TestProps {
   name1?: string
@@ -17,7 +16,7 @@ export default function Test(props: TestProps) {
 }
 
 function Level2(props: { name?: string }) {
-  const store = React.useMemo(() => createStore(props), [props.name])
+  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <StoreProvider value={store}>
       <Level3 />
@@ -26,7 +25,6 @@ function Level2(props: { name?: string }) {
 }
 
 function Level3() {
-  const store = ensureStore()
-  const name = useStore(store, (state) => state.name)
+  const name = useStore((state) => state.name)
   return <div>{name}</div>
 }

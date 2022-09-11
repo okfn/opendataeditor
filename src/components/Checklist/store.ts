@@ -1,10 +1,11 @@
-import create from 'zustand'
+import * as React from 'react'
+import * as zustand from 'zustand'
+import create from 'zustand/vanilla'
 import produce from 'immer'
 import noop from 'lodash/noop'
 import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
-import createContext from 'zustand/context'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { ChecklistProps } from './Checklist'
@@ -15,8 +16,8 @@ import * as settings from '../../settings'
 
 const INITIAL_CHECKLIST: IChecklist = {}
 
-interface ChecklistState {
-  // General
+interface State {
+  // General (data)
 
   descriptor: IChecklist
   checkpoint: IChecklist
@@ -27,17 +28,7 @@ interface ChecklistState {
   isUpdated?: boolean
   exportFormat: string
 
-  // Elements
-
-  elementType: 'check'
-  elementIndex?: number
-  elementQuery?: string
-  isElementGrid?: boolean
-  isElementExtra?: boolean
-}
-
-interface ChecklistLogic {
-  // General
+  // General (logic)
 
   setExportFormat: (format: string) => void
   togglePreview: () => void
@@ -48,9 +39,17 @@ interface ChecklistLogic {
   commit: () => void
   revert: () => void
 
-  // Elements
+  // Elements (data)
 
-  setElementType: (elementType: ChecklistState['elementType']) => void
+  elementType: 'check'
+  elementIndex?: number
+  elementQuery?: string
+  isElementGrid?: boolean
+  isElementExtra?: boolean
+
+  // Elements (logic)
+
+  setElementType: (elementType: State['elementType']) => void
   setElementIndex: (index?: number) => void
   setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
@@ -61,10 +60,9 @@ interface ChecklistLogic {
   updateElement: (patch: object) => void
 }
 
-export function makeStore(props: ChecklistProps) {
-  const initialState = {
-    // General
-
+export function createStore(props: ChecklistProps) {
+  return create<State>((set, get) => ({
+    // General (data)
     descriptor: cloneDeep(props.checklist || INITIAL_CHECKLIST),
     checkpoint: cloneDeep(props.checklist || INITIAL_CHECKLIST),
     schema: props.schema,
@@ -72,14 +70,7 @@ export function makeStore(props: ChecklistProps) {
     onRevert: props.onRevert || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
-    // Elements
-
-    elementType: 'check' as ChecklistState['elementType'],
-  }
-  return create<ChecklistState & ChecklistLogic>((set, get) => ({
-    ...initialState,
-
-    // General
+    // General (logic)
 
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -113,7 +104,11 @@ export function makeStore(props: ChecklistProps) {
       onCommit(descriptor)
     },
 
-    // Elements
+    // Elements (data)
+
+    elementType: 'check' as State['elementType'],
+
+    // Elements (logic)
 
     setElementType: (elementType) => set({ elementType }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
@@ -161,7 +156,7 @@ export function makeStore(props: ChecklistProps) {
 
 export const select = createSelector
 export const selectors = {
-  check: (state: ChecklistState) => {
+  check: (state: State) => {
     const elementIndex = state.elementIndex
     assert(elementIndex !== undefined)
     assert(state.descriptor.checks !== undefined)
@@ -169,10 +164,10 @@ export const selectors = {
     assert(check !== undefined)
     return check
   },
-  checkNames: (state: ChecklistState) => {
+  checkNames: (state: State) => {
     return (state.descriptor.checks || []).map((check) => check.type)
   },
-  foundCheckItems: (state: ChecklistState) => {
+  foundCheckItems: (state: State) => {
     const items = []
     for (const [index, check] of (state.descriptor.checks || []).entries()) {
       if (state.elementQuery && !check.type.includes(state.elementQuery)) continue
@@ -181,4 +176,12 @@ export const selectors = {
     return items
   },
 }
-export const { Provider, useStore } = createContext<ChecklistState & ChecklistLogic>()
+
+export function useStore<R>(selector: (state: State) => R): R {
+  const store = React.useContext(StoreContext)
+  assert(store, 'store provider is required')
+  return zustand.useStore(store, selector)
+}
+
+const StoreContext = React.createContext<zustand.StoreApi<State> | null>(null)
+export const StoreProvider = StoreContext.Provider
