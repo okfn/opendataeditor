@@ -208,7 +208,7 @@ export default function Datagrid(props: DatagridProps) {
           onEditStop={onEditStop}
           onEditComplete={onEditComplete}
           onActiveCellChange={onActiveCellChange}
-          style={{ height: props.height || '100%', borderBottom: 'none' }}
+          style={{ height: props.height || '100%', border: 'none' }}
         />
       </div>
     </ThemeProvider>
