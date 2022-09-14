@@ -3,6 +3,7 @@ import { IResource } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
 import { ISession } from './interfaces/common'
 import { IReport } from './interfaces/report'
+import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
 
 const DEFAULT_BASEPATH = '/api'
@@ -57,6 +58,18 @@ export class Client {
     const data = await this.request('/project/read-file', props)
     const { text } = data as { text: string }
     return { text }
+  }
+
+  async projectCreateRecord(props: { path: string }) {
+    const data = await this.request('/project/create-record', props)
+    const { record } = data as { record: IRecord }
+    return { record }
+  }
+
+  async projectUpdateRecord(props: { resource: IResource }) {
+    const data = await this.request('/project/update-record', props)
+    const { record } = data as { record: IRecord }
+    return { record }
   }
 
   // Resource
