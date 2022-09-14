@@ -12,7 +12,7 @@ interface SourceProps {
 export default function Source(props: SourceProps) {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <Box sx={{ height: '100%', width: '100%', overflow: 'auto' }}>
+      <Box sx={{ height: '100%', width: '100%' }}>
         <pre style={{ margin: 0 }}>
           <code>{props.source}</code>
         </pre>

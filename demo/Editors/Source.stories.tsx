@@ -1,25 +1,24 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Report from '../../src/components/Editors/Report'
-import reportInvalid from '../../data/report-invalid.json'
+import Source from '../../src/components/Editors/Source'
 
 export default {
-  title: 'Editors/Report',
-  component: Report,
+  title: 'Editors/Source',
+  component: Source,
 } as Meta
 
-const Template: Story<Parameters<typeof Report>[0]> = (args) => <Report {...args} />
+const Template: Story<Parameters<typeof Source>[0]> = (args) => <Source {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
   client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
   record: {
-    name: 'invalid',
+    name: 'table',
     type: 'table',
-    path: 'invalid.csv',
+    path: 'table.csv',
     updated: 0,
     resource: {},
-    report: reportInvalid,
+    report: {},
   },
 }
