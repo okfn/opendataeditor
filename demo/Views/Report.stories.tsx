@@ -13,10 +13,10 @@ const Template: Story<Parameters<typeof Report>[0]> = (args) => <Report {...args
 
 export const Invalid = Template.bind({})
 Invalid.args = {
-  descriptor: reportInvalid,
+  report: reportInvalid,
 }
 
 export const Valid = Template.bind({})
 Valid.args = {
-  descriptor: reportValid,
+  report: reportValid,
 }
