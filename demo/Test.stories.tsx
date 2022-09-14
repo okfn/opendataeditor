@@ -10,7 +10,4 @@ export default {
 const Template: Story<Parameters<typeof Test>[0]> = (args) => <Test {...args} />
 
 export const Default = Template.bind({})
-Default.args = {
-  name1: 'name1',
-  name2: 'name2',
-}
+Default.args = {}

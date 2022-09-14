@@ -8,6 +8,7 @@ export interface State {
 }
 
 export function createStore(props: { name?: string }) {
+  console.log('createStore')
   return create<State>((_set, _get) => ({
     name: props.name || 'name',
   }))
