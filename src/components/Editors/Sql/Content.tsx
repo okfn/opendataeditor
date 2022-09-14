@@ -1,0 +1,6 @@
+import * as React from 'react'
+import Box from '@mui/material/Box'
+
+export default function Content() {
+  return <Box>Sql</Box>
+}
