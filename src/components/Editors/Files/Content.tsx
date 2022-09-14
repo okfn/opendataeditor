@@ -1,6 +1,4 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
@@ -8,25 +6,9 @@ import { useSpring, animated } from 'react-spring'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import TreeView from '@mui/lab/TreeView'
-import Actions from '../Actions'
-import { useStore } from '../store'
+import { useStore } from './store'
 
-export default function FilesView() {
-  const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
-  return (
-    <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-      <Box>
-        <Files />
-      </Box>
-      <Box sx={{ marginTop: 'auto' }}>
-        <Actions />
-      </Box>
-    </Box>
-  )
-}
-
-function Files() {
+export default function Content() {
   const path = useStore((state) => state.path)
   const paths = useStore((state) => state.paths)
   const listFiles = useStore((state) => state.listFiles)
