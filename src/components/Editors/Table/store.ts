@@ -3,24 +3,22 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { Client } from '../../client'
-import { IResource, ITable, ITablePatch, IReport } from '../../interfaces'
+import { Client } from '../../../client'
+import { IRecord, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
   // Data
 
   client: Client
-  path: string
-  resource?: IResource
+  record: IRecord
   table?: ITable
-  report?: IReport
   source?: string
   tablePatch: ITablePatch
 
   // Logic
 
-  loadEverything: () => Promise<void>
+  loadTable: () => Promise<void>
   loadSource: () => Promise<void>
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
@@ -39,17 +37,14 @@ export function createStore(props: TableProps) {
 
     // Logic
 
-    loadEverything: async () => {
-      const { client, path } = get()
-      if (!path) return
-      const { resource } = await client.resourceDescribe({ path })
-      const { table } = await client.resourceExtract({ resource })
-      const { report } = await client.resourceValidate({ resource })
-      set({ resource, table, report })
+    loadTable: async () => {
+      const { client, record } = get()
+      const { table } = await client.resourceExtract({ resource: record.resource })
+      set({ table })
     },
     loadSource: async () => {
-      const { client, path } = get()
-      const { text } = await client.projectReadFile({ path })
+      const { client, record } = get()
+      const { text } = await client.projectReadFile({ path: record.path })
       set({ source: text })
     },
     updatePatch: (rowNumber, fieldName, value) => {
