@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import Source from '../../Views/Source'
 import { useStore } from './store'
 
@@ -10,5 +11,9 @@ export default function Content() {
     loadSource().catch(console.error)
   }, [path])
   if (!source) return null
-  return <Source source={source} />
+  return (
+    <Box sx={{ padding: 2 }}>
+      <Source source={source} />
+    </Box>
+  )
 }

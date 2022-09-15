@@ -17,21 +17,22 @@ export class Client {
     this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // Request
-
-  async request(path: string, props: { [key: string]: any; file?: File } = {}) {
-    if (this.basepath) path = this.basepath + path
-    return makeRequest(path, { ...props, session: this.session })
-  }
-
   // Connect
 
+  // TODO: read session from localStorage here?
   static async connect(props: { session?: ISession; basepath?: string } = {}) {
     const basepath = props.basepath || DEFAULT_BASEPATH
     const path = `${basepath}/project/connect`
     const data = await makeRequest(path, { session: props.session })
     const { session } = data as { session: ISession }
     return new this({ session, basepath })
+  }
+
+  // Request
+
+  async request(path: string, props: { [key: string]: any; file?: File } = {}) {
+    if (this.basepath) path = this.basepath + path
+    return makeRequest(path, { ...props, session: this.session })
   }
 
   // Project

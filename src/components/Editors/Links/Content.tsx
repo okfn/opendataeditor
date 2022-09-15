@@ -2,5 +2,5 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 
 export default function Content() {
-  return <Box>Links</Box>
+  return <Box sx={{ padding: 2 }}>Links</Box>
 }

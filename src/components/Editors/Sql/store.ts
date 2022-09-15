@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { LinksProps } from './Links'
+import { SqlProps } from './Sql'
 
 export interface State {
   // Data
@@ -11,7 +11,7 @@ export interface State {
   client: Client
 }
 
-export function createStore(props: LinksProps) {
+export function createStore(props: SqlProps) {
   return create<State>((_set, _get) => ({
     // Data
 

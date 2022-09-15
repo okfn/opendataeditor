@@ -3,17 +3,18 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../client'
+import { IRecord } from '../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
   // Data
 
-  client?: Client
+  client: Client
   path?: string
+  record?: IRecord
 
   // Logic
 
-  ensureClient: () => Promise<void>
   selectPath: (path?: string) => void
 }
 
@@ -23,13 +24,13 @@ export function createStore(props: ApplicationProps) {
     ...props,
 
     // Logic
-    ensureClient: async () => {
-      if (get().client) return
-      const client = await Client.connect()
-      set({ client })
-    },
-    selectPath: (path) => {
+    selectPath: async (path) => {
+      const { client } = get()
       set({ path })
+      if (path) {
+        const { record } = await client.projectCreateRecord({ path })
+        set({ record })
+      }
     },
   }))
 }

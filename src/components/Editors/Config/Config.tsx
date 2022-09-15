@@ -5,11 +5,11 @@ import * as themes from '../../../themes'
 import { Client } from '../../../client'
 import Layout from './Layout'
 
-export interface LinksProps {
+export interface ConfigProps {
   client: Client
 }
 
-export default function Links(props: LinksProps) {
+export default function Config(props: ConfigProps) {
   const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

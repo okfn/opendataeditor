@@ -7,7 +7,7 @@ import * as themes from '../../themes'
 import Layout from './Layout'
 
 export interface ApplicationProps {
-  client?: Client
+  client: Client
 }
 
 export default function Application(props: ApplicationProps) {

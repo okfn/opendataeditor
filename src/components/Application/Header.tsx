@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 import { alpha, styled } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -22,7 +24,20 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar disableGutters>
           <Grid container>
-            <Grid item xs={10}>
+            <Grid item xs={3}>
+              <Typography variant="h5" sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}>
+                <strong>
+                  Frictionless Application{' '}
+                  <Chip
+                    size="small"
+                    label="alpha"
+                    variant="outlined"
+                    sx={{ color: 'white', borderRadius: 1 }}
+                  />
+                </strong>
+              </Typography>
+            </Grid>
+            <Grid item xs={7}>
               <Search>
                 <SearchIconWrapper>
                   <LinkIcon />
