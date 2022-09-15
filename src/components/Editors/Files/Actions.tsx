@@ -2,18 +2,14 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../../Views/Library/Columns'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Actions() {
+  const theme = useTheme()
+  const height = `calc(${theme.spacing(8)} - 1px)`
   return (
-    <Box
-      sx={{
-        borderTop: 'solid 1px #ddd',
-        lineHeight: '63px',
-        paddingLeft: 2,
-        paddingRight: 2,
-      }}
-    >
+    <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
       <Columns spacing={3}>
         <Upload />
         <Move />

@@ -38,7 +38,7 @@ function MetadataLayout() {
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
         <Content height={contentHeight} />
       </Box>
-      <Box sx={{ marginTop: 'auto', borderTop: 'solid 1px #ddd' }}>
+      <Box sx={{ marginTop: 'auto', borderTop: 'solid 1px #ddd', paddingX: 2 }}>
         <Resource resource={resource} withTabs={true} onCommit={updateResource} />
       </Box>
     </Box>

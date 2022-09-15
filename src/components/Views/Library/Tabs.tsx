@@ -5,13 +5,14 @@ import MuiTabs from '@mui/material/Tabs'
 import MuiTab from '@mui/material/Tab'
 
 export interface TabsProps {
+  index?: number
   labels: string[]
   children?: React.ReactNode
 }
 
 export default function Tabs(props: TabsProps) {
   const theme = useTheme()
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = React.useState(props.index || 0)
   const handleChange = (_: any, newValue: number) => setValue(newValue)
   const tabsHeight = `calc(${theme.spacing(6)} - 1px)`
   return (

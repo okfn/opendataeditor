@@ -6,18 +6,14 @@ import ExportButton from '../../Views/Library/Buttons/ExportButton'
 import CommitButton from '../../Views/Library/Buttons/CommitButton'
 import RevertButton from '../../Views/Library/Buttons/RevertButton'
 import Columns from '../../Views/Library/Columns'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Actions() {
+  const theme = useTheme()
+  const height = `calc(${theme.spacing(8)} - 1px)`
   return (
-    <Box
-      sx={{
-        borderTop: 'solid 1px #ddd',
-        lineHeight: '63px',
-        paddingLeft: 2,
-        paddingRight: 2,
-      }}
-    >
+    <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
       <Columns spacing={3}>
         <Export />
         <Import />
