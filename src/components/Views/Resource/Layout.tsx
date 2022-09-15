@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Tabs from '../Library/Tabs'
 import Dialect from '../Dialect'
@@ -8,6 +7,7 @@ import Checklist from '../Checklist'
 import Pipeline from '../Pipeline'
 import Actions from './Actions'
 import Editor from './Editor'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Layout() {
