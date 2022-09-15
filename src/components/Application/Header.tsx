@@ -30,7 +30,7 @@ export default function Header() {
                   Frictionless Application{' '}
                   <Chip
                     size="small"
-                    label="alpha"
+                    label="beta"
                     variant="outlined"
                     sx={{ color: 'white', borderRadius: 1 }}
                   />
