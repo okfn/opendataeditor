@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { StoreProvider, createStore } from './store'
-import { Client } from '../../client'
+import { Client } from '../../../client'
 import { ThemeProvider } from '@mui/material/styles'
-import * as themes from '../../themes'
+import * as themes from '../../../themes'
+import { IRecord } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface DatasetProps {
   client: Client
-  path: string
+  record: IRecord
+  isMetadata?: boolean
 }
 
 export default function Dataset(props: DatasetProps) {
