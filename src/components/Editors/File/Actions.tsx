@@ -1,10 +1,11 @@
-import noop from 'lodash/noop'
 import * as React from 'react'
+import noop from 'lodash/noop'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import CommitButton from '../Library/Buttons/CommitButton'
-import RevertButton from '../Library/Buttons/RevertButton'
-import Columns from '../Library/Columns'
+import ExportButton from '../../Views/Library/Buttons/ExportButton'
+import CommitButton from '../../Views/Library/Buttons/CommitButton'
+import RevertButton from '../../Views/Library/Buttons/RevertButton'
+import Columns from '../../Views/Library/Columns'
 import { useStore } from './store'
 
 export default function Actions() {
@@ -28,17 +29,17 @@ export default function Actions() {
 }
 
 function Export() {
+  const [format, setFormat] = React.useState('csv')
   const exportFile = useStore((state) => state.exportFile)
   return (
-    <Button
-      fullWidth
+    <ExportButton
+      format={format}
+      options={['csv', 'xlsx']}
+      onExport={() => (exportFile ? exportFile(format) : undefined)}
+      onPreview={() => (exportFile ? exportFile(format) : undefined)}
+      setFormat={setFormat}
       variant="contained"
-      title="Export file"
-      color="info"
-      onClick={() => (exportFile ? exportFile() : undefined)}
-    >
-      Export
-    </Button>
+    />
   )
 }
 
@@ -48,7 +49,7 @@ function Import() {
     <Button
       fullWidth
       variant="contained"
-      title="Import file"
+      title="Import table"
       color="info"
       onClick={() => (importFile ? importFile() : undefined)}
     >
