@@ -25,7 +25,7 @@ import { ITable, ITablePatch } from '../../../interfaces'
 let inEdit: boolean
 const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 
-export interface DatagridProps {
+export interface TableProps {
   table: ITable
   report: IReport
   height?: string
@@ -33,7 +33,7 @@ export interface DatagridProps {
   tablePatch?: ITablePatch
 }
 
-export default function Datagrid(props: DatagridProps) {
+export default function Table(props: TableProps) {
   const [gridRef, setGridRef] = React.useState(null)
   const table = props.table
   const fields = table.schema.fields
