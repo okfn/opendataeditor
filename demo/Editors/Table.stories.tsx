@@ -4,24 +4,37 @@ import { Client } from '../../src/client'
 import Table from '../../src/components/Editors/Table'
 import reportValid from '../../data/report-valid.json'
 
+const Template: Story<Parameters<typeof Table>[0]> = (args) => <Table {...args} />
 export default {
   title: 'Editors/Table',
   component: Table,
 } as Meta
 
-const Template: Story<Parameters<typeof Table>[0]> = (args) => <Table {...args} />
+// Props
 
-export const Default = Template.bind({})
-Default.args = {
-  client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
-  record: {
-    name: 'table',
-    type: 'table',
+const client = new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' })
+const record = {
+  name: 'table',
+  type: 'table',
+  path: 'table.csv',
+  updated: 0,
+  resource: {
     path: 'table.csv',
-    updated: 0,
-    resource: {
-      path: 'table.csv',
-    },
-    report: reportValid,
   },
+  report: reportValid,
+}
+
+// Components
+
+export const Data = Template.bind({})
+Data.args = {
+  client,
+  record,
+}
+
+export const Metadata = Template.bind({})
+Metadata.args = {
+  client,
+  record,
+  isMetadata: true,
 }

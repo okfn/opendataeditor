@@ -9,6 +9,7 @@ import Layout from './Layout'
 export interface TableProps {
   client: Client
   record: IRecord
+  isMetadata?: boolean
 }
 
 export default function Table(props: TableProps) {

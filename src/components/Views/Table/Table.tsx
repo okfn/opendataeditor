@@ -194,23 +194,21 @@ export default function Datagrid(props: DatagridProps) {
 
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <div style={{ height: '100%', width: '100%' }}>
-        <ReactDataGrid
-          pagination={true}
-          defaultActiveCell={DEFAULT_ACTIVE_CELL}
-          idProperty="_rowNumber"
-          handle={setGridRef as any}
-          columns={columns}
-          dataSource={dataSource}
-          editable={!!onUpdate}
-          onKeyDown={onKeyDown}
-          onEditStart={onEditStart}
-          onEditStop={onEditStop}
-          onEditComplete={onEditComplete}
-          onActiveCellChange={onActiveCellChange}
-          style={{ height: props.height || '100%', border: 'none' }}
-        />
-      </div>
+      <ReactDataGrid
+        pagination={true}
+        defaultActiveCell={DEFAULT_ACTIVE_CELL}
+        idProperty="_rowNumber"
+        handle={setGridRef as any}
+        columns={columns}
+        dataSource={dataSource}
+        editable={!!onUpdate}
+        onKeyDown={onKeyDown}
+        onEditStart={onEditStart}
+        onEditStop={onEditStop}
+        onEditComplete={onEditComplete}
+        onActiveCellChange={onActiveCellChange}
+        style={{ height: props.height || '100%', border: 'none' }}
+      />
     </ThemeProvider>
   )
 }

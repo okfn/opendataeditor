@@ -12,9 +12,10 @@ export interface State {
 
   client: Client
   record: IRecord
+  isMetadata?: boolean
+  tablePatch: ITablePatch
   table?: ITable
   source?: string
-  tablePatch: ITablePatch
 
   // Logic
 
