@@ -7,7 +7,7 @@ import Details from './Columns/Details'
 import Stats from './Columns/Stats'
 import { useStore } from './store'
 
-export default function Editor() {
+export default function Content() {
   const isPreview = useStore((state) => state.isPreview)
   const descriptor = useStore((state) => state.descriptor)
   const exportFormat = useStore((state) => state.exportFormat)

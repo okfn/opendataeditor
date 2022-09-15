@@ -7,7 +7,7 @@ import Schema from '../Schema'
 import Checklist from '../Checklist'
 import Pipeline from '../Pipeline'
 import Actions from './Actions'
-import Editor from './Editor'
+import Content from './Content'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -17,6 +17,28 @@ export default function Layout() {
   if (!withTabs) return <LayoutDefault />
   if (!isTabular) return <LayoutWithTabs />
   return <LayoutWithTabsTabular />
+}
+
+function LayoutDefault() {
+  const theme = useTheme()
+  return (
+    <Box sx={{ height: theme.spacing(50) }}>
+      <Box sx={{ height: theme.spacing(42) }}>
+        <Content />
+      </Box>
+      <Box sx={{ height: theme.spacing(8) }}>
+        <Actions />
+      </Box>
+    </Box>
+  )
+}
+
+export function LayoutWithTabs() {
+  return (
+    <Tabs labels={['Package']}>
+      <LayoutDefault />
+    </Tabs>
+  )
 }
 
 export function LayoutWithTabsTabular() {
@@ -52,27 +74,5 @@ export function LayoutWithTabsTabular() {
         onCommit={(pipeline) => update({ resources: [{ ...resource, pipeline }] })}
       />
     </Tabs>
-  )
-}
-
-export function LayoutWithTabs() {
-  return (
-    <Tabs labels={['Package']}>
-      <LayoutDefault />
-    </Tabs>
-  )
-}
-
-function LayoutDefault() {
-  const theme = useTheme()
-  return (
-    <Box sx={{ height: theme.spacing(50) }}>
-      <Box sx={{ height: theme.spacing(42) }}>
-        <Editor />
-      </Box>
-      <Box sx={{ height: theme.spacing(8) }}>
-        <Actions />
-      </Box>
-    </Box>
   )
 }
