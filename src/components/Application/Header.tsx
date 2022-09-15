@@ -6,8 +6,10 @@ import { alpha, styled } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
-import LinkIcon from '@mui/icons-material/Input'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import InputIcon from '@mui/icons-material/Input'
+import GithubIcon from '@mui/icons-material/GitHub'
+import SupportIcon from '@mui/icons-material/SupportAgent'
+import HelpIcon from '@mui/icons-material/Help'
 // import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
@@ -40,7 +42,7 @@ export default function Header() {
             <Grid item xs={7}>
               <Search>
                 <SearchIconWrapper>
-                  <LinkIcon />
+                  <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Provide a link to a data file or upload one on the left"
@@ -52,12 +54,28 @@ export default function Header() {
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
                 <Button
-                  title="Open Documentation"
+                  title="Slack"
+                  color="inherit"
+                  href="https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg"
+                  target="_blank"
+                >
+                  <SupportIcon />
+                </Button>
+                <Button
+                  title="Github"
+                  color="inherit"
+                  href="https://github.com/frictionlessdata/application"
+                  target="_blank"
+                >
+                  <GithubIcon />
+                </Button>
+                <Button
+                  title="Documentation"
                   color="inherit"
                   href="https://application.frictionlessdata.io"
                   target="_blank"
                 >
-                  <HelpOutlineIcon />
+                  <HelpIcon />
                 </Button>
               </Grid>
             </Grid>
