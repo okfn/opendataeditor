@@ -6,7 +6,7 @@ import { useStore } from './store'
 export default function Content() {
   const report = useStore((state) => state.record.report)
   return (
-    <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
+    <Box sx={{ paddingX: 2 }}>
       <Report report={report} />
     </Box>
   )
