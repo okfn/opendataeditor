@@ -21,7 +21,7 @@ function MissingValues() {
   return (
     <ValuesField
       type="missing"
-      values={missingValues || settings.MISSING_VALUES}
+      values={missingValues || settings.DEFAULT_MISSING_VALUES}
       options={settings.MISSING_VALUES}
       onChange={(missingValues) => update({ missingValues })}
     />

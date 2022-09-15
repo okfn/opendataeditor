@@ -12,6 +12,7 @@ export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const DEFAULT_PORT = 4040
 export const DEFAULT_EXPORT_FORMAT = 'yaml'
 export const DEFAULT_FIELD_CONFIDENCE = 0.9
+export const DEFAULT_MISSING_VALUES = ['""']
 export const DEFAULT_HEADER = true
 export const DEFAULT_HEADER_JOIN = ' '
 export const DEFAULT_HEADER_CASE = true
