@@ -55,12 +55,6 @@ export class Client {
     return { paths }
   }
 
-  async projectReadFile(props: { path: string }) {
-    const data = await this.request('/project/read-file', props)
-    const { text } = data as { text: string }
-    return { text }
-  }
-
   async projectCreatePackage() {
     const data = await this.request('/project/create-package')
     const { path } = data as { path: string }
@@ -91,6 +85,24 @@ export class Client {
     const data = await this.request('/resource/extract', props)
     const { table } = data as { table: ITable }
     return { table }
+  }
+
+  async resourceReadBytes(props: { resource: IResource }) {
+    const data = await this.request('/resource/read-bytes', props)
+    const { bytes } = data as { bytes: string }
+    return { bytes }
+  }
+
+  async resourceReadText(props: { resource: IResource }) {
+    const data = await this.request('/resource/read-text', props)
+    const { text } = data as { text: string }
+    return { text }
+  }
+
+  async resourceReadData(props: { resource: IResource }) {
+    const dt = await this.request('/resource/read-data', props)
+    const { data } = dt as { data: object }
+    return { data }
   }
 
   async resourceValidate(props: { resource: IResource }) {

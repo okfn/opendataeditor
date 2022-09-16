@@ -29,7 +29,7 @@ export function createStore(props: SourceProps) {
 
     loadSource: async () => {
       const { client, record } = get()
-      const { text } = await client.projectReadFile({ path: record.path })
+      const { text } = await client.resourceReadText({ resource: record.resource })
       set({ source: text })
     },
   }))
