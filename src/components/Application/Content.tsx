@@ -76,9 +76,8 @@ function LayoutTable() {
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Data', 'Metadata', 'Report', 'Source', 'Chart', 'SQL']}>
+      <Tabs labels={['Table', 'Report', 'Source', 'Chart', 'SQL']}>
         <TableEditor client={client} record={record} />
-        <TableEditor client={client} record={record} isMetadata={true} />
         <ReportEditor client={client} record={record} />
         <SourceEditor client={client} record={record} />
         <ChartEditor client={client} />

@@ -19,6 +19,7 @@ export interface State {
 
   // Logic
 
+  toggleMetadata: () => void
   loadTable: () => Promise<void>
   loadSource: () => Promise<void>
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
@@ -38,6 +39,9 @@ export function createStore(props: TableProps) {
 
     // Logic
 
+    toggleMetadata: () => {
+      set({ isMetadata: !get().isMetadata })
+    },
     loadTable: async () => {
       const { client, record } = get()
       const { table } = await client.resourceExtract({ resource: record.resource })
@@ -45,7 +49,7 @@ export function createStore(props: TableProps) {
     },
     loadSource: async () => {
       const { client, record } = get()
-      const { text } = await client.projectReadFile({ path: record.path })
+      const { text } = await client.resourceReadText({ resource: record.resource })
       set({ source: text })
     },
     updatePatch: (rowNumber, fieldName, value) => {

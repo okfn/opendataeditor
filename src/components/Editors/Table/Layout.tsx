@@ -3,12 +3,18 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import Actions from './Actions'
 import Content from './Content'
+import Menu from './Menu'
 import Resource from '../../Views/Resource'
 import { useStore } from './store'
 
 export default function Layout() {
   const isMetadata = useStore((state) => state.isMetadata)
-  return isMetadata ? <MetadataLayout /> : <DataLayout />
+  return (
+    <Box sx={{ position: 'relative' }}>
+      <Menu />
+      {isMetadata ? <MetadataLayout /> : <DataLayout />}
+    </Box>
+  )
 }
 
 function DataLayout() {

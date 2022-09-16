@@ -32,6 +32,7 @@ export function createStore(props: PackageProps) {
     tablePatch: {},
 
     // Logic
+
     toggleMetadata: () => {
       set({ isMetadata: !get().isMetadata })
     },
