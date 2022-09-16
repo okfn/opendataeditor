@@ -36,7 +36,7 @@ function LayoutFile() {
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Data', 'Metadata']}>
         <FileEditor client={client} record={record} />
-        <FileEditor client={client} record={record} />
+        <FileEditor client={client} record={record} isMetadata={true} />
       </Tabs>
     </Box>
   )

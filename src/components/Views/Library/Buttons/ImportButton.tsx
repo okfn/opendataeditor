@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 
 interface ImportButtonProps {
   onImport: (value: any) => void
+  variant?: 'outlined' | 'contained'
 }
 
 export default function ImportButton(props: ImportButtonProps) {
@@ -22,7 +23,7 @@ export default function ImportButton(props: ImportButtonProps) {
       />
       <Button
         title="Import as JSON or YAML"
-        variant="contained"
+        variant={props.variant || 'contained'}
         component="span"
         color="info"
         fullWidth

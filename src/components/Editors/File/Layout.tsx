@@ -14,11 +14,10 @@ export default function Layout() {
 function DataLayout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + 8)})`
   return (
     <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
-        <Content height={contentHeight} />
+        <Content />
       </Box>
       <Box sx={{ marginTop: 'auto' }}>
         <Actions />
@@ -30,15 +29,14 @@ function DataLayout() {
 function MetadataLayout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + 56)})`
   const resource = useStore((state) => state.record.resource)
   const updateResource = useStore((state) => state.updateResource)
   return (
     <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
-        <Content height={contentHeight} />
+        <Content />
       </Box>
-      <Box sx={{ marginTop: 'auto', borderTop: 'solid 1px #ddd' }}>
+      <Box sx={{ marginTop: 'auto', borderTop: 'solid 1px #ddd', paddingX: 2 }}>
         <Resource resource={resource} withTabs={true} onCommit={updateResource} />
       </Box>
     </Box>
