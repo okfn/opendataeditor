@@ -61,6 +61,12 @@ export class Client {
     return { text }
   }
 
+  async projectCreatePackage() {
+    const data = await this.request('/project/create-package')
+    const { path } = data as { path: string }
+    return { path }
+  }
+
   async projectCreateRecord(props: { path: string }) {
     const data = await this.request('/project/create-record', props)
     const { record } = data as { record: IRecord }

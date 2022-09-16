@@ -3,8 +3,11 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
 import { useSpring, animated } from 'react-spring'
+import * as settings from '../../../settings'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import { useStore } from './store'
 
@@ -13,27 +16,41 @@ export default function Content() {
   const paths = useStore((state) => state.paths)
   const listFiles = useStore((state) => state.listFiles)
   const selectFile = useStore((state) => state.selectFile)
+  const createPackage = useStore((state) => state.createPackage)
+  const withoutPackage = !!paths.length && !paths.includes(settings.PACKAGE_PATH)
   const tree = indexTree(createTree(paths))
   React.useEffect(() => {
     listFiles().catch(console.error)
   }, [])
   return (
-    <TreeView
-      aria-label="customized"
-      defaultExpanded={['1']}
-      defaultCollapseIcon={<MinusSquare />}
-      defaultExpandIcon={<PlusSquare />}
-      defaultEndIcon={<CloseSquare />}
-      selected={path || ''}
-      onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
-        selectFile(nodeId)
-      }}
-      sx={{ padding: 2 }}
-    >
-      {tree.sort(compareNodes).map((node: any) => (
-        <TreeNode node={node} key={node.path} />
-      ))}
-    </TreeView>
+    <Box sx={{ padding: 2 }}>
+      <TreeView
+        aria-label="customized"
+        defaultExpanded={['1']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        defaultEndIcon={<CloseSquare />}
+        selected={path || ''}
+        onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
+          selectFile(nodeId)
+        }}
+      >
+        {tree.sort(compareNodes).map((node: any) => (
+          <TreeNode node={node} key={node.path} />
+        ))}
+      </TreeView>
+      {withoutPackage && (
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          sx={{ marginTop: 2 }}
+          onClick={() => createPackage()}
+        >
+          Create Data Package
+        </Button>
+      )}
+    </Box>
   )
 }
 
@@ -90,8 +107,10 @@ function TransitionComponent(props: TransitionProps) {
 
 const StyledTreeItem = styled((props: TreeItemProps) => (
   <TreeItem {...props} TransitionComponent={TransitionComponent} />
-))(({ theme }) => ({
-  '& .MuiTreeItem-label': {},
+))(({ theme, nodeId }) => ({
+  '& .MuiTreeItem-label': {
+    fontWeight: nodeId === settings.PACKAGE_PATH ? 'bold' : 'normal',
+  },
   [`& .${treeItemClasses.iconContainer}`]: {
     '& .close': {
       opacity: 0.3,

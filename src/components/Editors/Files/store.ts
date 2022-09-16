@@ -19,6 +19,7 @@ export interface State {
   createFile: (file: File) => Promise<void>
   selectFile: (path?: string) => void
   deleteFile: () => Promise<void>
+  createPackage: () => Promise<void>
 }
 
 export function createStore(props: FilesProps) {
@@ -37,7 +38,8 @@ export function createStore(props: FilesProps) {
       set({ paths })
     },
     selectFile: (path) => {
-      const { onPathChange } = get()
+      const { onPathChange, paths } = get()
+      if (path && !paths.includes(path)) return
       if (get().path === path) return
       set({ path })
       onPathChange(path)
@@ -59,6 +61,12 @@ export function createStore(props: FilesProps) {
       await client.projectDeleteFile({ path })
       await listFiles()
       selectFile(undefined)
+    },
+    createPackage: async () => {
+      const { client, listFiles, selectFile } = get()
+      const { path } = await client.projectCreatePackage()
+      await listFiles()
+      selectFile(path)
     },
   }))
 }
