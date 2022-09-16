@@ -1,6 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import ValidIcon from '@mui/icons-material/Check'
+import InvalidIcon from '@mui/icons-material/ErrorOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
@@ -8,6 +10,7 @@ import { useStore } from './store'
 export default function Menu() {
   const theme = useTheme()
   // const isMetadata = useStore((state) => state.isMetadata)
+  const report = useStore((state) => state.record.report)
   const toggleMetadata = useStore((state) => state.toggleMetadata)
   return (
     <Box
@@ -24,8 +27,18 @@ export default function Menu() {
     >
       <Button
         variant="text"
-        title="Import table"
-        color="secondary"
+        title="Show Errors"
+        color={report.valid ? 'secondary' : 'error'}
+        onClick={() => alert('Open errors panel')}
+        startIcon={report.valid ? <ValidIcon /> : <InvalidIcon />}
+        sx={{ marginRight: 1 }}
+      >
+        Errors ({report.stats.errors})
+      </Button>
+      <Button
+        variant="text"
+        title="Show Metadata"
+        color={report.valid ? 'secondary' : 'error'}
         onClick={() => toggleMetadata()}
         startIcon={<SettingsIcon />}
       >
