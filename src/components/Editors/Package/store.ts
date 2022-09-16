@@ -17,6 +17,7 @@ export interface State {
 
   // Logic
 
+  toggleMetadata: () => void
   loadSource: () => Promise<void>
   exportFile?: (format: string) => void
   importFile?: () => void
@@ -31,9 +32,12 @@ export function createStore(props: PackageProps) {
     tablePatch: {},
 
     // Logic
+    toggleMetadata: () => {
+      set({ isMetadata: !get().isMetadata })
+    },
     loadSource: async () => {
       const { client, record } = get()
-      const { text } = await client.projectReadFile({ path: record.path })
+      const { text } = await client.resourceReadText({ resource: record.resource })
       set({ source: text })
     },
     // TODO: implement

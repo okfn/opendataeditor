@@ -47,8 +47,7 @@ function LayoutText() {
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Data', 'Metadata', 'Source']}>
-        <FileEditor client={client} record={record} />
+      <Tabs labels={['Text', 'Source']}>
         <FileEditor client={client} record={record} />
         <SourceEditor client={client} record={record} />
       </Tabs>

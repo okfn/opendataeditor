@@ -9,7 +9,6 @@ import Layout from './Layout'
 export interface PackageProps {
   client: Client
   record: IRecord
-  isMetadata?: boolean
 }
 
 export default function Package(props: PackageProps) {
