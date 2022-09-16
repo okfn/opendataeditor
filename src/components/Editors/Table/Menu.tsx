@@ -9,7 +9,7 @@ import { useStore } from './store'
 
 export default function Menu() {
   const theme = useTheme()
-  // const isMetadata = useStore((state) => state.isMetadata)
+  const isMetadata = useStore((state) => state.isMetadata)
   const report = useStore((state) => state.record.report)
   const toggleMetadata = useStore((state) => state.toggleMetadata)
   return (
@@ -37,10 +37,11 @@ export default function Menu() {
       </Button>
       <Button
         variant="text"
-        title="Show Metadata"
+        startIcon={<SettingsIcon />}
         color={report.valid ? 'secondary' : 'error'}
         onClick={() => toggleMetadata()}
-        startIcon={<SettingsIcon />}
+        title={isMetadata ? 'Hide Metadata' : 'Show Metadata'}
+        sx={{ textDecoration: isMetadata ? 'underline !important' : 'none' }}
       >
         Metadata
       </Button>

@@ -7,7 +7,7 @@ import { useStore } from './store'
 
 export default function Menu() {
   const theme = useTheme()
-  // const isMetadata = useStore((state) => state.isMetadata)
+  const isMetadata = useStore((state) => state.isMetadata)
   const toggleMetadata = useStore((state) => state.toggleMetadata)
   return (
     <Box
@@ -24,10 +24,11 @@ export default function Menu() {
     >
       <Button
         variant="text"
-        title="Import table"
         color="secondary"
         onClick={() => toggleMetadata()}
         startIcon={<SettingsIcon />}
+        title={isMetadata ? 'Hide Metadata' : 'Show Metadata'}
+        sx={{ textDecoration: isMetadata ? 'underline !important' : 'none' }}
       >
         Metadata
       </Button>
