@@ -5,7 +5,7 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord } from '../../../interfaces'
-import { DatasetProps } from './Dataset'
+import { PackageProps } from './Package'
 
 export interface State {
   // Data
@@ -23,7 +23,7 @@ export interface State {
   updateResource?: () => void
 }
 
-export function createStore(props: DatasetProps) {
+export function createStore(props: PackageProps) {
   return create<State>((set, get) => ({
     // Data
 

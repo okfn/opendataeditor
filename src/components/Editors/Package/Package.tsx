@@ -6,13 +6,13 @@ import * as themes from '../../../themes'
 import { IRecord } from '../../../interfaces'
 import Layout from './Layout'
 
-export interface DatasetProps {
+export interface PackageProps {
   client: Client
   record: IRecord
   isMetadata?: boolean
 }
 
-export default function Dataset(props: DatasetProps) {
+export default function Package(props: PackageProps) {
   const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

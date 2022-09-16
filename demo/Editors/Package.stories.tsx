@@ -1,12 +1,12 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Dataset from '../../src/components/Editors/Dataset'
+import Package from '../../src/components/Editors/Package'
 
-const Template: Story<Parameters<typeof Dataset>[0]> = (args) => <Dataset {...args} />
+const Template: Story<Parameters<typeof Package>[0]> = (args) => <Package {...args} />
 export default {
-  title: 'Editors/Dataset',
-  component: Dataset,
+  title: 'Editors/Package',
+  component: Package,
 } as Meta
 
 // Props
