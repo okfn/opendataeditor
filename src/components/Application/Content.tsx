@@ -34,9 +34,8 @@ function LayoutFile() {
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Data', 'Metadata']}>
+      <Tabs labels={['Image']}>
         <FileEditor client={client} record={record} />
-        <FileEditor client={client} record={record} isMetadata={true} />
       </Tabs>
     </Box>
   )

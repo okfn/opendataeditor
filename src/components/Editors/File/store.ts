@@ -18,6 +18,7 @@ export interface State {
 
   // Logic
 
+  toggleMetadata: () => void
   loadBytes: () => Promise<void>
   loadText: () => Promise<void>
   exportFile?: (format: string) => void
@@ -34,6 +35,9 @@ export function createStore(props: FileProps) {
 
     // Logic
 
+    toggleMetadata: () => {
+      set({ isMetadata: !get().isMetadata })
+    },
     loadBytes: async () => {
       const { client, record } = get()
       const { bytes } = await client.resourceReadBytes({ resource: record.resource })
