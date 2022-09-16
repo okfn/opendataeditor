@@ -4,15 +4,15 @@ import { IChecklist } from './checklist'
 import { IPipeline } from './pipeline'
 
 export interface IResource {
-  name?: string
-  type?: string
+  name: string
+  type: string
   title?: string
   description?: string
   path: string
-  scheme?: string
-  format?: string
-  encoding?: string
-  mediatype?: string
+  scheme: string
+  format: string
+  encoding: string
+  mediatype: string
   dialect?: IDialect
   schema?: ISchema
   checklist?: IChecklist

@@ -11,6 +11,8 @@ import SqlEditor from '../Editors/Sql'
 import { useStore } from './store'
 import * as settings from '../../settings'
 
+const TEXT_FORMATS = ['csv', 'txt', 'md']
+
 export default function Layout() {
   const record = useStore((state) => state.record)
   if (!record) return null
@@ -19,6 +21,7 @@ export default function Layout() {
       return <LayoutTable />
     case 'file':
       if (record.path === settings.PACKAGE_PATH) return <LayoutPackage />
+      if (TEXT_FORMATS.includes(record.resource.format)) return <LayoutText />
       return <LayoutFile />
     default:
       return null
@@ -26,6 +29,20 @@ export default function Layout() {
 }
 
 function LayoutFile() {
+  const client = useStore((state) => state.client)
+  const record = useStore((state) => state.record)
+  if (!record) return null
+  return (
+    <Box sx={{ borderRight: 'solid 1px #ddd' }}>
+      <Tabs labels={['Data', 'Metadata']}>
+        <FileEditor client={client} record={record} />
+        <FileEditor client={client} record={record} />
+      </Tabs>
+    </Box>
+  )
+}
+
+function LayoutText() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
   if (!record) return null

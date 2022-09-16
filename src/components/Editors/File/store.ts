@@ -13,11 +13,13 @@ export interface State {
   client: Client
   record: IRecord
   isMetadata?: boolean
-  source?: string
+  bytes?: string
+  text?: string
 
   // Logic
 
-  loadSource: () => Promise<void>
+  loadBytes: () => Promise<void>
+  loadText: () => Promise<void>
   exportFile?: (format: string) => void
   importFile?: () => void
   updateResource?: () => void
@@ -31,10 +33,16 @@ export function createStore(props: FileProps) {
     tablePatch: {},
 
     // Logic
-    loadSource: async () => {
+
+    loadBytes: async () => {
       const { client, record } = get()
-      const { text } = await client.projectReadFile({ path: record.path })
-      set({ source: text })
+      const { bytes } = await client.resourceReadBytes({ resource: record.resource })
+      set({ bytes })
+    },
+    loadText: async () => {
+      const { client, record } = get()
+      const { text } = await client.resourceReadText({ resource: record.resource })
+      set({ text })
     },
     // TODO: implement
     exportFile: noop,
