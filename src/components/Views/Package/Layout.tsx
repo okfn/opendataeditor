@@ -13,10 +13,10 @@ import { useStore } from './store'
 
 export default function Layout() {
   const withTabs = useStore((state) => state.withTabs)
-  const isTabular = useStore((state) => state.descriptor.resources[0]?.type === 'table')
+  const isTable = useStore((state) => state.descriptor.resources[0]?.type === 'table')
   if (!withTabs) return <LayoutDefault />
-  if (!isTabular) return <LayoutWithTabs />
-  return <LayoutWithTabsTabular />
+  if (!isTable) return <LayoutWithTabs />
+  return <LayoutWithTabsTable />
 }
 
 function LayoutDefault() {
@@ -41,7 +41,7 @@ export function LayoutWithTabs() {
   )
 }
 
-export function LayoutWithTabsTabular() {
+export function LayoutWithTabsTable() {
   const update = useStore((state) => state.update)
   const resource = useStore((state) => state.descriptor.resources[0])
   const dialect = useStore((state) => state.descriptor.resources[0]?.dialect)
