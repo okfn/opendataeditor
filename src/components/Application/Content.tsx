@@ -57,11 +57,12 @@ function LayoutText() {
 function LayoutPackage() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
+  const selectPath = useStore((state) => state.selectPath)
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Package', 'Source', 'SQL']}>
-        <PackageEditor client={client} record={record} />
+        <PackageEditor client={client} record={record} onPathChange={selectPath} />
         <SourceEditor client={client} record={record} />
         <SqlEditor client={client} />
       </Tabs>

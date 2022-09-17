@@ -12,6 +12,7 @@ export interface State {
 
   client: Client
   record: IRecord
+  onPathChange: (path?: string) => void
   isMetadata?: boolean
   package?: IPackage
   source?: string

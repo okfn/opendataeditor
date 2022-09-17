@@ -9,6 +9,7 @@ import Layout from './Layout'
 export interface PackageProps {
   client: Client
   record: IRecord
+  onPathChange: (path?: string) => void
 }
 
 export default function Package(props: PackageProps) {

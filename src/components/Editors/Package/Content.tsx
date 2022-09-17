@@ -1,10 +1,13 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
+import ImageList from '@mui/material/ImageList'
+import ImageListItem from '@mui/material/ImageListItem'
+import Resource from './Resource'
+// import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Content() {
-  const theme = useTheme()
+  // const theme = useTheme()
   const path = useStore((state) => state.record.path)
   const dp = useStore((state) => state.package)
   const loadPackage = useStore((state) => state.loadPackage)
@@ -13,20 +16,14 @@ export default function Content() {
   }, [path])
   if (!dp) return null
   return (
-    <Box sx={{ padding: 2 }}>
-      {dp.resources.map((resource) => (
-        <Box
-          key={resource.name}
-          sx={{
-            border: 1,
-            borderColor: 'divider',
-            height: theme.spacing(16),
-            width: theme.spacing(16),
-          }}
-        >
-          <h2>{resource.name}</h2>
-        </Box>
-      ))}
+    <Box sx={{ paddingX: 2 }}>
+      <ImageList cols={4} gap={16}>
+        {dp.resources.map((resource) => (
+          <ImageListItem key={resource.name}>
+            <Resource resource={resource} />
+          </ImageListItem>
+        ))}
+      </ImageList>
     </Box>
   )
 }
