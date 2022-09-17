@@ -4,7 +4,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IRecord, IPackage } from '../../../interfaces'
 import { PackageProps } from './Package'
 
 export interface State {
@@ -13,12 +13,13 @@ export interface State {
   client: Client
   record: IRecord
   isMetadata?: boolean
+  package?: IPackage
   source?: string
 
   // Logic
 
   toggleMetadata: () => void
-  loadSource: () => Promise<void>
+  loadPackage: () => Promise<void>
   exportFile?: (format: string) => void
   importFile?: () => void
   updateResource?: () => void
@@ -36,10 +37,10 @@ export function createStore(props: PackageProps) {
     toggleMetadata: () => {
       set({ isMetadata: !get().isMetadata })
     },
-    loadSource: async () => {
+    loadPackage: async () => {
       const { client, record } = get()
-      const { text } = await client.resourceReadText({ resource: record.resource })
-      set({ source: text })
+      const { data } = await client.resourceReadData({ resource: record.resource })
+      set({ package: data as IPackage })
     },
     // TODO: implement
     exportFile: noop,
