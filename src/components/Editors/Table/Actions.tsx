@@ -1,8 +1,8 @@
 import * as React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import ExportButton from '../../Views/Library/Buttons/ExportButton'
+import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
 import CommitButton from '../../Views/Library/Buttons/CommitButton'
 import RevertButton from '../../Views/Library/Buttons/RevertButton'
 import Columns from '../../Views/Library/Columns'
@@ -17,8 +17,8 @@ export default function Actions() {
       <Columns spacing={3}>
         <Export />
         <Import />
-        <Commit />
         <Revert />
+        <Commit />
       </Columns>
     </Box>
   )
@@ -34,7 +34,6 @@ function Export() {
       onExport={() => (exportTable ? exportTable(format) : undefined)}
       onPreview={() => (exportTable ? exportTable(format) : undefined)}
       setFormat={setFormat}
-      variant="contained"
     />
   )
 }
@@ -42,15 +41,10 @@ function Export() {
 function Import() {
   const importTable = useStore((state) => state.importTable)
   return (
-    <Button
-      fullWidth
-      variant="contained"
-      title="Import table"
-      color="info"
+    <DefaultButton
+      label="Import"
       onClick={() => (importTable ? importTable() : undefined)}
-    >
-      Import
-    </Button>
+    />
   )
 }
 
@@ -59,7 +53,7 @@ function Commit() {
   const tablePatch = useStore((state) => state.tablePatch)
   return (
     <CommitButton
-      variant="contained"
+      variant={isEmpty(tablePatch) ? 'outlined' : 'contained'}
       disabled={isEmpty(tablePatch)}
       onClick={commitPatch}
     />
@@ -71,7 +65,7 @@ function Revert() {
   const tablePatch = useStore((state) => state.tablePatch)
   return (
     <RevertButton
-      variant="contained"
+      variant={isEmpty(tablePatch) ? 'outlined' : 'contained'}
       disabled={isEmpty(tablePatch)}
       onClick={revertPatch}
     />

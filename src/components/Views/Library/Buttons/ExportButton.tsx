@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper'
 import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
+import * as settings from '../../../../settings'
 
 // TODO: clean the code up
 
@@ -22,7 +23,7 @@ interface ExportButtonProps {
 }
 
 export default function ExportButton(props: ExportButtonProps) {
-  const variant = props.variant || 'contained'
+  const variant = props.variant || settings.DEFUALT_BUTTON_VARIANT
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(0)

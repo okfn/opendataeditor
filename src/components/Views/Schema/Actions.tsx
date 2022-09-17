@@ -29,8 +29,8 @@ export default function Actions() {
           setFormat={setExportFormat}
         />
         <ImportButton onImport={importer} />
-        <CommitButton disabled={!isUpdated} onClick={commit} />
         <RevertButton disabled={!isUpdated} onClick={revert} />
+        <CommitButton disabled={!isUpdated} onClick={commit} />
       </Columns>
     </Box>
   )

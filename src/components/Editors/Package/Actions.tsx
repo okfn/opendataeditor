@@ -1,7 +1,7 @@
 import * as React from 'react'
 import noop from 'lodash/noop'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
 import ExportButton from '../../Views/Library/Buttons/ExportButton'
 import CommitButton from '../../Views/Library/Buttons/CommitButton'
 import RevertButton from '../../Views/Library/Buttons/RevertButton'
@@ -17,8 +17,8 @@ export default function Actions() {
       <Columns spacing={3}>
         <Export />
         <Import />
-        <Commit />
         <Revert />
+        <Commit />
       </Columns>
     </Box>
   )
@@ -34,7 +34,6 @@ function Export() {
       onExport={() => (exportFile ? exportFile(format) : undefined)}
       onPreview={() => (exportFile ? exportFile(format) : undefined)}
       setFormat={setFormat}
-      variant="contained"
     />
   )
 }
@@ -42,22 +41,17 @@ function Export() {
 function Import() {
   const importFile = useStore((state) => state.importFile)
   return (
-    <Button
-      fullWidth
-      variant="contained"
-      title="Import table"
-      color="info"
+    <DefaultButton
+      label="Import"
       onClick={() => (importFile ? importFile() : undefined)}
-    >
-      Import
-    </Button>
+    />
   )
 }
 
 function Commit() {
-  return <CommitButton variant="contained" disabled={true} onClick={noop} />
+  return <CommitButton disabled={true} onClick={noop} />
 }
 
 function Revert() {
-  return <RevertButton variant="contained" disabled={true} onClick={noop} />
+  return <RevertButton disabled={true} onClick={noop} />
 }

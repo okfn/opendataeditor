@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
+import * as settings from '../../../../settings'
 
 // TODO: generalize not only for descriptors?
 
@@ -23,7 +24,7 @@ export default function ImportButton(props: ImportButtonProps) {
       />
       <Button
         title="Import as JSON or YAML"
-        variant={props.variant || 'contained'}
+        variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
         component="span"
         color="info"
         fullWidth

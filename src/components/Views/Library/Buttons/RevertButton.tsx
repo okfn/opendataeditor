@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
+import * as settings from '../../../../settings'
 
 interface RevertButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
@@ -11,8 +12,8 @@ export default function RevertButton(props: RevertButtonProps) {
   return (
     <Button
       fullWidth
-      color="warning"
-      variant={props.variant || 'contained'}
+      color={props.disabled ? 'primary' : 'warning'}
+      variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
       title="Revert changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}
