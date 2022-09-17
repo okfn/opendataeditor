@@ -18,7 +18,7 @@ interface ExportButtonProps {
   onPreview?: () => void
   onExport: () => void
   setFormat: (format: string) => void
-  variant?: 'outlined' | 'contained'
+  variant?: 'contained' | 'outlined' | 'text'
 }
 
 export default function ExportButton(props: ExportButtonProps) {

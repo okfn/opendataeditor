@@ -2,7 +2,7 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 
 interface CommitButtonProps {
-  variant?: 'contained' | 'outlined'
+  variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
   onClick: () => void
 }

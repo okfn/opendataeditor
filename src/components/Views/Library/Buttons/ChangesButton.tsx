@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 
 interface ChangesButtonProps {
-  variant?: 'contained' | 'outlined'
+  variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
   onDiscard: () => void
   onSave: () => void

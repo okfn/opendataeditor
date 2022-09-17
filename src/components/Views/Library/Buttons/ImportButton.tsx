@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 
 interface ImportButtonProps {
   onImport: (value: any) => void
-  variant?: 'outlined' | 'contained'
+  variant?: 'contained' | 'outlined' | 'text'
 }
 
 export default function ImportButton(props: ImportButtonProps) {
