@@ -13,10 +13,9 @@ export default function Content() {
   const exportFormat = useStore((state) => state.exportFormat)
   if (isPreview) return <Preview descriptor={descriptor} format={exportFormat} />
   return (
-    <Columns spacing={3}>
+    <Columns spacing={3} layout={[3, 6, 3]}>
       <General />
       <Details />
-      <Stats />
       <Help />
     </Columns>
   )

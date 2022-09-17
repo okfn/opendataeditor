@@ -80,7 +80,7 @@ export function createStore(props: PipelineProps) {
       const isYaml = exportFormat === 'yaml'
       const text = isYaml ? yaml.dump(descriptor) : JSON.stringify(descriptor, null, 2)
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
-      FileSaver.saveAs(blob, `schema.${exportFormat}`)
+      FileSaver.saveAs(blob, `pipeline.${exportFormat}`)
       set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
     },
     importer: async (file) => {

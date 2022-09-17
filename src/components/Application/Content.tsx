@@ -61,9 +61,9 @@ function LayoutPackage() {
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Package', 'Source', 'SQL']}>
+      <Tabs labels={['Package', 'Report', 'SQL']}>
         <PackageEditor client={client} record={record} onPathChange={selectPath} />
-        <SourceEditor client={client} record={record} />
+        <ReportEditor client={client} record={record} />
         <SqlEditor client={client} />
       </Tabs>
     </Box>

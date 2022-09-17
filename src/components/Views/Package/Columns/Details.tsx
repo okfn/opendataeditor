@@ -4,7 +4,7 @@ import HeadingBox from '../../Library/Groups/HeadingBox'
 export default function Details() {
   return (
     <React.Fragment>
-      <HeadingBox>Details</HeadingBox>
+      <HeadingBox>Resources</HeadingBox>
     </React.Fragment>
   )
 }
