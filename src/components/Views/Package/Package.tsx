@@ -11,7 +11,7 @@ export interface PackageProps {
   onCommit?: (pkg: IPackage) => void
   onRevert?: (pkg: IPackage) => void
   loadPaths?: () => Promise<string[]>
-  loadResource?: () => Promise<IResource>
+  loadResource?: (path: string) => Promise<IResource>
 }
 
 export default function Package(props: PackageProps) {

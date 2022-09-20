@@ -23,7 +23,7 @@ interface State {
   onCommit: (pkg: IPackage) => void
   onRevert: (pkg: IPackage) => void
   loadPaths?: () => Promise<string[]>
-  loadResource?: () => Promise<IResource>
+  loadResource?: (path: string) => Promise<IResource>
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -53,7 +53,7 @@ interface State {
   setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
   toggleIsElementExtra: () => void
-  addElement: () => void
+  addElement: (resource?: IResource) => void
   removeElement: () => void
 }
 
@@ -66,8 +66,8 @@ export function createStore(props: PackageProps) {
     checkpoint: cloneDeep(props.package || INITIAL_PACKAGE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
-    loadPaths: props.loadPaths || noop,
-    loadResource: props.loadResource || noop,
+    loadPaths: props.loadPaths,
+    loadResource: props.loadResource,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -116,14 +116,14 @@ export function createStore(props: PackageProps) {
     toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),
     toggleIsElementExtra: () => set({ isElementExtra: !get().isElementExtra }),
     // TODO: finish
-    addElement: () => {
+    addElement: (resource?: IResource) => {
       let { elementIndex } = get()
       const { descriptor, elementType } = get()
       const newDescriptor = produce(descriptor, (descriptor) => {
         if (elementType === 'resource') {
           descriptor.resources = descriptor.resources || []
           // @ts-ignore
-          descriptor.resources.push({ path: 'implement.csv' })
+          descriptor.resources.push(resource || { path: 'implement.csv' })
           elementIndex = descriptor.resources.length - 1
         }
       })

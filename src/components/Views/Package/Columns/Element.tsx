@@ -5,6 +5,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 import Columns from '../../Library/Columns'
 import Selector from '../../Library/Selector'
 import HeadingBox from '../../Library/Groups/HeadingBox'
@@ -104,7 +106,9 @@ function AddButton() {
 
 function AddResourceButton() {
   const loadPaths = useStore((state) => state.loadPaths)
-  if (!loadPaths) return null
+  const loadResource = useStore((state) => state.loadResource)
+  const addElement = useStore((state) => state.addElement)
+  if (!loadPaths || !loadResource) return null
   const [open, setOpen] = React.useState(false)
   const [paths, setPaths] = React.useState([] as string[])
   const onToggle = () => {
@@ -113,7 +117,13 @@ function AddResourceButton() {
     }
     setOpen(!open)
   }
-  const onClose = () => {
+  const onSelect = async (paths: string[]) => {
+    for (const path of paths) {
+      const resource = await loadResource(path)
+      addElement(resource)
+    }
+  }
+  const onCancel = () => {
     setOpen(false)
   }
   return (
@@ -121,23 +131,20 @@ function AddResourceButton() {
       <Button color="info" title="Add a new resource" onClick={onToggle}>
         Add Resource
       </Button>
-      <AddResourceDialog open={open} paths={paths} onClose={onClose} />
+      <Dialog fullWidth maxWidth="md" onClose={onCancel} open={open}>
+        <DialogTitle>
+          Select Resources
+          <IconButton
+            aria-label="close"
+            onClick={onCancel}
+            sx={{ position: 'absolute', right: 8, top: 8, color: 'grey' }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <Selector items={paths} onSelect={onSelect} onCancel={onCancel} />
+      </Dialog>
     </React.Fragment>
-  )
-}
-
-function AddResourceDialog(props: {
-  open: boolean
-  paths: string[]
-  onClose: () => void
-}) {
-  // const loadResource = useStore((state) => state.loadResource)
-  // if (!loadResource) return null
-  return (
-    <Dialog fullWidth maxWidth="md" onClose={props.onClose} open={props.open}>
-      <DialogTitle>Select Resources</DialogTitle>
-      <Selector items={props.paths} />
-    </Dialog>
   )
 }
 
