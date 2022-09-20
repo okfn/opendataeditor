@@ -51,7 +51,7 @@ function Homepage() {
   const update = useStore((state) => state.update)
   return (
     <InputField
-      label="Name"
+      label="Homepage"
       value={homepage}
       onChange={(homepage) => update({ homepage })}
     />

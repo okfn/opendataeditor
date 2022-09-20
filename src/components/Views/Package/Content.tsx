@@ -3,8 +3,7 @@ import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
 import Help from './Columns/Help'
 import General from './Columns/General'
-import Details from './Columns/Details'
-import Stats from './Columns/Stats'
+import Element from './Columns/Element'
 import { useStore } from './store'
 
 export default function Content() {
@@ -15,7 +14,7 @@ export default function Content() {
   return (
     <Columns spacing={3} layout={[3, 6, 3]}>
       <General />
-      <Details />
+      <Element />
       <Help />
     </Columns>
   )
