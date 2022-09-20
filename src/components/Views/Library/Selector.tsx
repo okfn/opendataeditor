@@ -9,16 +9,19 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
+import Columns from './Columns'
 
 interface SelectorProps {
   items: string[]
+  onSelect: (items: string[]) => void
+  onCancel: (items: string[]) => void
 }
 
 export default function Selector(props: SelectorProps) {
   const [checked, setChecked] = React.useState<readonly number[]>([])
-  const [left, setLeft] = React.useState<readonly number[]>([])
+  const available = Array.from(props.items.keys())
 
-  const leftChecked = intersection(checked, left)
+  const leftChecked = intersection(checked, available)
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value)
@@ -42,11 +45,6 @@ export default function Selector(props: SelectorProps) {
     } else {
       setChecked(union(checked, items))
     }
-  }
-
-  const handleCheckedRight = () => {
-    setLeft(not(left, leftChecked))
-    setChecked(not(checked, leftChecked))
   }
 
   const customList = (title: React.ReactNode, items: readonly number[]) => (
@@ -73,6 +71,8 @@ export default function Selector(props: SelectorProps) {
       <List
         sx={{
           bgcolor: 'background.paper',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
         }}
         dense
         component="div"
@@ -82,7 +82,13 @@ export default function Selector(props: SelectorProps) {
           const labelId = `transfer-list-all-item-${index}-label`
 
           return (
-            <ListItem key={index} role="listitem" button onClick={handleToggle(index)}>
+            <ListItem
+              dense
+              key={index}
+              role="listitem"
+              button
+              onClick={handleToggle(index)}
+            >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(index) !== -1}
@@ -104,17 +110,43 @@ export default function Selector(props: SelectorProps) {
 
   return (
     <Box>
-      {customList('Files', left)}
-      <Button
-        sx={{ my: 0.5 }}
-        variant="outlined"
-        size="small"
-        onClick={handleCheckedRight}
-        disabled={leftChecked.length === 0}
-        aria-label="move selected right"
-      >
-        &gt;
-      </Button>
+      {customList('Items', available)}
+      <Box sx={{ paddingX: 3, paddingY: 1 }}>
+        <Columns spacing={2}>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+            size="small"
+            onClick={() =>
+              props.onSelect(
+                props.items.filter((_, index) => leftChecked.includes(index))
+              )
+            }
+            disabled={leftChecked.length === 0}
+            aria-label="move selected right"
+            color={leftChecked.length === 0 ? 'primary' : 'secondary'}
+          >
+            Select
+          </Button>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+            size="small"
+            onClick={() =>
+              props.onCancel(
+                props.items.filter((_, index) => leftChecked.includes(index))
+              )
+            }
+            disabled={leftChecked.length === 0}
+            aria-label="move selected right"
+            color={leftChecked.length === 0 ? 'primary' : 'warning'}
+          >
+            Cancel
+          </Button>
+        </Columns>
+      </Box>
     </Box>
   )
 }
