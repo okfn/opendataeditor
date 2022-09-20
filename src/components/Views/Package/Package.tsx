@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StoreProvider, createStore } from './store'
-import { IPackage } from '../../../interfaces'
+import { IPackage, IResource } from '../../../interfaces'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import Layout from './Layout'
@@ -10,6 +10,8 @@ export interface PackageProps {
   package?: IPackage
   onCommit?: (pkg: IPackage) => void
   onRevert?: (pkg: IPackage) => void
+  loadPaths?: () => Promise<string[]>
+  loadResource?: () => Promise<IResource>
 }
 
 export default function Package(props: PackageProps) {

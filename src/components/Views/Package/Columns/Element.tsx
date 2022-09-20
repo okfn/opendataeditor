@@ -3,6 +3,8 @@ import { assert } from 'ts-essentials'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
 import Columns from '../../Library/Columns'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import HeadingButton from '../../Library/Groups/HeadingButton'
@@ -27,12 +29,13 @@ function Header() {
 }
 
 function ListingHeader() {
+  const elementType = useStore((state) => state.elementType)
   return (
     <HeadingBox>
       <Columns spacing={1} layout={[3, 6, 3]}>
         <TypeSelect />
         <Box>
-          <AddButton />
+          {elementType === 'resource' ? <AddResourceButton /> : <AddButton />}
           <GridButton />
         </Box>
         <SearchInput />
@@ -95,6 +98,47 @@ function AddButton() {
     >
       Add {ELEMENT.label}
     </Button>
+  )
+}
+
+function AddResourceButton() {
+  const loadPaths = useStore((state) => state.loadPaths)
+  if (!loadPaths) return null
+  const [open, setOpen] = React.useState(false)
+  const [paths, setPaths] = React.useState([] as string[])
+  const onToggle = () => {
+    if (!open) {
+      loadPaths().then(setPaths).catch(console.error)
+    }
+    setOpen(!open)
+  }
+  const onClose = () => {
+    setOpen(false)
+  }
+  return (
+    <React.Fragment>
+      <Button color="info" title="Add a new resource" onClick={onToggle}>
+        Add Resource
+      </Button>
+      <AddResourceDialog open={open} paths={paths} onClose={onClose} />
+    </React.Fragment>
+  )
+}
+
+function AddResourceDialog(props: {
+  open: boolean
+  paths: string[]
+  onClose: () => void
+}) {
+  // const loadResource = useStore((state) => state.loadResource)
+  // if (!loadResource) return null
+  return (
+    <Dialog onClose={props.onClose} open={props.open}>
+      <DialogTitle>Select Resources</DialogTitle>
+      {props.paths.map((path) => (
+        <div key={path}>{path}</div>
+      ))}
+    </Dialog>
   )
 }
 

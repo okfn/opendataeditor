@@ -1,12 +1,12 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Package from '../../src/components/Editors/Package'
+import Metadata from '../../src/components/Editors/Metadata'
 
-const Template: Story<Parameters<typeof Package>[0]> = (args) => <Package {...args} />
+const Template: Story<Parameters<typeof Metadata>[0]> = (args) => <Metadata {...args} />
 export default {
-  title: 'Editors/Package',
-  component: Package,
+  title: 'Editors/Metadata',
+  component: Metadata,
 } as Meta
 
 // Props
@@ -23,15 +23,8 @@ const record = {
   report: {},
 }
 
-export const Data = Template.bind({})
-Data.args = {
+export const Default = Template.bind({})
+Default.args = {
   client,
   record,
-}
-
-export const Metadata = Template.bind({})
-Metadata.args = {
-  client,
-  record,
-  isMetadata: true,
 }

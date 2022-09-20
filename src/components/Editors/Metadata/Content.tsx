@@ -13,6 +13,7 @@ import { useStore } from './store'
 export default function Content() {
   // const theme = useTheme()
   const type = useStore((state) => state.type)
+  const client = useStore((state) => state.client)
   const path = useStore((state) => state.record.path)
   const descriptor = useStore((state) => state.descriptor)
   const loadDescriptor = useStore((state) => state.loadDescriptor)
@@ -22,7 +23,15 @@ export default function Content() {
   if (!descriptor) return null
   return (
     <Box sx={{ paddingX: 2 }}>
-      {type === 'package' && <Package package={descriptor as IPackage} />}
+      {type === 'package' && (
+        <Package
+          package={descriptor as IPackage}
+          loadPaths={async () => {
+            const { paths } = await client.projectListFiles()
+            return paths
+          }}
+        />
+      )}
       {type === 'resource' && <Resource resource={descriptor as IResource} />}
       {type === 'dialect' && <Dialect dialect={descriptor} />}
       {type === 'schema' && <Schema schema={descriptor as ISchema} />}

@@ -8,7 +8,7 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import cloneDeep from 'lodash/cloneDeep'
 import { createSelector } from 'reselect'
-import { IPackage } from '../../../interfaces'
+import { IPackage, IResource } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as settings from '../../../settings'
 
@@ -22,6 +22,8 @@ interface State {
   checkpoint: IPackage
   onCommit: (pkg: IPackage) => void
   onRevert: (pkg: IPackage) => void
+  loadPaths?: () => Promise<string[]>
+  loadResource?: () => Promise<IResource>
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -64,6 +66,8 @@ export function createStore(props: PackageProps) {
     checkpoint: cloneDeep(props.package || INITIAL_PACKAGE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
+    loadPaths: props.loadPaths || noop,
+    loadResource: props.loadResource || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),

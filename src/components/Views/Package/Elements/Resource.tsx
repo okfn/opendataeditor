@@ -11,6 +11,7 @@ import * as React from 'react'
 // import { useStore, selectors, select } from '../store'
 
 // TODO: rework
+// TODO: add ResourceLink?
 
 export default function Resource() {
   return <div>Resource</div>
