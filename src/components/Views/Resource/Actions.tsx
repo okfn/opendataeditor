@@ -5,6 +5,7 @@ import ImportButton from '../Library/Buttons/ImportButton'
 import CommitButton from '../Library/Buttons/CommitButton'
 import RevertButton from '../Library/Buttons/RevertButton'
 import Columns from '../Library/Columns'
+import * as settings from '../../../settings'
 import { useStore } from './store'
 
 export default function Actions() {
@@ -22,7 +23,7 @@ export default function Actions() {
       <Columns spacing={3}>
         <ExportButton
           format={exportFormat}
-          options={['json', 'yaml']}
+          options={settings.METADATA_FORMATS}
           isPreview={isPreview}
           onExport={exporter}
           onPreview={togglePreview}
