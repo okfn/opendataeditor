@@ -51,23 +51,11 @@ function Import() {
 function Commit() {
   const commitPatch = useStore((state) => state.commitPatch)
   const tablePatch = useStore((state) => state.tablePatch)
-  return (
-    <CommitButton
-      variant={isEmpty(tablePatch) ? 'outlined' : 'contained'}
-      disabled={isEmpty(tablePatch)}
-      onClick={commitPatch}
-    />
-  )
+  return <CommitButton disabled={isEmpty(tablePatch)} onClick={commitPatch} />
 }
 
 function Revert() {
   const revertPatch = useStore((state) => state.revertPatch)
   const tablePatch = useStore((state) => state.tablePatch)
-  return (
-    <RevertButton
-      variant={isEmpty(tablePatch) ? 'outlined' : 'contained'}
-      disabled={isEmpty(tablePatch)}
-      onClick={revertPatch}
-    />
-  )
+  return <RevertButton disabled={isEmpty(tablePatch)} onClick={revertPatch} />
 }

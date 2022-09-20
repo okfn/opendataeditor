@@ -13,7 +13,11 @@ export default function CommitButton(props: CommitButtonProps) {
     <Button
       fullWidth
       color={props.disabled ? 'primary' : 'secondary'}
-      variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
+      variant={
+        props.disabled
+          ? 'outlined'
+          : props.variant || settings.DEFUALT_PRIMARY_BUTTON_VARIANT
+      }
       title="Save the changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}

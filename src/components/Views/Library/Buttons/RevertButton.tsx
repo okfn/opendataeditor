@@ -13,7 +13,11 @@ export default function RevertButton(props: RevertButtonProps) {
     <Button
       fullWidth
       color={props.disabled ? 'primary' : 'warning'}
-      variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
+      variant={
+        props.disabled
+          ? 'outlined'
+          : props.variant || settings.DEFUALT_PRIMARY_BUTTON_VARIANT
+      }
       title="Discard the changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}

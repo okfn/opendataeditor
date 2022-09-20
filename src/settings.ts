@@ -30,6 +30,7 @@ export const DEFAULT_NULL_SEQUENCE = undefined
 export const DEFAULT_SKIP_INITIAL_SPACE = false
 export const DEFAULT_COMMENT_CHAR = undefined
 export const DEFUALT_BUTTON_VARIANT = 'outlined'
+export const DEFUALT_PRIMARY_BUTTON_VARIANT = 'contained'
 
 // Structures
 // TODO: move to components?
