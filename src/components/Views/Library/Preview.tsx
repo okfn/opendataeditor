@@ -6,8 +6,8 @@ import Box from '@mui/material/Box'
 // TODO: improve descriptor/format typing
 
 interface PreviewProps {
+  format: 'json' | 'yaml'
   descriptor: object
-  format: string
   height?: string
 }
 

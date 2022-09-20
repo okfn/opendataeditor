@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import { IDict } from '../../../../interfaces'
 
 interface DescriptorFieldProps {
-  type: 'yaml' | 'json'
+  type: 'json' | 'yaml'
   label: string
   value?: IDict
   size?: 'small' | 'medium'

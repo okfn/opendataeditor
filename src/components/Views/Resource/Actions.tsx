@@ -22,7 +22,7 @@ export default function Actions() {
       <Columns spacing={3}>
         <ExportButton
           format={exportFormat}
-          options={['yaml', 'json']}
+          options={['json', 'yaml']}
           isPreview={isPreview}
           onExport={exporter}
           onPreview={togglePreview}
