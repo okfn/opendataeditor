@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import Columns from '../../Library/Columns'
+import Selector from '../../Library/Selector'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import HeadingButton from '../../Library/Groups/HeadingButton'
 import HeadingSearch from '../../Library/Groups/HeadingSearch'
@@ -133,11 +134,9 @@ function AddResourceDialog(props: {
   // const loadResource = useStore((state) => state.loadResource)
   // if (!loadResource) return null
   return (
-    <Dialog onClose={props.onClose} open={props.open}>
+    <Dialog fullWidth maxWidth="md" onClose={props.onClose} open={props.open}>
       <DialogTitle>Select Resources</DialogTitle>
-      {props.paths.map((path) => (
-        <div key={path}>{path}</div>
-      ))}
+      <Selector items={props.paths} />
     </Dialog>
   )
 }
