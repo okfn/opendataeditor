@@ -7,7 +7,7 @@ const DEBUG = process.env.DEBUG || false
 // Base
 
 const webpackConfig = {
-  entry: ['./src/entry.ts'],
+  entry: ['./src/main.ts'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'application.js',
@@ -63,7 +63,12 @@ const webpackConfig = {
 if (NODE_ENV === 'development') {
   webpackConfig.mode = 'development'
   webpackConfig.devServer = {
-    proxy: { '/api': 'http://localhost:4040' },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4040',
+        pathRewrite: { '^/api': '' },
+      },
+    },
     static: './dist',
   }
 }

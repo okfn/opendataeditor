@@ -1,17 +1,20 @@
 // Genearl
 
+export const PACKAGE_PATH = 'datapackage.json'
 export const FORMATS = ['csv', 'xlsx']
 export const HASHINGS = ['md5', 'sha256']
 export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
 export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
+export const METADATA_FORMATS = ['json', 'yaml']
 
 // Defaults
 
 export const DEFAULT_PORT = 4040
 export const DEFAULT_EXPORT_FORMAT = 'yaml'
 export const DEFAULT_FIELD_CONFIDENCE = 0.9
+export const DEFAULT_MISSING_VALUES = ['""']
 export const DEFAULT_HEADER = true
 export const DEFAULT_HEADER_JOIN = ' '
 export const DEFAULT_HEADER_CASE = true
@@ -26,6 +29,8 @@ export const DEFAULT_ESCAPE_CHAR = undefined
 export const DEFAULT_NULL_SEQUENCE = undefined
 export const DEFAULT_SKIP_INITIAL_SPACE = false
 export const DEFAULT_COMMENT_CHAR = undefined
+export const DEFUALT_BUTTON_VARIANT = 'outlined'
+export const DEFUALT_PRIMARY_BUTTON_VARIANT = 'contained'
 
 // Structures
 // TODO: move to components?

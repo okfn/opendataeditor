@@ -1,5 +1,7 @@
 export interface IPipeline {
-  type?: 'resource' | 'package'
+  name?: string
+  title?: string
+  description?: string
   steps?: IStep[]
 }
 
@@ -13,30 +15,30 @@ export type IStep =
   | IFieldUpdateStep
 
 export interface IFieldAddStep {
-  code: 'field-add'
+  type: 'field-add'
   name: string
   value?: any
   formula?: string
 }
 
 export interface IFieldFilterStep {
-  code: 'field-filter'
+  type: 'field-filter'
   names: string[]
 }
 
 export interface IFieldMoveStep {
-  code: 'field-move'
+  type: 'field-move'
   name: string
   position: number
 }
 
 export interface IFieldRemoveStep {
-  code: 'field-remove'
+  type: 'field-remove'
   names: string[]
 }
 
 export interface IFieldSplitStep {
-  code: 'field-split'
+  type: 'field-split'
   name: string
   toNames: string[]
   pattern: string
@@ -44,14 +46,14 @@ export interface IFieldSplitStep {
 }
 
 export interface IFieldUnpackStep {
-  code: 'field-unpack'
+  type: 'field-unpack'
   name: string
   toNames: string[]
   preserve?: boolean
 }
 
 export interface IFieldUpdateStep {
-  code: 'field-update'
+  type: 'field-update'
   name: string
   value?: any
   formula?: string
