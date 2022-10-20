@@ -10,6 +10,7 @@ import { IResource } from '../../../interfaces'
 import { ResourceProps } from './Resource'
 import * as settings from '../../../settings'
 
+// @ts-ignore
 const INITIAL_RESOURCE: IResource = { path: 'table.csv' }
 
 interface State {
