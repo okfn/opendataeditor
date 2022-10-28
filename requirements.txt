@@ -1,1 +1,2 @@
-frictionless==5.0.0b7
+frictionless[json,excel,api]==5.0.0b10
+livemark

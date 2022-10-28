@@ -1,0 +1,30 @@
+brand:
+  text: Frictionless Application
+about:
+  text: Data management application for Browser and Desktop that provides functionality to describe, extract, validate, and transform tabular data
+site:
+  favicon: assets/logo.png
+  styles:
+    - style.css
+github:
+  user: frictionlessdata
+  repo: application
+counter:
+  type: plausible
+  code: application.frictionlessdata.io
+topics:
+  selector: h2
+links:
+  items:
+    - name: Open Knowledge
+      path: https://okfn.org
+    - name: Frictionless
+      path: https://frictionlessdata.io
+    - name: Support
+      path: https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg
+pages:
+  items:
+    - path: index
+      name: Introduction
+      from: README.md
+    - path: docs/development

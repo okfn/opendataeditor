@@ -1,0 +1,39 @@
+name: general
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*.*.*
+  pull_request:
+    branches:
+      - main
+  # schedule:
+    # - cron: "0 3 * * *"
+
+jobs:
+
+  # Deploy
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install and build site
+        run: |
+          echo '!**/*.html' >> .gitignore
+          make install
+          livemark build
+      - name: Publush to Github Pages
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: site
+          create_branch: true
+          push_options: '--force'
