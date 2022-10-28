@@ -54,6 +54,8 @@ index.html
 
 # Extra
 package-lock.json
+.frictionless/
+.server/
 .env
 static/
 dist/
