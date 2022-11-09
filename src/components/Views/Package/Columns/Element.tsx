@@ -268,4 +268,13 @@ const ELEMENTS = {
     extraLabel: null,
     names: selectors.resourceNames,
   },
+  image: {
+    type: 'image',
+    label: 'Resource',
+    item: Resource,
+    list: Resources,
+    extra: null,
+    extraLabel: null,
+    names: selectors.resourceNames,
+  },
 }

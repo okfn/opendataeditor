@@ -1,0 +1,31 @@
+#!/Users/Polina_Ganina/Desktop/Iamfrontender/projects_ongo/frictionlessdata/.python/bin/python3
+
+from __future__ import print_function, division, absolute_import
+import sys
+import os
+import os.path
+import glob
+from optparse import OptionParser
+
+from petl import __version__
+from petl import *
+
+parser = OptionParser(
+    usage="%prog [options] expression",
+    description="Evaluate a Python expression.  The expression will be "
+                "evaluated using eval(), with petl functions imported.",
+    version=__version__)
+
+options, args = parser.parse_args()
+
+try:
+    (expression,) = args
+except ValueError:
+    parser.error("invalid number of arguments (%s)" % len(args))
+r = eval(expression)
+
+if r is not None:
+    if isinstance(r, Table):
+        print(look(r))
+    else:
+        print(str(r))

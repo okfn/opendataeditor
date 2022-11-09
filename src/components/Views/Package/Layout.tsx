@@ -22,8 +22,16 @@ export default function Layout() {
 function LayoutDefault() {
   const theme = useTheme()
   return (
-    <Box sx={{ height: theme.spacing(50) }}>
-      <Box sx={{ height: theme.spacing(42) }}>
+    <Box
+      sx={{
+        height: theme.spacing(50),
+      }}
+    >
+      <Box
+        sx={{
+          height: theme.spacing(42),
+        }}
+      >
         <Content />
       </Box>
       <Box sx={{ height: theme.spacing(8) }}>

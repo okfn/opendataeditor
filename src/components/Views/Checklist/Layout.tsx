@@ -7,7 +7,7 @@ import Content from './Content'
 export default function Layout() {
   const theme = useTheme()
   return (
-    <Box sx={{ height: theme.spacing(50) }}>
+    <Box sx={{ height: theme.spacing(50), px: 0.5 }}>
       <Box sx={{ height: theme.spacing(42) }}>
         <Content />
       </Box>
