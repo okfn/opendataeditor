@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Columns from '../Library/Columns'
 import Preview from '../Library/Preview'
-import Help from './Columns/Help'
-import General from './Columns/General'
-import Element from './Columns/Element'
+import Help from './Content/Help'
+import General from './Content/General'
+import Element from './Content/Element'
 import { useStore } from './store'
 
 export default function Content() {

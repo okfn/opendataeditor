@@ -1,6 +1,8 @@
 import * as React from 'react'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
+import BasicDatePicker from '../../Library/Fields/DatePicker'
+
 import MultilineField from '../../Library/Fields/MultilineField'
 import { useStore } from '../store'
 
@@ -10,10 +12,18 @@ export default function General() {
       <HeadingBox>General</HeadingBox>
       <Name />
       <Title />
-      <Description />
       <Homepage />
+      <Version />
+      <Created />
+      <Description />
     </React.Fragment>
   )
+}
+
+function Created() {
+  const created = useStore((state) => state.descriptor.created)
+  const update = useStore((state) => state.update)
+  return <BasicDatePicker label="Created" onChange={() => update({ created })} />
 }
 
 function Name() {
@@ -54,6 +64,18 @@ function Homepage() {
       label="Homepage"
       value={homepage}
       onChange={(homepage) => update({ homepage })}
+    />
+  )
+}
+
+function Version() {
+  const version = useStore((state) => state.descriptor.version)
+  const update = useStore((state) => state.update)
+  return (
+    <InputField
+      label="Version"
+      value={version}
+      onChange={(version) => update({ version })}
     />
   )
 }

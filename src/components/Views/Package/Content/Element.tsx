@@ -270,7 +270,7 @@ const ELEMENTS = {
   },
   image: {
     type: 'image',
-    label: 'Resource',
+    label: 'Image',
     item: Resource,
     list: Resources,
     extra: null,
