@@ -1,7 +1,7 @@
 import * as React from 'react'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
-import BasicDatePicker from '../../Library/Fields/DatePicker'
+import DatePicker from '../../Library/Fields/DatePicker'
 
 import MultilineField from '../../Library/Fields/MultilineField'
 import { useStore } from '../store'
@@ -21,9 +21,15 @@ export default function General() {
 }
 
 function Created() {
-  const created = useStore((state) => state.descriptor.created)
   const update = useStore((state) => state.update)
-  return <BasicDatePicker label="Created" onChange={() => update({ created })} />
+  return (
+    <DatePicker
+      label="Created"
+      onChange={(newValue) => {
+        update({ created: newValue?.format('MM/DD/YYY') })
+      }}
+    />
+  )
 }
 
 function Name() {

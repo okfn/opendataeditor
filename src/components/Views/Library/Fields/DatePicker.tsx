@@ -1,29 +1,31 @@
 import * as React from 'react'
 import { Dayjs } from 'dayjs'
+import 'dayjs/locale/en'
 import TextField from '@mui/material/TextField'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
 
-interface BasicDatePickerProps {
+interface DatePickerProps {
   label: string
   onChange: (value: any) => void
 }
-const BasicDatePicker: React.FC<BasicDatePickerProps> = ({ label, onChange }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ label, onChange }) => {
   const [value, setValue] = React.useState<Dayjs | null>(null)
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'en'}>
+      <MuiDatePicker
         label={label}
         value={value}
         onChange={(newValue) => {
           setValue(newValue)
-          const newValueString = newValue?.toString()
-          onChange(newValueString)
+          onChange(newValue)
         }}
-        renderInput={(params) => <TextField {...params} margin="normal" size="small" />}
+        renderInput={(params) => (
+          <TextField {...params} margin="normal" size="small" fullWidth />
+        )}
       />
     </LocalizationProvider>
   )
 }
-export default BasicDatePicker
+export default DatePicker
