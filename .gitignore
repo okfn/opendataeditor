@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+# server
+.python
 
 # Runtime data
 pids
