@@ -8,6 +8,8 @@ export interface TabsProps {
   index?: number
   labels: string[]
   children?: React.ReactNode
+  orientation?: string // vertical //
+  variant?: string // scrollable //
 }
 
 export default function Tabs(props: TabsProps) {

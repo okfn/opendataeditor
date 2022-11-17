@@ -16,6 +16,7 @@ import HeadingSelector from '../../Library/Groups/HeadingSelector'
 import Resources from '../Elements/Resources'
 import Resource from '../Elements/Resource'
 import { useStore, selectors } from '../store'
+import PackageImage from './PackageImage'
 
 export default function Element() {
   return (
@@ -271,10 +272,6 @@ const ELEMENTS = {
   image: {
     type: 'image',
     label: 'Image',
-    item: Resource,
-    list: Resources,
-    extra: null,
-    extraLabel: null,
-    names: selectors.resourceNames,
+    list: PackageImage,
   },
 }
