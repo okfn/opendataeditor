@@ -2,6 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Views/Library/Columns'
 import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
+import MoveButton from '../../Views/Library/Buttons/MoveButton'
 import UploadButton from '../../Views/Library/Buttons/UploadButton'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
@@ -28,13 +29,17 @@ function Upload() {
 }
 
 function Move() {
+  const moveFile = useStore((state) => state.moveFile)
+  const createDirectory = useStore((state) => state.createDirectory)
   const path = useStore((state) => state.path)
+  const listFolders = useStore((state) => state.listFolders)
   return (
-    <DefaultButton
+    <MoveButton
       disabled={!path}
-      variant="text"
       label="Move"
-      onClick={() => console.log('move')}
+      moveFile={(destination) => moveFile(destination)}
+      createDirectory={(directoryname) => createDirectory(directoryname)}
+      listFolders={listFolders}
     />
   )
 }
