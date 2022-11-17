@@ -43,17 +43,17 @@ export default function FileNavigator(props: FileNavigatorProps) {
   const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewDirectoryName(event.target.value)
   }
-  const handleContextMenuClose = () => {
+  const onContextMenuClose = () => {
     setContextMenu(null)
   }
-  const handleContextMenu = (event: React.MouseEvent) => {
+  const onContextMenu = (event: React.MouseEvent) => {
     event.preventDefault()
     setContextMenu({
       mouseX: event.clientX - 1,
       mouseY: event.clientY - 1,
     })
   }
-  const startCreateDirectory = () => {
+  const onStartCreateDirectory = () => {
     setAddDirectory(true)
     setContextMenu(null)
   }
@@ -71,7 +71,7 @@ export default function FileNavigator(props: FileNavigatorProps) {
   }, [])
   return (
     <React.Fragment>
-      <div onContextMenu={handleContextMenu}>
+      <div onContextMenu={onContextMenu}>
         <TreeView
           aria-label="file navigator"
           defaultExpanded={['1']}
@@ -112,7 +112,7 @@ export default function FileNavigator(props: FileNavigatorProps) {
         <Menu
           keepMounted
           open={contextMenu.mouseY !== null}
-          onClose={handleContextMenuClose}
+          onClose={onContextMenuClose}
           anchorReference="anchorPosition"
           anchorPosition={
             contextMenu.mouseY !== null && contextMenu.mouseX !== null
@@ -120,7 +120,7 @@ export default function FileNavigator(props: FileNavigatorProps) {
               : undefined
           }
         >
-          <MenuItem onClick={startCreateDirectory}>Create New Directory</MenuItem>
+          <MenuItem onClick={onStartCreateDirectory}>Create New Directory</MenuItem>
         </Menu>
       )}
     </React.Fragment>
