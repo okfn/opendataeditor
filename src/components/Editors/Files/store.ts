@@ -11,6 +11,7 @@ export interface State {
   client: Client
   path?: string
   paths: string[]
+  directories: string[]
   onPathChange: (path?: string) => void
 
   // Logic
@@ -20,6 +21,9 @@ export interface State {
   selectFile: (path?: string) => void
   deleteFile: () => Promise<void>
   createPackage: () => Promise<void>
+  listFolders: () => Promise<void>
+  moveFile: (destination: string) => Promise<void>
+  createDirectory: (directoryname: string) => Promise<void>
 }
 
 export function createStore(props: FilesProps) {
@@ -29,6 +33,7 @@ export function createStore(props: FilesProps) {
     client: props.client,
     onPathChange: props.onPathChange,
     paths: [],
+    directories: [],
 
     // Logic
 
@@ -67,6 +72,22 @@ export function createStore(props: FilesProps) {
       const { path } = await client.projectCreatePackage()
       await listFiles()
       selectFile(path)
+    },
+    moveFile: async (destination) => {
+      const { client, path, listFiles } = get()
+      if (!path || !destination) return
+      await client.projectMoveFile({ filename: path, destination })
+      await listFiles()
+    },
+    listFolders: async () => {
+      const { client } = get()
+      const { directories } = await client.projectListFolders()
+      set({ directories })
+    },
+    createDirectory: async (directoryname) => {
+      const { client, listFolders } = get()
+      await client.projectCreateDirectory({ directoryname })
+      await listFolders()
     },
   }))
 }
