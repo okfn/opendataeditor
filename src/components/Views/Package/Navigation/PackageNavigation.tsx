@@ -1,11 +1,13 @@
 import * as React from 'react'
-import Tabs from '../../Library/Tabs'
+import VerticalTabs from '../../Library/VerticalTabs'
+import Element from '../Content/Element'
 import General from '../Content/General'
-import Resources from '../Elements/Resources'
+import PackageImage from '../Content/PackageImage'
 
 export const PACKAGE_EDITORS = [
   'General',
   'Resources',
+  'Image',
   //   'Keywords',
   //   'Contributors',
   //   'Sources',
@@ -15,10 +17,11 @@ export const PACKAGE_EDITORS = [
 
 const PackageNavigation: React.FC = () => {
   return (
-    <Tabs orientation="vertical" variant="scrollable" labels={PACKAGE_EDITORS}>
+    <VerticalTabs labels={PACKAGE_EDITORS}>
       <General />
-      <Resources />
-    </Tabs>
+      <Element />
+      <PackageImage />
+    </VerticalTabs>
   )
 }
 

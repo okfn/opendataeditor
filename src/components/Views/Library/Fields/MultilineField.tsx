@@ -7,6 +7,7 @@ interface MultilineFieldProps {
   type?: string
   label: string
   value: any
+  rows?: number
   size?: 'small' | 'medium'
   onChange: (value: any) => void
 }
@@ -16,6 +17,7 @@ export default function MultilineField(props: MultilineFieldProps) {
     <TextField
       multiline
       fullWidth
+      rows={props.rows}
       type={props.type}
       margin="normal"
       label={props.label}

@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+// import Columns from '../Library/Columns'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -37,17 +38,21 @@ function a11yProps(index: number) {
   }
 }
 
-export default function VerticalTabs() {
-  const [value, setValue] = React.useState(0)
+export interface VerticalTabsProps {
+  index?: number
+  labels: string[]
+  children?: React.ReactNode
+}
+
+export default function VerticalTabs(props: VerticalTabsProps) {
+  const [value, setValue] = React.useState(props.index || 0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
   return (
-    <Box
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}
-    >
+    <Box sx={{ bgcolor: 'background.paper', display: 'flex', height: '500px' }}>
       <Tabs
         orientation="vertical"
         // variant="scrollable"
@@ -56,23 +61,15 @@ export default function VerticalTabs() {
         aria-label="Package Tabs"
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
+        {props.labels.map((label, index) => (
+          <Tab key={label} label={label} {...a11yProps(index)} />
+        ))}
       </Tabs>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
+      {React.Children.map(props.children, (child, index) => (
+        <TabPanel value={value} index={index}>
+          {child}
+        </TabPanel>
+      ))}
     </Box>
   )
 }

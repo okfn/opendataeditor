@@ -1,34 +1,36 @@
 import * as React from 'react'
+import Grid from '@mui/material/Grid'
+
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
 import DatePicker from '../../Library/Fields/DatePicker'
-
 import MultilineField from '../../Library/Fields/MultilineField'
+
 import { useStore } from '../store'
 
 export default function General() {
   return (
-    <React.Fragment>
+    <>
       <HeadingBox>General</HeadingBox>
-      <Name />
-      <Title />
-      <Homepage />
-      <Version />
-      <Created />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Name />
+        </Grid>
+        <Grid item xs={6}>
+          <Title />
+        </Grid>
+        <Grid item xs={6}>
+          <Homepage />
+        </Grid>
+        <Grid item xs={6}>
+          <Version />
+        </Grid>
+        <Grid item xs={6}>
+          <Created />
+        </Grid>
+      </Grid>
       <Description />
-    </React.Fragment>
-  )
-}
-
-function Created() {
-  const update = useStore((state) => state.update)
-  return (
-    <DatePicker
-      label="Created"
-      onChange={(newValue) => {
-        update({ created: newValue?.format('MM/DD/YYY') })
-      }}
-    />
+    </>
   )
 }
 
@@ -46,18 +48,6 @@ function Title() {
       label="Title"
       value={title || ''}
       onChange={(title) => update({ title })}
-    />
-  )
-}
-
-function Description() {
-  const description = useStore((state) => state.descriptor.description)
-  const update = useStore((state) => state.update)
-  return (
-    <MultilineField
-      label="Description"
-      value={description || ''}
-      onChange={(description) => update({ description })}
     />
   )
 }
@@ -82,6 +72,30 @@ function Version() {
       label="Version"
       value={version}
       onChange={(version) => update({ version })}
+    />
+  )
+}
+function Created() {
+  const update = useStore((state) => state.update)
+  return (
+    <DatePicker
+      label="Created"
+      onChange={(newValue) => {
+        update({ created: newValue?.format('MM/DD/YYY') })
+      }}
+    />
+  )
+}
+
+function Description() {
+  const description = useStore((state) => state.descriptor.description)
+  const update = useStore((state) => state.update)
+  return (
+    <MultilineField
+      label="Description"
+      value={description || ''}
+      rows={5}
+      onChange={(description) => update({ description })}
     />
   )
 }
