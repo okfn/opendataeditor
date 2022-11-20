@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import ItemButton from '../../Library/Buttons/ItemButton'
+import HeadingBox from '../../Library/Groups/HeadingBox'
 import Box from '@mui/material/Box'
 import { useStore, selectors } from '../store'
 
@@ -11,6 +12,7 @@ export default function Resources() {
   const foundResourceItems = useStore(selectors.foundResourceItems)
   return (
     <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+      <HeadingBox>Resources</HeadingBox>
       {foundResourceItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )

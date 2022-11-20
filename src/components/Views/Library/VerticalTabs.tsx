@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-// import Columns from '../Library/Columns'
+import { useTheme } from '@mui/material/styles'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -13,7 +13,8 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
-
+  const theme = useTheme()
+  const width = `calc(100% - ${theme.spacing(10)})`
   return (
     <div
       role="tabpanel"
@@ -21,6 +22,7 @@ function TabPanel(props: TabPanelProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
+      style={{ width }}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
@@ -46,7 +48,6 @@ export interface VerticalTabsProps {
 
 export default function VerticalTabs(props: VerticalTabsProps) {
   const [value, setValue] = React.useState(props.index || 0)
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }

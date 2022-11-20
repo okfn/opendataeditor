@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { assert } from 'ts-essentials'
 import MenuItem from '@mui/material/MenuItem'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -16,7 +17,6 @@ import HeadingSelector from '../../Library/Groups/HeadingSelector'
 import Resources from '../Elements/Resources'
 import Resource from '../Elements/Resource'
 import { useStore, selectors } from '../store'
-// import PackageImage from './PackageImage'
 
 export default function Element() {
   return (
@@ -269,9 +269,4 @@ const ELEMENTS = {
     extraLabel: null,
     names: selectors.resourceNames,
   },
-  // image: {
-  //   type: 'image',
-  //   label: 'Image',
-  //   list: PackageImage,
-  // },
 }
