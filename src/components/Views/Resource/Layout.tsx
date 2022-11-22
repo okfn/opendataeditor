@@ -47,7 +47,7 @@ function LayoutWithTabsTable() {
   const checklist = useStore((state) => state.descriptor.checklist)
   const pipeline = useStore((state) => state.descriptor.pipeline)
   return (
-    <Tabs index={2} labels={['Resource', 'Dialect', 'Schema', 'Checklist', 'Pipeline']}>
+    <Tabs index={2} labels={['Resource', 'Dialect', 'Schema', 'Checklist', '_Pipeline']}>
       <LayoutDefault />
       <Dialect dialect={dialect} onCommit={(dialect) => update({ dialect })} />
       <Schema schema={schema} onCommit={(schema) => update({ schema })} />
