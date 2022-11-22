@@ -45,8 +45,9 @@ export default function Header() {
                   <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Provide a link to a data file or upload one on the left"
+                  placeholder="Data management application for browser and desktop"
                   inputProps={{ 'aria-label': 'search' }}
+                  readOnly
                   value={path}
                 />
               </Search>
