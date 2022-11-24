@@ -5,5 +5,8 @@ export interface IPackage {
   title?: string
   description?: string
   homepage?: string
+  version?: string
+  created?: string
+  imageUrl?: string
   resources: IResource[]
 }
