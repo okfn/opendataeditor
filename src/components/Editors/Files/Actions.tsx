@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../Views/Library/Columns'
 import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
 import MoveButton from '../../Views/Library/Buttons/MoveButton'
-import UploadButton from '../../Views/Library/Buttons/UploadButton'
+import EditorDropDownButton from '../../Views/Library/Groups/EditorDropDownButton'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -13,7 +13,7 @@ export default function Actions() {
   return (
     <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
       <Columns spacing={3}>
-        <Upload />
+        <New />
         <Move />
         <Delete />
       </Columns>
@@ -21,10 +21,25 @@ export default function Actions() {
   )
 }
 
-function Upload() {
+function New() {
   const createFile = useStore((state) => state.createFile)
+  const createPackage = useStore((state) => state.createPackage)
+  const editorOptions = ['+ New', 'Folder', 'Upload', 'Data Package']
+  const path = useStore((state) => state.path)
+  const handleCreateFile = (file: File) => {
+    let newPath = file.name
+    if (path) newPath = `${path}/${newPath}`
+
+    const myNewFile = new File([file], newPath, { type: file.type })
+    createFile(myNewFile)
+  }
   return (
-    <UploadButton variant="text" label="Upload" onUpload={(file) => createFile(file)} />
+    <EditorDropDownButton
+      path={path}
+      options={editorOptions}
+      onFileUpload={(file) => handleCreateFile(file)}
+      onCreateDataPackage={createPackage}
+    />
   )
 }
 

@@ -6,7 +6,6 @@ import { useSpring, animated } from 'react-spring'
 import * as settings from '../../../settings'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import { useStore } from './store'
@@ -16,14 +15,17 @@ export default function Content() {
   const paths = useStore((state) => state.paths)
   const listFiles = useStore((state) => state.listFiles)
   const selectFile = useStore((state) => state.selectFile)
-  const createPackage = useStore((state) => state.createPackage)
-  const withoutPackage = !!paths.length && !paths.includes(settings.PACKAGE_PATH)
   const tree = indexTree(createTree(paths))
   React.useEffect(() => {
     listFiles().catch(console.error)
   }, [])
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box
+      sx={{ padding: 2, minHeight: 'calc(100% + 50px)' }}
+      onClick={(_: React.SyntheticEvent) => {
+        selectFile(undefined)
+      }}
+    >
       <TreeView
         aria-label="customized"
         defaultExpanded={['1']}
@@ -31,25 +33,15 @@ export default function Content() {
         defaultExpandIcon={<PlusSquare />}
         defaultEndIcon={<CloseSquare />}
         selected={path || ''}
-        onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
+        onNodeSelect={(e: React.SyntheticEvent, nodeId: string) => {
           selectFile(nodeId)
+          e.stopPropagation()
         }}
       >
         {tree.sort(compareNodes).map((node: any) => (
           <TreeNode node={node} key={node.path} />
         ))}
       </TreeView>
-      {withoutPackage && (
-        <Button
-          fullWidth
-          variant="outlined"
-          color="secondary"
-          sx={{ marginTop: 2 }}
-          onClick={() => createPackage()}
-        >
-          Create Data Package
-        </Button>
-      )}
     </Box>
   )
 }

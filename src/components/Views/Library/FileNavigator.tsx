@@ -1,20 +1,13 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import { SyntheticEvent } from 'react'
 import { useSpring, animated } from 'react-spring'
 import TreeView from '@mui/lab/TreeView'
-import TextField from '@mui/material/TextField'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
 import { useStore } from '../../Editors/Files/store'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import IconButton from '@mui/material/IconButton'
-import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
 interface FileNavigatorProps {
   initialState?: {
     mouseX: number | null
@@ -24,105 +17,42 @@ interface FileNavigatorProps {
   onCreateDirectory: (directoryname: string) => void
 }
 export default function FileNavigator(props: FileNavigatorProps) {
-  const [contextMenu, setContextMenu] = React.useState(props.initialState)
   const path = useStore((state: any) => state.path)
   const directories = useStore((state: any) => state.directories)
   const listFolders = useStore((state: any) => state.listFolders)
   const tree = indexTree(createTree(directories))
-  const [selectedNode, setSelectedNode] = React.useState<string[] | null>(null)
-  const [addDirectory, setAddDirectory] = React.useState(false)
-  const [newDirectoryName, setNewDirectoryName] = React.useState('')
 
   const handleSelect = (event: SyntheticEvent, nodeId: string[]) => {
     event.preventDefault()
-    setSelectedNode(nodeId)
     if (!Array.isArray(nodeId)) {
       props.onFolderSelect(nodeId)
     }
-  }
-  const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewDirectoryName(event.target.value)
-  }
-  const onContextMenuClose = () => {
-    setContextMenu(null)
-  }
-  const onContextMenu = (event: React.MouseEvent) => {
-    event.preventDefault()
-    setContextMenu({
-      mouseX: event.clientX - 1,
-      mouseY: event.clientY - 1,
-    })
-  }
-  const onStartCreateDirectory = () => {
-    setAddDirectory(true)
-    setContextMenu(null)
-  }
-  const onCreateDirectory = () => {
-    setSelectedNode(null)
-    setAddDirectory(false)
-    props.onCreateDirectory(newDirectoryName)
-  }
-  const onCancelCreateDirectory = () => {
-    setSelectedNode(null)
-    setAddDirectory(false)
   }
   React.useEffect(() => {
     listFolders().catch(console.error)
   }, [])
   return (
     <React.Fragment>
-      <div onContextMenu={onContextMenu}>
-        <TreeView
-          aria-label="file navigator"
-          defaultExpanded={['1']}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          defaultEndIcon={<CloseSquare />}
-          onNodeSelect={handleSelect}
-          selected={path || ''}
-          sx={{
-            paddingTop: 2,
-            paddingBottom: 2,
-            height: 240,
-            overflowY: 'auto',
-            maxWidth: 400,
-          }}
-        >
-          {tree.sort(compareNodes).map((node: any) => (
-            <TreeNode node={node} key={node.path} />
-          ))}
-        </TreeView>
-      </div>
-      <Box
-        display={addDirectory ? '' : 'none'}
-        sx={{ boxShadow: 1, padding: 1, borderRadius: 1 }}
+      <TreeView
+        aria-label="file navigator"
+        defaultExpanded={['1']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        defaultEndIcon={<CloseSquare />}
+        onNodeSelect={handleSelect}
+        selected={path || ''}
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+          height: 240,
+          overflowY: 'auto',
+          maxWidth: 400,
+        }}
       >
-        <Box component="span" color="primary">
-          {selectedNode && selectedNode + '/ '}
-        </Box>
-        <TextField size="small" value={newDirectoryName} onChange={onUserInput} />
-        <IconButton aria-label="accept" onClick={onCreateDirectory}>
-          <CheckIcon color="secondary" />
-        </IconButton>
-        <IconButton aria-label="close" onClick={onCancelCreateDirectory}>
-          <CloseIcon color="warning" />
-        </IconButton>
-      </Box>
-      {contextMenu && (
-        <Menu
-          keepMounted
-          open={contextMenu.mouseY !== null}
-          onClose={onContextMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={
-            contextMenu.mouseY !== null && contextMenu.mouseX !== null
-              ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-              : undefined
-          }
-        >
-          <MenuItem onClick={onStartCreateDirectory}>Create New Directory</MenuItem>
-        </Menu>
-      )}
+        {tree.sort(compareNodes).map((node: any) => (
+          <TreeNode node={node} key={node.path} />
+        ))}
+      </TreeView>
     </React.Fragment>
   )
 }

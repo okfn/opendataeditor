@@ -85,9 +85,9 @@ export function createStore(props: FilesProps) {
       set({ directories })
     },
     createDirectory: async (directoryname) => {
-      const { client, listFolders } = get()
+      const { client, listFiles } = get()
       await client.projectCreateDirectory({ directoryname })
-      await listFolders()
+      await listFiles()
     },
   }))
 }
