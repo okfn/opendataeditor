@@ -11,25 +11,20 @@ import { DialogContent } from '@mui/material'
 
 interface MoveButtonProps {
   label: string
+  color?: 'info' | 'warning' | 'secondary'
+  variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
   moveFile: (destination: string) => void
-  createDirectory: (directoryname: string) => void
   listFolders: () => Promise<void>
 }
 
 export default function MoveButton(props: MoveButtonProps) {
   const [open, setOpen] = React.useState(false)
-  const [paths, setPaths] = React.useState([])
   const [destination, setDestination] = React.useState<string | null>(null)
   if (!props.listFolders()) return null
-  React.useEffect(() => {
-    console.log('props', props)
-    console.log('paths', paths)
-  }, [])
   const onMoveClick = () => {
     if (!open) {
       props.listFolders()
-      setPaths([])
     }
     setOpen(!open)
   }
@@ -43,13 +38,16 @@ export default function MoveButton(props: MoveButtonProps) {
   const onFolderSelect = (destinationFolder: string | null) => {
     setDestination(destinationFolder)
   }
-  const onCreateDirectory = (directoryname: string) => {
-    props.createDirectory(directoryname)
-  }
   return (
     <React.Fragment>
-      <Button disabled={props.disabled} color="info" title="Move" onClick={onMoveClick}>
-        Move
+      <Button
+        disabled={props.disabled}
+        color={props.color}
+        title={props.label}
+        variant={props.variant}
+        onClick={onMoveClick}
+      >
+        {props.label}
       </Button>
       <Dialog fullWidth maxWidth="sm" onClose={onDialogBoxCancel} open={open}>
         <DialogTitle>
@@ -71,10 +69,7 @@ export default function MoveButton(props: MoveButtonProps) {
             marginRight: 3,
           }}
         >
-          <FileNavigator
-            onFolderSelect={onFolderSelect}
-            onCreateDirectory={onCreateDirectory}
-          />
+          <FileNavigator onFolderSelect={onFolderSelect} />
         </DialogContent>
         <Box sx={{ paddingX: 3, paddingY: 1 }}>
           <Columns spacing={2}>

@@ -89,6 +89,11 @@ export class Client {
     return { response }
   }
 
+  async projectCopyFile(props: { filename: string }) {
+    const response = await this.request('/project/copy-file', props)
+    return { response }
+  }
+
   // Resource
 
   async resourceDescribe(props: { path: string; detector?: IDetector }) {

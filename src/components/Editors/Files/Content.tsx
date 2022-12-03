@@ -9,6 +9,9 @@ import Collapse from '@mui/material/Collapse'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import { useStore } from './store'
+import { isDirectory } from '../../../helpers'
+import FolderIcon from '@mui/icons-material/Folder'
+import DescriptionIcon from '@mui/icons-material/Description'
 
 export default function Content() {
   const path = useStore((state) => state.path)
@@ -20,22 +23,18 @@ export default function Content() {
     listFiles().catch(console.error)
   }, [])
   return (
-    <Box
-      sx={{ padding: 2, minHeight: 'calc(100% + 50px)' }}
-      onClick={(_: React.SyntheticEvent) => {
-        selectFile(undefined)
-      }}
-    >
+    <Box sx={{ padding: 2, minHeight: 'calc(100% + 50px)' }}>
       <TreeView
         aria-label="customized"
         defaultExpanded={['1']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
-        defaultEndIcon={<CloseSquare />}
         selected={path || ''}
-        onNodeSelect={(e: React.SyntheticEvent, nodeId: string) => {
-          selectFile(nodeId)
-          e.stopPropagation()
+        onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
+          if (nodeId === 'root') return
+
+          const newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+          selectFile(newpath)
         }}
       >
         {tree.sort(compareNodes).map((node: any) => (
@@ -64,19 +63,19 @@ function PlusSquare(props: SvgIconProps) {
   )
 }
 
-function CloseSquare(props: SvgIconProps) {
-  return (
-    <SvgIcon
-      className="close"
-      fontSize="inherit"
-      style={{ width: 14, height: 14 }}
-      {...props}
-    >
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
-    </SvgIcon>
-  )
-}
+// function CloseSquare(props: SvgIconProps) {
+//   return (
+//     <SvgIcon
+//       className="close"
+//       fontSize="inherit"
+//       style={{ width: 14, height: 14 }}
+//       {...props}
+//     >
+//       {/* tslint:disable-next-line: max-line-length */}
+//       <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
+//     </SvgIcon>
+//   )
+// }
 
 function TransitionComponent(props: TransitionProps) {
   const style = useSpring({
@@ -97,8 +96,21 @@ function TransitionComponent(props: TransitionProps) {
   )
 }
 
+function TreeItemIcon({ path, label }: any) {
+  return (
+    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+      {isDirectory(path) ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {label}
+    </Box>
+  )
+}
+
 const StyledTreeItem = styled((props: TreeItemProps) => (
-  <TreeItem {...props} TransitionComponent={TransitionComponent} />
+  <TreeItem
+    {...props}
+    TransitionComponent={TransitionComponent}
+    label={<TreeItemIcon path={props.nodeId} label={props.label} />}
+  />
 ))(({ theme, nodeId }) => ({
   '& .MuiTreeItem-label': {
     fontWeight: nodeId === settings.PACKAGE_PATH ? 'bold' : 'normal',
@@ -128,6 +140,9 @@ function TreeNode({ node }: any) {
 function createTree(paths: string[]) {
   const result: any = []
   const level = { result }
+  paths = paths.map(function (path) {
+    return `root/${path}`
+  })
   paths.forEach((path) => {
     ;(path as string).split('/').reduce((r: any, name) => {
       if (!r[name]) {

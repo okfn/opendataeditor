@@ -10,12 +10,16 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import TextField from '@mui/material/TextField'
 import { useStore } from '../../../Editors/Files/store'
 
-interface CreateDirectoryButtonProps {
-  variant?: 'contained' | 'outlined' | 'text'
+interface FolderButtonProps {
+  color?: 'info' | 'warning' | 'secondary'
   disabled?: boolean
+  marginR?: number
+  show?: boolean
+  variant?: 'contained' | 'outlined' | 'text'
+  closeMenu: () => void
 }
 
-export default function CreateDirectoryButton(props: CreateDirectoryButtonProps) {
+export default function FolderButton(props: FolderButtonProps) {
   const path = useStore((state) => state.path)
   const createDirectory = useStore((state) => state.createDirectory)
   const [open, setOpen] = React.useState(false)
@@ -34,6 +38,7 @@ export default function CreateDirectoryButton(props: CreateDirectoryButtonProps)
     }
     createDirectory(directoryPath)
     setOpen(false)
+    props.closeMenu()
   }
   React.useEffect(() => {
     if (!path) return
@@ -41,31 +46,48 @@ export default function CreateDirectoryButton(props: CreateDirectoryButtonProps)
   }, [])
   return (
     <React.Fragment>
-      <Button
-        disabled={props.disabled}
-        variant={props.variant}
-        component="label"
-        onClick={handleClickOpen}
-      >
-        <CreateNewFolderIcon />
-        Folder
-      </Button>
+      {props.show && (
+        <Button
+          disabled={props.disabled}
+          variant={props.variant}
+          component="label"
+          onClick={handleClickOpen}
+          color={props.color || 'info'}
+        >
+          <CreateNewFolderIcon sx={{ mr: props.marginR }} />
+          Folder
+        </Button>
+      )}
       <Dialog
         open={open}
         onClose={handleCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">New Folder</DialogTitle>
+        <DialogTitle id="dialog-title">New Folder</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="dialog-description">
             {currentDirectory}
           </DialogContentText>
           <TextField size="small" value={newDirectoryName} onChange={onUserInput} />
         </DialogContent>
         <DialogActions className="dialog-actions-dense">
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleCreateDirectory}>Create</Button>
+          <Button
+            onClick={handleCancel}
+            aria-label="cancel"
+            color="warning"
+            variant="outlined"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleCreateDirectory}
+            aria-label="accept"
+            color="secondary"
+            variant="outlined"
+          >
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -3,16 +3,16 @@ import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import Grow from '@mui/material/Grow'
 import Paper from '@mui/material/Paper'
 import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
 import UploadButton from '../Buttons/UploadButton'
-import CreateDirectoryButton from '../Buttons/CreateDirectoryButton'
+import FolderButton from '../Buttons/FolderButton'
+import PackageButton from '../Buttons/PackageButton'
 
-interface EditorDropDownButtonProps {
+interface NewDropdownProps {
   options: string[]
   variant?: 'contained' | 'outlined' | 'text'
   path?: string | undefined
@@ -20,21 +20,18 @@ interface EditorDropDownButtonProps {
   onCreateDataPackage: () => void
 }
 
-export default function EditorDropDownButton(props: EditorDropDownButtonProps) {
+export default function NewButton(props: NewDropdownProps) {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
 
-  const handleButtonClick = (index: number) => {
-    if (index === 3) {
-      props.onCreateDataPackage()
-    }
+  const handleCreatePackage = () => {
     setOpen(false)
+    props.onCreateDataPackage()
   }
 
   const handleFileUpload = (file: File) => {
-    console.log('handle upload')
-    props.onFileUpload(file)
     setOpen(false)
+    props.onFileUpload(file)
   }
 
   const handleToggle = () => {
@@ -54,7 +51,7 @@ export default function EditorDropDownButton(props: EditorDropDownButtonProps) {
       <ButtonGroup variant={props.variant} ref={anchorRef} aria-label="split button">
         <Button
           size="medium"
-          aria-controls={open ? 'split-button-menu' : undefined}
+          aria-controls={open ? 'new-dropdown-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
@@ -83,31 +80,31 @@ export default function EditorDropDownButton(props: EditorDropDownButtonProps) {
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="split-button-menu" autoFocusItem>
+                <MenuList id="new-dropdown-menu" autoFocusItem>
                   {props.options.map(
                     (option, index) =>
                       index !== 0 && (
                         <MenuItem key={option}>
-                          {index === 1 && <CreateDirectoryButton />}
-                          {index === 2 && (
-                            <UploadButton
-                              variant="text"
-                              label={option}
-                              displayIcon={true}
-                              onUpload={(file) => handleFileUpload(file)}
-                            />
-                          )}
-                          {index === 3 && (
-                            <Button
-                              disabled={!props.path}
-                              variant="text"
-                              component="label"
-                              onClick={() => handleButtonClick(index)}
-                            >
-                              <CreateNewFolderIcon />
-                              {option}
-                            </Button>
-                          )}
+                          <FolderButton
+                            marginR={1}
+                            show={index === 1}
+                            closeMenu={() => setOpen(false)}
+                          />
+                          <UploadButton
+                            marginR={1}
+                            variant="text"
+                            label={option}
+                            show={index === 2}
+                            onUpload={(file) => handleFileUpload(file)}
+                          />
+                          <PackageButton
+                            marginR={1}
+                            variant="text"
+                            label={option}
+                            show={index === 3}
+                            disabled={!props.path}
+                            onClick={() => handleCreatePackage()}
+                          />
                         </MenuItem>
                       )
                   )}

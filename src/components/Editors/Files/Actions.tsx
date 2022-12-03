@@ -3,18 +3,20 @@ import Box from '@mui/material/Box'
 import Columns from '../../Views/Library/Columns'
 import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
 import MoveButton from '../../Views/Library/Buttons/MoveButton'
-import EditorDropDownButton from '../../Views/Library/Groups/EditorDropDownButton'
+import NewDropdown from '../../Views/Library/Groups/NewDropdown'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
+import CopyButton from '../../Views/Library/Buttons/CopyButton'
 
 export default function Actions() {
   const theme = useTheme()
   const height = `calc(${theme.spacing(8)} - 1px)`
   return (
     <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
-      <Columns spacing={3}>
+      <Columns spacing={2}>
         <New />
         <Move />
+        <Copy />
         <Delete />
       </Columns>
     </Box>
@@ -34,7 +36,7 @@ function New() {
     createFile(myNewFile)
   }
   return (
-    <EditorDropDownButton
+    <NewDropdown
       path={path}
       options={editorOptions}
       onFileUpload={(file) => handleCreateFile(file)}
@@ -43,17 +45,31 @@ function New() {
   )
 }
 
+function Copy() {
+  const copyFile = useStore((state) => state.copyFile)
+  const path = useStore((state) => state.path)
+  return (
+    <CopyButton
+      disabled={!path}
+      variant="text"
+      label="Copy"
+      color="info"
+      copyFile={() => copyFile()}
+    />
+  )
+}
+
 function Move() {
   const moveFile = useStore((state) => state.moveFile)
-  const createDirectory = useStore((state) => state.createDirectory)
   const path = useStore((state) => state.path)
   const listFolders = useStore((state) => state.listFolders)
   return (
     <MoveButton
       disabled={!path}
+      variant="text"
       label="Move"
+      color="info"
       moveFile={(destination) => moveFile(destination)}
-      createDirectory={(directoryname) => createDirectory(directoryname)}
       listFolders={listFolders}
     />
   )
