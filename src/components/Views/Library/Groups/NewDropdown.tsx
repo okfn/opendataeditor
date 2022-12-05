@@ -102,7 +102,6 @@ export default function NewButton(props: NewDropdownProps) {
                             variant="text"
                             label={option}
                             show={index === 3}
-                            disabled={!props.path}
                             onClick={() => handleCreatePackage()}
                           />
                         </MenuItem>

@@ -21,11 +21,9 @@ export default function FileNavigator(props: FileNavigatorProps) {
   const listFolders = useStore((state: any) => state.listFolders)
   const tree = indexTree(createTree(directories, path))
 
-  const handleSelect = (event: SyntheticEvent, nodeId: string[]) => {
-    event.preventDefault()
-    if (!Array.isArray(nodeId)) {
-      props.onFolderSelect(nodeId)
-    }
+  const handleSelect = (_: SyntheticEvent, nodeId: string) => {
+    const newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+    props.onFolderSelect(newpath)
   }
   React.useEffect(() => {
     listFolders().catch(console.error)
@@ -117,9 +115,13 @@ function TreeNode({ node }: any) {
 function createTree(paths: string[], ignorepath?: string) {
   const result: any = []
   const level = { result }
+  if (paths.length < 1) return [{ name: 'root', children: [], path: 'root' }]
   if (ignorepath) {
     paths = paths.filter((element: string) => !(ignorepath === element))
   }
+  paths = paths.map(function (path) {
+    return `root/${path}`
+  })
   paths &&
     paths.forEach((path) => {
       ;(path as string).split('/').reduce((r: any, name) => {

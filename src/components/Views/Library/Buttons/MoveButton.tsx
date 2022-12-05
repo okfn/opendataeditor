@@ -35,8 +35,8 @@ export default function MoveButton(props: MoveButtonProps) {
     setDestination(null)
     setOpen(false)
   }
-  const onFolderSelect = (destinationFolder: string | null) => {
-    setDestination(destinationFolder)
+  const onFolderSelect = (destination: string | null) => {
+    setDestination(destination)
   }
   return (
     <React.Fragment>

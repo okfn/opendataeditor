@@ -76,7 +76,8 @@ export function createStore(props: FilesProps) {
     },
     moveFile: async (destination) => {
       const { client, path, listFiles } = get()
-      if (!path || !destination) return
+      if (!path) return
+      if (destination === 'root') destination = ''
       await client.projectMoveFile({ filename: path, destination })
       await listFiles()
     },
