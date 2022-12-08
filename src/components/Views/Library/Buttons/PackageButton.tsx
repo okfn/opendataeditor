@@ -16,18 +16,16 @@ interface PackageButtonProps {
 export default function PackageButton(props: PackageButtonProps) {
   return (
     <React.Fragment>
-      {props.show && (
-        <Button
-          color={props.color || 'info'}
-          disabled={props.disabled}
-          variant={props.variant}
-          component="label"
-          onClick={props.onClick}
-        >
-          <FolderIcon sx={{ mr: props.marginR }} />
-          {props.label}
-        </Button>
-      )}
+      <Button
+        color={props.color || 'info'}
+        disabled={props.disabled}
+        variant={props.variant}
+        component="label"
+        onClick={props.onClick}
+      >
+        <FolderIcon sx={{ mr: props.marginR }} />
+        {props.label}
+      </Button>
     </React.Fragment>
   )
 }

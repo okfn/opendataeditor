@@ -8,6 +8,11 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
 import { useStore } from '../../Editors/Files/store'
+import Box from '@mui/material/Box'
+import { isDirectory } from '../../../helpers'
+import FolderIcon from '@mui/icons-material/Folder'
+import DescriptionIcon from '@mui/icons-material/Description'
+
 interface FileNavigatorProps {
   initialState?: {
     mouseX: number | null
@@ -19,10 +24,11 @@ export default function FileNavigator(props: FileNavigatorProps) {
   const path = useStore((state: any) => state.path)
   const directories = useStore((state: any) => state.directories)
   const listFolders = useStore((state: any) => state.listFolders)
-  const tree = indexTree(createTree(directories, path))
+  const tree = indexTree(createTree(directories))
 
   const handleSelect = (_: SyntheticEvent, nodeId: string) => {
-    const newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+    let newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+    if (newpath === 'root') newpath = ''
     props.onFolderSelect(newpath)
   }
   React.useEffect(() => {
@@ -86,8 +92,22 @@ function TransitionComponent(props: TransitionProps) {
     </animated.div>
   )
 }
+
+function TreeItemIcon({ path, label }: any) {
+  return (
+    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+      {isDirectory(path) ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {label}
+    </Box>
+  )
+}
+
 const StyledTreeItem = styled((props: TreeItemProps) => (
-  <TreeItem {...props} TransitionComponent={TransitionComponent} />
+  <TreeItem
+    {...props}
+    TransitionComponent={TransitionComponent}
+    label={<TreeItemIcon path={props.nodeId} label={props.label} />}
+  />
 ))(({ theme }) => ({
   '& .MuiTreeItem-label': 'normal',
   [`& .${treeItemClasses.iconContainer}`]: {
@@ -112,13 +132,9 @@ function TreeNode({ node }: any) {
   )
 }
 
-function createTree(paths: string[], ignorepath?: string) {
+function createTree(paths: string[]) {
   const result: any = []
   const level = { result }
-  if (paths.length < 1) return [{ name: 'root', children: [], path: 'root' }]
-  if (ignorepath) {
-    paths = paths.filter((element: string) => !(ignorepath === element))
-  }
   paths = paths.map(function (path) {
     return `root/${path}`
   })

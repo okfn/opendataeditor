@@ -14,17 +14,18 @@ interface FolderButtonProps {
   color?: 'info' | 'warning' | 'secondary'
   disabled?: boolean
   marginR?: number
-  show?: boolean
   variant?: 'contained' | 'outlined' | 'text'
   closeMenu: () => void
 }
 
 export default function FolderButton(props: FolderButtonProps) {
   const path = useStore((state) => state.path)
-  const createDirectory = useStore((state) => state.createDirectory)
   const [open, setOpen] = React.useState(false)
   const [newDirectoryName, setNewDirectoryName] = React.useState('')
   const [currentDirectory, setCurrentDirectory] = React.useState('')
+  const [error, setError] = React.useState(false)
+  const paths = useStore((state: any) => state.paths)
+  const createDirectory = useStore((state) => state.createDirectory)
 
   const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewDirectoryName(event.target.value)
@@ -32,11 +33,15 @@ export default function FolderButton(props: FolderButtonProps) {
   const handleCancel = () => setOpen(false)
   const handleClickOpen = () => setOpen(true)
   const handleCreateDirectory = () => {
-    let directoryPath = newDirectoryName
+    let newDirectoryPath = newDirectoryName
     if (currentDirectory !== '') {
-      directoryPath = `${currentDirectory}/${directoryPath}`
+      newDirectoryPath = `${currentDirectory}/${newDirectoryPath}`
     }
-    createDirectory(directoryPath)
+    if (paths.includes(newDirectoryPath)) {
+      setError(true)
+      return
+    }
+    createDirectory(newDirectoryPath)
     setOpen(false)
     props.closeMenu()
   }
@@ -46,18 +51,16 @@ export default function FolderButton(props: FolderButtonProps) {
   }, [])
   return (
     <React.Fragment>
-      {props.show && (
-        <Button
-          disabled={props.disabled}
-          variant={props.variant}
-          component="label"
-          onClick={handleClickOpen}
-          color={props.color || 'info'}
-        >
-          <CreateNewFolderIcon sx={{ mr: props.marginR }} />
-          Folder
-        </Button>
-      )}
+      <Button
+        disabled={props.disabled}
+        variant={props.variant}
+        component="label"
+        onClick={handleClickOpen}
+        color={props.color || 'info'}
+      >
+        <CreateNewFolderIcon sx={{ mr: props.marginR }} />
+        Folder
+      </Button>
       <Dialog
         open={open}
         onClose={handleCancel}
@@ -69,7 +72,13 @@ export default function FolderButton(props: FolderButtonProps) {
           <DialogContentText id="dialog-description">
             {currentDirectory}
           </DialogContentText>
-          <TextField size="small" value={newDirectoryName} onChange={onUserInput} />
+          <TextField
+            error={error}
+            size="small"
+            value={newDirectoryName}
+            onChange={onUserInput}
+            helperText={error && 'File already exists.'}
+          />
         </DialogContent>
         <DialogActions className="dialog-actions-dense">
           <Button
@@ -85,6 +94,7 @@ export default function FolderButton(props: FolderButtonProps) {
             aria-label="accept"
             color="secondary"
             variant="outlined"
+            disabled={newDirectoryName === ''}
           >
             Create
           </Button>

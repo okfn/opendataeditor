@@ -11,9 +11,10 @@ import MenuList from '@mui/material/MenuList'
 import UploadButton from '../Buttons/UploadButton'
 import FolderButton from '../Buttons/FolderButton'
 import PackageButton from '../Buttons/PackageButton'
+import AddIcon from '@mui/icons-material/Add'
 
 interface NewDropdownProps {
-  options: string[]
+  // options: string[]
   variant?: 'contained' | 'outlined' | 'text'
   path?: string | undefined
   onFileUpload: (file: File) => void
@@ -57,7 +58,7 @@ export default function NewButton(props: NewDropdownProps) {
           aria-haspopup="menu"
           onClick={handleToggle}
         >
-          + New
+          <AddIcon /> New
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
@@ -81,32 +82,25 @@ export default function NewButton(props: NewDropdownProps) {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="new-dropdown-menu" autoFocusItem>
-                  {props.options.map(
-                    (option, index) =>
-                      index !== 0 && (
-                        <MenuItem key={option}>
-                          <FolderButton
-                            marginR={1}
-                            show={index === 1}
-                            closeMenu={() => setOpen(false)}
-                          />
-                          <UploadButton
-                            marginR={1}
-                            variant="text"
-                            label={option}
-                            show={index === 2}
-                            onUpload={(file) => handleFileUpload(file)}
-                          />
-                          <PackageButton
-                            marginR={1}
-                            variant="text"
-                            label={option}
-                            show={index === 3}
-                            onClick={() => handleCreatePackage()}
-                          />
-                        </MenuItem>
-                      )
-                  )}
+                  <MenuItem key="folder">
+                    <FolderButton marginR={1} closeMenu={() => setOpen(false)} />
+                  </MenuItem>
+                  <MenuItem key="upload">
+                    <UploadButton
+                      marginR={1}
+                      variant="text"
+                      label="Upload"
+                      onUpload={(file) => handleFileUpload(file)}
+                    />
+                  </MenuItem>
+                  <MenuItem key="create-package">
+                    <PackageButton
+                      marginR={1}
+                      variant="text"
+                      label="Create Package"
+                      onClick={() => handleCreatePackage()}
+                    />
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

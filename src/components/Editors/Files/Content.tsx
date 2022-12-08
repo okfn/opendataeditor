@@ -31,9 +31,7 @@ export default function Content() {
         defaultExpandIcon={<PlusSquare />}
         selected={path || ''}
         onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
-          let newpath: string | undefined = nodeId.slice(nodeId.indexOf('/', 1) + 1)
-          if (newpath === 'root') newpath = undefined
-          selectFile(newpath)
+          selectFile(nodeId)
         }}
       >
         {tree.sort(compareNodes).map((node: any) => (
@@ -139,10 +137,6 @@ function TreeNode({ node }: any) {
 function createTree(paths: string[]) {
   const result: any = []
   const level = { result }
-  if (paths.length < 1) return [{ name: 'root', children: [], path: 'root' }]
-  paths = paths.map(function (path) {
-    return `root/${path}`
-  })
   paths.forEach((path) => {
     ;(path as string).split('/').reduce((r: any, name) => {
       if (!r[name]) {
