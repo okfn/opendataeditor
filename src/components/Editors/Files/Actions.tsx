@@ -6,7 +6,6 @@ import MoveButton from '../../Views/Library/Buttons/MoveButton'
 import NewDropdown from '../../Views/Library/Groups/NewDropdown'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
-// import CopyButton from '../../Views/Library/Buttons/CopyButton'
 
 export default function Actions() {
   const theme = useTheme()
@@ -16,7 +15,6 @@ export default function Actions() {
       <Columns spacing={2}>
         <New />
         <Move />
-        {/* <Copy /> */}
         <Delete />
       </Columns>
     </Box>
@@ -26,38 +24,22 @@ export default function Actions() {
 function New() {
   const createFile = useStore((state) => state.createFile)
   const createPackage = useStore((state) => state.createPackage)
-  // const editorOptions = ['+ New', 'Folder', 'Upload', 'Data Package']
   const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
   const handleCreateFile = (file: File) => {
     let newPath = file.name
     if (path) newPath = `${path}/${newPath}`
-
     const myNewFile = new File([file], newPath, { type: file.type })
     createFile(myNewFile)
   }
   return (
     <NewDropdown
-      path={path}
-      // options={editorOptions}
+      paths={paths}
       onFileUpload={(file) => handleCreateFile(file)}
       onCreateDataPackage={createPackage}
     />
   )
 }
-
-// function Copy() {
-//   const copyFile = useStore((state) => state.copyFile)
-//   const path = useStore((state) => state.path)
-//   return (
-//     <CopyButton
-//       disabled={!path}
-//       variant="text"
-//       label="Copy"
-//       color="info"
-//       copyFile={() => copyFile()}
-//     />
-//   )
-// }
 
 function Move() {
   const moveFile = useStore((state) => state.moveFile)
@@ -66,6 +48,7 @@ function Move() {
   const listFolders = useStore((state) => state.listFolders)
   return (
     <MoveButton
+      path={path}
       disabled={!path}
       variant="text"
       label="Move/Copy"

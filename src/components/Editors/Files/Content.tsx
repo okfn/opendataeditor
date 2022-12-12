@@ -23,15 +23,22 @@ export default function Content() {
     listFiles().catch(console.error)
   }, [])
   return (
-    <Box sx={{ padding: 2, minHeight: 'calc(100% + 50px)' }}>
+    <Box
+      sx={{ padding: 2, height: '100%' }}
+      onClick={() => {
+        selectFile(undefined)
+      }}
+    >
       <TreeView
+        sx={{ height: '100%' }}
         aria-label="customized"
         defaultExpanded={['1']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
         selected={path || ''}
-        onNodeSelect={(_: React.SyntheticEvent, nodeId: string) => {
+        onNodeSelect={(event: React.SyntheticEvent, nodeId: string) => {
           selectFile(nodeId)
+          event.stopPropagation()
         }}
       >
         {tree.sort(compareNodes).map((node: any) => (

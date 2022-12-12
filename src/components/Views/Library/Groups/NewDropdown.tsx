@@ -12,11 +12,11 @@ import UploadButton from '../Buttons/UploadButton'
 import FolderButton from '../Buttons/FolderButton'
 import PackageButton from '../Buttons/PackageButton'
 import AddIcon from '@mui/icons-material/Add'
+import { hasResource } from '../../../../helpers'
 
 interface NewDropdownProps {
-  // options: string[]
+  paths?: string[] | undefined
   variant?: 'contained' | 'outlined' | 'text'
-  path?: string | undefined
   onFileUpload: (file: File) => void
   onCreateDataPackage: () => void
 }
@@ -58,7 +58,7 @@ export default function NewButton(props: NewDropdownProps) {
           aria-haspopup="menu"
           onClick={handleToggle}
         >
-          <AddIcon /> New
+          <AddIcon fontSize="small" /> New
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
@@ -83,7 +83,11 @@ export default function NewButton(props: NewDropdownProps) {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="new-dropdown-menu" autoFocusItem>
                   <MenuItem key="folder">
-                    <FolderButton marginR={1} closeMenu={() => setOpen(false)} />
+                    <FolderButton
+                      marginR={1}
+                      closeMenu={() => setOpen(false)}
+                      fullWidth
+                    />
                   </MenuItem>
                   <MenuItem key="upload">
                     <UploadButton
@@ -91,13 +95,15 @@ export default function NewButton(props: NewDropdownProps) {
                       variant="text"
                       label="Upload"
                       onUpload={(file) => handleFileUpload(file)}
+                      fullWidth
                     />
                   </MenuItem>
                   <MenuItem key="create-package">
                     <PackageButton
+                      disabled={!hasResource(props.paths)}
                       marginR={1}
                       variant="text"
-                      label="Create Package"
+                      label="Package"
                       onClick={() => handleCreatePackage()}
                     />
                   </MenuItem>

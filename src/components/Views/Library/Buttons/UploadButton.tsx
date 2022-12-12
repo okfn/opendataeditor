@@ -24,7 +24,7 @@ export default function UploadButton(props: UploadButtonProps) {
         color={props.color || 'info'}
         component="label"
       >
-        <CloudUploadIcon sx={{ mr: props.marginR }} />
+        <CloudUploadIcon sx={{ mr: props.marginR }} fontSize="small" />
         Upload
         <input
           hidden

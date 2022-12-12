@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { isDirectory } from '../../../../helpers'
+import { isDirectory, getFolderPath } from '../../../../helpers'
 import DialogContentText from '@mui/material/DialogContentText'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import TextField from '@mui/material/TextField'
@@ -13,6 +13,7 @@ import { useStore } from '../../../Editors/Files/store'
 interface FolderButtonProps {
   color?: 'info' | 'warning' | 'secondary'
   disabled?: boolean
+  fullWidth?: boolean
   marginR?: number
   variant?: 'contained' | 'outlined' | 'text'
   closeMenu: () => void
@@ -22,7 +23,6 @@ export default function FolderButton(props: FolderButtonProps) {
   const path = useStore((state) => state.path)
   const [open, setOpen] = React.useState(false)
   const [newDirectoryName, setNewDirectoryName] = React.useState('')
-  const [currentDirectory, setCurrentDirectory] = React.useState('')
   const [error, setError] = React.useState(false)
   const paths = useStore((state: any) => state.paths)
   const createDirectory = useStore((state) => state.createDirectory)
@@ -34,9 +34,15 @@ export default function FolderButton(props: FolderButtonProps) {
   const handleClickOpen = () => setOpen(true)
   const handleCreateDirectory = () => {
     let newDirectoryPath = newDirectoryName
+    let currentDirectory = path
+    if (!currentDirectory) currentDirectory = ''
+
+    // If a path is a file
+    if (!isDirectory(currentDirectory)) currentDirectory = getFolderPath(currentDirectory)
     if (currentDirectory !== '') {
       newDirectoryPath = `${currentDirectory}/${newDirectoryPath}`
     }
+
     if (paths.includes(newDirectoryPath)) {
       setError(true)
       return
@@ -45,10 +51,6 @@ export default function FolderButton(props: FolderButtonProps) {
     setOpen(false)
     props.closeMenu()
   }
-  React.useEffect(() => {
-    if (!path) return
-    if (path && isDirectory(path)) setCurrentDirectory(path)
-  }, [])
   return (
     <React.Fragment>
       <Button
@@ -70,7 +72,7 @@ export default function FolderButton(props: FolderButtonProps) {
         <DialogTitle id="dialog-title">New Folder</DialogTitle>
         <DialogContent>
           <DialogContentText id="dialog-description">
-            {currentDirectory}
+            {path && isDirectory(path) && path}
           </DialogContentText>
           <TextField
             error={error}

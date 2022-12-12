@@ -11,12 +11,14 @@ import Columns from '../Columns'
 import { DialogContent } from '@mui/material'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { isDirectory } from '../../../../helpers'
 
 interface MoveButtonProps {
   label: string
   color?: 'info' | 'warning' | 'secondary'
   variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
+  path?: string | undefined
   copyFile: (destination: string) => void
   moveFile: (destination: string) => void
   listFolders: () => Promise<void>
@@ -26,23 +28,41 @@ export default function MoveButton(props: MoveButtonProps) {
   const [open, setOpen] = React.useState(false)
   const [destination, setDestination] = React.useState<string | null>(null)
   const [copyFile, setCopyFile] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<boolean>(false)
+
   if (!props.listFolders()) return null
+  const onCancelMove = () => {
+    setDestination(null)
+    setOpen(false)
+  }
+  const onDialogBoxCancel = () => {
+    setDestination(null)
+    setOpen(false)
+  }
+  const onFolderSelect = (destination: string | null) => {
+    if (!props.path) return
+    setError(false)
+    if (isDirectory(props.path)) {
+      setError(props.path === destination)
+    }
+    setDestination(destination)
+  }
   const onMoveButtonClick = () => {
     if (!open) {
       props.listFolders()
     }
     setCopyFile(false)
     setOpen(!open)
+    if (destination === null) setError(true)
   }
-  const onDialogBoxCancel = () => {
+  const onMove = () => {
+    if (destination === null) return
+    if (copyFile) {
+      props.copyFile(destination)
+    } else {
+      props.moveFile(destination)
+    }
     setOpen(false)
-  }
-  const onCancelMove = () => {
-    setDestination(null)
-    setOpen(false)
-  }
-  const onFolderSelect = (destination: string | null) => {
-    setDestination(destination)
   }
   return (
     <React.Fragment>
@@ -80,11 +100,7 @@ export default function MoveButton(props: MoveButtonProps) {
         <FormGroup sx={{ marginLeft: 3 }}>
           <FormControlLabel
             control={
-              <Checkbox
-                disabled={destination === null}
-                onChange={() => setCopyFile(!copyFile)}
-                checked={copyFile}
-              />
+              <Checkbox onChange={() => setCopyFile(!copyFile)} checked={copyFile} />
             }
             label="Create a copy"
           />
@@ -96,16 +112,8 @@ export default function MoveButton(props: MoveButtonProps) {
               sx={{ my: 0.5 }}
               variant="contained"
               size="small"
-              onClick={() => {
-                if (destination === null) return
-                if (copyFile) {
-                  props.copyFile(destination)
-                } else {
-                  props.moveFile(destination)
-                }
-                setOpen(false)
-              }}
-              disabled={destination === null}
+              onClick={onMove}
+              disabled={error}
               aria-label="move selected right"
               color="secondary"
             >

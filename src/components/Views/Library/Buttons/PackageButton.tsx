@@ -5,6 +5,7 @@ import FolderIcon from '@mui/icons-material/Folder'
 interface PackageButtonProps {
   color?: 'info' | 'warning' | 'secondary'
   disabled?: boolean
+  fullWidth?: boolean
   icon?: React.ReactElement
   label: string
   show?: boolean
@@ -22,8 +23,9 @@ export default function PackageButton(props: PackageButtonProps) {
         variant={props.variant}
         component="label"
         onClick={props.onClick}
+        fullWidth={props.fullWidth}
       >
-        <FolderIcon sx={{ mr: props.marginR }} />
+        <FolderIcon sx={{ mr: props.marginR }} fontSize="small" />
         {props.label}
       </Button>
     </React.Fragment>

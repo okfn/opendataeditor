@@ -9,7 +9,7 @@ export default function Layout() {
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
   return (
     <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-      <Box>
+      <Box sx={{ height }}>
         <Content />
       </Box>
       <Box sx={{ marginTop: 'auto' }}>
