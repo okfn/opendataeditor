@@ -11,8 +11,9 @@ const PackageImage = () => {
 
   return (
     <Box sx={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <HeadingBox>Package Image</HeadingBox>
       <ImageUrl />
-      <div style={{ height: '300px', width: '300px' }}>
+      <div style={{ height: '300px', width: '300px', marginTop: '16px' }}>
         {url ? (
           <Image url={url} description="Package Image" />
         ) : (
