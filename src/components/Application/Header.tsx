@@ -7,10 +7,10 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import InputIcon from '@mui/icons-material/Input'
-import GithubIcon from '@mui/icons-material/GitHub'
+// import GithubIcon from '@mui/icons-material/GitHub'
 import SupportIcon from '@mui/icons-material/SupportAgent'
 import HelpIcon from '@mui/icons-material/Help'
-// import SettingsIcon from '@mui/icons-material/Settings'
+import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -45,29 +45,25 @@ export default function Header() {
                   <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Provide a link to a data file or upload one on the left"
+                  placeholder="Data management application for browser and desktop"
                   inputProps={{ 'aria-label': 'search' }}
+                  readOnly
                   value={path}
                 />
               </Search>
             </Grid>
             <Grid item xs={2}>
               <Grid container justifyContent="flex-end">
+                <Button title="Settings" color="inherit" disabled>
+                  <SettingsIcon />
+                </Button>
                 <Button
-                  title="Slack"
+                  title="Community"
                   color="inherit"
                   href="https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg"
                   target="_blank"
                 >
                   <SupportIcon />
-                </Button>
-                <Button
-                  title="Github"
-                  color="inherit"
-                  href="https://github.com/frictionlessdata/application"
-                  target="_blank"
-                >
-                  <GithubIcon />
                 </Button>
                 <Button
                   title="Documentation"

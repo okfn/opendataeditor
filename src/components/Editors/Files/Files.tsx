@@ -8,6 +8,7 @@ import { Client } from '../../../client'
 export interface FilesProps {
   client: Client
   onPathChange: (path?: string) => void
+  listFolders?: () => Promise<string[]>
 }
 
 export default function Files(props: FilesProps) {

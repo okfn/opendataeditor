@@ -20,7 +20,11 @@ export default function Tabs(props: TabsProps) {
       <Box sx={{ height: tabsHeight, borderBottom: 1, borderColor: 'divider' }}>
         <MuiTabs value={value} onChange={handleChange}>
           {props.labels.map((label) => (
-            <MuiTab key={label} label={label} />
+            <MuiTab
+              key={label}
+              label={label.replace('_', '')}
+              disabled={label.startsWith('_')}
+            />
           ))}
         </MuiTabs>
       </Box>

@@ -55,6 +55,12 @@ export class Client {
     return { paths }
   }
 
+  async projectListFolders() {
+    const data = await this.request('/project/list-folders')
+    const { directories } = data as { directories: string[] }
+    return { directories }
+  }
+
   async projectCreatePackage() {
     const data = await this.request('/project/create-package')
     const { path } = data as { path: string }
@@ -71,6 +77,16 @@ export class Client {
     const data = await this.request('/project/update-record', props)
     const { record } = data as { record: IRecord }
     return { record }
+  }
+
+  async projectMoveFile(props: { filename: string; destination: string }) {
+    const response = await this.request('/project/move-file', props)
+    return { response }
+  }
+
+  async projectCreateDirectory(props: { directoryname: string }) {
+    const response = await this.request('/project/create-directory', props)
+    return { response }
   }
 
   // Resource

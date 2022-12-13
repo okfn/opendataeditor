@@ -48,7 +48,7 @@ export interface VerticalTabsProps {
 
 export default function VerticalTabs(props: VerticalTabsProps) {
   const [value, setValue] = React.useState(props.index || 0)
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
