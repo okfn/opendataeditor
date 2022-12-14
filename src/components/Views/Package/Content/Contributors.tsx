@@ -1,29 +1,51 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import HeadingBox from '../../Library/Groups/HeadingBox'
+import InputField from '../../Library/Fields/InputField'
+import { useStore } from '../store'
 
-export default function General() {
+export default function Contributors() {
+  const contributorsList = useStore((state) => state.descriptor.contributors)
   return (
     <>
-      <HeadingBox>General</HeadingBox>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <h2>Hello</h2>
+      <ContributorsInput />
+      {contributorsList && (
+        <Grid container spacing={2}>
+          {contributorsList.map((item) => {
+            return (
+              <Grid item xs={6} key={item.id}>
+                <div>{item.name}</div>
+              </Grid>
+            )
+          })}
         </Grid>
-        <Grid item xs={6}>
-          <h2>Hello</h2>
-        </Grid>
-        <Grid item xs={6}>
-          <h2>Hello</h2>
-        </Grid>
-        <Grid item xs={6}>
-          <h2>Hello</h2>
-        </Grid>
-        <Grid item xs={6}>
-          <h2>Hello</h2>
-        </Grid>
-      </Grid>
-      <h2>Hello</h2>
+      )}
     </>
+  )
+}
+
+function ContributorsInput() {
+  const contributorsList = useStore((state) => state.descriptor.contributors)
+  const update = useStore((state) => state.update)
+  const [inputValue, setInputValue] = React.useState('')
+  const addContributor = React.useCallback(() => {
+    const newContributor = {
+      id: Math.random() * (10000 - 0) + 0 + inputValue.slice(0, 3),
+      name: inputValue,
+    }
+    update({ newContributor, ...contributorsList })
+    setInputValue('')
+  }, [inputValue])
+  console.log(contributorsList)
+
+  return (
+    <InputField
+      size="medium"
+      label="Contributors"
+      value={inputValue}
+      onChange={(name) => setInputValue(name)}
+      onKeyDown={(e) => {
+        e.key === 'Enter' && addContributor()
+      }}
+    />
   )
 }
