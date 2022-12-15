@@ -11,7 +11,13 @@ export default function Resources() {
   const theme = useTheme()
   const foundResourceItems = useStore(selectors.foundResourceItems)
   return (
-    <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: theme.spacing(34),
+        maxHeight: theme.spacing(34),
+        overflowY: 'scroll',
+      }}
+    >
       <HeadingBox>Resources</HeadingBox>
       {foundResourceItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
