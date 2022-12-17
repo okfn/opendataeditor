@@ -1,24 +1,41 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import InputField from '../../Library/Fields/InputField'
 import { useStore } from '../store'
+import BasicChip from '../../Library/Chips'
 
-export default function Contributors() {
-  const contributorsList = useStore((state) => state.descriptor.contributors)
+export default function KeywordsEditor() {
+  const theme = useTheme()
+  const contributorsList = useStore((state) => state.descriptor.contributors) || []
+  // const update = useStore((state) => state.update)
+  // const handleDelete = (id: string) => {
+  //   const newContributorsList = contributorsList.filter((item) => item.id !== id)
+  //   update({ newContributorsList })
+  // }
   return (
     <>
       <ContributorsInput />
-      {contributorsList && (
+      <Box
+        sx={{
+          height: theme.spacing(34),
+          maxHeight: theme.spacing(34),
+          overflowY: 'scroll',
+        }}
+      >
         <Grid container spacing={2}>
           {contributorsList.map((item) => {
             return (
-              <Grid item xs={6} key={item.id}>
-                <div>{item.name}</div>
-              </Grid>
+              <BasicChip
+                key={item.id}
+                label={item.name}
+                // onDelete={handleDelete(item.id)}
+              />
             )
           })}
         </Grid>
-      )}
+      </Box>
     </>
   )
 }

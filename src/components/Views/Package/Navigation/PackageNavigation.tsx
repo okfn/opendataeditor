@@ -3,7 +3,7 @@ import VerticalTabs from '../../Library/VerticalTabs'
 import Element from '../Content/Element'
 import General from '../Content/General'
 import PackageImage from '../Content/PackageImage'
-import Contributors from '../Content/Contributors'
+import Contributors from '../Content/ContributorsEditor/ContributorsEditor'
 
 export const PACKAGE_EDITORS = [
   'Contributors',

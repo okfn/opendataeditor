@@ -30,7 +30,7 @@ const ImageUrl = () => {
   return (
     <div style={{ width: '300px' }}>
       <InputField
-        size="medium"
+        size="small"
         label="Image url"
         value={url}
         onChange={(newValue) => update({ imageUrl: newValue })}
