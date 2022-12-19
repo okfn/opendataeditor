@@ -20,17 +20,17 @@ export default function Contributors() {
 
     update({ contributors })
   }
-  // const onDelete = (id: string) => {
-  //   const newContributorsList = contributorsList.filter((item) => item.id !== id)
-  //   update({ newContributorsList })
-  // }
-  // const onEdit = (id: string, name: string) => {
-  //   const contributors = contributorsList.map((item) => ({
-  //     ...contributorsList,
-  //     name: item.id === id ? name : item.name,
-  //   }))
-  //   update({ contributors })
-  // }
+  const onDelete = (id: string) => {
+    const newContributorsList = contributorsList.filter((item) => item.id !== id)
+    update({ contributors: newContributorsList })
+  }
+  const onEdit = (id: string, name: string) => {
+    const contributors = contributorsList.map((item) => ({
+      ...item,
+      name: item.id === id ? name : item.name,
+    }))
+    update({ contributors })
+  }
 
   return (
     <div>
@@ -49,7 +49,15 @@ export default function Contributors() {
         )}
         <List>
           {contributorsList.map(({ id, name }) => {
-            return <ContributorsItem key={id} name={name} id={id} />
+            return (
+              <ContributorsItem
+                key={id}
+                name={name}
+                id={id}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            )
           })}
         </List>
       </Box>
