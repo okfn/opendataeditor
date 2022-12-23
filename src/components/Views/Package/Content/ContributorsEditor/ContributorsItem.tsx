@@ -1,98 +1,89 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import InputField from '../../../Library/Fields/InputField'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
+import Card from '@mui/material/Card'
+import { Grid, Link } from '@mui/material'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined'
 
 interface ContributorsItemProps {
-  name: string
+  title: string
   id: string
+  email?: string
+  path?: string
+  role?: string
   onEdit: (id: string, title: string) => void
   onDelete: (id: string) => void
 }
 export default function ContributorsItem({
-  name,
+  title,
   id,
-  onEdit,
+  email,
+  path,
+  role,
   onDelete,
 }: ContributorsItemProps) {
-  const [editMode, setEditMode] = React.useState(false)
-  const [value, setValue] = React.useState(name)
-
   return (
-    <ListItem disablePadding dense={false}>
-      {editMode ? (
-        <Box
-          key={id}
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <InputField
-            size="small"
-            label="edit"
-            value={value}
-            onChange={(name: string) => setValue(name)}
-          />
-          <DoneOutlineOutlinedIcon
-            color="primary"
-            sx={{
-              marginLeft: '20px',
-              fontSize: '25px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              '&: hover': { opacity: 0.7 },
-            }}
-            onClick={() => {
-              onEdit(id, value)
-              setEditMode(false)
-            }}
-          />
-          <DeleteOutlineOutlinedIcon
-            color="primary"
-            sx={{
-              marginLeft: '20px',
-              fontSize: '30px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              '&: hover': { opacity: 0.7 },
-            }}
-            onClick={() => onDelete(id)}
-          />
-        </Box>
-      ) : (
-        <ListItemButton>
-          <ListItemText primary={name} />
+    <Grid item xs={6}>
+      <Card variant="outlined" sx={{ minWidth: 275, position: 'relative' }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {role}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography
+            sx={{ marginTop: '1em', fontSize: 14, color: 'rgb(0,0,0)' }}
+            gutterBottom
+          >
+            <Link
+              target="_blank"
+              variant="inherit"
+              href={`mailto: ${email}`}
+              underline="none"
+            >
+              {email}
+            </Link>
+          </Typography>
+          <Typography sx={{ fontSize: 14, color: 'rgb(0,0,0)' }} gutterBottom>
+            <Link target="_blank" variant="inherit" href={path} underline="none">
+              {path}
+            </Link>
+          </Typography>
+        </CardContent>
+        <CardActions>
           <ModeEditOutlineOutlinedIcon
             color="primary"
             sx={{
-              fontSize: '30px',
+              position: 'absolute',
+              top: '16px',
+              right: '40px',
+              fontSize: '20px',
               cursor: 'pointer',
               transition: 'all 0.3s',
               '&: hover': { opacity: 0.7 },
             }}
-            onClick={() => setEditMode(true)}
+            onClick={() => console.log('open edit modal')}
           />
+        </CardActions>
+        <CardActions>
           <DeleteOutlineOutlinedIcon
             color="primary"
             sx={{
-              marginLeft: '20px',
-              fontSize: '30px',
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              fontSize: '20px',
               cursor: 'pointer',
               transition: 'all 0.3s',
               '&: hover': { opacity: 0.7 },
             }}
             onClick={() => onDelete(id)}
           />
-        </ListItemButton>
-      )}
-    </ListItem>
+        </CardActions>
+      </Card>
+    </Grid>
   )
 }

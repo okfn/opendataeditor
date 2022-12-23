@@ -1,66 +1,110 @@
 import * as React from 'react'
-import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
-import ContributorsInput from './ContributorsInput'
+import ContributorsForm from './ContributorsForm'
 import ContributorsItem from './ContributorsItem'
+import DefaultButton from '../../../Library/Buttons/DefaultButton'
+import HeadingBox from '../../../Library/Groups/HeadingBox'
+import { Grid } from '@mui/material'
 
 export default function Contributors() {
   const theme = useTheme()
   const contributorsList = useStore((state) => state.descriptor.contributors) || []
   const update = useStore((state) => state.update)
-  // logic
-  const onAdd = (name: string) => {
-    const newContributor = {
-      id: Math.floor(Math.random() * (10000 - 0) + 0) + name.slice(0, 3),
-      name: name,
-    }
-    const contributors = [newContributor, ...contributorsList]
+  const [open, setOpen] = React.useState(false)
 
+  const onAdd = (title: string, email?: string, path?: string, role?: string) => {
+    const newContributor = {
+      id: Math.floor(Math.random() * (10000 - 0) + 0) + title.slice(0, 3),
+      title: title,
+      email: email,
+      path: path,
+      role: role,
+    }
+    console.log(newContributor)
+    const contributors = [newContributor, ...contributorsList]
     update({ contributors })
   }
   const onDelete = (id: string) => {
     const newContributorsList = contributorsList.filter((item) => item.id !== id)
     update({ contributors: newContributorsList })
   }
-  const onEdit = (id: string, name: string) => {
+  const onEdit = (
+    id: string,
+    title: string,
+    email?: string,
+    path?: string,
+    role?: string
+  ) => {
     const contributors = contributorsList.map((item) => ({
-      ...item,
-      name: item.id === id ? name : item.name,
+      id: item.title,
+      title: item.id === id ? title : item.title,
+      email: item.id === id ? email : item.email,
+      path: item.id === id ? path : item.path,
+      role: item.id === id ? role : item.role,
     }))
     update({ contributors })
   }
 
   return (
-    <div>
-      <ContributorsInput onAdd={onAdd} />
+    <Box>
       <Box
         sx={{
-          height: theme.spacing(34),
-          maxHeight: theme.spacing(34),
+          display: 'grid',
+          gridTemplate: '1fr / 70% 30%',
+        }}
+      >
+        {!contributorsList.length ? (
+          <p
+            style={{
+              textAlign: 'left',
+              color: 'rgba(0,0,0,0.6)',
+              display: 'block',
+            }}
+          >
+            Contributors list is not defined
+          </p>
+        ) : (
+          <HeadingBox>Contributors</HeadingBox>
+        )}
+        <DefaultButton
+          variant="text"
+          label="Add a contributor"
+          onClick={() => setOpen(true)}
+        />
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: 'tomato',
+          height: theme.spacing(53),
+          maxHeight: theme.spacing(53),
           overflowY: 'scroll',
         }}
       >
-        {!contributorsList.length && (
-          <p style={{ textAlign: 'left', color: 'rgba(0,0,0,0.6)' }}>
-            Contributors list is not defined
-          </p>
-        )}
-        <List>
-          {contributorsList.map(({ id, name }) => {
+        <Grid container rowSpacing={2} columnSpacing={4} justifyContent="space-between">
+          {contributorsList.map(({ id, title, email, path, role }) => {
             return (
               <ContributorsItem
                 key={id}
-                name={name}
+                title={title}
+                email={email}
+                path={path}
+                role={role}
                 id={id}
                 onEdit={onEdit}
                 onDelete={onDelete}
               />
             )
           })}
-        </List>
+        </Grid>
       </Box>
-    </div>
+
+      <ContributorsForm
+        onAdd={onAdd}
+        modalOpen={open}
+        handleClose={() => setOpen(false)}
+      />
+    </Box>
   )
 }
