@@ -7,6 +7,7 @@ import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
 import UserInfo from '../../Library/UserInfo'
+import { LinearProgress } from '@mui/material'
 
 interface GithubControlParams extends IPublish {
   repo?: string
@@ -23,6 +24,7 @@ interface GithubProps {
 export default function Github(props: GithubProps) {
   const [disabled, setDisabled] = React.useState<boolean>(true)
   const [isURLSet, setIsURLSet] = React.useState<boolean>(true)
+  const [isWaiting, setIsWaiting] = React.useState<boolean>(false)
   // Form variables
   const [params, setParams] = React.useState<
     GithubControlParams & { [key: string]: any }
@@ -33,6 +35,8 @@ export default function Github(props: GithubProps) {
     repo: '',
     email: '',
     user: '',
+    sandbox: false,
+    allow_update: false,
   })
   const [rules, _] = React.useState<{ [key: string]: any }>({
     apikey: { required: true, message: 'API Key is required' },
@@ -98,7 +102,18 @@ export default function Github(props: GithubProps) {
       delete paramsJSON.repo
       delete paramsJSON.user
     }
-    props.publish(JSON.parse(JSON.stringify(paramsJSON)))
+
+    setIsWaiting(true)
+    setDisabled(true)
+    // Wait for variable to be set
+    setTimeout(() => {
+      props
+        .publish(JSON.parse(JSON.stringify(paramsJSON)))
+        .then(() => {
+          setIsWaiting(false)
+        })
+        .catch(setIsWaiting(false))
+    }, 1000)
   }
 
   return (
@@ -124,7 +139,7 @@ export default function Github(props: GithubProps) {
           />
         </Grid>
         <Grid item xs={12} textAlign="center">
-          OR
+          or
         </Grid>
         <Grid item xs={6}>
           <InputField
@@ -167,6 +182,12 @@ export default function Github(props: GithubProps) {
               type={props.responseMessage.type}
               showIcon={true}
             />
+          )}
+          {isWaiting && (
+            <Box>
+              Publishing
+              <LinearProgress />
+            </Box>
           )}
         </Grid>
         <Grid item xs={12} sx={{ pt: 2 }}>
