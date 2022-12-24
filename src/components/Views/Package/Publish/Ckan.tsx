@@ -7,6 +7,7 @@ import UserInfo from '../../Library/UserInfo'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
+import { LinearProgress } from '@mui/material'
 
 interface CKANControlParams extends IPublish {
   baseURL?: string
@@ -21,6 +22,7 @@ interface CKANProps {
 
 export default function CKAN(props: CKANProps) {
   const [disabled, setDisabled] = React.useState<boolean>(true)
+  const [isWaiting, setIsWaiting] = React.useState<boolean>(false)
   // Form variables
   const [params, setParams] = React.useState<CKANControlParams & { [key: string]: any }>({
     type: 'ckan',
@@ -85,8 +87,21 @@ export default function CKAN(props: CKANProps) {
     delete paramsJSON.baseURL
     delete paramsJSON.allowUpdate
 
-    console.log('parameters', paramsJSON)
-    props.publish(JSON.parse(JSON.stringify(paramsJSON)))
+    setIsWaiting(true)
+    setDisabled(true)
+    // Wait for variable to be set
+    setTimeout(() => {
+      props
+        .publish(JSON.parse(JSON.stringify(paramsJSON)))
+        .then(() => {
+          setIsWaiting(false)
+          setDisabled(false)
+        })
+        .catch(() => {
+          setIsWaiting(false)
+          setDisabled(false)
+        })
+    }, 1000)
   }
 
   return (
@@ -119,6 +134,12 @@ export default function CKAN(props: CKANProps) {
               type={props.responseMessage.type}
               showIcon={true}
             />
+          )}
+          {isWaiting && (
+            <Box>
+              Publishing
+              <LinearProgress />
+            </Box>
           )}
         </Grid>
         <Grid item xs={12} sx={{ pt: 2 }}>
