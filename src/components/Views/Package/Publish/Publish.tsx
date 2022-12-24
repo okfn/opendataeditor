@@ -49,6 +49,9 @@ export default function Publish(props: PublishProps) {
       })
       .catch(console.error)
   }
+  const onChange = () => {
+    setResponseMessage('')
+  }
   return (
     <React.Fragment>
       <Dialog open={open}>
@@ -71,7 +74,11 @@ export default function Publish(props: PublishProps) {
             marginBottom: 2,
           }}
         >
-          <VerticalTabs labels={['Github', 'Zenodo', 'CKAN']} index={0}>
+          <VerticalTabs
+            labels={['Github', 'Zenodo', 'CKAN']}
+            index={0}
+            onChange={onChange}
+          >
             <Github
               publish={onPublish}
               onCancelPublish={onCancelPublish}
