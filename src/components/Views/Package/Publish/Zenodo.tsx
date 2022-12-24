@@ -10,6 +10,7 @@ import UserInfo from '../../Library/UserInfo'
 import HeadingBox from '../../Library/Groups/HeadingBox'
 import InputField from '../../Library/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
+import { LinearProgress } from '@mui/material'
 
 interface ZenodoControlParams extends IPublish {
   baseURL?: string
@@ -24,6 +25,7 @@ interface ZenodoProps {
 
 export default function Zenodo(props: ZenodoProps) {
   const [disabled, setDisabled] = React.useState<boolean>(true)
+  const [isWaiting, setIsWaiting] = React.useState<boolean>(false)
   const sandboxURL = 'https://sandbox.zenodo.org/api/'
   // Form variables
   const [params, setParams] = React.useState<
@@ -42,6 +44,7 @@ export default function Zenodo(props: ZenodoProps) {
       creators: [{ name: 'Frictionless Data', affiliation: 'Frictionless Data' }],
       keywords: ['frictionlessdata'],
     },
+    allow_update: false,
   })
   const [rules, _] = React.useState<{ [key: string]: any }>({
     apikey: { required: true, message: 'API Key is required.' },
@@ -98,7 +101,21 @@ export default function Zenodo(props: ZenodoProps) {
     // Remove extra params before sending to server
     delete paramsJSON.baseURL
 
-    props.publish(JSON.parse(JSON.stringify(paramsJSON)))
+    setIsWaiting(true)
+    setDisabled(true)
+    // Wait for variable to be set
+    setTimeout(() => {
+      props
+        .publish(JSON.parse(JSON.stringify(paramsJSON)))
+        .then(() => {
+          setIsWaiting(false)
+          setDisabled(false)
+        })
+        .catch(() => {
+          setIsWaiting(false)
+          setDisabled(false)
+        })
+    }, 1000)
   }
 
   return (
@@ -159,6 +176,12 @@ export default function Zenodo(props: ZenodoProps) {
               type={props.responseMessage.type}
               showIcon={true}
             />
+          )}
+          {isWaiting && (
+            <Box>
+              Publishing
+              <LinearProgress />
+            </Box>
           )}
         </Grid>
         <Grid item xs={12} sx={{ pt: 2 }}>

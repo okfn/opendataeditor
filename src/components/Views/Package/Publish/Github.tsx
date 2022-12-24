@@ -111,8 +111,12 @@ export default function Github(props: GithubProps) {
         .publish(JSON.parse(JSON.stringify(paramsJSON)))
         .then(() => {
           setIsWaiting(false)
+          setDisabled(false)
         })
-        .catch(setIsWaiting(false))
+        .catch(() => {
+          setIsWaiting(false)
+          setDisabled(false)
+        })
     }, 1000)
   }
 
