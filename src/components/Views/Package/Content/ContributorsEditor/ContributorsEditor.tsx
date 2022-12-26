@@ -14,38 +14,10 @@ export default function Contributors() {
   const update = useStore((state) => state.update)
   const [open, setOpen] = React.useState(false)
 
-  // const onAdd = (title: string, email?: string, path?: string, role?: string) => {
-  //   const newContributor = {
-  //     id: Math.floor(Math.random() * (10000 - 0) + 0) + title.slice(0, 3),
-  //     title: title,
-  //     email: email,
-  //     path: path,
-  //     role: role,
-  //   }
-  //   console.log(newContributor)
-  //   const contributors = [newContributor, ...contributorsList]
-  //   update({ contributors })
-  // }
   const onDelete = (id: string) => {
     const newContributorsList = contributorsList.filter((item) => item.id !== id)
     update({ contributors: newContributorsList })
   }
-  // const onEdit = (
-  //   id: string,
-  //   title?: string,
-  //   email?: string,
-  //   path?: string,
-  //   role?: string
-  // ) => {
-  //   const contributors = contributorsList.map((item) => ({
-  //     id: item.title,
-  //     title: item.id === id ? title : item.title,
-  //     email: item.id === id ? email : item.email,
-  //     path: item.id === id ? path : item.path,
-  //     role: item.id === id ? role : item.role,
-  //   }))
-  //   update({ contributors })
-  // }
 
   return (
     <Box>
