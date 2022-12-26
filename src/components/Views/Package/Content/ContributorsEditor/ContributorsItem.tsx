@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import ContributorsForm from './ContributorsForm'
 
 interface ContributorsItemProps {
   title: string
@@ -13,7 +14,6 @@ interface ContributorsItemProps {
   email?: string
   path?: string
   role?: string
-  onEdit: (id: string, title: string) => void
   onDelete: (id: string) => void
 }
 export default function ContributorsItem({
@@ -24,66 +24,78 @@ export default function ContributorsItem({
   role,
   onDelete,
 }: ContributorsItemProps) {
+  const [openModal, setOpenModal] = React.useState(false)
   return (
-    <Grid item xs={6}>
-      <Card variant="outlined" sx={{ minWidth: 275, position: 'relative' }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {role}
-          </Typography>
-          <Typography variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography
-            sx={{ marginTop: '1em', fontSize: 14, color: 'rgb(0,0,0)' }}
-            gutterBottom
-          >
-            <Link
-              target="_blank"
-              variant="inherit"
-              href={`mailto: ${email}`}
-              underline="none"
+    <>
+      <Grid item xs={6}>
+        <Card variant="outlined" sx={{ minWidth: 275, position: 'relative' }}>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {role}
+            </Typography>
+            <Typography variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography
+              sx={{ marginTop: '1em', fontSize: 14, color: 'rgb(0,0,0)' }}
+              gutterBottom
             >
-              {email}
-            </Link>
-          </Typography>
-          <Typography sx={{ fontSize: 14, color: 'rgb(0,0,0)' }} gutterBottom>
-            <Link target="_blank" variant="inherit" href={path} underline="none">
-              {path}
-            </Link>
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <ModeEditOutlineOutlinedIcon
-            color="primary"
-            sx={{
-              position: 'absolute',
-              top: '16px',
-              right: '40px',
-              fontSize: '20px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              '&: hover': { opacity: 0.7 },
-            }}
-            onClick={() => console.log('open edit modal')}
-          />
-        </CardActions>
-        <CardActions>
-          <DeleteOutlineOutlinedIcon
-            color="primary"
-            sx={{
-              position: 'absolute',
-              top: '16px',
-              right: '16px',
-              fontSize: '20px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              '&: hover': { opacity: 0.7 },
-            }}
-            onClick={() => onDelete(id)}
-          />
-        </CardActions>
-      </Card>
-    </Grid>
+              <Link
+                target="_blank"
+                variant="inherit"
+                href={`mailto: ${email}`}
+                underline="none"
+              >
+                {email}
+              </Link>
+            </Typography>
+            <Typography sx={{ fontSize: 14, color: 'rgb(0,0,0)' }} gutterBottom>
+              <Link target="_blank" variant="inherit" href={path} underline="none">
+                {path}
+              </Link>
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <ModeEditOutlineOutlinedIcon
+              color="primary"
+              sx={{
+                position: 'absolute',
+                top: '16px',
+                right: '40px',
+                fontSize: '20px',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                '&: hover': { opacity: 0.7 },
+              }}
+              onClick={() => setOpenModal(true)}
+            />
+          </CardActions>
+          <CardActions>
+            <DeleteOutlineOutlinedIcon
+              color="primary"
+              sx={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                fontSize: '20px',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                '&: hover': { opacity: 0.7 },
+              }}
+              onClick={() => onDelete(id)}
+            />
+          </CardActions>
+        </Card>
+      </Grid>
+      <ContributorsForm
+        modalOpen={openModal}
+        handleClose={() => setOpenModal(false)}
+        id={id}
+        title={title}
+        role={role}
+        path={path}
+        email={email}
+      />
+    </>
   )
 }
