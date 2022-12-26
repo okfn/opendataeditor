@@ -19,6 +19,7 @@ interface GithubProps {
   responseMessage?: any
   publish: (params: GithubControlParams) => any
   onCancelPublish: () => void
+  onComplete: (response: any) => void
 }
 
 export default function Github(props: GithubProps) {
@@ -108,15 +109,28 @@ export default function Github(props: GithubProps) {
     // Wait for variable to be set
     setTimeout(() => {
       props
-        .publish(JSON.parse(JSON.stringify(paramsJSON)))
-        .then(() => {
-          setIsWaiting(false)
-          setDisabled(false)
+        .publish(paramsJSON)
+        .then((response: any) => {
+          const responseObj = JSON.parse(response)
+          if (responseObj.url) {
+            setIsWaiting(false)
+            setDisabled(false)
+            const response = {
+              type: 'success',
+              message: `Successfully published to "https://github.com/${responseObj.url}"`,
+            }
+            props.onComplete(response)
+          } else if (responseObj.error) {
+            setIsWaiting(false)
+            setDisabled(false)
+            const response = {
+              type: 'error',
+              message: `Error publishing package. "${responseObj.error.message}"`,
+            }
+            props.onComplete(response)
+          }
         })
-        .catch(() => {
-          setIsWaiting(false)
-          setDisabled(false)
-        })
+        .catch(console.error)
     }, 1000)
   }
 

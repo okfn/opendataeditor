@@ -31,26 +31,16 @@ export default function Publish(props: PublishProps) {
     props.togglePublish()
   }
   const onPublish = (params: IPublish) => {
-    return props
-      .publishPackage(params)
-      .then((response: any) => {
-        const responseObj = JSON.parse(response)
-        if (responseObj.url) {
-          setResponseMessage({
-            type: 'success',
-            message: `Successfully published to "${responseObj.url}"`,
-          })
-        } else if (responseObj.error) {
-          setResponseMessage({
-            type: 'error',
-            message: `Error publishing package. "${responseObj.error.message}"`,
-          })
-        }
-      })
-      .catch(console.error)
+    return props.publishPackage(params)
   }
-  const onChange = () => {
+  const onTabChange = () => {
     setResponseMessage('')
+  }
+  const onComplete = (response: any) => {
+    setResponseMessage({
+      type: response.type,
+      message: response.message,
+    })
   }
   return (
     <React.Fragment>
@@ -77,22 +67,25 @@ export default function Publish(props: PublishProps) {
           <VerticalTabs
             labels={['Github', 'Zenodo', 'CKAN']}
             index={0}
-            onChange={onChange}
+            onChange={onTabChange}
           >
             <Github
               publish={onPublish}
               onCancelPublish={onCancelPublish}
               responseMessage={responseMessage}
+              onComplete={onComplete}
             />
             <Zenodo
               publish={onPublish}
               onCancelPublish={onCancelPublish}
               responseMessage={responseMessage}
+              onComplete={onComplete}
             />
             <Ckan
               publish={onPublish}
               onCancelPublish={onCancelPublish}
               responseMessage={responseMessage}
+              onComplete={onComplete}
             />
           </VerticalTabs>
         </DialogContent>
