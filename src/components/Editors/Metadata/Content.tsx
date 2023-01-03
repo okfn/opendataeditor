@@ -25,6 +25,7 @@ export default function Content() {
     <Box sx={{ paddingX: 2 }}>
       {type === 'package' && (
         <Package
+          client={client}
           package={descriptor as IPackage}
           loadPaths={async () => {
             const { paths } = await client.projectListFiles()

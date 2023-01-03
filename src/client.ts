@@ -5,6 +5,7 @@ import { ISession } from './interfaces/common'
 import { IReport } from './interfaces/report'
 import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
+import { IPublish } from './interfaces/publish'
 
 const DEFAULT_BASEPATH = '/api'
 
@@ -89,6 +90,11 @@ export class Client {
     return { response }
   }
 
+  async projectPublish(props: { params: IPublish }) {
+    const response = await this.request('/project/publish-package', props)
+    return { response }
+  }
+  
   async projectCopyFile(props: { filename: string; destination: string }) {
     const response = await this.request('/project/copy-file', props)
     return { response }

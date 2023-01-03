@@ -5,6 +5,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
+import { IPublish } from '../../../interfaces/publish'
 
 export interface State {
   // Data
@@ -14,9 +15,13 @@ export interface State {
   type: 'package' | 'resource' | 'dialect' | 'schema' | 'checklist' | 'pipeline'
   onPathChange?: (path?: string) => void
   descriptor?: object
+  isPublish?: boolean
+  publishedPath?: string
 
   // Logic
   loadDescriptor: () => Promise<void>
+  togglePublish: () => void
+  publishPackage: (params: IPublish) => Promise<any>
 }
 
 export function createStore(props: MetadataProps) {
@@ -31,6 +36,14 @@ export function createStore(props: MetadataProps) {
       const { client, record } = get()
       const { data } = await client.resourceReadData({ resource: record.resource })
       set({ descriptor: data })
+    },
+    togglePublish: () => {
+      set({ isPublish: !get().isPublish })
+    },
+    publishPackage: async (params: IPublish) => {
+      const { client } = get()
+      const { response } = await client.projectPublish({ params })
+      return response
     },
   }))
 }

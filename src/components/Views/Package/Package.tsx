@@ -4,8 +4,10 @@ import { IPackage, IResource } from '../../../interfaces'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import Layout from './Layout'
+import { Client } from '../../../client'
 
 export interface PackageProps {
+  client: Client
   withTabs?: boolean
   package?: IPackage
   onCommit?: (pkg: IPackage) => void
