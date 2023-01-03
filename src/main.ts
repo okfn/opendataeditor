@@ -12,5 +12,8 @@ Client.connect().then((client) => {
   const application = document.createElement('div')
   application.setAttribute('id', 'application')
   document.body.appendChild(application)
-  ReactDOM.render(React.createElement(Application, { client }, null), application)
+  ReactDOM.render(
+    React.createElement(Application, { client, init: true }, null),
+    application
+  )
 })

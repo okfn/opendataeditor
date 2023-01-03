@@ -13,10 +13,12 @@ export interface State {
   client: Client
   path?: string
   record?: IRecord
+  init?: boolean
 
   // Logic
 
   selectPath: (path?: string) => void
+  setInitState: (value: boolean) => void
 }
 
 export function createStore(props: ApplicationProps) {
@@ -32,6 +34,9 @@ export function createStore(props: ApplicationProps) {
         const { record } = await client.projectCreateRecord({ path })
         set({ record })
       }
+    },
+    setInitState: async (value) => {
+      set({ init: value })
     },
   }))
 }
