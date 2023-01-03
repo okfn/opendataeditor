@@ -10,7 +10,13 @@ export default function Steps() {
   const theme = useTheme()
   const foundStepItems = useStore(selectors.foundStepItems)
   return (
-    <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: theme.spacing(34),
+        maxHeight: theme.spacing(34),
+        overflowY: 'scroll',
+      }}
+    >
       {foundStepItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )

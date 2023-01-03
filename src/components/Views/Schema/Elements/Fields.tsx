@@ -16,6 +16,7 @@ export default function Fields() {
         maxHeight: theme.spacing(34),
         overflowY: 'scroll',
       }}
+      className="boxScrollable"
     >
       {foundFieldItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>

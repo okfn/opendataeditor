@@ -4,4 +4,5 @@ export interface IContributor {
     email?: string,
     path?: string,
     role?: string,
+    name: string
 }
