@@ -3,6 +3,8 @@ import VerticalTabs from '../../Library/VerticalTabs'
 import Element from '../Content/Element'
 import General from '../Content/General'
 import PackageImage from '../Content/PackageImage'
+import Contributors from '../Content/ContributorsEditor/ContributorsEditor'
+import Keywords from '../Content/KeywordsEditor/KeywordsEditor'
 import Contributors from '../Content/Contributors'
 
 export const PACKAGE_EDITORS = [
@@ -10,6 +12,8 @@ export const PACKAGE_EDITORS = [
   'General',
   'Resources',
   'Image',
+  'Keywords',
+  'Contributors',
   //   'Keywords',
   //   'Sources',
   //   'Licences',
@@ -23,6 +27,8 @@ const PackageNavigation: React.FC = () => {
       <General />
       <Element />
       <PackageImage />
+      <Keywords />
+      <Contributors />
     </VerticalTabs>
   )
 }

@@ -11,4 +11,5 @@ export interface IPackage {
   imageUrl?: string
   resources: IResource[]
   contributors?: IContributor[]
+  keywords: string[]
 }
