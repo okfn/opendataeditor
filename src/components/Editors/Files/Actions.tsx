@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../Views/Library/Columns'
 import DefaultButton from '../../Views/Library/Buttons/DefaultButton'
 import MoveButton from '../../Views/Library/Buttons/MoveButton'
-import UploadButton from '../../Views/Library/Buttons/UploadButton'
+import NewDropdown from '../../Views/Library/Groups/NewDropdown'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -12,8 +12,8 @@ export default function Actions() {
   const height = `calc(${theme.spacing(8)} - 1px)`
   return (
     <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
-      <Columns spacing={3}>
-        <Upload />
+      <Columns spacing={2}>
+        <New />
         <Move />
         <Delete />
       </Columns>
@@ -21,24 +21,40 @@ export default function Actions() {
   )
 }
 
-function Upload() {
+function New() {
   const createFile = useStore((state) => state.createFile)
+  const createPackage = useStore((state) => state.createPackage)
+  const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
+  const handleCreateFile = (file: File) => {
+    let newPath = file.name
+    if (path) newPath = `${path}/${newPath}`
+    const myNewFile = new File([file], newPath, { type: file.type })
+    createFile(myNewFile)
+  }
   return (
-    <UploadButton variant="text" label="Upload" onUpload={(file) => createFile(file)} />
+    <NewDropdown
+      paths={paths}
+      onFileUpload={(file) => handleCreateFile(file)}
+      onCreateDataPackage={createPackage}
+    />
   )
 }
 
 function Move() {
   const moveFile = useStore((state) => state.moveFile)
-  const createDirectory = useStore((state) => state.createDirectory)
+  const copyFile = useStore((state) => state.copyFile)
   const path = useStore((state) => state.path)
   const listFolders = useStore((state) => state.listFolders)
   return (
     <MoveButton
+      path={path}
       disabled={!path}
-      label="Move"
+      variant="text"
+      label="Move/Copy"
+      color="info"
       moveFile={(destination) => moveFile(destination)}
-      createDirectory={(directoryname) => createDirectory(directoryname)}
+      copyFile={(destination) => copyFile(destination)}
       listFolders={listFolders}
     />
   )
