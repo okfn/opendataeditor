@@ -1,4 +1,5 @@
 import { IResource } from './resource'
+import { IContributor } from './contributor'
 
 export interface IPackage {
   name?: string
@@ -9,4 +10,5 @@ export interface IPackage {
   created?: string
   imageUrl?: string
   resources: IResource[]
+  contributors?: IContributor[]
 }

@@ -10,7 +10,14 @@ export default function Fields() {
   const theme = useTheme()
   const foundFieldItems = useStore(selectors.foundFieldItems)
   return (
-    <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: theme.spacing(34),
+        maxHeight: theme.spacing(34),
+        overflowY: 'scroll',
+      }}
+      className="boxScrollable"
+    >
       {foundFieldItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )
@@ -21,7 +28,7 @@ function FoundItems() {
   const isElementGrid = useStore((state) => state.isElementGrid)
   const setElementIndex = useStore((state) => state.setElementIndex)
   return (
-    <React.Fragment>
+    <>
       {foundFieldItems.map(({ index, field }) => (
         <ItemButton
           key={index}
@@ -33,7 +40,7 @@ function FoundItems() {
           title="View field"
         />
       ))}
-    </React.Fragment>
+    </>
   )
 }
 

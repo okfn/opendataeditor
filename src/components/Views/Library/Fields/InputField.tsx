@@ -13,10 +13,13 @@ interface InputFieldProps {
   disabled?: boolean
   inputProps?: object
   onChange?: (value: any) => void
+  onKeyDown?: (event: any) => void
+  placeholder?: string
 }
 
 export default function InputField(props: InputFieldProps) {
   const onChange = props.onChange || noop
+  const onKeyDown = props.onKeyDown || noop
   return (
     <TextField
       fullWidth
@@ -28,6 +31,8 @@ export default function InputField(props: InputFieldProps) {
       disabled={props.disabled}
       inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value as any)}
+      onKeyDown={onKeyDown}
+      placeholder={props.placeholder}
     />
   )
 }
