@@ -1,128 +1,60 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import { SyntheticEvent } from 'react'
 import { useSpring, animated } from 'react-spring'
 import TreeView from '@mui/lab/TreeView'
-import TextField from '@mui/material/TextField'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
 import { useStore } from '../../Editors/Files/store'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import IconButton from '@mui/material/IconButton'
-import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
+import Box from '@mui/material/Box'
+import { isDirectory } from '../../../helpers'
+import FolderIcon from '@mui/icons-material/Folder'
+import DescriptionIcon from '@mui/icons-material/Description'
+
 interface FileNavigatorProps {
   initialState?: {
     mouseX: number | null
     mouseY: number | null
   } | null
   onFolderSelect: (destinationDirectory: string | null) => void
-  onCreateDirectory: (directoryname: string) => void
 }
 export default function FileNavigator(props: FileNavigatorProps) {
-  const [contextMenu, setContextMenu] = React.useState(props.initialState)
   const path = useStore((state: any) => state.path)
   const directories = useStore((state: any) => state.directories)
   const listFolders = useStore((state: any) => state.listFolders)
   const tree = indexTree(createTree(directories))
-  const [selectedNode, setSelectedNode] = React.useState<string[] | null>(null)
-  const [addDirectory, setAddDirectory] = React.useState(false)
-  const [newDirectoryName, setNewDirectoryName] = React.useState('')
 
-  const handleSelect = (event: SyntheticEvent, nodeId: string[]) => {
-    event.preventDefault()
-    setSelectedNode(nodeId)
-    if (!Array.isArray(nodeId)) {
-      props.onFolderSelect(nodeId)
-    }
-  }
-  const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewDirectoryName(event.target.value)
-  }
-  const onContextMenuClose = () => {
-    setContextMenu(null)
-  }
-  const onContextMenu = (event: React.MouseEvent) => {
-    event.preventDefault()
-    setContextMenu({
-      mouseX: event.clientX - 1,
-      mouseY: event.clientY - 1,
-    })
-  }
-  const onStartCreateDirectory = () => {
-    setAddDirectory(true)
-    setContextMenu(null)
-  }
-  const onCreateDirectory = () => {
-    setSelectedNode(null)
-    setAddDirectory(false)
-    props.onCreateDirectory(newDirectoryName)
-  }
-  const onCancelCreateDirectory = () => {
-    setSelectedNode(null)
-    setAddDirectory(false)
+  const handleSelect = (_: SyntheticEvent, nodeId: string) => {
+    let newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+    if (newpath === 'root') newpath = ''
+    props.onFolderSelect(newpath)
   }
   React.useEffect(() => {
     listFolders().catch(console.error)
   }, [])
   return (
     <React.Fragment>
-      <div onContextMenu={onContextMenu}>
-        <TreeView
-          aria-label="file navigator"
-          defaultExpanded={['1']}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          defaultEndIcon={<CloseSquare />}
-          onNodeSelect={handleSelect}
-          selected={path || ''}
-          sx={{
-            paddingTop: 2,
-            paddingBottom: 2,
-            height: 240,
-            overflowY: 'auto',
-            maxWidth: 400,
-          }}
-        >
-          {tree.sort(compareNodes).map((node: any) => (
-            <TreeNode node={node} key={node.path} />
-          ))}
-        </TreeView>
-      </div>
-      <Box
-        display={addDirectory ? '' : 'none'}
-        sx={{ boxShadow: 1, padding: 1, borderRadius: 1 }}
+      <TreeView
+        aria-label="file navigator"
+        defaultExpanded={['1']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        onNodeSelect={handleSelect}
+        selected={path || ''}
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+          height: 240,
+          overflowY: 'auto',
+          maxWidth: 400,
+        }}
       >
-        <Box component="span" color="primary">
-          {selectedNode && selectedNode + '/ '}
-        </Box>
-        <TextField size="small" value={newDirectoryName} onChange={onUserInput} />
-        <IconButton aria-label="accept" onClick={onCreateDirectory}>
-          <CheckIcon color="secondary" />
-        </IconButton>
-        <IconButton aria-label="close" onClick={onCancelCreateDirectory}>
-          <CloseIcon color="warning" />
-        </IconButton>
-      </Box>
-      {contextMenu && (
-        <Menu
-          keepMounted
-          open={contextMenu.mouseY !== null}
-          onClose={onContextMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={
-            contextMenu.mouseY !== null && contextMenu.mouseX !== null
-              ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-              : undefined
-          }
-        >
-          <MenuItem onClick={onStartCreateDirectory}>Create New Directory</MenuItem>
-        </Menu>
-      )}
+        {tree.sort(compareNodes).map((node: any) => (
+          <TreeNode node={node} key={node.path} />
+        ))}
+      </TreeView>
     </React.Fragment>
   )
 }
@@ -139,19 +71,6 @@ function PlusSquare(props: SvgIconProps) {
     <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
       {/* tslint:disable-next-line: max-line-length */}
       <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 12.977h-4.923v4.896q0 .401-.281.682t-.682.281v0q-.375 0-.669-.281t-.294-.682v-4.896h-4.923q-.401 0-.682-.294t-.281-.669v0q0-.401.281-.682t.682-.281h4.923v-4.896q0-.401.294-.682t.669-.281v0q.401 0 .682.281t.281.682v4.896h4.923q.401 0 .682.281t.281.682v0q0 .375-.281.669t-.682.294z" />
-    </SvgIcon>
-  )
-}
-function CloseSquare(props: SvgIconProps) {
-  return (
-    <SvgIcon
-      className="close"
-      fontSize="inherit"
-      style={{ width: 14, height: 14 }}
-      {...props}
-    >
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
     </SvgIcon>
   )
 }
@@ -173,8 +92,22 @@ function TransitionComponent(props: TransitionProps) {
     </animated.div>
   )
 }
+
+function TreeItemIcon({ path, label }: any) {
+  return (
+    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+      {isDirectory(path) ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {label}
+    </Box>
+  )
+}
+
 const StyledTreeItem = styled((props: TreeItemProps) => (
-  <TreeItem {...props} TransitionComponent={TransitionComponent} />
+  <TreeItem
+    {...props}
+    TransitionComponent={TransitionComponent}
+    label={<TreeItemIcon path={props.nodeId} label={props.label} />}
+  />
 ))(({ theme }) => ({
   '& .MuiTreeItem-label': 'normal',
   [`& .${treeItemClasses.iconContainer}`]: {
@@ -202,6 +135,9 @@ function TreeNode({ node }: any) {
 function createTree(paths: string[]) {
   const result: any = []
   const level = { result }
+  paths = paths.map(function (path) {
+    return `root/${path}`
+  })
   paths &&
     paths.forEach((path) => {
       ;(path as string).split('/').reduce((r: any, name) => {

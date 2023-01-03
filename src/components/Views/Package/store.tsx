@@ -12,7 +12,7 @@ import { IPackage, IResource } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as settings from '../../../settings'
 
-const INITIAL_PACKAGE: IPackage = { resources: [] }
+const INITIAL_PACKAGE: IPackage = { resources: [], contributors: [], keywords: [] }
 
 interface State {
   // General (data)

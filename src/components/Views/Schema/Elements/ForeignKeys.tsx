@@ -10,7 +10,13 @@ export default function ForeignKeys() {
   const theme = useTheme()
   const foundForeignKeyItems = useStore(selectors.foundForeignKeyItems)
   return (
-    <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: theme.spacing(34),
+        maxHeight: theme.spacing(34),
+        overflowY: 'scroll',
+      }}
+    >
       {foundForeignKeyItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )

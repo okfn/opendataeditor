@@ -10,7 +10,13 @@ export default function Checks() {
   const theme = useTheme()
   const foundCheckItems = useStore(selectors.foundCheckItems)
   return (
-    <Box sx={{ height: theme.spacing(40), overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: theme.spacing(34),
+        maxHeight: theme.spacing(34),
+        overflowY: 'scroll',
+      }}
+    >
       {foundCheckItems.length ? <FoundItems /> : <NotFoundItems />}
     </Box>
   )

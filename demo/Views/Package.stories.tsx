@@ -15,6 +15,7 @@ const dp = {
   description: 'description',
   homepage: 'homepage',
   resources: [{ type: 'table' }],
+  contributors: [],
 }
 export const Default = Template.bind({})
 Default.args = {
