@@ -23,11 +23,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
       style={{ width }}
     >
-      {value === index && (
-        <Box sx={{ paddingX: 3, paddingBottom: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ paddingX: 3, paddingBottom: 3 }}>{children}</Box>}
     </div>
   )
 }

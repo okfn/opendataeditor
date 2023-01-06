@@ -94,7 +94,7 @@ export class Client {
     const response = await this.request('/project/publish-package', props)
     return { response }
   }
-  
+
   async projectCopyFile(props: { filename: string; destination: string }) {
     const response = await this.request('/project/copy-file', props)
     return { response }

@@ -74,8 +74,8 @@ export default function Welcome() {
           <CardContent>
             <Typography variant="h6">More Links:</Typography>
             <StyledList component="ul">
-              <CustomListItem title="Frictionless Specs" url="#"/>
-              <CustomListItem title="Frictionless Framework" url="#"/>
+              <CustomListItem title="Frictionless Specs" url="#" />
+              <CustomListItem title="Frictionless Framework" url="#" />
             </StyledList>
           </CardContent>
         </StyledCard>
@@ -124,9 +124,9 @@ export default function Welcome() {
           <CardContent>
             <Typography variant="h6">More Links:</Typography>
             <StyledList component="ul">
-              <CustomListItem title="CKAN" url="#"/>
-              <CustomListItem title="Zenodo" url="#"/>
-              <CustomListItem title="Github" url="#"/>
+              <CustomListItem title="CKAN" url="#" />
+              <CustomListItem title="Zenodo" url="#" />
+              <CustomListItem title="Github" url="#" />
             </StyledList>
           </CardContent>
         </StyledCard>
