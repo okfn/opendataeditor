@@ -2,7 +2,7 @@ import React from 'react'
 import InputField from '../../Library/Fields/InputField'
 import Image from '../../Library/Image'
 import { useStore } from '../store'
-import noImage from '../../Library/noImageIcon.png'
+import noImage from '../../Library/assets/noImageIcon.png'
 import { Box } from '@mui/system'
 
 const PackageImage = () => {
