@@ -42,6 +42,10 @@ const webpackConfig = {
           name: '[name].[ext]?[hash]',
         },
       },
+      {
+        test: /\.ya?ml$/,
+        use: 'yaml-loader',
+      },
     ],
   },
   plugins: [

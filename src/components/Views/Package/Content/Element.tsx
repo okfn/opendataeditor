@@ -239,10 +239,12 @@ function ExtraButton() {
 function SearchInput() {
   const elementQuery = useStore((state) => state.elementQuery)
   const setElementQuery = useStore((state) => state.setElementQuery)
+  const setElementName = useStore((state) => state.setElementName)
   return (
     <HeadingSearch
       value={elementQuery}
       onChange={(elementQuery) => setElementQuery(elementQuery)}
+      onFocus={(event) => setElementName(event.target.name.toLowerCase())}
     />
   )
 }

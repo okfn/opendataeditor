@@ -1,16 +1,26 @@
 import * as React from 'react'
 import HelpCard from '../../Library/HelpCard'
+import json from '../Utils/help.yaml'
 
-export default function Help() {
+export interface HelperProps {
+  elementGroup: string
+  elementName?: string | undefined
+}
+
+export default function Help(props: HelperProps) {
+  function setText(label: string) {
+    const key = props.elementName
+      ? `${props.elementGroup}.${props.elementName}.${label}`
+      : `${props.elementGroup}.${label}`
+    return json[key]
+  }
   return (
     <HelpCard
-      title="Package"
-      subtitle="overview"
-      link="https://specs.frictionlessdata.io/data-package/"
+      title={setText('title')}
+      subtitle={setText('subtitle')}
+      link={setText('link')}
     >
-      A simple container format for describing a coherent collection of data in a single
-      package. It provides the basis for convenient delivery, installation and management
-      of datasets.
+      {setText('description')}
     </HelpCard>
   )
 }

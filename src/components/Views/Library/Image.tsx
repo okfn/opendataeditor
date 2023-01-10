@@ -1,16 +1,23 @@
+import { noop } from 'lodash'
 import * as React from 'react'
 
 interface ImageProps {
   url: string | undefined
   description: string
-}
-const Image: React.FC<ImageProps> = ({ url, description }) => {
-  const fitcontent = {
-    height: '100%',
-    width: '100%',
-    objectFit: 'cover',
-  } as React.CSSProperties
-  return <img src={url} alt={description} style={fitcontent} />
+  width: string
+  height: string
+  onFocus?: (event: any) => void
 }
 
-export default Image
+export default function Image(props: ImageProps) {
+  const onFocus = props.onFocus || noop
+  return (
+    <img
+      src={props.url}
+      alt={props.description}
+      onFocus={onFocus}
+      width={props.width}
+      height={props.height}
+    />
+  )
+}

@@ -11,13 +11,12 @@ const PackageImage = () => {
   return (
     <Box sx={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <ImageUrl />
-      <div style={{ height: '300px', width: '300px' }}>
-        {url ? (
-          <Image url={url} description="Package Image" />
-        ) : (
-          <Image url={noImage} description="Package Image" />
-        )}
-      </div>
+      <Image
+        url={url || noImage}
+        description="Package Image"
+        width="300px"
+        height="300px"
+      />
     </Box>
   )
 }
@@ -27,6 +26,7 @@ export default PackageImage
 const ImageUrl = () => {
   const url = useStore((state) => state.descriptor.imageUrl)
   const update = useStore((state) => state.update)
+  const setElementName = useStore((state) => state.setElementName)
   return (
     <div style={{ width: '300px' }}>
       <InputField
@@ -34,6 +34,7 @@ const ImageUrl = () => {
         label="Image url"
         value={url}
         onChange={(newValue) => update({ imageUrl: newValue })}
+        onFocus={() => setElementName('url')}
       />
     </div>
   )
