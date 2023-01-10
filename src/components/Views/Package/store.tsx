@@ -35,6 +35,8 @@ interface State {
   elementType: 'resource'
   elementIndex?: number
   elementQuery?: string
+  elementGroup?: string
+  elementName?: string
   isElementGrid?: boolean
   isElementExtra?: boolean
 
@@ -50,6 +52,8 @@ interface State {
 
   setElementType: (elementType: State['elementType']) => void
   setElementIndex: (index?: number) => void
+  setElementGroup: (group?: string) => void
+  setElementName: (name?: string) => void
   setElementQuery: (elementQuery?: string) => void
   toggleIsElementGrid: () => void
   toggleIsElementExtra: () => void
@@ -112,6 +116,8 @@ export function createStore(props: PackageProps) {
 
     setElementType: (elementType) => set({ elementType }),
     setElementIndex: (elementIndex) => set({ elementIndex }),
+    setElementGroup: (elementGroup) => set({ elementGroup }),
+    setElementName: (elementName) => set({ elementName }),
     setElementQuery: (elementQuery) => set({ elementQuery }),
     toggleIsElementGrid: () => set({ isElementGrid: !get().isElementGrid }),
     toggleIsElementExtra: () => set({ isElementExtra: !get().isElementExtra }),

@@ -3,20 +3,25 @@ import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import ClearIcon from '@mui/icons-material/Clear'
+import { noop } from 'lodash'
 
 interface HeadingSearchProps {
   value?: string
   onChange: (value?: string) => void
+  onFocus?: (event?: any) => void
 }
 
 export default function HeadingSearch(props: HeadingSearchProps) {
+  const onFocus = props.onFocus || noop
   return (
     <TextField
       size="small"
+      name="Search"
       label="Search"
       value={props.value || ''}
       onChange={(ev) => props.onChange(ev.target.value)}
       InputProps={{ endAdornment: props.value ? <ResetButton {...props} /> : undefined }}
+      onFocus={onFocus}
     />
   )
 }

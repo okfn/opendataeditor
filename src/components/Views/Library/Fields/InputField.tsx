@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField'
 interface InputFieldProps {
   type?: string
   label: string
+  name?: string
   value: any
   size?: 'small' | 'medium'
   disabled?: boolean
@@ -17,6 +18,7 @@ interface InputFieldProps {
   required?: boolean
   onChange?: (value: any) => void
   onBlur?: () => void
+  onFocus?: (event: any) => void
   onKeyDown?: (event: any) => void
   placeholder?: string
 }
@@ -24,9 +26,11 @@ interface InputFieldProps {
 export default function InputField(props: InputFieldProps) {
   const onChange = props.onChange || noop
   const onKeyDown = props.onKeyDown || noop
+  const onFocus = props.onFocus || noop
   return (
     <TextField
       fullWidth
+      name={props.name || props.label}
       type={props.type}
       margin="normal"
       label={props.label}
@@ -41,6 +45,7 @@ export default function InputField(props: InputFieldProps) {
       helperText={props.helperText}
       onKeyDown={onKeyDown}
       placeholder={props.placeholder}
+      onFocus={onFocus}
     />
   )
 }

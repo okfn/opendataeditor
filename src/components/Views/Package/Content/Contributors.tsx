@@ -25,6 +25,7 @@ export default function Contributors() {
 
 function ContributorsInput() {
   const contributorsList = useStore((state) => state.descriptor.contributors)
+  const setElementName = useStore((state) => state.setElementName)
   const update = useStore((state) => state.update)
   const [inputValue, setInputValue] = React.useState('')
   const addContributor = React.useCallback(() => {
@@ -45,6 +46,9 @@ function ContributorsInput() {
       onChange={(name) => setInputValue(name)}
       onKeyDown={(e) => {
         e.key === 'Enter' && addContributor()
+      }}
+      onFocus={() => {
+        setElementName('contributor')
       }}
     />
   )

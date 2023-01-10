@@ -2,6 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import InputField from '../../../Library/Fields/InputField'
+import { useStore } from '../../store'
 
 interface KeywordsInputProps {
   onAdd: (keyword: string) => void
@@ -10,6 +11,7 @@ interface KeywordsInputProps {
 export default function KeywordsInput(props: KeywordsInputProps) {
   const { onAdd } = props
   const [inputValue, setInputValue] = React.useState('')
+  const setElementName = useStore((state) => state.setElementName)
   const addKeyword = React.useCallback(() => {
     if (inputValue.length) {
       onAdd(inputValue)
@@ -31,6 +33,9 @@ export default function KeywordsInput(props: KeywordsInputProps) {
         onChange={(keyword) => setInputValue(keyword)}
         onKeyDown={(e) => {
           e.key === 'Enter' && addKeyword()
+        }}
+        onFocus={() => {
+          setElementName('keyword')
         }}
       />
       <AddBoxIcon

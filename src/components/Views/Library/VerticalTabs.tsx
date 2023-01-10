@@ -39,7 +39,7 @@ export interface VerticalTabsProps {
   index?: number
   labels: string[]
   children?: React.ReactNode
-  onChange?: () => void
+  onChange?: (newValue?: number) => void
 }
 
 export default function VerticalTabs(props: VerticalTabsProps) {
@@ -47,7 +47,7 @@ export default function VerticalTabs(props: VerticalTabsProps) {
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
     if (props.onChange) {
-      props.onChange()
+      props.onChange(newValue)
     }
   }
 

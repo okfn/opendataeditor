@@ -4,3 +4,7 @@ declare module '*.jpg' {
 declare module '*.png' {
   export default '' as string
 }
+declare module '*.yaml' {
+  const data: any
+  export default data
+}
