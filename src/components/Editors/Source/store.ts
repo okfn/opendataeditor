@@ -1,21 +1,27 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
+import FileSaver from 'file-saver'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord } from '../../../interfaces'
 import { SourceProps } from './Source'
-
+import * as settings from '../../../settings'
 export interface State {
   // Data
 
   client: Client
   record: IRecord
   source?: string
+  exportFormat: string
+  isPreview?: boolean
+  setExportFormat: (format: string) => void
+  togglePreview: () => void
 
   // Logic
 
   loadSource: () => Promise<void>
+  exporter: () => void
 }
 
 export function createStore(props: SourceProps) {
@@ -24,6 +30,9 @@ export function createStore(props: SourceProps) {
 
     client: props.client,
     record: props.record,
+    exportFormat: 'csv',
+    setExportFormat: (exportFormat) => set({ exportFormat }),
+    togglePreview: () => set({ isPreview: !get().isPreview }),
 
     // Logic
 
@@ -31,6 +40,13 @@ export function createStore(props: SourceProps) {
       const { client, record } = get()
       const { text } = await client.resourceReadText({ resource: record.resource })
       set({ source: text })
+    },
+    exporter: () => {
+      const { source, exportFormat } = get()
+      const text = source || ''
+      const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
+      FileSaver.saveAs(blob, `source.${exportFormat}`)
+      set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
     },
   }))
 }
