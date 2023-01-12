@@ -6,7 +6,6 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord } from '../../../interfaces'
 import { SourceProps } from './Source'
-import * as settings from '../../../settings'
 export interface State {
   // Data
 
@@ -46,7 +45,7 @@ export function createStore(props: SourceProps) {
       const text = source || ''
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
       FileSaver.saveAs(blob, `source.${exportFormat}`)
-      set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
+      set({ exportFormat, isPreview: false })
     },
   }))
 }
