@@ -6,6 +6,7 @@ import MoveButton from '../../Views/Library/Buttons/MoveButton'
 import NewDropdown from '../../Views/Library/Groups/NewDropdown'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
+import { isDirectory } from '../../../helpers'
 
 export default function Actions() {
   const theme = useTheme()
@@ -28,7 +29,17 @@ function New() {
   const paths = useStore((state) => state.paths)
   const handleCreateFile = (file: File) => {
     let newPath = file.name
-    if (path) newPath = `${path}/${newPath}`
+    if (path) {
+      if (isDirectory(path)) {
+        newPath = `${path}/${newPath}`
+      } else {
+        const segments = path.split('/').filter((segment) => segment !== '')
+        segments.pop()
+        const url = segments.join('/')
+        newPath = url !== '' ? `${url}/${newPath}` : newPath
+      }
+    }
+    console.log('new path', newPath)
     const myNewFile = new File([file], newPath, { type: file.type })
     createFile(myNewFile)
   }

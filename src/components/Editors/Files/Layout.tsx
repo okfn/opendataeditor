@@ -13,10 +13,19 @@ export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
   const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
+
+  // Helper functions
+  function isResourceEmpty() {
+    if (!path && !paths) return true
+    if (paths.length === 0) return true
+    return false
+  }
+
   return (
     <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ height }}>
-        {!path ? (
+        {isResourceEmpty() ? (
           <StyledCard>
             <StyledCardContent>
               <StyledMuiAvatar>
