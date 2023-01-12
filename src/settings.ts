@@ -7,7 +7,7 @@ export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
 export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
-export const METADATA_FORMATS = ['json', 'yaml']
+export const METADATA_FORMATS = ['yaml', 'json']
 
 // Defaults
 
