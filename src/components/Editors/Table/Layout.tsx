@@ -15,6 +15,7 @@ export default function Layout() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + panelHeight)})`
   const resource = useStore((state) => state.record.resource)
   const updateResource = useStore((state) => state.updateResource)
+  const updateColumn = useStore((state) => state.updateColumn)
   return (
     <Box sx={{ position: 'relative' }}>
       <Menu />
@@ -27,7 +28,14 @@ export default function Layout() {
             hidden={!isMetadata}
             sx={{ borderTop: 1, borderColor: 'divider', paddingX: 2 }}
           >
-            <Resource resource={resource} withTabs={true} onCommit={updateResource} />
+            <Resource
+              resource={resource}
+              withTabs={true}
+              onCommit={updateResource}
+              onChangeColumn={(selectedColumn) => {
+                updateColumn(selectedColumn)
+              }}
+            />
           </Box>
           <Box hidden={isMetadata}>
             <Actions />

@@ -62,13 +62,13 @@ function Format() {
   return isFree ? (
     <InputField
       label="Format"
-      value={format}
+      value={format || ''}
       onChange={(format) => updateElement({ format })}
     />
   ) : (
     <SelectField
       label="Format"
-      value={format}
+      value={format || ''}
       options={FIELD.formats}
       onChange={(format) => updateElement({ format })}
     />

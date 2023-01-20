@@ -16,6 +16,7 @@ export interface State {
   tablePatch: ITablePatch
   table?: ITable
   source?: string
+  selectedColumn?: number
 
   // Logic
 
@@ -28,6 +29,7 @@ export interface State {
   exportTable?: (format: string) => void
   importTable?: () => void
   updateResource?: () => void
+  updateColumn: (selectedColumn: number) => void
 }
 
 export function createStore(props: TableProps) {
@@ -68,6 +70,9 @@ export function createStore(props: TableProps) {
     exportTable: noop,
     importTable: noop,
     updateResource: noop,
+    updateColumn: (selectedColumn) => {
+      set({ selectedColumn })
+    },
   }))
 }
 

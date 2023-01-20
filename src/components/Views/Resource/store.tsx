@@ -21,11 +21,13 @@ interface State {
   checkpoint: IResource
   onCommit: (resource: IResource) => void
   onRevert: (resource: IResource) => void
+  onChangeColumn: (selectedColumn: number) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
   setExportFormat: (format: string) => void
   togglePreview: () => void
+  selectedColumn?: number
 
   // Logic
 
@@ -34,6 +36,7 @@ interface State {
   update: (patch: object) => void
   commit: () => void
   revert: () => void
+  updateColumn: (selectedColumn: number) => void
 }
 
 export function createStore(props: ResourceProps) {
@@ -45,6 +48,7 @@ export function createStore(props: ResourceProps) {
     checkpoint: cloneDeep(props.resource || INITIAL_RESOURCE),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
+    onChangeColumn: props.onChangeColumn || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -79,6 +83,11 @@ export function createStore(props: ResourceProps) {
       const { onCommit, descriptor } = get()
       set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
       onCommit(descriptor)
+    },
+    updateColumn: (selectedColumn) => {
+      const { onChangeColumn } = get()
+      set({ selectedColumn })
+      onChangeColumn(selectedColumn)
     },
   }))
 }

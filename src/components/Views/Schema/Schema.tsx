@@ -11,6 +11,7 @@ export interface SchemaProps {
   schema?: ISchema
   onCommit?: (schema: ISchema) => void
   onRevert?: (schema: ISchema) => void
+  onChangeColumn?: (selectedColumn: number) => void
 }
 
 export default function Schema(props: SchemaProps) {

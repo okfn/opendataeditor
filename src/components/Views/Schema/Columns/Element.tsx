@@ -136,6 +136,7 @@ export function ItemSelect() {
   const elementType = useStore((state) => state.elementType)
   const elementIndex = useStore((state) => state.elementIndex)
   const setElementIndex = useStore((state) => state.setElementIndex)
+  const updateColumn = useStore((state) => state.updateColumn)
   const ELEMENT = ELEMENTS[elementType]
   const names = useStore(ELEMENT.names)
   assert(elementIndex !== undefined)
@@ -146,7 +147,10 @@ export function ItemSelect() {
       label="Select"
       type="number"
       value={elementIndex}
-      onChange={(ev) => setElementIndex(parseInt(ev.target.value))}
+      onChange={(ev) => {
+        setElementIndex(parseInt(ev.target.value))
+        updateColumn(parseInt(ev.target.value) + 1)
+      }}
     >
       {names.map((name, index) => (
         <MenuItem key={index} value={index}>
