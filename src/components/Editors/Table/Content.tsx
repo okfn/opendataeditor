@@ -9,6 +9,7 @@ export default function Content(props: { height: string }) {
   const tablePatch = useStore((state) => state.tablePatch)
   const updatePatch = useStore((state) => state.updatePatch)
   const loadTable = useStore((state) => state.loadTable)
+  const selectedColumn = useStore((state) => state.selectedColumn)
   React.useEffect(() => {
     loadTable().catch(console.error)
   }, [path])
@@ -20,6 +21,7 @@ export default function Content(props: { height: string }) {
       height={props.height}
       onUpdate={updatePatch}
       tablePatch={tablePatch}
+      selectedColumn={selectedColumn}
     />
   )
 }

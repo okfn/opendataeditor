@@ -31,6 +31,7 @@ export interface TableProps {
   height?: string
   onUpdate?: (rowNumber: number, fieldName: string, value: any) => void
   tablePatch?: ITablePatch
+  selectedColumn?: number
 }
 
 export default function Table(props: TableProps) {
@@ -40,6 +41,7 @@ export default function Table(props: TableProps) {
   const report = props.report
   const onUpdate = props.onUpdate
   const tablePatch = props.tablePatch || {}
+  const selectedColumn = props.selectedColumn
 
   // Errors
 
@@ -78,16 +80,24 @@ export default function Table(props: TableProps) {
       },
     }
 
+    const headerColor = (columnIndex: number, columnName: string) => {
+      if (columnName in errorIndex.label) {
+        return { style: { color: 'white', background: 'red' } }
+      }
+      if (columnIndex === selectedColumn) {
+        return { style: { backgroundColor: 'lightgreen' } }
+      }
+      return {}
+    }
+
     const columns = []
-    for (const field of fields) {
+    for (const [key, field] of Object.entries(fields)) {
+      const columnIndex = parseInt(key) + 1
       columns.push({
         name: field.name,
         header: field.title || field.name,
         type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
-        headerProps:
-          field.name in errorIndex.label
-            ? { style: { color: 'white', background: 'red' } }
-            : {},
+        headerProps: headerColor(columnIndex, field.name),
         render: (context: any) => {
           let { value } = context
           const { cellProps, data } = context
@@ -100,6 +110,9 @@ export default function Table(props: TableProps) {
           if (cellKey in errorIndex.cell) {
             cellProps.style.color = 'white'
             cellProps.style.background = 'red'
+          }
+          if (context.columnIndex === selectedColumn) {
+            cellProps.style.background = 'lightGreen'
           }
           if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
           return value
@@ -126,7 +139,7 @@ export default function Table(props: TableProps) {
     }
 
     return [rowNumberColumn, ...columns]
-  }, [fields, errorIndex])
+  }, [fields, errorIndex, selectedColumn])
 
   // Actions
 

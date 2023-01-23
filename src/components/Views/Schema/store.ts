@@ -23,9 +23,11 @@ interface SchemaState {
   checkpoint: ISchema
   onCommit: (schema: ISchema) => void
   onRevert: (schema: ISchema) => void
+  onChangeColumn: (selectedColumn: number) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
+  selectedColumn?: number
 
   // General (logic)
 
@@ -37,6 +39,7 @@ interface SchemaState {
   update: (patch: object) => void
   commit: () => void
   revert: () => void
+  updateColumn: (selectedColumn: number) => void
 
   // Elements (data)
 
@@ -67,6 +70,7 @@ export function createStore(props: SchemaProps) {
     checkpoint: cloneDeep(props.schema || INITIAL_SCHEMA),
     onCommit: props.onCommit || noop,
     onRevert: props.onRevert || noop,
+    onChangeColumn: props.onChangeColumn || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
     // General (logic)
@@ -101,6 +105,11 @@ export function createStore(props: SchemaProps) {
       const { onCommit, descriptor } = get()
       set({ checkpoint: cloneDeep(descriptor), isUpdated: false })
       onCommit(descriptor)
+    },
+    updateColumn: (selectedColumn) => {
+      const { onChangeColumn } = get()
+      set({ selectedColumn })
+      onChangeColumn(selectedColumn)
     },
 
     // Elements (data)

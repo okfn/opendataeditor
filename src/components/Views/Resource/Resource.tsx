@@ -10,6 +10,7 @@ export interface ResourceProps {
   resource?: IResource
   onCommit?: (resource: IResource) => void
   onRevert?: (resource: IResource) => void
+  onChangeColumn?: (selectedColumn: number) => void
 }
 
 export default function Resource(props: ResourceProps) {
