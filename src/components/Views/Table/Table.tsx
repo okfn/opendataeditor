@@ -81,14 +81,13 @@ export default function Table(props: TableProps) {
     }
 
     const headerColor = (columnIndex: number, columnName: string) => {
-      let styles = {}
       if (columnName in errorIndex.label) {
-        styles = { style: { color: 'white', background: 'red' } }
+        return { style: { color: 'white', background: 'red' } }
       }
       if (columnIndex === selectedColumn) {
-        styles = { style: { backgroundColor: 'lightgreen' } }
+        return { style: { backgroundColor: 'lightgreen' } }
       }
-      return styles
+      return {}
     }
 
     const columns = []
@@ -112,7 +111,7 @@ export default function Table(props: TableProps) {
             cellProps.style.color = 'white'
             cellProps.style.background = 'red'
           }
-          if (context.columnIndex === props.selectedColumn) {
+          if (context.columnIndex === selectedColumn) {
             cellProps.style.background = 'lightGreen'
           }
           if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''

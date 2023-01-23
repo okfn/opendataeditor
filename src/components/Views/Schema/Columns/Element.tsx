@@ -140,6 +140,9 @@ export function ItemSelect() {
   const ELEMENT = ELEMENTS[elementType]
   const names = useStore(ELEMENT.names)
   assert(elementIndex !== undefined)
+  React.useEffect(() => {
+    updateColumn(elementIndex + 1)
+  }, [elementIndex])
   return (
     <HeadingSelector
       select
