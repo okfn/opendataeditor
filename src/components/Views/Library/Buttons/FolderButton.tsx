@@ -25,7 +25,7 @@ export default function FolderButton(props: FolderButtonProps) {
   const [newDirectoryName, setNewDirectoryName] = React.useState('')
   const [error, setError] = React.useState(false)
   const paths = useStore((state: any) => state.paths)
-  const createDirectory = useStore((state) => state.createDirectory)
+  const createFolder = useStore((state) => state.createFolder)
 
   const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewDirectoryName(event.target.value)
@@ -47,7 +47,7 @@ export default function FolderButton(props: FolderButtonProps) {
       setError(true)
       return
     }
-    createDirectory(newDirectoryPath)
+    createFolder(newDirectoryPath)
     setOpen(false)
     props.closeMenu()
   }

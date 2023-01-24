@@ -23,7 +23,7 @@ export interface State {
   createPackage: () => Promise<void>
   listFolders: () => Promise<void>
   moveFile: (target: string) => Promise<void>
-  createDirectory: (directoryname: string) => Promise<void>
+  createFolder: (path: string) => Promise<void>
   copyFile: (target: string) => Promise<void>
 }
 
@@ -86,7 +86,7 @@ export function createStore(props: FilesProps) {
       const { paths } = await client.fileList({ onlyFolders: true })
       set({ folders: paths })
     },
-    createDirectory: async (path) => {
+    createFolder: async (path) => {
       const { client, listFiles } = get()
       await client.fileCreateFolder({ path })
       await listFiles()

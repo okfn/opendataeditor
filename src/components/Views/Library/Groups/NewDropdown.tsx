@@ -82,19 +82,19 @@ export default function NewButton(props: NewDropdownProps) {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="new-dropdown-menu" autoFocusItem>
-                  <MenuItem key="folder">
-                    <FolderButton
-                      marginR={1}
-                      closeMenu={() => setOpen(false)}
-                      fullWidth
-                    />
-                  </MenuItem>
                   <MenuItem key="upload">
                     <UploadButton
                       marginR={1}
                       variant="text"
                       label="Upload"
                       onUpload={(file) => handleFileUpload(file)}
+                      fullWidth
+                    />
+                  </MenuItem>
+                  <MenuItem key="folder">
+                    <FolderButton
+                      marginR={1}
+                      closeMenu={() => setOpen(false)}
                       fullWidth
                     />
                   </MenuItem>
