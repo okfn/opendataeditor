@@ -13,7 +13,7 @@ export interface State {
   client: Client
   record: IRecord
   isMetadata?: boolean
-  bytes?: string
+  bytes?: ArrayBuffer
   text?: string
 
   // Logic
@@ -40,12 +40,12 @@ export function createStore(props: FileProps) {
     },
     loadBytes: async () => {
       const { client, record } = get()
-      const { bytes } = await client.resourceReadBytes({ resource: record.resource })
+      const { bytes } = await client.resourceReadBytes({ path: record.resource.path })
       set({ bytes })
     },
     loadText: async () => {
       const { client, record } = get()
-      const { text } = await client.resourceReadText({ resource: record.resource })
+      const { text } = await client.resourceReadText({ path: record.resource.path })
       set({ text })
     },
     // TODO: implement

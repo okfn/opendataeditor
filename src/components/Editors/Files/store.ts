@@ -11,7 +11,7 @@ export interface State {
   client: Client
   path?: string
   paths: string[]
-  directories: string[]
+  folders: string[]
   onPathChange: (path?: string) => void
 
   // Logic
@@ -22,9 +22,9 @@ export interface State {
   deleteFile: () => Promise<void>
   createPackage: () => Promise<void>
   listFolders: () => Promise<void>
-  moveFile: (destination: string) => Promise<void>
+  moveFile: (target: string) => Promise<void>
   createDirectory: (directoryname: string) => Promise<void>
-  copyFile: (destination: string) => Promise<void>
+  copyFile: (target: string) => Promise<void>
 }
 
 export function createStore(props: FilesProps) {
@@ -34,13 +34,13 @@ export function createStore(props: FilesProps) {
     client: props.client,
     onPathChange: props.onPathChange,
     paths: [],
-    directories: [],
+    folders: [],
 
     // Logic
 
     listFiles: async () => {
       const { client } = get()
-      const { paths } = await client.projectListFiles()
+      const { paths } = await client.fileList()
       set({ paths })
     },
     selectFile: (path) => {
@@ -57,44 +57,44 @@ export function createStore(props: FilesProps) {
         return
       }
       const { client, listFiles, selectFile } = get()
-      const { path } = await client.projectCreateFile({ file })
+      const { path } = await client.fileCreate({ file })
       await listFiles()
       selectFile(path)
     },
     deleteFile: async () => {
       const { client, path, listFiles, selectFile } = get()
       if (!path) return
-      await client.projectDeleteFile({ path })
+      await client.fileDelete({ path })
       await listFiles()
       selectFile(undefined)
     },
     createPackage: async () => {
       const { client, listFiles, selectFile } = get()
-      const { path } = await client.projectCreatePackage()
+      const { path } = await client.packageCreate()
       await listFiles()
       selectFile(path)
     },
-    moveFile: async (destination) => {
+    moveFile: async (target) => {
       const { client, path, listFiles } = get()
       if (!path) return
-      if (destination === 'root') destination = ''
-      await client.projectMoveFile({ filename: path, destination })
+      if (target === 'root') target = ''
+      await client.fileMove({ source: path, target })
       await listFiles()
     },
     listFolders: async () => {
       const { client } = get()
-      const { directories } = await client.projectListFolders()
-      set({ directories })
+      const { paths } = await client.fileList({ onlyFolders: true })
+      set({ folders: paths })
     },
-    createDirectory: async (directoryname) => {
+    createDirectory: async (path) => {
       const { client, listFiles } = get()
-      await client.projectCreateDirectory({ directoryname })
+      await client.fileCreateFolder({ path })
       await listFiles()
     },
-    copyFile: async (destination) => {
+    copyFile: async (target) => {
       const { client, path, listFiles } = get()
       if (!path) return
-      await client.projectCopyFile({ filename: path, destination })
+      await client.fileCopy({ source: path, target })
       await listFiles()
     },
   }))

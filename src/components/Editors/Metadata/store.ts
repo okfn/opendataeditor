@@ -34,7 +34,7 @@ export function createStore(props: MetadataProps) {
 
     loadDescriptor: async () => {
       const { client, record } = get()
-      const { data } = await client.resourceReadData({ resource: record.resource })
+      const { data } = await client.resourceReadData({ path: record.resource.path })
       set({ descriptor: data })
     },
     togglePublish: () => {
@@ -42,8 +42,8 @@ export function createStore(props: MetadataProps) {
     },
     publishPackage: async (params: IPublish) => {
       const { client } = get()
-      const { response } = await client.projectPublish({ params })
-      return response
+      const { content } = await client.projectPublish({ params })
+      return content
     },
   }))
 }

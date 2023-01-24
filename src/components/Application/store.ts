@@ -31,7 +31,7 @@ export function createStore(props: ApplicationProps) {
       const { client } = get()
       set({ path })
       if (path && !isDirectory(path)) {
-        const { record } = await client.projectCreateRecord({ path })
+        const { record } = await client.resourceCreate({ path })
         set({ record })
       }
     },

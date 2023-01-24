@@ -28,7 +28,7 @@ export default function Content() {
           client={client}
           package={descriptor as IPackage}
           loadPaths={async () => {
-            const { paths } = await client.projectListFiles()
+            const { paths } = await client.fileList()
             for (const resource of (descriptor as IPackage).resources) {
               for (const [index, path] of paths.entries()) {
                 if (resource.path === path) delete paths[index]
@@ -37,7 +37,7 @@ export default function Content() {
             return paths
           }}
           loadResource={async (path) => {
-            const { record } = await client.projectCreateRecord({ path })
+            const { record } = await client.resourceCreate({ path })
             const { resource } = record
             return resource
           }}
