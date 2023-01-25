@@ -1,8 +1,8 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import { Client } from '../../src/client'
 import Report from '../../src/components/Editors/Report'
 import reportInvalid from '../../data/report-invalid.json'
+import reportValid from '../../data/report-valid.json'
 
 export default {
   title: 'Editors/Report',
@@ -11,15 +11,12 @@ export default {
 
 const Template: Story<Parameters<typeof Report>[0]> = (args) => <Report {...args} />
 
-export const Default = Template.bind({})
-Default.args = {
-  client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
-  record: {
-    name: 'invalid',
-    type: 'table',
-    path: 'invalid.csv',
-    updated: 0,
-    resource: {},
-    report: reportInvalid,
-  },
+export const Invalid = Template.bind({})
+Invalid.args = {
+  report: reportInvalid,
+}
+
+export const Valid = Template.bind({})
+Valid.args = {
+  report: reportValid,
 }

@@ -1,23 +1,22 @@
 import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
-import { StoreProvider, createStore } from './store'
 import * as themes from '../../../themes'
-import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
-import Layout from './Layout'
+import Box from '@mui/material/Box'
 
-export interface SourceProps {
-  client: Client
-  record: IRecord
+// TODO: restyle scrolls (use Table's style)
+
+interface SourceProps {
+  source: string
 }
 
 export default function Source(props: SourceProps) {
-  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+      <Box sx={{ height: '100%', width: '100%' }}>
+        <pre style={{ margin: 0 }}>
+          <code>{props.source}</code>
+        </pre>
+      </Box>
     </ThemeProvider>
   )
 }

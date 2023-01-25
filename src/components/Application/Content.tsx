@@ -1,14 +1,14 @@
 import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
-import Tabs from '../Views/Library/Tabs'
-import FileEditor from '../Editors/File'
-import MetadataEditor from '../Editors/Metadata'
-import TableEditor from '../Editors/Table'
-import ReportEditor from '../Editors/Report'
-import SourceEditor from '../Editors/Source'
-import ChartEditor from '../Editors/Chart'
-import SqlEditor from '../Editors/Sql'
+import Tabs from '../Library/Tabs'
+import File from '../Controllers/File'
+import Metadata from '../Controllers/Metadata'
+import Table from '../Controllers/Table'
+import Report from '../Controllers/Report'
+import Source from '../Controllers/Source'
+import Chart from '../Controllers/Chart'
+import Sql from '../Controllers/Sql'
 import { useStore } from './store'
 import * as settings from '../../settings'
 
@@ -38,7 +38,7 @@ function LayoutFile() {
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Image']}>
-        <FileEditor client={client} record={record} />
+        <File client={client} record={record} />
       </Tabs>
     </Box>
   )
@@ -51,7 +51,7 @@ function LayoutText() {
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Text']}>
-        <FileEditor client={client} record={record} />
+        <File client={client} record={record} />
       </Tabs>
     </Box>
   )
@@ -80,7 +80,7 @@ function LayoutMetadata() {
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={[capitalize(type)]}>
-        <MetadataEditor client={client} record={record} type={type} />
+        <Metadata client={client} record={record} type={type} />
       </Tabs>
     </Box>
   )
@@ -94,14 +94,14 @@ function LayoutPackage() {
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Package', 'Report', 'SQL']}>
-        <MetadataEditor
+        <Metadata
           type="package"
           client={client}
           record={record}
           onPathChange={selectPath}
         />
-        <ReportEditor client={client} record={record} />
-        <SqlEditor client={client} />
+        <Report client={client} record={record} />
+        <Sql client={client} />
       </Tabs>
     </Box>
   )
@@ -114,11 +114,11 @@ function LayoutTable() {
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Table', 'Report', 'Source', 'Chart', 'SQL']}>
-        <TableEditor client={client} record={record} />
-        <ReportEditor client={client} record={record} />
-        <SourceEditor client={client} record={record} />
-        <ChartEditor client={client} />
-        <SqlEditor client={client} />
+        <Table client={client} record={record} />
+        <Report client={client} record={record} />
+        <Source client={client} record={record} />
+        <Chart client={client} />
+        <Sql client={client} />
       </Tabs>
     </Box>
   )
