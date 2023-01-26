@@ -40,7 +40,7 @@ function New() {
           newPath = url !== '' ? `${url}/${newPath}` : newPath
         }
       }
-      const myNewFile = new File([files[0]], newPath, { type: files[0].type })
+      const myNewFile = new File([file], newPath, { type: file.type })
       createFile(myNewFile)
     }
   }
