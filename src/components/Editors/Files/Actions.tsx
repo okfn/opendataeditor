@@ -27,26 +27,27 @@ function New() {
   const createPackage = useStore((state) => state.createPackage)
   const path = useStore((state) => state.path)
   const paths = useStore((state) => state.paths)
-  const handleCreateFile = (file: File) => {
-    let newPath = file.name
-    if (path) {
-      if (isDirectory(path)) {
-        newPath = `${path}/${newPath}`
-      } else {
-        const segments = path.split('/').filter((segment) => segment !== '')
-        segments.pop()
-        const url = segments.join('/')
-        newPath = url !== '' ? `${url}/${newPath}` : newPath
+  const handleCreateFile = (files: FileList) => {
+    for (const file of files) {
+      let newPath = file.name
+      if (path) {
+        if (isDirectory(path)) {
+          newPath = `${path}/${newPath}`
+        } else {
+          const segments = path.split('/').filter((segment) => segment !== '')
+          segments.pop()
+          const url = segments.join('/')
+          newPath = url !== '' ? `${url}/${newPath}` : newPath
+        }
       }
+      const myNewFile = new File([files[0]], newPath, { type: files[0].type })
+      createFile(myNewFile)
     }
-    console.log('new path', newPath)
-    const myNewFile = new File([file], newPath, { type: file.type })
-    createFile(myNewFile)
   }
   return (
     <NewDropdown
       paths={paths}
-      onFileUpload={(file) => handleCreateFile(file)}
+      onFileUpload={(files) => handleCreateFile(files)}
       onCreateDataPackage={createPackage}
     />
   )

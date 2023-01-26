@@ -17,7 +17,7 @@ import { hasResource } from '../../../../helpers'
 interface NewDropdownProps {
   paths?: string[] | undefined
   variant?: 'contained' | 'outlined' | 'text'
-  onFileUpload: (file: File) => void
+  onFileUpload: (files: FileList) => void
   onCreateDataPackage: () => void
 }
 
@@ -30,9 +30,9 @@ export default function NewButton(props: NewDropdownProps) {
     props.onCreateDataPackage()
   }
 
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = (files: FileList) => {
     setOpen(false)
-    props.onFileUpload(file)
+    props.onFileUpload(files)
   }
 
   const handleToggle = () => {

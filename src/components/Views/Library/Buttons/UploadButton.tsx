@@ -11,7 +11,7 @@ interface UploadButtonProps {
   marginR?: number
   variant?: 'contained' | 'outlined' | 'text'
   // TODO: support multiple files
-  onUpload: (file: File) => void
+  onUpload: (files: FileList) => void
 }
 
 export default function UploadButton(props: UploadButtonProps) {
@@ -29,9 +29,11 @@ export default function UploadButton(props: UploadButtonProps) {
         <input
           hidden
           type="file"
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-            ev.target.files ? props.onUpload(ev.target.files[0]) : null
-          }
+          multiple
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            console.log(ev.target.files)
+            return ev.target.files ? props.onUpload(ev.target.files) : null
+          }}
         />
       </Button>
     </React.Fragment>
