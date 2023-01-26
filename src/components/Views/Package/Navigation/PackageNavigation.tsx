@@ -25,7 +25,7 @@ const PackageNavigation: React.FC = () => {
 
   // Event Handlers
   function handleChange(newValue?: any) {
-    if (newValue) {
+    if (typeof newValue !== 'undefined') {
       setElementGroup(PACKAGE_EDITORS[newValue].toLowerCase())
       setElementName('')
     }
