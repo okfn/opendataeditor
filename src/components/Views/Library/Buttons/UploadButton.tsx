@@ -31,7 +31,6 @@ export default function UploadButton(props: UploadButtonProps) {
           type="file"
           multiple
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            console.log(ev.target.files)
             return ev.target.files ? props.onUpload(ev.target.files) : null
           }}
         />
