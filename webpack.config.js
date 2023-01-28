@@ -36,15 +36,15 @@ const webpackConfig = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.yaml$/,
+        loader: 'yaml-loader',
+      },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]',
         },
-      },
-      {
-        test: /\.ya?ml$/,
-        use: 'yaml-loader',
       },
     ],
   },
