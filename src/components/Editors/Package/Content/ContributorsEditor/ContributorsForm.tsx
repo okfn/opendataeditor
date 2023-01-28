@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
-import InputField from '../../../../Library/Fields/InputField'
-import CommitButton from '../../../../Library/Buttons/CommitButton'
+import InputField from '../../../../Parts/Fields/InputField'
+import CommitButton from '../../../../Parts/Buttons/CommitButton'
 import { useStore } from '../../store'
 
 const style = {

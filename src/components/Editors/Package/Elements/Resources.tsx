@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
-import ItemButton from '../../../Library/Buttons/ItemButton'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
+import ItemButton from '../../../Parts/Buttons/ItemButton'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import Box from '@mui/material/Box'
 import { useStore, selectors } from '../store'
 

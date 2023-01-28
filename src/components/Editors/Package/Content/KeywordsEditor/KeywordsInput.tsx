@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import InputField from '../../../../Library/Fields/InputField'
+import InputField from '../../../../Parts/Fields/InputField'
 import { useStore } from '../../store'
 
 interface KeywordsInputProps {

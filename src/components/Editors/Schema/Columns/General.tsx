@@ -1,7 +1,7 @@
 import * as React from 'react'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
-import ValuesField from '../../../Library/Fields/ValuesField'
-import MultiselectField from '../../../Library/Fields/MultiselectField'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import ValuesField from '../../../Parts/Fields/ValuesField'
+import MultiselectField from '../../../Parts/Fields/MultiselectField'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
 

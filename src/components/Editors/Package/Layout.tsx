@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Tabs from '../../Library/Tabs'
+import Tabs from '../../Parts/Tabs'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'

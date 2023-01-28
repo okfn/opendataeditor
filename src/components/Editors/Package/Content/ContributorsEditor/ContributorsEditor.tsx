@@ -4,8 +4,8 @@ import { useTheme } from '@mui/material/styles'
 import { useStore } from '../../store'
 import ContributorsForm from './ContributorsForm'
 import ContributorsItem from './ContributorsItem'
-import DefaultButton from '../../../../Library/Buttons/DefaultButton'
-import HeadingBox from '../../../../Library/Groups/HeadingBox'
+import DefaultButton from '../../../../Parts/Buttons/DefaultButton'
+import HeadingBox from '../../../../Parts/Groups/HeadingBox'
 import { Grid } from '@mui/material'
 
 export default function Contributors() {

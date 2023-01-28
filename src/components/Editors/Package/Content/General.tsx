@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
-import InputField from '../../../Library/Fields/InputField'
-import DatePicker from '../../../Library/Fields/DatePicker'
-import MultilineField from '../../../Library/Fields/MultilineField'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import InputField from '../../../Parts/Fields/InputField'
+import DatePicker from '../../../Parts/Fields/DatePicker'
+import MultilineField from '../../../Parts/Fields/MultilineField'
 import { useStore } from '../store'
 
 export default function General() {

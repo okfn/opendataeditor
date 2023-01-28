@@ -1,9 +1,9 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Selector from '../../src/components/Library/Selector'
+import Selector from '../../src/components/Parts/Selector'
 
 export default {
-  title: 'Library/Selector',
+  title: 'Parts/Selector',
   component: Selector,
 } as Meta
 

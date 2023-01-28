@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Library/Columns'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
-import InputField from '../../../Library/Fields/InputField'
-import YesNoField from '../../../Library/Fields/YesNoField'
+import Columns from '../../../Parts/Columns'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import InputField from '../../../Parts/Fields/InputField'
+import YesNoField from '../../../Parts/Fields/YesNoField'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
-import InputField from '../../../Library/Fields/InputField'
-import YesNoField from '../../../Library/Fields/YesNoField'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import InputField from '../../../Parts/Fields/InputField'
+import YesNoField from '../../../Parts/Fields/YesNoField'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import ItemButton from '../../../Library/Buttons/ItemButton'
+import ItemButton from '../../../Parts/Buttons/ItemButton'
 import { useStore, selectors } from '../store'
 
 // TODO: restyle scrolls (use Table's style)

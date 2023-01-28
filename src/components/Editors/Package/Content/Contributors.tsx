@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import InputField from '../../../Library/Fields/InputField'
+import InputField from '../../../Parts/Fields/InputField'
 import { useStore } from '../store'
 
 export default function Contributors() {

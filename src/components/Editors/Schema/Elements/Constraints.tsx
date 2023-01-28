@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import Columns from '../../../Library/Columns'
-import InputField from '../../../Library/Fields/InputField'
-import YesNoField from '../../../Library/Fields/YesNoField'
+import Columns from '../../../Parts/Columns'
+import InputField from '../../../Parts/Fields/InputField'
+import YesNoField from '../../../Parts/Fields/YesNoField'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
 

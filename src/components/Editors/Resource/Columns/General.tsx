@@ -1,7 +1,7 @@
 import * as React from 'react'
-import HeadingBox from '../../../Library/Groups/HeadingBox'
-import InputField from '../../../Library/Fields/InputField'
-import MultilineField from '../../../Library/Fields/MultilineField'
+import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import InputField from '../../../Parts/Fields/InputField'
+import MultilineField from '../../../Parts/Fields/MultilineField'
 import { useStore } from '../store'
 
 export default function General() {

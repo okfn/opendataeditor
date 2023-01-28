@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import { useStore } from './store'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import ExportButton from '../../Library/Buttons/ExportButton'
+import ExportButton from '../../Parts/Buttons/ExportButton'
 
 export default function Actions() {
   const theme = useTheme()

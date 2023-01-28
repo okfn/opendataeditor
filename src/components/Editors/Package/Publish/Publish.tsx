@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import { DialogContent } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import VerticalTabs from '../../../Library/VerticalTabs'
+import VerticalTabs from '../../../Parts/VerticalTabs'
 import { IPublish } from '../../../../interfaces/publish'
 
 interface PublishProps {

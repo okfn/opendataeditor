@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Library/Columns'
-import InputField from '../../../Library/Fields/InputField'
-import SelectField from '../../../Library/Fields/SelectField'
+import Columns from '../../../Parts/Columns'
+import InputField from '../../../Parts/Fields/InputField'
+import SelectField from '../../../Parts/Fields/SelectField'
 import { useStore, selectors, select } from '../store'
 
 // TODO: fix logic/improve

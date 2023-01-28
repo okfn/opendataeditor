@@ -1,5 +1,5 @@
 import * as React from 'react'
-import BasicChip from '../../../../Library/Chips'
+import BasicChip from '../../../../Parts/Chips'
 
 interface KeywordsItemProps {
   keyword: string

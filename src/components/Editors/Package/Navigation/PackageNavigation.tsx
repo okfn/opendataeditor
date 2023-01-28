@@ -1,5 +1,5 @@
 import * as React from 'react'
-import VerticalTabs from '../../../Library/VerticalTabs'
+import VerticalTabs from '../../../Parts/VerticalTabs'
 import Element from '../Content/Element'
 import General from '../Content/General'
 import PackageImage from '../Content/PackageImage'

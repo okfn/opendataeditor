@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Columns from '../Library/Columns'
+import Columns from '../Parts/Columns'
 import Browser from './Browser'
 import Content from './Content'
 import Header from './Header'

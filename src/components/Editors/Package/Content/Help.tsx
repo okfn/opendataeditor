@@ -1,5 +1,5 @@
 import * as React from 'react'
-import HelpCard from '../../../Library/HelpCard'
+import HelpCard from '../../../Parts/HelpCard'
 import json from '../Utils/help.yaml'
 
 export interface HelperProps {

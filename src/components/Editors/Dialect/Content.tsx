@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Columns from '../../Library/Columns'
-import Preview from '../../Library/Preview'
+import Columns from '../../Parts/Columns'
+import Preview from '../../Parts/Preview'
 import Reading from './Columns/Reading'
 import Parsing from './Columns/Parsing'
 import Help from './Columns/Help'
