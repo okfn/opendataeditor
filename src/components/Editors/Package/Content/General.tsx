@@ -2,7 +2,7 @@ import * as React from 'react'
 import Grid from '@mui/material/Grid'
 import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import InputField from '../../../Parts/Fields/InputField'
-import DatePicker from '../../../Parts/Fields/DatePicker'
+import DatePickerField from '../../../Parts/Fields/DatePickerField'
 import MultilineField from '../../../Parts/Fields/MultilineField'
 import { useStore } from '../store'
 
@@ -92,7 +92,7 @@ function Version(props: any) {
 function Created(props: any) {
   const update = useStore((state) => state.update)
   return (
-    <DatePicker
+    <DatePickerField
       label="Created"
       onChange={(newValue) => {
         update({ created: newValue?.format('MM/DD/YYY') })

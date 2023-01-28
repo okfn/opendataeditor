@@ -6,7 +6,7 @@ import Card from '@mui/material/Card'
 import MuiAvatar from '@mui/material/Avatar'
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded'
 
-export default function Empty() {
+export default function EmptyContent() {
   return (
     <StyledCard>
       <StyledCardContent>

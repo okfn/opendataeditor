@@ -1,56 +1,63 @@
 import * as React from 'react'
+import { SyntheticEvent } from 'react'
+import { useSpring, animated } from 'react-spring'
+import TreeView from '@mui/lab/TreeView'
+import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
+import Collapse from '@mui/material/Collapse'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
-import { useSpring, animated } from 'react-spring'
-import * as settings from '../../../settings'
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
-import Collapse from '@mui/material/Collapse'
 import Box from '@mui/material/Box'
-import TreeView from '@mui/lab/TreeView'
+import { isDirectory } from '../../../../helpers'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
-import { useStore } from './store'
-import { isDirectory } from '../../../helpers'
-import Empty from './Empty'
+import { useStore } from '../store'
 
-export default function Content() {
-  const path = useStore((state) => state.path)
-  const paths = useStore((state) => state.paths)
-  const listFiles = useStore((state) => state.listFiles)
-  const selectFile = useStore((state) => state.selectFile)
-  const tree = indexTree(createTree(paths))
+interface FileNavigatorProps {
+  initialState?: {
+    mouseX: number | null
+    mouseY: number | null
+  } | null
+  onFolderSelect: (destinationDirectory: string | null) => void
+}
+export default function FileNavigator(props: FileNavigatorProps) {
+  const path = useStore((state: any) => state.path)
+  const directories = useStore((state: any) => state.directories)
+  const listFolders = useStore((state: any) => state.listFolders)
+  const tree = indexTree(createTree(directories))
+
+  const handleSelect = (_: SyntheticEvent, nodeId: string) => {
+    let newpath = nodeId.slice(nodeId.indexOf('/', 1) + 1)
+    if (newpath === 'root') newpath = ''
+    props.onFolderSelect(newpath)
+  }
   React.useEffect(() => {
-    listFiles().catch(console.error)
+    listFolders().catch(console.error)
   }, [])
-  if (!paths.length) return <Empty />
   return (
-    <Box
-      sx={{ padding: 2, height: '100%' }}
-      onClick={() => {
-        selectFile(undefined)
-      }}
-    >
+    <React.Fragment>
       <TreeView
-        sx={{ height: '100%' }}
-        aria-label="customized"
+        aria-label="file navigator"
         defaultExpanded={['1']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
+        onNodeSelect={handleSelect}
         selected={path || ''}
-        onNodeSelect={(event: React.SyntheticEvent, nodeId: string) => {
-          selectFile(nodeId)
-          event.stopPropagation()
+        sx={{
+          paddingTop: 2,
+          paddingBottom: 2,
+          height: 240,
+          overflowY: 'auto',
+          maxWidth: 400,
         }}
       >
         {tree.sort(compareNodes).map((node: any) => (
           <TreeNode node={node} key={node.path} />
         ))}
       </TreeView>
-    </Box>
+    </React.Fragment>
   )
 }
-
 function MinusSquare(props: SvgIconProps) {
   return (
     <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
@@ -59,7 +66,6 @@ function MinusSquare(props: SvgIconProps) {
     </SvgIcon>
   )
 }
-
 function PlusSquare(props: SvgIconProps) {
   return (
     <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
@@ -68,21 +74,6 @@ function PlusSquare(props: SvgIconProps) {
     </SvgIcon>
   )
 }
-
-// function CloseSquare(props: SvgIconProps) {
-//   return (
-//     <SvgIcon
-//       className="close"
-//       fontSize="inherit"
-//       style={{ width: 14, height: 14 }}
-//       {...props}
-//     >
-//       {/* tslint:disable-next-line: max-line-length */}
-//       <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
-//     </SvgIcon>
-//   )
-// }
-
 function TransitionComponent(props: TransitionProps) {
   const style = useSpring({
     from: {
@@ -117,10 +108,8 @@ const StyledTreeItem = styled((props: TreeItemProps) => (
     TransitionComponent={TransitionComponent}
     label={<TreeItemIcon path={props.nodeId} label={props.label} />}
   />
-))(({ theme, nodeId }) => ({
-  '& .MuiTreeItem-label': {
-    fontWeight: nodeId === settings.PACKAGE_PATH ? 'bold' : 'normal',
-  },
+))(({ theme }) => ({
+  '& .MuiTreeItem-label': 'normal',
   [`& .${treeItemClasses.iconContainer}`]: {
     '& .close': {
       opacity: 0.3,
@@ -146,15 +135,19 @@ function TreeNode({ node }: any) {
 function createTree(paths: string[]) {
   const result: any = []
   const level = { result }
-  paths.forEach((path) => {
-    ;(path as string).split('/').reduce((r: any, name) => {
-      if (!r[name]) {
-        r[name] = { result: [] }
-        r.result.push({ name, children: r[name].result })
-      }
-      return r[name]
-    }, level)
+  paths = paths.map(function (path) {
+    return `root/${path}`
   })
+  paths &&
+    paths.forEach((path) => {
+      ;(path as string).split('/').reduce((r: any, name) => {
+        if (!r[name]) {
+          r[name] = { result: [] }
+          r.result.push({ name, children: r[name].result })
+        }
+        return r[name]
+      }, level)
+    })
   return result
 }
 

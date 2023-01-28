@@ -5,16 +5,21 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
 
-export interface State {
-  // Data
+type IDialog = 'folder' | 'copy' | 'move'
 
+export interface State {
   client: Client
   path?: string
   paths: string[]
   folders: string[]
   onPathChange: (path?: string) => void
+  dialog?: IDialog
 
-  // Logic
+  // General
+
+  setDialog: (dialog?: IDialog) => void
+
+  // Files
 
   listFiles: () => Promise<void>
   createFile: (file: File) => Promise<void>
@@ -29,14 +34,16 @@ export interface State {
 
 export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
-    // Data
-
     client: props.client,
     onPathChange: props.onPathChange,
     paths: [],
     folders: [],
 
-    // Logic
+    // General
+
+    setDialog: (dialog) => set({ dialog }),
+
+    // Files
 
     listFiles: async () => {
       const { client } = get()

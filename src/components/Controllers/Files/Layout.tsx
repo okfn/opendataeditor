@@ -1,20 +1,44 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import Columns from '../../Parts/Columns'
 import { useTheme } from '@mui/material/styles'
-import Actions from './Actions'
-import Content from './Content'
+import DeleteButton from './Buttons/DeleteButton'
+import ManageButton from './Buttons/ManageButton'
+import NewButton from './Buttons/NewButton'
+import FilesContent from './Contents/FilesContent'
+import EmptyContent from './Contents/EmptyContent'
+import FolderDialog from './Dialogs/FolderDialog'
+import CopyDialog from './Dialogs/CopyDialog'
+// import MoveDialog from './Dialogs/MoveDialog'
+import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
+  const paths = useStore((state) => state.paths)
+  const listFiles = useStore((state) => state.listFiles)
+  const dialog = useStore((state) => state.dialog)
+  React.useEffect(() => {
+    listFiles().catch(console.error)
+  }, [])
   return (
-    <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height }}>
-        <Content />
+    <React.Fragment>
+      {dialog === 'folder' && <FolderDialog />}
+      {dialog === 'copy' && <CopyDialog />}
+      <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ height }}>{paths.length ? <FilesContent /> : <EmptyContent />}</Box>
+        <Box sx={{ marginTop: 'auto' }}>
+          <Box
+            sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}
+          >
+            <Columns spacing={2}>
+              <NewButton />
+              <ManageButton />
+              <DeleteButton />
+            </Columns>
+          </Box>
+        </Box>
       </Box>
-      <Box sx={{ marginTop: 'auto' }}>
-        <Actions />
-      </Box>
-    </Box>
+    </React.Fragment>
   )
 }

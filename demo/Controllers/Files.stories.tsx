@@ -15,3 +15,8 @@ Default.args = {
   client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
   onPathChange: (path?: string) => console.log(path),
 }
+export const Empty = Template.bind({})
+Empty.args = {
+  client: new Client({ session: '1-zsQ3tQ-zKTGFYhKY235g' }),
+  onPathChange: (path?: string) => console.log(path),
+}
