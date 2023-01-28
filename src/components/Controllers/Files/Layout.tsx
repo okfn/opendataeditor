@@ -2,9 +2,9 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
 import { useTheme } from '@mui/material/styles'
+import CreateButton from './Buttons/CreateButton'
 import DeleteButton from './Buttons/DeleteButton'
 import ManageButton from './Buttons/ManageButton'
-import NewButton from './Buttons/NewButton'
 import FilesContent from './Contents/FilesContent'
 import EmptyContent from './Contents/EmptyContent'
 import FolderDialog from './Dialogs/FolderDialog'
@@ -19,6 +19,7 @@ export default function Layout() {
   const listFiles = useStore((state) => state.listFiles)
   const dialog = useStore((state) => state.dialog)
   React.useEffect(() => {
+    // TODO: add loading state?
     listFiles().catch(console.error)
   }, [])
   return (
@@ -27,12 +28,10 @@ export default function Layout() {
       {dialog === 'copy' && <CopyDialog />}
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ height }}>{paths.length ? <FilesContent /> : <EmptyContent />}</Box>
-        <Box sx={{ marginTop: 'auto' }}>
-          <Box
-            sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}
-          >
+        <Box sx={{ height: theme.spacing(8) }}>
+          <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
             <Columns spacing={2}>
-              <NewButton />
+              <CreateButton />
               <ManageButton />
               <DeleteButton />
             </Columns>

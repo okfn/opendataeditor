@@ -4,6 +4,7 @@ import * as settings from '../../../settings'
 
 interface DefaultButtonProps {
   label: string
+  icon?: React.ReactNode
   color?: 'info' | 'warning' | 'secondary'
   variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
@@ -19,7 +20,7 @@ export default function DefaultButton(props: DefaultButtonProps) {
       color={props.color || 'info'}
       onClick={() => props.onClick()}
     >
-      {props.label}
+      {props.icon} {props.label}
     </Button>
   )
 }

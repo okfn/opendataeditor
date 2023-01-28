@@ -1,17 +1,21 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/AddBox'
 import FolderIcon from '@mui/icons-material/Folder'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import AddIcon from '@mui/icons-material/Add'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
-import * as settings from '../../../../settings'
+import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import { hasResource } from '../../../../helpers'
 import { useStore } from '../store'
 
-export default function NewButton() {
+export default function CreateButton() {
   return (
-    <DropdownButton label="New" icon={<AddIcon />}>
+    <DropdownButton
+      label="Create"
+      variant="text"
+      icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
+    >
       <UploadButton />
       <FolderButton />
       <PackageButton />
@@ -23,8 +27,8 @@ function UploadButton() {
   const createFile = useStore((state) => state.createFile)
   return (
     <React.Fragment>
-      <Button variant={settings.DEFUALT_BUTTON_VARIANT} color="info" component="label">
-        <CloudUploadIcon sx={{ mr: 1 }} fontSize="small" />
+      <Button variant="text" color="info" component="label">
+        <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
         Upload File
         <input
           hidden
@@ -41,17 +45,13 @@ function UploadButton() {
 function FolderButton() {
   const setDialog = useStore((state) => state.setDialog)
   return (
-    <Button
-      sx={{ mr: 1 }}
-      fullWidth
+    <DefaultButton
       variant="text"
-      component="label"
       color="info"
+      label="Create Folder"
+      icon={<CreateNewFolderIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => setDialog('folder')}
-    >
-      <CreateNewFolderIcon sx={{ mr: 1 }} />
-      Create Folder
-    </Button>
+    />
   )
 }
 
@@ -59,17 +59,13 @@ function PackageButton() {
   const paths = useStore((state) => state.paths)
   const createPackage = useStore((state) => state.createPackage)
   return (
-    <Button
-      sx={{ mr: 1 }}
-      fullWidth
+    <DefaultButton
       disabled={!hasResource(paths)}
-      component="label"
       variant="text"
       color="info"
+      label="Create Package"
+      icon={<FolderIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={createPackage}
-    >
-      <FolderIcon sx={{ mr: 1 }} fontSize="small" />
-      Create Package
-    </Button>
+    />
   )
 }
