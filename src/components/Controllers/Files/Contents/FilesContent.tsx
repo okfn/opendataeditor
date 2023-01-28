@@ -14,26 +14,19 @@ import { isDirectory } from '../../../../helpers'
 import { useStore } from '../store'
 
 export default function FilesContent() {
-  const path = useStore((state) => state.path)
   const paths = useStore((state) => state.paths)
-  const selectFile = useStore((state) => state.selectFile)
+  const setPath = useStore((state) => state.setPath)
   const tree = indexTree(createTree(paths))
   return (
-    <Box
-      sx={{ padding: 2, height: '100%', overflowY: 'auto' }}
-      onClick={() => {
-        selectFile(undefined)
-      }}
-    >
+    <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
         sx={{ height: '100%' }}
         aria-label="customized"
         defaultExpanded={['1']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
-        selected={path || ''}
-        onNodeSelect={(event: React.SyntheticEvent, nodeId: string) => {
-          selectFile(nodeId)
+        onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+          setPath(nodeId)
           event.stopPropagation()
         }}
       >

@@ -4,6 +4,7 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
+import * as helpers from '../../../helpers'
 
 type IDialog = 'folder' | 'copy' | 'move'
 
@@ -17,13 +18,13 @@ export interface State {
 
   // General
 
+  setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
 
   // Files
 
   listFiles: () => Promise<void>
   createFile: (file: File) => Promise<void>
-  selectFile: (path?: string) => void
   deleteFile: () => Promise<void>
   createPackage: () => Promise<void>
   listFolders: () => Promise<void>
@@ -42,6 +43,12 @@ export function createStore(props: FilesProps) {
     // General
 
     setDialog: (dialog) => set({ dialog }),
+    setPath: (newPath) => {
+      const { path, onPathChange } = get()
+      if (path === newPath) return
+      set({ path: newPath })
+      onPathChange(newPath)
+    },
 
     // Files
 
@@ -50,36 +57,30 @@ export function createStore(props: FilesProps) {
       const { paths } = await client.fileList()
       set({ paths })
     },
-    selectFile: (path) => {
-      const { onPathChange, paths } = get()
-      if (path && !paths.includes(path)) return
-      if (get().path === path) return
-      set({ path })
-      onPathChange(path)
-    },
     createFile: async (file) => {
       // TODO: show a proper error dialog
       if (file.size > 10000000) {
         alert('Currently only files under 10Mb are supported')
         return
       }
-      const { client, listFiles, selectFile } = get()
-      const { path } = await client.fileCreate({ file })
+      const { path, client, listFiles, setPath } = get()
+      const folder = path ? helpers.getFolder(path) : undefined
+      const result = await client.fileCreate({ file, folder })
       await listFiles()
-      selectFile(path)
+      setPath(result.path)
     },
     deleteFile: async () => {
-      const { client, path, listFiles, selectFile } = get()
+      const { client, path, listFiles, setPath } = get()
       if (!path) return
       await client.fileDelete({ path })
       await listFiles()
-      selectFile(undefined)
+      setPath(undefined)
     },
     createPackage: async () => {
-      const { client, listFiles, selectFile } = get()
+      const { client, listFiles, setPath } = get()
       const { path } = await client.packageCreate()
       await listFiles()
-      selectFile(path)
+      setPath(path)
     },
     moveFile: async (target) => {
       const { client, path, listFiles } = get()
