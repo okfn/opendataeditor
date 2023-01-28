@@ -8,10 +8,11 @@ import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
-import { useStore } from './store'
-import { isDirectory } from '../../../helpers'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
+import { useStore } from './store'
+import { isDirectory } from '../../../helpers'
+import Empty from './Empty'
 
 export default function Content() {
   const path = useStore((state) => state.path)
@@ -22,6 +23,7 @@ export default function Content() {
   React.useEffect(() => {
     listFiles().catch(console.error)
   }, [])
+  if (!paths.length) return <Empty />
   return (
     <Box
       sx={{ padding: 2, height: '100%' }}
