@@ -4,7 +4,7 @@ import MoveIcon from '@mui/icons-material/CopyAll'
 import ManageIcon from '@mui/icons-material/FileCopy'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function ManageButton() {
   const path = useStore((state) => state.path)
@@ -22,10 +22,11 @@ export default function ManageButton() {
 }
 
 function MoveButton() {
+  const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
     <DefaultButton
-      label="Copy File"
+      label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => setDialog('move')}
@@ -34,10 +35,11 @@ function MoveButton() {
 }
 
 function CopyButton() {
+  const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
     <DefaultButton
-      label="Move File"
+      label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => setDialog('copy')}
