@@ -78,12 +78,6 @@ export function createStore(props: FilesProps) {
       await listFiles()
       setPath(undefined)
     },
-    createPackage: async () => {
-      const { client, listFiles, setPath } = get()
-      const { path } = await client.packageCreate()
-      await listFiles()
-      setPath(path)
-    },
     moveFile: async (target) => {
       const { client, path, listFiles } = get()
       if (!path) return
@@ -101,6 +95,15 @@ export function createStore(props: FilesProps) {
       if (!path) return
       await client.fileCopy({ source: path, target })
       await listFiles()
+    },
+
+    // Package
+
+    createPackage: async () => {
+      const { client, listFiles, setPath } = get()
+      const { path } = await client.packageCreate()
+      await listFiles()
+      setPath(path)
     },
   }))
 }

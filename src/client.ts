@@ -57,7 +57,7 @@ export class Client {
 
   async fileList() {
     const result = await this.request('/file/list')
-    return result as { paths: IFileItem[] }
+    return result as { items: IFileItem[] }
   }
 
   async fileMove(props: { source: string; target: string }) {
@@ -159,6 +159,7 @@ async function makeRequest(
     body = new FormData()
     body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
     for (const [name, value] of Object.entries(omit(props, 'file'))) {
+      if (value === undefined) continue
       body.append(name, typeof value === 'string' ? value : JSON.stringify(value))
     }
   } else {
