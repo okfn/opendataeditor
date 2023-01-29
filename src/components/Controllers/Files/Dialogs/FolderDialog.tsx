@@ -6,11 +6,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
 import TextField from '@mui/material/TextField'
-import { isDirectory, getFolderPath } from '../../../../helpers'
-import { useStore } from '../store'
+import { getFolderPath } from '../../../../helpers'
+import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {
   const path = useStore((state) => state.path)
+  const filePaths = useStore(selectors.filePaths)
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
   const [newDirectoryName, setNewDirectoryName] = React.useState('')
@@ -21,14 +22,16 @@ export default function FolderDialog() {
   const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewDirectoryName(event.target.value)
   }
-  const handleClose = () => setDialog(undefined)
+  const handleCancel = () => setDialog(undefined)
   const handleCreateDirectory = () => {
     let newDirectoryPath = newDirectoryName
     let currentDirectory = path
     if (!currentDirectory) currentDirectory = ''
 
     // If a path is a file
-    if (!isDirectory(currentDirectory)) currentDirectory = getFolderPath(currentDirectory)
+    if (filePaths.includes(currentDirectory)) {
+      currentDirectory = getFolderPath(currentDirectory)
+    }
     if (currentDirectory !== '') {
       newDirectoryPath = `${currentDirectory}/${newDirectoryPath}`
     }
@@ -43,14 +46,14 @@ export default function FolderDialog() {
   return (
     <Dialog
       open={dialog === 'folder'}
-      onClose={handleClose}
+      onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
       <DialogTitle id="dialog-title">New Folder</DialogTitle>
       <DialogContent>
         <DialogContentText id="dialog-description">
-          {path && isDirectory(path) && path}
+          {path && !filePaths.includes(path)}
         </DialogContentText>
         <TextField
           error={error}
@@ -62,7 +65,7 @@ export default function FolderDialog() {
       </DialogContent>
       <DialogActions className="dialog-actions-dense">
         <Button
-          onClick={handleClose}
+          onClick={handleCancel}
           aria-label="cancel"
           color="warning"
           variant="outlined"

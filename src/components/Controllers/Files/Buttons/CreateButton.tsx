@@ -6,8 +6,8 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
-import { hasResource } from '../../../../helpers'
-import { useStore } from '../store'
+import * as settings from '../../../../settings'
+import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
   return (
@@ -56,11 +56,11 @@ function FolderButton() {
 }
 
 function PackageButton() {
-  const paths = useStore((state) => state.paths)
+  const filePaths = useStore(selectors.filePaths)
   const createPackage = useStore((state) => state.createPackage)
   return (
     <DefaultButton
-      disabled={!hasResource(paths)}
+      disabled={filePaths.includes(settings.PACKAGE_PATH)}
       variant="text"
       color="info"
       label="Create Package"

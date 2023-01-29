@@ -3,27 +3,8 @@ export function exportDescriptor(descriptor: object) {
   return `data: text/json;charset=utf-8,${text}`
 }
 
-export function isDirectory(path: string) {
-  const re = /^.*\.[^\\]+$/
-  return !re.test(path)
-}
-
-export function getFolder(path: string) {
+export function getFolderPath(path: string) {
   const parts = path.split('/')
   if (parts.length < 2) return undefined
   return parts.slice(0, -1).join('/')
-}
-
-export function getFolderPath(path: string) {
-  const folder = path.substring(0, path.lastIndexOf('/'))
-  return isDirectory(folder) ? folder : ''
-}
-
-export function hasResource(paths: string[] | undefined) {
-  if (!paths) return false
-
-  for (const path of paths) {
-    if (!isDirectory(path)) return true
-  }
-  return false
 }

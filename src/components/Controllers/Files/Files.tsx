@@ -7,7 +7,8 @@ import { Client } from '../../../client'
 
 export interface FilesProps {
   client: Client
-  onPathChange: (path?: string) => void
+  // TODO: consider rebasing to onResourceChange after indexing addition
+  onFileChange: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

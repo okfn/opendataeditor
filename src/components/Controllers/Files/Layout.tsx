@@ -15,7 +15,7 @@ import { useStore } from './store'
 export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
-  const paths = useStore((state) => state.paths)
+  const fileItems = useStore((state) => state.fileItems)
   const listFiles = useStore((state) => state.listFiles)
   const dialog = useStore((state) => state.dialog)
   React.useEffect(() => {
@@ -27,7 +27,9 @@ export default function Layout() {
       {dialog === 'folder' && <FolderDialog />}
       {dialog === 'copy' && <CopyDialog />}
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ height }}>{paths.length ? <FilesContent /> : <EmptyContent />}</Box>
+        <Box sx={{ height }}>
+          {fileItems.length ? <FilesContent /> : <EmptyContent />}
+        </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
             <Columns spacing={2}>

@@ -5,7 +5,6 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { IRecord } from '../../interfaces'
 import { ApplicationProps } from './Application'
-import { isDirectory } from '../../helpers'
 
 export interface State {
   // Data
@@ -30,7 +29,7 @@ export function createStore(props: ApplicationProps) {
     selectPath: async (path) => {
       const { client } = get()
       set({ path })
-      if (path && !isDirectory(path)) {
+      if (path) {
         const { record } = await client.resourceCreate({ path })
         set({ record })
       }

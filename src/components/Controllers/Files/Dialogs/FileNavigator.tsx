@@ -8,10 +8,9 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { TransitionProps } from '@mui/material/transitions'
 import Box from '@mui/material/Box'
-import { isDirectory } from '../../../../helpers'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 interface FileNavigatorProps {
   initialState?: {
@@ -94,9 +93,10 @@ function TransitionComponent(props: TransitionProps) {
 }
 
 function TreeItemIcon({ path, label }: any) {
+  const filePaths = useStore(selectors.filePaths)
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      {isDirectory(path) ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {filePaths.includes(path) ? <DescriptionIcon /> : <FolderIcon color="info" />}
       {label}
     </Box>
   )

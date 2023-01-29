@@ -10,13 +10,12 @@ import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import * as settings from '../../../../settings'
-import { isDirectory } from '../../../../helpers'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function FilesContent() {
-  const paths = useStore((state) => state.paths)
+  const filePaths = useStore(selectors.filePaths)
   const setPath = useStore((state) => state.setPath)
-  const tree = indexTree(createTree(paths))
+  const tree = indexTree(createTree(filePaths))
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
@@ -90,9 +89,10 @@ function TransitionComponent(props: TransitionProps) {
 }
 
 function TreeItemIcon({ path, label }: any) {
+  const filePaths = useStore(selectors.filePaths)
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      {isDirectory(path) ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {filePaths.includes(path) ? <DescriptionIcon /> : <FolderIcon color="info" />}
       {label}
     </Box>
   )

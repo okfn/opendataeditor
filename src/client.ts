@@ -6,6 +6,7 @@ import { IReport } from './interfaces/report'
 import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
+import { IFileItem } from './interfaces/common'
 
 const DEFAULT_BASEPATH = '/api'
 
@@ -54,9 +55,9 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileList(props: { withFolders?: boolean; onlyFolders?: boolean } = {}) {
-    const result = await this.request('/file/list', props)
-    return result as { paths: string[] }
+  async fileList() {
+    const result = await this.request('/file/list')
+    return result as { paths: IFileItem[] }
   }
 
   async fileMove(props: { source: string; target: string }) {

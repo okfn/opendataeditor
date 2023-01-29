@@ -4,6 +4,7 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
+import { IFileItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
 type IDialog = 'folder' | 'copy' | 'move'
@@ -11,9 +12,8 @@ type IDialog = 'folder' | 'copy' | 'move'
 export interface State {
   client: Client
   path?: string
-  paths: string[]
-  folders: string[]
-  onPathChange: (path?: string) => void
+  fileItems: IFileItem[]
+  onFileChange: (path?: string) => void
   dialog?: IDialog
 
   // General
@@ -21,41 +21,43 @@ export interface State {
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
 
-  // Files
+  // File
 
-  listFiles: () => Promise<void>
-  createFile: (file: File) => Promise<void>
-  deleteFile: () => Promise<void>
-  createPackage: () => Promise<void>
-  listFolders: () => Promise<void>
-  moveFile: (target: string) => Promise<void>
-  createFolder: (path: string) => Promise<void>
   copyFile: (target: string) => Promise<void>
+  createFile: (file: File) => Promise<void>
+  createFolder: (path: string) => Promise<void>
+  deleteFile: () => Promise<void>
+  listFiles: () => Promise<void>
+  moveFile: (target: string) => Promise<void>
+
+  // Package
+
+  createPackage: () => Promise<void>
 }
 
 export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
-    onPathChange: props.onPathChange,
-    paths: [],
-    folders: [],
+    onFileChange: props.onFileChange,
+    fileItems: [],
 
     // General
 
     setDialog: (dialog) => set({ dialog }),
     setPath: (newPath) => {
-      const { path, onPathChange } = get()
+      const { path, onFileChange } = get()
       if (path === newPath) return
       set({ path: newPath })
-      onPathChange(newPath)
+      const isFolder = selectors.isFolder(get())
+      if (!isFolder) onFileChange(newPath)
     },
 
     // Files
 
     listFiles: async () => {
       const { client } = get()
-      const { paths } = await client.fileList()
-      set({ paths })
+      const { items } = await client.fileList()
+      set({ fileItems: items })
     },
     createFile: async (file) => {
       // TODO: show a proper error dialog
@@ -63,8 +65,8 @@ export function createStore(props: FilesProps) {
         alert('Currently only files under 10Mb are supported')
         return
       }
-      const { path, client, listFiles, setPath } = get()
-      const folder = path ? helpers.getFolder(path) : undefined
+      const { client, listFiles, setPath } = get()
+      const folder = selectors.folderPath(get())
       const result = await client.fileCreate({ file, folder })
       await listFiles()
       setPath(result.path)
@@ -89,11 +91,6 @@ export function createStore(props: FilesProps) {
       await client.fileMove({ source: path, target })
       await listFiles()
     },
-    listFolders: async () => {
-      const { client } = get()
-      const { paths } = await client.fileList({ onlyFolders: true })
-      set({ folders: paths })
-    },
     createFolder: async (path) => {
       const { client, listFiles } = get()
       await client.fileCreateFolder({ path })
@@ -106,6 +103,21 @@ export function createStore(props: FilesProps) {
       await listFiles()
     },
   }))
+}
+
+export const selectors = {
+  isFolder: (state: State) => {
+    return !!state.fileItems.find((item) => item.path === state.path && item.isFolder)
+  },
+  folderPath: (state: State) => {
+    if (!state.path) return undefined
+    const isFolder = selectors.isFolder(state)
+    if (isFolder) return state.path
+    return helpers.getFolderPath(state.path)
+  },
+  filePaths: (state: State) => {
+    return state.fileItems.filter((item) => !item.isFolder).map((item) => item.path)
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

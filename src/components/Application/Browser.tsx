@@ -11,7 +11,7 @@ export default function Layout() {
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['_Projects', 'Resources']} index={1}>
         <React.Fragment></React.Fragment>
-        <Files client={client} onPathChange={selectPath} />
+        <Files client={client} onFileChange={selectPath} />
       </Tabs>
     </Box>
   )

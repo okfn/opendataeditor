@@ -13,10 +13,10 @@ const Template: Story<Parameters<typeof Files>[0]> = (args) => <Files {...args} 
 export const Default = Template.bind({})
 Default.args = {
   client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
-  onPathChange: (path?: string) => console.log(path),
+  onFileChange: (path?: string) => console.log(path),
 }
 export const Empty = Template.bind({})
 Empty.args = {
   client: new Client({ session: '1-zsQ3tQ-zKTGFYhKY235g' }),
-  onPathChange: (path?: string) => console.log(path),
+  onFileChange: (path?: string) => console.log(path),
 }
