@@ -13,21 +13,23 @@ import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
 
 export default function FilesContent() {
+  const path = useStore((state) => state.path)
   const filePaths = useStore(selectors.filePaths)
   const setPath = useStore((state) => state.setPath)
   const tree = indexTree(createTree(filePaths))
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
-        sx={{ height: '100%' }}
-        aria-label="customized"
-        defaultExpanded={['1']}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
+        selected={path || ''}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
           setPath(nodeId)
           event.stopPropagation()
         }}
+        sx={{ height: '100%' }}
+        defaultExpanded={['1']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        aria-label="customized"
       >
         {tree.sort(compareNodes).map((node: any) => (
           <TreeNode node={node} key={node.path} />
