@@ -4,44 +4,20 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import DialogContentText from '@mui/material/DialogContentText'
 import TextField from '@mui/material/TextField'
-import { getFolderPath } from '../../../../helpers'
-import { useStore, selectors } from '../store'
+import { useStore } from '../store'
 
 export default function FolderDialog() {
-  const path = useStore((state) => state.path)
-  const filePaths = useStore(selectors.filePaths)
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
-  const [newDirectoryName, setNewDirectoryName] = React.useState('')
-  const [error, setError] = React.useState(false)
-  const paths = useStore((state: any) => state.paths)
   const createFolder = useStore((state) => state.createFolder)
-
-  const onUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewDirectoryName(event.target.value)
-  }
+  const [folder, setFolder] = React.useState('')
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
+    setFolder(ev.target.value)
   const handleCancel = () => setDialog(undefined)
-  const handleCreateDirectory = () => {
-    let newDirectoryPath = newDirectoryName
-    let currentDirectory = path
-    if (!currentDirectory) currentDirectory = ''
-
-    // If a path is a file
-    if (filePaths.includes(currentDirectory)) {
-      currentDirectory = getFolderPath(currentDirectory)
-    }
-    if (currentDirectory !== '') {
-      newDirectoryPath = `${currentDirectory}/${newDirectoryPath}`
-    }
-
-    if (paths.includes(newDirectoryPath)) {
-      setError(true)
-      return
-    }
-    createFolder(newDirectoryPath)
-    setDialog()
+  const handleCreate = () => {
+    createFolder(folder)
+    handleCancel()
   }
   return (
     <Dialog
@@ -50,18 +26,9 @@ export default function FolderDialog() {
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
-      <DialogTitle id="dialog-title">New Folder</DialogTitle>
+      <DialogTitle id="dialog-title">Create Folder</DialogTitle>
       <DialogContent>
-        <DialogContentText id="dialog-description">
-          {path && !filePaths.includes(path)}
-        </DialogContentText>
-        <TextField
-          error={error}
-          size="small"
-          value={newDirectoryName}
-          onChange={onUserInput}
-          helperText={error && 'File already exists.'}
-        />
+        <TextField size="small" value={folder} onChange={handleChange} />
       </DialogContent>
       <DialogActions className="dialog-actions-dense">
         <Button
@@ -73,11 +40,11 @@ export default function FolderDialog() {
           Cancel
         </Button>
         <Button
-          onClick={handleCreateDirectory}
+          onClick={handleCreate}
           aria-label="accept"
           color="secondary"
           variant="outlined"
-          disabled={newDirectoryName === ''}
+          disabled={!folder}
         >
           Create
         </Button>
