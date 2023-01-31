@@ -9,5 +9,6 @@ export interface IFileItem {
 export interface ITreeItem {
   name: string
   path: string
+  type: string
   children: ITreeItem[]
 }
