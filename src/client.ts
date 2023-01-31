@@ -45,7 +45,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileCreateFolder(props: { path: string }) {
+  async fileCreateFolder(props: { name: string; folder?: string }) {
     const result = await this.request('/file/create-folder', props)
     return result as { path: string }
   }
