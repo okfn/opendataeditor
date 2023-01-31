@@ -6,3 +6,8 @@ export interface IFileItem {
   path: string
   isFolder: boolean
 }
+export interface ITreeItem {
+  name: string
+  path: string
+  children: ITreeItem[]
+}

@@ -14,9 +14,8 @@ import { useStore, selectors } from '../store'
 
 export default function FilesContent() {
   const path = useStore((state) => state.path)
-  const filePaths = useStore(selectors.filePaths)
   const setPath = useStore((state) => state.setPath)
-  const tree = indexTree(createTree(filePaths))
+  const fileTree = useStore(selectors.fileTree)
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
@@ -31,7 +30,7 @@ export default function FilesContent() {
         defaultExpandIcon={<PlusSquare />}
         aria-label="customized"
       >
-        {tree.sort(compareNodes).map((node: any) => (
+        {fileTree.sort(compareNodes).map((node: any) => (
           <TreeNode node={node} key={node.path} />
         ))}
       </TreeView>
@@ -130,29 +129,6 @@ function TreeNode({ node }: any) {
       ))}
     </StyledTreeItem>
   )
-}
-
-function createTree(paths: string[]) {
-  const result: any = []
-  const level = { result }
-  paths.forEach((path) => {
-    ;(path as string).split('/').reduce((r: any, name) => {
-      if (!r[name]) {
-        r[name] = { result: [] }
-        r.result.push({ name, children: r[name].result })
-      }
-      return r[name]
-    }, level)
-  })
-  return result
-}
-
-function indexTree(tree: any, basepath: string = '') {
-  for (const item of tree) {
-    item.path = basepath ? [basepath, item.name].join('/') : item.name
-    if (item.children) indexTree(item.children, item.path)
-  }
-  return tree
 }
 
 function compareNodes(a: any, b: any) {

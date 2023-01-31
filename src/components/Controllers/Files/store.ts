@@ -109,6 +109,9 @@ export function createStore(props: FilesProps) {
 }
 
 export const selectors = {
+  filePaths: (state: State) => {
+    return state.fileItems.filter((item) => !item.isFolder).map((item) => item.path)
+  },
   isFolder: (state: State) => {
     return !!state.fileItems.find((item) => item.path === state.path && item.isFolder)
   },
@@ -118,8 +121,8 @@ export const selectors = {
     if (isFolder) return state.path
     return helpers.getFolderPath(state.path)
   },
-  filePaths: (state: State) => {
-    return state.fileItems.filter((item) => !item.isFolder).map((item) => item.path)
+  fileTree: (state: State) => {
+    return helpers.createFileTree(state.fileItems)
   },
 }
 
