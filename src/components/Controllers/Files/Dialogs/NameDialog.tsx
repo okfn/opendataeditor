@@ -18,7 +18,7 @@ export default function NameDialog() {
     setName(ev.target.value)
   const handleCancel = () => setDialog(undefined)
   const handleCreate = () => {
-    const action = dialog === 'name/createFolder' ? createFolder : renameFile
+    const action = dialog === 'name/create' ? createFolder : renameFile
     action(name)
     handleCancel()
   }
@@ -30,7 +30,7 @@ export default function NameDialog() {
       aria-describedby="dialog-description"
     >
       <DialogTitle id="dialog-title">
-        {dialog === 'name/createFolder'
+        {dialog === 'name/create'
           ? 'Create Folder'
           : `Rename ${isFolder ? 'Folder' : 'File'}`}
       </DialogTitle>
@@ -42,7 +42,7 @@ export default function NameDialog() {
           onClick={handleCancel}
           aria-label="cancel"
           color="warning"
-          variant="outlined"
+          variant="contained"
         >
           Cancel
         </Button>
@@ -50,10 +50,10 @@ export default function NameDialog() {
           onClick={handleCreate}
           aria-label="accept"
           color="secondary"
-          variant="outlined"
+          variant="contained"
           disabled={!name}
         >
-          {dialog === 'name/createFolder' ? 'Create' : 'Rename'}
+          {dialog === 'name/create' ? 'Create' : 'Rename'}
         </Button>
       </DialogActions>
     </Dialog>

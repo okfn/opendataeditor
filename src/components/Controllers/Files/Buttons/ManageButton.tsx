@@ -31,7 +31,7 @@ function CopyButton() {
       label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('folder/copyFile')}
+      onClick={() => setDialog('folder/copy')}
     />
   )
 }
@@ -44,7 +44,7 @@ function MoveButton() {
       label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('folder/moveFile')}
+      onClick={() => setDialog('folder/move')}
     />
   )
 }
@@ -57,7 +57,7 @@ function RenameButton() {
       label={`Rename ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<RenameIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('name/renameFile')}
+      onClick={() => setDialog('name/rename')}
     />
   )
 }

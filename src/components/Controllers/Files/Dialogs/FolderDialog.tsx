@@ -20,7 +20,7 @@ export default function FolderDialog() {
   const isFolder = useStore(selectors.isFolder)
   const handleClose = () => setDialog(undefined)
   const handleSelect = () => {
-    const action = dialog === 'folder/copyFile' ? copyFile : moveFile
+    const action = dialog === 'folder/copy' ? copyFile : moveFile
     action(target)
     setDialog(undefined)
   }
@@ -32,7 +32,7 @@ export default function FolderDialog() {
       open={!!dialog && dialog.startsWith('folder/')}
     >
       <DialogTitle>
-        {dialog === 'folder/copyFile' ? 'Copy' : 'Move'} {isFolder ? 'Folder' : 'File'}
+        {dialog === 'folder/copy' ? 'Copy' : 'Move'} {isFolder ? 'Folder' : 'File'}
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -77,7 +77,7 @@ export default function FolderDialog() {
             disabled={!target}
             color="secondary"
           >
-            {dialog === 'folder/copyFile' ? 'Copy' : 'Move'}
+            {dialog === 'folder/copy' ? 'Copy' : 'Move'}
           </Button>
         </Columns>
       </Box>

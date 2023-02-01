@@ -7,11 +7,7 @@ import { FilesProps } from './Files'
 import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-type IDialog =
-  | 'folder/copyFile'
-  | 'folder/moveFile'
-  | 'name/renameFile'
-  | 'name/createFolder'
+type IDialog = 'folder/copy' | 'folder/move' | 'name/create' | 'name/rename'
 
 export interface State {
   client: Client
@@ -29,11 +25,14 @@ export interface State {
 
   copyFile: (folder: string) => Promise<void>
   createFile: (file: File) => Promise<void>
-  createFolder: (name: string) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
   moveFile: (folder: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
+
+  // Folder
+
+  createFolder: (name: string) => Promise<void>
 
   // Package
 
@@ -77,12 +76,6 @@ export function createStore(props: FilesProps) {
       await listFiles()
       setPath(result.path)
     },
-    createFolder: async (name) => {
-      const { client, listFiles } = get()
-      const folder = selectors.folderPath(get())
-      await client.fileCreateFolder({ name, folder })
-      await listFiles()
-    },
     deleteFile: async () => {
       const { client, path, listFiles, setPath } = get()
       if (!path) return
@@ -105,6 +98,15 @@ export function createStore(props: FilesProps) {
       const { client, path, listFiles } = get()
       if (!path) return
       await client.fileRename({ path, name })
+      await listFiles()
+    },
+
+    // Folder
+
+    createFolder: async (name) => {
+      const { client, listFiles } = get()
+      const folder = selectors.folderPath(get())
+      await client.folderCreate({ name, folder })
       await listFiles()
     },
 

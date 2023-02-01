@@ -45,11 +45,6 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileCreateFolder(props: { name: string; folder?: string }) {
-    const result = await this.request('/file/create-folder', props)
-    return result as { path: string }
-  }
-
   async fileDelete(props: { path: string }) {
     const result = await this.request('/file/delete', props)
     return result as { path: string }
@@ -72,6 +67,13 @@ export class Client {
 
   async fileRename(props: { path: string; name: string }) {
     const result = await this.request('/file/rename', props)
+    return result as { path: string }
+  }
+
+  // Folder
+
+  async folderCreate(props: { name: string; folder?: string }) {
+    const result = await this.request('/folder/create', props)
     return result as { path: string }
   }
 

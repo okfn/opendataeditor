@@ -50,7 +50,7 @@ function FolderButton() {
       color="info"
       label="Create Folder"
       icon={<CreateNewFolderIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('name/createFolder')}
+      onClick={() => setDialog('name/create')}
     />
   )
 }
