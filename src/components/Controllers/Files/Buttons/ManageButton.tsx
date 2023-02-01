@@ -15,8 +15,8 @@ export default function ManageButton() {
       icon={<ManageIcon fontSize="small" sx={{ mr: 1 }} />}
       disabled={!path}
     >
-      <MoveButton />
       <CopyButton />
+      <MoveButton />
     </DropdownButton>
   )
 }

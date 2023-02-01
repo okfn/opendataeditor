@@ -23,12 +23,18 @@ export interface State {
 
   // File
 
-  copyFile: (target: string) => Promise<void>
+  copyFile: (folder: string) => Promise<void>
   createFile: (file: File) => Promise<void>
-  createFolder: (name: string) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
-  moveFile: (target: string) => Promise<void>
+  moveFile: (folder: string) => Promise<void>
+
+  // Folder
+
+  copyFolder: (folder: string) => Promise<void>
+  createFolder: (name: string) => Promise<void>
+  deleteFolder: () => Promise<void>
+  moveFolder: (folder: string) => Promise<void>
 
   // Package
 
@@ -52,12 +58,13 @@ export function createStore(props: FilesProps) {
       if (!isFolder) onFileChange(newPath)
     },
 
-    // Files
+    // File
 
-    listFiles: async () => {
-      const { client } = get()
-      const { items } = await client.fileList()
-      set({ fileItems: items })
+    copyFile: async (folder) => {
+      const { client, path, listFiles } = get()
+      if (!path) return
+      await client.fileCopy({ path, folder })
+      await listFiles()
     },
     createFile: async (file) => {
       // TODO: show a proper error dialog
@@ -78,23 +85,43 @@ export function createStore(props: FilesProps) {
       await listFiles()
       setPath(undefined)
     },
-    moveFile: async (target) => {
+    listFiles: async () => {
+      const { client } = get()
+      const { items } = await client.fileList()
+      set({ fileItems: items })
+    },
+    moveFile: async (folder) => {
       const { client, path, listFiles } = get()
       if (!path) return
-      if (target === 'root') target = ''
-      await client.fileMove({ source: path, target })
+      await client.fileMove({ path, folder })
+      await listFiles()
+    },
+
+    // Folder
+
+    copyFolder: async (folder) => {
+      const { client, path, listFiles } = get()
+      if (!path) return
+      await client.folderCopy({ path, folder })
       await listFiles()
     },
     createFolder: async (name) => {
       const { client, listFiles } = get()
       const folder = selectors.folderPath(get())
-      await client.fileCreateFolder({ name, folder })
+      await client.folderCreate({ name, folder })
       await listFiles()
     },
-    copyFile: async (target) => {
+    deleteFolder: async () => {
+      const { client, path, listFiles, setPath } = get()
+      if (!path) return
+      await client.folderDelete({ path })
+      await listFiles()
+      setPath(undefined)
+    },
+    moveFolder: async (folder) => {
       const { client, path, listFiles } = get()
       if (!path) return
-      await client.fileCopy({ source: path, target })
+      await client.folderMove({ path, folder })
       await listFiles()
     },
 

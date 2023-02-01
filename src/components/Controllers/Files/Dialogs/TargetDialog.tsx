@@ -18,11 +18,16 @@ export default function TargetDialog() {
   const setDialog = useStore((state) => state.setDialog)
   const copyFile = useStore((state) => state.copyFile)
   const moveFile = useStore((state) => state.moveFile)
+  const copyFolder = useStore((state) => state.copyFolder)
+  const moveFolder = useStore((state) => state.moveFolder)
   const isFolder = useStore(selectors.isFolder)
   const handleClose = () => setDialog(undefined)
   const handleSelect = () => {
-    const action = dialog === 'copy' ? copyFile : moveFile
+    const copyAction = isFolder ? copyFolder : copyFile
+    const moveAction = isFolder ? moveFolder : moveFile
+    const action = dialog === 'copy' ? copyAction : moveAction
     action(target)
+    setDialog(undefined)
   }
   return (
     <Dialog

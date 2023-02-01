@@ -35,18 +35,13 @@ export class Client {
 
   // File
 
-  async fileCopy(props: { source: string; target: string }) {
+  async fileCopy(props: { path: string; folder?: string }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
 
   async fileCreate(props: { file: File; folder?: string }) {
     const result = await this.request('/file/create', props)
-    return result as { path: string }
-  }
-
-  async fileCreateFolder(props: { name: string; folder?: string }) {
-    const result = await this.request('/file/create-folder', props)
     return result as { path: string }
   }
 
@@ -60,7 +55,7 @@ export class Client {
     return result as { items: IFileItem[] }
   }
 
-  async fileMove(props: { source: string; target: string }) {
+  async fileMove(props: { path: string; folder: string }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }
@@ -68,6 +63,28 @@ export class Client {
   async fileRead(props: { path: string }) {
     const result = await this.request('/file/read', props)
     return result as { bytes: ArrayBuffer }
+  }
+
+  // Folder
+
+  async folderCopy(props: { path: string; folder?: string }) {
+    const result = await this.request('/folder/copy', props)
+    return result as { path: string }
+  }
+
+  async folderCreate(props: { name: string; folder?: string }) {
+    const result = await this.request('/folder/create', props)
+    return result as { path: string }
+  }
+
+  async folderDelete(props: { path: string }) {
+    const result = await this.request('/folder/delete', props)
+    return result as { path: string }
+  }
+
+  async folderMove(props: { path: string; folder: string }) {
+    const result = await this.request('/folder/move', props)
+    return result as { path: string }
   }
 
   // Package

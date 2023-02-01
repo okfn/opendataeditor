@@ -33,7 +33,7 @@ export default function FileTree(props: FileTreeProps) {
         defaultExpandIcon={<PlusSquare />}
         aria-label="customized"
       >
-        {props.tree.sort(compareNodes).map((item) => (
+        {props.tree.map((item) => (
           <TreeNode item={item} key={item.path} />
         ))}
       </TreeView>
@@ -49,7 +49,7 @@ function TreeNode(props: { item: ITreeItem }) {
       label={props.item.name}
       type={props.item.type}
     >
-      {props.item.children.sort(compareNodes).map((item) => (
+      {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
       ))}
     </StyledTreeItem>
@@ -137,9 +137,3 @@ function PlusSquare(props: SvgIconProps) {
 //     </SvgIcon>
 //   )
 // }
-
-function compareNodes(a: any, b: any) {
-  if (a.children.length && !b.children.length) return -1
-  if (!a.children.length && b.children.length) return 1
-  return 0
-}
