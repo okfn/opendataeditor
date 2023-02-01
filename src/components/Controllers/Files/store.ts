@@ -33,6 +33,7 @@ export interface State {
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
   moveFile: (folder: string) => Promise<void>
+  renameFile: (name: string) => Promise<void>
 
   // Package
 
@@ -98,6 +99,12 @@ export function createStore(props: FilesProps) {
       const { client, path, listFiles } = get()
       if (!path) return
       await client.fileMove({ path, folder })
+      await listFiles()
+    },
+    renameFile: async (name) => {
+      const { client, path, listFiles } = get()
+      if (!path) return
+      await client.fileRename({ path, name })
       await listFiles()
     },
 

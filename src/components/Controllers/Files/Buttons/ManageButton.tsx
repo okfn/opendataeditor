@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
+import RenameIcon from '@mui/icons-material/Edit'
 import ManageIcon from '@mui/icons-material/FileCopy'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
@@ -17,6 +18,7 @@ export default function ManageButton() {
     >
       <CopyButton />
       <MoveButton />
+      <RenameButton />
     </DropdownButton>
   )
 }
@@ -43,6 +45,19 @@ function MoveButton() {
       variant="text"
       icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => setDialog('folder/moveFile')}
+    />
+  )
+}
+
+function RenameButton() {
+  const isFolder = useStore(selectors.isFolder)
+  const setDialog = useStore((state) => state.setDialog)
+  return (
+    <DefaultButton
+      label={`Rename ${isFolder ? 'Folder' : 'File'}`}
+      variant="text"
+      icon={<RenameIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => setDialog('name/renameFile')}
     />
   )
 }

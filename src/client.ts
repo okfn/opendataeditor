@@ -70,6 +70,11 @@ export class Client {
     return result as { bytes: ArrayBuffer }
   }
 
+  async fileRename(props: { path: string; name: string }) {
+    const result = await this.request('/file/rename', props)
+    return result as { path: string }
+  }
+
   // Package
 
   async packageCreate() {

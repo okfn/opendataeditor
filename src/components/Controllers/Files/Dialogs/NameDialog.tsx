@@ -5,18 +5,21 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import TextField from '@mui/material/TextField'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
   const createFolder = useStore((state) => state.createFolder)
-  const [folder, setFolder] = React.useState('')
+  const renameFile = useStore((state) => state.renameFile)
+  const isFolder = useStore(selectors.isFolder)
+  const [name, setName] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    setFolder(ev.target.value)
+    setName(ev.target.value)
   const handleCancel = () => setDialog(undefined)
   const handleCreate = () => {
-    createFolder(folder)
+    const action = dialog === 'name/createFolder' ? createFolder : renameFile
+    action(name)
     handleCancel()
   }
   return (
@@ -26,9 +29,13 @@ export default function NameDialog() {
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
-      <DialogTitle id="dialog-title">Create Folder</DialogTitle>
+      <DialogTitle id="dialog-title">
+        {dialog === 'name/createFolder'
+          ? 'Create Folder'
+          : `Rename ${isFolder ? 'Folder' : 'File'}`}
+      </DialogTitle>
       <DialogContent>
-        <TextField size="small" value={folder} onChange={handleChange} />
+        <TextField size="small" value={name} onChange={handleChange} />
       </DialogContent>
       <DialogActions className="dialog-actions-dense">
         <Button
@@ -44,9 +51,9 @@ export default function NameDialog() {
           aria-label="accept"
           color="secondary"
           variant="outlined"
-          disabled={!folder}
+          disabled={!name}
         >
-          Create
+          {dialog === 'name/createFolder' ? 'Create' : 'Rename'}
         </Button>
       </DialogActions>
     </Dialog>

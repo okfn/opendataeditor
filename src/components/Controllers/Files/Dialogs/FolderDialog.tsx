@@ -1,5 +1,4 @@
 import * as React from 'react'
-import capitalize from 'lodash/capitalize'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
@@ -33,7 +32,7 @@ export default function FolderDialog() {
       open={!!dialog && dialog.startsWith('folder/')}
     >
       <DialogTitle>
-        {capitalize(dialog)} {isFolder ? 'Folder' : 'File'}
+        {dialog === 'folder/copyFile' ? 'Copy' : 'Move'} {isFolder ? 'Folder' : 'File'}
         <IconButton
           aria-label="close"
           onClick={handleClose}
