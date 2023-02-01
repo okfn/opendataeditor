@@ -29,7 +29,7 @@ function CopyButton() {
       label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('copy')}
+      onClick={() => setDialog('folder/copyFile')}
     />
   )
 }
@@ -42,7 +42,7 @@ function MoveButton() {
       label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('move')}
+      onClick={() => setDialog('folder/moveFile')}
     />
   )
 }

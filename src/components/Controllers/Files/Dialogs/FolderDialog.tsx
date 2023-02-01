@@ -1,54 +1,87 @@
 import * as React from 'react'
-import Button from '@mui/material/Button'
+import capitalize from 'lodash/capitalize'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import TextField from '@mui/material/TextField'
-import { useStore } from '../store'
+import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import CloseIcon from '@mui/icons-material/Close'
+import Box from '@mui/material/Box'
+import Columns from '../../../Parts/Columns'
+import { DialogContent } from '@mui/material'
+import FileTree from '../../../Parts/Trees/FileTree'
+import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {
+  const [target, setTarget] = React.useState('')
+  const targetTree = useStore(selectors.targetTree)
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
-  const createFolder = useStore((state) => state.createFolder)
-  const [folder, setFolder] = React.useState('')
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    setFolder(ev.target.value)
-  const handleCancel = () => setDialog(undefined)
-  const handleCreate = () => {
-    createFolder(folder)
-    handleCancel()
+  const copyFile = useStore((state) => state.copyFile)
+  const moveFile = useStore((state) => state.moveFile)
+  const isFolder = useStore(selectors.isFolder)
+  const handleClose = () => setDialog(undefined)
+  const handleSelect = () => {
+    const action = dialog === 'folder/copyFile' ? copyFile : moveFile
+    action(target)
+    setDialog(undefined)
   }
   return (
     <Dialog
-      open={dialog === 'folder'}
-      onClose={handleCancel}
-      aria-labelledby="dialog-title"
-      aria-describedby="dialog-description"
+      fullWidth
+      maxWidth="sm"
+      onClose={handleClose}
+      open={!!dialog && dialog.startsWith('folder/')}
     >
-      <DialogTitle id="dialog-title">Create Folder</DialogTitle>
-      <DialogContent>
-        <TextField size="small" value={folder} onChange={handleChange} />
+      <DialogTitle>
+        {capitalize(dialog)} {isFolder ? 'Folder' : 'File'}
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{ position: 'absolute', right: 8, top: 8, color: 'grey' }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          borderStyle: 'dotted',
+          borderWidth: 1,
+          borderRadius: 1,
+          marginLeft: 3,
+          marginRight: 3,
+        }}
+      >
+        <FileTree
+          tree={targetTree}
+          expanded={[targetTree[0].path]}
+          onPathChange={setTarget}
+        />
       </DialogContent>
-      <DialogActions className="dialog-actions-dense">
-        <Button
-          onClick={handleCancel}
-          aria-label="cancel"
-          color="warning"
-          variant="outlined"
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleCreate}
-          aria-label="accept"
-          color="secondary"
-          variant="outlined"
-          disabled={!folder}
-        >
-          Create
-        </Button>
-      </DialogActions>
+      <Box sx={{ paddingX: 3, paddingY: 1 }}>
+        <Columns spacing={2}>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            variant="contained"
+            size="small"
+            onClick={handleClose}
+            color="warning"
+          >
+            Cancel
+          </Button>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            variant="contained"
+            size="small"
+            onClick={handleSelect}
+            disabled={!target}
+            color="secondary"
+          >
+            {dialog === 'folder/copyFile' ? 'Copy' : 'Move'}
+          </Button>
+        </Columns>
+      </Box>
     </Dialog>
   )
 }

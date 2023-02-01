@@ -7,7 +7,11 @@ import { FilesProps } from './Files'
 import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-type IDialog = 'folder' | 'copy' | 'move'
+type IDialog =
+  | 'folder/copyFile'
+  | 'folder/moveFile'
+  | 'name/renameFile'
+  | 'name/createFolder'
 
 export interface State {
   client: Client
@@ -25,16 +29,10 @@ export interface State {
 
   copyFile: (folder: string) => Promise<void>
   createFile: (file: File) => Promise<void>
+  createFolder: (name: string) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
   moveFile: (folder: string) => Promise<void>
-
-  // Folder
-
-  copyFolder: (folder: string) => Promise<void>
-  createFolder: (name: string) => Promise<void>
-  deleteFolder: () => Promise<void>
-  moveFolder: (folder: string) => Promise<void>
 
   // Package
 
@@ -78,6 +76,12 @@ export function createStore(props: FilesProps) {
       await listFiles()
       setPath(result.path)
     },
+    createFolder: async (name) => {
+      const { client, listFiles } = get()
+      const folder = selectors.folderPath(get())
+      await client.fileCreateFolder({ name, folder })
+      await listFiles()
+    },
     deleteFile: async () => {
       const { client, path, listFiles, setPath } = get()
       if (!path) return
@@ -94,34 +98,6 @@ export function createStore(props: FilesProps) {
       const { client, path, listFiles } = get()
       if (!path) return
       await client.fileMove({ path, folder })
-      await listFiles()
-    },
-
-    // Folder
-
-    copyFolder: async (folder) => {
-      const { client, path, listFiles } = get()
-      if (!path) return
-      await client.folderCopy({ path, folder })
-      await listFiles()
-    },
-    createFolder: async (name) => {
-      const { client, listFiles } = get()
-      const folder = selectors.folderPath(get())
-      await client.folderCreate({ name, folder })
-      await listFiles()
-    },
-    deleteFolder: async () => {
-      const { client, path, listFiles, setPath } = get()
-      if (!path) return
-      await client.folderDelete({ path })
-      await listFiles()
-      setPath(undefined)
-    },
-    moveFolder: async (folder) => {
-      const { client, path, listFiles } = get()
-      if (!path) return
-      await client.folderMove({ path, folder })
       await listFiles()
     },
 
@@ -159,7 +135,7 @@ export const selectors = {
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
     const targetTree: ITreeItem[] = [
-      { name: 'Project', path: '', type: 'folder', children: fileTree },
+      { name: 'Project', path: '.', type: 'folder', children: fileTree },
     ]
     return targetTree
   },
