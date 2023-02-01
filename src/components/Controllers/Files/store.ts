@@ -24,11 +24,11 @@ export interface State {
   // File
 
   copyFile: (folder: string) => Promise<void>
-  createFile: (file: File) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
   moveFile: (folder: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
+  uploadFiles: (files: FileList) => Promise<void>
 
   // Folder
 
@@ -64,18 +64,6 @@ export function createStore(props: FilesProps) {
       await client.fileCopy({ path, folder })
       await listFiles()
     },
-    createFile: async (file) => {
-      // TODO: show a proper error dialog
-      if (file.size > 10000000) {
-        alert('Currently only files under 10Mb are supported')
-        return
-      }
-      const { client, listFiles, setPath } = get()
-      const folder = selectors.folderPath(get())
-      const result = await client.fileCreate({ file, folder })
-      await listFiles()
-      setPath(result.path)
-    },
     deleteFile: async () => {
       const { client, path, listFiles, setPath } = get()
       if (!path) return
@@ -99,6 +87,24 @@ export function createStore(props: FilesProps) {
       if (!path) return
       await client.fileRename({ path, name })
       await listFiles()
+    },
+    // TODO: upload in parallel?
+    // TODO: show a proper error dialog on file size
+    uploadFiles: async (files) => {
+      let path: string | undefined
+      const { client, listFiles, setPath } = get()
+      for (const file of files) {
+        if (file.size > 10000000) {
+          alert('Currently only files under 10Mb are supported')
+          return
+        }
+        const folder = selectors.folderPath(get())
+        const result = await client.fileCreate({ file, folder })
+        path = result.path
+      }
+      if (!path) return
+      await listFiles()
+      setPath(path)
     },
 
     // Folder

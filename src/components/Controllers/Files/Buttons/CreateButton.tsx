@@ -24,17 +24,18 @@ export default function CreateButton() {
 }
 
 function UploadButton() {
-  const createFile = useStore((state) => state.createFile)
+  const uploadFiles = useStore((state) => state.uploadFiles)
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
         <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
         Upload File
         <input
-          hidden
           type="file"
+          hidden
+          multiple
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-            ev.target.files ? createFile(ev.target.files[0]) : null
+            ev.target.files ? uploadFiles(ev.target.files) : null
           }
         />
       </Button>
