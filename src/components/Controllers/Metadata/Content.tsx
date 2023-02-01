@@ -28,13 +28,13 @@ export default function Content() {
           client={client}
           package={descriptor as IPackage}
           loadPaths={async () => {
-            const { paths } = await client.fileList()
+            const { items } = await client.fileList()
             for (const resource of (descriptor as IPackage).resources) {
-              for (const [index, path] of paths.entries()) {
-                if (resource.path === path) delete paths[index]
+              for (const [index, item] of items.entries()) {
+                if (resource.path === item.path) delete items[index]
               }
             }
-            return paths
+            return items
           }}
           loadResource={async (path) => {
             const { record } = await client.resourceCreate({ path })

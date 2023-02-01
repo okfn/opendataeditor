@@ -1,7 +1,6 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
 import { IFileItem, ITreeItem } from './interfaces'
-import * as settings from './settings'
 
 export function exportDescriptor(descriptor: object) {
   const text = encodeURIComponent(JSON.stringify(descriptor, null, 2))
@@ -14,22 +13,20 @@ export function getFolderPath(path: string) {
   return parts.slice(0, -1).join('/')
 }
 
-export function createFileTree(items: IFileItem[]): ITreeItem[] {
+export function createFileTree(items: IFileItem[], types?: string[]): ITreeItem[] {
   let maxLevel = 0
 
   // Create tree
   const tree: ITreeItem[] = []
   items = cloneDeep(items)
-  items = sortBy(items, (item) => !item.isFolder)
+  items = sortBy(items, (item) => item.type !== 'folder')
   for (const item of items) {
+    if (types && !types.includes(item.type)) continue
     const parts = item.path.split('/')
     const level = parts.length
     const name = parts[level - 1]
-    let type = 'file'
-    if (item.isFolder) type = 'folder'
-    if (item.path === settings.PACKAGE_PATH) type = 'package'
     maxLevel = Math.max(maxLevel, level)
-    tree.push({ name, path: item.path, type, children: [] })
+    tree.push({ name, path: item.path, type: item.type, children: [] })
   }
 
   // Unflatten tree

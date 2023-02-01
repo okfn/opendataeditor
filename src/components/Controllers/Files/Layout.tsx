@@ -8,8 +8,7 @@ import ManageButton from './Buttons/ManageButton'
 import FilesContent from './Contents/FilesContent'
 import EmptyContent from './Contents/EmptyContent'
 import FolderDialog from './Dialogs/FolderDialog'
-import CopyDialog from './Dialogs/CopyDialog'
-// import MoveDialog from './Dialogs/MoveDialog'
+import TargetDialog from './Dialogs/TargetDialog'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -25,7 +24,8 @@ export default function Layout() {
   return (
     <React.Fragment>
       {dialog === 'folder' && <FolderDialog />}
-      {dialog === 'copy' && <CopyDialog />}
+      {dialog === 'copy' && <TargetDialog />}
+      {dialog === 'move' && <TargetDialog />}
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ height }}>
           {fileItems.length ? <FilesContent /> : <EmptyContent />}

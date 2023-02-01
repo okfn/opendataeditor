@@ -4,7 +4,7 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
-import { IFileItem } from '../../../interfaces'
+import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
 type IDialog = 'folder' | 'copy' | 'move'
@@ -111,10 +111,14 @@ export function createStore(props: FilesProps) {
 
 export const selectors = {
   filePaths: (state: State) => {
-    return state.fileItems.filter((item) => !item.isFolder).map((item) => item.path)
+    return state.fileItems
+      .filter((item) => item.type === 'folder')
+      .map((item) => item.path)
   },
   isFolder: (state: State) => {
-    return !!state.fileItems.find((item) => item.path === state.path && item.isFolder)
+    return !!state.fileItems.find(
+      (item) => item.path === state.path && item.type === 'folder'
+    )
   },
   folderPath: (state: State) => {
     if (!state.path) return undefined
@@ -124,6 +128,13 @@ export const selectors = {
   },
   fileTree: (state: State) => {
     return helpers.createFileTree(state.fileItems)
+  },
+  targetTree: (state: State) => {
+    const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
+    const targetTree: ITreeItem[] = [
+      { name: 'root', path: '', type: 'folder', children: fileTree },
+    ]
+    return targetTree
   },
 }
 

@@ -21,28 +21,28 @@ export default function ManageButton() {
   )
 }
 
-function MoveButton() {
+function CopyButton() {
   const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
     <DefaultButton
       label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('move')}
+      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => setDialog('copy')}
     />
   )
 }
 
-function CopyButton() {
+function MoveButton() {
   const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
     <DefaultButton
       label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('copy')}
+      icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => setDialog('move')}
     />
   )
 }

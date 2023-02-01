@@ -1,26 +1,38 @@
 import * as React from 'react'
+import capitalize from 'lodash/capitalize'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
-import Checkbox from '@mui/material/Checkbox'
 import Columns from '../../../Parts/Columns'
 import { DialogContent } from '@mui/material'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FileNavigator from '../Dialogs/FileNavigator'
-import { useStore } from '../store'
+import FileTree from '../../../Parts/Trees/FileTree'
+import { useStore, selectors } from '../store'
 
-export default function MoveDialog() {
+export default function TargetDialog() {
+  const [target, setTarget] = React.useState('')
+  const targetTree = useStore(selectors.targetTree)
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
+  const copyFile = useStore((state) => state.copyFile)
+  const moveFile = useStore((state) => state.moveFile)
+  const isFolder = useStore(selectors.isFolder)
   const handleClose = () => setDialog(undefined)
+  const handleSelect = () => {
+    const action = dialog === 'copy' ? copyFile : moveFile
+    action(target)
+  }
   return (
-    <Dialog fullWidth maxWidth="sm" onClose={handleClose} open={dialog === 'move'}>
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      onClose={handleClose}
+      open={dialog === 'copy' || dialog === 'move'}
+    >
       <DialogTitle>
-        Move/Copy To
+        {capitalize(dialog)} {isFolder ? 'Folder' : 'File'}
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -38,16 +50,12 @@ export default function MoveDialog() {
           marginRight: 3,
         }}
       >
-        <FileNavigator onFolderSelect={onFolderSelect} />
-      </DialogContent>
-      <FormGroup sx={{ marginLeft: 3 }}>
-        <FormControlLabel
-          control={
-            <Checkbox onChange={() => setCopyFile(!copyFile)} checked={copyFile} />
-          }
-          label="Create a copy"
+        <FileTree
+          tree={targetTree}
+          expanded={[targetTree[0].path]}
+          onPathChange={setTarget}
         />
-      </FormGroup>
+      </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
           <Button
@@ -55,23 +63,20 @@ export default function MoveDialog() {
             sx={{ my: 0.5 }}
             variant="contained"
             size="small"
-            onClick={onMove}
-            disabled={error}
-            aria-label="move selected right"
-            color="secondary"
+            onClick={handleClose}
+            color="warning"
           >
-            {copyFile === true ? 'Copy' : 'Move'}
+            Cancel
           </Button>
           <Button
             fullWidth
             sx={{ my: 0.5 }}
             variant="contained"
             size="small"
-            onClick={onCancelMove}
-            aria-label="move selected right"
-            color="warning"
+            onClick={handleSelect}
+            color="secondary"
           >
-            Cancel
+            {dialog === 'copy' ? 'Copy' : 'Move'}
           </Button>
         </Columns>
       </Box>

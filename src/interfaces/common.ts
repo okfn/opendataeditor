@@ -4,7 +4,7 @@ export interface IDict<T extends any = any> {
 }
 export interface IFileItem {
   path: string
-  isFolder: boolean
+  type: string
 }
 export interface ITreeItem {
   name: string
