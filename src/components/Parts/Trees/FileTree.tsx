@@ -23,13 +23,12 @@ export default function FileTree(props: FileTreeProps) {
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
         selected={props.path || ''}
-        expanded={props.expanded}
+        defaultExpanded={props.expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
           props.onPathChange(nodeId)
           event.stopPropagation()
         }}
         sx={{ height: '100%' }}
-        defaultExpanded={['1']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
         aria-label="customized"
