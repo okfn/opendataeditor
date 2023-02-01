@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Tabs from '../Views/Library/Tabs'
-import FilesEditor from '../Editors/Files'
+import Tabs from '../Parts/Tabs'
+import Files from '../Controllers/Files'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -11,7 +11,7 @@ export default function Layout() {
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['_Projects', 'Resources']} index={1}>
         <React.Fragment></React.Fragment>
-        <FilesEditor client={client} onPathChange={selectPath} />
+        <Files client={client} onFileChange={selectPath} />
       </Tabs>
     </Box>
   )

@@ -6,6 +6,7 @@ import { IReport } from './interfaces/report'
 import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
+import { IFileItem } from './interfaces/common'
 
 const DEFAULT_BASEPATH = '/api'
 
@@ -18,8 +19,6 @@ export class Client {
     this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // Connect
-
   // TODO: read session from localStorage here?
   static async connect(props: { session?: ISession; basepath?: string } = {}) {
     const basepath = props.basepath || DEFAULT_BASEPATH
@@ -29,119 +28,128 @@ export class Client {
     return new this({ session, basepath })
   }
 
-  // Request
-
   async request(path: string, props: { [key: string]: any; file?: File } = {}) {
     if (this.basepath) path = this.basepath + path
     return makeRequest(path, { ...props, session: this.session })
   }
 
-  // Project
+  // File
 
-  async projectCreateFile(props: { file: File }) {
-    const data = await this.request('/project/create-file', props)
-    const { path } = data as { path: string }
-    return { path }
+  async fileCopy(props: { path: string; folder?: string }) {
+    const result = await this.request('/file/copy', props)
+    return result as { path: string }
   }
 
-  async projectDeleteFile(props: { path: string }) {
-    const data = await this.request('/project/delete-file', props)
-    const { path } = data as { path: string }
-    return { path }
+  async fileCreate(props: { file: File; folder?: string }) {
+    const result = await this.request('/file/create', props)
+    return result as { path: string }
   }
 
-  async projectListFiles() {
-    const data = await this.request('/project/list-files')
-    const { paths } = data as { paths: string[] }
-    return { paths }
+  async fileDelete(props: { path: string }) {
+    const result = await this.request('/file/delete', props)
+    return result as { path: string }
   }
 
-  async projectListFolders() {
-    const data = await this.request('/project/list-folders')
-    const { directories } = data as { directories: string[] }
-    return { directories }
+  async fileList() {
+    const result = await this.request('/file/list')
+    return result as { items: IFileItem[] }
   }
 
-  async projectCreatePackage() {
-    const data = await this.request('/project/create-package')
-    const { path } = data as { path: string }
-    return { path }
+  async fileMove(props: { path: string; folder: string }) {
+    const result = await this.request('/file/move', props)
+    return result as { path: string }
   }
 
-  async projectCreateRecord(props: { path: string }) {
-    const data = await this.request('/project/create-record', props)
-    const { record } = data as { record: IRecord }
-    return { record }
+  async fileRead(props: { path: string }) {
+    const result = await this.request('/file/read', props)
+    return result as { bytes: ArrayBuffer }
   }
 
-  async projectUpdateRecord(props: { resource: IResource }) {
-    const data = await this.request('/project/update-record', props)
-    const { record } = data as { record: IRecord }
-    return { record }
+  async fileRename(props: { path: string; name: string }) {
+    const result = await this.request('/file/rename', props)
+    return result as { path: string }
   }
 
-  async projectMoveFile(props: { filename: string; destination: string }) {
-    const response = await this.request('/project/move-file', props)
-    return { response }
+  // Folder
+
+  async folderCreate(props: { name: string; folder?: string }) {
+    const result = await this.request('/folder/create', props)
+    return result as { path: string }
   }
 
-  async projectCreateDirectory(props: { directoryname: string }) {
-    const response = await this.request('/project/create-directory', props)
-    return { response }
+  // Package
+
+  async packageCreate() {
+    const result = await this.request('/package/create')
+    return result as { path: string }
   }
 
   async projectPublish(props: { params: IPublish }) {
-    const response = await this.request('/project/publish-package', props)
-    return { response }
-  }
-
-  async projectCopyFile(props: { filename: string; destination: string }) {
-    const response = await this.request('/project/copy-file', props)
-    return { response }
+    const result = await this.request('/project/publish-package', props)
+    return result as { content: any }
   }
 
   // Resource
 
+  async resourceCreate(props: { path: string }) {
+    const result = await this.request('/resource/create', props)
+    return result as { record: IRecord }
+  }
+
+  async resourceDelete(props: { path: string }) {
+    const result = await this.request('/resource/delete', props)
+    return result as { path: string }
+  }
+
   async resourceDescribe(props: { path: string; detector?: IDetector }) {
-    const response = await this.request('/resource/describe', props)
-    const { resource } = response as { resource: IResource }
-    return { resource }
+    const result = await this.request('/resource/describe', props)
+    return result as { resource: IResource }
   }
 
   async resourceExtract(props: { resource: IResource }) {
-    const data = await this.request('/resource/extract', props)
-    const { table } = data as { table: ITable }
-    return { table }
+    const result = await this.request('/resource/extract', props)
+    return result as { table: ITable }
   }
 
-  async resourceReadBytes(props: { resource: IResource }) {
-    const data = await this.request('/resource/read-bytes', props)
-    const { bytes } = data as { bytes: string }
-    return { bytes }
+  async resourceList(props: {}) {
+    const result = await this.request('/resource/list', props)
+    // TODO: provide type
+    return result as { records: any[] }
   }
 
-  async resourceReadText(props: { resource: IResource }) {
-    const data = await this.request('/resource/read-text', props)
-    const { text } = data as { text: string }
-    return { text }
+  async resourceRead(props: { path: string }) {
+    const result = await this.request('/resource/read', props)
+    return result as { record: IRecord }
   }
 
-  async resourceReadData(props: { resource: IResource }) {
-    const dt = await this.request('/resource/read-data', props)
-    const { data } = dt as { data: object }
-    return { data }
+  async resourceReadBytes(props: { path: string }) {
+    const result = await this.request('/resource/read-bytes', props)
+    return result as { bytes: ArrayBuffer }
   }
 
-  async resourceValidate(props: { resource: IResource }) {
-    const data = await this.request('/resource/validate', props)
-    const { report } = data as { report: IReport }
-    return { report }
+  async resourceReadData(props: { path: string }) {
+    const result = await this.request('/resource/read-data', props)
+    return result as { data: any }
+  }
+
+  async resourceReadText(props: { path: string }) {
+    const result = await this.request('/resource/read-text', props)
+    return result as { text: string }
   }
 
   async resourceTransform(props: { resource: IResource }) {
-    const data = await this.request('/resource/transform', props)
-    const { resource, table } = data as { resource: IResource; table: ITable }
-    return { resource, table }
+    const result = await this.request('/resource/transform', props)
+    return result as { resource: IResource; table: ITable }
+  }
+
+  async resourceUpdate(props: { path: string }) {
+    const result = await this.request('/resource/update', props)
+    return result as { record: IRecord }
+  }
+
+  async resourceValidate(props: { resource: IResource }) {
+    const result = await this.request('/resource/validate', props)
+    return result as { report: IReport }
   }
 }
 
@@ -158,6 +166,7 @@ async function makeRequest(
     body = new FormData()
     body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
     for (const [name, value] of Object.entries(omit(props, 'file'))) {
+      if (value === undefined) continue
       body.append(name, typeof value === 'string' ? value : JSON.stringify(value))
     }
   } else {
@@ -165,7 +174,7 @@ async function makeRequest(
     body = JSON.stringify(props)
   }
   const response = await fetch(path, { method, headers, body })
-  const output = await response.json()
-  console.log({ path, input: props, output })
-  return output
+  const result = await response.json()
+  console.log({ path, props, result })
+  return result
 }
