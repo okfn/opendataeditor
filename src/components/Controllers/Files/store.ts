@@ -13,7 +13,7 @@ export interface State {
   client: Client
   path?: string
   fileItems: IFileItem[]
-  onFileChange: (path?: string) => void
+  onFileChange: (fileItem?: IFileItem) => void
   dialog?: IDialog
 
   // General
@@ -52,8 +52,8 @@ export function createStore(props: FilesProps) {
       const { path, onFileChange } = get()
       if (path === newPath) return
       set({ path: newPath })
-      const isFolder = selectors.isFolder(get())
-      if (!isFolder) onFileChange(newPath)
+      const fileItem = selectors.fileItem(get())
+      onFileChange(fileItem)
     },
 
     // File
@@ -128,6 +128,9 @@ export function createStore(props: FilesProps) {
 }
 
 export const selectors = {
+  fileItem: (state: State) => {
+    return state.fileItems.find((item) => item.path === state.path)
+  },
   filePaths: (state: State) => {
     return state.fileItems
       .filter((item) => item.type === 'folder')

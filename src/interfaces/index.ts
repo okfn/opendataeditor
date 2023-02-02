@@ -1,6 +1,7 @@
 export * from './checklist'
 export * from './common'
 export * from './error'
+export * from './file'
 export * from './detector'
 export * from './dialect'
 export * from './package'

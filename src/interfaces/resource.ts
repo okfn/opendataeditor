@@ -2,6 +2,15 @@ import { ISchema } from './schema'
 import { IDialect } from './dialect'
 import { IChecklist } from './checklist'
 import { IPipeline } from './pipeline'
+import { IReport } from './report'
+
+export interface IResourceItem {
+  path: string
+  updated: string
+  tableName: string
+  resource: IResource
+  report: IReport
+}
 
 export interface IResource {
   name: string

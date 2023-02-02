@@ -4,11 +4,11 @@ import Layout from './Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
+import { IFileItem } from '../../../interfaces'
 
 export interface FilesProps {
   client: Client
-  // TODO: consider rebasing to onResourceChange after indexing addition
-  onFileChange: (path?: string) => void
+  onFileChange: (fileItem?: IFileItem) => void
 }
 
 export default function Files(props: FilesProps) {

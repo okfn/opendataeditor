@@ -1,12 +1,11 @@
 import omit from 'lodash/omit'
-import { IResource } from './interfaces/resource'
+import { IResource, IResourceItem } from './interfaces/resource'
 import { IDetector } from './interfaces/detector'
 import { ISession } from './interfaces/common'
 import { IReport } from './interfaces/report'
-import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
-import { IFileItem } from './interfaces/common'
+import { IFileItem } from './interfaces/file'
 
 const DEFAULT_BASEPATH = '/api'
 
@@ -93,7 +92,7 @@ export class Client {
 
   async resourceCreate(props: { path: string }) {
     const result = await this.request('/resource/create', props)
-    return result as { record: IRecord }
+    return result as { item: IResourceItem }
   }
 
   async resourceDelete(props: { path: string }) {
@@ -117,9 +116,9 @@ export class Client {
     return result as { records: any[] }
   }
 
-  async resourceRead(props: { path: string }) {
+  async resourceRead(props: { path: string; create?: boolean }) {
     const result = await this.request('/resource/read', props)
-    return result as { record: IRecord }
+    return result as { item: IResourceItem }
   }
 
   async resourceReadBytes(props: { path: string }) {
@@ -144,7 +143,7 @@ export class Client {
 
   async resourceUpdate(props: { path: string }) {
     const result = await this.request('/resource/update', props)
-    return result as { record: IRecord }
+    return result as { item: IResourceItem }
   }
 
   async resourceValidate(props: { resource: IResource }) {

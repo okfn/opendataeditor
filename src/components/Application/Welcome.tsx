@@ -14,7 +14,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy'
 import { useStore } from './store'
 
 export default function Welcome() {
-  const setInitState = useStore((state) => state.setInitState)
+  const setIsWelcome = useStore((state) => state.setIsWelcome)
 
   return (
     <Grid container>
@@ -33,7 +33,7 @@ export default function Welcome() {
               variant="outlined"
               startIcon={<FileUploadRoundedIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setInitState(false)}
+              onClick={() => setIsWelcome(false)}
             >
               Upload Your File
             </Button>
@@ -95,7 +95,7 @@ export default function Welcome() {
               variant="contained"
               startIcon={<FolderIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setInitState(false)}
+              onClick={() => setIsWelcome(false)}
             >
               Create Data Package
             </Button>

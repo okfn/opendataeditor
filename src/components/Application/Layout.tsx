@@ -7,17 +7,17 @@ import Welcome from './Welcome'
 import { useStore } from './store'
 
 export default function Layout() {
-  const init = useStore((state) => state.init)
+  const isWelcome = useStore((state) => state.isWelcome)
   return (
     <React.Fragment>
       <Header />
-      {!init ? (
+      {isWelcome ? (
+        <Welcome />
+      ) : (
         <Columns layout={[3, 9]}>
           <Browser />
           <Content />
         </Columns>
-      ) : (
-        <Welcome />
       )}
     </React.Fragment>
   )
