@@ -20,7 +20,7 @@ import { useStore } from './store'
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
-  const path = useStore((state) => state.path)
+  const record = useStore((state) => state.record)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static">
@@ -48,7 +48,7 @@ export default function Header() {
                   placeholder="Data management application for browser and desktop"
                   inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={path || ''}
+                  value={record.path || ''}
                 />
               </Search>
             </Grid>
