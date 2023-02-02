@@ -26,10 +26,12 @@ export default function DropdownButton(props: DropdownButtonProps) {
     }
     setOpen(false)
   }
+  // TODO: replace height 100% by a normal solution (issue #90)
   return (
     <React.Fragment>
       <ButtonGroup
         fullWidth
+        sx={{ height: '100%' }}
         variant={props.variant}
         ref={anchorRef}
         aria-label="split button"
