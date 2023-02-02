@@ -108,6 +108,11 @@ export class Client {
     return result as { table: ITable }
   }
 
+  async resourceProvide(props: { path: string }) {
+    const result = await this.request('/resource/provide', props)
+    return result as { item: IResourceItem }
+  }
+
   async resourceRead(props: { path: string }) {
     const result = await this.request('/resource/read', props)
     return result as { item: IResourceItem }

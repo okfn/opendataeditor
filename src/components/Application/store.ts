@@ -13,7 +13,7 @@ export interface State {
 
   // General
 
-  setResourceItem: (fileItem?: IFileItem) => void
+  selectFile: (fileItem?: IFileItem) => void
   setIsWelcome: (value: boolean) => void
 }
 
@@ -24,10 +24,11 @@ export function createStore(props: ApplicationProps) {
     // General
 
     setIsWelcome: async (isWelcome) => set({ isWelcome }),
-    setResourceItem: async (fileItem) => {
+    selectFile: async (fileItem) => {
       if (!fileItem || fileItem.type === 'folder') return
       const { client } = get()
-      const { item } = await client.resourceRead({ path: fileItem.path, create: true })
+      const path = fileItem.path
+      const { item } = await client.resourceProvide({ path })
       set({ resourceItem: item })
     },
   }))
