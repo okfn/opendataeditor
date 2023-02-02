@@ -118,6 +118,16 @@ export class Client {
     return result as { record: IRecord }
   }
 
+  async resourceReadTable(props: {
+    path: string
+    valid?: boolean
+    limit?: number
+    offset?: number
+  }) {
+    const result = await this.request('/resource/read-table', props)
+    return result as { table: ITable }
+  }
+
   async resourceUpdate(props: { path: string }) {
     const result = await this.request('/resource/update', props)
     return result as { record: IRecord }
