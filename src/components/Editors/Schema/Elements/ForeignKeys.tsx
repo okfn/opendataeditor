@@ -14,7 +14,7 @@ export default function ForeignKeys() {
       sx={{
         height: theme.spacing(34),
         maxHeight: theme.spacing(34),
-        overflowY: 'scroll',
+        overflowY: 'auto',
       }}
     >
       {foundForeignKeyItems.length ? <FoundItems /> : <NotFoundItems />}

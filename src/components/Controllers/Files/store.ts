@@ -54,7 +54,7 @@ export function createStore(props: FilesProps) {
       set({ path: newPath })
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
-      onPathChange(path)
+      onPathChange(newPath)
     },
 
     // File

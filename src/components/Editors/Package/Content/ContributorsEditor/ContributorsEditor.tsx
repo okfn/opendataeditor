@@ -50,7 +50,7 @@ export default function Contributors() {
         sx={{
           height: theme.spacing(53),
           maxHeight: theme.spacing(53),
-          overflowY: 'scroll',
+          overflowY: 'auto',
         }}
       >
         <Grid container rowSpacing={2} columnSpacing={4} justifyContent="space-between">

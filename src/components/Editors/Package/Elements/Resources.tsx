@@ -15,7 +15,7 @@ export default function Resources() {
       sx={{
         height: theme.spacing(34),
         maxHeight: theme.spacing(34),
-        overflowY: 'scroll',
+        overflowY: 'auto',
       }}
     >
       <HeadingBox>Resources</HeadingBox>

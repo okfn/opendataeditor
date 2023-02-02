@@ -27,7 +27,7 @@ export default function Keywords() {
         sx={{
           height: theme.spacing(34),
           maxHeight: theme.spacing(34),
-          overflowY: 'scroll',
+          overflowY: 'auto',
         }}
       >
         <Grid container spacing={3}>

@@ -14,7 +14,7 @@ export default function Steps() {
       sx={{
         height: theme.spacing(34),
         maxHeight: theme.spacing(34),
-        overflowY: 'scroll',
+        overflowY: 'auto',
       }}
     >
       {foundStepItems.length ? <FoundItems /> : <NotFoundItems />}
