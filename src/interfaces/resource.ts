@@ -4,10 +4,13 @@ import { IChecklist } from './checklist'
 import { IPipeline } from './pipeline'
 import { IReport } from './report'
 
-export interface IResourceItem {
+export interface IResourceListItem {
   path: string
   updated: string
   tableName: string
+}
+
+export interface IResourceItem extends IResourceListItem {
   resource: IResource
   report: IReport
 }

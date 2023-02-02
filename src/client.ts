@@ -1,8 +1,6 @@
 import omit from 'lodash/omit'
-import { IResource, IResourceItem } from './interfaces/resource'
-import { IDetector } from './interfaces/detector'
+import { IResourceItem, IResourceListItem } from './interfaces/resource'
 import { ISession } from './interfaces/common'
-import { IReport } from './interfaces/report'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
 import { IFileItem } from './interfaces/file'
@@ -100,55 +98,24 @@ export class Client {
     return result as { path: string }
   }
 
-  async resourceDescribe(props: { path: string; detector?: IDetector }) {
-    const result = await this.request('/resource/describe', props)
-    return result as { resource: IResource }
+  async resourceList(props: {}) {
+    const result = await this.request('/resource/list', props)
+    return result as { records: IResourceListItem[] }
   }
 
-  async resourceExtract(props: { resource: IResource }) {
-    const result = await this.request('/resource/extract', props)
+  async resourceQuery(props: { query: string }) {
+    const result = await this.request('/resource/query', props)
     return result as { table: ITable }
   }
 
-  async resourceList(props: {}) {
-    const result = await this.request('/resource/list', props)
-    // TODO: provide type
-    return result as { records: any[] }
-  }
-
-  async resourceRead(props: { path: string; create?: boolean }) {
+  async resourceRead(props: { path: string }) {
     const result = await this.request('/resource/read', props)
     return result as { item: IResourceItem }
-  }
-
-  async resourceReadBytes(props: { path: string }) {
-    const result = await this.request('/resource/read-bytes', props)
-    return result as { bytes: ArrayBuffer }
-  }
-
-  async resourceReadData(props: { path: string }) {
-    const result = await this.request('/resource/read-data', props)
-    return result as { data: any }
-  }
-
-  async resourceReadText(props: { path: string }) {
-    const result = await this.request('/resource/read-text', props)
-    return result as { text: string }
-  }
-
-  async resourceTransform(props: { resource: IResource }) {
-    const result = await this.request('/resource/transform', props)
-    return result as { resource: IResource; table: ITable }
   }
 
   async resourceUpdate(props: { path: string }) {
     const result = await this.request('/resource/update', props)
     return result as { item: IResourceItem }
-  }
-
-  async resourceValidate(props: { resource: IResource }) {
-    const result = await this.request('/resource/validate', props)
-    return result as { report: IReport }
   }
 }
 
