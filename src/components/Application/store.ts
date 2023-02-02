@@ -7,14 +7,12 @@ import { IRecord } from '../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
-  // Data
-
   client: Client
   path?: string
   record?: IRecord
   init?: boolean
 
-  // Logic
+  // General
 
   selectPath: (path?: string) => void
   setInitState: (value: boolean) => void
@@ -22,10 +20,10 @@ export interface State {
 
 export function createStore(props: ApplicationProps) {
   return create<State>((set, get) => ({
-    // Data
     ...props,
 
-    // Logic
+    // General
+
     selectPath: async (path) => {
       const { client } = get()
       set({ path })
