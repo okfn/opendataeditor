@@ -3,7 +3,7 @@ import { IError } from './error'
 export interface IReport {
   valid: boolean
   stats: { tasks: number; errors: number; warnings: number; seconds: number }
-  warnigns: string[]
+  warnings: string[]
   errors: IError[]
   tasks: IReportTask[]
 }

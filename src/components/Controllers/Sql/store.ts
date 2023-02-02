@@ -4,18 +4,32 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { SqlProps } from './Sql'
+import { ITable } from '../../../interfaces'
 
 export interface State {
-  // Data
-
   client: Client
+  query?: string
+  table?: ITable
+
+  // General
+
+  setQuery: (query?: string) => void
+  makeQuery: () => Promise<void>
 }
 
 export function createStore(props: SqlProps) {
-  return create<State>((_set, _get) => ({
-    // Data
-
+  return create<State>((set, get) => ({
     client: props.client,
+
+    // General
+
+    setQuery: (query) => set({ query }),
+    makeQuery: async () => {
+      const { client, query } = get()
+      if (!query) return
+      const { table } = await client.resourceQuery({ query })
+      set({ table })
+    },
   }))
 }
 

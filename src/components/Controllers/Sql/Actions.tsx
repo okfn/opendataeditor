@@ -1,13 +1,16 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import { useTheme } from '@mui/material/styles'
+import { useStore } from './store'
 
 export default function Actions() {
   const theme = useTheme()
   const height = `calc(${theme.spacing(8)} - 1px)`
+  const makeQuery = useStore((state) => state.makeQuery)
   return (
     <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
-      Actions
+      <DefaultButton label="Make Query" onClick={makeQuery} />
     </Box>
   )
 }
