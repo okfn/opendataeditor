@@ -48,7 +48,7 @@ export default function Header() {
                   placeholder="Data management application for browser and desktop"
                   inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={record.path || ''}
+                  value={record ? record.path : ''}
                 />
               </Search>
             </Grid>

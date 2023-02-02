@@ -9,7 +9,7 @@ import { useStore } from '../store'
 export default function PackageContent() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
-  const selectPath = useStore((state) => state.selectPath)
+  const selectResource = useStore((state) => state.selectResource)
   if (!record) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
@@ -18,7 +18,7 @@ export default function PackageContent() {
           type="package"
           client={client}
           record={record}
-          onPathChange={selectPath}
+          onPathChange={selectResource}
         />
         <Report client={client} record={record} />
         <Sql client={client} />

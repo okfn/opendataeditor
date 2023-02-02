@@ -51,7 +51,9 @@ export function createStore(props: TableProps) {
     },
     loadSource: async () => {
       const { client, record } = get()
-      const { text } = await client.resourceReadText({ path: record.resource.path })
+      const { bytes } = await client.fileRead({ path: record.resource.path })
+      const decoder = new TextDecoder(record.resource.encoding)
+      const text = decoder.decode(bytes)
       set({ source: text })
     },
     updatePatch: (rowNumber, fieldName, value) => {
