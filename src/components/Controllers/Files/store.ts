@@ -13,7 +13,7 @@ export interface State {
   client: Client
   path?: string
   fileItems: IFileItem[]
-  onFileChange: (fileItem?: IFileItem) => void
+  onPathChange: (path?: string) => void
   dialog?: IDialog
 
   // General
@@ -42,18 +42,19 @@ export interface State {
 export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
-    onFileChange: props.onFileChange,
+    onPathChange: props.onPathChange,
     fileItems: [],
 
     // General
 
     setDialog: (dialog) => set({ dialog }),
     setPath: (newPath) => {
-      const { path, onFileChange } = get()
+      const { path, onPathChange } = get()
       if (path === newPath) return
       set({ path: newPath })
-      const fileItem = selectors.fileItem(get())
-      onFileChange(fileItem)
+      const isFolder = selectors.isFolder(get())
+      if (isFolder) return
+      onPathChange(path)
     },
 
     // File

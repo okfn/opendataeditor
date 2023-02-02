@@ -4,11 +4,10 @@ import Layout from './Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
-import { IFileItem } from '../../../interfaces'
 
 export interface FilesProps {
   client: Client
-  onFileChange: (fileItem?: IFileItem) => void
+  onPathChange: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

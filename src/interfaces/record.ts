@@ -3,8 +3,9 @@ import { IReport } from './report'
 
 export interface IListedRecord {
   path: string
+  type: string
   updated: string
-  tableName: string
+  tableName?: string
 }
 
 export interface IRecord extends IListedRecord {

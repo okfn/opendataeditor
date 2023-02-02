@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../client'
-import { IRecord, IFileItem } from '../../interfaces'
+import { IRecord } from '../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
@@ -13,7 +13,7 @@ export interface State {
 
   // General
 
-  selectFile: (fileItem?: IFileItem) => void
+  selectResource: (path?: string) => void
   setIsWelcome: (value: boolean) => void
 }
 
@@ -24,10 +24,9 @@ export function createStore(props: ApplicationProps) {
     // General
 
     setIsWelcome: async (isWelcome) => set({ isWelcome }),
-    selectFile: async (fileItem) => {
-      if (!fileItem || fileItem.type === 'folder') return
+    selectResource: async (path) => {
+      if (!path) return
       const { client } = get()
-      const path = fileItem.path
       const { record } = await client.resourceProvide({ path })
       set({ record })
     },
