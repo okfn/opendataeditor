@@ -20,7 +20,7 @@ export default function Actions() {
   const revert = useStore((state) => state.revert)
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
-      <Columns>
+      <Columns spacing={3}>
         <ExportButton
           format={exportFormat}
           options={settings.METADATA_FORMATS}
