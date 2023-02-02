@@ -16,12 +16,14 @@ export class Client {
     this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // TODO: read session from localStorage here?
+  // TODO: review using localStorage here (issue #55)
   static async connect(props: { session?: ISession; basepath?: string } = {}) {
+    let session = props.session || localStorage.getItem('session')
     const basepath = props.basepath || DEFAULT_BASEPATH
     const path = `${basepath}/project/connect`
-    const data = await makeRequest(path, { session: props.session })
-    const { session } = data as { session: ISession }
+    const result = await makeRequest(path, { session })
+    session = result.session as ISession
+    if (session) localStorage.setItem('session', session)
     return new this({ session, basepath })
   }
 
