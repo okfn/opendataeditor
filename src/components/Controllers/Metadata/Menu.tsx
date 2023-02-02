@@ -7,7 +7,8 @@ import PublishIcon from '@mui/icons-material/Publish'
 
 export default function Menu() {
   const theme = useTheme()
-  const report = useStore((state) => state.record.report)
+  // TODO: recover Publish color based on report.valid
+  // const report = useStore((state) => state.record.report)
   const togglePublish = useStore((state) => state.togglePublish)
   return (
     <Box
@@ -25,7 +26,7 @@ export default function Menu() {
       <Button
         variant="text"
         startIcon={<PublishIcon />}
-        color={report.valid ? 'secondary' : 'error'}
+        color="secondary"
         onClick={() => togglePublish()}
       >
         Publish
