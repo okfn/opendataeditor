@@ -1,5 +1,5 @@
 import omit from 'lodash/omit'
-import { IResourceItem, IResourceListItem } from './interfaces/resource'
+import { IRecord, IListedRecord } from './interfaces/record'
 import { ISession } from './interfaces/common'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
@@ -90,7 +90,7 @@ export class Client {
 
   async resourceCreate(props: { path: string }) {
     const result = await this.request('/resource/create', props)
-    return result as { item: IResourceItem }
+    return result as { record: IRecord }
   }
 
   async resourceDelete(props: { path: string }) {
@@ -100,7 +100,7 @@ export class Client {
 
   async resourceList(props: {}) {
     const result = await this.request('/resource/list', props)
-    return result as { records: IResourceListItem[] }
+    return result as { records: IListedRecord[] }
   }
 
   async resourceQuery(props: { query: string }) {
@@ -110,17 +110,17 @@ export class Client {
 
   async resourceProvide(props: { path: string }) {
     const result = await this.request('/resource/provide', props)
-    return result as { item: IResourceItem }
+    return result as { record: IRecord }
   }
 
   async resourceRead(props: { path: string }) {
     const result = await this.request('/resource/read', props)
-    return result as { item: IResourceItem }
+    return result as { record: IRecord }
   }
 
   async resourceUpdate(props: { path: string }) {
     const result = await this.request('/resource/update', props)
-    return result as { item: IResourceItem }
+    return result as { record: IRecord }
   }
 }
 
