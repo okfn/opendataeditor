@@ -20,6 +20,7 @@ export interface State {
 export function createStore(props: ApplicationProps) {
   return create<State>((set, get) => ({
     ...props,
+    isWelcome: true,
 
     // General
 
