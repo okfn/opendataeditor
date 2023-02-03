@@ -19,7 +19,7 @@ export default function Welcome() {
   const height = `calc(100vh - ${theme.spacing(8)})`
 
   return (
-    <Grid container sx={{ height, overflowY: 'scroll' }}>
+    <Grid container sx={{ height, overflowY: 'auto' }}>
       <StyledGridItem item xs={6}>
         <StyledCard>
           <StyledActionBox>
