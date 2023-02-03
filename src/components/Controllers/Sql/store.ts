@@ -2,12 +2,14 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
+import { IRecord } from '../../../interfaces'
 import { Client } from '../../../client'
-import { SqlProps } from './Sql'
 import { ITable } from '../../../interfaces'
+import { SqlProps } from './Sql'
 
 export interface State {
   client: Client
+  record: IRecord
   query?: string
   table?: ITable
 
@@ -20,6 +22,7 @@ export interface State {
 export function createStore(props: SqlProps) {
   return create<State>((set, get) => ({
     client: props.client,
+    record: props.record,
 
     // General
 

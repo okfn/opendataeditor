@@ -21,7 +21,7 @@ export default function PackageContent() {
           record={record}
           onPathChange={selectResource}
         />
-        <Sql client={client} />
+        <Sql client={client} record={record} />
       </Tabs>
     </Box>
   )

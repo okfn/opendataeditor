@@ -28,7 +28,7 @@ function Result() {
   if (!table) return null
   return (
     <Box sx={{ mt: 2 }}>
-      <Table table={table} report={report} />
+      <Table table={table} report={report} height="610px" />
     </Box>
   )
 }

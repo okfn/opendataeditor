@@ -3,10 +3,12 @@ import { ThemeProvider } from '@mui/material/styles'
 import { StoreProvider, createStore } from './store'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
+import { IRecord } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface ChartProps {
   client: Client
+  record: IRecord
 }
 
 export default function Chart(props: ChartProps) {

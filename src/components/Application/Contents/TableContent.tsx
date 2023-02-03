@@ -18,8 +18,8 @@ export default function TableContent() {
         <Table client={client} record={record} />
         <Report client={client} record={record} />
         <Source client={client} record={record} />
-        <Chart client={client} />
-        <Sql client={client} />
+        <Chart client={client} record={record} />
+        <Sql client={client} record={record} />
       </Tabs>
     </Box>
   )
