@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -15,9 +15,11 @@ import { useStore } from './store'
 
 export default function Welcome() {
   const setIsWelcome = useStore((state) => state.setIsWelcome)
+  const theme = useTheme()
+  const height = `calc(100vh - ${theme.spacing(8)})`
 
   return (
-    <Grid container>
+    <Grid container sx={{ height, overflowY: 'scroll' }}>
       <StyledGridItem item xs={6}>
         <StyledCard>
           <StyledActionBox>
@@ -142,7 +144,7 @@ const StyledGridItem = styled(Grid)({
 })
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  height: `calc(100vh - ${theme.spacing(8)})`,
+  height: '100%',
   width: '100%',
   border: 'none',
   boxShadow: 'none',
