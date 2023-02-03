@@ -61,9 +61,12 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-spring": "^9.5.2",
+    "react-vega": "^7.4.2",
     "reselect": "^4.1.5",
     "tmp-promise": "^3.0.3",
     "ts-essentials": "^9.0.0",
+    "vega": "^5.19.1",
+    "vega-lite": "^5.6.0",
     "yaml-loader": "^0.8.0",
     "zustand": "^4.1.1"
   },

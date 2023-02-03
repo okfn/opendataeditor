@@ -34,7 +34,7 @@ export default function Content() {
                 if (resource.path === item.path) delete items[index]
               }
             }
-            return items
+            return items.map((item) => item.path)
           }}
           loadResource={async (path) => {
             const { record } = await client.resourceCreate({ path })

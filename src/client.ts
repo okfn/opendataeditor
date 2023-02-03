@@ -1,12 +1,9 @@
 import omit from 'lodash/omit'
-import { IResource } from './interfaces/resource'
-import { IDetector } from './interfaces/detector'
+import { IRecord, IListedRecord } from './interfaces/record'
 import { ISession } from './interfaces/common'
-import { IReport } from './interfaces/report'
-import { IRecord } from './interfaces/record'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
-import { IFileItem } from './interfaces/common'
+import { IFileItem } from './interfaces/file'
 
 const DEFAULT_BASEPATH = '/api'
 
@@ -19,12 +16,14 @@ export class Client {
     this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // TODO: read session from localStorage here?
+  // TODO: review using localStorage here (issue #55)
   static async connect(props: { session?: ISession; basepath?: string } = {}) {
+    let session = props.session || localStorage.getItem('session')
     const basepath = props.basepath || DEFAULT_BASEPATH
     const path = `${basepath}/project/connect`
-    const data = await makeRequest(path, { session: props.session })
-    const { session } = data as { session: ISession }
+    const result = await makeRequest(path, { session })
+    session = result.session as ISession
+    if (session) localStorage.setItem('session', session)
     return new this({ session, basepath })
   }
 
@@ -101,20 +100,19 @@ export class Client {
     return result as { path: string }
   }
 
-  async resourceDescribe(props: { path: string; detector?: IDetector }) {
-    const result = await this.request('/resource/describe', props)
-    return result as { resource: IResource }
+  async resourceList(props: {}) {
+    const result = await this.request('/resource/list', props)
+    return result as { records: IListedRecord[] }
   }
 
-  async resourceExtract(props: { resource: IResource }) {
-    const result = await this.request('/resource/extract', props)
+  async resourceQuery(props: { query: string }) {
+    const result = await this.request('/resource/query', props)
     return result as { table: ITable }
   }
 
-  async resourceList(props: {}) {
-    const result = await this.request('/resource/list', props)
-    // TODO: provide type
-    return result as { records: any[] }
+  async resourceProvide(props: { path: string }) {
+    const result = await this.request('/resource/provide', props)
+    return result as { record: IRecord }
   }
 
   async resourceRead(props: { path: string }) {
@@ -122,34 +120,19 @@ export class Client {
     return result as { record: IRecord }
   }
 
-  async resourceReadBytes(props: { path: string }) {
-    const result = await this.request('/resource/read-bytes', props)
-    return result as { bytes: ArrayBuffer }
-  }
-
-  async resourceReadData(props: { path: string }) {
-    const result = await this.request('/resource/read-data', props)
-    return result as { data: any }
-  }
-
-  async resourceReadText(props: { path: string }) {
-    const result = await this.request('/resource/read-text', props)
-    return result as { text: string }
-  }
-
-  async resourceTransform(props: { resource: IResource }) {
-    const result = await this.request('/resource/transform', props)
-    return result as { resource: IResource; table: ITable }
+  async resourceReadTable(props: {
+    path: string
+    valid?: boolean
+    limit?: number
+    offset?: number
+  }) {
+    const result = await this.request('/resource/read-table', props)
+    return result as { table: ITable }
   }
 
   async resourceUpdate(props: { path: string }) {
     const result = await this.request('/resource/update', props)
     return result as { record: IRecord }
-  }
-
-  async resourceValidate(props: { resource: IResource }) {
-    const result = await this.request('/resource/validate', props)
-    return result as { report: IReport }
   }
 }
 

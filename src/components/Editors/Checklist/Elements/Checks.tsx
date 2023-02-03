@@ -14,7 +14,7 @@ export default function Checks() {
       sx={{
         height: theme.spacing(34),
         maxHeight: theme.spacing(34),
-        overflowY: 'scroll',
+        overflowY: 'auto',
       }}
     >
       {foundCheckItems.length ? <FoundItems /> : <NotFoundItems />}

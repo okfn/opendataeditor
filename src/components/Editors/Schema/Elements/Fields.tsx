@@ -14,7 +14,7 @@ export default function Fields() {
       sx={{
         height: theme.spacing(34),
         maxHeight: theme.spacing(34),
-        overflowY: 'scroll',
+        overflowY: 'auto',
       }}
       className="boxScrollable"
     >
@@ -37,7 +37,7 @@ function FoundItems() {
           type={field.type}
           isGrid={isElementGrid}
           onClick={() => setElementIndex(index)}
-          title="View field"
+          title="View Field"
         />
       ))}
     </>

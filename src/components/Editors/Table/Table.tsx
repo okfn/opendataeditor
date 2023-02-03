@@ -37,7 +37,7 @@ export interface TableProps {
 export default function Table(props: TableProps) {
   const [gridRef, setGridRef] = React.useState(null)
   const table = props.table
-  const fields = table.schema.fields
+  const fields = table.tableSchema.fields
   const report = props.report
   const onUpdate = props.onUpdate
   const tablePatch = props.tablePatch || {}

@@ -4,7 +4,7 @@ export interface ITablePatch {
   [key: number]: IRow
 }
 export interface ITable {
-  schema: ISchema
+  tableSchema: ISchema
   header: IHeader
   rows: IRow[]
 }

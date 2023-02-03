@@ -7,35 +7,28 @@ import { IRecord } from '../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
-  // Data
-
   client: Client
-  path?: string
   record?: IRecord
-  init?: boolean
+  isWelcome?: boolean
 
-  // Logic
+  // General
 
-  selectPath: (path?: string) => void
-  setInitState: (value: boolean) => void
+  selectResource: (path?: string) => void
+  setIsWelcome: (value: boolean) => void
 }
 
 export function createStore(props: ApplicationProps) {
   return create<State>((set, get) => ({
-    // Data
     ...props,
 
-    // Logic
-    selectPath: async (path) => {
+    // General
+
+    setIsWelcome: async (isWelcome) => set({ isWelcome }),
+    selectResource: async (path) => {
+      if (!path) return
       const { client } = get()
-      set({ path })
-      if (path) {
-        const { record } = await client.resourceCreate({ path })
-        set({ record })
-      }
-    },
-    setInitState: async (value) => {
-      set({ init: value })
+      const { record } = await client.resourceProvide({ path })
+      set({ record })
     },
   }))
 }

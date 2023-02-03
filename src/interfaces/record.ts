@@ -1,11 +1,14 @@
 import { IResource } from './resource'
 import { IReport } from './report'
 
-export interface IRecord {
-  name: string
-  type: string
+export interface IListedRecord {
   path: string
-  updated: number
+  type: string
+  updated: string
+  tableName?: string
+}
+
+export interface IRecord extends IListedRecord {
   resource: IResource
   report: IReport
 }
