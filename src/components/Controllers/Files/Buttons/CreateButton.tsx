@@ -10,11 +10,13 @@ import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
+  const initialUpload = useStore((state) => state.initialUpload)
   return (
     <DropdownButton
       label="Create"
       variant="text"
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
+      initialUpload={initialUpload}
     >
       <UploadButton />
       <FolderButton />
@@ -25,6 +27,20 @@ export default function CreateButton() {
 
 function UploadButton() {
   const uploadFiles = useStore((state) => state.uploadFiles)
+  const initialUpload = useStore((state) => state.initialUpload)
+  const setInitialUpload = useStore((state) => state.setInitialUpload)
+  const inputFileRef = React.useRef<HTMLInputElement>(null)
+  // Hooks
+  React.useEffect(() => {
+    if (initialUpload && inputFileRef.current) {
+      inputFileRef.current.click()
+    }
+  }, [])
+
+  // Handlers
+  const handleClick = () => {
+    setInitialUpload(false)
+  }
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
@@ -34,6 +50,11 @@ function UploadButton() {
           type="file"
           hidden
           multiple
+          ref={inputFileRef}
+          onClick={(ev) => {
+            document.body.onfocus = handleClick
+            ev.stopPropagation()
+          }}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
             ev.target.files ? uploadFiles(ev.target.files) : null
           }

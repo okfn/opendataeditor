@@ -14,11 +14,17 @@ interface DropdownButtonProps {
   disabled?: boolean
   variant?: 'contained' | 'outlined' | 'text'
   children?: React.ReactNode
+  initialUpload?: boolean
 }
 
 export default function DropdownButton(props: DropdownButtonProps) {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    if (props.initialUpload && anchorRef.current) {
+      setOpen(true)
+    }
+  }, [])
   const handleToggle = () => setOpen(!open)
   const handleClose = (event: Event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {

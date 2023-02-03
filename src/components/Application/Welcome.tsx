@@ -15,6 +15,7 @@ import { useStore } from './store'
 
 export default function Welcome() {
   const setIsWelcome = useStore((state) => state.setIsWelcome)
+  const setInitialUpload = useStore((state) => state.setInitialUpload)
 
   return (
     <Grid container>
@@ -33,7 +34,10 @@ export default function Welcome() {
               variant="outlined"
               startIcon={<FileUploadRoundedIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setIsWelcome(false)}
+              onClick={() => {
+                setIsWelcome(false)
+                setInitialUpload(true)
+              }}
             >
               Upload Your File
             </Button>

@@ -10,11 +10,13 @@ export interface State {
   client: Client
   record?: IRecord
   isWelcome?: boolean
+  initialUpload?: boolean
 
   // General
 
   selectResource: (path?: string) => void
   setIsWelcome: (value: boolean) => void
+  setInitialUpload: (value: boolean) => void
 }
 
 export function createStore(props: ApplicationProps) {
@@ -29,6 +31,9 @@ export function createStore(props: ApplicationProps) {
       const { client } = get()
       const { record } = await client.resourceProvide({ path })
       set({ record })
+    },
+    setInitialUpload: (initialUpload) => {
+      set({ initialUpload })
     },
   }))
 }
