@@ -16,7 +16,9 @@ export interface IResource {
   dialect?: IDialect
   schema?: ISchema
   checklist?: IChecklist
+  // TODO: remove
   pipeline?: IPipeline
+  // TODO: remove
   stats?: {
     md5: string
     sha256: string
