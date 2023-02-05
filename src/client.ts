@@ -1,30 +1,25 @@
 import omit from 'lodash/omit'
 import { IRecord, IListedRecord } from './interfaces/record'
-import { ISession } from './interfaces/common'
 import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
 import { IFileItem } from './interfaces/file'
-
-const DEFAULT_BASEPATH = '/api'
+import * as settings from './settings'
 
 export class Client {
-  session: ISession
   basepath: string
+  session?: string
 
-  constructor(props: { session: ISession; basepath?: string }) {
+  constructor(props: { basepath?: string; session?: string } = {}) {
+    this.basepath = props.basepath || settings.DEFAULT_BASEPATH
     this.session = props.session
-    this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // TODO: review using localStorage here (issue #55)
-  static async connect(props: { session?: ISession; basepath?: string } = {}) {
-    let session = props.session || localStorage.getItem('session')
-    const basepath = props.basepath || DEFAULT_BASEPATH
+  static async connect(props: { basepath?: string; session?: string } = {}) {
+    const basepath = props.basepath || settings.DEFAULT_BASEPATH
     const path = `${basepath}/project/connect`
-    const result = await makeRequest(path, { session })
-    session = result.session as ISession
-    if (session) localStorage.setItem('session', session)
-    return new this({ session, basepath })
+    const result = await makeRequest(path, { session: props.session })
+    const session = result.session as string | undefined
+    return new this({ basepath, session })
   }
 
   async request(path: string, props: { [key: string]: any; file?: File } = {}) {
