@@ -4,8 +4,8 @@ import { useStore } from './store'
 
 export default function Content(props: { height: string }) {
   const table = useStore((state) => state.table)
-  const path = useStore((state) => state.record.path)
-  const report = useStore((state) => state.record.report)
+  const path = useStore((state) => state.file.path)
+  const report = useStore((state) => state.file.report)
   const tablePatch = useStore((state) => state.tablePatch)
   const updatePatch = useStore((state) => state.updatePatch)
   const loadTable = useStore((state) => state.loadTable)

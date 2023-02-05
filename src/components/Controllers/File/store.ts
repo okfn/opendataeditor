@@ -4,14 +4,14 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { FileProps } from './File'
 
 export interface State {
   // Data
 
   client: Client
-  record: IRecord
+  file: IFile
   isMetadata?: boolean
   bytes?: ArrayBuffer
   text?: string
@@ -39,14 +39,14 @@ export function createStore(props: FileProps) {
       set({ isMetadata: !get().isMetadata })
     },
     loadBytes: async () => {
-      const { client, record } = get()
-      const { bytes } = await client.fileRead({ path: record.resource.path })
+      const { client, file } = get()
+      const { bytes } = await client.fileReadBytes({ path: file.path })
       set({ bytes })
     },
     loadText: async () => {
-      const { client, record } = get()
-      const { bytes } = await client.fileRead({ path: record.resource.path })
-      const decoder = new TextDecoder(record.resource.encoding)
+      const { client, file } = get()
+      const { bytes } = await client.fileReadBytes({ path: file.path })
+      const decoder = new TextDecoder(file.resource.encoding)
       const text = decoder.decode(bytes)
       set({ text })
     },

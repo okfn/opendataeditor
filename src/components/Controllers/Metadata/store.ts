@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
 import { IPublish } from '../../../interfaces/publish'
 
@@ -11,7 +11,7 @@ export interface State {
   // Data
 
   client: Client
-  record: IRecord
+  file: IFile
   type: 'package' | 'resource' | 'dialect' | 'schema' | 'checklist' | 'pipeline'
   onPathChange?: (path?: string) => void
   descriptor?: object
@@ -33,10 +33,10 @@ export function createStore(props: MetadataProps) {
     // Logic
 
     loadDescriptor: async () => {
-      const { client, record } = get()
-      const { bytes } = await client.fileRead({ path: record.resource.path })
+      const { client, file } = get()
+      const { bytes } = await client.fileReadBytes({ path: file.resource.path })
       // TODO: fix
-      // const decoder = new TextDecoder(record.resource.encoding)
+      // const decoder = new TextDecoder(file.resource.encoding)
       // const text = decoder.decode(bytes)
       // @ts-ignore
       const data = JSON.parse(bytes)

@@ -13,7 +13,7 @@ export default function Layout() {
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
   const panelHeight = isMetadata ? 56 : 8
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + panelHeight)})`
-  const resource = useStore((state) => state.record.resource)
+  const resource = useStore((state) => state.file.resource)
   const updateResource = useStore((state) => state.updateResource)
   const updateColumn = useStore((state) => state.updateColumn)
   return (

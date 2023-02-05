@@ -3,12 +3,12 @@ import { StoreProvider, createStore } from './store'
 import { Client } from '../../../client'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface TableProps {
   client: Client
-  record: IRecord
+  file: IFile
   isMetadata?: boolean
 }
 

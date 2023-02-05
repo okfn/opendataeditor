@@ -3,12 +3,12 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
   client: Client
-  record: IRecord
+  file: IFile
   chart?: any
   axisX?: string
   axisY?: string
@@ -23,15 +23,15 @@ export interface State {
 export function createStore(props: ChartProps) {
   return create<State>((set, get) => ({
     client: props.client,
-    record: props.record,
+    file: props.file,
 
     // General
 
     setAxisX: (axisX) => set({ axisX }),
     setAxisY: (axisY) => set({ axisY }),
     drawChart: async () => {
-      const { client, record, axisX, axisY } = get()
-      const { table } = await client.resourceReadTable({ path: record.path })
+      const { client, file, axisX, axisY } = get()
+      const { table } = await client.fileReadTable({ path: file.path })
       if (!axisX || !axisY) return
       const chart = {
         $schema: 'https://vega.github.io/schema/vega-lite/v4.json',

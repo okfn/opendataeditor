@@ -9,19 +9,19 @@ import { useStore } from '../store'
 
 export default function PackageContent() {
   const client = useStore((state) => state.client)
-  const record = useStore((state) => state.record)
+  const file = useStore((state) => state.file)
   const selectResource = useStore((state) => state.selectResource)
-  if (!record) return null
+  if (!file) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Package', 'SQL']}>
         <Metadata
           type="package"
           client={client}
-          record={record}
+          file={file}
           onPathChange={selectResource}
         />
-        <Sql client={client} record={record} />
+        <Sql client={client} file={file} />
       </Tabs>
     </Box>
   )

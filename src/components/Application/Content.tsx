@@ -11,15 +11,15 @@ const TEXT_FORMATS = ['csv', 'txt', 'md']
 const METADATA_FORMATS = ['json', 'yaml']
 
 export default function Content() {
-  const record = useStore((state) => state.record)
-  if (!record) return null
-  switch (record.type) {
+  const file = useStore((state) => state.file)
+  if (!file) return null
+  switch (file.type) {
     case 'table':
       return <TableContent />
     case 'file':
-      if (record.path === settings.PACKAGE_PATH) return <PackageContent />
-      if (METADATA_FORMATS.includes(record.resource.format)) return <MetadataContent />
-      if (TEXT_FORMATS.includes(record.resource.format)) return <TextContent />
+      if (file.path === settings.PACKAGE_PATH) return <PackageContent />
+      if (METADATA_FORMATS.includes(file.resource.format)) return <MetadataContent />
+      if (TEXT_FORMATS.includes(file.resource.format)) return <TextContent />
       return <FileContent />
     default:
       return null

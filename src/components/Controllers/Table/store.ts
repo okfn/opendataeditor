@@ -4,14 +4,14 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, ITable, ITablePatch } from '../../../interfaces'
+import { IFile, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
   // Data
 
   client: Client
-  record: IRecord
+  file: IFile
   isMetadata?: boolean
   tablePatch: ITablePatch
   table?: ITable
@@ -45,14 +45,14 @@ export function createStore(props: TableProps) {
       set({ isMetadata: !get().isMetadata })
     },
     loadTable: async () => {
-      const { client, record } = get()
-      const { table } = await client.resourceReadTable({ path: record.resource.path })
+      const { client, file } = get()
+      const { table } = await client.fileReadTable({ path: file.path })
       set({ table })
     },
     loadSource: async () => {
-      const { client, record } = get()
-      const { bytes } = await client.fileRead({ path: record.resource.path })
-      const decoder = new TextDecoder(record.resource.encoding)
+      const { client, file } = get()
+      const { bytes } = await client.fileReadBytes({ path: file.path })
+      const decoder = new TextDecoder(file.resource.encoding)
       const text = decoder.decode(bytes)
       set({ source: text })
     },

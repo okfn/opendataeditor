@@ -28,6 +28,11 @@ export class Client {
 
   // File
 
+  async fileCount() {
+    const result = await this.request('/file/count')
+    return result as { count: number }
+  }
+
   async fileCopy(props: { path: string; folder?: string }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }

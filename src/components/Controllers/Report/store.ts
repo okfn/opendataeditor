@@ -5,7 +5,7 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { ReportProps } from './Report'
 import * as settings from '../../../settings'
 
@@ -13,7 +13,7 @@ export interface State {
   // Data
 
   client: Client
-  record: IRecord
+  file: IFile
   exportFormat: string
   isPreview?: boolean
   setExportFormat: (format: string) => void
@@ -29,7 +29,7 @@ export function createStore(props: ReportProps) {
     // Data
 
     client: props.client,
-    record: props.record,
+    file: props.file,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -37,9 +37,9 @@ export function createStore(props: ReportProps) {
     // Logic
 
     exporter: () => {
-      const { record, exportFormat } = get()
+      const { file, exportFormat } = get()
       const isYaml = exportFormat === 'yaml'
-      const text = isYaml ? yaml.dump(record) : JSON.stringify(record, null, 2)
+      const text = isYaml ? yaml.dump(file) : JSON.stringify(file, null, 2)
       const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
       FileSaver.saveAs(blob, `report.${exportFormat}`)
       set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })

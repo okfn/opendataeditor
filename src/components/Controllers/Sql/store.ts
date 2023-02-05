@@ -2,14 +2,14 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
 import { ITable } from '../../../interfaces'
 import { SqlProps } from './Sql'
 
 export interface State {
   client: Client
-  record: IRecord
+  file: IFile
   query?: string
   table?: ITable
 
@@ -22,7 +22,7 @@ export interface State {
 export function createStore(props: SqlProps) {
   return create<State>((set, get) => ({
     client: props.client,
-    record: props.record,
+    file: props.file,
 
     // General
 
@@ -30,7 +30,7 @@ export function createStore(props: SqlProps) {
     makeQuery: async () => {
       const { client, query } = get()
       if (!query) return
-      const { table } = await client.resourceQuery({ query })
+      const { table } = await client.projectQueryTable({ query })
       set({ table })
     },
   }))

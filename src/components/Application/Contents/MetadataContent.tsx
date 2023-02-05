@@ -7,8 +7,8 @@ import { useStore } from '../store'
 
 export default function MetadataContent() {
   const client = useStore((state) => state.client)
-  const record = useStore((state) => state.record)
-  if (!record) return null
+  const file = useStore((state) => state.file)
+  if (!file) return null
   let type:
     | 'package'
     | 'resource'
@@ -17,18 +17,18 @@ export default function MetadataContent() {
     | 'checklist'
     | 'pipeline'
     | undefined
-  if (record.resource.path.endsWith('datapackage.json')) type = 'package'
-  if (record.resource.path.endsWith('package.json')) type = 'package'
-  if (record.resource.path.endsWith('resource.json')) type = 'resource'
-  if (record.resource.path.endsWith('dialect.json')) type = 'dialect'
-  if (record.resource.path.endsWith('schema.json')) type = 'schema'
-  if (record.resource.path.endsWith('checklist.json')) type = 'checklist'
-  if (record.resource.path.endsWith('pipeline.json')) type = 'pipeline'
+  if (file.resource.path.endsWith('datapackage.json')) type = 'package'
+  if (file.resource.path.endsWith('package.json')) type = 'package'
+  if (file.resource.path.endsWith('resource.json')) type = 'resource'
+  if (file.resource.path.endsWith('dialect.json')) type = 'dialect'
+  if (file.resource.path.endsWith('schema.json')) type = 'schema'
+  if (file.resource.path.endsWith('checklist.json')) type = 'checklist'
+  if (file.resource.path.endsWith('pipeline.json')) type = 'pipeline'
   if (!type) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={[capitalize(type)]}>
-        <Metadata client={client} record={record} type={type} />
+        <Metadata client={client} file={file} type={type} />
       </Tabs>
     </Box>
   )

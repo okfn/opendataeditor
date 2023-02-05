@@ -4,7 +4,7 @@ import Source from '../../Editors/Source'
 import { useStore } from './store'
 
 export default function Content() {
-  const path = useStore((state) => state.record.path)
+  const path = useStore((state) => state.file.path)
   const source = useStore((state) => state.source)
   const loadSource = useStore((state) => state.loadSource)
   React.useEffect(() => {
