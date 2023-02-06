@@ -11,10 +11,12 @@ import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload)
+  const initialDataPackage = useStore((state) => state.initialDataPackage)
   return (
     <DropdownButton
       label="Create"
       variant="text"
+      open={initialDataPackage || initialUpload}
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
       initialUpload={initialUpload}
     >
@@ -80,6 +82,12 @@ function FolderButton() {
 function PackageButton() {
   const filePaths = useStore(selectors.filePaths)
   const createPackage = useStore((state) => state.createPackage)
+  const initialDataPackage = useStore((state) => state.initialDataPackage)
+  React.useEffect(() => {
+    if (initialDataPackage) {
+      createPackage()
+    }
+  }, [])
   return (
     <DefaultButton
       disabled={filePaths.includes(settings.PACKAGE_PATH)}

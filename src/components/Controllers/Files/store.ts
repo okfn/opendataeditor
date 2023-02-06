@@ -16,12 +16,14 @@ export interface State {
   onPathChange: (path?: string) => void
   dialog?: IDialog
   initialUpload?: boolean
+  initialDataPackage?: boolean
 
   // General
 
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
   setInitialUpload: (value: boolean) => void
+  setInitialDataPackage: (value: boolean) => void
 
   // File
 
@@ -47,6 +49,7 @@ export function createStore(props: FilesProps) {
     onPathChange: props.onPathChange,
     fileItems: [],
     initialUpload: props.initialUpload,
+    initialDataPackage: props.initialDataPackage,
 
     // General
 
@@ -61,6 +64,9 @@ export function createStore(props: FilesProps) {
     },
     setInitialUpload: (initialUpload) => {
       set({ initialUpload })
+    },
+    setInitialDataPackage: (initialDataPackage) => {
+      set({ initialDataPackage })
     },
 
     // File

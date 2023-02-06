@@ -8,6 +8,7 @@ export default function Layout() {
   const client = useStore((state) => state.client)
   const selectResource = useStore((state) => state.selectResource)
   const initialUpload = useStore((state) => state.initialUpload)
+  const initialDataPackage = useStore((state) => state.initialDataPackage)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['_Projects', 'Resources']} index={1}>
@@ -16,6 +17,7 @@ export default function Layout() {
           client={client}
           onPathChange={selectResource}
           initialUpload={initialUpload}
+          initialDataPackage={initialDataPackage}
         />
       </Tabs>
     </Box>

@@ -11,12 +11,14 @@ export interface State {
   record?: IRecord
   isWelcome?: boolean
   initialUpload?: boolean
+  initialDataPackage?: boolean
 
   // General
 
   selectResource: (path?: string) => void
   setIsWelcome: (value: boolean) => void
   setInitialUpload: (value: boolean) => void
+  setInitialDataPackage: (value: boolean) => void
 }
 
 export function createStore(props: ApplicationProps) {
@@ -34,6 +36,9 @@ export function createStore(props: ApplicationProps) {
     },
     setInitialUpload: (initialUpload) => {
       set({ initialUpload })
+    },
+    setInitialDataPackage: (initialDataPackage) => {
+      set({ initialDataPackage })
     },
   }))
 }

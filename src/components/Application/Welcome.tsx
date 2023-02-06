@@ -16,6 +16,7 @@ import { useStore } from './store'
 export default function Welcome() {
   const setIsWelcome = useStore((state) => state.setIsWelcome)
   const setInitialUpload = useStore((state) => state.setInitialUpload)
+  const setInitialDataPackage = useStore((state) => state.setInitialDataPackage)
 
   return (
     <Grid container>
@@ -99,7 +100,10 @@ export default function Welcome() {
               variant="contained"
               startIcon={<FolderIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setIsWelcome(false)}
+              onClick={() => {
+                setIsWelcome(false)
+                setInitialDataPackage(true)
+              }}
             >
               Create Data Package
             </Button>
