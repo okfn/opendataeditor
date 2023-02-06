@@ -9,7 +9,7 @@ export interface FilesProps {
   client: Client
   initialUpload?: boolean
   initialDataPackage?: boolean
-  onPathChange: (path?: string) => void
+  onFileChange: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

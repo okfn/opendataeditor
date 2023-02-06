@@ -13,7 +13,7 @@ export interface State {
   client: Client
   path?: string
   fileItems: IFileItem[]
-  onPathChange: (path?: string) => void
+  onFileChange: (path?: string) => void
   dialog?: IDialog
   initialUpload?: boolean
   initialDataPackage?: boolean
@@ -46,21 +46,21 @@ export interface State {
 export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
-    onPathChange: props.onPathChange,
     fileItems: [],
     initialUpload: props.initialUpload,
     initialDataPackage: props.initialDataPackage,
+    onFileChange: props.onFileChange,
 
     // General
 
     setDialog: (dialog) => set({ dialog }),
     setPath: (newPath) => {
-      const { path, onPathChange } = get()
+      const { path, onFileChange } = get()
       if (path === newPath) return
       set({ path: newPath })
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
-      onPathChange(newPath)
+      onFileChange(newPath)
     },
     setInitialUpload: (initialUpload) => {
       set({ initialUpload })
