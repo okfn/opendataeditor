@@ -21,9 +21,7 @@ interface DropdownButtonProps {
 export default function DropdownButton(props: DropdownButtonProps) {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => {
-    setOpen(props.open ?? open)
-  }, [])
+  React.useEffect(() => setOpen(props.open ?? open), [])
   const handleToggle = () => setOpen(!open)
   const handleClose = (event: Event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {

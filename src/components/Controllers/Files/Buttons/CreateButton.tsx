@@ -83,9 +83,11 @@ function PackageButton() {
   const filePaths = useStore(selectors.filePaths)
   const createPackage = useStore((state) => state.createPackage)
   const initialDataPackage = useStore((state) => state.initialDataPackage)
+  const setInitialDataPackage = useStore((state) => state.setInitialDataPackage)
   React.useEffect(() => {
     if (initialDataPackage) {
       createPackage()
+      setInitialDataPackage(false)
     }
   }, [])
   return (
