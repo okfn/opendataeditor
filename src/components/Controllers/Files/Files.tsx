@@ -7,7 +7,7 @@ import { Client } from '../../../client'
 
 export interface FilesProps {
   client: Client
-  onPathChange: (path?: string) => void
+  onFileChange: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

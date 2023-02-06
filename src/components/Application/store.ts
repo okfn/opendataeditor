@@ -15,7 +15,7 @@ export interface State {
 
   setIsWelcome: (isWelcome: boolean) => void
   countFiles: () => Promise<void>
-  selectResource: (path?: string) => void
+  selectFile: (path?: string) => void
 }
 
 export function createStore(props: ApplicationProps) {
@@ -30,7 +30,7 @@ export function createStore(props: ApplicationProps) {
       const { count } = await client.fileCount()
       if (!count) set({ isWelcome: true })
     },
-    selectResource: async (path) => {
+    selectFile: async (path) => {
       if (!path) return
       const { client } = get()
       const { file } = await client.fileRead({ path })

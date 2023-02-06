@@ -6,12 +6,12 @@ import { useStore } from './store'
 
 export default function Layout() {
   const client = useStore((state) => state.client)
-  const selectResource = useStore((state) => state.selectResource)
+  const selectFile = useStore((state) => state.selectFile)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['_Projects', 'Resources']} index={1}>
         <React.Fragment></React.Fragment>
-        <Files client={client} onPathChange={selectResource} />
+        <Files client={client} onPathChange={selectFile} />
       </Tabs>
     </Box>
   )
