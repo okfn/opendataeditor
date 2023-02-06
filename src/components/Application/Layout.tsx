@@ -8,6 +8,10 @@ import { useStore } from './store'
 
 export default function Layout() {
   const isWelcome = useStore((state) => state.isWelcome)
+  const countFiles = useStore((state) => state.countFiles)
+  React.useEffect(() => {
+    countFiles().catch(console.error)
+  }, [])
   return (
     <React.Fragment>
       <Header />

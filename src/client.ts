@@ -1,30 +1,24 @@
 import omit from 'lodash/omit'
-import { IRecord, IListedRecord } from './interfaces/record'
-import { ISession } from './interfaces/common'
-import { ITable } from './interfaces/table'
 import { IPublish } from './interfaces/publish'
-import { IFileItem } from './interfaces/file'
-
-const DEFAULT_BASEPATH = '/api'
+import { IFile, IFileItem } from './interfaces/file'
+import { ITable, IQueryData } from './interfaces/table'
+import * as settings from './settings'
 
 export class Client {
-  session: ISession
   basepath: string
+  session?: string
 
-  constructor(props: { session: ISession; basepath?: string }) {
+  constructor(props: { basepath?: string; session?: string } = {}) {
+    this.basepath = props.basepath || settings.DEFAULT_BASEPATH
     this.session = props.session
-    this.basepath = props.basepath || DEFAULT_BASEPATH
   }
 
-  // TODO: review using localStorage here (issue #55)
-  static async connect(props: { session?: ISession; basepath?: string } = {}) {
-    let session = props.session || localStorage.getItem('session')
-    const basepath = props.basepath || DEFAULT_BASEPATH
+  static async connect(props: { basepath?: string; session?: string } = {}) {
+    const basepath = props.basepath || settings.DEFAULT_BASEPATH
     const path = `${basepath}/project/connect`
-    const result = await makeRequest(path, { session })
-    session = result.session as ISession
-    if (session) localStorage.setItem('session', session)
-    return new this({ session, basepath })
+    const result = await makeRequest(path, { session: props.session })
+    const session = result.session as string | undefined
+    return new this({ basepath, session })
   }
 
   async request(path: string, props: { [key: string]: any; file?: File } = {}) {
@@ -34,6 +28,11 @@ export class Client {
 
   // File
 
+  async fileCount() {
+    const result = await this.request('/file/count')
+    return result as { count: number }
+  }
+
   async fileCopy(props: { path: string; folder?: string }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
@@ -41,7 +40,7 @@ export class Client {
 
   async fileCreate(props: { file: File; folder?: string }) {
     const result = await this.request('/file/create', props)
-    return result as { path: string }
+    return result as { file: IFile }
   }
 
   async fileDelete(props: { path: string }) {
@@ -61,12 +60,32 @@ export class Client {
 
   async fileRead(props: { path: string }) {
     const result = await this.request('/file/read', props)
+    return result as { file: IFile }
+  }
+
+  async fileReadBytes(props: { path: string }) {
+    const result = await this.request('/file/read-bytes', props)
     return result as { bytes: ArrayBuffer }
+  }
+
+  async fileReadTable(props: {
+    path: string
+    valid?: boolean
+    limit?: number
+    offset?: number
+  }) {
+    const result = await this.request('/file/read-table', props)
+    return result as { table: ITable }
   }
 
   async fileRename(props: { path: string; name: string }) {
     const result = await this.request('/file/rename', props)
     return result as { path: string }
+  }
+
+  async fileUpdate(props: { path: string }) {
+    const result = await this.request('/file/update', props)
+    return result as { file: IFile }
   }
 
   // Folder
@@ -88,51 +107,16 @@ export class Client {
     return result as { content: any }
   }
 
-  // Resource
+  // Project
 
-  async resourceCreate(props: { path: string }) {
-    const result = await this.request('/resource/create', props)
-    return result as { record: IRecord }
-  }
-
-  async resourceDelete(props: { path: string }) {
-    const result = await this.request('/resource/delete', props)
-    return result as { path: string }
-  }
-
-  async resourceList(props: {}) {
-    const result = await this.request('/resource/list', props)
-    return result as { records: IListedRecord[] }
-  }
-
-  async resourceQuery(props: { query: string }) {
+  async projectQuery(props: { query: string }) {
     const result = await this.request('/resource/query', props)
+    return result as { data: IQueryData }
+  }
+
+  async projectQueryTable(props: { query: string }) {
+    const result = await this.request('/resource/query-table', props)
     return result as { table: ITable }
-  }
-
-  async resourceProvide(props: { path: string }) {
-    const result = await this.request('/resource/provide', props)
-    return result as { record: IRecord }
-  }
-
-  async resourceRead(props: { path: string }) {
-    const result = await this.request('/resource/read', props)
-    return result as { record: IRecord }
-  }
-
-  async resourceReadTable(props: {
-    path: string
-    valid?: boolean
-    limit?: number
-    offset?: number
-  }) {
-    const result = await this.request('/resource/read-table', props)
-    return result as { table: ITable }
-  }
-
-  async resourceUpdate(props: { path: string }) {
-    const result = await this.request('/resource/update', props)
-    return result as { record: IRecord }
   }
 }
 

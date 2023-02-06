@@ -3,20 +3,21 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../client'
-import { IRecord } from '../../interfaces'
+import { IFile } from '../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
   client: Client
-  record?: IRecord
+  file?: IFile
   isWelcome?: boolean
   initialUpload?: boolean
   initialDataPackage?: boolean
 
   // General
 
+  setIsWelcome: (isWelcome: boolean) => void
+  countFiles: () => Promise<void>
   selectResource: (path?: string) => void
-  setIsWelcome: (value: boolean) => void
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
 }
@@ -27,12 +28,17 @@ export function createStore(props: ApplicationProps) {
 
     // General
 
-    setIsWelcome: async (isWelcome) => set({ isWelcome }),
+    setIsWelcome: (isWelcome) => set({ isWelcome }),
+    countFiles: async () => {
+      const { client } = get()
+      const { count } = await client.fileCount()
+      if (!count) set({ isWelcome: true })
+    },
     selectResource: async (path) => {
       if (!path) return
       const { client } = get()
-      const { record } = await client.resourceProvide({ path })
-      set({ record })
+      const { file } = await client.fileRead({ path })
+      set({ file })
     },
     setInitialUpload: (initialUpload) => {
       set({ initialUpload })

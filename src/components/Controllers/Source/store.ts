@@ -4,13 +4,13 @@ import create from 'zustand/vanilla'
 import FileSaver from 'file-saver'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { SourceProps } from './Source'
 export interface State {
   // Data
 
   client: Client
-  record: IRecord
+  file: IFile
   source?: string
   exportFormat: string
   isPreview?: boolean
@@ -28,7 +28,7 @@ export function createStore(props: SourceProps) {
     // Data
 
     client: props.client,
-    record: props.record,
+    file: props.file,
     exportFormat: 'csv',
     setExportFormat: (exportFormat) => set({ exportFormat }),
     togglePreview: () => set({ isPreview: !get().isPreview }),
@@ -36,9 +36,9 @@ export function createStore(props: SourceProps) {
     // Logic
 
     loadSource: async () => {
-      const { client, record } = get()
-      const { bytes } = await client.fileRead({ path: record.resource.path })
-      const decoder = new TextDecoder(record.resource.encoding)
+      const { client, file } = get()
+      const { bytes } = await client.fileReadBytes({ path: file.resource.path })
+      const decoder = new TextDecoder(file.resource.encoding)
       const text = decoder.decode(bytes)
       set({ source: text })
     },

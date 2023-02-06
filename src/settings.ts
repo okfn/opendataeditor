@@ -11,6 +11,7 @@ export const METADATA_FORMATS = ['yaml', 'json']
 
 // Defaults
 
+export const DEFAULT_BASEPATH = '/api'
 export const DEFAULT_PORT = 4040
 export const DEFAULT_EXPORT_FORMAT = 'yaml'
 export const DEFAULT_FIELD_CONFIDENCE = 0.9

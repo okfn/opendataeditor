@@ -8,7 +8,9 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import '@fontsource/roboto-mono'
 
-Client.connect().then((client) => {
+const session = localStorage.getItem('session') || undefined
+Client.connect({ session }).then((client) => {
+  if (client.session) localStorage.setItem('session', client.session)
   const application = document.createElement('div')
   application.setAttribute('id', 'application')
   document.body.appendChild(application)

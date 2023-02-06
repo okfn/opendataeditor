@@ -4,14 +4,14 @@ import Source from '../../Editors/Source'
 import { useStore } from './store'
 
 export default function Content() {
-  const format = useStore((state) => state.record.resource.format)
+  const format = useStore((state) => state.file.resource.format)
   if (['jpg', 'png'].includes(format)) return <ContentImage />
   return <ContentText />
 }
 
 function ContentImage() {
-  const path = useStore((state) => state.record.path)
-  const format = useStore((state) => state.record.resource.format)
+  const path = useStore((state) => state.file.path)
+  const format = useStore((state) => state.file.resource.format)
   const bytes = useStore((state) => state.bytes)
   const loadBytes = useStore((state) => state.loadBytes)
   React.useEffect(() => {
@@ -26,7 +26,7 @@ function ContentImage() {
 }
 
 function ContentText() {
-  const path = useStore((state) => state.record.path)
+  const path = useStore((state) => state.file.path)
   const text = useStore((state) => state.text)
   const loadText = useStore((state) => state.loadText)
   React.useEffect(() => {

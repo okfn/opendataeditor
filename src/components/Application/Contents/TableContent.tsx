@@ -10,16 +10,16 @@ import { useStore } from '../store'
 
 export default function TableContent() {
   const client = useStore((state) => state.client)
-  const record = useStore((state) => state.record)
-  if (!record) return null
+  const file = useStore((state) => state.file)
+  if (!file) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Table', 'Report', 'Source', 'Chart', 'SQL']}>
-        <Table client={client} record={record} />
-        <Report client={client} record={record} />
-        <Source client={client} record={record} />
-        <Chart client={client} record={record} />
-        <Sql client={client} record={record} />
+        <Table client={client} file={file} />
+        <Report client={client} file={file} />
+        <Source client={client} file={file} />
+        <Chart client={client} file={file} />
+        <Sql client={client} file={file} />
       </Tabs>
     </Box>
   )

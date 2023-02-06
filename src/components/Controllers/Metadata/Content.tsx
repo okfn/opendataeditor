@@ -14,7 +14,7 @@ export default function Content() {
   // const theme = useTheme()
   const type = useStore((state) => state.type)
   const client = useStore((state) => state.client)
-  const path = useStore((state) => state.record.path)
+  const path = useStore((state) => state.file.path)
   const descriptor = useStore((state) => state.descriptor)
   const loadDescriptor = useStore((state) => state.loadDescriptor)
   React.useEffect(() => {
@@ -37,8 +37,8 @@ export default function Content() {
             return items.map((item) => item.path)
           }}
           loadResource={async (path) => {
-            const { record } = await client.resourceCreate({ path })
-            const { resource } = record
+            const { file } = await client.fileRead({ path })
+            const { resource } = file
             return resource
           }}
         />
