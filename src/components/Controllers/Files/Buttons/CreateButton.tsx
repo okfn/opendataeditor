@@ -10,15 +10,14 @@ import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
-  const initialUpload = useStore((state) => state.initialUpload)
-  const initialDataPackage = useStore((state) => state.initialDataPackage)
+  const initialUpload = useStore((state) => state.initialUpload ?? false)
+  const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
   return (
     <DropdownButton
       label="Create"
       variant="text"
       open={initialDataPackage || initialUpload}
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
-      initialUpload={initialUpload}
     >
       <UploadButton />
       <FolderButton />
@@ -38,11 +37,6 @@ function UploadButton() {
       inputFileRef.current.click()
     }
   }, [])
-
-  // Handlers
-  const handleClick = () => {
-    setInitialUpload(false)
-  }
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
@@ -54,7 +48,7 @@ function UploadButton() {
           multiple
           ref={inputFileRef}
           onClick={(ev) => {
-            document.body.onfocus = handleClick
+            document.body.onfocus = () => setInitialUpload(false)
             ev.stopPropagation()
           }}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
@@ -84,6 +78,7 @@ function PackageButton() {
   const createPackage = useStore((state) => state.createPackage)
   const initialDataPackage = useStore((state) => state.initialDataPackage)
   const setInitialDataPackage = useStore((state) => state.setInitialDataPackage)
+  // Hooks
   React.useEffect(() => {
     if (initialDataPackage) {
       createPackage()
