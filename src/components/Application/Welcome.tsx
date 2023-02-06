@@ -15,6 +15,8 @@ import { useStore } from './store'
 
 export default function Welcome() {
   const setIsWelcome = useStore((state) => state.setIsWelcome)
+  const setInitialUpload = useStore((state) => state.setInitialUpload)
+  const setInitialDataPackage = useStore((state) => state.setInitialDataPackage)
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
 
@@ -35,7 +37,10 @@ export default function Welcome() {
               variant="outlined"
               startIcon={<FileUploadRoundedIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setIsWelcome(false)}
+              onClick={() => {
+                setIsWelcome(false)
+                setInitialUpload(true)
+              }}
             >
               Upload Your File
             </Button>
@@ -97,7 +102,10 @@ export default function Welcome() {
               variant="contained"
               startIcon={<FolderIcon />}
               sx={{ '& .MuiSvgIcon-root': { margin: 0 } }}
-              onClick={() => setIsWelcome(false)}
+              onClick={() => {
+                setIsWelcome(false)
+                setInitialDataPackage(true)
+              }}
             >
               Create Data Package
             </Button>

@@ -7,6 +7,8 @@ import { Client } from '../../../client'
 
 export interface FilesProps {
   client: Client
+  initialUpload?: boolean
+  initialDataPackage?: boolean
   onFileChange: (path?: string) => void
 }
 

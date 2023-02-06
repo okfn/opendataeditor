@@ -10,11 +10,15 @@ export interface State {
   client: Client
   file?: IFile
   isWelcome?: boolean
+  initialUpload?: boolean
+  initialDataPackage?: boolean
 
   // General
 
   setIsWelcome: (isWelcome: boolean) => void
   countFiles: () => Promise<void>
+  setInitialUpload: (value: boolean) => void
+  setInitialDataPackage: (value: boolean) => void
   selectFile: (path?: string) => void
 }
 
@@ -35,6 +39,12 @@ export function createStore(props: ApplicationProps) {
       const { client } = get()
       const { file } = await client.fileRead({ path })
       set({ file })
+    },
+    setInitialUpload: (initialUpload) => {
+      set({ initialUpload })
+    },
+    setInitialDataPackage: (initialDataPackage) => {
+      set({ initialDataPackage })
     },
   }))
 }

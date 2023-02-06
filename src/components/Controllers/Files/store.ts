@@ -15,11 +15,15 @@ export interface State {
   fileItems: IFileItem[]
   onFileChange: (path?: string) => void
   dialog?: IDialog
+  initialUpload?: boolean
+  initialDataPackage?: boolean
 
   // General
 
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
+  setInitialUpload: (value: boolean) => void
+  setInitialDataPackage: (value: boolean) => void
 
   // File
 
@@ -43,6 +47,8 @@ export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
     fileItems: [],
+    initialUpload: props.initialUpload,
+    initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
 
     // General
@@ -55,6 +61,12 @@ export function createStore(props: FilesProps) {
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
       onFileChange(newPath)
+    },
+    setInitialUpload: (initialUpload) => {
+      set({ initialUpload })
+    },
+    setInitialDataPackage: (initialDataPackage) => {
+      set({ initialDataPackage })
     },
 
     // File
