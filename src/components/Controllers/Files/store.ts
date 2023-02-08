@@ -17,7 +17,6 @@ export interface State {
   dialog?: IDialog
   initialUpload?: boolean
   initialDataPackage?: boolean
-  loading?: boolean
 
   // General
 
@@ -51,7 +50,6 @@ export function createStore(props: FilesProps) {
     initialUpload: props.initialUpload,
     initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
-    loading: false,
 
     // General
 
@@ -108,7 +106,6 @@ export function createStore(props: FilesProps) {
     uploadFiles: async (files) => {
       let path: string | undefined
       const { client, listFiles, setPath } = get()
-      set({ loading: true })
       for (const file of files) {
         if (file.size > 10000000) {
           alert('Currently only files under 10Mb are supported')
@@ -118,7 +115,6 @@ export function createStore(props: FilesProps) {
         const result = await client.fileCreate({ file, folder })
         path = result.file.path
       }
-      set({ loading: false })
       if (!path) return
       await listFiles()
       setPath(path)
