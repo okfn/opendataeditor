@@ -48,3 +48,15 @@ export function createFileTree(items: IFileItem[], types?: string[]): ITreeItem[
 
   return tree
 }
+
+export function getPathList(path: string): string[] {
+  const folders = path ? path.split('/') : []
+  const pathList = folders
+    ? folders.reduce(function (filtered: string[], _, index: number) {
+        const item = folders.slice(0, index + 1)
+        if (item.length > 0) filtered.push(item.join('/'))
+        return filtered
+      }, [])
+    : []
+  return pathList
+}
