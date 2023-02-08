@@ -16,11 +16,6 @@ export default function Content(props: { height: string }) {
     setLoading(true)
     loadTable().catch(console.error)
     setLoading(false)
-    // To test
-    // const timeout = setTimeout(() => {
-    //   setLoading(false)
-    // }, 5000)
-    // return () => clearTimeout(timeout)
   }, [path])
   if (!table) return null
   return loading ? (
