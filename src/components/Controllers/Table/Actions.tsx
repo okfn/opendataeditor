@@ -17,8 +17,8 @@ export default function Actions() {
       <Columns spacing={3}>
         <Export />
         <Import />
-        <Commit />
         <Revert />
+        <Commit />
       </Columns>
     </Box>
   )
