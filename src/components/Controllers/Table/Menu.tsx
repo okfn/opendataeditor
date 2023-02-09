@@ -10,8 +10,9 @@ import { useStore } from './store'
 export default function Menu() {
   const theme = useTheme()
   const isMetadata = useStore((state) => state.isMetadata)
-  const report = useStore((state) => state.file.report)
+  const report = useStore((state) => state.file.record?.report)
   const toggleMetadata = useStore((state) => state.toggleMetadata)
+  if (!report) return null
   return (
     <Box
       sx={{

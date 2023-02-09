@@ -113,7 +113,7 @@ export function createStore(props: FilesProps) {
         }
         const folder = selectors.folderPath(get())
         const result = await client.fileCreate({ file, folder })
-        path = result.file.path
+        path = result.path
       }
       if (!path) return
       await listFiles()
