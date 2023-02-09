@@ -7,6 +7,7 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import MenuList from '@mui/material/MenuList'
 import MenuItem from '@mui/material/MenuItem'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
+import { styled } from '@mui/material/styles'
 
 interface DropdownButtonProps {
   label: string
@@ -69,11 +70,11 @@ export default function DropdownButton(props: DropdownButtonProps) {
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem>
+                <StyledMenuList autoFocusItem>
                   {React.Children.map(props.children, (child, index) => (
-                    <MenuItem key={index}>{child}</MenuItem>
+                    <StyledMenuItem key={index}>{child}</StyledMenuItem>
                   ))}
-                </MenuList>
+                </StyledMenuList>
               </ClickAwayListener>
             </Paper>
           </Grow>
@@ -82,3 +83,11 @@ export default function DropdownButton(props: DropdownButtonProps) {
     </React.Fragment>
   )
 }
+const StyledMenuList = styled(MenuList)({
+  padding: 0,
+})
+const StyledMenuItem = styled(MenuItem)({
+  padding: 0,
+  '& button': { padding: '8px 12px', justifyContent: 'left' },
+  '& label': { padding: '8px 12px', justifyContent: 'left' },
+})
