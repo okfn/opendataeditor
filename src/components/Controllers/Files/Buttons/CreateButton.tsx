@@ -12,6 +12,7 @@ import { useStore, selectors } from '../store'
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload ?? false)
   const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
+  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   return (
     <DropdownButton
       label="Create"
@@ -20,6 +21,7 @@ export default function CreateButton() {
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <UploadButton />
+      {isWebkitDirectorySupported && <UploadFolderButton />}
       <FolderButton />
       <PackageButton />
     </DropdownButton>
@@ -54,6 +56,40 @@ function UploadButton() {
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
             ev.target.files ? uploadFiles(ev.target.files) : null
           }
+        />
+      </Button>
+    </React.Fragment>
+  )
+}
+
+function UploadFolderButton() {
+  const uploadFiles = useStore((state) => state.uploadFiles)
+  return (
+    <React.Fragment>
+      <Button variant="text" color="info" component="label">
+        <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
+        Upload Folder
+        <input
+          type="file"
+          hidden
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            if (ev.target.files) {
+              const files = [...ev.target.files].reduce(
+                (files: any, file: File, _index: number) => {
+                  files.push(
+                    new File([file], file.webkitRelativePath, {
+                      type: file.type,
+                    })
+                  )
+                  return files
+                },
+                []
+              )
+              uploadFiles(files)
+            }
+          }}
+          // @ts-expect-error
+          webkitdirectory=""
         />
       </Button>
     </React.Fragment>
