@@ -39,7 +39,7 @@ function UploadButton() {
   }, [])
   return (
     <React.Fragment>
-      <Button variant="text" color="info" component="label">
+      <Button fullWidth variant="text" color="info" component="label">
         <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
         Upload File
         <input
