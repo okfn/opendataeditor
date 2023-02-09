@@ -10,17 +10,12 @@ import { useStore } from '../store'
 export default function PackageContent() {
   const client = useStore((state) => state.client)
   const file = useStore((state) => state.file)
-  const selectResource = useStore((state) => state.selectResource)
+  const selectFile = useStore((state) => state.selectFile)
   if (!file) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Tabs labels={['Package', 'SQL']}>
-        <Metadata
-          type="package"
-          client={client}
-          file={file}
-          onPathChange={selectResource}
-        />
+        <Metadata type="package" client={client} file={file} onPathChange={selectFile} />
         <Sql client={client} file={file} />
       </Tabs>
     </Box>
