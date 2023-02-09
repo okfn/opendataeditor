@@ -11,12 +11,12 @@ import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload ?? false)
-  const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
+  const initialDataPackage = useStore((state) => state.initialUpload ?? false)
   return (
     <DropdownButton
       label="Create"
       variant="text"
-      open={initialDataPackage || initialUpload}
+      open={initialUpload || initialDataPackage}
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <UploadButton />
@@ -31,7 +31,6 @@ function UploadButton() {
   const initialUpload = useStore((state) => state.initialUpload)
   const setInitialUpload = useStore((state) => state.setInitialUpload)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
-  // Hooks
   React.useEffect(() => {
     if (initialUpload && inputFileRef.current) {
       inputFileRef.current.click()
@@ -47,13 +46,17 @@ function UploadButton() {
           hidden
           multiple
           ref={inputFileRef}
-          onClick={(ev) => {
-            document.body.onfocus = () => setInitialUpload(false)
-            ev.stopPropagation()
-          }}
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-            ev.target.files ? uploadFiles(ev.target.files) : null
+          onClick={
+            initialUpload
+              ? (ev) => {
+                  document.body.onfocus = () => setInitialUpload(false)
+                  ev.stopPropagation()
+                }
+              : undefined
           }
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            if (ev.target.files) uploadFiles(ev.target.files)
+          }}
         />
       </Button>
     </React.Fragment>
