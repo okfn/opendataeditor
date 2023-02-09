@@ -19,7 +19,6 @@ export default function DefaultButton(props: DefaultButtonProps) {
       variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
       color={props.color || 'info'}
       onClick={() => props.onClick()}
-      sx={{ justifyContent: 'left' }}
     >
       {props.icon} {props.label}
     </Button>
