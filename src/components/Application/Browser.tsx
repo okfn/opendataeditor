@@ -11,7 +11,7 @@ export default function Layout() {
   const selectFile = useStore((state) => state.selectFile)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['_Projects', 'Resources']} index={1}>
+      <Tabs labels={['_Projects', 'Files']} index={1}>
         <React.Fragment></React.Fragment>
         <Files
           client={client}
