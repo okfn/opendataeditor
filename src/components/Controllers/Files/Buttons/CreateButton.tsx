@@ -11,7 +11,7 @@ import { useStore, selectors } from '../store'
 
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload ?? false)
-  const initialDataPackage = useStore((state) => state.initialUpload ?? false)
+  const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
   return (
     <DropdownButton
       label="Create"
