@@ -1,9 +1,12 @@
 import * as React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import Box from '@mui/material/Box'
-import MetadataIcon from '@mui/icons-material/DriveFolderUpload'
+import MetadataIcon from '@mui/icons-material/Tune'
 import ErrorIcon from '@mui/icons-material/WarningAmber'
 import ChangesIcon from '@mui/icons-material/Reorder'
+import ExportIcon from '@mui/icons-material/IosShare'
+import RevertIcon from '@mui/icons-material/History'
+import SaveIcon from '@mui/icons-material/Check'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
@@ -66,17 +69,31 @@ function Changes() {
 }
 
 function Export() {
-  return <DefaultButton label="Export" />
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
+  )
 }
 
 function Revert() {
   const revertPatch = useStore((state) => state.revertPatch)
   const tablePatch = useStore((state) => state.tablePatch)
-  return <RevertButton disabled={isEmpty(tablePatch)} onClick={revertPatch} />
+  return (
+    <RevertButton
+      disabled={isEmpty(tablePatch)}
+      icon={<RevertIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={revertPatch}
+    />
+  )
 }
 
 function Save() {
   const commitPatch = useStore((state) => state.commitPatch)
   const tablePatch = useStore((state) => state.tablePatch)
-  return <CommitButton disabled={isEmpty(tablePatch)} onClick={commitPatch} />
+  return (
+    <CommitButton
+      disabled={isEmpty(tablePatch)}
+      icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={commitPatch}
+    />
+  )
 }
