@@ -40,14 +40,12 @@ export function createStore(props: FileProps) {
     },
     loadBytes: async () => {
       const { client, file } = get()
-      const { bytes } = await client.fileReadBytes({ path: file.path })
+      const { bytes } = await client.bytesRead({ path: file.path })
       set({ bytes })
     },
     loadText: async () => {
       const { client, file } = get()
-      const { bytes } = await client.fileReadBytes({ path: file.path })
-      const decoder = new TextDecoder(file.resource.encoding)
-      const text = decoder.decode(bytes)
+      const { text } = await client.textRead({ path: file.path })
       set({ text })
     },
     // TODO: implement

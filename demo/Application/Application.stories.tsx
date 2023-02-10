@@ -13,9 +13,9 @@ export default {
 
 // Props
 
-const client = new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' })
+const client = new Client({ session: 'storybooktestersession' })
 
-// Components
+// Stories
 
 export const Default = Template.bind({})
 Default.args = {

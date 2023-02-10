@@ -18,8 +18,12 @@ export default function Content() {
       return <TableContent />
     case 'file':
       if (file.path === settings.PACKAGE_PATH) return <PackageContent />
-      if (METADATA_FORMATS.includes(file.resource.format)) return <MetadataContent />
-      if (TEXT_FORMATS.includes(file.resource.format)) return <TextContent />
+      if (METADATA_FORMATS.includes(file.record?.resource.format || '')) {
+        return <MetadataContent />
+      }
+      if (TEXT_FORMATS.includes(file.record?.resource.format || '')) {
+        return <TextContent />
+      }
       return <FileContent />
     default:
       return null

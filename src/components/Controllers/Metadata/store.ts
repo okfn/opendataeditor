@@ -34,12 +34,7 @@ export function createStore(props: MetadataProps) {
 
     loadDescriptor: async () => {
       const { client, file } = get()
-      const { bytes } = await client.fileReadBytes({ path: file.resource.path })
-      // TODO: fix
-      // const decoder = new TextDecoder(file.resource.encoding)
-      // const text = decoder.decode(bytes)
-      // @ts-ignore
-      const data = JSON.parse(bytes)
+      const { data } = await client.dataRead({ path: file.path })
       set({ descriptor: data })
     },
     togglePublish: () => {

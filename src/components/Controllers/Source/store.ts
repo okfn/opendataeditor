@@ -37,12 +37,8 @@ export function createStore(props: SourceProps) {
 
     loadSource: async () => {
       const { client, file } = get()
-      const { bytes } = await client.fileReadBytes({ path: file.resource.path })
-      // TODO: fix
-      // const decoder = new TextDecoder(file.resource.encoding)
-      // const text = decoder.decode(bytes)
-      // @ts-ignore
-      set({ source: bytes })
+      const { text } = await client.textRead({ path: file.path })
+      set({ source: text })
     },
     exporter: () => {
       const { source, exportFormat } = get()

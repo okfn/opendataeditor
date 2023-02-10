@@ -30,7 +30,7 @@ export function createStore(props: SqlProps) {
     makeQuery: async () => {
       const { client, query } = get()
       if (!query) return
-      const { table } = await client.projectQueryTable({ query })
+      const { table } = await client.tableQuery({ query })
       set({ table })
     },
   }))

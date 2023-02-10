@@ -10,9 +10,15 @@ export default {
 
 const Template: Story<Parameters<typeof Source>[0]> = (args) => <Source {...args} />
 
+// Props
+
+const client = new Client({ session: 'storybooktestersession' })
+
+// Stories
+
 export const Default = Template.bind({})
 Default.args = {
-  client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
+  client,
   record: {
     name: 'table',
     type: 'table',

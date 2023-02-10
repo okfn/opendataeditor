@@ -38,7 +38,8 @@ export default function Content() {
           }}
           loadResource={async (path) => {
             const { file } = await client.fileRead({ path })
-            const { resource } = file
+            // @ts-ignore
+            const { resource } = file.record
             return resource
           }}
         />
