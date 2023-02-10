@@ -37,7 +37,7 @@ export function createStore(props: ApplicationProps) {
     selectFile: async (path) => {
       if (!path) return
       const { client } = get()
-      const { file } = await client.fileRead({ path })
+      const { file } = await client.fileIndex({ path })
       set({ file })
     },
     setInitialUpload: (initialUpload) => {
