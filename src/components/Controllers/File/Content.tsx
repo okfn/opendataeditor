@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Source from '../../Editors/Source'
+import Code from '../../Parts/Code'
 import { useStore } from './store'
 
 export default function Content() {
@@ -35,7 +35,7 @@ function ContentText() {
   if (!text) return null
   return (
     <Box sx={{ padding: 2 }}>
-      <Source source={text} />
+      <Code source={text} />
     </Box>
   )
 }
