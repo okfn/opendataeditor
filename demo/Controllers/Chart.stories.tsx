@@ -10,7 +10,9 @@ export default {
 
 const Template: Story<Parameters<typeof Chart>[0]> = (args) => <Chart {...args} />
 
+// Stories
+
 export const Default = Template.bind({})
 Default.args = {
-  client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
+  client: new Client({ session: 'storybooktestersession' }),
 }
