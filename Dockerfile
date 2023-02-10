@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.8-nodejs16
+FROM nikolaik/python-nodejs:python3.10-nodejs16
 COPY . /application
 WORKDIR /application
 RUN pip install -r requirements

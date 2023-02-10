@@ -4,7 +4,8 @@ import Report from '../../Editors/Report'
 import { useStore } from './store'
 
 export default function Content() {
-  const report = useStore((state) => state.file.report)
+  const report = useStore((state) => state.file.record?.report)
+  if (!report) return null
   return (
     <Box sx={{ paddingX: 2 }}>
       <Report report={report} />

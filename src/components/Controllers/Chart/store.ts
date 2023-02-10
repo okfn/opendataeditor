@@ -31,7 +31,7 @@ export function createStore(props: ChartProps) {
     setAxisY: (axisY) => set({ axisY }),
     drawChart: async () => {
       const { client, file, axisX, axisY } = get()
-      const { table } = await client.fileReadTable({ path: file.path })
+      const { table } = await client.tableRead({ path: file.path })
       if (!axisX || !axisY) return
       const chart = {
         $schema: 'https://vega.github.io/schema/vega-lite/v4.json',

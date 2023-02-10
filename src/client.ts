@@ -2,6 +2,7 @@ import omit from 'lodash/omit'
 import { IPublish } from './interfaces/publish'
 import { IFile, IFileItem } from './interfaces/file'
 import { ITable, IQueryData } from './interfaces/table'
+import { IData } from './interfaces/common'
 import * as settings from './settings'
 
 export class Client {
@@ -21,26 +22,43 @@ export class Client {
     return new this({ basepath, session })
   }
 
-  async request(path: string, props: { [key: string]: any; file?: File } = {}) {
+  async request(
+    path: string,
+    props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
+  ) {
     if (this.basepath) path = this.basepath + path
     return makeRequest(path, { ...props, session: this.session })
   }
 
-  // File
+  // Bytes
 
-  async fileCount() {
-    const result = await this.request('/file/count')
-    return result as { count: number }
+  async bytesRead(props: { path: string }) {
+    const result = await this.request('/bytes/read', { ...props, isBytes: true })
+    return result as { bytes: ArrayBuffer }
   }
+
+  // Data
+
+  async dataRead(props: { path: string }) {
+    const result = await this.request('/data/read', props)
+    return result as { data: IData }
+  }
+
+  // File
 
   async fileCopy(props: { path: string; folder?: string }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
 
+  async fileCount() {
+    const result = await this.request('/file/count')
+    return result as { count: number }
+  }
+
   async fileCreate(props: { file: File; folder?: string }) {
     const result = await this.request('/file/create', props)
-    return result as { file: IFile }
+    return result as { path: string }
   }
 
   async fileDelete(props: { path: string }) {
@@ -48,34 +66,24 @@ export class Client {
     return result as { path: string }
   }
 
+  async fileIndex(props: { path: string }) {
+    const result = await this.request('/file/index', props)
+    return result as { file?: IFile }
+  }
+
   async fileList() {
     const result = await this.request('/file/list')
     return result as { items: IFileItem[] }
   }
 
-  async fileMove(props: { path: string; folder: string }) {
+  async fileMove(props: { path: string; folder?: string }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }
 
   async fileRead(props: { path: string }) {
     const result = await this.request('/file/read', props)
-    return result as { file: IFile }
-  }
-
-  async fileReadBytes(props: { path: string }) {
-    const result = await this.request('/file/read-bytes', props)
-    return result as { bytes: ArrayBuffer }
-  }
-
-  async fileReadTable(props: {
-    path: string
-    valid?: boolean
-    limit?: number
-    offset?: number
-  }) {
-    const result = await this.request('/file/read-table', props)
-    return result as { table: ITable }
+    return result as { file?: IFile }
   }
 
   async fileRename(props: { path: string; name: string }) {
@@ -109,14 +117,38 @@ export class Client {
 
   // Project
 
+  async projectIndex() {
+    const result = await this.request('/project/index')
+    return result as {}
+  }
+
   async projectQuery(props: { query: string }) {
-    const result = await this.request('/resource/query', props)
+    const result = await this.request('/project/query', props)
     return result as { data: IQueryData }
   }
 
-  async projectQueryTable(props: { query: string }) {
-    const result = await this.request('/resource/query-table', props)
+  // Table
+
+  async tableQuery(props: { query: string }) {
+    const result = await this.request('/table/query', props)
     return result as { table: ITable }
+  }
+
+  async tableRead(props: {
+    path: string
+    valid?: boolean
+    limit?: number
+    offset?: number
+  }) {
+    const result = await this.request('/table/read', props)
+    return result as { table: ITable }
+  }
+
+  // Text
+
+  async textRead(props: { path: string }) {
+    const result = await this.request('/text/read', props)
+    return result as { text: string }
   }
 }
 
@@ -124,7 +156,7 @@ export class Client {
 
 async function makeRequest(
   path: string,
-  props: { [key: string]: any; file?: File } = {}
+  props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
 ) {
   const method = 'POST'
   let headers = {}
@@ -141,7 +173,7 @@ async function makeRequest(
     body = JSON.stringify(props)
   }
   const response = await fetch(path, { method, headers, body })
-  const result = await response.json()
+  const result = props.isBytes ? { bytes: await response.blob() } : await response.json()
   console.log({ path, props, result })
   return result
 }

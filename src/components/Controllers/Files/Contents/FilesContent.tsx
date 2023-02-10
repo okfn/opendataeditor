@@ -11,7 +11,7 @@ export default function FilesContent() {
   return (
     <FileTree
       tree={fileTree}
-      path={path}
+      selected={path}
       fileItemAdded={fileItemAdded}
       onPathChange={setPath}
       onFileItemAdd={setFileItemAdded}

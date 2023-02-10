@@ -17,13 +17,15 @@ export default function MetadataContent() {
     | 'checklist'
     | 'pipeline'
     | undefined
-  if (file.resource.path.endsWith('datapackage.json')) type = 'package'
-  if (file.resource.path.endsWith('package.json')) type = 'package'
-  if (file.resource.path.endsWith('resource.json')) type = 'resource'
-  if (file.resource.path.endsWith('dialect.json')) type = 'dialect'
-  if (file.resource.path.endsWith('schema.json')) type = 'schema'
-  if (file.resource.path.endsWith('checklist.json')) type = 'checklist'
-  if (file.resource.path.endsWith('pipeline.json')) type = 'pipeline'
+  if (file.record) {
+    if (file.record.resource.path.endsWith('datapackage.json')) type = 'package'
+    if (file.record.resource.path.endsWith('package.json')) type = 'package'
+    if (file.record.resource.path.endsWith('resource.json')) type = 'resource'
+    if (file.record.resource.path.endsWith('dialect.json')) type = 'dialect'
+    if (file.record.resource.path.endsWith('schema.json')) type = 'schema'
+    if (file.record.resource.path.endsWith('checklist.json')) type = 'checklist'
+    if (file.record.resource.path.endsWith('pipeline.json')) type = 'pipeline'
+  }
   if (!type) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
