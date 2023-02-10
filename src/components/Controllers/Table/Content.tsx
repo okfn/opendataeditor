@@ -2,7 +2,7 @@ import * as React from 'react'
 import Table from '../../Editors/Table'
 import { useStore } from './store'
 
-export default function Content(props: { height: string }) {
+export default function Content() {
   const table = useStore((state) => state.table)
   const path = useStore((state) => state.file.path)
   const report = useStore((state) => state.file.record?.report)
@@ -19,7 +19,6 @@ export default function Content(props: { height: string }) {
     <Table
       table={table}
       report={report}
-      height={props.height}
       onUpdate={updatePatch}
       tablePatch={tablePatch}
       selectedColumn={selectedColumn}

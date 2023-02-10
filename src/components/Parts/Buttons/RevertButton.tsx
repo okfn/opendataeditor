@@ -18,11 +18,11 @@ export default function RevertButton(props: RevertButtonProps) {
           ? 'outlined'
           : props.variant || settings.DEFUALT_PRIMARY_BUTTON_VARIANT
       }
-      title="Discard the changes"
+      title="Revert the changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}
     >
-      Discard
+      Revert
     </Button>
   )
 }

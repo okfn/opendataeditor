@@ -2,13 +2,14 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import * as settings from '../../../settings'
 
+// TODO: allow Icon (component not only instance)
 interface DefaultButtonProps {
   label: string
   icon?: React.ReactNode
   color?: 'info' | 'warning' | 'secondary'
   variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 export default function DefaultButton(props: DefaultButtonProps) {
@@ -18,7 +19,7 @@ export default function DefaultButton(props: DefaultButtonProps) {
       disabled={props.disabled}
       variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
       color={props.color || 'info'}
-      onClick={() => props.onClick()}
+      onClick={() => (props.onClick ? props.onClick() : undefined)}
     >
       {props.icon} {props.label}
     </Button>
