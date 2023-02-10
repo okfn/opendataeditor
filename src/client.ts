@@ -76,7 +76,7 @@ export class Client {
     return result as { items: IFileItem[] }
   }
 
-  async fileMove(props: { path: string; folder: string }) {
+  async fileMove(props: { path: string; folder?: string }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }

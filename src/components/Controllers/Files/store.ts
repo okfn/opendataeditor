@@ -27,10 +27,10 @@ export interface State {
 
   // File
 
-  copyFile: (folder: string) => Promise<void>
+  copyFile: (folder?: string) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
-  moveFile: (folder: string) => Promise<void>
+  moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
 
@@ -166,7 +166,7 @@ export const selectors = {
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
     const targetTree: ITreeItem[] = [
-      { name: 'Project', path: '.', type: 'folder', children: fileTree },
+      { name: 'Project', path: '', type: 'folder', children: fileTree },
     ]
     return targetTree
   },

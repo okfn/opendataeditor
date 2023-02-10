@@ -21,7 +21,7 @@ export default function FolderDialog() {
   const handleClose = () => setDialog(undefined)
   const handleSelect = () => {
     const action = dialog === 'folder/copy' ? copyFile : moveFile
-    action(target)
+    action(target || undefined)
     setDialog(undefined)
   }
   return (
@@ -74,7 +74,6 @@ export default function FolderDialog() {
             variant="contained"
             size="small"
             onClick={handleSelect}
-            disabled={!target}
             color="secondary"
           >
             {dialog === 'folder/copy' ? 'Copy' : 'Move'}
