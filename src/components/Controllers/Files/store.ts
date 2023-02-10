@@ -166,7 +166,7 @@ export const selectors = {
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
     const targetTree: ITreeItem[] = [
-      { name: 'Project', path: '', type: 'folder', children: fileTree },
+      { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree
   },

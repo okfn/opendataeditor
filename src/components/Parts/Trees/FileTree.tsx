@@ -13,7 +13,7 @@ import { ITreeItem } from '../../../interfaces'
 
 interface FileTreeProps {
   tree: ITreeItem[]
-  path?: string
+  selected?: string
   expanded?: string[]
   onPathChange: (path: string) => void
 }
@@ -22,7 +22,7 @@ export default function FileTree(props: FileTreeProps) {
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
-        selected={props.path || ''}
+        selected={props.selected || ''}
         defaultExpanded={props.expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
           props.onPathChange(nodeId)
