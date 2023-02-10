@@ -13,7 +13,7 @@ To start working on the project you might create a virtual environment for the s
 > This step is optional
 
 ```bash
-python3.8 -m venv .python
+python3.10 -m venv .python
 source .python/bin/activate
 pip install wheel
 ```
