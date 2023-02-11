@@ -2,7 +2,6 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Tabs from '../../Parts/Tabs'
 import Table from '../../Controllers/Table'
-import Report from '../../Controllers/Report'
 import Chart from '../../Controllers/Chart'
 import Sql from '../../Controllers/Sql'
 import { useStore } from '../store'
@@ -13,9 +12,8 @@ export default function TableContent() {
   if (!file) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Content', 'Report', 'Chart', 'SQL']}>
+      <Tabs labels={['Content', 'Charts', 'SQL']}>
         <Table client={client} file={file} />
-        <Report client={client} file={file} />
         <Chart client={client} file={file} />
         <Sql client={client} file={file} />
       </Tabs>
