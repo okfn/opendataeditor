@@ -10,13 +10,11 @@ export interface State {
   client: Client
   file?: IFile
   chart?: any
-  query?: string
   axisX?: string
   axisY?: string
 
   // General
 
-  setQuery: (query?: string) => void
   setAxisX: (axisX: string) => void
   setAxisY: (axisX: string) => void
   drawChart: () => Promise<void>
@@ -29,7 +27,6 @@ export function createStore(props: ChartProps) {
 
     // General
 
-    setQuery: (query) => set({ query }),
     setAxisX: (axisX) => set({ axisX }),
     setAxisY: (axisY) => set({ axisY }),
     drawChart: async () => {
