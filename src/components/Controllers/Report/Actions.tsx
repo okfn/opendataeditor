@@ -12,10 +12,16 @@ export default function Actions() {
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
-        <Source />
         <Export />
+        <Source />
       </Columns>
     </Box>
+  )
+}
+
+function Export() {
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
   )
 }
 
@@ -29,11 +35,5 @@ function Source() {
       icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={toggleSource}
     />
-  )
-}
-
-function Export() {
-  return (
-    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
   )
 }
