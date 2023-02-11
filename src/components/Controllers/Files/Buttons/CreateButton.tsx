@@ -131,7 +131,7 @@ function ChartButton() {
       label="Create Chart"
       icon={<ChartIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => {
-        const file = new File(['{}'], 'chart.vl.json')
+        const file = new File([], 'chart.vljson')
         // TODO: fix
         // @ts-ignore
         uploadFiles([file])

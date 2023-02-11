@@ -8,7 +8,7 @@ import Menu from './Menu'
 
 export default function Layout() {
   const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
+  const height = `calc(100vh - ${theme.spacing(8)})`
   const isPublish = useStore((state) => state.isPublish)
   const togglePublish = useStore((state) => state.togglePublish)
   const publishPackage = useStore((state) => state.publishPackage)
