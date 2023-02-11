@@ -12,10 +12,10 @@ export default function TableContent() {
   if (!file) return null
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Tabs labels={['Content', 'Charts', 'SQL']}>
+      <Tabs labels={['File', 'SQL', 'Chart']}>
         <Table client={client} file={file} />
-        <Chart client={client} file={file} />
         <Sql client={client} file={file} />
+        <Chart client={client} file={file} />
       </Tabs>
     </Box>
   )
