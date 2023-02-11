@@ -2,7 +2,9 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import QueryIcon from '@mui/icons-material/Search'
 import ExportIcon from '@mui/icons-material/IosShare'
+import SaveIcon from '@mui/icons-material/Check'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
+import CommitButton from '../../Parts/Buttons/CommitButton'
 import Columns from '../../Parts/Columns'
 import { useStore } from './store'
 
@@ -12,7 +14,10 @@ export default function Actions() {
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
         <Query />
-        <Export />
+        <Columns spacing={2}>
+          <Export />
+          <Save />
+        </Columns>
       </Columns>
     </Box>
   )
@@ -31,6 +36,16 @@ function Query() {
 
 function Export() {
   return (
-    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
+    <DefaultButton
+      disabled={true}
+      icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Export"
+    />
+  )
+}
+
+function Save() {
+  return (
+    <CommitButton disabled={true} icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />} />
   )
 }
