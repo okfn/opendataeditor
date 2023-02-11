@@ -6,21 +6,20 @@ import Card from '@mui/material/Card'
 import MuiAvatar from '@mui/material/Avatar'
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded'
 
-export default function EmptyContent() {
+interface EmptyProps {
+  title: string
+  description: string
+}
+
+export default function Empty(props: EmptyProps) {
   return (
     <StyledCard>
       <StyledCardContent>
         <StyledMuiAvatar>
           <NoteAddRoundedIcon />
         </StyledMuiAvatar>
-        <Typography sx={{ fontWeight: 600 }}>No resources found.</Typography>
-        <Typography sx={{ fontWeight: 300 }}>
-          Use{' '}
-          <Typography component="span" sx={{ color: '#3577D2' }}>
-            &quot;+ New&quot;{' '}
-          </Typography>{' '}
-          to upload files.
-        </Typography>
+        <Typography sx={{ fontWeight: 600 }}>{props.title}</Typography>
+        <Typography sx={{ fontWeight: 300 }}>{props.description}</Typography>
       </StyledCardContent>
     </StyledCard>
   )

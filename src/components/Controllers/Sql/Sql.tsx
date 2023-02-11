@@ -8,7 +8,7 @@ import Layout from './Layout'
 
 export interface SqlProps {
   client: Client
-  file: IFile
+  file?: IFile
 }
 
 export default function Sql(props: SqlProps) {
