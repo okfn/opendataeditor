@@ -1,17 +1,18 @@
 import * as React from 'react'
-import { ThemeProvider } from '@mui/material/styles'
 import { StoreProvider, createStore } from './store'
-import * as themes from '../../../themes'
 import { Client } from '../../../client'
+import { ThemeProvider } from '@mui/material/styles'
+import * as themes from '../../../themes'
 import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
-export interface SqlProps {
+export interface MetadataProps {
   client: Client
   file: IFile
+  onPathChange?: (path?: string) => void
 }
 
-export default function Sql(props: SqlProps) {
+export default function Metadata(props: MetadataProps) {
   const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

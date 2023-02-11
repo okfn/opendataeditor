@@ -12,7 +12,6 @@ export interface State {
 
   client: Client
   file: IFile
-  type?: 'package' | 'resource' | 'dialect' | 'schema' | 'checklist' | 'pipeline'
   onPathChange?: (path?: string) => void
   descriptor?: object
   isPublish?: boolean

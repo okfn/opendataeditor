@@ -1,47 +1,53 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
+import MetadataPanel from './Panels/Metadata'
+import ErrorsPanel from './Panels/Errors'
+import ChangesPanel from './Panels/Changes'
+import SourcePanel from './Panels/Source'
 import Actions from './Actions'
 import Content from './Content'
-import Menu from './Menu'
-import Resource from '../../Editors/Resource'
 import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
-  const isMetadata = useStore((state) => state.isMetadata)
-  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
-  const panelHeight = isMetadata ? 56 : 8
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + panelHeight)})`
-  const resource = useStore((state) => state.file.record?.resource)
-  const updateResource = useStore((state) => state.updateResource)
-  const updateColumn = useStore((state) => state.updateColumn)
+  const panel = useStore((state) => state.panel)
+  const height = `calc(100vh - ${theme.spacing(8)})`
+  const panelHeight = panel ? 48 : 0
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + panelHeight)})`
+  const path = useStore((state) => state.file.path)
+  const loadTable = useStore((state) => state.loadTable)
+  const loadSource = useStore((state) => state.loadSource)
+  React.useEffect(() => {
+    // TODO: rework
+    loadTable().catch(console.error)
+    loadSource().catch(console.error)
+  }, [path])
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Menu />
+    <React.Fragment>
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ height: contentHeight, overflowY: 'auto', overflowX: 'hidden' }}>
-          <Content height={contentHeight} />
+        <Box sx={{ height: contentHeight }}>
+          <Content />
         </Box>
-        <Box sx={{ marginTop: 'auto' }}>
-          <Box
-            hidden={!isMetadata}
-            sx={{ borderTop: 1, borderColor: 'divider', paddingX: 2 }}
-          >
-            <Resource
-              resource={resource}
-              withTabs={true}
-              onCommit={updateResource}
-              onChangeColumn={(selectedColumn) => {
-                updateColumn(selectedColumn)
-              }}
-            />
-          </Box>
-          <Box hidden={isMetadata}>
-            <Actions />
-          </Box>
+        <Box
+          hidden={!panel}
+          sx={{
+            overflowY: 'auto',
+            height: theme.spacing(48),
+            borderTop: 1,
+            borderColor: 'divider',
+            paddingX: 2,
+          }}
+        >
+          {panel === 'metadata' && <MetadataPanel />}
+          {panel === 'errors' && <ErrorsPanel />}
+          {panel === 'changes' && <ChangesPanel />}
+          {panel === 'source' && <SourcePanel />}
+        </Box>
+        <Box sx={{ height: theme.spacing(8) }}>
+          <Actions />
         </Box>
       </Box>
-    </Box>
+    </React.Fragment>
   )
 }

@@ -8,7 +8,7 @@ import { ChartProps } from './Chart'
 
 export interface State {
   client: Client
-  file: IFile
+  file?: IFile
   chart?: any
   axisX?: string
   axisY?: string
@@ -31,6 +31,7 @@ export function createStore(props: ChartProps) {
     setAxisY: (axisY) => set({ axisY }),
     drawChart: async () => {
       const { client, file, axisX, axisY } = get()
+      if (!file) return
       const { table } = await client.tableRead({ path: file.path })
       if (!axisX || !axisY) return
       const chart = {

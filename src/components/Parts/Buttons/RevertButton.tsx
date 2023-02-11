@@ -4,6 +4,7 @@ import * as settings from '../../../settings'
 
 interface RevertButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
+  icon?: React.ReactNode
   disabled?: boolean
   onClick: () => void
 }
@@ -18,11 +19,11 @@ export default function RevertButton(props: RevertButtonProps) {
           ? 'outlined'
           : props.variant || settings.DEFUALT_PRIMARY_BUTTON_VARIANT
       }
-      title="Discard the changes"
+      title="Revert the changes"
       disabled={props.disabled}
       onClick={() => props.onClick()}
     >
-      Discard
+      {props.icon} Revert
     </Button>
   )
 }
