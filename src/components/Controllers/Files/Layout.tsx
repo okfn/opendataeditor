@@ -9,6 +9,7 @@ import { useStore } from './store'
 export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8)})`
   const listFiles = useStore((state) => state.listFiles)
   React.useEffect(() => {
     listFiles().catch(console.error)
@@ -17,7 +18,7 @@ export default function Layout() {
     <React.Fragment>
       <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ height }}>
+        <Box sx={{ height: contentHeight }}>
           <Content />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>

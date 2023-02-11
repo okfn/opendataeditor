@@ -6,9 +6,10 @@ import DeleteButton from './Buttons/DeleteButton'
 import ManageButton from './Buttons/ManageButton'
 
 export default function Actions() {
+  // TODO: fix geometry
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px' }}>
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '58px' }}>
       <Columns spacing={2}>
         <CreateButton />
         <ManageButton />
