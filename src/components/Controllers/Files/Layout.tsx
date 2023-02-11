@@ -8,7 +8,7 @@ import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
+  const height = `calc(100vh - ${theme.spacing(8)})`
   const listFiles = useStore((state) => state.listFiles)
   React.useEffect(() => {
     listFiles().catch(console.error)
