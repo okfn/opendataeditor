@@ -28,14 +28,12 @@ export default function Content() {
 function FileTab() {
   const client = useStore((state) => state.client)
   const file = useStore((state) => state.file)
-  if (!file) {
-    return (
-      <Empty title="No Files Selected" description="Select a file in the left menu" />
-    )
+  if (file) {
+    let FileController = File
+    if (file.type === 'table') FileController = Table
+    if (file.type === 'package') FileController = Package
+    if (settings.METADATA_TYPES.includes(file.type)) FileController = Metadata
+    return <FileController client={client} file={file} />
   }
-  let FileController = File
-  if (file.type === 'table') FileController = Table
-  if (file.type === 'package') FileController = Package
-  if (settings.METADATA_TYPES.includes(file.type)) FileController = Metadata
-  return <FileController client={client} file={file} />
+  return <Empty title="No Files Selected" description="Select a file in the left menu" />
 }
