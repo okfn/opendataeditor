@@ -1,25 +1,36 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import QueryIcon from '@mui/icons-material/Search'
+import ExportIcon from '@mui/icons-material/IosShare'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import Columns from '../../Parts/Columns'
-import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Actions() {
-  const theme = useTheme()
-  const height = `calc(${theme.spacing(8)} - 1px)`
-  const makeQuery = useStore((state) => state.makeQuery)
+  // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
-        <DefaultButton variant="contained" label="Make Query" onClick={makeQuery} />
-        <DefaultButton
-          variant="contained"
-          color="secondary"
-          label="Save Table"
-          onClick={() => {}}
-        />
+        <Query />
+        <Export />
       </Columns>
     </Box>
+  )
+}
+
+function Export() {
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
+  )
+}
+
+function Query() {
+  const makeQuery = useStore((state) => state.makeQuery)
+  return (
+    <DefaultButton
+      icon={<QueryIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Query"
+      onClick={makeQuery}
+    />
   )
 }
