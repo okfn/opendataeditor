@@ -1,26 +1,30 @@
 import * as React from 'react'
-import FileContent from './Contents/FileContent'
-import MetadataContent from './Contents/MetadataContent'
-import PackageContent from './Contents/PackageContent'
-import TableContent from './Contents/TableContent'
+import Box from '@mui/material/Box'
+import Tabs from '../Parts/Tabs'
+import File from '../Controllers/File'
+import Table from '../Controllers/Table'
+import Package from '../Controllers/Package'
+import Metadata from '../Controllers/Metadata'
+import Chart from '../Controllers/Chart'
+import Sql from '../Controllers/Sql'
 import * as settings from '../../settings'
 import { useStore } from './store'
 
-const METADATA_FORMATS = ['json', 'yaml']
-
 export default function Content() {
+  const client = useStore((state) => state.client)
   const file = useStore((state) => state.file)
   if (!file) return null
-  switch (file.type) {
-    case 'table':
-      return <TableContent />
-    case 'file':
-      if (file.path === settings.PACKAGE_PATH) return <PackageContent />
-      if (METADATA_FORMATS.includes(file.record?.resource.format || '')) {
-        return <MetadataContent />
-      }
-      return <FileContent />
-    default:
-      return null
-  }
+  let FileController = File
+  if (file.type === 'table') FileController = Table
+  if (file.type === 'package') FileController = Package
+  if (settings.METADATA_TYPES.includes(file.type)) FileController = Metadata
+  return (
+    <Box sx={{ borderRight: 'solid 1px #ddd' }}>
+      <Tabs labels={['File', 'SQL', 'Chart']}>
+        <FileController client={client} file={file} />
+        <Sql client={client} file={file} />
+        <Chart client={client} file={file} />
+      </Tabs>
+    </Box>
+  )
 }
