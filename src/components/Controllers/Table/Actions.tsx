@@ -3,13 +3,12 @@ import isEmpty from 'lodash/isEmpty'
 import Box from '@mui/material/Box'
 import MetadataIcon from '@mui/icons-material/Tune'
 import ErrorIcon from '@mui/icons-material/WarningAmber'
-import ChangesIcon from '@mui/icons-material/Reorder'
+import ChangesIcon from '@mui/icons-material/History'
 import ExportIcon from '@mui/icons-material/IosShare'
-import RevertIcon from '@mui/icons-material/History'
+import SourceIcon from '@mui/icons-material/Code'
 import SaveIcon from '@mui/icons-material/Check'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
-import RevertButton from '../../Parts/Buttons/RevertButton'
 import Columns from '../../Parts/Columns'
 import { useStore } from './store'
 
@@ -18,14 +17,33 @@ export default function Actions() {
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
+        <Export />
+        <Source />
         <Metadata />
         <Errors />
         <Changes />
-        <Export />
-        <Revert />
         <Save />
       </Columns>
     </Box>
+  )
+}
+
+function Export() {
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
+  )
+}
+
+function Source() {
+  const panel = useStore((state) => state.panel)
+  const setPanel = useStore((state) => state.setPanel)
+  return (
+    <DefaultButton
+      label="Source"
+      icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
+      variant={panel === 'source' ? 'contained' : 'outlined'}
+      onClick={() => setPanel(panel !== 'source' ? 'source' : undefined)}
+    />
   )
 }
 
@@ -58,30 +76,15 @@ function Errors() {
 function Changes() {
   const panel = useStore((state) => state.panel)
   const setPanel = useStore((state) => state.setPanel)
+  const tablePatch = useStore((state) => state.tablePatch)
   return (
     <DefaultButton
       label="Changes"
+      disabled={isEmpty(tablePatch)}
+      color={!isEmpty(tablePatch) ? 'warning' : undefined}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
       variant={panel === 'changes' ? 'contained' : 'outlined'}
       onClick={() => setPanel(panel !== 'changes' ? 'changes' : undefined)}
-    />
-  )
-}
-
-function Export() {
-  return (
-    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
-  )
-}
-
-function Revert() {
-  const revertPatch = useStore((state) => state.revertPatch)
-  const tablePatch = useStore((state) => state.tablePatch)
-  return (
-    <RevertButton
-      disabled={isEmpty(tablePatch)}
-      icon={<RevertIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={revertPatch}
     />
   )
 }

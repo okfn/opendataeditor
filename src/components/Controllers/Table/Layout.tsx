@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles'
 import MetadataPanel from './Panels/Metadata'
 import ErrorsPanel from './Panels/Errors'
 import ChangesPanel from './Panels/Changes'
+import SourcePanel from './Panels/Source'
 import Actions from './Actions'
 import Content from './Content'
 import { useStore } from './store'
@@ -32,6 +33,7 @@ export default function Layout() {
           {panel === 'metadata' && <MetadataPanel />}
           {panel === 'errors' && <ErrorsPanel />}
           {panel === 'changes' && <ChangesPanel />}
+          {panel === 'source' && <SourcePanel />}
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Actions />

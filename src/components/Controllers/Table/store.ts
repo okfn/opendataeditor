@@ -7,7 +7,7 @@ import { Client } from '../../../client'
 import { IFile, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
-type IPanel = 'metadata' | 'errors' | 'changes'
+type IPanel = 'metadata' | 'errors' | 'changes' | 'source'
 
 export interface State {
   client: Client
