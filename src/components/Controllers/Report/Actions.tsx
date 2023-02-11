@@ -1,40 +1,39 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import ExportIcon from '@mui/icons-material/IosShare'
+import SourceIcon from '@mui/icons-material/Code'
+import DefaultButton from '../../Parts/Buttons/DefaultButton'
+import Columns from '../../Parts/Columns'
 import { useStore } from './store'
-import { Grid } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import ExportButton from '../../Parts/Buttons/ExportButton'
-import * as settings from '../../../settings'
 
 export default function Actions() {
-  const theme = useTheme()
-  const height = `calc(${theme.spacing(8)} - 1px)`
-  const isPreview = useStore((state) => state.isPreview)
-  const exportFormat = useStore((state) => state.exportFormat)
-  const setExportFormat = useStore((state) => state.setExportFormat)
-  const togglePreview = useStore((state) => state.togglePreview)
-  const exporter = useStore((state) => state.exporter)
+  // TODO: move styling to Layout?
+  // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box
-      sx={{
-        lineHeight: height,
-        borderTop: 1,
-        borderColor: 'divider',
-        paddingX: 2,
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <ExportButton
-            format={exportFormat}
-            options={settings.METADATA_FORMATS}
-            isPreview={isPreview}
-            onExport={exporter}
-            onPreview={togglePreview}
-            setFormat={setExportFormat}
-          />
-        </Grid>
-      </Grid>
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
+      <Columns spacing={2}>
+        <Source />
+        <Export />
+      </Columns>
     </Box>
+  )
+}
+
+function Source() {
+  const isSource = useStore((state) => state.isSource)
+  const toggleSource = useStore((state) => state.toggleSource)
+  return (
+    <DefaultButton
+      label="Source"
+      variant={isSource ? 'contained' : 'outlined'}
+      icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={toggleSource}
+    />
+  )
+}
+
+function Export() {
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
   )
 }

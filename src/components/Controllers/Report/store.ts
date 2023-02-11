@@ -1,48 +1,32 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
-import yaml from 'js-yaml'
-import FileSaver from 'file-saver'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import { ReportProps } from './Report'
-import * as settings from '../../../settings'
 
 export interface State {
-  // Data
-
   client: Client
   file: IFile
-  exportFormat: string
-  isPreview?: boolean
-  setExportFormat: (format: string) => void
-  togglePreview: () => void
+  isSource?: boolean
+  toggleSource: () => void
 
-  // Logic
+  // General
 
   exporter: () => void
 }
 
 export function createStore(props: ReportProps) {
   return create<State>((set, get) => ({
-    // Data
-
     client: props.client,
     file: props.file,
-    exportFormat: settings.DEFAULT_EXPORT_FORMAT,
-    setExportFormat: (exportFormat) => set({ exportFormat }),
-    togglePreview: () => set({ isPreview: !get().isPreview }),
 
-    // Logic
+    // General
 
+    toggleSource: () => set({ isSource: !get().isSource }),
     exporter: () => {
-      const { file, exportFormat } = get()
-      const isYaml = exportFormat === 'yaml'
-      const text = isYaml ? yaml.dump(file) : JSON.stringify(file, null, 2)
-      const blob = new Blob([text], { type: `text/${exportFormat};charset=utf-8` })
-      FileSaver.saveAs(blob, `report.${exportFormat}`)
-      set({ exportFormat: settings.DEFAULT_EXPORT_FORMAT, isPreview: false })
+      // TODO: implement
     },
   }))
 }
