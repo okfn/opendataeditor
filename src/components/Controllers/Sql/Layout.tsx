@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-import QueryPanel from './Panels/Query'
+import ConfigPanel from './Panels/Config'
 import Actions from './Actions'
 import Content from './Content'
 
@@ -25,7 +25,7 @@ export default function Layout() {
             paddingX: 2,
           }}
         >
-          <QueryPanel />
+          <ConfigPanel />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Actions />

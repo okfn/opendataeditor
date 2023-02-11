@@ -18,12 +18,6 @@ export default function Actions() {
   )
 }
 
-function Export() {
-  return (
-    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
-  )
-}
-
 function Query() {
   const makeQuery = useStore((state) => state.makeQuery)
   return (
@@ -32,5 +26,11 @@ function Query() {
       label="Query"
       onClick={makeQuery}
     />
+  )
+}
+
+function Export() {
+  return (
+    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
   )
 }
