@@ -8,7 +8,7 @@ import Layout from './Layout'
 
 export interface ChartProps {
   client: Client
-  file: IFile
+  file?: IFile
 }
 
 export default function Chart(props: ChartProps) {

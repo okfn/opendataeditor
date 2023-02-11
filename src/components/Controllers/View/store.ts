@@ -9,7 +9,7 @@ import { SqlProps } from './Sql'
 
 export interface State {
   client: Client
-  file: IFile
+  file?: IFile
   query?: string
   table?: ITable
 

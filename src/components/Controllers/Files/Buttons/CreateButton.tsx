@@ -4,6 +4,8 @@ import AddIcon from '@mui/icons-material/AddBox'
 import FolderIcon from '@mui/icons-material/Folder'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import ViewIcon from '@mui/icons-material/Storage'
+import ChartIcon from '@mui/icons-material/Leaderboard'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import * as settings from '../../../../settings'
@@ -22,6 +24,8 @@ export default function CreateButton() {
       <UploadButton />
       <FolderButton />
       <PackageButton />
+      <ViewButton />
+      <ChartButton />
     </DropdownButton>
   )
 }
@@ -96,6 +100,42 @@ function PackageButton() {
       label="Create Package"
       icon={<FolderIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={createPackage}
+    />
+  )
+}
+
+function ViewButton() {
+  const uploadFiles = useStore((state) => state.uploadFiles)
+  return (
+    <DefaultButton
+      variant="text"
+      color="info"
+      label="Create SQL View"
+      icon={<ViewIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => {
+        const file = new File([], 'view.sql')
+        // TODO: fix
+        // @ts-ignore
+        uploadFiles([file])
+      }}
+    />
+  )
+}
+
+function ChartButton() {
+  const uploadFiles = useStore((state) => state.uploadFiles)
+  return (
+    <DefaultButton
+      variant="text"
+      color="info"
+      label="Create Chart"
+      icon={<ChartIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => {
+        const file = new File([], 'chart.vljson')
+        // TODO: fix
+        // @ts-ignore
+        uploadFiles([file])
+      }}
     />
   )
 }

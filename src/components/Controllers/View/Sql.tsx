@@ -6,12 +6,12 @@ import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
-export interface ReportProps {
+export interface SqlProps {
   client: Client
-  file: IFile
+  file?: IFile
 }
 
-export default function Report(props: ReportProps) {
+export default function Sql(props: SqlProps) {
   const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

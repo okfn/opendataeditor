@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import DrawIcon from '@mui/icons-material/Insights'
+import QueryIcon from '@mui/icons-material/Search'
 import ExportIcon from '@mui/icons-material/IosShare'
 import SaveIcon from '@mui/icons-material/Check'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
@@ -24,12 +24,12 @@ export default function Actions() {
 }
 
 function Query() {
-  const drawChart = useStore((state) => state.drawChart)
+  const makeQuery = useStore((state) => state.makeQuery)
   return (
     <DefaultButton
-      icon={<DrawIcon fontSize="small" sx={{ mr: 1 }} />}
-      label="Draw"
-      onClick={drawChart}
+      icon={<QueryIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Query"
+      onClick={makeQuery}
     />
   )
 }

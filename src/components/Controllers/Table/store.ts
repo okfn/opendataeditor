@@ -7,20 +7,20 @@ import { Client } from '../../../client'
 import { IFile, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
-export interface State {
-  // Data
+type IPanel = 'metadata' | 'errors' | 'changes' | 'source'
 
+export interface State {
   client: Client
   file: IFile
-  isMetadata?: boolean
   tablePatch: ITablePatch
   table?: ITable
   source?: string
   selectedColumn?: number
+  panel?: IPanel
 
-  // Logic
+  // General
 
-  toggleMetadata: () => void
+  setPanel: (panel?: IPanel) => void
   loadTable: () => Promise<void>
   loadSource: () => Promise<void>
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
@@ -34,16 +34,12 @@ export interface State {
 
 export function createStore(props: TableProps) {
   return create<State>((set, get) => ({
-    // Data
-
     ...props,
     tablePatch: {},
 
-    // Logic
+    // General
 
-    toggleMetadata: () => {
-      set({ isMetadata: !get().isMetadata })
-    },
+    setPanel: (panel) => set({ panel }),
     loadTable: async () => {
       const { client, file } = get()
       const { table } = await client.tableRead({ path: file.path })

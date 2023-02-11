@@ -10,9 +10,9 @@ import { useStore } from './store'
 export default function Layout() {
   const theme = useTheme()
   const isMetadata = useStore((state) => state.isMetadata)
-  const height = `calc(100vh - ${theme.spacing(8 + 6)})`
+  const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = isMetadata ? 56 : 8
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + panelHeight)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + panelHeight)})`
   const resource = useStore((state) => state.file.record?.resource)
   const updateResource = useStore((state) => state.updateResource)
   return (

@@ -15,7 +15,7 @@ interface FileTreeProps {
   fileItemAdded?: boolean
   onExpand?: (newExpanded: string[]) => void
   onFileItemAdd?: (itemAdded: boolean) => void
-  onPathChange: (path: string) => void
+  onPathChange?: (path: string) => void
 }
 
 export default function FileTree(props: FileTreeProps) {
@@ -35,7 +35,7 @@ export default function FileTree(props: FileTreeProps) {
         defaultExpanded={props.expanded}
         expanded={expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-          props.onPathChange(nodeId)
+          if (props.onPathChange) props.onPathChange(nodeId)
           event.stopPropagation()
         }}
         onNodeToggle={(_event, newExpanded) => {
