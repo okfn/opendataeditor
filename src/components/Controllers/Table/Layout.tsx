@@ -15,6 +15,14 @@ export default function Layout() {
   const height = `calc(100vh - ${theme.spacing(8 + 6)})`
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 6 + panelHeight)})`
+  const path = useStore((state) => state.file.path)
+  const loadTable = useStore((state) => state.loadTable)
+  const loadSource = useStore((state) => state.loadSource)
+  React.useEffect(() => {
+    // TODO: rework
+    loadTable().catch(console.error)
+    loadSource().catch(console.error)
+  }, [path])
   return (
     <React.Fragment>
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
@@ -24,6 +32,7 @@ export default function Layout() {
         <Box
           hidden={!panel}
           sx={{
+            overflowY: 'auto',
             height: theme.spacing(48),
             borderTop: 1,
             borderColor: 'divider',
