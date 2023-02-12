@@ -4,18 +4,20 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
-import { ITable } from '../../../interfaces'
+import { ITable, IView, IFieldItem } from '../../../interfaces'
 import { SqlProps } from './Sql'
 
 export interface State {
   client: Client
   file?: IFile
-  query?: string
+  view?: IView
+  fields?: IFieldItem[]
   table?: ITable
 
   // General
 
-  setQuery: (query?: string) => void
+  setView: (view?: IView) => void
+  loadFields: () => Promise<void>
   makeQuery: () => Promise<void>
 }
 
@@ -26,11 +28,16 @@ export function createStore(props: SqlProps) {
 
     // General
 
-    setQuery: (query) => set({ query }),
+    setView: (view) => set({ view }),
+    loadFields: async () => {
+      const { client } = get()
+      const { items } = await client.fieldList()
+      set({ fields: items })
+    },
     makeQuery: async () => {
-      const { client, query } = get()
-      if (!query) return
-      const { table } = await client.tableQuery({ query })
+      const { client, view } = get()
+      if (!view) return
+      const { table } = await client.tableQuery({ query: view.query })
       set({ table })
     },
   }))
