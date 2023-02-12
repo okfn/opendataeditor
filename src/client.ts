@@ -2,6 +2,7 @@ import omit from 'lodash/omit'
 import { IPublish } from './interfaces/publish'
 import { IFile, IFileItem } from './interfaces/file'
 import { ITable, IQueryData } from './interfaces/table'
+import { IFieldItem } from './interfaces/schema'
 import { IData } from './interfaces/common'
 import * as settings from './settings'
 
@@ -42,6 +43,13 @@ export class Client {
   async dataRead(props: { path: string }) {
     const result = await this.request('/data/read', props)
     return result as { data: IData }
+  }
+
+  // Field
+
+  async fieldList() {
+    const result = await this.request('/field/list')
+    return result as { items: IFieldItem[] }
   }
 
   // File
