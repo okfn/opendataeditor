@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { Client } from '../../client'
 import * as themes from '../../themes'
 import Layout from './Layout'
+import { ConfirmProvider } from 'material-ui-confirm'
 
 export interface ApplicationProps {
   client: Client
@@ -15,8 +16,10 @@ export default function Application(props: ApplicationProps) {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>
-        <CssBaseline />
-        <Layout />
+        <ConfirmProvider>
+          <CssBaseline />
+          <Layout />
+        </ConfirmProvider>
       </StoreProvider>
     </ThemeProvider>
   )
