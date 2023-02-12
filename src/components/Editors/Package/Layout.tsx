@@ -5,7 +5,6 @@ import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import Checklist from '../Checklist'
-import Pipeline from '../Pipeline'
 import Actions from './Actions'
 import Content from './Content'
 import { useTheme } from '@mui/material/styles'
@@ -47,9 +46,8 @@ export function LayoutWithTabsTable() {
   const dialect = useStore((state) => state.descriptor.resources[0]?.dialect)
   const schema = useStore((state) => state.descriptor.resources[0]?.schema)
   const checklist = useStore((state) => state.descriptor.resources[0]?.checklist)
-  const pipeline = useStore((state) => state.descriptor.resources[0]?.pipeline)
   return (
-    <Tabs labels={['Package', 'Resource', 'Dialect', 'Schema', 'Checklist', 'Pipeline']}>
+    <Tabs labels={['Package', 'Resource', 'Dialect', 'Schema', 'Checklist']}>
       <LayoutDefault />
       <Resource
         resource={resource}
@@ -67,11 +65,6 @@ export function LayoutWithTabsTable() {
         checklist={checklist}
         schema={schema}
         onCommit={(checklist) => update({ resources: [{ ...resource, checklist }] })}
-      />
-      <Pipeline
-        pipeline={pipeline}
-        schema={schema}
-        onCommit={(pipeline) => update({ resources: [{ ...resource, pipeline }] })}
       />
     </Tabs>
   )
