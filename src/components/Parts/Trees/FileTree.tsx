@@ -1,10 +1,7 @@
 import * as React from 'react'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
-import { TransitionProps } from '@mui/material/transitions'
-import { useSpring, animated } from 'react-spring'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
-import Collapse from '@mui/material/Collapse'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
@@ -13,19 +10,19 @@ import { ITreeItem } from '../../../interfaces'
 
 interface FileTreeProps {
   tree: ITreeItem[]
-  path?: string
+  selected?: string
   expanded?: string[]
-  onPathChange: (path: string) => void
+  onPathChange?: (path: string) => void
 }
 
 export default function FileTree(props: FileTreeProps) {
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
-        selected={props.path || ''}
+        selected={props.selected || ''}
         defaultExpanded={props.expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-          props.onPathChange(nodeId)
+          if (props.onPathChange) props.onPathChange(nodeId)
           event.stopPropagation()
         }}
         sx={{ height: '100%' }}
@@ -59,7 +56,6 @@ function TreeNode(props: { item: ITreeItem }) {
 const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => (
   <TreeItem
     {...props}
-    TransitionComponent={TransitionComponent}
     label={<TreeItemIcon path={props.nodeId} label={props.label} type={props.type} />}
   />
 ))(({ theme, type }) => ({
@@ -84,25 +80,6 @@ function TreeItemIcon(props: { path: string; label: React.ReactNode; type: strin
       {props.type === 'folder' ? <FolderIcon color="info" /> : <DescriptionIcon />}
       {props.label}
     </Box>
-  )
-}
-
-function TransitionComponent(props: TransitionProps) {
-  const style = useSpring({
-    from: {
-      opacity: 0,
-      transform: 'translate3d(20px,0,0)',
-    },
-    to: {
-      opacity: props.in ? 1 : 0,
-      transform: `translate3d(${props.in ? 0 : 20}px,0,0)`,
-    },
-  })
-
-  return (
-    <animated.div style={style}>
-      <Collapse {...props} />
-    </animated.div>
   )
 }
 

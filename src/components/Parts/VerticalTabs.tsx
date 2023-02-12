@@ -23,7 +23,9 @@ function TabPanel(props: TabPanelProps) {
       {...other}
       style={{ width }}
     >
-      {value === index && <Box sx={{ paddingX: 3, paddingBottom: 3 }}>{children}</Box>}
+      {value === index && (
+        <Box sx={{ paddingX: 3, paddingBottom: 3, paddingRight: 5 }}>{children}</Box>
+      )}
     </div>
   )
 }
@@ -52,7 +54,7 @@ export default function VerticalTabs(props: VerticalTabsProps) {
   }
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', display: 'flex', height: '500px' }}>
+    <Box sx={{ bgcolor: 'background.paper', display: 'flex' }}>
       <Tabs
         orientation="vertical"
         // variant="scrollable"

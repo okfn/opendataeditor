@@ -10,7 +10,13 @@ export default {
 
 const Template: Story<Parameters<typeof Sql>[0]> = (args) => <Sql {...args} />
 
+// Props
+
+const client = new Client({ session: 'storybooktestersession' })
+
+// Stories
+
 export const Default = Template.bind({})
 Default.args = {
-  client: new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' }),
+  client,
 }

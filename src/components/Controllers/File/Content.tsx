@@ -1,17 +1,17 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Source from '../../Editors/Source'
+import Code from '../../Parts/Code'
 import { useStore } from './store'
 
 export default function Content() {
-  const format = useStore((state) => state.file.resource.format)
-  if (['jpg', 'png'].includes(format)) return <ContentImage />
+  const format = useStore((state) => state.file.record?.resource.format)
+  if (['jpg', 'png'].includes(format || '')) return <ContentImage />
   return <ContentText />
 }
 
 function ContentImage() {
   const path = useStore((state) => state.file.path)
-  const format = useStore((state) => state.file.resource.format)
+  const format = useStore((state) => state.file.record?.resource.format)
   const bytes = useStore((state) => state.bytes)
   const loadBytes = useStore((state) => state.loadBytes)
   React.useEffect(() => {
@@ -35,7 +35,7 @@ function ContentText() {
   if (!text) return null
   return (
     <Box sx={{ padding: 2 }}>
-      <Source source={text} />
+      <Code source={text} />
     </Box>
   )
 }

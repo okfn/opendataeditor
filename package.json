@@ -60,7 +60,6 @@
     "multer": "^1.4.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-spring": "^9.5.2",
     "react-vega": "^7.4.2",
     "reselect": "^4.1.5",
     "tmp-promise": "^3.0.3",

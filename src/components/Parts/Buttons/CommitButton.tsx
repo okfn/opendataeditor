@@ -4,8 +4,9 @@ import * as settings from '../../../settings'
 
 interface CommitButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
+  icon?: React.ReactNode
   disabled?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 export default function CommitButton(props: CommitButtonProps) {
@@ -20,9 +21,9 @@ export default function CommitButton(props: CommitButtonProps) {
       }
       title="Save the changes"
       disabled={props.disabled}
-      onClick={() => props.onClick()}
+      onClick={() => (props.onClick ? props.onClick() : undefined)}
     >
-      Save
+      {props.icon} Save
     </Button>
   )
 }

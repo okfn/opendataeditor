@@ -8,6 +8,7 @@ export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
 export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
+export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
 
 // Defaults
 
