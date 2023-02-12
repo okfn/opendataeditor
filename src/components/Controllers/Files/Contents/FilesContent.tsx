@@ -6,5 +6,15 @@ export default function FilesContent() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
   const setPath = useStore((state) => state.setPath)
-  return <FileTree tree={fileTree} path={path} onPathChange={setPath} />
+  const fileItemAdded = useStore((state) => state.fileItemAdded)
+  const setFileItemAdded = useStore((state) => state.setFileItemAdded)
+  return (
+    <FileTree
+      tree={fileTree}
+      path={path}
+      fileItemAdded={fileItemAdded}
+      onPathChange={setPath}
+      onFileItemAdd={setFileItemAdded}
+    />
+  )
 }

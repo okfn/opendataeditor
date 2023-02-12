@@ -10,37 +10,40 @@ import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import { ITreeItem } from '../../../interfaces'
-import { getPathList } from '../../../helpers'
 
 interface FileTreeProps {
   tree: ITreeItem[]
   path?: string
   expanded?: string[]
+  fileItemAdded?: boolean
+  onExpand?: (newExpanded: string[]) => void
+  onFileItemAdd?: (itemAdded: boolean) => void
   onPathChange: (path: string) => void
 }
 
 export default function FileTree(props: FileTreeProps) {
-  const [expanded, setExpanded] = React.useState<string[]>(props.expanded ?? [])
-  const [isExpanded, setIsExpanded] = React.useState(false)
+  const [expanded, setExpanded] = React.useState<string[]>(props.path ? [props.path] : [])
+  console.log(props.fileItemAdded)
+
   React.useEffect(() => {
-    if (props.path) {
-      let pathList = getPathList(props.path)
-      if (isExpanded) {
-        pathList = pathList.slice(0, pathList.length - 1)
-      }
-      setExpanded(pathList)
+    if (props.fileItemAdded && props.path && !expanded.includes(props.path)) {
+      setExpanded([props.path, ...expanded])
+      props.onFileItemAdd && props.onFileItemAdd(false)
     }
-  }, [props.path, isExpanded])
+  }, [props.tree])
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
         selected={props.path || ''}
+        defaultExpanded={props.expanded}
         expanded={expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
           props.onPathChange(nodeId)
           event.stopPropagation()
         }}
-        onNodeToggle={() => setIsExpanded(!isExpanded)}
+        onNodeToggle={(_event, newExpanded) => {
+          setExpanded(newExpanded)
+        }}
         sx={{ height: '100%' }}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
