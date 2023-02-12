@@ -3,18 +3,20 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
+import { IFile, IFieldItem } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
   client: Client
   file?: IFile
   chart?: any
+  fields?: IFieldItem[]
   axisX?: string
   axisY?: string
 
   // General
 
+  loadFields: () => Promise<void>
   setAxisX: (axisX: string) => void
   setAxisY: (axisX: string) => void
   drawChart: () => Promise<void>
@@ -27,6 +29,11 @@ export function createStore(props: ChartProps) {
 
     // General
 
+    loadFields: async () => {
+      const { client } = get()
+      const { items } = await client.fieldList()
+      set({ fields: items })
+    },
     setAxisX: (axisX) => set({ axisX }),
     setAxisY: (axisY) => set({ axisY }),
     drawChart: async () => {

@@ -1,6 +1,6 @@
 export interface IChart {
   query: string
-  height: number
-  weight: number
+  height?: number
+  weight?: number
   // TODO: complete
 }
