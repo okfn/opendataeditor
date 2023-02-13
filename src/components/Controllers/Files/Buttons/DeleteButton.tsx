@@ -8,6 +8,7 @@ export default function DeleteButton() {
   const path = useStore((state) => state.path)
   const deleteFile = useStore((state) => state.deleteFile)
   const confirm = useConfirm()
+
   return (
     <DefaultButton
       label="Delete"
@@ -19,9 +20,11 @@ export default function DeleteButton() {
         confirm({
           description: `This will permanently delete ${path} and it can't be undone. Please type "${path}" to confirm.`,
           confirmationKeyword: `${path}`,
-          confirmationButtonProps: { color: 'secondary' },
-          cancellationButtonProps: { color: 'warning' },
-        }).then(() => deleteFile())
+          confirmationButtonProps: { color: 'secondary', variant: 'contained' },
+          cancellationButtonProps: { color: 'warning', variant: 'contained' },
+        }).then(() => {
+          deleteFile()
+        })
       }}
     />
   )
