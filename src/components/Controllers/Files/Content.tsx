@@ -1,11 +1,20 @@
 import * as React from 'react'
 import Empty from '../../Parts/Empty'
+import SpinnerContent from '../../Parts/SpinnerContent'
 import FileTree from '../../Parts/Trees/FileTree'
 import { useStore, selectors } from './store'
 
 export default function Content() {
   const fileItems = useStore((state) => state.fileItems)
-  return fileItems.length ? <FilesContent /> : <EmptyContent />
+  const loading = useStore((state) => state.loading)
+  console.log('loading', loading)
+  return loading ? (
+    <SpinnerContent />
+  ) : fileItems.length ? (
+    <FilesContent />
+  ) : (
+    <EmptyContent />
+  )
 }
 
 function FilesContent() {
