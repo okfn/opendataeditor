@@ -7,15 +7,9 @@ import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
-import { Icon, ITreeItem } from '../../../interfaces'
-import {
-  AccountTree,
-  CheckCircleOutline,
-  Source,
-  Storage,
-  TableView,
-  VisibilityOutlined
-} from '@mui/icons-material'
+import { ITreeItem } from '../../../interfaces'
+import { AccountTree, CheckCircleOutline } from '@mui/icons-material'
+import { TableRows, Source, Storage, TableView } from '@mui/icons-material'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -25,27 +19,6 @@ interface FileTreeProps {
 }
 
 export default function FileTree(props: FileTreeProps) {
-  const icons = [
-    { type: 'folder', elem: <FolderIcon color="info" /> },
-    { type: 'file', elem: <DescriptionIcon color="primary" /> },
-    { type: 'chart', elem: <ChartIcon color="warning" /> },
-    { type: 'sql', elem: <Storage color="primary" /> },
-    { type: 'table', elem: <TableView color="primary" /> },
-    { type: 'package', elem: <Source color="primary" /> },
-    { type: 'resource', elem: <DescriptionIcon color="primary" /> },
-    { type: 'dialect', elem: <DescriptionIcon color="primary" /> },
-    { type: 'checklist', elem: <CheckCircleOutline color="primary" /> },
-    { type: 'pipeline', elem: <AccountTree color="primary" /> },
-    { type: 'schema', elem: <DescriptionIcon color="primary" /> },
-    { type: 'view', elem: <VisibilityOutlined color="primary" /> },
-  ]
-  function getIcon(type: string) {
-    const filteredIcons = icons.filter((icon) => {
-      return icon.type === type
-    })
-    if (filteredIcons.length > 0) return filteredIcons[0]
-    return { type: 'folder', elem: <FolderIcon /> }
-  }
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
@@ -61,7 +34,6 @@ export default function FileTree(props: FileTreeProps) {
         aria-label="customized"
       >
         {props.tree.map((item) => {
-          item.icon = getIcon(item.type)
           return <TreeNode item={item} key={item.path} />
         })}
       </TreeView>
@@ -76,7 +48,6 @@ function TreeNode(props: { item: ITreeItem }) {
       nodeId={props.item.path}
       label={props.item.name}
       type={props.item.type}
-      icon={props.item.icon}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -85,13 +56,9 @@ function TreeNode(props: { item: ITreeItem }) {
   )
 }
 
-const StyledTreeItem = styled((props: TreeItemProps & { type: string; icon?: Icon }) => {
-  const { icon, ...treeItemProps } = props
+const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => {
   return (
-    <TreeItem
-      {...treeItemProps}
-      label={<TreeItemIcon path={props.nodeId} label={props.label} icon={icon} />}
-    />
+    <TreeItem {...props} label={<TreeItemIcon label={props.label} type={props.type} />} />
   )
 })(({ theme, type }) => ({
   '& .MuiTreeItem-label': {
@@ -109,13 +76,31 @@ const StyledTreeItem = styled((props: TreeItemProps & { type: string; icon?: Ico
   },
 }))
 
-function TreeItemIcon(props: { path: string; label: React.ReactNode; icon?: Icon }) {
+function TreeItemIcon(props: { label: React.ReactNode; type: string }) {
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      {props.icon && props.icon.elem}
+      <TypeIcon type={props.type} />
       {props.label}
     </Box>
   )
+}
+
+function TypeIcon(props: { type: string }) {
+  const icons: { [type: string]: React.ReactElement } = {
+    folder: <FolderIcon color="primary" />,
+    file: <DescriptionIcon color="primary" />,
+    chart: <ChartIcon color="primary" />,
+    sql: <Storage color="primary" />,
+    table: <TableView color="primary" />,
+    package: <Source color="primary" />,
+    resource: <DescriptionIcon color="primary" />,
+    dialect: <DescriptionIcon color="primary" />,
+    checklist: <CheckCircleOutline color="primary" />,
+    pipeline: <AccountTree color="primary" />,
+    schema: <DescriptionIcon color="primary" />,
+    view: <TableRows color="primary" />,
+  }
+  return icons[props.type] || <DescriptionIcon color="primary" />
 }
 
 function MinusSquare(props: SvgIconProps) {
@@ -135,17 +120,3 @@ function PlusSquare(props: SvgIconProps) {
     </SvgIcon>
   )
 }
-
-// function CloseSquare(props: SvgIconProps) {
-//   return (
-//     <SvgIcon
-//       className="close"
-//       fontSize="inherit"
-//       style={{ width: 14, height: 14 }}
-//       {...props}
-//     >
-//       {/* tslint:disable-next-line: max-line-length */}
-//       <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
-//     </SvgIcon>
-//   )
-// }
