@@ -33,9 +33,9 @@ export default function FileTree(props: FileTreeProps) {
         defaultExpandIcon={<PlusSquare />}
         aria-label="customized"
       >
-        {props.tree.map((item) => {
-          return <TreeNode item={item} key={item.path} />
-        })}
+        {props.tree.map((item) => (
+          <TreeNode item={item} key={item.path} />
+        ))}
       </TreeView>
     </Box>
   )
