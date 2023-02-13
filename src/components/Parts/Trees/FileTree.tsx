@@ -6,7 +6,16 @@ import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
-import { ITreeItem } from '../../../interfaces'
+import ChartIcon from '@mui/icons-material/Leaderboard'
+import { Icon, ITreeItem } from '../../../interfaces'
+import {
+  AccountTree,
+  CheckCircleOutline,
+  Source,
+  Storage,
+  TableView,
+  VisibilityOutlined
+} from '@mui/icons-material'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -16,6 +25,27 @@ interface FileTreeProps {
 }
 
 export default function FileTree(props: FileTreeProps) {
+  const icons = [
+    { type: 'folder', elem: <FolderIcon color="info" /> },
+    { type: 'file', elem: <DescriptionIcon color="primary" /> },
+    { type: 'chart', elem: <ChartIcon color="warning" /> },
+    { type: 'sql', elem: <Storage color="primary" /> },
+    { type: 'table', elem: <TableView color="primary" /> },
+    { type: 'package', elem: <Source color="primary" /> },
+    { type: 'resource', elem: <DescriptionIcon color="primary" /> },
+    { type: 'dialect', elem: <DescriptionIcon color="primary" /> },
+    { type: 'checklist', elem: <CheckCircleOutline color="primary" /> },
+    { type: 'pipeline', elem: <AccountTree color="primary" /> },
+    { type: 'schema', elem: <DescriptionIcon color="primary" /> },
+    { type: 'view', elem: <VisibilityOutlined color="primary" /> },
+  ]
+  function getIcon(type: string) {
+    const filteredIcons = icons.filter((icon) => {
+      return icon.type === type
+    })
+    if (filteredIcons.length > 0) return filteredIcons[0]
+    return { type: 'folder', elem: <FolderIcon /> }
+  }
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
@@ -30,9 +60,10 @@ export default function FileTree(props: FileTreeProps) {
         defaultExpandIcon={<PlusSquare />}
         aria-label="customized"
       >
-        {props.tree.map((item) => (
-          <TreeNode item={item} key={item.path} />
-        ))}
+        {props.tree.map((item) => {
+          item.icon = getIcon(item.type)
+          return <TreeNode item={item} key={item.path} />
+        })}
       </TreeView>
     </Box>
   )
@@ -45,6 +76,7 @@ function TreeNode(props: { item: ITreeItem }) {
       nodeId={props.item.path}
       label={props.item.name}
       type={props.item.type}
+      icon={props.item.icon}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -53,12 +85,15 @@ function TreeNode(props: { item: ITreeItem }) {
   )
 }
 
-const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => (
-  <TreeItem
-    {...props}
-    label={<TreeItemIcon path={props.nodeId} label={props.label} type={props.type} />}
-  />
-))(({ theme, type }) => ({
+const StyledTreeItem = styled((props: TreeItemProps & { type: string; icon?: Icon }) => {
+  const { icon, ...treeItemProps } = props
+  return (
+    <TreeItem
+      {...treeItemProps}
+      label={<TreeItemIcon path={props.nodeId} label={props.label} icon={icon} />}
+    />
+  )
+})(({ theme, type }) => ({
   '& .MuiTreeItem-label': {
     fontWeight: type === 'package' ? 'bold' : 'normal',
   },
@@ -74,10 +109,10 @@ const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => (
   },
 }))
 
-function TreeItemIcon(props: { path: string; label: React.ReactNode; type: string }) {
+function TreeItemIcon(props: { path: string; label: React.ReactNode; icon?: Icon }) {
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      {props.type === 'folder' ? <FolderIcon color="info" /> : <DescriptionIcon />}
+      {props.icon && props.icon.elem}
       {props.label}
     </Box>
   )
