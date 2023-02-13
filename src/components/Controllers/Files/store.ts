@@ -17,6 +17,7 @@ export interface State {
   dialog?: IDialog
   initialUpload?: boolean
   initialDataPackage?: boolean
+  loading?: boolean
 
   // General
 
@@ -50,6 +51,7 @@ export function createStore(props: FilesProps) {
     initialUpload: props.initialUpload,
     initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
+    loading: true,
 
     // General
 
@@ -88,6 +90,7 @@ export function createStore(props: FilesProps) {
       const { client } = get()
       const { items } = await client.fileList()
       set({ fileItems: items })
+      set({ loading: false })
     },
     moveFile: async (folder) => {
       const { client, path, listFiles } = get()
