@@ -9,7 +9,7 @@ export default function DeleteButton() {
   const deleteFile = useStore((state) => state.deleteFile)
   const isFolder = useStore(selectors.isFolder)
   const confirm = useConfirm()
-  const type = (isFolder ? 'folder' : 'file')
+  const type = isFolder ? 'Folder' : 'File'
   return (
     <DefaultButton
       label="Delete"
