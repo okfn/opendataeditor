@@ -5,7 +5,6 @@ import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
 import Checklist from '../../Editors/Checklist'
-import Pipeline from '../../Editors/Pipeline'
 import { IPackage, IResource, ISchema } from '../../../interfaces'
 // import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
@@ -38,7 +37,8 @@ export default function Content() {
           }}
           loadResource={async (path) => {
             const { file } = await client.fileRead({ path })
-            const { resource } = file
+            // @ts-ignore
+            const { resource } = file.record
             return resource
           }}
         />
@@ -47,7 +47,6 @@ export default function Content() {
       {type === 'dialect' && <Dialect dialect={descriptor} />}
       {type === 'schema' && <Schema schema={descriptor as ISchema} />}
       {type === 'checklist' && <Checklist checklist={descriptor} />}
-      {type === 'pipeline' && <Pipeline pipeline={descriptor} />}
     </Box>
   )
 }

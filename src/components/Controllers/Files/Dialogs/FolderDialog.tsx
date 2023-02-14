@@ -11,17 +11,18 @@ import FileTree from '../../../Parts/Trees/FileTree'
 import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {
-  const [target, setTarget] = React.useState('')
   const targetTree = useStore(selectors.targetTree)
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
   const copyFile = useStore((state) => state.copyFile)
   const moveFile = useStore((state) => state.moveFile)
   const isFolder = useStore(selectors.isFolder)
+  const folderPath = useStore(selectors.folderPath)
+  const [target, setTarget] = React.useState(folderPath || '/')
   const handleClose = () => setDialog(undefined)
   const handleSelect = () => {
     const action = dialog === 'folder/copy' ? copyFile : moveFile
-    action(target)
+    action(target !== '/' ? target : undefined)
     setDialog(undefined)
   }
   return (
@@ -52,6 +53,7 @@ export default function FolderDialog() {
       >
         <FileTree
           tree={targetTree}
+          selected={target}
           expanded={[targetTree[0].path]}
           onPathChange={setTarget}
         />
@@ -74,7 +76,6 @@ export default function FolderDialog() {
             variant="contained"
             size="small"
             onClick={handleSelect}
-            disabled={!target}
             color="secondary"
           >
             {dialog === 'folder/copy' ? 'Copy' : 'Move'}

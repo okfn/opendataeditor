@@ -12,7 +12,7 @@ export default {
 
 // Props
 
-const client = new Client({ session: '0ZboLklNFmEyRnUSnMgtMg' })
+const client = new Client({ session: 'storybooktestersession' })
 const record = {
   name: 'table',
   type: 'table',
@@ -24,7 +24,7 @@ const record = {
   report: reportValid,
 }
 
-// Components
+// Stories
 
 export const Data = Template.bind({})
 Data.args = {

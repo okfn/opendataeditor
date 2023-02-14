@@ -17,6 +17,7 @@ export interface State {
   dialog?: IDialog
   initialUpload?: boolean
   initialDataPackage?: boolean
+  loading?: boolean
 
   // General
 
@@ -27,10 +28,10 @@ export interface State {
 
   // File
 
-  copyFile: (folder: string) => Promise<void>
+  copyFile: (folder?: string) => Promise<void>
   deleteFile: () => Promise<void>
   listFiles: () => Promise<void>
-  moveFile: (folder: string) => Promise<void>
+  moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
 
@@ -50,6 +51,7 @@ export function createStore(props: FilesProps) {
     initialUpload: props.initialUpload,
     initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
+    loading: true,
 
     // General
 
@@ -88,6 +90,7 @@ export function createStore(props: FilesProps) {
       const { client } = get()
       const { items } = await client.fileList()
       set({ fileItems: items })
+      set({ loading: false })
     },
     moveFile: async (folder) => {
       const { client, path, listFiles } = get()
@@ -113,7 +116,7 @@ export function createStore(props: FilesProps) {
         }
         const folder = selectors.folderPath(get())
         const result = await client.fileCreate({ file, folder })
-        path = result.file.path
+        path = result.path
       }
       if (!path) return
       await listFiles()
@@ -166,7 +169,7 @@ export const selectors = {
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
     const targetTree: ITreeItem[] = [
-      { name: 'Project', path: '.', type: 'folder', children: fileTree },
+      { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree
   },
