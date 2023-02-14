@@ -21,7 +21,7 @@ export default function DeleteButton() {
         confirm({
           title: `Delete ${type}`,
           confirmationText: 'Delete',
-          description: `Your are deleting "${path}". Are you sure?`,
+          description: `You are deleting "${path}". Are you sure?`,
           confirmationButtonProps: {
             color: 'secondary',
             variant: 'contained',
