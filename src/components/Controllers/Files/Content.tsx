@@ -21,7 +21,19 @@ function FilesContent() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
   const setPath = useStore((state) => state.setPath)
-  return <FileTree tree={fileTree} selected={path} onPathChange={setPath} />
+  const fileItemAdded = useStore((state) => state.fileItemAdded)
+  const setFileItemAdded = useStore((state) => state.setFileItemAdded)
+  const folderPath = useStore(selectors.folderPath)
+  return (
+    <FileTree
+      tree={fileTree}
+      selected={path}
+      folderPath={folderPath}
+      onPathChange={setPath}
+      fileItemAdded={fileItemAdded}
+      onFileItemAdd={setFileItemAdded}
+    />
+  )
 }
 
 function EmptyContent() {
