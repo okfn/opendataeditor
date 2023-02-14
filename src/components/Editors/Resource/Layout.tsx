@@ -4,7 +4,6 @@ import Tabs from '../../Parts/Tabs'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import Checklist from '../Checklist'
-import Pipeline from '../Pipeline'
 import Actions from './Actions'
 import Content from './Content'
 import { useTheme } from '@mui/material/styles'
@@ -45,10 +44,9 @@ function LayoutWithTabsTable() {
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
   const checklist = useStore((state) => state.descriptor.checklist)
-  const pipeline = useStore((state) => state.descriptor.pipeline)
   const updateColumn = useStore((state) => state.updateColumn)
   return (
-    <Tabs index={2} labels={['Resource', 'Dialect', 'Schema', 'Checklist', '_Pipeline']}>
+    <Tabs index={2} labels={['Resource', 'Dialect', 'Schema', 'Checklist']}>
       <LayoutDefault />
       <Dialect dialect={dialect} onCommit={(dialect) => update({ dialect })} />
       <Schema
@@ -60,11 +58,6 @@ function LayoutWithTabsTable() {
         checklist={checklist}
         schema={schema}
         onCommit={(checklist) => update({ checklist })}
-      />
-      <Pipeline
-        pipeline={pipeline}
-        schema={schema}
-        onCommit={(pipeline) => update({ pipeline })}
       />
     </Tabs>
   )

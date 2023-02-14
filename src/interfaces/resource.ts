@@ -1,7 +1,6 @@
 import { ISchema } from './schema'
 import { IDialect } from './dialect'
 import { IChecklist } from './checklist'
-import { IPipeline } from './pipeline'
 
 export interface IResource {
   name: string
@@ -16,8 +15,6 @@ export interface IResource {
   dialect?: IDialect
   schema?: ISchema
   checklist?: IChecklist
-  // TODO: remove
-  pipeline?: IPipeline
   // TODO: remove
   stats?: {
     md5: string
