@@ -4,6 +4,7 @@ import Layout from './Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
+import { ConfirmProvider } from 'material-ui-confirm'
 
 export interface FilesProps {
   client: Client
@@ -17,7 +18,9 @@ export default function Files(props: FilesProps) {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>
-        <Layout />
+        <ConfirmProvider>
+          <Layout />
+        </ConfirmProvider>
       </StoreProvider>
     </ThemeProvider>
   )
