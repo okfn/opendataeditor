@@ -23,10 +23,12 @@ function FilesContent() {
   const setPath = useStore((state) => state.setPath)
   const fileItemAdded = useStore((state) => state.fileItemAdded)
   const setFileItemAdded = useStore((state) => state.setFileItemAdded)
+  const folderPath = useStore(selectors.folderPath)
   return (
     <FileTree
       tree={fileTree}
       selected={path}
+      folderPath={folderPath}
       onPathChange={setPath}
       fileItemAdded={fileItemAdded}
       onFileItemAdd={setFileItemAdded}

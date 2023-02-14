@@ -16,6 +16,7 @@ interface FileTreeProps {
   selected?: string
   expanded?: string[]
   fileItemAdded?: boolean
+  folderPath?: string
   onExpand?: (newExpanded: string[]) => void
   onFileItemAdd?: (itemAdded: boolean) => void
   onPathChange?: (path: string) => void
@@ -27,8 +28,10 @@ export default function FileTree(props: FileTreeProps) {
   )
 
   React.useEffect(() => {
-    if (props.fileItemAdded && props.selected && !expanded.includes(props.selected)) {
-      setExpanded([props.selected, ...expanded])
+    const isNewItemAdded =
+      props.fileItemAdded && props.folderPath && !expanded.includes(props.folderPath)
+    if (isNewItemAdded) {
+      props.folderPath && setExpanded([props.folderPath, ...expanded])
       props.onFileItemAdd && props.onFileItemAdd(false)
     }
   }, [props.tree])
@@ -36,7 +39,6 @@ export default function FileTree(props: FileTreeProps) {
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView
         selected={props.selected || ''}
-        defaultExpanded={props.expanded}
         expanded={expanded}
         onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
           if (props.onPathChange) props.onPathChange(nodeId)
