@@ -45,7 +45,7 @@
     "@inovua/reactdatagrid-community": "^4.21.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/lab": "^5.0.0-alpha.97",
-    "@mui/material": "^5.0.6",
+    "@mui/material": "^5.11.8",
     "@mui/system": "^5.0.6",
     "@mui/x-date-pickers": "^5.0.8",
     "classnames": "^2.3.1",
