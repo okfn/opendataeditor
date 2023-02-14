@@ -20,7 +20,8 @@ export default function DeleteButton() {
       onClick={() => {
         confirm({
           title: `Delete ${type}`,
-          description: `Are you sure? Your are deleting ${type} ${path}.`,
+          confirmationText: 'Delete',
+          description: `Your are deleting "${path}". Are you sure?`,
           confirmationButtonProps: {
             color: 'secondary',
             variant: 'contained',
