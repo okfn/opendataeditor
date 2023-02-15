@@ -34,6 +34,7 @@ export interface State {
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
+  uploadFolders: (files: FileList) => Promise<void>
 
   // Folder
 
@@ -116,6 +117,43 @@ export function createStore(props: FilesProps) {
         }
         const folder = selectors.folderPath(get())
         const result = await client.fileCreate({ file, folder })
+        path = result.path
+      }
+      if (!path) return
+      await listFiles()
+      setPath(path)
+    },
+    uploadFolders: async (files) => {
+      let path: string | undefined
+      const { client, listFiles, setPath } = get()
+      let filesList: { [key: string]: any }[] = []
+      let basePath
+      const fileParts = files[0].webkitRelativePath.split('/')
+      if (fileParts.length > 1) {
+        basePath = await client.folderCreate({ name: fileParts[0] })
+      }
+      for (const file of files) {
+        let folders = helpers.getFolderList(file)
+        // remove duplicate
+        folders = folders.filter(
+          (item) =>
+            !filesList.find(
+              (file) => file.name === item.name && file.folder === item.folder
+            )
+        )
+        filesList = filesList.concat(folders)
+      }
+      for (const file of filesList) {
+        // handle duplicate folder upload
+        const folderParts = file.folder.split('/')
+        folderParts[0] = basePath?.path
+        const folder = folderParts.join('/')
+
+        if (file.type === 'folder') {
+          await client.folderCreate({ name: file.name, folder: folder })
+          continue
+        }
+        const result = await client.fileCreate({ file: file.file, folder: folder })
         path = result.path
       }
       if (!path) return

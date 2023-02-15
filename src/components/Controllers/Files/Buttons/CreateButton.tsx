@@ -70,7 +70,7 @@ function UploadButton() {
 }
 
 function UploadFolderButton() {
-  const uploadFiles = useStore((state) => state.uploadFiles)
+  const uploadFolders = useStore((state) => state.uploadFolders)
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
@@ -80,20 +80,7 @@ function UploadFolderButton() {
           type="file"
           hidden
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) {
-              const files = [...ev.target.files].reduce(
-                (files: any, file: File, _index: number) => {
-                  files.push(
-                    new File([file], file.webkitRelativePath, {
-                      type: file.type,
-                    })
-                  )
-                  return files
-                },
-                []
-              )
-              uploadFiles(files)
-            }
+            if (ev.target.files) uploadFolders(ev.target.files)
           }}
           // @ts-expect-error
           webkitdirectory=""
