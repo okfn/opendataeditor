@@ -17,6 +17,7 @@ export interface State {
   dialog?: IDialog
   initialUpload?: boolean
   initialDataPackage?: boolean
+  fileItemAdded?: boolean
   loading?: boolean
 
   // General
@@ -25,6 +26,7 @@ export interface State {
   setDialog: (dialog?: IDialog) => void
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
+  setFileItemAdded: (value: boolean) => void
 
   // File
 
@@ -52,6 +54,7 @@ export function createStore(props: FilesProps) {
     initialUpload: props.initialUpload,
     initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
+    fileItemAdded: false,
     loading: true,
 
     // General
@@ -70,6 +73,9 @@ export function createStore(props: FilesProps) {
     },
     setInitialDataPackage: (initialDataPackage) => {
       set({ initialDataPackage })
+    },
+    setFileItemAdded: (fileItemAdded) => {
+      set({ fileItemAdded })
     },
 
     // File
@@ -122,6 +128,7 @@ export function createStore(props: FilesProps) {
       if (!path) return
       await listFiles()
       setPath(path)
+      set({ fileItemAdded: true })
     },
     uploadFolders: async (files) => {
       let path: string | undefined
@@ -168,6 +175,7 @@ export function createStore(props: FilesProps) {
       const folder = selectors.folderPath(get())
       await client.folderCreate({ name, folder })
       await listFiles()
+      set({ fileItemAdded: true })
     },
 
     // Package
