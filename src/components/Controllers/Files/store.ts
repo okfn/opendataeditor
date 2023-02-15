@@ -36,7 +36,7 @@ export interface State {
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
-  uploadFolders: (files: FileList) => Promise<void>
+  uploadFolder: (files: FileList) => Promise<void>
 
   // Folder
 
@@ -130,7 +130,7 @@ export function createStore(props: FilesProps) {
       setPath(path)
       set({ fileItemAdded: true })
     },
-    uploadFolders: async (files) => {
+    uploadFolder: async (files) => {
       let path: string | undefined
       const { client, listFiles, setPath } = get()
       let filesList: { [key: string]: any }[] = []
