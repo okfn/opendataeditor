@@ -95,7 +95,7 @@ export function createStore(props: FilesProps) {
     listFiles: async () => {
       const { client } = get()
       const { items } = await client.fileList()
-      set({ fileItems: items })
+      set({ fileItems: items ?? [] })
       set({ loading: false })
     },
     moveFile: async (folder) => {
