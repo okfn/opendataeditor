@@ -47,7 +47,7 @@ npm run components
 If you want to edit also the server you can install a live copy as:
 
 ```bash
-pip install -e ../framework # points to the framework directory
+pip install -e ../framework[api,excel,json,sql] # points to the framework directory
 ```
 
 ## Documentation
