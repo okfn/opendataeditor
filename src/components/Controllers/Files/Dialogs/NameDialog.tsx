@@ -56,7 +56,15 @@ export default function NameDialog() {
       </DialogTitle>
       <DialogContent sx={{ py: 0 }}>
         {folder && folder}
-        <TextField fullWidth size="small" value={name} onChange={handleChange} />
+        <TextField
+          fullWidth
+          size="small"
+          value={name}
+          onChange={handleChange}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') handleCreate()
+          }}
+        />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
