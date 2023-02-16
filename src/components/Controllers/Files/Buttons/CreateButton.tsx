@@ -3,13 +3,13 @@ import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/AddBox'
 import FolderIcon from '@mui/icons-material/Folder'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import ViewIcon from '@mui/icons-material/Storage'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
+import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material'
 
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload ?? false)
@@ -45,7 +45,7 @@ function UploadButton() {
   return (
     <React.Fragment>
       <Button fullWidth variant="text" color="info" component="label">
-        <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
+        <UploadFileRounded fontSize="small" sx={{ mr: 1 }} />
         Upload File
         <input
           type="file"
@@ -74,7 +74,7 @@ function UploadFolderButton() {
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
-        <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
+        <DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />
         Upload Folder
         <input
           type="file"

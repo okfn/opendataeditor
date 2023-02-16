@@ -131,13 +131,12 @@ export function createStore(props: FilesProps) {
       set({ fileItemAdded: true })
     },
     uploadFolder: async (files) => {
-      let path: string | undefined
-      const { client, listFiles, setPath } = get()
+      const { path, client, listFiles, setPath } = get()
       let filesList: { [key: string]: any }[] = []
       let basePath
       const fileParts = files[0].webkitRelativePath.split('/')
       if (fileParts.length > 1) {
-        basePath = await client.folderCreate({ name: fileParts[0] })
+        basePath = await client.folderCreate({ name: fileParts[0], folder: path })
       }
       for (const file of files) {
         let folders = helpers.getFolderList(file)
@@ -160,10 +159,8 @@ export function createStore(props: FilesProps) {
           await client.folderCreate({ name: file.name, folder: folder })
           continue
         }
-        const result = await client.fileCreate({ file: file.file, folder: folder })
-        path = result.path
+        await client.fileCreate({ file: file.file, folder: folder })
       }
-      if (!path) return
       await listFiles()
       setPath(path)
     },
