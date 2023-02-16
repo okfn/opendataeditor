@@ -57,6 +57,7 @@ export default function NameDialog() {
       <DialogContent sx={{ py: 0 }}>
         {folder && folder}
         <TextField
+          autoFocus
           fullWidth
           size="small"
           value={name}
