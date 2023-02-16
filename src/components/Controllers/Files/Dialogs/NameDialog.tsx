@@ -14,7 +14,10 @@ export default function NameDialog() {
   const createFolder = useStore((state) => state.createFolder)
   const renameFile = useStore((state) => state.renameFile)
   const isFolder = useStore(selectors.isFolder)
+  const path = useStore((state) => state.path)
+  const folderPath = useStore(selectors.folderPath)
   const [name, setName] = React.useState('')
+  const [folder, setFolder] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
   const handleCancel = () => setDialog(undefined)
@@ -23,6 +26,20 @@ export default function NameDialog() {
     action(name)
     handleCancel()
   }
+  const isCreate = dialog === 'name/create'
+  React.useEffect(() => {
+    if (!path) return
+    console.log(path, isCreate, folderPath)
+    if (!isCreate) {
+      setName(path.split('/').slice(-1).join('/'))
+      if (isFolder) {
+        setFolder(path.split('/').slice(0, -1).join('/'))
+        return
+      }
+    }
+    if (!folderPath) return
+    setFolder(folderPath)
+  }, [])
   return (
     <Dialog
       fullWidth
@@ -38,6 +55,7 @@ export default function NameDialog() {
           : `Rename ${isFolder ? 'Folder' : 'File'}`}
       </DialogTitle>
       <DialogContent sx={{ py: 0 }}>
+        {folder && folder}
         <TextField fullWidth size="small" value={name} onChange={handleChange} />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
