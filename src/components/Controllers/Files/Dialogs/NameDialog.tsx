@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
+import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { useStore, selectors } from '../store'
 import { Box } from '@mui/system'
@@ -55,7 +56,6 @@ export default function NameDialog() {
           : `Rename ${isFolder ? 'Folder' : 'File'}`}
       </DialogTitle>
       <DialogContent sx={{ py: 0 }}>
-        {folder && folder}
         <TextField
           autoFocus
           fullWidth
@@ -64,6 +64,11 @@ export default function NameDialog() {
           onChange={handleChange}
           onKeyPress={(event) => {
             if (event.key === 'Enter') handleCreate()
+          }}
+          InputProps={{
+            startAdornment: folder ? (
+              <InputAdornment position="start">{folder}&nbsp;/</InputAdornment>
+            ) : undefined,
           }}
         />
       </DialogContent>
