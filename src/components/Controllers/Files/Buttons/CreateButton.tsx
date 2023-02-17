@@ -3,17 +3,18 @@ import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/AddBox'
 import FolderIcon from '@mui/icons-material/Folder'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import ViewIcon from '@mui/icons-material/Storage'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
+import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material'
 
 export default function CreateButton() {
   const initialUpload = useStore((state) => state.initialUpload ?? false)
   const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
+  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   return (
     <DropdownButton
       label="Create"
@@ -22,6 +23,7 @@ export default function CreateButton() {
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <UploadButton />
+      {isWebkitDirectorySupported && <UploadFolderButton />}
       <FolderButton />
       <PackageButton />
       <ViewButton />
@@ -43,7 +45,7 @@ function UploadButton() {
   return (
     <React.Fragment>
       <Button fullWidth variant="text" color="info" component="label">
-        <CloudUploadIcon fontSize="small" sx={{ mr: 1 }} />
+        <UploadFileRounded fontSize="small" sx={{ mr: 1 }} />
         Upload File
         <input
           type="file"
@@ -61,6 +63,27 @@ function UploadButton() {
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
             if (ev.target.files) uploadFiles(ev.target.files)
           }}
+        />
+      </Button>
+    </React.Fragment>
+  )
+}
+
+function UploadFolderButton() {
+  const uploadFolder = useStore((state) => state.uploadFolder)
+  return (
+    <React.Fragment>
+      <Button variant="text" color="info" component="label">
+        <DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />
+        Upload Folder
+        <input
+          type="file"
+          hidden
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            if (ev.target.files) uploadFolder(ev.target.files)
+          }}
+          // @ts-expect-error
+          webkitdirectory=""
         />
       </Button>
     </React.Fragment>
