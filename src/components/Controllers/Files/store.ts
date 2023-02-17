@@ -7,7 +7,12 @@ import { FilesProps } from './Files'
 import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-type IDialog = 'folder/copy' | 'folder/move' | 'name/create' | 'name/rename'
+type IDialog =
+  | 'folder/copy'
+  | 'folder/move'
+  | 'name/create'
+  | 'name/rename'
+  | 'link/create'
 
 export interface State {
   client: Client
@@ -36,6 +41,7 @@ export interface State {
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
+  createFile: (url: string) => Promise<void>
 
   // Folder
 
@@ -127,6 +133,15 @@ export function createStore(props: FilesProps) {
       if (!path) return
       await listFiles()
       setPath(path)
+      set({ fileItemAdded: true })
+    },
+    createFile: async (path) => {
+      const { client, listFiles, setPath } = get()
+      const folder = selectors.folderPath(get())
+      const result = await client.fileCreate({ path, folder })
+      if (!result.path) return
+      await listFiles()
+      setPath(result.path)
       set({ fileItemAdded: true })
     },
 

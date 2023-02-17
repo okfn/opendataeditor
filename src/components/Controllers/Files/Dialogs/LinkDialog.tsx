@@ -1,0 +1,79 @@
+import * as React from 'react'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import TextField from '@mui/material/TextField'
+import { useStore, selectors } from '../store'
+import { Box } from '@mui/system'
+import Columns from '../../../Parts/Columns'
+
+export default function LinkDialog() {
+  const dialog = useStore((state) => state.dialog)
+  const setDialog = useStore((state) => state.setDialog)
+  const createFile = useStore((state) => state.createFile)
+  const folderPath = useStore(selectors.folderPath)
+  const [url, setURL] = React.useState('')
+  const [folder, setFolder] = React.useState('')
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
+    setURL(ev.target.value)
+  const handleCancel = () => setDialog(undefined)
+  const handleCreate = () => {
+    createFile(url)
+    handleCancel()
+  }
+  React.useEffect(() => {
+    if (!folderPath) return
+    setFolder(folderPath)
+  }, [])
+  return (
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      open={!!dialog && dialog.startsWith('link/')}
+      onClose={handleCancel}
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-description"
+    >
+      <DialogTitle id="dialog-title">Upload Link</DialogTitle>
+      <DialogContent sx={{ py: 0 }}>
+        {folder && folder}
+        <TextField
+          autoFocus
+          fullWidth
+          size="small"
+          value={url}
+          onChange={handleChange}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') handleCreate()
+          }}
+        />
+      </DialogContent>
+      <Box sx={{ paddingX: 3, paddingY: 1 }}>
+        <Columns spacing={2}>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            onClick={handleCancel}
+            aria-label="cancel"
+            color="warning"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            onClick={handleCreate}
+            aria-label="accept"
+            color="secondary"
+            variant="contained"
+            disabled={!url}
+          >
+            Upload
+          </Button>
+        </Columns>
+      </Box>
+    </Dialog>
+  )
+}
