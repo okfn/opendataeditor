@@ -14,7 +14,6 @@ export default function LinkDialog() {
   const createFile = useStore((state) => state.createFile)
   const folderPath = useStore(selectors.folderPath)
   const [url, setURL] = React.useState('')
-  const [folder, setFolder] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setURL(ev.target.value)
   const handleCancel = () => setDialog(undefined)
@@ -22,10 +21,6 @@ export default function LinkDialog() {
     createFile(url)
     handleCancel()
   }
-  React.useEffect(() => {
-    if (!folderPath) return
-    setFolder(folderPath)
-  }, [])
   return (
     <Dialog
       fullWidth
@@ -37,7 +32,7 @@ export default function LinkDialog() {
     >
       <DialogTitle id="dialog-title">Upload Link</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
-        {folder && folder}
+        {folderPath && folderPath}
         <TextField
           autoFocus
           fullWidth
