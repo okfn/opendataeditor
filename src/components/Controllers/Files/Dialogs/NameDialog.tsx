@@ -3,9 +3,11 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
+import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { useStore, selectors } from '../store'
+import { Box } from '@mui/system'
+import Columns from '../../../Parts/Columns'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -13,7 +15,10 @@ export default function NameDialog() {
   const createFolder = useStore((state) => state.createFolder)
   const renameFile = useStore((state) => state.renameFile)
   const isFolder = useStore(selectors.isFolder)
+  const path = useStore((state) => state.path)
+  const folderPath = useStore(selectors.folderPath)
   const [name, setName] = React.useState('')
+  const [folder, setFolder] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
   const handleCancel = () => setDialog(undefined)
@@ -22,8 +27,24 @@ export default function NameDialog() {
     action(name)
     handleCancel()
   }
+  const isCreate = dialog === 'name/create'
+  React.useEffect(() => {
+    if (!path) return
+    console.log(path, isCreate, folderPath)
+    if (!isCreate) {
+      setName(path.split('/').slice(-1).join('/'))
+      if (isFolder) {
+        setFolder(path.split('/').slice(0, -1).join('/'))
+        return
+      }
+    }
+    if (!folderPath) return
+    setFolder(folderPath)
+  }, [])
   return (
     <Dialog
+      fullWidth
+      maxWidth="sm"
       open={!!dialog && dialog.startsWith('name/')}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
@@ -34,28 +55,48 @@ export default function NameDialog() {
           ? 'Create Folder'
           : `Rename ${isFolder ? 'Folder' : 'File'}`}
       </DialogTitle>
-      <DialogContent>
-        <TextField size="small" value={name} onChange={handleChange} />
+      <DialogContent sx={{ py: 0 }}>
+        <TextField
+          autoFocus
+          fullWidth
+          size="small"
+          value={name}
+          onChange={handleChange}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') handleCreate()
+          }}
+          InputProps={{
+            startAdornment: folder ? (
+              <InputAdornment position="start">{folder}&nbsp;/</InputAdornment>
+            ) : undefined,
+          }}
+        />
       </DialogContent>
-      <DialogActions className="dialog-actions-dense">
-        <Button
-          onClick={handleCancel}
-          aria-label="cancel"
-          color="warning"
-          variant="contained"
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleCreate}
-          aria-label="accept"
-          color="secondary"
-          variant="contained"
-          disabled={!name}
-        >
-          {dialog === 'name/create' ? 'Create' : 'Rename'}
-        </Button>
-      </DialogActions>
+      <Box sx={{ paddingX: 3, paddingY: 1 }}>
+        <Columns spacing={2}>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            onClick={handleCancel}
+            aria-label="cancel"
+            color="warning"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            onClick={handleCreate}
+            aria-label="accept"
+            color="secondary"
+            variant="contained"
+            disabled={!name}
+          >
+            {dialog === 'name/create' ? 'Create' : 'Rename'}
+          </Button>
+        </Columns>
+      </Box>
     </Dialog>
   )
 }
