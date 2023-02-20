@@ -15,7 +15,7 @@ type IDialog =
   | 'link/create'
 
 type IMessage = {
-  status: string | undefined
+  status: string
   description: string
 }
 
@@ -29,7 +29,7 @@ export interface State {
   initialDataPackage?: boolean
   fileItemAdded?: boolean
   loading?: boolean
-  message?: IMessage
+  message?: IMessage | undefined
 
   // General
 
@@ -38,7 +38,7 @@ export interface State {
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
   setFileItemAdded: (value: boolean) => void
-  setMessage: (message: IMessage) => void
+  setMessage: (message: IMessage | undefined) => void
 
   // File
 
