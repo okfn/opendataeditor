@@ -14,6 +14,11 @@ type IDialog =
   | 'name/rename'
   | 'link/create'
 
+type IMessage = {
+  status: string | undefined
+  description: string
+}
+
 export interface State {
   client: Client
   path?: string
@@ -24,6 +29,7 @@ export interface State {
   initialDataPackage?: boolean
   fileItemAdded?: boolean
   loading?: boolean
+  message?: IMessage
 
   // General
 
@@ -32,6 +38,7 @@ export interface State {
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
   setFileItemAdded: (value: boolean) => void
+  setMessage: (message: IMessage) => void
 
   // File
 
@@ -82,6 +89,9 @@ export function createStore(props: FilesProps) {
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
+    },
+    setMessage: (message) => {
+      set({ message })
     },
 
     // File
@@ -140,6 +150,7 @@ export function createStore(props: FilesProps) {
       const { client, listFiles, setPath } = get()
       const folder = selectors.folderPath(get())
       const result = await client.fileCreate({ path, folder })
+      set({ message: { status: result.status, description: result.message } })
       if (!result.path) return
       await listFiles()
       setPath(result.path)

@@ -66,7 +66,7 @@ export class Client {
 
   async fileCreate(props: { path: string; folder?: string }) {
     const result = await this.request('/file/create', props)
-    return result as { path: string }
+    return result as { path: string; status: string; message: string }
   }
 
   async fileUpload(props: { file: File; folder?: string }) {
