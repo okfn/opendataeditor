@@ -13,7 +13,7 @@ import { useStore } from './store'
 
 export default function Content() {
   const file = useStore((state) => state.file)
-  return <Box>{file ? <ContentFile /> : <ContentEmpty />}</Box>
+  return <Box height="100%">{file ? <ContentFile /> : <ContentEmpty />}</Box>
 }
 
 function ContentFile() {

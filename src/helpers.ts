@@ -48,3 +48,23 @@ export function createFileTree(items: IFileItem[], types?: string[]): ITreeItem[
 
   return tree
 }
+
+export function getFolderList(file: File) {
+  const folders = file.webkitRelativePath ? file.webkitRelativePath.split('/') : []
+  const folderList = folders
+    ? folders.reduce(function (filtered: { [key: string]: any }[], _, index: number) {
+        const item = folders.slice(0, index + 1)
+        if (item.length > 1) {
+          const name = item.slice(-1).join()
+          filtered.push({
+            name: name,
+            folder: item.slice(0, -1).join('/'),
+            type: name === file.name ? 'file' : 'folder',
+            file: name === file.name ? file : '',
+          })
+        }
+        return filtered
+      }, [])
+    : []
+  return folderList
+}
