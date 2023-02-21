@@ -9,6 +9,7 @@ import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import * as settings from '../../../../settings'
 import { useStore, selectors } from '../store'
+import { AddLink } from '@mui/icons-material'
 import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material'
 
 export default function CreateButton() {
@@ -23,6 +24,7 @@ export default function CreateButton() {
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <UploadButton />
+      <UploadLink />
       {isWebkitDirectorySupported && <UploadFolderButton />}
       <FolderButton />
       <PackageButton />
@@ -66,6 +68,19 @@ function UploadButton() {
         />
       </Button>
     </React.Fragment>
+  )
+}
+
+function UploadLink() {
+  const setDialog = useStore((state) => state.setDialog)
+  return (
+    <DefaultButton
+      variant="text"
+      color="info"
+      label="Upload Link"
+      icon={<AddLink fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => setDialog('link/create')}
+    />
   )
 }
 

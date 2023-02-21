@@ -1,5 +1,6 @@
 import * as React from 'react'
 import FolderDialog from './Dialogs/FolderDialog'
+import LinkDialog from './Dialogs/LinkDialog'
 import NameDialog from './Dialogs/NameDialog'
 import { useStore } from './store'
 
@@ -8,6 +9,7 @@ export default function Dialog() {
   if (dialog) {
     if (dialog.startsWith('folder/')) return <FolderDialog />
     if (dialog.startsWith('name/')) return <NameDialog />
+    if (dialog.startsWith('link/')) return <LinkDialog />
   }
   return null
 }
