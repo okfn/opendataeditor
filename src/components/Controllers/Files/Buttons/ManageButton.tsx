@@ -16,10 +16,38 @@ export default function ManageButton() {
       icon={<ManageIcon fontSize="small" sx={{ mr: 1 }} />}
       disabled={!path}
     >
+      <DownloadButton />
       <CopyButton />
       <MoveButton />
       <RenameButton />
     </DropdownButton>
+  )
+}
+
+function DownloadButton() {
+  const [download, setDownload] = React.useState(false)
+  const path = useStore((state) => state.path)
+  const blob = useStore((state) => state.blob)
+  const downloadFile = useStore((state) => state.downloadFile)
+  React.useEffect(() => {
+    if (!path) return
+    if (!(blob && download)) return
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([blob]))
+    a.download = path?.split('/').slice(-1).join()
+    a.click()
+    setDownload(false)
+  }, [blob, download])
+  return (
+    <DefaultButton
+      label="Download File"
+      variant="text"
+      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => {
+        if (!blob) downloadFile()
+        setDownload(true)
+      }}
+    />
   )
 }
 
