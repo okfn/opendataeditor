@@ -151,7 +151,7 @@ function ViewButton() {
       label="Create SQL View"
       icon={<ViewIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => {
-        const file = new File([], 'view.sql')
+        const file = new File([], 'view.json')
         // TODO: fix
         // @ts-ignore
         uploadFiles([file])
@@ -169,7 +169,7 @@ function ChartButton() {
       label="Create Chart"
       icon={<ChartIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => {
-        const file = new File([], 'chart.vljson')
+        const file = new File([], 'chart.json')
         // TODO: fix
         // @ts-ignore
         uploadFiles([file])
