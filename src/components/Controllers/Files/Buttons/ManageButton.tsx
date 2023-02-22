@@ -33,9 +33,11 @@ function DownloadButton() {
     if (!path) return
     if (!(blob && download)) return
     const a = document.createElement('a')
-    a.href = URL.createObjectURL(new Blob([blob]))
+    const downloadURL = URL.createObjectURL(new Blob([blob]))
+    a.href = downloadURL
     a.download = path?.split('/').slice(-1).join()
     a.click()
+    URL.revokeObjectURL(downloadURL)
     setDownload(false)
   }, [blob, download])
   return (
