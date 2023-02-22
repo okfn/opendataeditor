@@ -7,7 +7,17 @@ import { FilesProps } from './Files'
 import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-type IDialog = 'folder/copy' | 'folder/move' | 'name/create' | 'name/rename'
+type IDialog =
+  | 'folder/copy'
+  | 'folder/move'
+  | 'name/create'
+  | 'name/rename'
+  | 'link/create'
+
+type IMessage = {
+  status: string
+  description: string
+}
 
 export interface State {
   client: Client
@@ -20,6 +30,7 @@ export interface State {
   fileItemAdded?: boolean
   loading?: boolean
   blob?: ArrayBuffer
+  message?: IMessage | undefined
 
   // General
 
@@ -28,6 +39,7 @@ export interface State {
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
   setFileItemAdded: (value: boolean) => void
+  setMessage: (message: IMessage | undefined) => void
 
   // File
 
@@ -37,6 +49,7 @@ export interface State {
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   uploadFiles: (files: FileList) => Promise<void>
+  createFile: (url: string) => Promise<void>
   uploadFolder: (files: FileList) => Promise<void>
   downloadFile: () => Promise<void>
 
@@ -79,6 +92,9 @@ export function createStore(props: FilesProps) {
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
+    },
+    setMessage: (message) => {
+      set({ message })
     },
 
     // File
@@ -125,12 +141,22 @@ export function createStore(props: FilesProps) {
           return
         }
         const folder = selectors.folderPath(get())
-        const result = await client.fileCreate({ file, folder })
+        const result = await client.fileUpload({ file, folder })
         path = result.path
       }
       if (!path) return
       await listFiles()
       setPath(path)
+      set({ fileItemAdded: true })
+    },
+    createFile: async (path) => {
+      const { client, listFiles, setPath } = get()
+      const folder = selectors.folderPath(get())
+      const result = await client.fileCreate({ path, folder })
+      set({ message: { status: result.status, description: result.message } })
+      if (!result.path) return
+      await listFiles()
+      setPath(result.path)
       set({ fileItemAdded: true })
     },
     uploadFolder: async (files) => {
@@ -162,7 +188,7 @@ export function createStore(props: FilesProps) {
           await client.folderCreate({ name: file.name, folder: folder })
           continue
         }
-        await client.fileCreate({ file: file.file, folder: folder })
+        await client.fileUpload({ file: file.file, folder: folder })
       }
       await listFiles()
       setPath(path)
