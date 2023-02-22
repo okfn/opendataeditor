@@ -6,5 +6,6 @@ export interface ITreeItem {
   name: string
   path: string
   type: string
+  errors?: number
   children: ITreeItem[]
 }

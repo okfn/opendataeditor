@@ -26,7 +26,13 @@ export function createFileTree(items: IFileItem[], types?: string[]): ITreeItem[
     const level = parts.length
     const name = parts[level - 1]
     maxLevel = Math.max(maxLevel, level)
-    tree.push({ name, path: item.path, type: item.type, children: [] })
+    tree.push({
+      name,
+      path: item.path,
+      type: item.type,
+      children: [],
+      errors: item.errorCount ?? undefined,
+    })
   }
 
   // Unflatten tree

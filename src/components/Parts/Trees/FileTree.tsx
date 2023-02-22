@@ -8,8 +8,9 @@ import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem } from '../../../interfaces'
-import { AccountTree, CheckCircleOutline } from '@mui/icons-material'
+import { AccountTree, CheckCircle, CheckCircleOutline, Error } from '@mui/icons-material'
 import { TableRows, Source, Storage, TableView } from '@mui/icons-material'
+import { Chip } from '@mui/material'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -67,6 +68,7 @@ function TreeNode(props: { item: ITreeItem }) {
       nodeId={props.item.path}
       label={props.item.name}
       type={props.item.type}
+      errors={props.item.errors}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -75,11 +77,23 @@ function TreeNode(props: { item: ITreeItem }) {
   )
 }
 
-const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => {
-  return (
-    <TreeItem {...props} label={<TreeItemIcon label={props.label} type={props.type} />} />
-  )
-})(({ theme, type }) => ({
+const StyledTreeItem = styled(
+  (
+    props: TreeItemProps & {
+      type: string
+      errors?: number
+    }
+  ) => {
+    return (
+      <TreeItem
+        {...props}
+        label={
+          <TreeItemIcon label={props.label} type={props.type} errors={props.errors} />
+        }
+      />
+    )
+  }
+)(({ theme, type }) => ({
   '& .MuiTreeItem-label': {
     fontWeight: type === 'package' ? 'bold' : 'normal',
   },
@@ -95,11 +109,21 @@ const StyledTreeItem = styled((props: TreeItemProps & { type: string }) => {
   },
 }))
 
-function TreeItemIcon(props: { label: React.ReactNode; type: string }) {
+function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
+  const isError = !!props.errors
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
       <TypeIcon type={props.type} />
       {props.label}
+      {props.type !== 'folder' && (
+        <Chip
+          label={isError ? 'error' : 'valid'}
+          color={isError ? 'warning' : 'success'}
+          icon={isError ? <Error /> : <CheckCircle />}
+          size="small"
+          sx={{ ml: 1, height: 'inherit' }}
+        />
+      )}
     </Box>
   )
 }
