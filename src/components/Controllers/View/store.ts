@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
+import { Parser } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
@@ -12,13 +13,29 @@ export interface State {
   file?: IFile
   view?: IView
   fields?: IFieldItem[]
+  tables?: string[]
   table?: ITable
+  error?: ViewError
 
   // General
 
   setView: (view?: IView) => void
   loadFields: () => Promise<void>
   makeQuery: () => Promise<void>
+}
+
+enum ErrorLocation {
+  Backend,
+  Frontend
+}
+
+type ViewError = {
+  message: string
+  location: ErrorLocation
+}
+
+type ExceptionError = {
+  message: string
 }
 
 export function createStore(props: SqlProps) {
@@ -32,13 +49,34 @@ export function createStore(props: SqlProps) {
     loadFields: async () => {
       const { client } = get()
       const { items } = await client.fieldList()
+      let tables:string[] = []
+      for (let item of items) {
+        if (tables.indexOf(item.tableName) < 0) {
+          tables.push(item.tableName)
+        }
+      }
       set({ fields: items })
+      set({ tables: tables})
     },
     makeQuery: async () => {
       const { client, view } = get()
       if (!view) return
-      const { table } = await client.tableQuery({ query: view.query })
-      set({ table })
+      const parser = new Parser()
+      let parsedSQL
+
+      try { 
+        parsedSQL = parser.astify(view.query)
+      } catch (error) {
+        const errorObj:ViewError = {
+          message: (error as ExceptionError).message,
+          location: ErrorLocation.Frontend
+        }
+        set({ error: errorObj})
+      }
+      if (parsedSQL) {
+        const { table } = await client.tableQuery({ query: view.query })
+        set({ table })
+      }
     },
   }))
 }

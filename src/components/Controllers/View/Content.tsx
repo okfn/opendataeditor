@@ -9,5 +9,10 @@ export default function Content() {
   // @ts-ignore
   const report: IReport = { valid: true, tasks: [], warnings: [], errors: [] }
   if (!table) return null
-  return <Table table={table} report={report} />
+  return (
+    <React.Fragment>
+      <Table table={table} report={report} />
+    </React.Fragment>
+    )
+
 }

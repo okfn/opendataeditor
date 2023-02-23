@@ -11,9 +11,10 @@ export interface State {
   fieldTree?: ITreeItem[]
 
   // General
-
+  message?: string | undefined
   setQuery: (query: string) => void
 }
+
 
 export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({

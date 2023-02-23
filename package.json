@@ -59,6 +59,7 @@
     "material-ui-confirm": "^3.0.8",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
+    "node-sql-parser": "^4.6.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-vega": "^7.4.2",
