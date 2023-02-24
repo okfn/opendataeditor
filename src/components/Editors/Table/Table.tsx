@@ -216,7 +216,6 @@ export default function Table(props: TableProps) {
   const onActiveCellChange = (_context: any) => {
     // console.log(context)
   }
-  console.log(columns, dataSource)
 
   return (
     <ThemeProvider theme={themes.DEFAULT}>
