@@ -58,7 +58,6 @@ export default function Table(props: TableProps) {
       const rowPatch = tablePatch[_rowNumber]
       dataSource.push({ ...row, ...rowPatch, _rowNumber })
     }
-    console.log('DATASOURCE', dataSource)
     return dataSource
   }, [table.rows, tablePatch])
 
