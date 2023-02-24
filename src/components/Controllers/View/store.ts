@@ -64,9 +64,17 @@ export function createStore(props: SqlProps) {
         set({ viewError: errorObj })
       }
       if (parsedSQL) {
-        const { table } = await client.tableQuery({ query: view.query })
-        set({ table })
-        set({ viewError: undefined })
+        try {
+          const { table } = await client.tableQuery({ query: view.query })
+          set({ table })
+          set({ viewError: undefined })
+        } catch (error) {
+          const errorObj: IViewError = {
+            message: 'Error response from Frictionless API',
+            location: ViewErrorLocation.Backend,
+          }
+          set({ viewError: errorObj })
+        }
       }
     },
   }))
