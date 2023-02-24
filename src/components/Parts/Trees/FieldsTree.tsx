@@ -36,8 +36,8 @@ export default function FieldsTree(props: FileTreeProps) {
   )
 }
 
-function TreeLabel(props: { label: React.ReactNode; type: string; path: string}) {
-  let formatType = (type:string, path:string) => {
+function TreeLabel(props: { label: React.ReactNode; type: string; path: string }) {
+  const formatType = (type: string, path: string) => {
     if (type !== 'table') {
       return type.toUpperCase()
     } else {
@@ -46,15 +46,28 @@ function TreeLabel(props: { label: React.ReactNode; type: string; path: string})
   }
 
   return (
-      <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-        {props.label} <Box sx={{ color: '#4d4d4d', paddingLeft: '10px'}}>{ formatType(props.type, props.path) }</Box>
+    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+      {props.label}{' '}
+      <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
+        {formatType(props.type, props.path)}
       </Box>
-    )
+    </Box>
+  )
 }
 
 function TreeNode(props: { item: ITreeItem }) {
   return (
-    <TreeItem key={props.item.path} nodeId={props.item.path} label={<TreeLabel label={props.item.name} type={props.item.type} path={props.item.path}/>}>
+    <TreeItem
+      key={props.item.path}
+      nodeId={props.item.path}
+      label={
+        <TreeLabel
+          label={props.item.name}
+          type={props.item.type}
+          path={props.item.path}
+        />
+      }
+    >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
       ))}

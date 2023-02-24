@@ -4,7 +4,7 @@ export interface IView {
 
 export enum ViewErrorLocation {
   Backend,
-  Frontend
+  Frontend,
 }
 
 export interface IViewError {

@@ -15,7 +15,6 @@ export interface State {
   setQuery: (query: string) => void
 }
 
-
 export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({
     view: props.view || { query: '' },

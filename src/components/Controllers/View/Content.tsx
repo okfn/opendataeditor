@@ -13,6 +13,5 @@ export default function Content() {
     <React.Fragment>
       <Table table={table} report={report} />
     </React.Fragment>
-    )
-
+  )
 }

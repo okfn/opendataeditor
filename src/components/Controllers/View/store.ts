@@ -39,14 +39,14 @@ export function createStore(props: SqlProps) {
     loadFields: async () => {
       const { client } = get()
       const { items } = await client.fieldList()
-      let tables:string[] = []
-      for (let item of items) {
+      const tables: string[] = []
+      for (const item of items) {
         if (tables.indexOf(item.tableName) < 0) {
           tables.push(item.tableName)
         }
       }
       set({ fields: items })
-      set({ tables: tables})
+      set({ tables: tables })
     },
     makeQuery: async () => {
       const { client, view } = get()
@@ -54,12 +54,12 @@ export function createStore(props: SqlProps) {
       const parser = new Parser()
       let parsedSQL
 
-      try { 
+      try {
         parsedSQL = parser.astify(view.query)
       } catch (error) {
-        const errorObj:IViewError = {
+        const errorObj: IViewError = {
           message: (error as ExceptionError).message,
-          location: ViewErrorLocation.Frontend
+          location: ViewErrorLocation.Frontend,
         }
         set({ viewError: errorObj })
       }
