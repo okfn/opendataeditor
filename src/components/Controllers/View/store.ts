@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { Parser } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
-import { IFile } from '../../../interfaces'
+import { IFile, IViewError, ViewErrorLocation } from '../../../interfaces'
 import { Client } from '../../../client'
 import { ITable, IView, IFieldItem } from '../../../interfaces'
 import { SqlProps } from './Sql'
@@ -15,7 +15,7 @@ export interface State {
   fields?: IFieldItem[]
   tables?: string[]
   table?: ITable
-  error?: ViewError
+  viewError?: IViewError
 
   // General
 
@@ -24,17 +24,7 @@ export interface State {
   makeQuery: () => Promise<void>
 }
 
-enum ErrorLocation {
-  Backend,
-  Frontend
-}
-
-type ViewError = {
-  message: string
-  location: ErrorLocation
-}
-
-type ExceptionError = {
+export interface ExceptionError {
   message: string
 }
 
@@ -67,15 +57,16 @@ export function createStore(props: SqlProps) {
       try { 
         parsedSQL = parser.astify(view.query)
       } catch (error) {
-        const errorObj:ViewError = {
+        const errorObj:IViewError = {
           message: (error as ExceptionError).message,
-          location: ErrorLocation.Frontend
+          location: ViewErrorLocation.Frontend
         }
-        set({ error: errorObj})
+        set({ viewError: errorObj })
       }
       if (parsedSQL) {
         const { table } = await client.tableQuery({ query: view.query })
         set({ table })
+        set({ viewError: undefined })
       }
     },
   }))

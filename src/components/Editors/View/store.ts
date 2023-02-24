@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
-import { IView, ITreeItem } from '../../../interfaces'
+import { IView, ITreeItem, IViewError } from '../../../interfaces'
 import * as helpers from './helpers'
 
 export interface State {
@@ -11,7 +11,7 @@ export interface State {
   fieldTree?: ITreeItem[]
 
   // General
-  message?: string | undefined
+  viewError?: IViewError | undefined
   setQuery: (query: string) => void
 }
 
@@ -20,6 +20,7 @@ export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({
     view: props.view || { query: '' },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
+    viewError: props.viewError,
 
     // General
 

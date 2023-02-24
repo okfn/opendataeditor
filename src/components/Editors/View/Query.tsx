@@ -6,6 +6,8 @@ import { useStore } from './store'
 export default function Query() {
   const query = useStore((state) => state.view.query)
   const setQuery = useStore((state) => state.setQuery)
+  const viewError = useStore((state) => state.viewError)
+
   return (
     <Box>
       <MultilineField
@@ -14,6 +16,7 @@ export default function Query() {
         value={query}
         onChange={(query) => setQuery(query)}
       />
+      {viewError?.message}
     </Box>
   )
 }
