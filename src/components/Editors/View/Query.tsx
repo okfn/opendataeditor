@@ -13,6 +13,7 @@ export default function Query() {
   const query = useStore((state) => state.view.query)
   const setQuery = useStore((state) => state.setQuery)
   const viewError = useStore((state) => state.viewError)
+  const aceEditor = React.useRef<AceEditor>(null);
 
   return (
     <Box>
@@ -26,6 +27,7 @@ export default function Query() {
       <Box sx={{ margin: 2 }}>
         <InputLabel htmlFor="sql-editor">SQL Query</InputLabel>
         <AceEditor
+          ref={aceEditor}
           mode="sql"
           width="100%"
           height="40px"
@@ -33,7 +35,7 @@ export default function Query() {
           value={query}
           theme="github"
           onChange={(query) => setQuery(query)}
-          setOptions={{ showLineNumbers: false, showGutter: false, fontSize: '20px' }}
+          setOptions={{ showLineNumbers: false, showGutter: false, fontSize: '20px', enableBasicAutocompletion: true }}
         />
         <FormHelperText>
           You can type a SQL query to select part of the data in your resources
