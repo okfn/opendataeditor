@@ -9,19 +9,17 @@ import Alert from '@mui/material/Alert'
 import InputLabel from '@mui/material/InputLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import { useTheme } from '@mui/material/styles'
+import Stack from '@mui/material/Stack'
 import { useStore } from './store'
 
 export default function Query() {
   const query = useStore((state) => state.view.query)
   const setQuery = useStore((state) => state.setQuery)
   const formatQuery = useStore((state) => state.formatQuery)
+  const validateQuery = useStore((state) => state.validateQuery)
   const viewError = useStore((state) => state.viewError)
   const aceEditor = React.useRef<AceEditor>(null)
   const theme = useTheme()
-
-  const formatSQL = () => {
-    formatQuery()
-  }
 
   return (
     <Box>
@@ -50,9 +48,14 @@ export default function Query() {
             enableBasicAutocompletion: true,
           }}
         />
-        <Button size="small" variant="contained" onClick={formatSQL}>
-          Format SQL
-        </Button>
+        <Stack spacing={2} direction="row">
+          <Button size="small" variant="contained" onClick={validateQuery}>
+            Validate SQL
+          </Button>
+          <Button size="small" variant="contained" onClick={formatQuery}>
+            Format SQL
+          </Button>
+        </Stack>
         <FormHelperText sx={{ marginTop: '10px' }}>
           You can type a SQL query to select part of the data in your resources
         </FormHelperText>
