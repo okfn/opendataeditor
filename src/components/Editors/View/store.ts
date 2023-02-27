@@ -1,9 +1,10 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
+import { Parser } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
-import { IView, ITreeItem, IViewError } from '../../../interfaces'
+import { IView, ITreeItem, IViewError, ViewErrorLocation } from '../../../interfaces'
 import * as helpers from './helpers'
 
 export interface State {
@@ -13,6 +14,12 @@ export interface State {
   // General
   viewError?: IViewError | undefined
   setQuery: (query: string) => void
+  formatQuery: () => Promise<void>
+
+}
+
+export interface ExceptionError {
+  message: string
 }
 
 export function createStore(props: ViewProps) {
@@ -28,6 +35,28 @@ export function createStore(props: ViewProps) {
       set({ view })
       if (props.onViewChange) props.onViewChange(view)
     },
+
+    formatQuery: async () => {
+      const parser = new Parser()
+      const { view } = _get()
+      if (!view) return
+
+      let parsedSQL
+
+      try {
+        parsedSQL = parser.astify(view.query)
+      } catch (error) {
+        const errorObj: IViewError = {
+          message: (error as ExceptionError).message,
+          location: ViewErrorLocation.Frontend,
+        }
+        set({ viewError: errorObj })
+      }
+      if (parsedSQL) {
+        set({ view: { query: parser.sqlify(parsedSQL)}})
+      }
+    },
+
   }))
 }
 
