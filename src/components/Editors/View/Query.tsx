@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import Alert from '@mui/material/Alert'
 import InputLabel from '@mui/material/InputLabel'
 import FormHelperText from '@mui/material/FormHelperText'
+import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
 export default function Query() {
@@ -16,6 +17,7 @@ export default function Query() {
   const formatQuery = useStore((state) => state.formatQuery)
   const viewError = useStore((state) => state.viewError)
   const aceEditor = React.useRef<AceEditor>(null)
+  const theme = useTheme()
 
   const formatSQL = () => {
     formatQuery()
@@ -36,7 +38,7 @@ export default function Query() {
           ref={aceEditor}
           mode="sql"
           width="100%"
-          height="40px"
+          height={theme.spacing(24)}
           name="sql-editor"
           value={query}
           theme="github"
