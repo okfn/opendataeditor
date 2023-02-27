@@ -15,7 +15,6 @@ export interface State {
   viewError?: IViewError | undefined
   setQuery: (query: string) => void
   formatQuery: () => Promise<void>
-
 }
 
 export interface ExceptionError {
@@ -53,10 +52,9 @@ export function createStore(props: ViewProps) {
         set({ viewError: errorObj })
       }
       if (parsedSQL) {
-        set({ view: { query: parser.sqlify(parsedSQL)}})
+        set({ view: { query: parser.sqlify(parsedSQL) } })
       }
     },
-
   }))
 }
 

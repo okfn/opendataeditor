@@ -48,8 +48,10 @@ export default function Query() {
             enableBasicAutocompletion: true,
           }}
         />
-        <Button size="small" variant="contained" onClick={formatSQL}>Format SQL</Button>
-        <FormHelperText sx={{ marginTop: '10px'}}>
+        <Button size="small" variant="contained" onClick={formatSQL}>
+          Format SQL
+        </Button>
+        <FormHelperText sx={{ marginTop: '10px' }}>
           You can type a SQL query to select part of the data in your resources
         </FormHelperText>
       </Box>
