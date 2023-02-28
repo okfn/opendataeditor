@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { IFile, IViewError, ViewErrorLocation } from '../../../interfaces'
+import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
 import { ITable, IView, IFieldItem } from '../../../interfaces'
 import { SqlProps } from './Sql'
@@ -14,7 +14,7 @@ export interface State {
   fields?: IFieldItem[]
   tables?: string[] | undefined
   table?: ITable
-  viewError?: IViewError
+  error?: string | undefined
 
   // General
 
@@ -33,7 +33,6 @@ export function createStore(props: SqlProps) {
     file: props.file,
 
     // General
-
     setView: (view) => set({ view }),
     loadFields: async () => {
       const { client } = get()
@@ -54,14 +53,9 @@ export function createStore(props: SqlProps) {
       try {
         const { table } = await client.tableQuery({ query: view.query })
         set({ table })
-        set({ viewError: undefined })
       } catch (error) {
-        const errorObj: IViewError = {
-          message: 'Error response from Frictionless API',
-          location: ViewErrorLocation.Backend,
-        }
         set({ table: undefined })
-        set({ viewError: errorObj })
+        set({ error: 'Error response from Frictionless API' })
       }
     },
   }))

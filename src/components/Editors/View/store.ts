@@ -4,13 +4,7 @@ import create from 'zustand/vanilla'
 import { Parser, AST, Select } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
-import {
-  IView,
-  ITreeItem,
-  IViewError,
-  IFieldItem,
-  ViewErrorLocation
-} from '../../../interfaces'
+import { IView, ITreeItem, IViewError, IFieldItem } from '../../../interfaces'
 import * as helpers from './helpers'
 
 export interface State {
@@ -58,7 +52,6 @@ export function createStore(props: ViewProps) {
       } catch (error) {
         const errorObj: IViewError = {
           message: (error as ExceptionError).message,
-          location: ViewErrorLocation.Frontend,
         }
         set({ viewError: errorObj })
       }
@@ -70,7 +63,6 @@ export function createStore(props: ViewProps) {
         if (errors.length > 0) {
           const errorObj: IViewError = {
             message: errors.join(' '),
-            location: ViewErrorLocation.Frontend,
           }
           set({ viewError: errorObj })
         } else {
@@ -92,7 +84,6 @@ export function createStore(props: ViewProps) {
       } catch (error) {
         const errorObj: IViewError = {
           message: (error as ExceptionError).message,
-          location: ViewErrorLocation.Frontend,
         }
         set({ viewError: errorObj })
       }
