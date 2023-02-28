@@ -24,6 +24,7 @@ export interface State {
   setQuery: (query: string) => void
   formatQuery: () => Promise<void>
   validateQuery: () => Promise<void>
+  validQuery: boolean
 }
 
 export interface ExceptionError {
@@ -32,16 +33,18 @@ export interface ExceptionError {
 
 export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({
-    view: props.view || { query: '' },
+    view: props.view || { query: '', validQuery: false },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
     viewError: props.viewError,
     fields: props.fields ? props.fields : undefined,
     tables: props.fields ? getTableNames(props.fields) : [],
+    validQuery: false,
 
     // General
 
     setQuery: (query) => {
-      const view = { query }
+      const { validQuery } = _get()
+      const view = { query: query, validQuery: validQuery }
       set({ view })
       if (props.onViewChange) props.onViewChange(view)
     },
@@ -70,6 +73,10 @@ export function createStore(props: ViewProps) {
             location: ViewErrorLocation.Frontend,
           }
           set({ viewError: errorObj })
+        } else {
+          set({ view: { query: view.query, validQuery: true }})
+          set({ validQuery: true })
+          console.log({ query: view.query, validQuery: true })
         }
       }
     },
@@ -91,7 +98,7 @@ export function createStore(props: ViewProps) {
         set({ viewError: errorObj })
       }
       if (parsedSQL) {
-        set({ view: { query: parser.sqlify(parsedSQL) } })
+        set({ view: { query: parser.sqlify(parsedSQL), validQuery: true } })
       }
     },
   }))

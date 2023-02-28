@@ -1,5 +1,6 @@
 export interface IView {
   query: string
+  validQuery: boolean
 }
 
 export enum ViewErrorLocation {

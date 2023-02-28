@@ -41,6 +41,7 @@ export default function Query() {
           value={query}
           theme="github"
           onChange={(query) => setQuery(query)}
+          onBlur={() => validateQuery()}
           setOptions={{
             showLineNumbers: false,
             showGutter: false,

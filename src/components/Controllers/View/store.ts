@@ -60,6 +60,7 @@ export function createStore(props: SqlProps) {
           message: 'Error response from Frictionless API',
           location: ViewErrorLocation.Backend,
         }
+        set({ table: undefined })
         set({ viewError: errorObj })
       }
     },
