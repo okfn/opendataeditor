@@ -8,9 +8,9 @@ import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem } from '../../../interfaces'
-import { AccountTree, CheckCircle, CheckCircleOutline, Error } from '@mui/icons-material'
+import { AccountTree, CheckCircle, CheckCircleOutline } from '@mui/icons-material'
 import { TableRows, Source, Storage, TableView } from '@mui/icons-material'
-import { Chip } from '@mui/material'
+import { Chip, Typography } from '@mui/material'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -117,11 +117,11 @@ function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: nu
       {props.label}
       {props.type !== 'folder' && (
         <Chip
-          label={isError ? 'error' : 'valid'}
+          label={isError ? 'errors' : 'valid'}
           color={isError ? 'warning' : 'success'}
-          icon={isError ? <Error /> : <CheckCircle />}
+          icon={isError ? <NumberIcon value={props.errors ?? 0} /> : <CheckCircle />}
           size="small"
-          sx={{ ml: 1, height: 'inherit' }}
+          sx={{ ml: 1 }}
         />
       )}
     </Box>
@@ -163,3 +163,19 @@ function PlusSquare(props: SvgIconProps) {
     </SvgIcon>
   )
 }
+
+const NumberIcon = (props: { value: number }) => (
+  <Typography
+    sx={{
+      color: '#ed6c02',
+      paddingX: '5px',
+      height: '1rem',
+      bgcolor: '#fff',
+      ml: '4px',
+      fontSize: 'inherit',
+      borderRadius: '400px',
+    }}
+  >
+    {props.value}
+  </Typography>
+)
