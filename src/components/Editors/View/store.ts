@@ -74,9 +74,8 @@ export function createStore(props: ViewProps) {
           }
           set({ viewError: errorObj })
         } else {
-          set({ view: { query: view.query, validQuery: true }})
+          set({ view: { query: view.query, validQuery: true } })
           set({ validQuery: true })
-          console.log({ query: view.query, validQuery: true })
         }
       }
     },
