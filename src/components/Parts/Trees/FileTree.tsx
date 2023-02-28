@@ -110,12 +110,13 @@ const StyledTreeItem = styled(
 }))
 
 function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
-  const isError = !!props.errors
+  const isValidated = props.errors !== undefined
+  const isError = props.errors && props.errors > 0
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
       <TypeIcon type={props.type} />
       {props.label}
-      {props.type !== 'folder' && (
+      {isValidated && (
         <Chip
           label={isError ? 'errors' : 'valid'}
           color={isError ? 'warning' : 'success'}
