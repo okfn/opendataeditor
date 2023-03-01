@@ -6,6 +6,7 @@ import ManageIcon from '@mui/icons-material/FileCopy'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import { useStore, selectors } from '../store'
+import FileSaver from 'file-saver'
 
 export default function ManageButton() {
   const path = useStore((state) => state.path)
@@ -16,10 +17,31 @@ export default function ManageButton() {
       icon={<ManageIcon fontSize="small" sx={{ mr: 1 }} />}
       disabled={!path}
     >
+      <DownloadButton />
       <CopyButton />
       <MoveButton />
       <RenameButton />
     </DropdownButton>
+  )
+}
+
+function DownloadButton() {
+  const path = useStore((state) => state.path)
+  const downloadFile = useStore((state) => state.downloadFile)
+  return (
+    <DefaultButton
+      label="Download File"
+      variant="text"
+      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={async () => {
+        const bytes = await downloadFile()
+        if (bytes) {
+          const blob = new Blob([bytes])
+          const filename = path?.split('/').slice(-1).join()
+          FileSaver.saveAs(blob, filename)
+        }
+      }}
+    />
   )
 }
 
