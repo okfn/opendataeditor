@@ -93,6 +93,8 @@ export default function Table(props: TableProps) {
     const columns = []
     for (const [key, field] of Object.entries(fields)) {
       const columnIndex = parseInt(key) + 1
+      // Otherwise the _rowNumber and _rowValid are displayed on the table
+      if (field.name === '_rowNumber' || field.name === '_rowValid') continue
       columns.push({
         name: field.name,
         header: field.title || field.name,

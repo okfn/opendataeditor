@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import BaseTree from '../../Parts/Trees/BaseTree'
+import FieldsTree from '../../Parts/Trees/FieldsTree'
 import { useStore } from './store'
 
 export default function Fields() {
@@ -8,7 +8,7 @@ export default function Fields() {
   if (!fieldTree) return null
   return (
     <Box sx={{ marginTop: 2, border: 'solid 1px #ccc', height: '100%' }}>
-      <BaseTree tree={fieldTree} />
+      <FieldsTree tree={fieldTree} />
     </Box>
   )
 }

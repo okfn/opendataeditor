@@ -1,33 +1,142 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
+import { Parser, AST, Select } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
-import { IView, ITreeItem } from '../../../interfaces'
+import { IView, ITreeItem, IViewError, IFieldItem } from '../../../interfaces'
 import * as helpers from './helpers'
 
 export interface State {
   view: IView
   fieldTree?: ITreeItem[]
+  fields?: IFieldItem[]
+  tables?: string[]
+  queryValidationStatus: boolean
 
   // General
-
+  viewError?: IViewError | undefined
   setQuery: (query: string) => void
+  formatQuery: () => Promise<void>
+  validateQuery: () => Promise<void>
+  onQueryValidation: (queryValidationStatus: boolean) => void
+}
+
+export interface ExceptionError {
+  message: string
 }
 
 export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({
     view: props.view || { query: '' },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
+    viewError: props.viewError,
+    fields: props.fields ? props.fields : undefined,
+    tables: props.fields ? getTableNames(props.fields) : [],
+    queryValidationStatus: false,
 
     // General
 
     setQuery: (query) => {
-      const view = { query }
+      const view = { query: query }
       set({ view })
       if (props.onViewChange) props.onViewChange(view)
     },
+
+    onQueryValidation: (queryValidationStatus: boolean) => {
+      set({ queryValidationStatus: queryValidationStatus })
+      if (props.onQueryValidation) props.onQueryValidation(queryValidationStatus)
+    },
+
+    validateQuery: async () => {
+      const { view } = _get()
+      const parser = new Parser()
+      let parsedSQL
+      try {
+        parsedSQL = parser.astify(view.query)
+      } catch (error) {
+        const errorObj: IViewError = {
+          message: (error as ExceptionError).message,
+        }
+        set({ viewError: errorObj })
+      }
+      if (parsedSQL) {
+        const { tables, fields, onQueryValidation } = _get()
+
+        const errors = checkExistingTablesAndFields(parsedSQL, tables, fields)
+        if (errors.length > 0) {
+          const errorObj: IViewError = {
+            message: errors.join(' '),
+          }
+          set({ viewError: errorObj })
+          onQueryValidation(false)
+        } else {
+          set({ view: { query: view.query } })
+          onQueryValidation(true)
+        }
+      }
+    },
+
+    formatQuery: async () => {
+      const parser = new Parser()
+      const { view } = _get()
+      if (!view) return
+
+      let parsedSQL
+
+      try {
+        parsedSQL = parser.astify(view.query)
+      } catch (error) {
+        const errorObj: IViewError = {
+          message: (error as ExceptionError).message,
+        }
+        set({ viewError: errorObj })
+      }
+      if (parsedSQL) {
+        set({ view: { query: parser.sqlify(parsedSQL) } })
+      }
+    },
   }))
+}
+
+function getTableNames(fieldTree: IFieldItem[]): string[] {
+  const tables: string[] = []
+  for (const item of fieldTree) {
+    if (tables.indexOf(item.tableName) < 0) {
+      tables.push(item.tableName)
+    }
+  }
+  return tables
+}
+
+const checkExistingTablesAndFields = (
+  sqlAST: AST | AST[],
+  tables: string[] | undefined,
+  fields: IFieldItem[] | undefined
+) => {
+  const errors: string[] = []
+  const select: Select = sqlAST as Select
+
+  if (select !== null && select.from) {
+    for (const t of select.from) {
+      if (tables && tables.indexOf(t.table) < 0) {
+        errors.push(`Table "${t.table}" does nos exist.`)
+      }
+    }
+
+    if (select.columns) {
+      for (const c of select.columns) {
+        if (c.expr && c.expr.column) {
+          const column = c.expr.column
+          if (fields && fields.findIndex((f) => f.name === column) < 0) {
+            errors.push(`Field "${c.expr.column}" does nos exist.`)
+          }
+        }
+      }
+    }
+  }
+
+  return errors
 }
 
 export function useStore<R>(selector: (state: State) => R): R {
