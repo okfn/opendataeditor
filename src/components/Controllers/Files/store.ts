@@ -29,7 +29,6 @@ export interface State {
   initialDataPackage?: boolean
   fileItemAdded?: boolean
   loading?: boolean
-  blob?: ArrayBuffer
   message?: IMessage | undefined
 
   // General
@@ -51,7 +50,7 @@ export interface State {
   uploadFiles: (files: FileList) => Promise<void>
   createFile: (url: string) => Promise<void>
   uploadFolder: (files: FileList) => Promise<void>
-  downloadFile: () => Promise<void>
+  downloadFile: () => Promise<ArrayBuffer | undefined>
 
   // Folder
 
@@ -79,7 +78,6 @@ export function createStore(props: FilesProps) {
       const { path, onFileChange } = get()
       if (path === newPath) return
       set({ path: newPath })
-      set({ blob: undefined })
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
       onFileChange(newPath)
@@ -196,8 +194,8 @@ export function createStore(props: FilesProps) {
     downloadFile: async () => {
       const { client, path } = get()
       if (!path) return
-      const response = await client.bytesRead({ path })
-      set({ blob: response.bytes })
+      const { bytes } = await client.bytesRead({ path })
+      return bytes
     },
 
     // Folder

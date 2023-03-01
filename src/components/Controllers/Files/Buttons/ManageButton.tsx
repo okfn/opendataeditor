@@ -6,6 +6,7 @@ import ManageIcon from '@mui/icons-material/FileCopy'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import { useStore, selectors } from '../store'
+import FileSaver from 'file-saver'
 
 export default function ManageButton() {
   const path = useStore((state) => state.path)
@@ -25,29 +26,20 @@ export default function ManageButton() {
 }
 
 function DownloadButton() {
-  const [download, setDownload] = React.useState(false)
   const path = useStore((state) => state.path)
-  const blob = useStore((state) => state.blob)
   const downloadFile = useStore((state) => state.downloadFile)
-  React.useEffect(() => {
-    if (!path) return
-    if (!(blob && download)) return
-    const a = document.createElement('a')
-    const downloadURL = URL.createObjectURL(new Blob([blob]))
-    a.href = downloadURL
-    a.download = path?.split('/').slice(-1).join()
-    a.click()
-    URL.revokeObjectURL(downloadURL)
-    setDownload(false)
-  }, [blob, download])
   return (
     <DefaultButton
       label="Download File"
       variant="text"
       icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => {
-        if (!blob) downloadFile()
-        setDownload(true)
+      onClick={async () => {
+        const bytes = await downloadFile()
+        if (bytes) {
+          const blob = new Blob([bytes])
+          const filename = path?.split('/').slice(-1).join()
+          FileSaver.saveAs(blob, filename)
+        }
       }}
     />
   )
