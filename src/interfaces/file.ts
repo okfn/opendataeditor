@@ -4,6 +4,7 @@ import { IReport } from './report'
 export interface IFileItem {
   path: string
   type: string
+  errorCount?: number
 }
 
 export interface IFile extends IFileItem {
