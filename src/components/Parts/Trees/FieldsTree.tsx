@@ -23,7 +23,7 @@ export default function FieldsTree(props: FileTreeProps) {
           if (props.onPathChange) props.onPathChange(nodeId)
           // We dispatch a fieldClick event just because in that way a component can
           // get the focus again
-          const e = new CustomEvent('fieldClick', { detail: { 'field': undefined } })
+          const e = new CustomEvent('fieldClick', { detail: { field: undefined } })
           document.dispatchEvent(e)
           event.stopPropagation()
         }}
@@ -49,18 +49,19 @@ function TreeLabel(props: { label: React.ReactNode; type: string; path: string }
     }
   }
 
-  const event = new CustomEvent('fieldClick', { detail: { 'field': props.label } })
-  const dispatchClickEvent = (evt:any) => {
+  const event = new CustomEvent('fieldClick', { detail: { field: props.label } })
+  const dispatchClickEvent = (evt: any) => {
     evt.preventDefault()
-    if (props.type !== "table") {
+    if (props.type !== 'table') {
       document.dispatchEvent(event)
-    } else {
-      return
     }
-  } 
+  }
 
   return (
-    <Box onMouseDown={dispatchClickEvent} sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+    <Box
+      onMouseDown={dispatchClickEvent}
+      sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}
+    >
       {props.label}{' '}
       <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
         {formatType(props.type, props.path)}

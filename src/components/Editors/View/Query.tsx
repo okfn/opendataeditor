@@ -21,16 +21,17 @@ export default function Query() {
   const aceEditor = React.useRef<AceEditor>(null)
   const theme = useTheme()
 
-  const listener = (evt:any) => { 
+  const listener = (evt: any) => {
     if (aceEditor.current) {
-      if (evt.detail.field !== undefined)
+      if (evt.detail.field !== undefined) {
         aceEditor.current.editor.insert(`\`${evt.detail.field}\``)
+      }
       // We need to focus the editor again
       aceEditor.current.editor.focus()
       evt.stopImmediatePropagation()
     }
   }
-  document.addEventListener('fieldClick', listener);
+  document.addEventListener('fieldClick', listener)
 
   return (
     <Box>
