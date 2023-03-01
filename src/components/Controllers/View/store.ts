@@ -11,6 +11,7 @@ export interface State {
   client: Client
   file?: IFile
   view?: IView
+  queryValidationStatus: boolean
   fields?: IFieldItem[]
   tables?: string[] | undefined
   table?: ITable
@@ -19,6 +20,7 @@ export interface State {
   // General
 
   setView: (view?: IView) => void
+  setQueryValidationStatus: (queryValidationStatus: boolean) => void
   loadFields: () => Promise<void>
   makeQuery: () => Promise<void>
 }
@@ -31,8 +33,10 @@ export function createStore(props: SqlProps) {
   return create<State>((set, get) => ({
     client: props.client,
     file: props.file,
+    queryValidationStatus: false,
 
     // General
+    setQueryValidationStatus: (queryValidationStatus) => set({ queryValidationStatus }),
     setView: (view) => set({ view }),
     loadFields: async () => {
       const { client } = get()
@@ -47,8 +51,13 @@ export function createStore(props: SqlProps) {
       set({ tables: tables })
     },
     makeQuery: async () => {
-      const { client, view } = get()
+      const { client, view, queryValidationStatus } = get()
       if (!view) return
+
+      if (!queryValidationStatus) {
+        set({ table: undefined })
+        return
+      }
 
       try {
         const { table } = await client.tableQuery({ query: view.query })

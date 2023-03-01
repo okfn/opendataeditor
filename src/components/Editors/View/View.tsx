@@ -10,6 +10,7 @@ export interface ViewProps {
   fields?: IFieldItem[]
   viewError?: IViewError
   onViewChange?: (view: IView) => void
+  onQueryValidation?: (queryValidationStatus: boolean) => void
 }
 
 export default function View(props: ViewProps) {

@@ -12,13 +12,14 @@ export interface State {
   fieldTree?: ITreeItem[]
   fields?: IFieldItem[]
   tables?: string[]
+  queryValidationStatus: boolean
 
   // General
   viewError?: IViewError | undefined
   setQuery: (query: string) => void
   formatQuery: () => Promise<void>
   validateQuery: () => Promise<void>
-  validQuery: boolean
+  onQueryValidation: (queryValidationStatus: boolean) => void
 }
 
 export interface ExceptionError {
@@ -27,20 +28,24 @@ export interface ExceptionError {
 
 export function createStore(props: ViewProps) {
   return create<State>((set, _get) => ({
-    view: props.view || { query: '', validQuery: false },
+    view: props.view || { query: '' },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
     viewError: props.viewError,
     fields: props.fields ? props.fields : undefined,
     tables: props.fields ? getTableNames(props.fields) : [],
-    validQuery: false,
+    queryValidationStatus: false,
 
     // General
 
     setQuery: (query) => {
-      const { validQuery } = _get()
-      const view = { query: query, validQuery: validQuery }
+      const view = { query: query }
       set({ view })
       if (props.onViewChange) props.onViewChange(view)
+    },
+
+    onQueryValidation: (queryValidationStatus: boolean) => {
+      set({ queryValidationStatus: queryValidationStatus })
+      if (props.onQueryValidation) props.onQueryValidation(queryValidationStatus)
     },
 
     validateQuery: async () => {
@@ -56,8 +61,7 @@ export function createStore(props: ViewProps) {
         set({ viewError: errorObj })
       }
       if (parsedSQL) {
-        const { tables } = _get()
-        const { fields } = _get()
+        const { tables, fields, onQueryValidation } = _get()
 
         const errors = checkExistingTablesAndFields(parsedSQL, tables, fields)
         if (errors.length > 0) {
@@ -65,9 +69,10 @@ export function createStore(props: ViewProps) {
             message: errors.join(' '),
           }
           set({ viewError: errorObj })
+          onQueryValidation(false)
         } else {
-          set({ view: { query: view.query, validQuery: true } })
-          set({ validQuery: true })
+          set({ view: { query: view.query } })
+          onQueryValidation(true)
         }
       }
     },
@@ -88,7 +93,7 @@ export function createStore(props: ViewProps) {
         set({ viewError: errorObj })
       }
       if (parsedSQL) {
-        set({ view: { query: parser.sqlify(parsedSQL), validQuery: true } })
+        set({ view: { query: parser.sqlify(parsedSQL) } })
       }
     },
   }))
