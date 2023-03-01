@@ -50,6 +50,7 @@ export interface State {
   uploadFiles: (files: FileList) => Promise<void>
   createFile: (url: string) => Promise<void>
   uploadFolder: (files: FileList) => Promise<void>
+  downloadFile: () => Promise<ArrayBuffer | undefined>
 
   // Folder
 
@@ -189,6 +190,12 @@ export function createStore(props: FilesProps) {
       }
       await listFiles()
       setPath(path)
+    },
+    downloadFile: async () => {
+      const { client, path } = get()
+      if (!path) return
+      const { bytes } = await client.bytesRead({ path })
+      return bytes
     },
 
     // Folder
