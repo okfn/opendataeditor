@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import create from 'zustand/vanilla'
+import AceEditor from 'react-ace'
 import { Parser, AST, Select } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
@@ -13,6 +14,7 @@ export interface State {
   fields?: IFieldItem[]
   tables?: string[]
   queryValidationStatus: boolean
+  editor?: React.RefObject<AceEditor>
 
   // General
   viewError?: IViewError | undefined
@@ -20,6 +22,7 @@ export interface State {
   formatQuery: () => Promise<void>
   validateQuery: () => Promise<void>
   onQueryValidation: (queryValidationStatus: boolean) => void
+  setEditor: (editor: React.RefObject<AceEditor>) => void
 }
 
 export interface ExceptionError {
@@ -36,6 +39,7 @@ export function createStore(props: ViewProps) {
     queryValidationStatus: false,
 
     // General
+    setEditor: (editor: React.RefObject<AceEditor>) => set({ editor }),
 
     setQuery: (query) => {
       const view = { query: query }

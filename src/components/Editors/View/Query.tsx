@@ -12,7 +12,11 @@ import { useTheme } from '@mui/material/styles'
 import Stack from '@mui/material/Stack'
 import { useStore } from './store'
 
-export default function Query() {
+export interface QueryProps {
+  setEditor?: (editor: React.RefObject<AceEditor>) => void
+}
+
+export default function Query(props: QueryProps) {
   const query = useStore((state) => state.view.query)
   const setQuery = useStore((state) => state.setQuery)
   const formatQuery = useStore((state) => state.formatQuery)
@@ -20,6 +24,8 @@ export default function Query() {
   const viewError = useStore((state) => state.viewError)
   const aceEditor = React.useRef<AceEditor>(null)
   const theme = useTheme()
+
+  if (props.setEditor) props.setEditor(aceEditor)
 
   return (
     <Box>

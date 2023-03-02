@@ -5,10 +5,12 @@ import { useStore } from './store'
 
 export default function Fields() {
   const fieldTree = useStore((state) => state.fieldTree)
+  const editor = useStore((state) => state.editor)
+
   if (!fieldTree) return null
   return (
     <Box sx={{ marginTop: 2, border: 'solid 1px #ccc', height: '100%' }}>
-      <FieldsTree tree={fieldTree} />
+      <FieldsTree tree={fieldTree} editor={editor} />
     </Box>
   )
 }

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import AceEditor from 'react-ace'
 import TreeItem from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
@@ -11,6 +12,7 @@ interface FileTreeProps {
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
+  editor?: React.RefObject<AceEditor>
 }
 
 export default function FieldsTree(props: FileTreeProps) {

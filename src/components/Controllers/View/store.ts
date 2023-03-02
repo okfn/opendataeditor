@@ -11,6 +11,7 @@ export interface State {
   client: Client
   file?: IFile
   view?: IView
+
   queryValidationStatus: boolean
   fields?: IFieldItem[]
   tables?: string[] | undefined
