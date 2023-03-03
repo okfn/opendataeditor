@@ -11,7 +11,7 @@ import { Divider, Grid, MenuItem, Select } from '@mui/material'
 import FileSaver from 'file-saver'
 import * as settings from '../../../../settings'
 import ExportIcon from '@mui/icons-material/IosShare'
-import { Close, Download } from '@mui/icons-material'
+import { Cancel, Download } from '@mui/icons-material'
 
 export default function NameDialog() {
   const [name, setName] = React.useState('')
@@ -90,7 +90,7 @@ export default function NameDialog() {
             color="warning"
             variant="contained"
           >
-            <Close fontSize="small" sx={{ mr: 1 }} /> Cancel
+            <Cancel fontSize="small" sx={{ mr: 1 }} /> Cancel
           </Button>
           <Button
             fullWidth
