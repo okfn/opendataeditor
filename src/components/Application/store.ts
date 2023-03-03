@@ -12,6 +12,7 @@ export interface State {
   isWelcome?: boolean
   initialUpload?: boolean
   initialDataPackage?: boolean
+  fileItemAdded?: boolean
 
   // General
 
@@ -20,6 +21,7 @@ export interface State {
   setInitialUpload: (value: boolean) => void
   setInitialDataPackage: (value: boolean) => void
   selectFile: (path?: string) => void
+  setFileItemAdded: (value: boolean) => void
 }
 
 export function createStore(props: ApplicationProps) {
@@ -45,6 +47,9 @@ export function createStore(props: ApplicationProps) {
     },
     setInitialDataPackage: (initialDataPackage) => {
       set({ initialDataPackage })
+    },
+    setFileItemAdded: (fileItemAdded) => {
+      set({ fileItemAdded })
     },
   }))
 }

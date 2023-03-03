@@ -8,6 +8,8 @@ import { useStore } from '../store'
 import { Box } from '@mui/system'
 import Columns from '../../../Parts/Columns'
 import { Divider, Grid, MenuItem, Select } from '@mui/material'
+import FileSaver from 'file-saver'
+import * as settings from '../../../../settings'
 
 export default function NameDialog() {
   const [name, setName] = React.useState('')
@@ -15,11 +17,25 @@ export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
   const setDialog = useStore((state) => state.setDialog)
   const exportTable = useStore((state) => state.exportTable)
+  const downloadTable = useStore((state) => state.downloadTable)
+  const onExport = useStore((state) => state.onExport)
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
   const handleCancel = () => setDialog(undefined)
-  const handleCreate = () => {
-    exportTable(name, format)
+  const handleDownload = async () => {
+    const { bytes, path } = await downloadTable(name, format)
+    if (bytes) {
+      const blob = new Blob([bytes])
+      const filename = path?.split('/').slice(-1).join()
+      FileSaver.saveAs(blob, filename)
+    }
+
+    handleCancel()
+  }
+  const handleExport = async () => {
+    console.log(name, format)
+    const path = await exportTable(name, format)
+    onExport(path)
     handleCancel()
   }
   return (
@@ -42,7 +58,7 @@ export default function NameDialog() {
               value={name}
               onChange={handleChange}
               onKeyPress={(event) => {
-                if (event.key === 'Enter') handleCreate()
+                if (event.key === 'Enter') handleExport()
               }}
             />
           </Grid>
@@ -53,9 +69,11 @@ export default function NameDialog() {
               value={format}
               onChange={(event) => setFormat(event.target.value)}
             >
-              <MenuItem value="csv">CSV</MenuItem>
-              <MenuItem value="excel">EXCEL</MenuItem>
-              <MenuItem value="jsonl">JSONL</MenuItem>
+              {settings.FORMATS.map((option, index) => (
+                <MenuItem value={option} key={index}>
+                  {option.toUpperCase()}
+                </MenuItem>
+              ))}
             </Select>
           </Grid>
         </Grid>
@@ -75,8 +93,8 @@ export default function NameDialog() {
           <Button
             fullWidth
             sx={{ my: 0.5 }}
-            onClick={handleCreate}
-            aria-label="accept"
+            onClick={handleExport}
+            aria-label="export"
             color="secondary"
             variant="contained"
             disabled={!name}
@@ -91,10 +109,11 @@ export default function NameDialog() {
           <Button
             fullWidth
             sx={{ my: 0.5 }}
-            onClick={handleCancel}
-            aria-label="cancel"
+            onClick={handleDownload}
+            aria-label="download"
             color="secondary"
             variant="contained"
+            disabled={!name}
           >
             Download
           </Button>

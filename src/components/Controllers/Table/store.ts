@@ -28,11 +28,16 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
-  exportTable: (name: string, format: string) => void
+  exportTable: (name: string, format: string) => Promise<string>
   importTable?: () => void
   updateResource?: () => void
   updateColumn: (selectedColumn: number) => void
   setDialog: (dialog?: IDialog) => void
+  downloadTable: (
+    name: string,
+    format: string
+  ) => Promise<{ bytes: ArrayBuffer; path: string }>
+  onExport: (path: string) => void
 }
 
 export function createStore(props: TableProps) {
@@ -70,6 +75,13 @@ export function createStore(props: TableProps) {
       const { client, file } = get()
       const result = await client.tableExport({ path: file.path, name, format })
       return result.path
+    },
+    downloadTable: async (name, format) => {
+      const { client, file } = get()
+      const { path } = await client.tableExport({ path: file.path, name, format })
+      const { bytes } = await client.bytesRead({ path })
+      await client.fileDelete({ path })
+      return { bytes: bytes, path: path }
     },
     importTable: noop,
     updateResource: noop,
