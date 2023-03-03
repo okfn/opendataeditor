@@ -7,6 +7,7 @@ import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import { useStore, selectors } from '../store'
 import FileSaver from 'file-saver'
+import { Download } from '@mui/icons-material'
 
 export default function ManageButton() {
   const path = useStore((state) => state.path)
@@ -32,7 +33,7 @@ function DownloadButton() {
     <DefaultButton
       label="Download File"
       variant="text"
-      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
+      icon={<Download fontSize="small" sx={{ mr: 1 }} />}
       onClick={async () => {
         const bytes = await downloadFile()
         if (bytes) {
