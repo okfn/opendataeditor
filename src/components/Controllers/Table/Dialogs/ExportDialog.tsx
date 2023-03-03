@@ -90,7 +90,7 @@ export default function NameDialog() {
             color="warning"
             variant="contained"
           >
-            <Close /> Cancel
+            <Close fontSize="small" sx={{ mr: 1 }} /> Cancel
           </Button>
           <Button
             fullWidth
@@ -117,7 +117,7 @@ export default function NameDialog() {
             variant="contained"
             disabled={!name}
           >
-            <Download /> Download
+            <Download fontSize="small" sx={{ mr: 1 }} /> Download
           </Button>
         </Columns>
       </Box>
