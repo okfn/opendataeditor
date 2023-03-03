@@ -142,6 +142,11 @@ export class Client {
 
   // Table
 
+  async tableExport(props: { path: string; name: string; format: string }) {
+    const result = await this.request('/table/export', props)
+    return result as { path: string }
+  }
+
   async tableQuery(props: { query: string }) {
     const result = await this.request('/table/query', props)
     return result as { table: ITable }

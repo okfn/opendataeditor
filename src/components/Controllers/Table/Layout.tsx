@@ -8,6 +8,7 @@ import SourcePanel from './Panels/Source'
 import Actions from './Actions'
 import Content from './Content'
 import { useStore } from './store'
+import Dialog from './Dialog'
 
 export default function Layout() {
   const theme = useTheme()
@@ -25,6 +26,7 @@ export default function Layout() {
   }, [path])
   return (
     <React.Fragment>
+      <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ height: contentHeight }}>
           <Content />

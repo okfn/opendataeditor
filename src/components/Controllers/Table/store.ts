@@ -8,6 +8,7 @@ import { IFile, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
 type IPanel = 'metadata' | 'errors' | 'changes' | 'source'
+type IDialog = 'export/table'
 
 export interface State {
   client: Client
@@ -17,6 +18,7 @@ export interface State {
   source?: string
   selectedColumn?: number
   panel?: IPanel
+  dialog?: IDialog
 
   // General
 
@@ -26,10 +28,11 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
-  exportTable?: (format: string) => void
+  exportTable: (name: string, format: string) => void
   importTable?: () => void
   updateResource?: () => void
   updateColumn: (selectedColumn: number) => void
+  setDialog: (dialog?: IDialog) => void
 }
 
 export function createStore(props: TableProps) {
@@ -63,12 +66,17 @@ export function createStore(props: TableProps) {
     },
     revertPatch: () => set({ tablePatch: {} }),
     // TODO: implement
-    exportTable: noop,
+    exportTable: async (name, format) => {
+      const { client, file } = get()
+      const result = await client.tableExport({ path: file.path, name, format })
+      return result.path
+    },
     importTable: noop,
     updateResource: noop,
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })
     },
+    setDialog: (dialog) => set({ dialog }),
   }))
 }
 
