@@ -7,6 +7,8 @@ import TextField from '@mui/material/TextField'
 import { useStore, selectors } from '../store'
 import { Box } from '@mui/system'
 import Columns from '../../../Parts/Columns'
+import { Cancel, Upload } from '@mui/icons-material'
+import ActionButton from '../../../Parts/ActionButton'
 
 export default function LinkDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -54,7 +56,7 @@ export default function LinkDialog() {
             color="warning"
             variant="contained"
           >
-            Cancel
+            <ActionButton label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -65,7 +67,7 @@ export default function LinkDialog() {
             variant="contained"
             disabled={!url}
           >
-            Upload
+            <ActionButton label={'Upload'} icon={Upload} />
           </Button>
         </Columns>
       </Box>

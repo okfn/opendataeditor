@@ -8,6 +8,8 @@ import TextField from '@mui/material/TextField'
 import { useStore, selectors } from '../store'
 import { Box } from '@mui/system'
 import Columns from '../../../Parts/Columns'
+import { Cancel, Create } from '@mui/icons-material'
+import ActionButton from '../../../Parts/ActionButton'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -82,7 +84,7 @@ export default function NameDialog() {
             color="warning"
             variant="contained"
           >
-            Cancel
+            <ActionButton label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -93,7 +95,10 @@ export default function NameDialog() {
             variant="contained"
             disabled={!name}
           >
-            {dialog === 'name/create' ? 'Create' : 'Rename'}
+            <ActionButton
+              label={dialog === 'name/create' ? 'Create' : 'Rename'}
+              icon={Create}
+            />
           </Button>
         </Columns>
       </Box>
