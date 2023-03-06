@@ -1,2 +1,2 @@
-frictionless[api,excel,json,sql]==5.0.0b10
+frictionless[api,excel,json,sql]
 livemark

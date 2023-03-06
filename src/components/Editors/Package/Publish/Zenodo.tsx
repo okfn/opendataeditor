@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
-import TextareaAutosize from '@mui/base/TextareaAutosize'
+import TextareaAutosize from '@mui/material/TextareaAutosize'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Columns from '../../../Parts/Columns'
 import UserInfo from '../../../Parts/UserInfo'
@@ -180,6 +180,7 @@ export default function Zenodo(props: ZenodoProps) {
         </Grid>
         <Grid item xs={12}>
           <label htmlFor="metadata">Metadata (Zenodo)</label>
+          {/* @ts-ignore */}
           <TextareaAutosize
             value={JSON.stringify(params.metafn, null, 2)}
             aria-label="metadata"
