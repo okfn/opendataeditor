@@ -142,6 +142,11 @@ export class Client {
 
   // Table
 
+  async tablePatch(props: { query: string }) {
+    const result = await this.request('/table/patch', props)
+    return result as { table: ITable }
+  }
+
   async tableQuery(props: { query: string }) {
     const result = await this.request('/table/query', props)
     return result as { table: ITable }
@@ -155,6 +160,11 @@ export class Client {
   }) {
     const result = await this.request('/table/read', props)
     return result as { table: ITable }
+  }
+
+  async tableSave(props: { path: string; tablePatch: {}; folder?: string }) {
+    const result = await this.request('/table/save', props)
+    return result as { path: string; status: string; message: string }
   }
 
   // Text
