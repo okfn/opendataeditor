@@ -28,6 +28,7 @@ function FilesContent() {
   const folderPath = useStore(selectors.folderPath)
   const message = useStore((state) => state.message)
   const setMessage = useStore((state) => state.setMessage)
+  const onMoveFile = useStore((state) => state.moveFileToPath)
   const open = message && true
   return (
     <React.Fragment>
@@ -36,6 +37,7 @@ function FilesContent() {
         selected={path}
         folderPath={folderPath}
         onPathChange={setPath}
+        onMoveFile={onMoveFile}
         fileItemAdded={fileItemAdded}
         onFileItemAdd={setFileItemAdded}
       />

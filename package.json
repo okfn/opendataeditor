@@ -64,6 +64,8 @@
     "node-sql-parser": "^4.6.5",
     "react": "^17.0.2",
     "react-ace": "^10.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^17.0.2",
     "react-vega": "^7.4.2",
     "reselect": "^4.1.5",

@@ -1,4 +1,7 @@
 import * as React from 'react'
+import { useDrag, useDrop } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
@@ -21,6 +24,7 @@ interface FileTreeProps {
   onExpand?: (newExpanded: string[]) => void
   onFileItemAdd?: (itemAdded: boolean) => void
   onPathChange?: (path: string) => void
+  onMoveFile?: (filePath: string, folderPath: string) => void
 }
 
 export default function FileTree(props: FileTreeProps) {
@@ -38,30 +42,35 @@ export default function FileTree(props: FileTreeProps) {
   }, [props.tree])
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
-      <TreeView
-        selected={props.selected || ''}
-        expanded={expanded}
-        onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-          if (props.onPathChange) props.onPathChange(nodeId)
-          event.stopPropagation()
-        }}
-        onNodeToggle={(_event, newExpanded) => {
-          setExpanded(newExpanded)
-        }}
-        sx={{ height: '100%' }}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-        aria-label="customized"
-      >
-        {props.tree.map((item) => (
-          <TreeNode item={item} key={item.path} />
-        ))}
-      </TreeView>
+      <DndProvider backend={HTML5Backend}>
+        <TreeView
+          selected={props.selected || ''}
+          expanded={expanded}
+          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+            if (props.onPathChange) props.onPathChange(nodeId)
+            event.stopPropagation()
+          }}
+          onNodeToggle={(_event, newExpanded) => {
+            setExpanded(newExpanded)
+          }}
+          sx={{ height: '100%' }}
+          defaultCollapseIcon={<MinusSquare />}
+          defaultExpandIcon={<PlusSquare />}
+          aria-label="customized"
+        >
+          {props.tree.map((item) => (
+            <TreeNode onMoveFile={props.onMoveFile} item={item} key={item.path} />
+          ))}
+        </TreeView>
+      </DndProvider>
     </Box>
   )
 }
 
-function TreeNode(props: { item: ITreeItem }) {
+function TreeNode(props: {
+  item: ITreeItem
+  onMoveFile?: (a: string, b: string) => void
+}) {
   return (
     <StyledTreeItem
       key={props.item.path}
@@ -69,6 +78,7 @@ function TreeNode(props: { item: ITreeItem }) {
       label={props.item.name}
       type={props.item.type}
       errors={props.item.errors}
+      onMoveFile={props.onMoveFile}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -82,10 +92,26 @@ const StyledTreeItem = styled(
     props: TreeItemProps & {
       type: string
       errors?: number
+      onMoveFile?: (a: string, b: string) => void
     }
   ) => {
+    const [, drag] = useDrag(() => ({
+      type: 'File',
+      item: props,
+    }))
+
+    const [, drop] = useDrop(() => ({
+      accept: 'File',
+      drop(item: TreeItemProps) {
+        if (props.onMoveFile) props.onMoveFile(item?.nodeId, props?.nodeId)
+      },
+    }))
+
     return (
       <TreeItem
+        ref={(node: React.ReactElement) =>
+          props.type === 'folder' ? drag(drop(node)) : drag(node)
+        }
         {...props}
         label={
           <TreeItemIcon label={props.label} type={props.type} errors={props.errors} />
