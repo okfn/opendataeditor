@@ -14,7 +14,7 @@ import ExportIcon from '@mui/icons-material/IosShare'
 import { Cancel, Download } from '@mui/icons-material'
 import ActionButtonContent from '../../../Parts/ActionButtonContent'
 
-export default function NameDialog() {
+export default function ExportDialog() {
   const [name, setName] = React.useState('')
   const [format, setFormat] = React.useState('csv')
   const dialog = useStore((state) => state.dialog)
