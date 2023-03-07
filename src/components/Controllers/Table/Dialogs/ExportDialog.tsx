@@ -12,7 +12,7 @@ import FileSaver from 'file-saver'
 import * as settings from '../../../../settings'
 import ExportIcon from '@mui/icons-material/IosShare'
 import { Cancel, Download } from '@mui/icons-material'
-import ActionButton from '../../../Parts/ActionButton'
+import ActionButtonContent from '../../../Parts/ActionButtonContent'
 
 export default function NameDialog() {
   const [name, setName] = React.useState('')
@@ -91,7 +91,7 @@ export default function NameDialog() {
             color="warning"
             variant="contained"
           >
-            <ActionButton label={'Cancel'} icon={Cancel} />
+            <ActionButtonContent label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -102,7 +102,7 @@ export default function NameDialog() {
             variant="contained"
             disabled={!name}
           >
-            <ActionButton label={'Export'} icon={ExportIcon} />
+            <ActionButtonContent label={'Export'} icon={ExportIcon} />
           </Button>
         </Columns>
       </Box>
@@ -118,7 +118,7 @@ export default function NameDialog() {
             variant="contained"
             disabled={!name}
           >
-            <ActionButton label={'Download'} icon={Download} />
+            <ActionButtonContent label={'Download'} icon={Download} />
           </Button>
         </Columns>
       </Box>
