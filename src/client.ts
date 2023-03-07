@@ -147,7 +147,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async tableExport(props: { path: string; name: string; format: string }) {
+  async tableExport(props: { source: string; target: string }) {
     const result = await this.request('/table/export', props)
     return result as { path: string }
   }

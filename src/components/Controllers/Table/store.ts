@@ -73,13 +73,19 @@ export function createStore(props: TableProps) {
     // TODO: implement
     exportTable: async (name, format) => {
       const { client, file } = get()
-      const result = await client.tableExport({ path: file.path, name, format })
+      const result = await client.tableExport({
+        source: file.path,
+        target: `${name}.${format}`,
+      })
       return result.path
     },
     // TODO: temporary solution
     downloadTable: async (name, format) => {
       const { client, file } = get()
-      const { path } = await client.tableExport({ path: file.path, name, format })
+      const { path } = await client.tableExport({
+        source: file.path,
+        target: `${name}.${format}`,
+      })
       const { bytes } = await client.bytesRead({ path })
       await client.fileDelete({ path })
       return { bytes: bytes, path: path }
