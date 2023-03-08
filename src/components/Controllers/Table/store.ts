@@ -63,10 +63,10 @@ export function createStore(props: TableProps) {
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
     },
-    commitPatch: () => {
-      const { tablePatch } = get()
-      // TODO: implement server-side
-      console.log(tablePatch)
+    commitPatch: async () => {
+      const { client, file, tablePatch } = get()
+      const { path } = await client.tableSave({ path: file.path, tablePatch })
+      console.log(path)
       set({ tablePatch: {} })
     },
     revertPatch: () => set({ tablePatch: {} }),
