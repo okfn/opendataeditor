@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
@@ -40,29 +38,36 @@ export default function FileTree(props: FileTreeProps) {
       props.onFileItemAdd && props.onFileItemAdd(false)
     }
   }, [props.tree])
+
+  const [, drop] = useDrop(() => ({
+    accept: 'File',
+    drop(item: TreeItemProps) {
+      if (props.onMoveFile) props.onMoveFile(item?.nodeId, '')
+    },
+  }))
+
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
-      <DndProvider backend={HTML5Backend}>
-        <TreeView
-          selected={props.selected || ''}
-          expanded={expanded}
-          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-            if (props.onPathChange) props.onPathChange(nodeId)
-            event.stopPropagation()
-          }}
-          onNodeToggle={(_event, newExpanded) => {
-            setExpanded(newExpanded)
-          }}
-          sx={{ height: '100%' }}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          aria-label="customized"
-        >
-          {props.tree.map((item) => (
-            <TreeNode onMoveFile={props.onMoveFile} item={item} key={item.path} />
-          ))}
-        </TreeView>
-      </DndProvider>
+      <TreeView
+        ref={drop}
+        selected={props.selected || ''}
+        expanded={expanded}
+        onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+          if (props.onPathChange) props.onPathChange(nodeId)
+          event.stopPropagation()
+        }}
+        onNodeToggle={(_event, newExpanded) => {
+          setExpanded(newExpanded)
+        }}
+        sx={{ height: '100%' }}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        aria-label="customized"
+      >
+        {props.tree.map((item) => (
+          <TreeNode onMoveFile={props.onMoveFile} item={item} key={item.path} />
+        ))}
+      </TreeView>
     </Box>
   )
 }
@@ -107,12 +112,17 @@ const StyledTreeItem = styled(
       },
     }))
 
+    // We need to remove onMoveFile from the component otherwise React
+    // is going to complain that this is not expected on the DOM element
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { onMoveFile, ...propsC } = props
+
     return (
       <TreeItem
         ref={(node: React.ReactElement) =>
           props.type === 'folder' ? drag(drop(node)) : drag(node)
         }
-        {...props}
+        {...propsC}
         label={
           <TreeItemIcon label={props.label} type={props.type} errors={props.errors} />
         }

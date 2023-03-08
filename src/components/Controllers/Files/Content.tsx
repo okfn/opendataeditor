@@ -1,5 +1,7 @@
 import * as React from 'react'
 import Empty from '../../Parts/Empty'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import SpinnerContent from '../../Parts/SpinnerContent'
 import FileTree from '../../Parts/Trees/FileTree'
 import { useStore, selectors } from './store'
@@ -32,15 +34,17 @@ function FilesContent() {
   const open = message && true
   return (
     <React.Fragment>
-      <FileTree
-        tree={fileTree}
-        selected={path}
-        folderPath={folderPath}
-        onPathChange={setPath}
-        onMoveFile={onMoveFile}
-        fileItemAdded={fileItemAdded}
-        onFileItemAdd={setFileItemAdded}
-      />
+      <DndProvider backend={HTML5Backend}>
+        <FileTree
+          tree={fileTree}
+          selected={path}
+          folderPath={folderPath}
+          onPathChange={setPath}
+          onMoveFile={onMoveFile}
+          fileItemAdded={fileItemAdded}
+          onFileItemAdd={setFileItemAdded}
+        />
+      </DndProvider>
       {open && (
         <Snackbar
           open={open}
