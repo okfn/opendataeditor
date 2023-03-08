@@ -29,8 +29,13 @@ export default function Actions() {
 }
 
 function Export() {
+  const setDialog = useStore((state) => state.setDialog)
   return (
-    <DefaultButton icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />} label="Export" />
+    <DefaultButton
+      icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Export"
+      onClick={() => setDialog('export/table')}
+    />
   )
 }
 
