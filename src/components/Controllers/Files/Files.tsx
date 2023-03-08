@@ -10,6 +10,7 @@ export interface FilesProps {
   client: Client
   initialUpload?: boolean
   initialDataPackage?: boolean
+  fileItemAdded?: boolean
   onFileChange: (path?: string) => void
 }
 
