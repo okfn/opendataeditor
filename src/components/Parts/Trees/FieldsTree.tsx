@@ -66,7 +66,7 @@ function TreeLabel(props: { label: string; type: string; path: string }) {
   const { onFieldSelected } = React.useContext(Context)
   return (
     <Box
-      onClick={(ev: React.MouseEvent<HTMLButtonElement>) => {
+      onClick={(ev: React.MouseEvent<HTMLElement>) => {
         if (ev.detail === 2 && onFieldSelected) onFieldSelected(props.label)
       }}
       sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}

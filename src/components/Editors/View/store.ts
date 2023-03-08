@@ -36,7 +36,7 @@ export function createStore(props: ViewProps) {
     fields: props.fields ? props.fields : undefined,
     tables: props.fields ? getTableNames(props.fields) : [],
     queryValidationStatus: false,
-    editor: React.useRef<AceEditor>(null),
+    editor: React.createRef<AceEditor>(),
 
     // General
 
