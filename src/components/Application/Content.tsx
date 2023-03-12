@@ -10,6 +10,7 @@ import Chart from '../Controllers/Chart'
 import View from '../Controllers/View'
 import * as settings from '../../settings'
 import { useStore } from './store'
+import Json from '../Controllers/Json'
 
 export default function Content() {
   const file = useStore((state) => state.file)
@@ -37,6 +38,7 @@ function ContentFile() {
       />
     )
   }
+  if (file.type === 'json') Controller = Json
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
   return <Controller client={client} file={file} />
