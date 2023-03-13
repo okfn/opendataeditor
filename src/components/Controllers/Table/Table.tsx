@@ -10,6 +10,7 @@ export interface TableProps {
   client: Client
   file: IFile
   isMetadata?: boolean
+  onExport: (path: string) => void
 }
 
 export default function Table(props: TableProps) {

@@ -19,11 +19,24 @@ export default function Content() {
 function ContentFile() {
   const client = useStore((state) => state.client)
   const file = useStore((state) => state.file)
+  const selectFile = useStore((state) => state.selectFile)
+  const setFileItemAdded = useStore((state) => state.setFileItemAdded)
   assert(file)
   let Controller = File
   if (file.type === 'view') Controller = View
   if (file.type === 'chart') Controller = Chart
-  if (file.type === 'table') Controller = Table
+  if (file.type === 'table') {
+    return (
+      <Table
+        client={client}
+        file={file}
+        onExport={(path) => {
+          selectFile(path)
+          setFileItemAdded(true)
+        }}
+      />
+    )
+  }
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
   return <Controller client={client} file={file} />

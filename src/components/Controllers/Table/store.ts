@@ -8,6 +8,7 @@ import { IFile, ITable, ITablePatch } from '../../../interfaces'
 import { TableProps } from './Table'
 
 type IPanel = 'metadata' | 'errors' | 'changes' | 'source'
+type IDialog = 'export/table'
 
 export interface State {
   client: Client
@@ -17,6 +18,7 @@ export interface State {
   source?: string
   selectedColumn?: number
   panel?: IPanel
+  dialog?: IDialog
 
   // General
 
@@ -26,10 +28,16 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   commitPatch: () => void
   revertPatch: () => void
-  exportTable?: (format: string) => void
+  exportTable: (name: string, format: string) => Promise<string>
   importTable?: () => void
   updateResource?: () => void
   updateColumn: (selectedColumn: number) => void
+  setDialog: (dialog?: IDialog) => void
+  downloadTable: (
+    name: string,
+    format: string
+  ) => Promise<{ bytes: ArrayBuffer; path: string }>
+  onExport: (path: string) => void
 }
 
 export function createStore(props: TableProps) {
@@ -55,20 +63,39 @@ export function createStore(props: TableProps) {
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
     },
-    commitPatch: () => {
-      const { tablePatch } = get()
-      // TODO: implement server-side
-      console.log(tablePatch)
+    commitPatch: async () => {
+      const { client, file, tablePatch } = get()
+      const { path } = await client.tableSave({ path: file.path, tablePatch })
+      console.log(path)
       set({ tablePatch: {} })
     },
     revertPatch: () => set({ tablePatch: {} }),
     // TODO: implement
-    exportTable: noop,
+    exportTable: async (name, format) => {
+      const { client, file } = get()
+      const result = await client.tableExport({
+        source: file.path,
+        target: `${name}.${format}`,
+      })
+      return result.path
+    },
+    // TODO: temporary solution
+    downloadTable: async (name, format) => {
+      const { client, file } = get()
+      const { path } = await client.tableExport({
+        source: file.path,
+        target: `${name}.${format}`,
+      })
+      const { bytes } = await client.bytesRead({ path })
+      await client.fileDelete({ path })
+      return { bytes: bytes, path: path }
+    },
     importTable: noop,
     updateResource: noop,
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })
     },
+    setDialog: (dialog) => set({ dialog }),
   }))
 }
 

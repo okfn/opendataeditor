@@ -8,10 +8,12 @@ export default function Layout() {
   const initialUpload = useStore((state) => state.initialUpload)
   const initialDataPackage = useStore((state) => state.initialDataPackage)
   const selectFile = useStore((state) => state.selectFile)
+  const fileItemAdded = useStore((state) => state.fileItemAdded)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Files
         client={client}
+        fileItemAdded={fileItemAdded}
         onFileChange={selectFile}
         initialUpload={initialUpload}
         initialDataPackage={initialDataPackage}
