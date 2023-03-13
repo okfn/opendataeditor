@@ -26,6 +26,7 @@ export default function DeleteButton() {
             color: 'secondary',
             variant: 'contained',
             sx: { width: '50%' },
+            autoFocus: true,
           },
           cancellationButtonProps: {
             color: 'warning',

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import AceEditor from 'react-ace'
 import create from 'zustand/vanilla'
 import { Parser, AST, Select } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
@@ -13,6 +14,7 @@ export interface State {
   fields?: IFieldItem[]
   tables?: string[]
   queryValidationStatus: boolean
+  editor?: React.RefObject<AceEditor>
 
   // General
   viewError?: IViewError | undefined
@@ -34,6 +36,7 @@ export function createStore(props: ViewProps) {
     fields: props.fields ? props.fields : undefined,
     tables: props.fields ? getTableNames(props.fields) : [],
     queryValidationStatus: false,
+    editor: React.createRef<AceEditor>(),
 
     // General
 
