@@ -18,7 +18,7 @@ export default function Query() {
   const formatQuery = useStore((state) => state.formatQuery)
   const validateQuery = useStore((state) => state.validateQuery)
   const viewError = useStore((state) => state.viewError)
-  const aceEditor = React.useRef<AceEditor>(null)
+  const editor = useStore((state) => state.editor)
   const theme = useTheme()
 
   return (
@@ -33,7 +33,7 @@ export default function Query() {
       <Box sx={{ margin: 2 }}>
         <InputLabel htmlFor="sql-editor">SQL Query</InputLabel>
         <AceEditor
-          ref={aceEditor}
+          ref={editor}
           mode="sql"
           width="100%"
           height={theme.spacing(24)}

@@ -11,47 +11,34 @@ interface FileTreeProps {
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
+  onFieldSelected?: IOnFieldSelected
 }
+
+type IOnFieldSelected = (name: string) => void
+const Context = React.createContext<{ onFieldSelected?: IOnFieldSelected }>({})
 
 export default function FieldsTree(props: FileTreeProps) {
   return (
-    <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
-      <TreeView
-        selected={props.selected || ''}
-        defaultExpanded={props.expanded}
-        onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-          if (props.onPathChange) props.onPathChange(nodeId)
-          event.stopPropagation()
-        }}
-        sx={{ height: '100%' }}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        aria-label="customized"
-      >
-        {props.tree.map((item) => (
-          <TreeNode item={item} key={item.path} />
-        ))}
-      </TreeView>
-    </Box>
-  )
-}
-
-function TreeLabel(props: { label: React.ReactNode; type: string; path: string }) {
-  const formatType = (type: string, path: string) => {
-    if (type !== 'table') {
-      return type.toUpperCase()
-    } else {
-      return path
-    }
-  }
-
-  return (
-    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      {props.label}{' '}
-      <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
-        {formatType(props.type, props.path)}
+    <Context.Provider value={{ onFieldSelected: props.onFieldSelected }}>
+      <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
+        <TreeView
+          selected={props.selected || ''}
+          defaultExpanded={props.expanded}
+          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+            if (props.onPathChange) props.onPathChange(nodeId)
+            event.stopPropagation()
+          }}
+          sx={{ height: '100%' }}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+          aria-label="customized"
+        >
+          {props.tree.map((item) => (
+            <TreeNode item={item} key={item.path} />
+          ))}
+        </TreeView>
       </Box>
-    </Box>
+    </Context.Provider>
   )
 }
 
@@ -72,5 +59,22 @@ function TreeNode(props: { item: ITreeItem }) {
         <TreeNode item={item} key={item.path} />
       ))}
     </TreeItem>
+  )
+}
+
+function TreeLabel(props: { label: string; type: string; path: string }) {
+  const { onFieldSelected } = React.useContext(Context)
+  return (
+    <Box
+      onClick={(ev: React.MouseEvent<HTMLElement>) => {
+        if (ev.detail === 2 && onFieldSelected) onFieldSelected(props.label)
+      }}
+      sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}
+    >
+      {props.label}{' '}
+      <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
+        {props.type === 'table' ? props.path : props.type.toUpperCase()}
+      </Box>
+    </Box>
   )
 }
