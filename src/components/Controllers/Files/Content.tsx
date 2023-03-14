@@ -9,7 +9,6 @@ import { Close } from '@mui/icons-material'
 export default function Content() {
   const fileItems = useStore((state) => state.fileItems)
   const loading = useStore((state) => state.loading)
-  console.log('loading', loading)
   return loading ? (
     <SpinnerContent />
   ) : fileItems.length ? (

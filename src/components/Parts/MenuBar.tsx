@@ -1,52 +1,80 @@
 import {
   Button,
   Checkbox,
-  FormControlLabel,
-  FormGroup,
+  // FormControlLabel,
+  // FormGroup,
+  MenuItem,
+  Select,
   Toolbar,
   Typography
 } from '@mui/material'
+import { Box } from '@mui/system'
 import * as React from 'react'
 
-type MenuItem = {
+type ToolBarMenuItem = {
   key: string
   label: string
   disabled: boolean
   type: string
+  options?: any
   icon?: React.ReactElement
-  onClick?: () => void
+  onClick?: (event?: any) => void
 }
 
-export default function MenuBar({ items }: { items: Array<MenuItem> }) {
-  return <Toolbar>{items.map((menu: MenuItem) => getMenu(menu))}</Toolbar>
+export default function MenuBar({ items }: { items: Array<ToolBarMenuItem> }) {
+  return <Toolbar>{items.map((menu: ToolBarMenuItem) => getMenu(menu))}</Toolbar>
 }
-const getMenu = (menu: MenuItem) => {
+const getMenu = (menu: ToolBarMenuItem) => {
   const Elem = menus[menu.type]
   return <Elem key={menu.key} menu={menu} />
 }
 
-const CheckboxMenuItem = (props: { menu: MenuItem }) => {
+const CheckboxMenuItem = (props: { menu: ToolBarMenuItem }) => {
   return (
-    <FormGroup>
-      <FormControlLabel
-        sx={{
-          mX: 2,
-          '& .MuiFormControlLabel-label': { fontWeight: 300, color: 'primary.main' },
-        }}
-        control={
-          <Checkbox
-            defaultChecked
-            onClick={props.menu.onClick}
-            disabled={props.menu.disabled}
-          />
-        }
-        label={props.menu.label}
+    <Box
+      sx={{
+        fontWeight: 300,
+        color: 'primary.main',
+      }}
+    >
+      <Checkbox
+        defaultChecked
+        onClick={props.menu.onClick}
+        disabled={props.menu.disabled}
       />
-    </FormGroup>
+      {props.menu.label}
+    </Box>
   )
 }
 
-const DefaultMenuItem = (props: { menu: MenuItem }) => {
+const SelectMenuItem = (props: { menu: ToolBarMenuItem }) => {
+  return (
+    <Box
+      sx={{
+        fontWeight: 300,
+        color: 'primary.main',
+      }}
+    >
+      <Box
+        component="span"
+        sx={{
+          paddingRight: 1,
+        }}
+      >
+        {props.menu.label}
+      </Box>
+      <Select size="small" defaultValue="0" onChange={props.menu.onClick}>
+        {props.menu.options.map((option: any, index: number) => (
+          <MenuItem key={index} value={index}>
+            {option}
+          </MenuItem>
+        ))}
+      </Select>
+    </Box>
+  )
+}
+
+const DefaultMenuItem = (props: { menu: ToolBarMenuItem }) => {
   return (
     <Button
       key={props.menu.key}
@@ -54,7 +82,7 @@ const DefaultMenuItem = (props: { menu: MenuItem }) => {
       onClick={props.menu.onClick}
       disabled={props.menu.disabled}
     >
-      <Typography sx={{ mX: 2, fontWeight: 300, textTransform: 'capitalize' }}>
+      <Typography sx={{ fontWeight: 300, textTransform: 'capitalize' }}>
         {props.menu.label}
       </Typography>
     </Button>
@@ -64,4 +92,5 @@ const DefaultMenuItem = (props: { menu: MenuItem }) => {
 const menus: { [key: string]: React.ElementType } = {
   default: DefaultMenuItem,
   checkbox: CheckboxMenuItem,
+  select: SelectMenuItem,
 }

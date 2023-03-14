@@ -4,30 +4,40 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
-import { JsonProps } from './Json'
+import { TextProps } from './Text'
 
 export interface State {
   client: Client
   file: IFile
-  json?: string
+  text?: string
+  language?: string
   newFile: File | undefined
 
   // General
 
+  setLanguage: (language: string) => void
+
+  // File
+
   commitChange: () => Promise<void>
-  exportJson: () => Promise<ArrayBuffer | undefined>
-  loadJson: () => Promise<void>
+  exportFile: () => Promise<ArrayBuffer | undefined>
+  loadFile: () => Promise<void>
   updateChange: (newFile: File) => void
   downloadFile: () => Promise<ArrayBuffer | undefined>
   onSave: (path: string) => void
 }
 
-export function createStore(props: JsonProps) {
+export function createStore(props: TextProps) {
   return create<State>((set, get) => ({
     ...props,
+    language: 'plaintext',
     newFile: undefined,
 
     // General
+
+    setLanguage: (language: string) => set({ language }),
+
+    // File
 
     commitChange: async () => {
       const { client, newFile, onSave } = get()
@@ -36,23 +46,23 @@ export function createStore(props: JsonProps) {
       set({ newFile: undefined })
       onSave(path)
     },
-    exportJson: async () => {
+    exportFile: async () => {
       const { client, file } = get()
       if (!file.path) return
       const { bytes } = await client.bytesRead({ path: file.path })
       return bytes
     },
-    loadJson: async () => {
+    loadFile: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      set({ json: text })
+      set({ text })
     },
     updateChange: (newFile: File) => set({ newFile }),
     // TODO: temporary solution
     downloadFile: async () => {
-      const { client, newFile, file } = get()
+      const { client, newFile } = get()
       if (!newFile) return
-      const { path } = await client.fileSave({ file: newFile ?? file })
+      const { path } = await client.fileSave({ file: newFile })
       const { bytes } = await client.bytesRead({ path })
       return bytes
     },

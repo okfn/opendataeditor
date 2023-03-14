@@ -11,6 +11,7 @@ import View from '../Controllers/View'
 import * as settings from '../../settings'
 import { useStore } from './store'
 import Json from '../Controllers/Json'
+import Text from '../Controllers/Text'
 
 export default function Content() {
   const file = useStore((state) => state.file)
@@ -23,32 +24,21 @@ function ContentFile() {
   const selectFile = useStore((state) => state.selectFile)
   const setFileItemAdded = useStore((state) => state.setFileItemAdded)
   assert(file)
+  const onSave = (path: string) => {
+    selectFile(path)
+    setFileItemAdded(true)
+  }
   let Controller = File
   if (file.type === 'view') Controller = View
   if (file.type === 'chart') Controller = Chart
   if (file.type === 'table') {
-    return (
-      <Table
-        client={client}
-        file={file}
-        onExport={(path) => {
-          selectFile(path)
-          setFileItemAdded(true)
-        }}
-      />
-    )
+    return <Table client={client} file={file} onExport={onSave} />
   }
   if (file.type === 'json') {
-    return (
-      <Json
-        client={client}
-        file={file}
-        onSave={(path) => {
-          selectFile(path)
-          setFileItemAdded(true)
-        }}
-      />
-    )
+    return <Json client={client} file={file} onSave={onSave} />
+  }
+  if (file.record?.type === 'text') {
+    return <Text client={client} file={file} onSave={onSave} />
   }
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
