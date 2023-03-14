@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { DataObject, Handyman } from '@mui/icons-material'
+import { Compress, DataObject, Delete, Handyman } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import MenuBar from '../../Parts/MenuBar'
 import Editor, { OnMount } from '@monaco-editor/react'
@@ -18,29 +18,76 @@ export default function Json(props: JsonProps) {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(30)})`
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
+  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(true)
+  const [isChanged, setIsChanged] = React.useState(false)
 
   const items = [
     {
       key: 'fix',
       label: 'Fix',
-      icon: <Handyman />,
       disabled: false,
+      type: 'default',
+      icon: <Handyman />,
       onClick: handleFixClick,
     },
     {
       key: 'prettify',
       label: 'Prettify',
-      icon: <DataObject />,
       disabled: false,
+      type: 'default',
+      icon: <DataObject />,
       onClick: handlePrettifyClick,
+    },
+    {
+      key: 'minify',
+      label: 'Minify',
+      disabled: false,
+      type: 'default',
+      icon: <Compress />,
+      onClick: handleMinifyClick,
+    },
+    {
+      key: 'clear',
+      label: 'Clear',
+      disabled: false,
+      type: 'default',
+      icon: <Delete />,
+      onClick: () => editorRef.current?.setValue(''),
+    },
+    {
+      key: 'autoprettify',
+      label: 'Auto Prettify',
+      disabled: false,
+      type: 'checkbox',
+      onClick: () => toggleAutoPrettifyOn(!isAutoPrettifyOn),
     },
   ]
 
+  React.useEffect(() => {
+    if (!isChanged) return
+    isAutoPrettifyOn && handleEditorPrettify()
+    setIsChanged(false)
+  }, [isAutoPrettifyOn, isChanged])
+
   // Helper functions
+
+  const handleEditorPrettify = () => {
+    if (!editorRef.current) return
+    const action = editorRef.current.getAction('editor.action.formatDocument')
+    action?.run()
+  }
 
   const prettifyJsonString = (jsonString: string): string => {
     try {
       return JSON.stringify(JSON.parse(jsonString), null, '\t')
+    } catch (err) {
+      return jsonString
+    }
+  }
+
+  const minifyJsonString = (jsonString: string): string => {
+    try {
+      return JSON.stringify(JSON.parse(jsonString), null)
     } catch (err) {
       return jsonString
     }
@@ -60,17 +107,27 @@ export default function Json(props: JsonProps) {
   }
 
   function handleFixClick() {
+    if (!editorRef.current) return
     const editor = editorRef.current
-    const value = editor && editor.getValue()
+    const value = editor.getValue()
     const fixedValue = value && dirtyJson.parse(value)
     const formattedValue = fixedValue && prettifyJsonString(JSON.stringify(fixedValue))
     editor && editor.setValue(formattedValue)
   }
 
   function handlePrettifyClick() {
-    const action = editorRef.current?.getAction('editor.action.formatDocument')
-    if (!action) return
-    action.run()
+    if (!editorRef.current) return
+    const action = editorRef.current.getAction('editor.action.formatDocument')
+    action?.run()
+  }
+
+  function handleMinifyClick() {
+    if (!editorRef.current) return
+    const editor = editorRef.current
+    const value = editor.getValue()
+    if (!value) return
+    const minifiedValue = minifyJsonString(value)
+    editor.setValue(minifiedValue)
   }
 
   return (
@@ -87,7 +144,10 @@ export default function Json(props: JsonProps) {
           formatOnType: true,
           scrollBeyondLastLine: false,
         }}
-        onChange={handleEditorChange}
+        onChange={(value) => {
+          setIsChanged(true)
+          handleEditorChange(value)
+        }}
         onMount={handleEditorDidMount}
       />
     </Box>

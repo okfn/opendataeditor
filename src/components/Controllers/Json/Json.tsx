@@ -9,6 +9,7 @@ import Layout from './Layout'
 export interface JsonProps {
   client: Client
   file: IFile
+  onSave: (path: string) => void
 }
 
 export default function Json(props: JsonProps) {

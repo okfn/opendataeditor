@@ -38,7 +38,18 @@ function ContentFile() {
       />
     )
   }
-  if (file.type === 'json') Controller = Json
+  if (file.type === 'json') {
+    return (
+      <Json
+        client={client}
+        file={file}
+        onSave={(path) => {
+          selectFile(path)
+          setFileItemAdded(true)
+        }}
+      />
+    )
+  }
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
   return <Controller client={client} file={file} />

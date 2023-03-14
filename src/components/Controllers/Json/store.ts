@@ -19,6 +19,7 @@ export interface State {
   loadJson: () => Promise<void>
   updateChange: (newFile: File) => void
   downloadFile: () => Promise<ArrayBuffer | undefined>
+  onSave: (path: string) => void
 }
 
 export function createStore(props: JsonProps) {
@@ -29,11 +30,11 @@ export function createStore(props: JsonProps) {
     // General
 
     commitChange: async () => {
-      const { client, newFile } = get()
+      const { client, newFile, onSave } = get()
       if (!newFile) return
       const { path } = await client.fileSave({ file: newFile })
-      console.log('path', path)
       set({ newFile: undefined })
+      onSave(path)
     },
     exportJson: async () => {
       const { client, file } = get()
