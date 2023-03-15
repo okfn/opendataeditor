@@ -60,10 +60,13 @@ export function createStore(props: TextProps) {
     updateChange: (newFile: File) => set({ newFile }),
     // TODO: temporary solution
     downloadFile: async () => {
-      const { client, newFile } = get()
-      if (!newFile) return
-      const { path } = await client.fileSave({ file: newFile })
-      const { bytes } = await client.bytesRead({ path })
+      const { client, newFile, file } = get()
+      let downloadFilePath = file.path
+      if (newFile) {
+        const { path } = await client.fileSave({ file: newFile })
+        downloadFilePath = path
+      }
+      const { bytes } = await client.bytesRead({ path: downloadFilePath })
       return bytes
     },
   }))

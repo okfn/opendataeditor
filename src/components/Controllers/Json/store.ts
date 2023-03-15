@@ -51,9 +51,12 @@ export function createStore(props: JsonProps) {
     // TODO: temporary solution
     downloadFile: async () => {
       const { client, newFile, file } = get()
-      if (!newFile) return
-      const { path } = await client.fileSave({ file: newFile ?? file })
-      const { bytes } = await client.bytesRead({ path })
+      let downloadFilePath = file.path
+      if (newFile) {
+        const { path } = await client.fileSave({ file: newFile })
+        downloadFilePath = path
+      }
+      const { bytes } = await client.bytesRead({ path: downloadFilePath })
       return bytes
     },
   }))

@@ -30,7 +30,6 @@ function Export() {
       label="Export"
       onClick={async () => {
         const bytes = await downloadFile()
-        console.log('testing', bytes)
         if (bytes && file) {
           const blob = new Blob([bytes])
           const filename = file.path?.split('/').slice(-1).join()
