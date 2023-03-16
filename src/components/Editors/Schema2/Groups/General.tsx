@@ -2,6 +2,7 @@ import * as React from 'react'
 import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import ValuesField from '../../../Parts/Fields/ValuesField'
 import MultiselectField from '../../../Parts/Fields/MultiselectField'
+import Columns from '../../../Parts/Columns'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
 
@@ -9,8 +10,10 @@ export default function General() {
   return (
     <React.Fragment>
       <HeadingBox>General</HeadingBox>
-      <MissingValues />
-      <PrimaryKey />
+      <Columns spacing={2}>
+        <PrimaryKey />
+        <MissingValues />
+      </Columns>
     </React.Fragment>
   )
 }
