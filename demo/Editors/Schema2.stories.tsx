@@ -9,14 +9,20 @@ export default {
 
 const Template: Story<Parameters<typeof Schema>[0]> = (args) => <Schema {...args} />
 
+// Props
+
+const schema = {
+  fields: [
+    { name: 'id', type: 'integer', format: 'default' },
+    { name: 'name', type: 'string', format: 'default' },
+  ],
+  missingValues: [''],
+}
+
+// Stories
+
 export const Default = Template.bind({})
 Default.args = {
-  descriptor: {
-    fields: [
-      { name: 'id', type: 'integer', format: 'default' },
-      { name: 'name', type: 'string', format: 'default' },
-    ],
-    missingValues: [''],
-  },
+  schema,
   onChange: console.log,
 }

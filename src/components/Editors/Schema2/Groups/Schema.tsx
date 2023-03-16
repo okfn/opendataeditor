@@ -7,7 +7,7 @@ import MultilineField from '../../../Parts/Fields/MultilineField'
 import MultiselectField from '../../../Parts/Fields/MultiselectField'
 import Columns from '../../../Parts/Columns'
 import * as settings from '../../../../settings'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function General() {
   return (
@@ -77,15 +77,16 @@ function MissingValues() {
 }
 
 function PrimaryKey() {
-  const fields = useStore((state) => state.schema.fields)
+  const fieldNames = useStore(selectors.fieldNames)
   const primaryKey = useStore((state) => state.schema.primaryKey)
   const updateSchema = useStore((state) => state.updateSchema)
   const schema = useStore((state) => state.schema)
+  console.log(fieldNames)
   return (
     <MultiselectField
       label="Primary Key"
       value={primaryKey || []}
-      options={fields.map((field) => field.name)}
+      options={fieldNames}
       onChange={(primaryKey) => {
         schema.primaryKey = primaryKey.length ? primaryKey : undefined
         updateSchema(schema)
