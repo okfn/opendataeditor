@@ -18,6 +18,5 @@ Default.args = {
     ],
     missingValues: [''],
   },
-  onCommit: (schema: any) => console.log(schema),
-  onRevert: (schema: any) => console.log(schema),
+  onChange: console.log,
 }

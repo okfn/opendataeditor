@@ -35,11 +35,15 @@ interface State {
 }
 
 export function createStore(props: SchemaProps) {
-  return create<State>((set, _get) => ({
+  return create<State>((set, get) => ({
     schema: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    updateSchema: (schema) => set({ schema }),
+    updateSchema: (schema) => {
+      const { onChange } = get()
+      onChange(schema)
+      set({ schema })
+    },
 
     // Fields
 

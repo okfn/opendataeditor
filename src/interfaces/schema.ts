@@ -1,6 +1,9 @@
 import { IDict } from './common'
 
 export interface ISchema {
+  name?: string
+  title?: string
+  description?: string
   fields: IField[]
   primaryKey?: string[]
   foreignKeys?: IForeignKey[]
