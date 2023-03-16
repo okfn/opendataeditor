@@ -5,13 +5,10 @@ import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import Layout from './Layout'
 
-// TODO: remove borderTop hack
-
 export interface SchemaProps {
   schema?: ISchema
-  onCommit?: (schema: ISchema) => void
-  onRevert?: (schema: ISchema) => void
-  onChangeColumn?: (selectedColumn: number) => void
+  onChange?: (schema: ISchema) => void
+  onFieldSelected?: (name: string) => void
 }
 
 export default function Schema(props: SchemaProps) {

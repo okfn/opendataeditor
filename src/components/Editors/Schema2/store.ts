@@ -21,9 +21,8 @@ interface SchemaState {
 
   descriptor: ISchema
   checkpoint: ISchema
-  onCommit: (schema: ISchema) => void
-  onRevert: (schema: ISchema) => void
-  onChangeColumn: (selectedColumn: number) => void
+  onChange: (schema: ISchema) => void
+  onFieldSelected: (name: string) => void
   isPreview?: boolean
   isUpdated?: boolean
   exportFormat: string
@@ -68,9 +67,8 @@ export function createStore(props: SchemaProps) {
 
     descriptor: cloneDeep(props.schema || INITIAL_SCHEMA),
     checkpoint: cloneDeep(props.schema || INITIAL_SCHEMA),
-    onCommit: props.onCommit || noop,
-    onRevert: props.onRevert || noop,
-    onChangeColumn: props.onChangeColumn || noop,
+    onChange: props.onChange || noop,
+    onFieldSelected: props.onFieldSelected || noop,
     exportFormat: settings.DEFAULT_EXPORT_FORMAT,
 
     // General (logic)
