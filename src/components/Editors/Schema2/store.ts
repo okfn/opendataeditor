@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
+import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { SchemaProps } from './Schema'
 import { ISchema } from '../../../interfaces'
@@ -34,8 +34,8 @@ interface State {
   updateForeignKeyInfo: (foreignKeyInfo: IElementInfo) => void
 }
 
-export function createStore(props: SchemaProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: SchemaProps) {
+  return createStore<State>((set, get) => ({
     schema: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
