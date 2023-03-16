@@ -1,15 +1,75 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Columns from '../../../Parts/Columns'
 import ItemButton from '../../../Parts/Buttons/ItemButton'
 import HeadingBox from '../../../Parts/Groups/HeadingBox'
+import HeadingSearch from '../../../Parts/Groups/HeadingSearch'
 import { useStore, selectors } from '../store'
 
 export default function Fields() {
   const foundFieldItems = useStore(selectors.foundFieldItems)
   return (
     <React.Fragment>
-      <HeadingBox>Fields</HeadingBox>
+      <HeadingBox>
+        <Columns spacing={1} layout={[6, 2, 2, 2]}>
+          <Box>Fields</Box>
+          <AddButton />
+          <GridButton />
+          <SearchInput />
+        </Columns>
+      </HeadingBox>
       {foundFieldItems.length ? <FoundItems /> : <NotFoundItems />}
     </React.Fragment>
+  )
+}
+
+function AddButton() {
+  const schema = useStore((state) => state.schema)
+  const updateSchema = useStore((state) => state.updateSchema)
+  return (
+    <Button
+      color="info"
+      title={`Add a new field`}
+      onClick={() => {
+        console.log('Add field!')
+      }}
+    >
+      Add Field
+    </Button>
+  )
+}
+
+function GridButton() {
+  const isGrid = useStore((state) => state.fieldInfo.isGrid)
+  const fieldInfo = useStore((state) => state.fieldInfo)
+  const updateFieldInfo = useStore((state) => state.updateFieldInfo)
+  return (
+    <Button
+      color={isGrid ? 'warning' : 'info'}
+      onClick={() => {
+        fieldInfo.isGrid = !fieldInfo.isGrid
+        updateFieldInfo(fieldInfo)
+      }}
+      title="Toggle grid view"
+    >
+      Grid View
+    </Button>
+  )
+}
+
+function SearchInput() {
+  const query = useStore((state) => state.fieldInfo.query)
+  const fieldInfo = useStore((state) => state.fieldInfo)
+  const updateFieldInfo = useStore((state) => state.updateFieldInfo)
+  return (
+    <HeadingSearch
+      value={query}
+      onChange={(query) => {
+        fieldInfo.query = query
+        updateFieldInfo(fieldInfo)
+      }}
+    />
   )
 }
 
