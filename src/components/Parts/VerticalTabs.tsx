@@ -28,7 +28,7 @@ export default function VerticalTabs(props: VerticalTabsProps) {
         value={value}
         onChange={handleChange}
         aria-label="Package Tabs"
-        sx={{ borderRight: 1, borderColor: 'divider', paddingTop: 2 }}
+        sx={{ borderRight: 1, borderColor: 'divider', paddingTop: 2, height: '100%' }}
       >
         {props.labels.map((label, index) => (
           <Tab key={label} label={label} {...a11yProps(index)} />
@@ -60,7 +60,7 @@ function TabPanel(props: TabPanelProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
-      style={{ width }}
+      style={{ width, height: '100%' }}
     >
       {value === index && (
         <Box sx={{ paddingX: 3, paddingBottom: 3, paddingRight: 5 }}>{children}</Box>
