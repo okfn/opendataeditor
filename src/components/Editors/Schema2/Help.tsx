@@ -4,7 +4,7 @@ import HelpCard from '../../Parts/HelpCard'
 
 export default function Help() {
   return (
-    <Box sx={{ paddingTop: 2, paddingRight: 2, height: '100%' }}>
+    <Box sx={{ height: '100%' }}>
       <HelpCard
         title="Schema"
         subtitle="overview"

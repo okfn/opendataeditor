@@ -12,10 +12,12 @@ export default function Fields() {
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[6, 2, 2, 2]}>
+        <Columns spacing={1} layout={[6, 3, 3]}>
           <Box>Fields</Box>
-          <AddButton />
-          <GridButton />
+          <Columns spacing={1}>
+            <AddButton />
+            <GridButton />
+          </Columns>
           <SearchInput />
         </Columns>
       </HeadingBox>

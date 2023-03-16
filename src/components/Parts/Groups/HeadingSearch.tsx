@@ -15,6 +15,7 @@ export default function HeadingSearch(props: HeadingSearchProps) {
   const onFocus = props.onFocus || noop
   return (
     <TextField
+      fullWidth
       size="small"
       name="Search"
       label="Search"

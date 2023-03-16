@@ -16,7 +16,11 @@ interface HelpCardProps {
 
 export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) {
   return (
-    <Card variant="outlined" sx={{ height: '100%' }}>
+    <Card
+      variant="outlined"
+      square={true}
+      sx={{ height: '100%', border: 0, borderLeft: 'solid 1px #ddd' }}
+    >
       <CardContent>
         <Typography
           sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}
