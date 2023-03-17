@@ -29,7 +29,7 @@ function FieldList() {
       query={query}
       isGrid={isGrid}
       onAddClick={() => console.log('add')}
-      onGridClick={() => console.log('grid')}
+      onGridClick={() => updateFieldState({ isGrid: !isGrid })}
       onQueryChange={() => console.log('query')}
     >
       {foundFieldItems.map(({ index, field }) => (

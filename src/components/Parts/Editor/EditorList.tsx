@@ -32,7 +32,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
     return (
       <Button
         color={props.isGrid ? 'warning' : 'info'}
-        onClick={() => props.onGridClick}
+        onClick={() => props.onGridClick()}
         title="Toggle grid view"
       >
         Grid View
@@ -59,6 +59,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       ) : (
         <EditorListItem
           disabled
+          kind={props.kind}
           name={`No ${props.kind}s ${props.query ? 'found' : 'added'}`}
         />
       )}
