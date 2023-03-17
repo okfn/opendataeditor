@@ -48,13 +48,16 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       />
     )
   }
+  // TODO: Fix heading geometry (not buttons with the second line)
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[6, 2, 2, 2]}>
+        <Columns spacing={1} layout={[6, 3, 3]}>
           <Box>{startCase(props.kind)}s</Box>
-          <AddButton />
-          <GridButton />
+          <Columns>
+            <AddButton />
+            <GridButton />
+          </Columns>
           <SearchInput />
         </Columns>
       </HeadingBox>
