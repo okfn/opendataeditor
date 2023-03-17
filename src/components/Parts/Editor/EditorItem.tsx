@@ -16,6 +16,13 @@ export interface EditorItemProps {
 
 // TODO: rebase Link on component="button" so it doesn't add "#" to the url
 export default function EditorItem(props: React.PropsWithChildren<EditorItemProps>) {
+  const BackButton = () => {
+    return (
+      <Button color="info" title="Back to list" onClick={() => props.onBackClick()}>
+        Back to list
+      </Button>
+    )
+  }
   const RemoveButton = () => {
     return (
       <Button
@@ -30,7 +37,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[9, 3]}>
+        <Columns spacing={1} layout={[8, 4]}>
           <Box>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
               <Link href="#" onClick={props.onBackClick}>
@@ -40,7 +47,10 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
             </Typography>{' '}
             {props.name}
           </Box>
-          <RemoveButton />
+          <Columns>
+            <BackButton />
+            <RemoveButton />
+          </Columns>
         </Columns>
       </HeadingBox>
       {props.children}
