@@ -14,7 +14,7 @@ interface ISectionState {
   query?: string
   index?: number
   isGrid?: boolean
-  isExtra?: boolean
+  isExtras?: boolean
 }
 
 interface State {

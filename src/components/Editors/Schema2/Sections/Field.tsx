@@ -50,32 +50,46 @@ function FieldList() {
 
 function FieldItem() {
   const name = useStore(select(selectors.field, ({ field }) => field.name))
+  const isExtras = useStore((state) => state.fieldState.isExtras)
   const updateFieldState = useStore((state) => state.updateFieldState)
   return (
     <EditorItem
       kind="field"
       name={name}
-      onBackClick={() => updateFieldState({ index: undefined })}
+      isExtras={isExtras}
+      extrasName="constraints"
+      onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
       onRemoveClick={() => console.log('remove')}
+      onBackClick={() => updateFieldState({ index: undefined })}
     >
-      <Columns spacing={3}>
-        <Box>
-          <Name />
-          <Columns spacing={1}>
-            <Type />
-            <Format />
-          </Columns>
-          <Title />
-          <Description />
-        </Box>
-        <Box>
-          <MissingValues />
-          <RdfType />
-          <TypeSpecific />
-        </Box>
-      </Columns>
+      {isExtras ? <FieldItemExtras /> : <FieldItemMain />}
     </EditorItem>
   )
+}
+
+function FieldItemMain() {
+  return (
+    <Columns spacing={3}>
+      <Box>
+        <Name />
+        <Columns spacing={1}>
+          <Type />
+          <Format />
+        </Columns>
+        <Title />
+        <Description />
+      </Box>
+      <Box>
+        <MissingValues />
+        <RdfType />
+        <TypeSpecific />
+      </Box>
+    </Columns>
+  )
+}
+
+function FieldItemExtras() {
+  return <div>extras</div>
 }
 
 function Name() {

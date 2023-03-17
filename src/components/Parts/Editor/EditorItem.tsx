@@ -10,16 +10,24 @@ import HeadingBox from './Internals/HeadingBox'
 export interface EditorItemProps {
   kind: string
   name: string
-  onBackClick: () => void
+  isExtras?: boolean
+  extrasName?: string
+  onExtrasClick?: () => void
   onRemoveClick: () => void
+  onBackClick: () => void
 }
 
 // TODO: rebase Link on component="button" so it doesn't add "#" to the url
 export default function EditorItem(props: React.PropsWithChildren<EditorItemProps>) {
-  const BackButton = () => {
+  const ExtrasButton = () => {
+    if (!props.extrasName) return null
     return (
-      <Button color="info" title="Back to list" onClick={() => props.onBackClick()}>
-        Back to list
+      <Button
+        color={props.isExtras ? 'warning' : 'info'}
+        title={props.extrasName}
+        onClick={() => (props.onExtrasClick ? props.onExtrasClick() : undefined)}
+      >
+        {capitalize(props.extrasName)}
       </Button>
     )
   }
@@ -34,10 +42,17 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
       </Button>
     )
   }
+  const BackButton = () => {
+    return (
+      <Button color="info" title="Back to list" onClick={() => props.onBackClick()}>
+        Back to list
+      </Button>
+    )
+  }
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[8, 4]}>
+        <Columns spacing={1} layout={[6, 6]}>
           <Box>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
               <Link href="#" onClick={props.onBackClick}>
@@ -48,8 +63,9 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
             {props.name}
           </Box>
           <Columns>
-            <BackButton />
+            <ExtrasButton />
             <RemoveButton />
+            <BackButton />
           </Columns>
         </Columns>
       </HeadingBox>
