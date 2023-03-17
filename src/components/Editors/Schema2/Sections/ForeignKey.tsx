@@ -54,7 +54,6 @@ function ForeignKeyItem() {
       kind="foreignKey"
       name={foreignKey.fields.join(',')}
       isExtras={isExtras}
-      extrasName="constraints"
       onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
       onRemoveClick={() => removeForeignKey()}
       onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}

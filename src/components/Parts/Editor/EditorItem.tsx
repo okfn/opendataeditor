@@ -62,11 +62,11 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
             </Typography>{' '}
             {props.name}
           </Box>
-          <Columns>
+          <Box sx={{ float: 'right' }}>
             <ExtrasButton />
             <RemoveButton />
             <BackButton />
-          </Columns>
+          </Box>
         </Columns>
       </HeadingBox>
       {props.children}
