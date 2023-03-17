@@ -50,8 +50,14 @@ function FieldList() {
 
 function FieldItem() {
   const name = useStore(select(selectors.field, ({ field }) => field.name))
+  const updateFieldState = useStore((state) => state.updateFieldState)
   return (
-    <EditorItem kind="field" name={name} onRemoveClick={() => console.log('remove')}>
+    <EditorItem
+      kind="field"
+      name={name}
+      onBackClick={() => updateFieldState({ index: undefined })}
+      onRemoveClick={() => console.log('remove')}
+    >
       <Columns spacing={3}>
         <Box>
           <Name />
