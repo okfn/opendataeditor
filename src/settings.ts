@@ -44,7 +44,7 @@ export const FIELDS = {
   },
   array: {
     formats: ['default'],
-    constraints: ['required', 'minLength', 'maxLength', 'pattern', 'enum'],
+    constraints: ['required', 'enum', 'pattern', 'minLength', 'maxLength'],
   },
   boolean: {
     formats: ['default'],
@@ -52,11 +52,11 @@ export const FIELDS = {
   },
   date: {
     formats: ['default', '*'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
   datetime: {
     formats: ['default', '*'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
   duration: {
     formats: ['default'],
@@ -72,33 +72,33 @@ export const FIELDS = {
   },
   integer: {
     formats: ['default'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
   number: {
     formats: ['default'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
   string: {
     formats: ['default', 'email', 'uri', 'binary', 'uuid'],
-    constraints: ['required', 'minLength', 'maxLength', 'pattern', 'enum'],
+    constraints: ['required', 'enum', 'pattern', 'minLength', 'maxLength'],
   },
   object: {
     formats: ['default'],
-    constraints: ['required', 'minLength', 'maxLength', 'enum'],
+    constraints: ['required', 'enum', 'minLength', 'maxLength'],
     extraProperties: [],
   },
   time: {
     formats: ['default', '*'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
     extraProperties: [],
   },
   year: {
     formats: ['default'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
   yearmonth: {
     formats: ['default'],
-    constraints: ['required', 'minimum', 'maximum', 'enum'],
+    constraints: ['required', 'enum', 'minimum', 'maximum'],
   },
 }
 

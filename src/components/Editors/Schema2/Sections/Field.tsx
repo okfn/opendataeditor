@@ -1,4 +1,5 @@
 import * as React from 'react'
+import partition from 'lodash/partition'
 import Box from '@mui/material/Box'
 import Columns from '../../../Parts/Columns'
 import EditorItem from '../../../Parts/Editor/EditorItem'
@@ -337,11 +338,20 @@ function FieldItemExtras() {
   const { field } = useStore(selectors.field)
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[field.type]
+  const isLeft = (name: string) => !name.startsWith('m')
+  const [lefts, rights] = partition(FIELD.constraints, isLeft)
   return (
     <Columns spacing={3}>
-      {FIELD.constraints.map((type: string) => (
-        <Constraint key={type} type={type} />
-      ))}
+      <Box>
+        {lefts.map((type: string) => (
+          <Constraint key={type} type={type} />
+        ))}
+      </Box>
+      <Box>
+        {rights.map((type: string) => (
+          <Constraint key={type} type={type} />
+        ))}
+      </Box>
     </Columns>
   )
 }
@@ -350,35 +360,21 @@ function Constraint(props: { type: string }) {
   switch (props.type) {
     case 'required':
       return <Required />
-    case 'minLength':
-      return <MinLengthConstraint />
-    case 'minimum':
-      return <MinimumConstraint />
-    case 'pattern':
-      return <Pattern />
     case 'enum':
       return <Enum />
+    case 'minLength':
+      return <MinLength />
+    case 'maxLength':
+      return <MaxLength />
+    case 'minimum':
+      return <Minimum />
+    case 'maximum':
+      return <Maximum />
+    case 'pattern':
+      return <Pattern />
     default:
       return null
   }
-}
-
-function MinLengthConstraint() {
-  return (
-    <Columns spacing={1}>
-      <MinLength />
-      <MaxLength />
-    </Columns>
-  )
-}
-
-function MinimumConstraint() {
-  return (
-    <Columns spacing={1}>
-      <Minimum />
-      <Maximum />
-    </Columns>
-  )
 }
 
 function Required() {
