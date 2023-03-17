@@ -1,5 +1,5 @@
 import * as React from 'react'
-import capitalize from 'lodash/capitalize'
+import startCase from 'lodash/startCase'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../Columns'
@@ -24,7 +24,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
         title={`Add a new ${props.kind}`}
         onClick={() => props.onAddClick()}
       >
-        Add {capitalize(props.kind)}
+        Add {startCase(props.kind)}
       </Button>
     )
   }
@@ -51,12 +51,10 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[6, 3, 3]}>
-          <Box>{capitalize(props.kind)}s</Box>
-          <Columns spacing={1}>
-            <AddButton />
-            <GridButton />
-          </Columns>
+        <Columns spacing={1} layout={[6, 2, 2, 2]}>
+          <Box>{startCase(props.kind)}s</Box>
+          <AddButton />
+          <GridButton />
           <SearchInput />
         </Columns>
       </HeadingBox>

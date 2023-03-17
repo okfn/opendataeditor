@@ -1,5 +1,5 @@
 import * as React from 'react'
-import capitalize from 'lodash/capitalize'
+import startCase from 'lodash/startCase'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
@@ -27,7 +27,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
         title={props.extrasName}
         onClick={() => (props.onExtrasClick ? props.onExtrasClick() : undefined)}
       >
-        {capitalize(props.extrasName)}
+        {startCase(props.extrasName)}
       </Button>
     )
   }
@@ -38,7 +38,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
         title={`Remove ${props.kind}`}
         onClick={() => props.onRemoveClick()}
       >
-        Remove {capitalize(props.kind)}
+        Remove {startCase(props.kind)}
       </Button>
     )
   }
@@ -56,7 +56,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
           <Box>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
               <Link href="#" onClick={props.onBackClick}>
-                {capitalize(props.kind)}s
+                {startCase(props.kind)}s
               </Link>{' '}
               <small>/</small>
             </Typography>{' '}

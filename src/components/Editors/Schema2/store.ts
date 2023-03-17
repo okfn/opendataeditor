@@ -39,6 +39,8 @@ interface State {
   foreignKeyState: ISectionState
   updateForeignKeyState: (patch: Partial<ISectionState>) => void
   updateForeignKey: (patch: Partial<IForeignKey>) => void
+  removeForeignKey: () => void
+  addForeignKey: () => void
 }
 
 export function makeStore(props: SchemaProps) {
@@ -100,6 +102,26 @@ export function makeStore(props: SchemaProps) {
       const { index, foreignKey } = selectors.foreignKey(get())
       const foreignKeys = schema.foreignKeys!
       foreignKeys[index] = { ...foreignKey, ...patch }
+      updateSchema({ foreignKeys })
+    },
+    removeForeignKey: () => {
+      const { schema, updateSchema, updateForeignKeyState } = get()
+      const { index } = selectors.foreignKey(get())
+      const foreignKeys = [...(schema.foreignKeys || [])]
+      foreignKeys.splice(index, 1)
+      updateForeignKeyState({ index: undefined, isExtras: false })
+      updateSchema({ foreignKeys })
+    },
+    // TODO: scroll to newly created field
+    addForeignKey: () => {
+      const { schema, updateSchema } = get()
+      const foreignKeys = [...(schema.foreignKeys || [])]
+      // TODO: catch no fields
+      const name = schema.fields[0].name
+      foreignKeys.push({
+        fields: [name],
+        reference: { fields: [name], resource: '' },
+      })
       updateSchema({ foreignKeys })
     },
   }))
