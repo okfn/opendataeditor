@@ -32,6 +32,7 @@ interface State {
   updateFieldState: (patch: Partial<ISectionState>) => void
   updateField: (patch: Partial<IField>) => void
   removeField: () => void
+  addField: () => void
 
   // Foreign Keys
 
@@ -75,6 +76,15 @@ export function makeStore(props: SchemaProps) {
       const fields = [...schema.fields]
       fields.splice(index, 1)
       updateFieldState({ index: undefined, isExtras: false })
+      updateSchema({ fields })
+    },
+    // TODO: scroll to newly created field
+    addField: () => {
+      const { schema, updateSchema } = get()
+      const fields = [...schema.fields]
+      // TODO: deduplicate
+      const name = `field${fields.length}`
+      fields.push({ name, type: 'string' })
       updateSchema({ fields })
     },
 

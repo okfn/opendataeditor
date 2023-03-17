@@ -20,7 +20,7 @@ export type IFieldItem = {
 export interface IField {
   name: string
   type: string
-  format: string
+  format?: string
   title?: string
   description?: string
   missingValues?: string[]

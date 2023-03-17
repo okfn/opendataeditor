@@ -24,12 +24,13 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const foundFieldItems = useStore(selectors.foundFieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
+  const addField = useStore((state) => state.addField)
   return (
     <EditorList
       kind="field"
       query={query}
       isGrid={isGrid}
-      onAddClick={() => console.log('add')}
+      onAddClick={() => addField()}
       onGridClick={() => updateFieldState({ isGrid: !isGrid })}
       onQueryChange={(query) => updateFieldState({ query })}
     >
