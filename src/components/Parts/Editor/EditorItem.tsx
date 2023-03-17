@@ -7,6 +7,7 @@ import HeadingBox from './Internals/HeadingBox'
 
 export interface EditorItemProps {
   kind: string
+  name: string
   onRemoveClick: () => void
 }
 
@@ -26,7 +27,9 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     <React.Fragment>
       <HeadingBox>
         <Columns spacing={1} layout={[9, 3]}>
-          <Box>{capitalize(props.kind)}s</Box>
+          <Box>
+            {capitalize(props.kind)}s <small>/</small> {props.name}
+          </Box>
           <RemoveButton />
         </Columns>
       </HeadingBox>

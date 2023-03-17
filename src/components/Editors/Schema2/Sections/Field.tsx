@@ -49,8 +49,9 @@ function FieldList() {
 }
 
 function FieldItem() {
+  const name = useStore(select(selectors.field, ({ field }) => field.name))
   return (
-    <EditorItem kind="field" onRemoveClick={() => console.log('remove')}>
+    <EditorItem kind="field" name={name} onRemoveClick={() => console.log('remove')}>
       <Columns spacing={3}>
         <Box>
           <Name />
