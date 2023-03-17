@@ -52,6 +52,7 @@ function FieldList() {
 function FieldItem() {
   const name = useStore(select(selectors.field, ({ field }) => field.name))
   const isExtras = useStore((state) => state.fieldState.isExtras)
+  const removeField = useStore((state) => state.removeField)
   const updateFieldState = useStore((state) => state.updateFieldState)
   return (
     <EditorItem
@@ -60,7 +61,7 @@ function FieldItem() {
       isExtras={isExtras}
       extrasName="constraints"
       onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
-      onRemoveClick={() => console.log('remove')}
+      onRemoveClick={() => removeField()}
       onBackClick={() => updateFieldState({ index: undefined, isExtras: false })}
     >
       {isExtras ? <FieldItemExtras /> : <FieldItemMain />}
