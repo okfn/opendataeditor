@@ -5,16 +5,15 @@ import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import { useStore, selectors } from '../store'
 
 export default function Field() {
-  const index = useStore((state) => state.fieldInfo.index)
+  const index = useStore((state) => state.fieldState.index)
   return <>{index ? <FieldItem /> : <FieldList />}</>
 }
 
 function FieldList() {
-  const isGrid = useStore((state) => state.fieldInfo.isGrid)
-  const query = useStore((state) => state.fieldInfo.query)
-  const fieldInfo = useStore((state) => state.fieldInfo)
-  const updateFieldInfo = useStore((state) => state.updateFieldInfo)
+  const isGrid = useStore((state) => state.fieldState.isGrid)
+  const query = useStore((state) => state.fieldState.query)
   const foundFieldItems = useStore(selectors.foundFieldItems)
+  const updateFieldState = useStore((state) => state.updateFieldState)
   return (
     <EditorList
       kind="field"
@@ -32,10 +31,7 @@ function FieldList() {
           name={field.name}
           type={field.type}
           isGrid={isGrid}
-          onClick={() => {
-            fieldInfo.index = index
-            updateFieldInfo(fieldInfo)
-          }}
+          onClick={() => updateFieldState({ index })}
           title="View Field"
         />
       ))}

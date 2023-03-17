@@ -26,33 +26,25 @@ export default function General() {
 }
 
 function Title() {
-  const schema = useStore((state) => state.schema)
   const title = useStore((state) => state.schema.title)
   const updateSchema = useStore((state) => state.updateSchema)
   return (
     <InputField
       label="Title"
       value={title || ''}
-      onChange={(title) => {
-        schema.title = title || undefined
-        updateSchema(schema)
-      }}
+      onChange={(value) => updateSchema({ title: value || undefined })}
     />
   )
 }
 
 function Description() {
-  const schema = useStore((state) => state.schema)
   const description = useStore((state) => state.schema.description)
   const updateSchema = useStore((state) => state.updateSchema)
   return (
     <MultilineField
       label="Description"
       value={description || ''}
-      onChange={(description) => {
-        schema.description = description || undefined
-        updateSchema(schema)
-      }}
+      onChange={(value) => updateSchema({ description: value || undefined })}
     />
   )
 }
@@ -61,15 +53,13 @@ function Description() {
 function MissingValues() {
   const missingValues = useStore((state) => state.schema.missingValues)
   const updateSchema = useStore((state) => state.updateSchema)
-  const schema = useStore((state) => state.schema)
   return (
     <InputField
       label="Missing Values"
       value={(missingValues || []).join(',')}
-      onChange={(missingValues) => {
-        schema.missingValues = missingValues ? missingValues.split(',') : undefined
-        updateSchema(schema)
-      }}
+      onChange={(value) =>
+        updateSchema({ missingValues: value ? value.split(',') : undefined })
+      }
     />
   )
 }
@@ -78,16 +68,12 @@ function PrimaryKey() {
   const fieldNames = useStore(selectors.fieldNames)
   const primaryKey = useStore((state) => state.schema.primaryKey)
   const updateSchema = useStore((state) => state.updateSchema)
-  const schema = useStore((state) => state.schema)
   return (
     <MultiselectField
       label="Primary Key"
       value={primaryKey || []}
       options={fieldNames}
-      onChange={(primaryKey) => {
-        schema.primaryKey = primaryKey.length ? primaryKey : undefined
-        updateSchema(schema)
-      }}
+      onChange={(value) => updateSchema({ primaryKey: value || undefined })}
     />
   )
 }

@@ -10,7 +10,7 @@ import { ISchema } from '../../../interfaces'
 
 const INITIAL_SCHEMA: ISchema = { fields: [] }
 
-interface IElementInfo {
+interface ISectionState {
   query?: string
   index?: number
   isGrid?: boolean
@@ -21,17 +21,17 @@ interface State {
   schema: ISchema
   onChange: (schema: ISchema) => void
   onFieldSelected: (name: string) => void
-  updateSchema: (schema: ISchema) => void
+  updateSchema: (patch: Partial<ISchema>) => void
 
   // Fields
 
-  fieldInfo: IElementInfo
-  updateFieldInfo: (fieldInfo: IElementInfo) => void
+  fieldState: ISectionState
+  updateFieldState: (patch: Partial<ISectionState>) => void
 
   // Foreign Keys
 
-  foreignKeyInfo: IElementInfo
-  updateForeignKeyInfo: (foreignKeyInfo: IElementInfo) => void
+  foreignKeyState: ISectionState
+  updateForeignKeyState: (patch: Partial<ISectionState>) => void
 }
 
 export function makeStore(props: SchemaProps) {
@@ -39,21 +39,28 @@ export function makeStore(props: SchemaProps) {
     schema: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    updateSchema: (schema) => {
-      const { onChange } = get()
+    updateSchema: (patch) => {
+      let { schema, onChange } = get()
+      schema = { ...schema, ...patch }
       onChange(schema)
       set({ schema })
     },
 
     // Fields
 
-    fieldInfo: {},
-    updateFieldInfo: (fieldInfo) => set({ fieldInfo }),
+    fieldState: {},
+    updateFieldState: (patch) => {
+      const { fieldState } = get()
+      set({ fieldState: { ...fieldState, ...patch } })
+    },
 
     // Foreign Keys
 
-    foreignKeyInfo: {},
-    updateForeignKeyInfo: (foreignKeyInfo) => set({ foreignKeyInfo }),
+    foreignKeyState: {},
+    updateForeignKeyState: (patch) => {
+      const { foreignKeyState } = get()
+      set({ foreignKeyState: { ...foreignKeyState, ...patch } })
+    },
   }))
 }
 
@@ -62,7 +69,7 @@ export const selectors = {
   // Fields
 
   field: (state: State) => {
-    const index = state.fieldInfo.index
+    const index = state.fieldState.index
     assert(index !== undefined)
     const field = state.schema.fields[index]
     assert(field !== undefined)
@@ -73,7 +80,7 @@ export const selectors = {
   },
   foundFieldItems: (state: State) => {
     const items = []
-    const query = state.fieldInfo.query
+    const query = state.fieldState.query
     for (const [index, field] of state.schema.fields.entries()) {
       if (query && !field.name.includes(query)) continue
       items.push({ index, field })
@@ -84,7 +91,7 @@ export const selectors = {
   // Foreign Keys
 
   foreignKey: (state: State) => {
-    const index = state.foreignKeyInfo.index
+    const index = state.foreignKeyState.index
     assert(index !== undefined)
     assert(state.schema.foreignKeys !== undefined)
     const foreignKey = state.schema.foreignKeys[index]
@@ -96,7 +103,7 @@ export const selectors = {
   },
   foundForeignKeyItems: (state: State) => {
     const items = []
-    const query = state.foreignKeyInfo.query
+    const query = state.foreignKeyState.query
     for (const [index, fk] of (state.schema.foreignKeys || []).entries()) {
       const name = fk.fields.join(',')
       if (query && !name.includes(query)) continue
