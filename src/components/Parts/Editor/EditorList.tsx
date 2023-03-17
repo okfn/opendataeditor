@@ -39,8 +39,14 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       </Button>
     )
   }
+  // TODO: fix focus problem
   const SearchInput = () => {
-    return <HeadingSearch value={props.query} onChange={() => props.onQueryChange} />
+    return (
+      <HeadingSearch
+        value={props.query || ''}
+        onChange={(query) => (query ? props.onQueryChange(query) : undefined)}
+      />
+    )
   }
   return (
     <React.Fragment>

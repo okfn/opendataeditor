@@ -30,7 +30,7 @@ function FieldList() {
       isGrid={isGrid}
       onAddClick={() => console.log('add')}
       onGridClick={() => updateFieldState({ isGrid: !isGrid })}
-      onQueryChange={() => console.log('query')}
+      onQueryChange={(query) => updateFieldState({ query })}
     >
       {foundFieldItems.map(({ index, field }) => (
         <EditorListItem
