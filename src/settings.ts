@@ -63,7 +63,7 @@ export const FIELDS = {
     constraints: ['required', 'enum'],
   },
   geojson: {
-    formats: ['default'],
+    formats: ['default', 'topojson'],
     constraints: ['required', 'enum'],
   },
   geopoint: {

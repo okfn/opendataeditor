@@ -61,7 +61,7 @@ function FieldItem() {
       extrasName="constraints"
       onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
       onRemoveClick={() => console.log('remove')}
-      onBackClick={() => updateFieldState({ index: undefined })}
+      onBackClick={() => updateFieldState({ index: undefined, isExtras: false })}
     >
       {isExtras ? <FieldItemExtras /> : <FieldItemMain />}
     </EditorItem>
