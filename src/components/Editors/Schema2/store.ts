@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { SchemaProps } from './Schema'
-import { ISchema } from '../../../interfaces'
+import { ISchema, IField, IForeignKey } from '../../../interfaces'
 
 const INITIAL_SCHEMA: ISchema = { fields: [] }
 
@@ -21,17 +21,22 @@ interface State {
   schema: ISchema
   onChange: (schema: ISchema) => void
   onFieldSelected: (name: string) => void
+
+  // Schema
+
   updateSchema: (patch: Partial<ISchema>) => void
 
   // Fields
 
   fieldState: ISectionState
   updateFieldState: (patch: Partial<ISectionState>) => void
+  updateField: (patch: Partial<IField>) => void
 
   // Foreign Keys
 
   foreignKeyState: ISectionState
   updateForeignKeyState: (patch: Partial<ISectionState>) => void
+  updateForeignKey: (patch: Partial<IForeignKey>) => void
 }
 
 export function makeStore(props: SchemaProps) {
@@ -39,6 +44,9 @@ export function makeStore(props: SchemaProps) {
     schema: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
+
+    // Schema
+
     updateSchema: (patch) => {
       let { schema, onChange } = get()
       schema = { ...schema, ...patch }
@@ -53,6 +61,13 @@ export function makeStore(props: SchemaProps) {
       const { fieldState } = get()
       set({ fieldState: { ...fieldState, ...patch } })
     },
+    updateField: (patch) => {
+      const { schema, updateSchema } = get()
+      const { index, field } = selectors.field(get())
+      const fields = schema.fields
+      fields[index] = { ...field, ...patch }
+      updateSchema({ fields })
+    },
 
     // Foreign Keys
 
@@ -60,6 +75,13 @@ export function makeStore(props: SchemaProps) {
     updateForeignKeyState: (patch) => {
       const { foreignKeyState } = get()
       set({ foreignKeyState: { ...foreignKeyState, ...patch } })
+    },
+    updateForeignKey: (patch) => {
+      const { schema, updateSchema } = get()
+      const { index, foreignKey } = selectors.foreignKey(get())
+      const foreignKeys = schema.foreignKeys!
+      foreignKeys[index] = { ...foreignKey, ...patch }
+      updateSchema({ foreignKeys })
     },
   }))
 }
@@ -69,11 +91,9 @@ export const selectors = {
   // Fields
 
   field: (state: State) => {
-    const index = state.fieldState.index
-    assert(index !== undefined)
-    const field = state.schema.fields[index]
-    assert(field !== undefined)
-    return field
+    const index = state.fieldState.index!
+    const field = state.schema.fields[index]!
+    return { index, field }
   },
   fieldNames: (state: State) => {
     return state.schema.fields.map((field) => field.name)
@@ -91,12 +111,10 @@ export const selectors = {
   // Foreign Keys
 
   foreignKey: (state: State) => {
-    const index = state.foreignKeyState.index
-    assert(index !== undefined)
-    assert(state.schema.foreignKeys !== undefined)
-    const foreignKey = state.schema.foreignKeys[index]
-    assert(foreignKey !== undefined)
-    return foreignKey
+    const index = state.foreignKeyState.index!
+    const foreignKeys = state.schema.foreignKeys!
+    const foreignKey = foreignKeys[index]!
+    return { index, foreignKey }
   },
   foreignKeyNames: (state: State) => {
     return (state.schema.foreignKeys || []).map((fk) => fk.fields.join(','))
