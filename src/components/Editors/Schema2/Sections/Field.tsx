@@ -71,7 +71,7 @@ function FieldItem() {
         <Box>
           <MissingValues />
           <RdfType />
-          <Extras />
+          <TypeSpecific />
         </Box>
       </Columns>
     </EditorItem>
@@ -178,23 +178,23 @@ function RdfType() {
   )
 }
 
-function Extras() {
+function TypeSpecific() {
   const type = useStore(select(selectors.field, ({ field }) => field.type))
   switch (type) {
     case 'array':
-      return <ArrayExtras />
+      return <ArraySpecific />
     case 'boolean':
-      return <BooleanExtras />
+      return <BooleanSpecific />
     case 'integer':
-      return <IntegerExtras />
+      return <IntegerSpecific />
     case 'number':
-      return <NumberExtras />
+      return <NumberSpecific />
     default:
       return null
   }
 }
 
-function ArrayExtras() {
+function ArraySpecific() {
   return (
     <React.Fragment>
       <ArrayItem />
@@ -202,7 +202,7 @@ function ArrayExtras() {
   )
 }
 
-function BooleanExtras() {
+function BooleanSpecific() {
   return (
     <React.Fragment>
       <TrueValues />
@@ -211,7 +211,7 @@ function BooleanExtras() {
   )
 }
 
-function IntegerExtras() {
+function IntegerSpecific() {
   return (
     <React.Fragment>
       <BareNumber />
@@ -219,7 +219,7 @@ function IntegerExtras() {
     </React.Fragment>
   )
 }
-function NumberExtras() {
+function NumberSpecific() {
   return (
     <React.Fragment>
       <Columns spacing={1}>
