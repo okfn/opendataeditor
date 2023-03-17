@@ -3,9 +3,9 @@ import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
 import VerticalTabs from '../../Parts/VerticalTabs'
-import Schema from './Groups/Schema'
-import Fields from './Groups/Fields'
-import ForeignKeys from './Groups/ForeignKeys'
+import Schema from './Sections/Schema'
+import Field from './Sections/Field'
+import ForeignKey from './Sections/ForeignKey'
 import Help from './Help'
 
 export default function Layout() {
@@ -15,8 +15,8 @@ export default function Layout() {
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs labels={['Schema', 'Fields', 'Foreign Keys']}>
           <Schema />
-          <Fields />
-          <ForeignKeys />
+          <Field />
+          <ForeignKey />
         </VerticalTabs>
         <Help />
       </Columns>
