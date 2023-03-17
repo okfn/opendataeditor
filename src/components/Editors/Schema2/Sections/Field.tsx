@@ -88,10 +88,6 @@ function FieldItemMain() {
   )
 }
 
-function FieldItemExtras() {
-  return <div>extras</div>
-}
-
 function Name() {
   const updateField = useStore((state) => state.updateField)
   const name = useStore(select(selectors.field, ({ field }) => field.name))
@@ -333,6 +329,152 @@ function GroupChar() {
       label="Group Char"
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
       onChange={(value) => updateField({ groupChar: value || undefined })}
+    />
+  )
+}
+
+function FieldItemExtras() {
+  const { field } = useStore(selectors.field)
+  // TODO: remove any
+  const FIELD = (settings.FIELDS as any)[field.type]
+  return (
+    <Columns spacing={3}>
+      {FIELD.constraints.map((type: string) => (
+        <Constraint key={type} type={type} />
+      ))}
+    </Columns>
+  )
+}
+
+function Constraint(props: { type: string }) {
+  switch (props.type) {
+    case 'required':
+      return <Required />
+    case 'minLength':
+      return <MinLengthConstraint />
+    case 'minimum':
+      return <MinimumConstraint />
+    case 'pattern':
+      return <Pattern />
+    case 'enum':
+      return <Enum />
+    default:
+      return null
+  }
+}
+
+function MinLengthConstraint() {
+  return (
+    <Columns spacing={1}>
+      <MinLength />
+      <MaxLength />
+    </Columns>
+  )
+}
+
+function MinimumConstraint() {
+  return (
+    <Columns spacing={1}>
+      <Minimum />
+      <Maximum />
+    </Columns>
+  )
+}
+
+function Required() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <YesNoField
+      label="Required"
+      value={constraints?.required || false}
+      onChange={(required) => updateField({ constraints: { ...constraints, required } })}
+    />
+  )
+}
+
+function Minimum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="number"
+      label="Minimum"
+      value={constraints?.minimum || ''}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
+      }
+    />
+  )
+}
+
+function Maximum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="number"
+      label="Maximum"
+      value={constraints?.maximum || ''}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
+      }
+    />
+  )
+}
+
+function MinLength() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="number"
+      label="Min Length"
+      value={constraints?.minLength || ''}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
+      }
+    />
+  )
+}
+
+function MaxLength() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="number"
+      label="Max Length"
+      value={constraints?.maxLength || ''}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
+      }
+    />
+  )
+}
+
+function Pattern() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="string"
+      label="Pattern"
+      value={constraints?.pattern || ''}
+      onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
+    />
+  )
+}
+
+function Enum() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  return (
+    <InputField
+      type="string"
+      label="Enum"
+      value={(constraints?.enum || []).join(',')}
+      onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )
 }
