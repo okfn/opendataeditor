@@ -10,7 +10,7 @@ import { useStore, selectors, select } from '../store'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
-  return <>{index === undefined ? <ForeignKeyList /> : <ForeignKeyItem />}</>
+  return index === undefined ? <ForeignKeyList /> : <ForeignKeyItem />
 }
 
 function ForeignKeyList() {

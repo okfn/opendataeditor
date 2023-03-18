@@ -16,7 +16,7 @@ import { useStore, selectors, select } from '../store'
 
 export default function Field() {
   const index = useStore((state) => state.fieldState.index)
-  return <>{index === undefined ? <FieldList /> : <FieldItem />}</>
+  return index === undefined ? <FieldList /> : <FieldItem />
 }
 
 function FieldList() {

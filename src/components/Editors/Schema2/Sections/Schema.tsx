@@ -1,19 +1,16 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import InputField from '../../../Parts/Fields/InputField'
-import MultilineField from '../../../Parts/Fields/MultilineField'
 import MultiselectField from '../../../Parts/Fields/MultiselectField'
+import MultilineField from '../../../Parts/Fields/MultilineField'
+import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <Box>
-      <Box onClick={() => updateHelp('schema')}>
-        <HeadingBox>Schema</HeadingBox>
-      </Box>
+    <EditorSection name="Schema" onHeadingClick={() => updateHelp('schema')}>
       <Columns spacing={2}>
         <Box>
           <Title />
@@ -24,7 +21,7 @@ export default function General() {
           <MissingValues />
         </Box>
       </Columns>
-    </Box>
+    </EditorSection>
   )
 }
 
