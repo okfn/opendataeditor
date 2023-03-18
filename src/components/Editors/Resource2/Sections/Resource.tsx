@@ -6,7 +6,7 @@ import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import { useStore } from '../store'
 
-export default function General() {
+export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Resource" onHeadingClick={() => updateHelp('resource')}>

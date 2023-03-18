@@ -13,6 +13,13 @@ resource/description:
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - A description of the resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
 
+# Checksum
+
+resource/checksums:
+  - Checksums
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Checksums
+
 # Licenses
 
 resource/licenses:
