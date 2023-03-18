@@ -21,14 +21,14 @@ interface ISectionState {
 }
 
 interface State {
-  resource: IResource
+  descriptor: IResource
   onChange: (resource: IResource) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
 
   // Resource
 
-  updateResource: (patch: Partial<IResource>) => void
+  updateDescriptor: (patch: Partial<IResource>) => void
 
   // Licenses
 
@@ -41,7 +41,7 @@ interface State {
 
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
-    resource: cloneDeep(props.resource || INITIAL_RESOURCE),
+    descriptor: cloneDeep(props.resource || INITIAL_RESOURCE),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -51,14 +51,14 @@ export function makeStore(props: ResourceProps) {
 
     // Resource
 
-    updateResource: (patch) => {
-      let { resource, onChange } = get()
-      resource = { ...resource, ...patch }
-      onChange(resource)
-      set({ resource })
+    updateDescriptor: (patch) => {
+      let { descriptor, onChange } = get()
+      descriptor = { ...descriptor, ...patch }
+      onChange(descriptor)
+      set({ descriptor })
     },
 
-    // licenses
+    // Licenses
 
     licenseState: {},
     updateLicenseState: (patch) => {
@@ -66,26 +66,26 @@ export function makeStore(props: ResourceProps) {
       set({ licenseState: { ...licenseState, ...patch } })
     },
     updateLicense: (patch) => {
-      const { resource, updateResource } = get()
+      const { descriptor, updateDescriptor } = get()
       const { index, license } = selectors.license(get())
-      const licenses = resource.licenses!
+      const licenses = descriptor.licenses!
       licenses[index] = { ...license, ...patch }
-      updateResource({ licenses })
+      updateDescriptor({ licenses })
     },
     removeLicense: () => {
-      const { resource, updateResource, updateLicenseState } = get()
+      const { descriptor, updateDescriptor, updateLicenseState } = get()
       const { index } = selectors.license(get())
-      const licenses = [...(resource.licenses || [])]
+      const licenses = [...(descriptor.licenses || [])]
       licenses.splice(index, 1)
       updateLicenseState({ index: undefined, isExtras: false })
-      updateResource({ licenses })
+      updateDescriptor({ licenses })
     },
     // TODO: scroll to newly created license
     addLicense: () => {
-      const { resource, updateResource } = get()
-      const licenses = [...(resource.licenses || [])]
+      const { descriptor, updateDescriptor } = get()
+      const licenses = [...(descriptor.licenses || [])]
       licenses.push({ name: 'MIT' })
-      updateResource({ licenses })
+      updateDescriptor({ licenses })
     },
   }))
 }
@@ -96,14 +96,14 @@ export const selectors = {
 
   license: (state: State) => {
     const index = state.licenseState.index!
-    const licenses = state.resource.licenses!
+    const licenses = state.descriptor.licenses!
     const license = licenses[index]!
     return { index, license }
   },
   licenseItems: (state: State) => {
     const items = []
     const query = state.licenseState.query
-    for (const [index, license] of (state.resource.licenses || []).entries()) {
+    for (const [index, license] of (state.descriptor.licenses || []).entries()) {
       if (query && !license.name.includes(query)) continue
       items.push({ index, license })
     }

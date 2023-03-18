@@ -25,48 +25,48 @@ export default function Resource() {
 }
 
 function Name() {
-  const name = useStore((state) => state.resource.name)
+  const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateResource = useStore((state) => state.updateResource)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Name"
       value={name}
       onFocus={() => updateHelp('resource/name')}
-      onChange={(name) => updateResource({ name })}
+      onChange={(name) => updateDescriptor({ name })}
     />
   )
 }
 
 function Type() {
-  const type = useStore((state) => state.resource.type)
+  const type = useStore((state) => state.descriptor.type)
   return <InputField disabled label="Type" value={type} />
 }
 
 function Title() {
-  const title = useStore((state) => state.resource.title)
+  const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateResource = useStore((state) => state.updateResource)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('resource/title')}
-      onChange={(value) => updateResource({ title: value || undefined })}
+      onChange={(value) => updateDescriptor({ title: value || undefined })}
     />
   )
 }
 
 function Description() {
-  const description = useStore((state) => state.resource.description)
+  const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateResource = useStore((state) => state.updateResource)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultilineField
       label="Description"
       value={description || ''}
       onFocus={() => updateHelp('resource/description')}
-      onChange={(value) => updateResource({ description: value || undefined })}
+      onChange={(value) => updateDescriptor({ description: value || undefined })}
     />
   )
 }

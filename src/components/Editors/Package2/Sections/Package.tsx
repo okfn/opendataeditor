@@ -30,13 +30,13 @@ export default function Package() {
 function Name() {
   const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Name"
       value={name}
       onFocus={() => updateHelp('package/name')}
-      onChange={(name) => updatePackage({ name })}
+      onChange={(name) => updateDescriptor({ name })}
     />
   )
 }
@@ -44,13 +44,13 @@ function Name() {
 function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('package/title')}
-      onChange={(value) => updatePackage({ title: value || undefined })}
+      onChange={(value) => updateDescriptor({ title: value || undefined })}
     />
   )
 }
@@ -58,47 +58,47 @@ function Title() {
 function Description() {
   const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultilineField
       label="Description"
       value={description || ''}
       onFocus={() => updateHelp('package/description')}
-      onChange={(value) => updatePackage({ description: value || undefined })}
+      onChange={(value) => updateDescriptor({ description: value || undefined })}
     />
   )
 }
 
 function Homepage() {
   const homepage = useStore((state) => state.descriptor.homepage)
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Homepage"
       value={homepage}
-      onChange={(homepage) => updatePackage({ homepage })}
+      onChange={(homepage) => updateDescriptor({ homepage })}
     />
   )
 }
 
 function Version() {
   const version = useStore((state) => state.descriptor.version)
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Version"
       value={version}
-      onChange={(version) => updatePackage({ version })}
+      onChange={(version) => updateDescriptor({ version })}
     />
   )
 }
 function Created() {
-  const updatePackage = useStore((state) => state.updatePackage)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <DatePickerField
       label="Created"
       onChange={(value) => {
-        updatePackage({ created: value?.format('MM/DD/YYY') })
+        updateDescriptor({ created: value?.format('MM/DD/YYY') })
       }}
     />
   )

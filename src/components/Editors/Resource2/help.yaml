@@ -15,19 +15,19 @@ resource/description:
 
 # Checksum
 
-resource/checksum:
+checksum:
   - Checksum
   - https://specs.frictionlessdata.io/data-resource/#optional-properties
   - Checksum
 
 # Licenses
 
-resource/licenses:
+licenses:
   - Licenses
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The license(s) under which the resource is provided.
 
-resource/licenses/name:
+licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The name MUST be an Open Definition license ID

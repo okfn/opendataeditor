@@ -28,7 +28,7 @@ interface State {
 
   // Package
 
-  updatePackage: (patch: Partial<IPackage>) => void
+  updateDescriptor: (patch: Partial<IPackage>) => void
 
   // Licenses
 
@@ -51,7 +51,7 @@ export function makeStore(props: PackageProps) {
 
     // Package
 
-    updatePackage: (patch) => {
+    updateDescriptor: (patch) => {
       let { descriptor, onChange } = get()
       descriptor = { ...descriptor, ...patch }
       onChange(descriptor)
@@ -66,26 +66,26 @@ export function makeStore(props: PackageProps) {
       set({ licenseState: { ...licenseState, ...patch } })
     },
     updateLicense: (patch) => {
-      const { descriptor, updatePackage } = get()
+      const { descriptor, updateDescriptor } = get()
       const { index, license } = selectors.license(get())
       const licenses = descriptor.licenses!
       licenses[index] = { ...license, ...patch }
-      updatePackage({ licenses })
+      updateDescriptor({ licenses })
     },
     removeLicense: () => {
-      const { descriptor, updatePackage, updateLicenseState } = get()
+      const { descriptor, updateDescriptor, updateLicenseState } = get()
       const { index } = selectors.license(get())
       const licenses = [...(descriptor.licenses || [])]
       licenses.splice(index, 1)
       updateLicenseState({ index: undefined, isExtras: false })
-      updatePackage({ licenses })
+      updateDescriptor({ licenses })
     },
     // TODO: scroll to newly created license
     addLicense: () => {
-      const { descriptor, updatePackage } = get()
+      const { descriptor, updateDescriptor } = get()
       const licenses = [...(descriptor.licenses || [])]
       licenses.push({ name: 'MIT' })
-      updatePackage({ licenses })
+      updateDescriptor({ licenses })
     },
   }))
 }

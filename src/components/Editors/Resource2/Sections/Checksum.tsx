@@ -24,21 +24,21 @@ export default function Resource() {
 }
 
 function Hash() {
-  const sha256 = useStore((state) => state.resource.hash)
+  const sha256 = useStore((state) => state.descriptor.hash)
   return <InputField disabled label="Hash" value={sha256} />
 }
 
 function Bytes() {
-  const bytes = useStore((state) => state.resource.bytes)
+  const bytes = useStore((state) => state.descriptor.bytes)
   return <InputField disabled label="Bytes" value={bytes} />
 }
 
 function Fields() {
-  const fields = useStore((state) => state.resource.fields)
+  const fields = useStore((state) => state.descriptor.fields)
   return <InputField disabled label="Fields" value={fields} />
 }
 
 function Rows() {
-  const rows = useStore((state) => state.resource.rows)
+  const rows = useStore((state) => state.descriptor.rows)
   return <InputField disabled label="Rows" value={rows} />
 }
