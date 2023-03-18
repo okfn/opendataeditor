@@ -25,4 +25,5 @@ export const Default = Template.bind({})
 Default.args = {
   schema,
   onChange: console.log,
+  onFieldSelected: console.log,
 }

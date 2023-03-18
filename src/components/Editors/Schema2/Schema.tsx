@@ -8,7 +8,7 @@ import Layout from './Layout'
 export interface SchemaProps {
   schema?: ISchema
   onChange?: (schema: ISchema) => void
-  onFieldSelected?: (name: string) => void
+  onFieldSelected?: (name?: string) => void
 }
 
 export default function Schema(props: SchemaProps) {

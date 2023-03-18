@@ -23,7 +23,7 @@ interface ISectionState {
 interface State {
   schema: ISchema
   onChange: (schema: ISchema) => void
-  onFieldSelected: (name: string) => void
+  onFieldSelected: (name?: string) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
 
@@ -72,8 +72,12 @@ export function makeStore(props: SchemaProps) {
 
     fieldState: {},
     updateFieldState: (patch) => {
-      const { fieldState } = get()
+      const { fieldState, schema, onFieldSelected } = get()
       set({ fieldState: { ...fieldState, ...patch } })
+      if ('index' in patch) {
+        const field = patch.index !== undefined ? schema.fields[patch.index] : undefined
+        onFieldSelected(field ? field.name : undefined)
+      }
     },
     updateField: (patch) => {
       const { schema, updateSchema } = get()
