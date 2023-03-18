@@ -42,7 +42,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[6, 3, 3]}>
+        <Columns spacing={1} layout={[4, 5, 3]}>
           <Box>{startCase(props.kind)}s</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />
