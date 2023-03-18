@@ -1,0 +1,26 @@
+# Package
+
+package:
+  - Package
+  - https://specs.frictionlessdata.io/data-package/
+  - A simple container format for describing a coherent collection of data in a single package. It provides the basis for convenient delivery, installation and management of datasets
+package/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#metadata-properties
+  - A human-readable title.
+package/description:
+  - Description
+  - https://specs.frictionlessdata.io/data-package/#metadata-properties
+  - A description of the package. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+
+# Licenses
+
+licenses:
+  - Licenses
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The license(s) under which the package is provided.
+
+licenses/name:
+  - Name
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The name MUST be an Open Definition license ID

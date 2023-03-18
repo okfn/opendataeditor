@@ -1,5 +1,6 @@
 import { ISchema } from './schema'
 import { IDialect } from './dialect'
+import { ILicense } from './license'
 
 export interface IResource {
   name: string
@@ -18,10 +19,4 @@ export interface IResource {
   bytes?: number
   fields?: number
   rows?: number
-}
-
-export interface ILicense {
-  name: string
-  path?: string
-  title?: string
 }
