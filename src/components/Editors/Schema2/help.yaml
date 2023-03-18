@@ -38,4 +38,4 @@ schema/fields/name:
 schema/foreignKeys:
   - Foreign Keys
   - https://specs.frictionlessdata.io/table-schema/#foreign-keys
-  - A foreign key is a reference where values in a field (or fields) on the table.
+  - A foreign key is a reference where values in a field (or fields) on the table described by this Table Schema connect to values a field (or fields) on this or a separate table
