@@ -29,11 +29,13 @@ export default function General() {
 
 function Delimiter() {
   const delimiter = useStore(select(selectors.csv, (csv) => csv.delimiter))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
       label="Delimiter"
       value={delimiter || settings.DEFAULT_DELIMITER}
+      onFocus={() => updateHelp('dialect/csv/delimiter')}
       onChange={(delimiter) => updateCsv({ delimiter })}
     />
   )
