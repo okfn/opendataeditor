@@ -6,6 +6,7 @@ import SelectField from '../../../Parts/Fields/SelectField'
 import EditorItem from '../../../Parts/Editor/EditorItem'
 import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
+import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 
 export default function ForeignKey() {
@@ -26,7 +27,12 @@ function ForeignKeyList() {
       isGrid={isGrid}
       onAddClick={() => addForeignKey()}
       onGridClick={() => updateForeignKeyState({ isGrid: !isGrid })}
-      onQueryChange={(query) => updateForeignKeyState({ query })}
+      SearchInput={
+        <EditorSearch
+          value={query || ''}
+          onChange={(query) => updateForeignKeyState({ query })}
+        />
+      }
     >
       {foundForeignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem

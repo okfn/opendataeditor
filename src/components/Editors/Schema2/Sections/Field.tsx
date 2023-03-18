@@ -5,6 +5,7 @@ import Columns from '../../../Parts/Columns'
 import EditorItem from '../../../Parts/Editor/EditorItem'
 import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
+import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import InputField from '../../../Parts/Fields/InputField'
 import YesNoField from '../../../Parts/Fields/YesNoField'
 import SelectField from '../../../Parts/Fields/SelectField'
@@ -32,7 +33,12 @@ function FieldList() {
       isGrid={isGrid}
       onAddClick={() => addField()}
       onGridClick={() => updateFieldState({ isGrid: !isGrid })}
-      onQueryChange={(query) => updateFieldState({ query })}
+      SearchInput={
+        <EditorSearch
+          value={query || ''}
+          onChange={(query) => updateFieldState({ query })}
+        />
+      }
     >
       {foundFieldItems.map(({ index, field }) => (
         <EditorListItem

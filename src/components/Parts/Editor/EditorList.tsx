@@ -5,7 +5,6 @@ import Button from '@mui/material/Button'
 import Columns from '../Columns'
 import EditorListItem from './EditorListItem'
 import HeadingBox from './Internals/HeadingBox'
-import HeadingSearch from './Internals/HeadingSearch'
 
 export interface EditorListProps {
   kind: string
@@ -13,7 +12,8 @@ export interface EditorListProps {
   isGrid?: boolean
   onAddClick: () => void
   onGridClick: () => void
-  onQueryChange: (query: string) => void
+  // We accept search as a prop otherwise it loses focus
+  SearchInput: React.ReactNode
 }
 
 export default function EditorList(props: React.PropsWithChildren<EditorListProps>) {
@@ -39,15 +39,6 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       </Button>
     )
   }
-  // TODO: fix focus problem
-  const SearchInput = () => {
-    return (
-      <HeadingSearch
-        value={props.query || ''}
-        onChange={(query) => (query ? props.onQueryChange(query) : undefined)}
-      />
-    )
-  }
   return (
     <React.Fragment>
       <HeadingBox>
@@ -57,7 +48,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
             <AddButton />
             <GridButton />
           </Box>
-          <SearchInput />
+          {props.SearchInput}
         </Columns>
       </HeadingBox>
       {React.Children.count(props.children) ? (
