@@ -27,19 +27,19 @@ schema/missingValues:
 
 # Fields
 
-schema/fields:
+fields:
   - Fields
   - https://specs.frictionlessdata.io/table-schema/#descriptor
   - Fields MUST be an array where each entry in the array is a field descriptor (as defined below).
 
-schema/fields/name:
+fields/name:
   - Name
   - https://specs.frictionlessdata.io/table-schema/#name
   - The field descriptor MUST contain a name property. This property SHOULD correspond to the name of field/column in the data file (if it has a name)
 
 # Foreign Keys
 
-schema/foreignKeys:
+foreignKeys:
   - Foreign Keys
   - https://specs.frictionlessdata.io/table-schema/#foreign-keys
   - A foreign key is a reference where values in a field (or fields) on the table described by this Table Schema connect to values a field (or fields) on this or a separate table

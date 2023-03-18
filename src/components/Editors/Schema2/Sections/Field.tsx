@@ -105,7 +105,7 @@ function Name() {
     <InputField
       label="Name"
       value={name}
-      onFocus={() => updateHelp('schema/fields/name')}
+      onFocus={() => updateHelp('fields/name')}
       onChange={(value) => updateField({ name: value || undefined })}
     />
   )

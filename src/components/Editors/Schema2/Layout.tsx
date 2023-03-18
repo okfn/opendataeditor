@@ -21,7 +21,7 @@ export default function Layout() {
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs
           labels={LABELS}
-          onChange={(index) => updateHelp(`schema/${camelCase(LABELS[index])}`)}
+          onChange={(index) => updateHelp(camelCase(LABELS[index]))}
         >
           <Schema />
           <Field />

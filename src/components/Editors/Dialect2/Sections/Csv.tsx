@@ -10,7 +10,7 @@ import { useStore, selectors, select } from '../store'
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Csv" onHeadingClick={() => updateHelp('dialect/csv')}>
+    <EditorSection name="Csv" onHeadingClick={() => updateHelp('csv')}>
       <Columns spacing={3}>
         <Box>
           <Delimiter />
@@ -35,7 +35,7 @@ function Delimiter() {
     <InputField
       label="Delimiter"
       value={delimiter || settings.DEFAULT_DELIMITER}
-      onFocus={() => updateHelp('dialect/csv/delimiter')}
+      onFocus={() => updateHelp('csv/delimiter')}
       onChange={(delimiter) => updateCsv({ delimiter })}
     />
   )
