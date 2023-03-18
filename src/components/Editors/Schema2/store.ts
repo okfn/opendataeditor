@@ -5,10 +5,13 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
+import { ISchema, IField, IForeignKey, IHelpItem } from '../../../interfaces'
 import { SchemaProps } from './Schema'
-import { ISchema, IField, IForeignKey } from '../../../interfaces'
+import * as helpers from '../../../helpers'
+import help from './help.yaml'
 
 const INITIAL_SCHEMA: ISchema = { fields: [] }
+const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
 
 interface ISectionState {
   query?: string
@@ -21,6 +24,7 @@ interface State {
   schema: ISchema
   onChange: (schema: ISchema) => void
   onFieldSelected: (name: string) => void
+  helpItem: IHelpItem
 
   // Schema
 
@@ -48,6 +52,7 @@ export function makeStore(props: SchemaProps) {
     schema: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
+    helpItem: DEFAULT_HELP_ITEM,
 
     // Schema
 

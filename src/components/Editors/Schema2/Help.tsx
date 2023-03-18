@@ -1,17 +1,14 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import HelpCard from '../../Parts/HelpCard'
+import { useStore } from './store'
 
 export default function Help() {
+  const helpItem = useStore((state) => state.helpItem)
   return (
     <Box sx={{ height: '100%' }}>
-      <HelpCard
-        title="Schema"
-        subtitle="overview"
-        link="https://framework.frictionlessdata.io/docs/guides/describing-data#describing-a-schema"
-      >
-        Table Schema is a specification for providing a schema for tabular data. It
-        includes the expected data type for each value in a column.
+      <HelpCard title={helpItem.title} subtitle={helpItem.path} link={helpItem.link}>
+        {helpItem.description}
       </HelpCard>
     </Box>
   )
