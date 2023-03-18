@@ -9,9 +9,17 @@ schema/title:
   - https://specs.frictionlessdata.io/table-schema/
   - A human-readable title.
 schema/description:
-  - Title
+  - Description
   - https://specs.frictionlessdata.io/table-schema/
   - A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+schema/primaryKey:
+  - Primary Key
+  - https://specs.frictionlessdata.io/table-schema/#primary-key
+  - A primary key is a field or set of fields that uniquely identifies each row in the table.
+schema/missingValues:
+  - Missing Values
+  - https://specs.frictionlessdata.io/table-schema/#missing-values
+  - Many datasets arrive with missing data values, either because a value was not collected or it never existed.
 
 # Fields
 

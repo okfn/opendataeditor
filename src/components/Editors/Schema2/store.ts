@@ -25,6 +25,7 @@ interface State {
   onChange: (schema: ISchema) => void
   onFieldSelected: (name: string) => void
   helpItem: IHelpItem
+  updateHelp: (path: string) => void
 
   // Schema
 
@@ -53,6 +54,10 @@ export function makeStore(props: SchemaProps) {
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
     helpItem: DEFAULT_HELP_ITEM,
+    updateHelp: (path) => {
+      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      set({ helpItem })
+    },
 
     // Schema
 

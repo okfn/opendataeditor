@@ -12,7 +12,7 @@ interface MultilineFieldProps {
   rows?: number
   size?: 'small' | 'medium'
   onChange: (value: any) => void
-  onFocus?: (event: any) => void
+  onFocus?: () => void
 }
 
 export default function MultilineField(props: MultilineFieldProps) {

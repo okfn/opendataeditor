@@ -18,8 +18,8 @@ interface InputFieldProps {
   required?: boolean
   onChange?: (value: any) => void
   onBlur?: () => void
-  onFocus?: (event: any) => void
-  onKeyDown?: (event: any) => void
+  onFocus?: () => void
+  onKeyDown?: () => void
   placeholder?: string
 }
 
@@ -27,6 +27,7 @@ export default function InputField(props: InputFieldProps) {
   const onChange = props.onChange || noop
   const onKeyDown = props.onKeyDown || noop
   const onFocus = props.onFocus || noop
+  const onBlur = props.onBlur || noop
   return (
     <TextField
       fullWidth
@@ -40,12 +41,12 @@ export default function InputField(props: InputFieldProps) {
       inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value as any)}
       error={props.error}
-      onBlur={props.onBlur}
       required={props.required}
       helperText={props.helperText}
       onKeyDown={onKeyDown}
       placeholder={props.placeholder}
       onFocus={onFocus}
+      onBlur={onBlur}
     />
   )
 }
