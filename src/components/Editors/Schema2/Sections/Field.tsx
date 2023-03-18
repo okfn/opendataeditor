@@ -92,12 +92,14 @@ function FieldItemMain() {
 }
 
 function Name() {
-  const updateField = useStore((state) => state.updateField)
   const name = useStore(select(selectors.field, ({ field }) => field.name))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateField = useStore((state) => state.updateField)
   return (
     <InputField
       label="Name"
       value={name}
+      onFocus={() => updateHelp('schema/fields/name')}
       onChange={(value) => updateField({ name: value || undefined })}
     />
   )

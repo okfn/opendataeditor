@@ -8,7 +8,7 @@ export interface VerticalTabsProps {
   index?: number
   labels: string[]
   children?: React.ReactNode
-  onChange?: (newValue?: number) => void
+  onChange?: (index: number) => void
 }
 
 export default function VerticalTabs(props: VerticalTabsProps) {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
@@ -7,13 +8,20 @@ import Schema from './Sections/Schema'
 import Field from './Sections/Field'
 import ForeignKey from './Sections/ForeignKey'
 import Help from './Help'
+import { useStore } from './store'
+
+const LABELS = ['Schema', 'Fields', 'Foreign Keys']
 
 export default function Layout() {
   const theme = useTheme()
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
-        <VerticalTabs labels={['Schema', 'Fields', 'Foreign Keys']}>
+        <VerticalTabs
+          labels={LABELS}
+          onChange={(index) => updateHelp(`schema/${camelCase(LABELS[index])}`)}
+        >
           <Schema />
           <Field />
           <ForeignKey />
