@@ -4,7 +4,8 @@ import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
-import { IDialect, IHelpItem } from '../../../interfaces'
+import { createSelector } from 'reselect'
+import { IDialect, ICsvControl, IHelpItem } from '../../../interfaces'
 import { DialectProps } from './Dialect'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
@@ -21,6 +22,10 @@ interface State {
   // Dialect
 
   updateDialect: (patch: Partial<IDialect>) => void
+
+  // Csv
+
+  updateCsv: (patch: Partial<ICsvControl>) => void
 }
 
 export function makeStore(props: DialectProps) {
@@ -41,7 +46,24 @@ export function makeStore(props: DialectProps) {
       onChange(dialect)
       set({ dialect })
     },
+
+    // Csv
+
+    updateCsv: (patch) => {
+      const { updateDialect } = get()
+      const csv = selectors.csv(get())
+      updateDialect({ csv: { ...csv, ...patch } })
+    },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  // Csv
+
+  csv: (state: State) => {
+    return state.dialect.csv || {}
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

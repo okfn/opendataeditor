@@ -11,7 +11,7 @@ export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Schema" onHeadingClick={() => updateHelp('schema')}>
-      <Columns spacing={2}>
+      <Columns spacing={3}>
         <Box>
           <Title />
           <Description />

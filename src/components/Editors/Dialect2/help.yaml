@@ -3,7 +3,12 @@
 dialect:
   - Dialect
   - https://framework.frictionlessdata.io/docs/framework/dialect.html
-  - Dialect concept give us an ability to manage table header and any details related to specific formats
+  - File dialect concept give us an ability to manage table header and any details related to specific formats
+
+dialect/title:
+  - Title
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html
+  - A human-readable title.
 
 dialect/header:
   - Header
