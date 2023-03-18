@@ -3,7 +3,12 @@
 dialect:
   - Dialect
   - https://framework.frictionlessdata.io/docs/framework/dialect.html
-  - Dialect concept give us an ability to manage table header and any details related to specific formats.
+  - Dialect concept give us an ability to manage table header and any details related to specific formats
+
+dialect/header:
+  - Header
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header
+  - It's a boolean flag which defaults to True indicating whether the data has a header row or not
 
 # Csv
 
