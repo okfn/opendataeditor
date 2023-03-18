@@ -2,126 +2,118 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../../Parts/Columns'
 import InputField from '../../../Parts/Fields/InputField'
-import SelectField from '../../../Parts/Fields/SelectField'
 import EditorItem from '../../../Parts/Editor/EditorItem'
 import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 
-export default function ForeignKey() {
-  const index = useStore((state) => state.foreignKeyState.index)
-  return index === undefined ? <ForeignKeyList /> : <ForeignKeyItem />
+export default function License() {
+  const index = useStore((state) => state.licenseState.index)
+  return index === undefined ? <LicenseList /> : <LicenseItem />
 }
 
-function ForeignKeyList() {
-  const isGrid = useStore((state) => state.foreignKeyState.isGrid)
-  const query = useStore((state) => state.foreignKeyState.query)
-  const foundForeignKeyItems = useStore(selectors.foundForeignKeyItems)
-  const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
-  const addForeignKey = useStore((state) => state.addForeignKey)
+function LicenseList() {
+  const isGrid = useStore((state) => state.licenseState.isGrid)
+  const query = useStore((state) => state.licenseState.query)
+  const foundLicenseItems = useStore(selectors.foundLicenseItems)
+  const updateLicenseState = useStore((state) => state.updateLicenseState)
+  const addLicense = useStore((state) => state.addLicense)
   return (
     <EditorList
-      kind="foreign key"
+      kind="license"
       query={query}
       isGrid={isGrid}
-      onAddClick={() => addForeignKey()}
-      onGridClick={() => updateForeignKeyState({ isGrid: !isGrid })}
+      onAddClick={() => addLicense()}
+      onGridClick={() => updateLicenseState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
-          onChange={(query) => updateForeignKeyState({ query })}
+          onChange={(query) => updateLicenseState({ query })}
         />
       }
     >
-      {foundForeignKeyItems.map(({ index, foreignKey }) => (
+      {foundLicenseItems.map(({ index, license }) => (
         <EditorListItem
           key={index}
           index={index}
-          kind="foreign key"
-          name={foreignKey.fields.join(',')}
-          type="fk"
+          kind="license"
+          name={license.name}
+          type="license"
           isGrid={isGrid}
-          onClick={() => updateForeignKeyState({ index })}
-          title="View ForeignKey"
+          onClick={() => updateLicenseState({ index })}
+          title="View License"
         />
       ))}
     </EditorList>
   )
 }
 
-function ForeignKeyItem() {
-  const { foreignKey } = useStore(selectors.foreignKey)
-  const isExtras = useStore((state) => state.foreignKeyState.isExtras)
-  const removeForeignKey = useStore((state) => state.removeForeignKey)
-  const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
+function LicenseItem() {
+  const { license } = useStore(selectors.license)
+  const isExtras = useStore((state) => state.licenseState.isExtras)
+  const removeLicense = useStore((state) => state.removeLicense)
+  const updateLicenseState = useStore((state) => state.updateLicenseState)
   return (
     <EditorItem
-      kind="foreignKey"
-      name={foreignKey.fields.join(',')}
+      kind="license"
+      name={license.name}
       isExtras={isExtras}
-      onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
-      onRemoveClick={() => removeForeignKey()}
-      onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}
+      onExtrasClick={() => updateLicenseState({ isExtras: !isExtras })}
+      onRemoveClick={() => removeLicense()}
+      onBackClick={() => updateLicenseState({ index: undefined, isExtras: false })}
     >
       <Columns spacing={3}>
         <Box>
-          <SourceField />
-          <TargetField />
+          <Name />
+          <Title />
         </Box>
         <Box>
-          <TargetResource />
+          <Path />
         </Box>
       </Columns>
     </EditorItem>
   )
 }
 
-function SourceField() {
-  const fields = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.fields)
-  )
-  const fieldNames = useStore(selectors.fieldNames)
-  const updateForeignKey = useStore((state) => state.updateForeignKey)
-  return (
-    <SelectField
-      label="Source Field"
-      value={fields[0]}
-      options={fieldNames}
-      onChange={(name) => updateForeignKey({ fields: [name] })}
-    />
-  )
-}
-
-function TargetField() {
-  const fieldNames = useStore(selectors.fieldNames)
-  const reference = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.reference)
-  )
-  const updateForeignKey = useStore((state) => state.updateForeignKey)
-  return (
-    <SelectField
-      label="Target Field"
-      value={reference.fields[0]}
-      options={fieldNames}
-      onChange={(name) =>
-        updateForeignKey({ reference: { ...reference, fields: [name] } })
-      }
-    />
-  )
-}
-
-function TargetResource() {
-  const reference = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.reference)
-  )
-  const updateForeignKey = useStore((state) => state.updateForeignKey)
+function Name() {
+  const name = useStore(select(selectors.license, ({ license }) => license.name))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateLicense = useStore((state) => state.updateLicense)
   return (
     <InputField
-      disabled
-      label="Target Resource"
-      value={reference.resource}
-      onChange={(resource) => updateForeignKey({ reference: { ...reference, resource } })}
+      label="Name"
+      value={name}
+      onFocus={() => updateHelp('resource/licenses/name')}
+      onChange={(name) => updateLicense({ name })}
+    />
+  )
+}
+
+function Title() {
+  const title = useStore(select(selectors.license, ({ license }) => license.title))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateLicense = useStore((state) => state.updateLicense)
+  return (
+    <InputField
+      label="Title"
+      value={title || ''}
+      onFocus={() => updateHelp('resource/licenses/title')}
+      onChange={(value) => updateLicense({ title: value || undefined })}
+    />
+  )
+}
+
+function Path() {
+  const path = useStore(select(selectors.license, ({ license }) => license.path))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateLicense = useStore((state) => state.updateLicense)
+  return (
+    <InputField
+      label="Path"
+      value={path || ''}
+      onFocus={() => updateHelp('resource/licenses/path')}
+      onChange={(path) => updateLicense({ path })}
     />
   )
 }

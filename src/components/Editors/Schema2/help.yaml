@@ -4,18 +4,22 @@ schema:
   - Schema
   - https://specs.frictionlessdata.io/table-schema/
   - Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.
+
 schema/title:
   - Title
   - https://specs.frictionlessdata.io/table-schema/
   - A human-readable title.
+
 schema/description:
   - Description
   - https://specs.frictionlessdata.io/table-schema/
   - A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+
 schema/primaryKey:
   - Primary Key
   - https://specs.frictionlessdata.io/table-schema/#primary-key
   - A primary key is a field or set of fields that uniquely identifies each row in the table.
+
 schema/missingValues:
   - Missing Values
   - https://specs.frictionlessdata.io/table-schema/#missing-values

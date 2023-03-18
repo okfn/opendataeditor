@@ -15,10 +15,10 @@ resource/description:
 
 # Checksum
 
-resource/checksums:
-  - Checksums
+resource/checksum:
+  - Checksum
   - https://specs.frictionlessdata.io/data-resource/#optional-properties
-  - Checksums
+  - Checksum
 
 # Licenses
 

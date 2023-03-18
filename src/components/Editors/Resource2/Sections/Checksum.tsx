@@ -8,10 +8,7 @@ import { useStore } from '../store'
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection
-      name="Checksums"
-      onHeadingClick={() => updateHelp('resource/checksums')}
-    >
+    <EditorSection name="Checksum" onHeadingClick={() => updateHelp('resource/checksum')}>
       <Columns spacing={3}>
         <Box>
           <Hash />

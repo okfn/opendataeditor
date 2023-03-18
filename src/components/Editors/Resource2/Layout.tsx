@@ -10,7 +10,7 @@ import Checksum from './Sections/Checksum'
 import License from './Sections/License'
 import { useStore } from './store'
 
-const LABELS = ['Resource', 'Checksums', 'Licenses']
+const LABELS = ['Resource', 'Checksum', 'Licenses']
 
 export default function Layout() {
   const theme = useTheme()
