@@ -63,9 +63,9 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
             {props.name}
           </Box>
           <Box sx={{ float: 'right' }}>
+            <BackButton />
             <ExtrasButton />
             <RemoveButton />
-            <BackButton />
           </Box>
         </Columns>
       </HeadingBox>
