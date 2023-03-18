@@ -150,10 +150,7 @@ export const selectors = {
     const field = state.schema.fields[index]!
     return { index, field }
   },
-  fieldNames: (state: State) => {
-    return state.schema.fields.map((field) => field.name)
-  },
-  foundFieldItems: (state: State) => {
+  fieldItems: (state: State) => {
     const items = []
     const query = state.fieldState.query
     for (const [index, field] of state.schema.fields.entries()) {
@@ -161,6 +158,9 @@ export const selectors = {
       items.push({ index, field })
     }
     return items
+  },
+  fieldNames: (state: State) => {
+    return state.schema.fields.map((field) => field.name)
   },
 
   // Foreign Keys
@@ -171,10 +171,7 @@ export const selectors = {
     const foreignKey = foreignKeys[index]!
     return { index, foreignKey }
   },
-  foreignKeyNames: (state: State) => {
-    return (state.schema.foreignKeys || []).map((fk) => fk.fields.join(','))
-  },
-  foundForeignKeyItems: (state: State) => {
+  foreignKeyItems: (state: State) => {
     const items = []
     const query = state.foreignKeyState.query
     for (const [index, fk] of (state.schema.foreignKeys || []).entries()) {

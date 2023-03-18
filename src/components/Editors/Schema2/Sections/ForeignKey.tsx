@@ -17,7 +17,7 @@ export default function ForeignKey() {
 function ForeignKeyList() {
   const isGrid = useStore((state) => state.foreignKeyState.isGrid)
   const query = useStore((state) => state.foreignKeyState.query)
-  const foundForeignKeyItems = useStore(selectors.foundForeignKeyItems)
+  const foreignKeyItems = useStore(selectors.foreignKeyItems)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   const addForeignKey = useStore((state) => state.addForeignKey)
   return (
@@ -34,7 +34,7 @@ function ForeignKeyList() {
         />
       }
     >
-      {foundForeignKeyItems.map(({ index, foreignKey }) => (
+      {foreignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem
           key={index}
           index={index}

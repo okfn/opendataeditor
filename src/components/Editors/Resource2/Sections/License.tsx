@@ -16,7 +16,7 @@ export default function License() {
 function LicenseList() {
   const isGrid = useStore((state) => state.licenseState.isGrid)
   const query = useStore((state) => state.licenseState.query)
-  const foundLicenseItems = useStore(selectors.foundLicenseItems)
+  const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const addLicense = useStore((state) => state.addLicense)
   return (
@@ -33,7 +33,7 @@ function LicenseList() {
         />
       }
     >
-      {foundLicenseItems.map(({ index, license }) => (
+      {licenseItems.map(({ index, license }) => (
         <EditorListItem
           key={index}
           index={index}

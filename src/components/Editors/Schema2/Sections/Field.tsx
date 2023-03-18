@@ -23,7 +23,7 @@ export default function Field() {
 function FieldList() {
   const isGrid = useStore((state) => state.fieldState.isGrid)
   const query = useStore((state) => state.fieldState.query)
-  const foundFieldItems = useStore(selectors.foundFieldItems)
+  const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
   const addField = useStore((state) => state.addField)
   return (
@@ -40,7 +40,7 @@ function FieldList() {
         />
       }
     >
-      {foundFieldItems.map(({ index, field }) => (
+      {fieldItems.map(({ index, field }) => (
         <EditorListItem
           key={index}
           index={index}

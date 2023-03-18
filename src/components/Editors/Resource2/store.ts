@@ -100,10 +100,7 @@ export const selectors = {
     const license = licenses[index]!
     return { index, license }
   },
-  licenseNames: (state: State) => {
-    return (state.resource.licenses || []).map((license) => license.name)
-  },
-  foundLicenseItems: (state: State) => {
+  licenseItems: (state: State) => {
     const items = []
     const query = state.licenseState.query
     for (const [index, license] of (state.resource.licenses || []).entries()) {
