@@ -14,14 +14,11 @@ const INITIAL_DIALECT: IDialect = {}
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
-  dialect: IDialect
+  descriptor: IDialect
   onChange: (dialect: IDialect) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
-
-  // Dialect
-
-  updateDialect: (patch: Partial<IDialect>) => void
+  updateDescriptor: (patch: Partial<IDialect>) => void
 
   // Csv
 
@@ -30,29 +27,26 @@ interface State {
 
 export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
-    dialect: cloneDeep(props.dialect || INITIAL_DIALECT),
+    descriptor: cloneDeep(props.dialect || INITIAL_DIALECT),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
     },
-
-    // Dialect
-
-    updateDialect: (patch) => {
-      let { dialect, onChange } = get()
-      dialect = { ...dialect, ...patch }
-      onChange(dialect)
-      set({ dialect })
+    updateDescriptor: (patch) => {
+      let { descriptor, onChange } = get()
+      descriptor = { ...descriptor, ...patch }
+      onChange(descriptor)
+      set({ descriptor })
     },
 
     // Csv
 
     updateCsv: (patch) => {
-      const { updateDialect } = get()
+      const { updateDescriptor } = get()
       const csv = selectors.csv(get())
-      updateDialect({ csv: { ...csv, ...patch } })
+      updateDescriptor({ csv: { ...csv, ...patch } })
     },
   }))
 }
@@ -62,7 +56,7 @@ export const selectors = {
   // Csv
 
   csv: (state: State) => {
-    return state.dialect.csv || {}
+    return state.descriptor.csv || {}
   },
 }
 

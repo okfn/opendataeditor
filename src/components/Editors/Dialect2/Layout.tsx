@@ -21,7 +21,7 @@ export default function Layout() {
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs
           labels={LABELS}
-          onChange={(index) => updateHelp(`dialect/${camelCase(LABELS[index])}`)}
+          onChange={(index) => updateHelp(camelCase(LABELS[index]))}
         >
           <Dialect />
           <Csv />

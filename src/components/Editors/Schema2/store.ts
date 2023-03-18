@@ -21,15 +21,12 @@ interface ISectionState {
 }
 
 interface State {
-  schema: ISchema
+  descriptor: ISchema
   onChange: (schema: ISchema) => void
   onFieldSelected: (name?: string) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
-
-  // Schema
-
-  updateSchema: (patch: Partial<ISchema>) => void
+  updateDescriptor: (patch: Partial<ISchema>) => void
 
   // Fields
 
@@ -50,7 +47,7 @@ interface State {
 
 export function makeStore(props: SchemaProps) {
   return createStore<State>((set, get) => ({
-    schema: cloneDeep(props.schema || INITIAL_SCHEMA),
+    descriptor: cloneDeep(props.schema || INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -58,50 +55,48 @@ export function makeStore(props: SchemaProps) {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
     },
-
-    // Schema
-
-    updateSchema: (patch) => {
-      let { schema, onChange } = get()
-      schema = { ...schema, ...patch }
-      onChange(schema)
-      set({ schema })
+    updateDescriptor: (patch) => {
+      let { descriptor, onChange } = get()
+      descriptor = { ...descriptor, ...patch }
+      onChange(descriptor)
+      set({ descriptor })
     },
 
     // Fields
 
     fieldState: {},
     updateFieldState: (patch) => {
-      const { fieldState, schema, onFieldSelected } = get()
+      const { fieldState, descriptor, onFieldSelected } = get()
       set({ fieldState: { ...fieldState, ...patch } })
       if ('index' in patch) {
-        const field = patch.index !== undefined ? schema.fields[patch.index] : undefined
+        const field =
+          patch.index !== undefined ? descriptor.fields[patch.index] : undefined
         onFieldSelected(field ? field.name : undefined)
       }
     },
     updateField: (patch) => {
-      const { schema, updateSchema } = get()
+      const { descriptor, updateDescriptor } = get()
       const { index, field } = selectors.field(get())
-      const fields = schema.fields
+      const fields = descriptor.fields
       fields[index] = { ...field, ...patch }
-      updateSchema({ fields })
+      updateDescriptor({ fields })
     },
     removeField: () => {
-      const { schema, updateSchema, updateFieldState } = get()
+      const { descriptor, updateDescriptor, updateFieldState } = get()
       const { index } = selectors.field(get())
-      const fields = [...schema.fields]
+      const fields = [...descriptor.fields]
       fields.splice(index, 1)
       updateFieldState({ index: undefined, isExtras: false })
-      updateSchema({ fields })
+      updateDescriptor({ fields })
     },
     // TODO: scroll to newly created field
     addField: () => {
-      const { schema, updateSchema } = get()
-      const fields = [...schema.fields]
+      const { descriptor, updateDescriptor } = get()
+      const fields = [...descriptor.fields]
       // TODO: deduplicate
       const name = `field${fields.length}`
       fields.push({ name, type: 'string' })
-      updateSchema({ fields })
+      updateDescriptor({ fields })
     },
 
     // Foreign Keys
@@ -112,31 +107,31 @@ export function makeStore(props: SchemaProps) {
       set({ foreignKeyState: { ...foreignKeyState, ...patch } })
     },
     updateForeignKey: (patch) => {
-      const { schema, updateSchema } = get()
+      const { descriptor, updateDescriptor } = get()
       const { index, foreignKey } = selectors.foreignKey(get())
-      const foreignKeys = schema.foreignKeys!
+      const foreignKeys = descriptor.foreignKeys!
       foreignKeys[index] = { ...foreignKey, ...patch }
-      updateSchema({ foreignKeys })
+      updateDescriptor({ foreignKeys })
     },
     removeForeignKey: () => {
-      const { schema, updateSchema, updateForeignKeyState } = get()
+      const { descriptor, updateDescriptor, updateForeignKeyState } = get()
       const { index } = selectors.foreignKey(get())
-      const foreignKeys = [...(schema.foreignKeys || [])]
+      const foreignKeys = [...(descriptor.foreignKeys || [])]
       foreignKeys.splice(index, 1)
       updateForeignKeyState({ index: undefined, isExtras: false })
-      updateSchema({ foreignKeys })
+      updateDescriptor({ foreignKeys })
     },
     // TODO: scroll to newly created field
     addForeignKey: () => {
-      const { schema, updateSchema } = get()
-      const foreignKeys = [...(schema.foreignKeys || [])]
+      const { descriptor, updateDescriptor } = get()
+      const foreignKeys = [...(descriptor.foreignKeys || [])]
       // TODO: catch no fields
-      const name = schema.fields[0].name
+      const name = descriptor.fields[0].name
       foreignKeys.push({
         fields: [name],
         reference: { fields: [name], resource: '' },
       })
-      updateSchema({ foreignKeys })
+      updateDescriptor({ foreignKeys })
     },
   }))
 }
@@ -147,34 +142,34 @@ export const selectors = {
 
   field: (state: State) => {
     const index = state.fieldState.index!
-    const field = state.schema.fields[index]!
+    const field = state.descriptor.fields[index]!
     return { index, field }
   },
   fieldItems: (state: State) => {
     const items = []
     const query = state.fieldState.query
-    for (const [index, field] of state.schema.fields.entries()) {
+    for (const [index, field] of state.descriptor.fields.entries()) {
       if (query && !field.name.includes(query)) continue
       items.push({ index, field })
     }
     return items
   },
   fieldNames: (state: State) => {
-    return state.schema.fields.map((field) => field.name)
+    return state.descriptor.fields.map((field) => field.name)
   },
 
   // Foreign Keys
 
   foreignKey: (state: State) => {
     const index = state.foreignKeyState.index!
-    const foreignKeys = state.schema.foreignKeys!
+    const foreignKeys = state.descriptor.foreignKeys!
     const foreignKey = foreignKeys[index]!
     return { index, foreignKey }
   },
   foreignKeyItems: (state: State) => {
     const items = []
     const query = state.foreignKeyState.query
-    for (const [index, fk] of (state.schema.foreignKeys || []).entries()) {
+    for (const [index, fk] of (state.descriptor.foreignKeys || []).entries()) {
       const name = fk.fields.join(',')
       if (query && !name.includes(query)) continue
       items.push({ index, foreignKey: fk })

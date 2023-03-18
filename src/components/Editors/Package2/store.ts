@@ -25,9 +25,6 @@ interface State {
   onChange: (pkg: IPackage) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
-
-  // Package
-
   updateDescriptor: (patch: Partial<IPackage>) => void
 
   // Licenses
@@ -48,9 +45,6 @@ export function makeStore(props: PackageProps) {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
     },
-
-    // Package
-
     updateDescriptor: (patch) => {
       let { descriptor, onChange } = get()
       descriptor = { ...descriptor, ...patch }

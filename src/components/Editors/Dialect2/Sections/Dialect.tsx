@@ -31,107 +31,107 @@ export default function General() {
 }
 
 function Title() {
-  const title = useStore((state) => state.dialect.title)
+  const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('dialect/title')}
-      onChange={(value) => updateDialect({ title: value || undefined })}
+      onChange={(value) => updateDescriptor({ title: value || undefined })}
     />
   )
 }
 
 function Description() {
-  const description = useStore((state) => state.dialect.description)
+  const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultilineField
       label="Description"
       value={description || ''}
       onFocus={() => updateHelp('dialect/description')}
-      onChange={(value) => updateDialect({ description: value || undefined })}
+      onChange={(value) => updateDescriptor({ description: value || undefined })}
     />
   )
 }
 
 function CommentChar() {
-  const commentChar = useStore((state) => state.dialect.commentChar)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const commentChar = useStore((state) => state.descriptor.commentChar)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Comment Char"
       value={commentChar || settings.DEFAULT_COMMENT_CHAR}
-      onChange={(commentChar) => updateDialect({ commentChar })}
+      onChange={(commentChar) => updateDescriptor({ commentChar })}
     />
   )
 }
 
 function CommentRows() {
-  const commentRows = useStore((state) => state.dialect.commentRows)
+  const commentRows = useStore((state) => state.descriptor.commentRows)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Comment Rows"
       value={(commentRows || []).join(',')}
       onFocus={() => updateHelp('schema/commentRows')}
       onChange={(value) =>
-        updateDialect({ commentRows: value ? value.split(',') : undefined })
+        updateDescriptor({ commentRows: value ? value.split(',') : undefined })
       }
     />
   )
 }
 
 function Header() {
-  const header = useStore((state) => state.dialect.header)
+  const header = useStore((state) => state.descriptor.header)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <YesNoField
       label="Header"
       value={header || settings.DEFAULT_HEADER}
       onFocus={() => updateHelp('dialect/header')}
-      onChange={(header) => updateDialect({ header })}
+      onChange={(header) => updateDescriptor({ header })}
     />
   )
 }
 
 function HeaderRows() {
-  const headerRows = useStore((state) => state.dialect.headerRows)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const headerRows = useStore((state) => state.descriptor.headerRows)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Header Rows"
       value={headerRows}
-      onChange={(headerRows) => updateDialect({ headerRows })}
+      onChange={(headerRows) => updateDescriptor({ headerRows })}
     />
   )
 }
 
 function HeaderJoin() {
-  const headerJoin = useStore((state) => state.dialect.headerJoin)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const headerJoin = useStore((state) => state.descriptor.headerJoin)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Header Join"
       value={headerJoin}
-      onChange={(headerJoin) => updateDialect({ headerJoin })}
+      onChange={(headerJoin) => updateDescriptor({ headerJoin })}
     />
   )
 }
 
 function HeaderCase() {
-  const headerCase = useStore((state) => state.dialect.headerCase)
-  const updateDialect = useStore((state) => state.updateDialect)
+  const headerCase = useStore((state) => state.descriptor.headerCase)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <YesNoField
       label="Header Case"
       value={headerCase || settings.DEFAULT_HEADER_CASE}
-      onChange={(headerCase) => updateDialect({ headerCase })}
+      onChange={(headerCase) => updateDescriptor({ headerCase })}
     />
   )
 }

@@ -26,61 +26,61 @@ export default function General() {
 }
 
 function Title() {
-  const title = useStore((state) => state.schema.title)
+  const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateSchema = useStore((state) => state.updateSchema)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('schema/title')}
-      onChange={(value) => updateSchema({ title: value || undefined })}
+      onChange={(value) => updateDescriptor({ title: value || undefined })}
     />
   )
 }
 
 function Description() {
-  const description = useStore((state) => state.schema.description)
+  const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateSchema = useStore((state) => state.updateSchema)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultilineField
       label="Description"
       value={description || ''}
       onFocus={() => updateHelp('schema/description')}
-      onChange={(value) => updateSchema({ description: value || undefined })}
+      onChange={(value) => updateDescriptor({ description: value || undefined })}
     />
   )
 }
 
 function PrimaryKey() {
   const fieldNames = useStore(selectors.fieldNames)
-  const primaryKey = useStore((state) => state.schema.primaryKey)
+  const primaryKey = useStore((state) => state.descriptor.primaryKey)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateSchema = useStore((state) => state.updateSchema)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultiselectField
       label="Primary Key"
       value={primaryKey || []}
       options={fieldNames}
       onFocus={() => updateHelp('schema/primaryKey')}
-      onChange={(value) => updateSchema({ primaryKey: value || undefined })}
+      onChange={(value) => updateDescriptor({ primaryKey: value || undefined })}
     />
   )
 }
 
 // TODO: support empty strings
 function MissingValues() {
-  const missingValues = useStore((state) => state.schema.missingValues)
+  const missingValues = useStore((state) => state.descriptor.missingValues)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateSchema = useStore((state) => state.updateSchema)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Missing Values"
       value={(missingValues || []).join(',')}
       onFocus={() => updateHelp('schema/missingValues')}
       onChange={(value) =>
-        updateSchema({ missingValues: value ? value.split(',') : undefined })
+        updateDescriptor({ missingValues: value ? value.split(',') : undefined })
       }
     />
   )
