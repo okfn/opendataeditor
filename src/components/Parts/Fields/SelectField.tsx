@@ -7,11 +7,13 @@ import TextField from '@mui/material/TextField'
 
 interface SelectFieldProps {
   type?: string
-  label: string
+  label?: string
   value: any
   size?: 'small' | 'medium'
+  margin?: 'dense' | 'none' | 'normal'
   options: string[] | { label: string; value: any }[]
   onChange: (value: any) => void
+  InputProps?: object
 }
 
 export default function SelectField(props: SelectFieldProps) {
@@ -23,9 +25,10 @@ export default function SelectField(props: SelectFieldProps) {
       select
       fullWidth
       label={props.label}
-      margin="normal"
+      margin={props.margin || 'normal'}
       value={props.value}
       size={props.size || 'small'}
+      InputProps={props.InputProps}
       disabled={props.options.length < 2}
       onChange={(ev) => props.onChange((ev.target as any).value)}
     >

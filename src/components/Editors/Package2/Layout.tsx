@@ -2,10 +2,12 @@ import * as React from 'react'
 import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import InputAdornment from '@mui/material/InputAdornment'
 import Tabs from '../../Parts/Tabs'
 import Columns from '../../Parts/Columns'
 import VerticalTabs from '../../Parts/VerticalTabs'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
+import SelectField from '../../Parts/Fields/SelectField'
 import Resource from '../Resource2'
 import Dialect from '../Dialect2'
 import Schema from '../Schema2'
@@ -19,7 +21,23 @@ export default function Layout() {
   const theme = useTheme()
   const isShallow = useStore((state) => state.isShallow)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>{isShallow ? <Sections /> : <Groups />}</Box>
+    <Box sx={{ height: theme.spacing(42) }}>
+      <Box sx={{ zIndex: 2 }}>{isShallow ? <Sections /> : <Groups />}</Box>
+      <Box sx={{ zIndex: 1, position: 'absolute', left: 12, top: 3, right: 3 }}>
+        <Columns spacing={3} layout={[9, 3]}>
+          <Box></Box>
+          <SelectField
+            margin="none"
+            value="name1"
+            options={['name1', 'name2']}
+            onChange={() => {}}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
+            }}
+          />
+        </Columns>
+      </Box>
+    </Box>
   )
 }
 
