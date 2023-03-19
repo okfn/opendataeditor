@@ -22,6 +22,7 @@ interface ISectionState {
 
 interface State {
   descriptor: IResource
+  isShallow?: boolean
   onChange: (resource: IResource) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
@@ -39,6 +40,7 @@ interface State {
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
     descriptor: cloneDeep(props.resource || INITIAL_RESOURCE),
+    isShallow: props.isShallow,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {

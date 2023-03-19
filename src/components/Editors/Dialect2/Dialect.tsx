@@ -6,7 +6,7 @@ import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface DialectProps {
-  format: string
+  format?: string
   dialect?: IDialect
   onChange?: (dialect: IDialect) => void
 }

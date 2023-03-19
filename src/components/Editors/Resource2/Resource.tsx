@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface ResourceProps {
   resource?: IResource
+  isShallow?: boolean
   onChange?: (resource: IResource) => void
   onFieldSelected?: (name?: string) => void
 }
