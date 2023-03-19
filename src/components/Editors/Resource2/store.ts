@@ -39,7 +39,7 @@ interface State {
 
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
-    descriptor: cloneDeep(props.resource || INITIAL_RESOURCE),
+    descriptor: props.resource || cloneDeep(INITIAL_RESOURCE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -48,8 +48,8 @@ export function makeStore(props: ResourceProps) {
       set({ helpItem })
     },
     updateDescriptor: (patch) => {
-      let { descriptor, onChange } = get()
-      descriptor = { ...descriptor, ...patch }
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
     },

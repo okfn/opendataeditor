@@ -39,7 +39,7 @@ interface State {
 
 export function makeStore(props: PackageProps) {
   return createStore<State>((set, get) => ({
-    descriptor: cloneDeep(props.package || INITIAL_PACKAGE),
+    descriptor: props.package || cloneDeep(INITIAL_PACKAGE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -48,8 +48,8 @@ export function makeStore(props: PackageProps) {
       set({ helpItem })
     },
     updateDescriptor: (patch) => {
-      let { descriptor, onChange } = get()
-      descriptor = { ...descriptor, ...patch }
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
     },

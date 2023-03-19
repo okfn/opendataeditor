@@ -47,7 +47,7 @@ interface State {
 
 export function makeStore(props: SchemaProps) {
   return createStore<State>((set, get) => ({
-    descriptor: cloneDeep(props.schema || INITIAL_SCHEMA),
+    descriptor: props.schema || cloneDeep(INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -56,8 +56,8 @@ export function makeStore(props: SchemaProps) {
       set({ helpItem })
     },
     updateDescriptor: (patch) => {
-      let { descriptor, onChange } = get()
-      descriptor = { ...descriptor, ...patch }
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
     },

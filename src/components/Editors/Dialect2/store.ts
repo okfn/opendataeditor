@@ -27,7 +27,7 @@ interface State {
 
 export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
-    descriptor: cloneDeep(props.dialect || INITIAL_DIALECT),
+    descriptor: props.dialect || cloneDeep(INITIAL_DIALECT),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -35,8 +35,8 @@ export function makeStore(props: DialectProps) {
       set({ helpItem })
     },
     updateDescriptor: (patch) => {
-      let { descriptor, onChange } = get()
-      descriptor = { ...descriptor, ...patch }
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
     },
