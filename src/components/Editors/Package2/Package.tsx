@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface PackageProps {
   package?: IPackage
+  isShallow?: boolean
   onChange?: (pkg: IPackage) => void
   onFieldSelected?: (name?: string) => void
 }
