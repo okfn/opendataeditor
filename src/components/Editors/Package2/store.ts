@@ -98,7 +98,7 @@ export const selectors = {
     const items = []
     const query = state.licenseState.query
     for (const [index, license] of (state.descriptor.licenses || []).entries()) {
-      if (query && !license.name.includes(query)) continue
+      if (query && !license.name.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ index, license })
     }
     return items

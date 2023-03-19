@@ -149,7 +149,7 @@ export const selectors = {
     const items = []
     const query = state.fieldState.query
     for (const [index, field] of state.descriptor.fields.entries()) {
-      if (query && !field.name.includes(query)) continue
+      if (query && !field.name.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ index, field })
     }
     return items
@@ -171,7 +171,7 @@ export const selectors = {
     const query = state.foreignKeyState.query
     for (const [index, fk] of (state.descriptor.foreignKeys || []).entries()) {
       const name = fk.fields.join(',')
-      if (query && !name.includes(query)) continue
+      if (query && !name.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ index, foreignKey: fk })
     }
     return items
