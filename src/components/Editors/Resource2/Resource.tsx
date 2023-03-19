@@ -9,7 +9,6 @@ export interface ResourceProps {
   resource?: IResource
   isShallow?: boolean
   onChange?: (resource: IResource) => void
-  onFieldSelected?: (name?: string) => void
 }
 
 export default function Resource(props: ResourceProps) {
