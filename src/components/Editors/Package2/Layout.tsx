@@ -22,20 +22,19 @@ export default function Layout() {
   const isShallow = useStore((state) => state.isShallow)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
-      <Box sx={{ zIndex: 2 }}>{isShallow ? <Sections /> : <Groups />}</Box>
-      <Box sx={{ zIndex: 1, position: 'absolute', left: 12, top: 3, right: 3 }}>
-        <Columns spacing={3} layout={[9, 3]}>
-          <Box></Box>
-          <SelectField
-            margin="none"
-            value="name1"
-            options={['name1', 'name2']}
-            onChange={() => {}}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
-            }}
-          />
-        </Columns>
+      {isShallow ? <Sections /> : <Groups />}
+      <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
+        <SelectField
+          color="success"
+          focused
+          margin="none"
+          value="name1"
+          options={['name1', 'name2']}
+          onChange={() => {}}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
+          }}
+        />
       </Box>
     </Box>
   )

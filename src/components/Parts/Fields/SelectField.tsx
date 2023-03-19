@@ -14,6 +14,10 @@ interface SelectFieldProps {
   options: string[] | { label: string; value: any }[]
   onChange: (value: any) => void
   InputProps?: object
+  // TODO: fix
+  color?: any
+  focused?: boolean
+  disabled?: boolean
 }
 
 export default function SelectField(props: SelectFieldProps) {
@@ -29,8 +33,10 @@ export default function SelectField(props: SelectFieldProps) {
       value={props.value}
       size={props.size || 'small'}
       InputProps={props.InputProps}
-      disabled={props.options.length < 2}
+      disabled={props.disabled || props.options.length < 2}
       onChange={(ev) => props.onChange((ev.target as any).value)}
+      color={props.color}
+      focused={props.focused}
     >
       {options.map((option) => (
         <MenuItem key={option.label} value={option.value}>
