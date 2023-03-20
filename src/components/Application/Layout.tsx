@@ -7,22 +7,24 @@ import { useStore } from './store'
 import WelcomeDialog from './Dialogs/WelcomeDialog'
 
 export default function Layout() {
-  const isWelcome = useStore((state) => state.isWelcome)
+  const [isWelcome, setIsWelcome] = React.useState(false)
   const countFiles = useStore((state) => state.countFiles)
   React.useEffect(() => {
-    countFiles().catch(console.error)
+    countFiles()
+      .then((result) => {
+        if (result <= 0) return setIsWelcome(true)
+        setIsWelcome(false)
+      })
+      .catch(console.error)
   }, [])
   return (
     <React.Fragment>
+      <WelcomeDialog open={isWelcome} />
       <Header />
-      {isWelcome ? (
-        <WelcomeDialog />
-      ) : (
-        <Columns layout={[3, 9]}>
-          <Browser />
-          <Content />
-        </Columns>
-      )}
+      <Columns layout={[3, 9]}>
+        <Browser />
+        <Content />
+      </Columns>
     </React.Fragment>
   )
 }

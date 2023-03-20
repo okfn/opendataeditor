@@ -5,11 +5,11 @@ import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
 import { ConfirmProvider } from 'material-ui-confirm'
+import { IAction } from '../../../interfaces'
 
 export interface FilesProps {
   client: Client
-  initialUpload?: boolean
-  initialDataPackage?: boolean
+  initialAction?: IAction
   fileItemAdded?: boolean
   onFileChange: (path?: string) => void
 }

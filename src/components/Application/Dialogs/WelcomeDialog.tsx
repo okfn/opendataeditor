@@ -92,6 +92,7 @@ export default function WelcomeDialog(props: WelcomeProps) {
               icon={FilterList}
               label="Create Pipeline"
               onClick={() => handleClick('create/pipeline')}
+              disabled={true}
             />
           </Grid>
         </Grid>
@@ -104,6 +105,7 @@ const CustomIconButton = (props: {
   label: string
   icon: React.ElementType
   onClick: () => void
+  disabled?: boolean
 }) => {
   const { icon: Icon, label, onClick } = props
   return (
@@ -113,6 +115,7 @@ const CustomIconButton = (props: {
       variant="outlined"
       size="large"
       onClick={() => onClick()}
+      disabled={props.disabled}
     >
       <Icon fontSize="large" />
       <Typography>{label}</Typography>

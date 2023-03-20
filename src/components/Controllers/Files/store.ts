@@ -4,7 +4,7 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
-import { IFileItem, ITreeItem } from '../../../interfaces'
+import { IAction, IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
 type IDialog =
@@ -25,18 +25,17 @@ export interface State {
   fileItems: IFileItem[]
   onFileChange: (path?: string) => void
   dialog?: IDialog
-  initialUpload?: boolean
-  initialDataPackage?: boolean
+  initialAction?: IAction
   fileItemAdded?: boolean
   loading?: boolean
   message?: IMessage | undefined
+  open?: boolean
 
   // General
 
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
-  setInitialUpload: (value: boolean) => void
-  setInitialDataPackage: (value: boolean) => void
+  setInitialAction: (value: IAction | undefined) => void
   setFileItemAdded: (value: boolean) => void
   setMessage: (message: IMessage | undefined) => void
 
@@ -65,11 +64,10 @@ export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
     fileItems: [],
-    initialUpload: props.initialUpload,
-    initialDataPackage: props.initialDataPackage,
+    initialAction: props.initialAction,
     onFileChange: props.onFileChange,
     fileItemAdded: false,
-    loading: true,
+    loading: !props.initialAction,
 
     // General
 
@@ -82,11 +80,8 @@ export function createStore(props: FilesProps) {
       if (isFolder) return
       onFileChange(newPath)
     },
-    setInitialUpload: (initialUpload) => {
-      set({ initialUpload })
-    },
-    setInitialDataPackage: (initialDataPackage) => {
-      set({ initialDataPackage })
+    setInitialAction: (initialAction) => {
+      set({ initialAction })
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
