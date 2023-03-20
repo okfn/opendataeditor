@@ -5,8 +5,7 @@ import { useStore } from './store'
 
 export default function Layout() {
   const client = useStore((state) => state.client)
-  const initialUpload = useStore((state) => state.initialUpload)
-  const initialDataPackage = useStore((state) => state.initialDataPackage)
+  const initialAction = useStore((state) => state.initialAction)
   const selectFile = useStore((state) => state.selectFile)
   const fileItemAdded = useStore((state) => state.fileItemAdded)
   return (
@@ -15,8 +14,7 @@ export default function Layout() {
         client={client}
         fileItemAdded={fileItemAdded}
         onFileChange={selectFile}
-        initialUpload={initialUpload}
-        initialDataPackage={initialDataPackage}
+        initialAction={initialAction ?? undefined}
       />
     </Box>
   )

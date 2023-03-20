@@ -3,8 +3,8 @@ import Columns from '../Parts/Columns'
 import Browser from './Browser'
 import Content from './Content'
 import Header from './Header'
-import Welcome from './Welcome'
 import { useStore } from './store'
+import WelcomeDialog from './Dialogs/WelcomeDialog'
 
 export default function Layout() {
   const isWelcome = useStore((state) => state.isWelcome)
@@ -16,7 +16,7 @@ export default function Layout() {
     <React.Fragment>
       <Header />
       {isWelcome ? (
-        <Welcome />
+        <WelcomeDialog />
       ) : (
         <Columns layout={[3, 9]}>
           <Browser />
