@@ -14,14 +14,17 @@ import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material
 
 export default function CreateButton() {
   const initialAction = useStore((state) => state.initialAction)
+  const complete = useStore((state) => state.complete)
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   const open = initialAction !== undefined
+  console.log('Complete', complete)
   return (
     <DropdownButton
       label="Create"
       variant="text"
       open={open}
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
+      complete={complete}
     >
       <UploadButton />
       <UploadLink />
@@ -38,13 +41,19 @@ function UploadButton() {
   const uploadFiles = useStore((state) => state.uploadFiles)
   const initialAction = useStore((state) => state.initialAction)
   const setInitialAction = useStore((state) => state.setInitialAction)
+  const setComplete = useStore((state) => state.setComplete)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   const isUpload = initialAction === 'upload/file'
   React.useEffect(() => {
     if (isUpload && inputFileRef.current) {
       inputFileRef.current.click()
     }
+    setComplete(undefined)
   }, [])
+  const onBlur = () => {
+    setComplete(true)
+    setInitialAction(undefined)
+  }
   return (
     <React.Fragment>
       <Button fullWidth variant="text" color="info" component="label">
@@ -55,16 +64,15 @@ function UploadButton() {
           hidden
           multiple
           ref={inputFileRef}
-          onClick={
-            isUpload
-              ? (ev) => {
-                  document.body.onfocus = () => setInitialAction(undefined)
-                  ev.stopPropagation()
-                }
-              : undefined
-          }
+          onClick={(ev) => {
+            document.body.onfocus = onBlur
+            if (isUpload) ev.stopPropagation()
+          }}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFiles(ev.target.files)
+            if (ev.target.files) {
+              setComplete(true)
+              uploadFiles(ev.target.files)
+            }
           }}
         />
       </Button>
@@ -97,6 +105,7 @@ function UploadLink() {
 function UploadFolderButton() {
   const uploadFolder = useStore((state) => state.uploadFolder)
   const initialAction = useStore((state) => state.initialAction)
+  const setComplete = useStore((state) => state.setComplete)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   const setInitialAction = useStore((state) => state.setInitialAction)
   const isUpload = initialAction === 'upload/folder'
@@ -105,6 +114,10 @@ function UploadFolderButton() {
       inputFileRef.current.click()
     }
   }, [])
+  const onBlur = () => {
+    setComplete(true)
+    setInitialAction(undefined)
+  }
   return (
     <React.Fragment>
       <Button variant="text" color="info" component="label">
@@ -114,14 +127,10 @@ function UploadFolderButton() {
           type="file"
           ref={inputFileRef}
           hidden
-          onClick={
-            isUpload
-              ? (ev) => {
-                  document.body.onfocus = () => setInitialAction(undefined)
-                  ev.stopPropagation()
-                }
-              : undefined
-          }
+          onClick={(ev) => {
+            document.body.onfocus = onBlur
+            if (isUpload) ev.stopPropagation()
+          }}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
             if (ev.target.files) uploadFolder(ev.target.files)
           }}

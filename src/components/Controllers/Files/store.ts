@@ -30,6 +30,7 @@ export interface State {
   loading?: boolean
   message?: IMessage | undefined
   open?: boolean
+  complete?: boolean
 
   // General
 
@@ -38,6 +39,7 @@ export interface State {
   setInitialAction: (value: IAction | undefined) => void
   setFileItemAdded: (value: boolean) => void
   setMessage: (message: IMessage | undefined) => void
+  setComplete: (value: true | undefined) => void
 
   // File
 
@@ -88,6 +90,9 @@ export function createStore(props: FilesProps) {
     },
     setMessage: (message) => {
       set({ message })
+    },
+    setComplete: (complete) => {
+      set({ complete })
     },
 
     // File

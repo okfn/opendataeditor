@@ -16,12 +16,16 @@ interface DropdownButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
   children?: React.ReactNode
   open?: boolean
+  complete?: boolean
 }
 
 export default function DropdownButton(props: DropdownButtonProps) {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => setOpen(props.open ?? open), [props.open])
+  React.useEffect(() => {
+    if (props.complete) setOpen(false)
+  }, [props.complete])
   const handleToggle = () => setOpen(!open)
   const handleClose = (event: Event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
