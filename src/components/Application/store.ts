@@ -5,18 +5,15 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { IFile } from '../../interfaces'
 import { ApplicationProps } from './Application'
-import { IAction } from '../../interfaces/action'
 
 export interface State {
   client: Client
   file?: IFile
-  initialAction?: IAction
   fileItemAdded?: boolean
 
   // General
 
   countFiles: () => Promise<number>
-  setInitialAction: (value: IAction) => void
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
 }
@@ -37,9 +34,6 @@ export function createStore(props: ApplicationProps) {
       const { client } = get()
       const { file } = await client.fileIndex({ path })
       set({ file })
-    },
-    setInitialAction: (initialAction) => {
-      set({ initialAction })
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })

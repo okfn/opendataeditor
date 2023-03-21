@@ -4,15 +4,26 @@ import create from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
-import { IAction, IFileItem, ITreeItem } from '../../../interfaces'
+import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-type IDialog =
+export type IDialog =
   | 'folder/copy'
   | 'folder/move'
   | 'name/create'
   | 'name/rename'
   | 'link/create'
+  | 'create/dialog'
+
+type IAction =
+  | 'upload/file'
+  | 'upload/folder'
+  | 'name/create'
+  | 'link/create'
+  | 'create/package'
+  | 'create/view'
+  | 'create/chart'
+  | 'create/pipeline'
 
 type IMessage = {
   status: string
@@ -25,21 +36,19 @@ export interface State {
   fileItems: IFileItem[]
   onFileChange: (path?: string) => void
   dialog?: IDialog
-  initialAction?: IAction
+  action?: IAction
   fileItemAdded?: boolean
   loading?: boolean
   message?: IMessage | undefined
   open?: boolean
-  complete?: boolean
 
   // General
 
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
-  setInitialAction: (value: IAction | undefined) => void
+  setAction: (value: IAction | undefined) => void
   setFileItemAdded: (value: boolean) => void
   setMessage: (message: IMessage | undefined) => void
-  setComplete: (value: true | undefined) => void
 
   // File
 
@@ -52,6 +61,7 @@ export interface State {
   createFile: (url: string) => Promise<void>
   uploadFolder: (files: FileList) => Promise<void>
   downloadFile: () => Promise<ArrayBuffer | undefined>
+  countFiles: () => Promise<number>
 
   // Folder
 
@@ -66,10 +76,9 @@ export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
     fileItems: [],
-    initialAction: props.initialAction,
     onFileChange: props.onFileChange,
     fileItemAdded: false,
-    loading: !props.initialAction,
+    loading: true,
 
     // General
 
@@ -82,17 +91,14 @@ export function createStore(props: FilesProps) {
       if (isFolder) return
       onFileChange(newPath)
     },
-    setInitialAction: (initialAction) => {
-      set({ initialAction })
+    setAction: (action) => {
+      set({ action })
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
     },
     setMessage: (message) => {
       set({ message })
-    },
-    setComplete: (complete) => {
-      set({ complete })
     },
 
     // File
@@ -196,6 +202,11 @@ export function createStore(props: FilesProps) {
       if (!path) return
       const { bytes } = await client.bytesRead({ path })
       return bytes
+    },
+    countFiles: async () => {
+      const { client } = get()
+      const { count } = await client.fileCount()
+      return count
     },
 
     // Folder

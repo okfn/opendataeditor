@@ -2,30 +2,40 @@ import * as React from 'react'
 
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
-import { Button, Divider, Grid, Typography } from '@mui/material'
-import { AddLink, FilterList, Folder } from '@mui/icons-material'
+import { Button, DialogTitle, Divider, Grid, IconButton, Typography } from '@mui/material'
+import { AddLink, Close, FilterList, Folder } from '@mui/icons-material'
 import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import ViewIcon from '@mui/icons-material/Storage'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import { useStore } from '../store'
-import { IAction } from '../../../interfaces'
 
-interface WelcomeProps {
-  open?: boolean
-}
-
-export default function WelcomeDialog(props: WelcomeProps) {
-  const [open, setOpen] = React.useState<boolean>(false)
-  const setInitialAction = useStore((state) => state.setInitialAction)
-  const handleClick = (action: IAction) => {
-    setInitialAction(action)
-    setOpen(false)
+export default function CreateDialog() {
+  const dialog = useStore((state) => state.dialog)
+  const setAction = useStore((state) => state.setAction)
+  const setDialog = useStore((state) => state.setDialog)
+  const handleClose = () => setDialog(undefined)
+  const handleClick = (action: any) => {
+    setAction(action)
+    setDialog(action)
   }
-  React.useEffect(() => setOpen(props.open ?? false), [props.open])
   return (
-    <Dialog fullWidth aria-labelledby="welcome-dialog" open={open}>
+    <Dialog fullWidth open={!!dialog && dialog.startsWith('create/')}>
       <DialogContent>
+        <DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <Close />
+          </IconButton>
+        </DialogTitle>
         <Grid container>
           <Grid container item xs={12} sm={6} md={4}>
             <CustomIconButton
@@ -38,7 +48,7 @@ export default function WelcomeDialog(props: WelcomeProps) {
             <CustomIconButton
               icon={AddLink}
               label="Upload Link"
-              onClick={() => handleClick('upload/link')}
+              onClick={() => handleClick('link/create')}
             />
           </Grid>
           <Grid container item xs={12} sm={6} md={4}>
@@ -63,7 +73,7 @@ export default function WelcomeDialog(props: WelcomeProps) {
             <CustomIconButton
               icon={CreateNewFolderIcon}
               label="Create Folder"
-              onClick={() => handleClick('create/folder')}
+              onClick={() => handleClick('name/create')}
             />
           </Grid>
           <Grid container item xs={12} sm={6} md={4}>
@@ -77,7 +87,7 @@ export default function WelcomeDialog(props: WelcomeProps) {
             <CustomIconButton
               icon={ViewIcon}
               label="Create SQL View"
-              onClick={() => handleClick('create/sql')}
+              onClick={() => handleClick('create/view')}
             />
           </Grid>
           <Grid container item xs={12} sm={6} md={4}>

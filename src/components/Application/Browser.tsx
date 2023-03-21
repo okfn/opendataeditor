@@ -5,17 +5,11 @@ import { useStore } from './store'
 
 export default function Layout() {
   const client = useStore((state) => state.client)
-  const initialAction = useStore((state) => state.initialAction)
   const selectFile = useStore((state) => state.selectFile)
   const fileItemAdded = useStore((state) => state.fileItemAdded)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
-      <Files
-        client={client}
-        fileItemAdded={fileItemAdded}
-        onFileChange={selectFile}
-        initialAction={initialAction ?? undefined}
-      />
+      <Files client={client} fileItemAdded={fileItemAdded} onFileChange={selectFile} />
     </Box>
   )
 }
