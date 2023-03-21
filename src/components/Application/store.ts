@@ -9,17 +9,11 @@ import { ApplicationProps } from './Application'
 export interface State {
   client: Client
   file?: IFile
-  isWelcome?: boolean
-  initialUpload?: boolean
-  initialDataPackage?: boolean
   fileItemAdded?: boolean
 
   // General
 
-  setIsWelcome: (isWelcome: boolean) => void
-  countFiles: () => Promise<void>
-  setInitialUpload: (value: boolean) => void
-  setInitialDataPackage: (value: boolean) => void
+  countFiles: () => Promise<number>
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
 }
@@ -30,23 +24,16 @@ export function createStore(props: ApplicationProps) {
 
     // General
 
-    setIsWelcome: (isWelcome) => set({ isWelcome }),
     countFiles: async () => {
       const { client } = get()
       const { count } = await client.fileCount()
-      if (!count) set({ isWelcome: true })
+      return count
     },
     selectFile: async (path) => {
       if (!path) return
       const { client } = get()
       const { file } = await client.fileIndex({ path })
       set({ file })
-    },
-    setInitialUpload: (initialUpload) => {
-      set({ initialUpload })
-    },
-    setInitialDataPackage: (initialDataPackage) => {
-      set({ initialDataPackage })
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })

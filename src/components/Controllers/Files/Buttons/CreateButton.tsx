@@ -1,179 +1,159 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/AddBox'
-import FolderIcon from '@mui/icons-material/Folder'
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import ViewIcon from '@mui/icons-material/Storage'
-import ChartIcon from '@mui/icons-material/Leaderboard'
-import DropdownButton from '../../../Parts/Buttons/DropdownButton'
-import DefaultButton from '../../../Parts/Buttons/DefaultButton'
-import * as settings from '../../../../settings'
-import { useStore, selectors } from '../store'
-import { AddLink } from '@mui/icons-material'
-import { DriveFolderUploadRounded, UploadFileRounded } from '@mui/icons-material'
+import { useStore } from '../store'
 
 export default function CreateButton() {
-  const initialUpload = useStore((state) => state.initialUpload ?? false)
-  const initialDataPackage = useStore((state) => state.initialDataPackage ?? false)
-  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
-  return (
-    <DropdownButton
-      label="Create"
-      variant="text"
-      open={initialUpload || initialDataPackage}
-      icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
-    >
-      <UploadButton />
-      <UploadLink />
-      {isWebkitDirectorySupported && <UploadFolderButton />}
-      <FolderButton />
-      <PackageButton />
-      <ViewButton />
-      <ChartButton />
-    </DropdownButton>
-  )
-}
-
-function UploadButton() {
-  const uploadFiles = useStore((state) => state.uploadFiles)
-  const initialUpload = useStore((state) => state.initialUpload)
-  const setInitialUpload = useStore((state) => state.setInitialUpload)
-  const inputFileRef = React.useRef<HTMLInputElement>(null)
-  React.useEffect(() => {
-    if (initialUpload && inputFileRef.current) {
-      inputFileRef.current.click()
-    }
-  }, [])
+  const setDialog = useStore((state) => state.setDialog)
   return (
     <React.Fragment>
-      <Button fullWidth variant="text" color="info" component="label">
-        <UploadFileRounded fontSize="small" sx={{ mr: 1 }} />
-        Upload File
-        <input
-          type="file"
-          hidden
-          multiple
-          ref={inputFileRef}
-          onClick={
-            initialUpload
-              ? (ev) => {
-                  document.body.onfocus = () => setInitialUpload(false)
-                  ev.stopPropagation()
-                }
-              : undefined
-          }
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFiles(ev.target.files)
-          }}
-        />
+      <UploadButton />
+      <UploadFolderButton />
+      <CreateChart />
+      <CreateView />
+      <CreatePackage />
+      <Button
+        onClick={() => {
+          setDialog('create/dialog')
+        }}
+      >
+        <AddIcon fontSize="small" sx={{ mr: 1 }} /> Create
       </Button>
     </React.Fragment>
   )
 }
 
-function UploadLink() {
+function UploadButton() {
+  const uploadFiles = useStore((state) => state.uploadFiles)
+  const action = useStore((state) => state.action)
+  const setAction = useStore((state) => state.setAction)
   const setDialog = useStore((state) => state.setDialog)
+  const inputFileRef = React.useRef<HTMLInputElement>(null)
+  const isUpload = action === 'upload/file'
+  React.useEffect(() => {
+    if (isUpload && inputFileRef.current) {
+      inputFileRef.current.click()
+    }
+  }, [action])
+  const onBlur = () => {
+    setAction(undefined)
+    setDialog(undefined)
+    if (inputFileRef.current) inputFileRef.current.value = ''
+  }
   return (
-    <DefaultButton
-      variant="text"
-      color="info"
-      label="Upload Link"
-      icon={<AddLink fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('link/create')}
+    <input
+      type="file"
+      hidden
+      multiple
+      ref={inputFileRef}
+      onClick={(ev) => {
+        if (isUpload) {
+          document.body.onfocus = onBlur
+          ev.stopPropagation()
+        }
+      }}
+      onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+        if (ev.target.files) uploadFiles(ev.target.files)
+      }}
     />
   )
 }
 
 function UploadFolderButton() {
   const uploadFolder = useStore((state) => state.uploadFolder)
-  return (
-    <React.Fragment>
-      <Button variant="text" color="info" component="label">
-        <DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />
-        Upload Folder
-        <input
-          type="file"
-          hidden
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFolder(ev.target.files)
-          }}
-          // @ts-expect-error
-          webkitdirectory=""
-        />
-      </Button>
-    </React.Fragment>
-  )
-}
-
-function FolderButton() {
+  const action = useStore((state) => state.action)
+  const setAction = useStore((state) => state.setAction)
   const setDialog = useStore((state) => state.setDialog)
-  return (
-    <DefaultButton
-      variant="text"
-      color="info"
-      label="Create Folder"
-      icon={<CreateNewFolderIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => setDialog('name/create')}
-    />
-  )
-}
-
-function PackageButton() {
-  const filePaths = useStore(selectors.filePaths)
-  const createPackage = useStore((state) => state.createPackage)
-  const initialDataPackage = useStore((state) => state.initialDataPackage)
-  const setInitialDataPackage = useStore((state) => state.setInitialDataPackage)
-  // Hooks
+  const inputFileRef = React.useRef<HTMLInputElement>(null)
+  const isUpload = action === 'upload/folder'
   React.useEffect(() => {
-    if (initialDataPackage) {
-      createPackage()
-      setInitialDataPackage(false)
+    if (isUpload && inputFileRef.current) {
+      inputFileRef.current.click()
     }
-  }, [])
+  }, [action])
+  const onBlur = () => {
+    setAction(undefined)
+    setDialog(undefined)
+    if (inputFileRef.current) inputFileRef.current.value = ''
+  }
   return (
-    <DefaultButton
-      disabled={filePaths.includes(settings.PACKAGE_PATH)}
-      variant="text"
-      color="info"
-      label="Create Package"
-      icon={<FolderIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={createPackage}
+    <input
+      type="file"
+      ref={inputFileRef}
+      hidden
+      onClick={(ev) => {
+        if (isUpload) {
+          document.body.onfocus = onBlur
+          ev.stopPropagation()
+        }
+      }}
+      onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+        if (ev.target.files) {
+          uploadFolder(ev.target.files)
+        }
+      }}
+      // @ts-expect-error
+      webkitdirectory=""
     />
   )
 }
 
-function ViewButton() {
+function CreateChart() {
   const uploadFiles = useStore((state) => state.uploadFiles)
-  return (
-    <DefaultButton
-      variant="text"
-      color="info"
-      label="Create SQL View"
-      icon={<ViewIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => {
-        const file = new File([], 'view.json')
-        // TODO: fix
-        // @ts-ignore
-        uploadFiles([file])
-      }}
-    />
-  )
+  const setAction = useStore((state) => state.setAction)
+  const setDialog = useStore((state) => state.setDialog)
+  const action = useStore((state) => state.action)
+  const isCreate = action === 'create/chart'
+  const resetAction = () => {
+    setAction(undefined)
+    setDialog(undefined)
+  }
+  React.useEffect(() => {
+    if (isCreate) {
+      const file = new File([], 'chart.json')
+      // TODO: fix
+      // @ts-ignore
+      uploadFiles([file]).finally(resetAction)
+    }
+  }, [action])
+  return null
 }
 
-function ChartButton() {
+function CreateView() {
   const uploadFiles = useStore((state) => state.uploadFiles)
-  return (
-    <DefaultButton
-      variant="text"
-      color="info"
-      label="Create Chart"
-      icon={<ChartIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => {
-        const file = new File([], 'chart.json')
-        // TODO: fix
-        // @ts-ignore
-        uploadFiles([file])
-      }}
-    />
-  )
+  const setAction = useStore((state) => state.setAction)
+  const setDialog = useStore((state) => state.setDialog)
+  const action = useStore((state) => state.action)
+  const isCreate = action === 'create/view'
+  const resetAction = () => {
+    setAction(undefined)
+    setDialog(undefined)
+  }
+  React.useEffect(() => {
+    if (isCreate) {
+      const file = new File([], 'view.json')
+      // TODO: fix
+      // @ts-ignore
+      uploadFiles([file]).finally(resetAction)
+    }
+  }, [action])
+  return null
+}
+
+function CreatePackage() {
+  const createPackage = useStore((state) => state.createPackage)
+  const action = useStore((state) => state.action)
+  const setAction = useStore((state) => state.setAction)
+  const setDialog = useStore((state) => state.setDialog)
+  const isCreate = action === 'create/package'
+  const resetAction = () => {
+    setAction(undefined)
+    setDialog(undefined)
+  }
+  React.useEffect(() => {
+    if (isCreate) {
+      createPackage().finally(resetAction)
+    }
+  }, [action])
+  return null
 }

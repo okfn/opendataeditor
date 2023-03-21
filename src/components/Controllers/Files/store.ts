@@ -13,6 +13,17 @@ type IDialog =
   | 'name/create'
   | 'name/rename'
   | 'link/create'
+  | 'create/dialog'
+
+type IAction =
+  | 'upload/file'
+  | 'upload/folder'
+  | 'name/create'
+  | 'link/create'
+  | 'create/package'
+  | 'create/view'
+  | 'create/chart'
+  | 'create/pipeline'
 
 type IMessage = {
   status: string
@@ -25,18 +36,17 @@ export interface State {
   fileItems: IFileItem[]
   onFileChange: (path?: string) => void
   dialog?: IDialog
-  initialUpload?: boolean
-  initialDataPackage?: boolean
+  action?: IAction
   fileItemAdded?: boolean
   loading?: boolean
   message?: IMessage | undefined
+  open?: boolean
 
   // General
 
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
-  setInitialUpload: (value: boolean) => void
-  setInitialDataPackage: (value: boolean) => void
+  setAction: (value: IAction | undefined) => void
   setFileItemAdded: (value: boolean) => void
   setMessage: (message: IMessage | undefined) => void
 
@@ -51,6 +61,7 @@ export interface State {
   createFile: (url: string) => Promise<void>
   uploadFolder: (files: FileList) => Promise<void>
   downloadFile: () => Promise<ArrayBuffer | undefined>
+  countFiles: () => Promise<number>
 
   // Folder
 
@@ -65,8 +76,6 @@ export function createStore(props: FilesProps) {
   return create<State>((set, get) => ({
     client: props.client,
     fileItems: [],
-    initialUpload: props.initialUpload,
-    initialDataPackage: props.initialDataPackage,
     onFileChange: props.onFileChange,
     fileItemAdded: false,
     loading: true,
@@ -82,11 +91,8 @@ export function createStore(props: FilesProps) {
       if (isFolder) return
       onFileChange(newPath)
     },
-    setInitialUpload: (initialUpload) => {
-      set({ initialUpload })
-    },
-    setInitialDataPackage: (initialDataPackage) => {
-      set({ initialDataPackage })
+    setAction: (action) => {
+      set({ action })
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
@@ -196,6 +202,11 @@ export function createStore(props: FilesProps) {
       if (!path) return
       const { bytes } = await client.bytesRead({ path })
       return bytes
+    },
+    countFiles: async () => {
+      const { client } = get()
+      const { count } = await client.fileCount()
+      return count
     },
 
     // Folder
