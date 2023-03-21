@@ -8,6 +8,7 @@ import Columns from '../../Parts/Columns'
 import VerticalTabs from '../../Parts/VerticalTabs'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
 import SelectField from '../../Parts/Fields/SelectField'
+import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import Resource from '../Resource2'
 import Dialect from '../Dialect2'
 import Schema from '../Schema2'
@@ -84,26 +85,38 @@ function Groups() {
 }
 
 function Selector() {
+  const removeResource = useStore((state) => state.removeResource)
   const updateResourceState = useStore((state) => state.updateResourceState)
   const packageState = useStore((state) => state.packageState)
   const resourceNames = useStore(selectors.resourceNames)
   const resourceItem = useStore(selectors.resourceItem)
   if (packageState.tabIndex === 0) return null
-  if (resourceNames.length < 2) return null
   if (!resourceItem) return null
   return (
-    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
-      <SelectField
-        color="success"
-        focused
-        margin="none"
-        value={resourceItem.resource.name}
-        options={resourceNames}
-        onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
-        }}
-      />
+    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '60%' }}>
+      <Columns spacing={2} layout={[3, 9]}>
+        <Box sx={{ float: 'right', paddingTop: 0.5 }}>
+          <DefaultButton
+            label="Remove Resource"
+            color="success"
+            variant="text"
+            onClick={() => removeResource()}
+          />
+        </Box>
+        <SelectField
+          color="success"
+          focused
+          margin="none"
+          value={resourceItem.resource.name}
+          options={resourceNames}
+          onChange={(value) =>
+            updateResourceState({ index: resourceNames.indexOf(value) })
+          }
+          InputProps={{
+            startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
+          }}
+        />
+      </Columns>
     </Box>
   )
 }

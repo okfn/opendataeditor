@@ -6,7 +6,7 @@ import * as settings from '../../../settings'
 interface DefaultButtonProps {
   label: string
   icon?: React.ReactNode
-  color?: 'info' | 'warning' | 'secondary'
+  color?: 'info' | 'warning' | 'secondary' | 'success'
   variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
   onClick?: () => void

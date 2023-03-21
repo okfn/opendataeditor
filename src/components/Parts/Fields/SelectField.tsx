@@ -33,7 +33,7 @@ export default function SelectField(props: SelectFieldProps) {
       value={props.value}
       size={props.size || 'small'}
       InputProps={props.InputProps}
-      disabled={props.disabled || props.options.length < 2}
+      disabled={props.disabled}
       onChange={(ev) => props.onChange((ev.target as any).value)}
       color={props.color}
       focused={props.focused}
