@@ -51,9 +51,12 @@ function Groups() {
   const resource = useStore((state) => state.descriptor.resources[0])
   const dialect = useStore((state) => state.descriptor.resources[0]?.dialect)
   const schema = useStore((state) => state.descriptor.resources[0]?.schema)
-  // const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const updatePackageState = useStore((state) => state.updatePackageState)
   return (
-    <Tabs labels={['Package', 'Resource', 'Dialect', 'Schema']}>
+    <Tabs
+      labels={['Package', 'Resource', 'Dialect', 'Schema']}
+      onChange={(index) => updatePackageState({ isSelector: index !== 0 })}
+    >
       <Sections />
       <Resource isShallow resource={resource} onChange={() => {}} />
       <Dialect dialect={dialect} onChange={() => {}} />
@@ -64,19 +67,19 @@ function Groups() {
 
 function Selector() {
   const updateResourceState = useStore((state) => state.updateResourceState)
-  const helpItem = useStore((state) => state.helpItem)
-  const index = useStore((state) => state.resourceState.index)
+  const packageState = useStore((state) => state.packageState)
   const resourceNames = useStore(selectors.resourceNames)
-  if (helpItem.path.startsWith('package')) return null
+  const resourceItem = useStore(selectors.resourceItem)
+  if (!packageState.isSelector) return null
   if (resourceNames.length < 2) return null
-  if (index === undefined) return null
+  if (resourceItem === undefined) return null
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
       <SelectField
         color="success"
         focused
         margin="none"
-        value={resourceNames[index]}
+        value={resourceItem.resource.name}
         options={resourceNames}
         onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
         InputProps={{

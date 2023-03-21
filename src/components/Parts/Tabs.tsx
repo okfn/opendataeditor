@@ -8,12 +8,16 @@ export interface TabsProps {
   index?: number
   labels: string[]
   children?: React.ReactNode
+  onChange?: (index: number) => void
 }
 
 export default function Tabs(props: TabsProps) {
   const theme = useTheme()
   const [value, setValue] = React.useState(props.index || 0)
-  const handleChange = (_: any, newValue: number) => setValue(newValue)
+  const handleChange = (_: any, newValue: number) => {
+    setValue(newValue)
+    props.onChange && props.onChange(newValue)
+  }
   const tabsHeight = `calc(${theme.spacing(6)} - 1px)`
   return (
     <Box>

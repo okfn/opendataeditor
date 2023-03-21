@@ -20,6 +20,10 @@ interface ISectionState {
   isExtras?: boolean
 }
 
+interface IPackageState {
+  isSelector?: boolean
+}
+
 interface State {
   descriptor: IPackage
   isShallow?: boolean
@@ -27,6 +31,11 @@ interface State {
   helpItem: IHelpItem
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IPackage>) => void
+
+  // Package
+
+  packageState: IPackageState
+  updatePackageState: (patch: Partial<IPackageState>) => void
 
   // Resources
 
@@ -59,6 +68,14 @@ export function makeStore(props: PackageProps) {
       Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
+    },
+
+    // Package
+
+    packageState: {},
+    updatePackageState: (patch) => {
+      const { packageState } = get()
+      set({ packageState: { ...packageState, ...patch } })
     },
 
     // Resources
@@ -122,6 +139,14 @@ export const select = createSelector
 export const selectors = {
   // Resources
 
+  resourceItem: (state: State) => {
+    const index = state.resourceState.index
+    if (index === undefined) return undefined
+    const resources = state.descriptor.resources!
+    const resource = resources[index]
+    if (resource === undefined) return undefined
+    return { index, resource }
+  },
   resourceItems: (state: State) => {
     const items = []
     const query = state.resourceState.query
