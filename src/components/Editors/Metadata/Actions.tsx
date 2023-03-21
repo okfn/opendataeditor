@@ -1,49 +1,70 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import DrawIcon from '@mui/icons-material/Insights'
-import ExportIcon from '@mui/icons-material/IosShare'
-import SaveIcon from '@mui/icons-material/Check'
+import DownloadIcon from '@mui/icons-material/Download'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import MenuIcon from '@mui/icons-material/Menu'
+import CodeIcon from '@mui/icons-material/Code'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
-import CommitButton from '../../Parts/Buttons/CommitButton'
 import Columns from '../../Parts/Columns'
+import { useStore } from './store'
 
 export default function Actions() {
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
-        <Query />
-        <Columns spacing={2}>
-          <Export />
-          <Save />
-        </Columns>
+        <Menu />
+        <Import />
+        <Export />
+        <Preview />
       </Columns>
     </Box>
   )
 }
 
-function Query() {
+function Menu() {
+  const editor = useStore((state) => state.editorState.editor)
+  const updateEditorState = useStore((state) => state.updateEditorState)
   return (
     <DefaultButton
-      icon={<DrawIcon fontSize="small" sx={{ mr: 1 }} />}
-      label="Draw"
+      disabled={!editor}
+      icon={<MenuIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Menu"
+      onClick={() => updateEditorState({ editor: undefined })}
+    />
+  )
+}
+
+function Import() {
+  const editor = useStore((state) => state.editorState.editor)
+  return (
+    <DefaultButton
+      disabled={!editor}
+      icon={<FileUploadIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Import"
       onClick={() => {}}
     />
   )
 }
 
 function Export() {
+  const editor = useStore((state) => state.editorState.editor)
   return (
     <DefaultButton
-      disabled={true}
-      icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
+      disabled={!editor}
+      icon={<DownloadIcon fontSize="small" sx={{ mr: 1 }} />}
       label="Export"
     />
   )
 }
 
-function Save() {
+function Preview() {
+  const editor = useStore((state) => state.editorState.editor)
   return (
-    <CommitButton disabled={true} icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />} />
+    <DefaultButton
+      disabled={!editor}
+      icon={<CodeIcon fontSize="small" sx={{ mr: 1 }} />}
+      label="Preview"
+    />
   )
 }

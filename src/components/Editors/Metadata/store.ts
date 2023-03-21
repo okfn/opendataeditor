@@ -5,7 +5,7 @@ import { assert } from 'ts-essentials'
 import { MetadataProps } from './Metadata'
 
 export interface IEditorState {
-  type?: 'package' | 'resource' | 'dialect' | 'schema'
+  editor?: 'package' | 'resource' | 'dialect' | 'schema'
 }
 
 export interface State {
