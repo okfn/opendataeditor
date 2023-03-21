@@ -14,7 +14,9 @@ export interface TabsProps {
 
 export default function Tabs(props: TabsProps) {
   const theme = useTheme()
-  const [value, setValue] = React.useState(props.index || 0)
+  let [value, setValue] = React.useState(props.index || 0)
+  // TODO: it's a hack; rebase on normal controlled/uncontrolled
+  if (props.index !== undefined) value = props.index
   const handleChange = (_: any, newValue: number) => {
     setValue(newValue)
     props.onChange && props.onChange(newValue)

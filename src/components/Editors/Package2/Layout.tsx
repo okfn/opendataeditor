@@ -49,12 +49,14 @@ function Sections() {
 
 function Groups() {
   const resourceItem = useStore(selectors.resourceItem)
+  const tabIndex = useStore((state) => state.packageState.tabIndex)
   const updatePackageState = useStore((state) => state.updatePackageState)
   return (
     <Tabs
+      index={tabIndex}
       labels={['Package', 'Resource', 'Dialect', 'Schema']}
       disabledLabels={!resourceItem ? ['Resource', 'Dialect', 'Schema'] : []}
-      onChange={(index) => updatePackageState({ isSelector: index !== 0 })}
+      onChange={(index) => updatePackageState({ tabIndex: index })}
     >
       <Sections />
       {resourceItem && (
@@ -75,7 +77,7 @@ function Selector() {
   const packageState = useStore((state) => state.packageState)
   const resourceNames = useStore(selectors.resourceNames)
   const resourceItem = useStore(selectors.resourceItem)
-  if (!packageState.isSelector) return null
+  if (packageState.tabIndex === 0) return null
   if (resourceNames.length < 2) return null
   if (!resourceItem) return null
   return (

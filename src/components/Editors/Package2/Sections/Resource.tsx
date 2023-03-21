@@ -8,6 +8,7 @@ export default function Resource() {
   const isGrid = useStore((state) => state.resourceState.isGrid)
   const query = useStore((state) => state.resourceState.query)
   const resourceItems = useStore(selectors.resourceItems)
+  const updatePackageState = useStore((state) => state.updatePackageState)
   const updateResourceState = useStore((state) => state.updateResourceState)
   const addResource = useStore((state) => state.addResource)
   return (
@@ -32,7 +33,10 @@ export default function Resource() {
           name={resource.name}
           type={resource.type}
           isGrid={isGrid}
-          onClick={() => updateResourceState({ index })}
+          onClick={() => {
+            updateResourceState({ index })
+            updatePackageState({ tabIndex: 1 })
+          }}
           title="View Resource"
         />
       ))}

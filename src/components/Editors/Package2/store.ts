@@ -21,7 +21,7 @@ interface ISectionState {
 }
 
 interface IPackageState {
-  isSelector?: boolean
+  tabIndex: number
 }
 
 interface State {
@@ -72,7 +72,7 @@ export function makeStore(props: PackageProps) {
 
     // Package
 
-    packageState: {},
+    packageState: { tabIndex: 0 },
     updatePackageState: (patch) => {
       const { packageState } = get()
       set({ packageState: { ...packageState, ...patch } })
