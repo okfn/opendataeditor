@@ -32,7 +32,7 @@ export default function Resource() {
           name={resource.name}
           type={resource.type}
           isGrid={isGrid}
-          onClick={() => console.log({ index })}
+          onClick={() => updateResourceState({ index })}
           title="View Resource"
         />
       ))}

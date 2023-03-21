@@ -14,7 +14,7 @@ import Schema from '../Schema2'
 import Package from './Sections/Package'
 import License from './Sections/License'
 import Resources from './Sections/Resource'
-import { useStore } from './store'
+import { useStore, selectors } from './store'
 
 const LABELS = ['Package', 'Resources', 'Licenses']
 
@@ -24,19 +24,7 @@ export default function Layout() {
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       {isShallow ? <Sections /> : <Groups />}
-      <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
-        <SelectField
-          color="success"
-          focused
-          margin="none"
-          value="name1"
-          options={['name1', 'name2']}
-          onChange={() => {}}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
-          }}
-        />
-      </Box>
+      <Selector />
     </Box>
   )
 }
@@ -71,5 +59,30 @@ function Groups() {
       <Dialect dialect={dialect} onChange={() => {}} />
       <Schema schema={schema} onChange={() => {}} />
     </Tabs>
+  )
+}
+
+function Selector() {
+  const updateResourceState = useStore((state) => state.updateResourceState)
+  const helpItem = useStore((state) => state.helpItem)
+  const index = useStore((state) => state.resourceState.index)
+  const resourceNames = useStore(selectors.resourceNames)
+  if (helpItem.path.startsWith('package')) return null
+  if (resourceNames.length < 2) return null
+  if (index === undefined) return null
+  return (
+    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
+      <SelectField
+        color="success"
+        focused
+        margin="none"
+        value={resourceNames[index]}
+        options={resourceNames}
+        onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
+        }}
+      />
+    </Box>
   )
 }
