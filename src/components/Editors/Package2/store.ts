@@ -28,6 +28,13 @@ interface State {
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IPackage>) => void
 
+  // Resources
+
+  resourceState: ISectionState
+  updateResourceState: (patch: Partial<ISectionState>) => void
+  removeResource: () => void
+  addResource: () => void
+
   // Licenses
 
   licenseState: ISectionState
@@ -52,6 +59,31 @@ export function makeStore(props: PackageProps) {
       Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
+    },
+
+    // Resources
+
+    resourceState: {},
+    updateResourceState: (patch) => {
+      const { resourceState } = get()
+      set({ resourceState: { ...resourceState, ...patch } })
+    },
+    removeResource: () => {
+      const { descriptor, updateDescriptor, updateResourceState } = get()
+      const { index } = selectors.license(get())
+      const resources = [...(descriptor.resources || [])]
+      resources.splice(index, 1)
+      updateResourceState({ index: undefined, isExtras: false })
+      updateDescriptor({ resources })
+    },
+    // TODO: scroll to newly created resource
+    addResource: () => {
+      const { descriptor, updateDescriptor } = get()
+      const resources = [...(descriptor.resources || [])]
+      // TODO: deduplicate
+      const name = `resource${resources.length}`
+      resources.push({ name, type: 'table', path: 'table.csv' })
+      updateDescriptor({ resources })
     },
 
     // Licenses
@@ -88,6 +120,21 @@ export function makeStore(props: PackageProps) {
 
 export const select = createSelector
 export const selectors = {
+  // Resources
+
+  resourceItems: (state: State) => {
+    const items = []
+    const query = state.resourceState.query
+    for (const [index, resource] of (state.descriptor.resources || []).entries()) {
+      if (query && !resource.name.toLowerCase().includes(query.toLowerCase())) continue
+      items.push({ index, resource })
+    }
+    return items
+  },
+  resourceNames: (state: State) => {
+    return state.descriptor.resources.map((resource) => resource.name)
+  },
+
   // Licenses
 
   license: (state: State) => {

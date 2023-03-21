@@ -13,9 +13,10 @@ import Dialect from '../Dialect2'
 import Schema from '../Schema2'
 import Package from './Sections/Package'
 import License from './Sections/License'
+import Resources from './Sections/Resource'
 import { useStore } from './store'
 
-const LABELS = ['Package', 'Licenses']
+const LABELS = ['Package', 'Resources', 'Licenses']
 
 export default function Layout() {
   const theme = useTheme()
@@ -50,6 +51,7 @@ function Sections() {
         onChange={(index) => updateHelp(camelCase(LABELS[index]))}
       >
         <Package />
+        <Resources />
         <License />
       </VerticalTabs>
       <EditorHelp helpItem={helpItem} />
