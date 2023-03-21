@@ -48,19 +48,24 @@ function Sections() {
 }
 
 function Groups() {
-  const resource = useStore((state) => state.descriptor.resources[0])
-  const dialect = useStore((state) => state.descriptor.resources[0]?.dialect)
-  const schema = useStore((state) => state.descriptor.resources[0]?.schema)
+  const resourceItem = useStore(selectors.resourceItem)
   const updatePackageState = useStore((state) => state.updatePackageState)
   return (
     <Tabs
       labels={['Package', 'Resource', 'Dialect', 'Schema']}
+      disabledLabels={!resourceItem ? ['Resource', 'Dialect', 'Schema'] : []}
       onChange={(index) => updatePackageState({ isSelector: index !== 0 })}
     >
       <Sections />
-      <Resource isShallow resource={resource} onChange={() => {}} />
-      <Dialect dialect={dialect} onChange={() => {}} />
-      <Schema schema={schema} onChange={() => {}} />
+      {resourceItem && (
+        <Resource isShallow resource={resourceItem.resource} onChange={() => {}} />
+      )}
+      {resourceItem && (
+        <Dialect dialect={resourceItem.resource.dialect} onChange={() => {}} />
+      )}
+      {resourceItem && (
+        <Schema schema={resourceItem.resource.schema} onChange={() => {}} />
+      )}
     </Tabs>
   )
 }
@@ -72,7 +77,7 @@ function Selector() {
   const resourceItem = useStore(selectors.resourceItem)
   if (!packageState.isSelector) return null
   if (resourceNames.length < 2) return null
-  if (resourceItem === undefined) return null
+  if (!resourceItem) return null
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
       <SelectField

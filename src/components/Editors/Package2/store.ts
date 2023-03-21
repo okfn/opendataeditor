@@ -39,7 +39,7 @@ interface State {
 
   // Resources
 
-  resourceState: ISectionState
+  resourceState: ISectionState & { index: number }
   updateResourceState: (patch: Partial<ISectionState>) => void
   removeResource: () => void
   addResource: () => void
@@ -80,7 +80,7 @@ export function makeStore(props: PackageProps) {
 
     // Resources
 
-    resourceState: {},
+    resourceState: { index: 0 },
     updateResourceState: (patch) => {
       const { resourceState } = get()
       set({ resourceState: { ...resourceState, ...patch } })
@@ -141,7 +141,6 @@ export const selectors = {
 
   resourceItem: (state: State) => {
     const index = state.resourceState.index
-    if (index === undefined) return undefined
     const resources = state.descriptor.resources!
     const resource = resources[index]
     if (resource === undefined) return undefined

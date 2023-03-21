@@ -7,6 +7,7 @@ import MuiTab from '@mui/material/Tab'
 export interface TabsProps {
   index?: number
   labels: string[]
+  disabledLabels?: string[]
   children?: React.ReactNode
   onChange?: (index: number) => void
 }
@@ -27,7 +28,9 @@ export default function Tabs(props: TabsProps) {
             <MuiTab
               key={label}
               label={label.replace('_', '')}
-              disabled={label.startsWith('_')}
+              disabled={
+                label.startsWith('_') || (props.disabledLabels || []).includes(label)
+              }
             />
           ))}
         </MuiTabs>
