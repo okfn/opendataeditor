@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 
 // TODO: restyle scrolls (use Table's style)
 
@@ -8,11 +7,5 @@ interface SourceProps {
 }
 
 export default function Source(props: SourceProps) {
-  return (
-    <Box sx={{ height: '100%', width: '100%' }}>
-      <pre style={{ margin: 0 }}>
-        <code>{props.source}</code>
-      </pre>
-    </Box>
-  )
+  return <code>{props.source}</code>
 }

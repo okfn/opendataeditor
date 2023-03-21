@@ -109,6 +109,11 @@ export class Client {
     return result as { file: IFile }
   }
 
+  async fileSave(props: { file: File; folder?: string }) {
+    const result = await this.request('/file/save', props)
+    return result as { path: string }
+  }
+
   // Folder
 
   async folderCreate(props: { name: string; folder?: string }) {
