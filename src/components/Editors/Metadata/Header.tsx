@@ -14,13 +14,11 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { useStore } from './store'
 
 // TODO: rebase from props to state
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
-  const file = useStore((state) => state.file)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static">
@@ -48,7 +46,7 @@ export default function Header() {
                   placeholder="Metadata editors for Frictionless standards"
                   inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={file ? file.path : ''}
+                  value={''}
                 />
               </Search>
             </Grid>

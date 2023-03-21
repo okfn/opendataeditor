@@ -5,7 +5,7 @@ import { assert } from 'ts-essentials'
 import { MetadataProps } from './Metadata'
 
 export interface IEditorState {
-  path: 'metadata/package' | 'metadata/resource' | 'metadata/dialect' | 'metadata/schema'
+  type: 'package' | 'resource' | 'dialect' | 'schema'
 }
 
 export interface State {
@@ -15,7 +15,7 @@ export interface State {
 
 export function makeStore(_props: MetadataProps) {
   return createStore<State>((set, get) => ({
-    editorState: { path: 'metadata/schema' },
+    editorState: { type: 'schema' },
     updateEditorState: (patch) => {
       const { editorState } = get()
       set({ editorState: { ...editorState, ...patch } })

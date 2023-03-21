@@ -6,15 +6,15 @@ import Schema from '../Schema2'
 import { useStore } from './store'
 
 export default function Content() {
-  const path = useStore((state) => state.editorState.path)
-  switch (path) {
-    case 'metadata/package':
+  const type = useStore((state) => state.editorState.type)
+  switch (type) {
+    case 'package':
       return <Package />
-    case 'metadata/resource':
+    case 'resource':
       return <Resource />
-    case 'metadata/dialect':
+    case 'dialect':
       return <Dialect />
-    case 'metadata/schema':
+    case 'schema':
       return <Schema />
     default:
       return null

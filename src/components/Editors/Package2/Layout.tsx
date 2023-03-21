@@ -23,7 +23,7 @@ export default function Layout() {
   const theme = useTheme()
   const isShallow = useStore((state) => state.isShallow)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>
+    <Box sx={{ height: theme.spacing(42), position: 'relative' }}>
       {isShallow ? <Sections /> : <Groups />}
       <Selector />
     </Box>
