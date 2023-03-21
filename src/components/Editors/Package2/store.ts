@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IPackage, ILicense, IHelpItem } from '../../../interfaces'
+import { IPackage, IResource, ILicense, IHelpItem } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
@@ -41,6 +41,7 @@ interface State {
 
   resourceState: ISectionState & { index: number }
   updateResourceState: (patch: Partial<ISectionState>) => void
+  updateResource: (patch: Partial<IResource>) => void
   removeResource: () => void
   addResource: () => void
 
@@ -84,6 +85,13 @@ export function makeStore(props: PackageProps) {
     updateResourceState: (patch) => {
       const { resourceState } = get()
       set({ resourceState: { ...resourceState, ...patch } })
+    },
+    updateResource: (patch) => {
+      const { descriptor, updateDescriptor } = get()
+      const { resource } = selectors.resourceItem(get())!
+      const resources = descriptor.resources!
+      Object.assign(resource, patch)
+      updateDescriptor({ resources })
     },
     removeResource: () => {
       const { descriptor, updateDescriptor, updateResourceState } = get()

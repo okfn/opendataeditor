@@ -51,6 +51,7 @@ function Groups() {
   const resourceItem = useStore(selectors.resourceItem)
   const tabIndex = useStore((state) => state.packageState.tabIndex)
   const updatePackageState = useStore((state) => state.updatePackageState)
+  const updateResource = useStore((state) => state.updateResource)
   return (
     <Tabs
       index={tabIndex}
@@ -60,13 +61,23 @@ function Groups() {
     >
       <Sections />
       {resourceItem && (
-        <Resource isShallow resource={resourceItem.resource} onChange={() => {}} />
+        <Resource
+          isShallow
+          resource={resourceItem.resource}
+          onChange={(resource) => updateResource(resource)}
+        />
       )}
       {resourceItem && (
-        <Dialect dialect={resourceItem.resource.dialect} onChange={() => {}} />
+        <Dialect
+          dialect={resourceItem.resource.dialect}
+          onChange={(dialect) => updateResource({ dialect })}
+        />
       )}
       {resourceItem && (
-        <Schema schema={resourceItem.resource.schema} onChange={() => {}} />
+        <Schema
+          schema={resourceItem.resource.schema}
+          onChange={(schema) => updateResource({ schema })}
+        />
       )}
     </Tabs>
   )
