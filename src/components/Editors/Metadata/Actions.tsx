@@ -11,7 +11,13 @@ import { useStore } from './store'
 export default function Actions() {
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
+    <Box
+      sx={{
+        borderTop: 'solid 1px #ddd',
+        lineHeight: '63px',
+        paddingX: 2,
+      }}
+    >
       <Columns spacing={2}>
         <Menu />
         <Import />
