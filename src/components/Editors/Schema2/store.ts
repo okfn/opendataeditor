@@ -76,14 +76,14 @@ export function makeStore(props: SchemaProps) {
     },
     updateField: (patch) => {
       const { descriptor, updateDescriptor } = get()
-      const { index, field } = selectors.field(get())
+      const { index, field } = selectors.fieldItem(get())
       const fields = descriptor.fields
       fields[index] = { ...field, ...patch }
       updateDescriptor({ fields })
     },
     removeField: () => {
       const { descriptor, updateDescriptor, updateFieldState } = get()
-      const { index } = selectors.field(get())
+      const { index } = selectors.fieldItem(get())
       const fields = [...descriptor.fields]
       fields.splice(index, 1)
       updateFieldState({ index: undefined, isExtras: false })
@@ -108,14 +108,14 @@ export function makeStore(props: SchemaProps) {
     },
     updateForeignKey: (patch) => {
       const { descriptor, updateDescriptor } = get()
-      const { index, foreignKey } = selectors.foreignKey(get())
+      const { index, foreignKey } = selectors.foreignKeyItem(get())
       const foreignKeys = descriptor.foreignKeys!
       foreignKeys[index] = { ...foreignKey, ...patch }
       updateDescriptor({ foreignKeys })
     },
     removeForeignKey: () => {
       const { descriptor, updateDescriptor, updateForeignKeyState } = get()
-      const { index } = selectors.foreignKey(get())
+      const { index } = selectors.foreignKeyItem(get())
       const foreignKeys = [...(descriptor.foreignKeys || [])]
       foreignKeys.splice(index, 1)
       updateForeignKeyState({ index: undefined, isExtras: false })
@@ -140,7 +140,7 @@ export const select = createSelector
 export const selectors = {
   // Fields
 
-  field: (state: State) => {
+  fieldItem: (state: State) => {
     const index = state.fieldState.index!
     const field = state.descriptor.fields[index]!
     return { index, field }
@@ -160,7 +160,7 @@ export const selectors = {
 
   // Foreign Keys
 
-  foreignKey: (state: State) => {
+  foreignKeyItem: (state: State) => {
     const index = state.foreignKeyState.index!
     const foreignKeys = state.descriptor.foreignKeys!
     const foreignKey = foreignKeys[index]!

@@ -57,7 +57,7 @@ function FieldList() {
 }
 
 function FieldItem() {
-  const name = useStore(select(selectors.field, ({ field }) => field.name))
+  const name = useStore(select(selectors.fieldItem, ({ field }) => field.name))
   const isExtras = useStore((state) => state.fieldState.isExtras)
   const removeField = useStore((state) => state.removeField)
   const updateFieldState = useStore((state) => state.updateFieldState)
@@ -98,7 +98,7 @@ function FieldItemMain() {
 }
 
 function Name() {
-  const name = useStore(select(selectors.field, ({ field }) => field.name))
+  const name = useStore(select(selectors.fieldItem, ({ field }) => field.name))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateField = useStore((state) => state.updateField)
   return (
@@ -113,7 +113,7 @@ function Name() {
 
 function Type() {
   const updateField = useStore((state) => state.updateField)
-  const type = useStore(select(selectors.field, ({ field }) => field.type))
+  const type = useStore(select(selectors.fieldItem, ({ field }) => field.type))
   return (
     <SelectField
       label="Type"
@@ -126,8 +126,8 @@ function Type() {
 
 function Format() {
   const updateField = useStore((state) => state.updateField)
-  const format = useStore(select(selectors.field, ({ field }) => field.format))
-  const type = useStore(select(selectors.field, ({ field }) => field.type))
+  const format = useStore(select(selectors.fieldItem, ({ field }) => field.format))
+  const type = useStore(select(selectors.fieldItem, ({ field }) => field.type))
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
@@ -149,7 +149,7 @@ function Format() {
 
 function Title() {
   const updateField = useStore((state) => state.updateField)
-  const title = useStore(select(selectors.field, ({ field }) => field.title))
+  const title = useStore(select(selectors.fieldItem, ({ field }) => field.title))
   return (
     <InputField
       label="Title"
@@ -161,7 +161,9 @@ function Title() {
 
 function Description() {
   const updateField = useStore((state) => state.updateField)
-  const descriptor = useStore(select(selectors.field, ({ field }) => field.description))
+  const descriptor = useStore(
+    select(selectors.fieldItem, ({ field }) => field.description)
+  )
   return (
     <MultilineField
       label="Description"
@@ -174,7 +176,7 @@ function Description() {
 function MissingValues() {
   const updateField = useStore((state) => state.updateField)
   const missingValues = useStore(
-    select(selectors.field, ({ field }) => field.missingValues)
+    select(selectors.fieldItem, ({ field }) => field.missingValues)
   )
   return (
     <InputField
@@ -189,7 +191,7 @@ function MissingValues() {
 
 function RdfType() {
   const updateField = useStore((state) => state.updateField)
-  const rdfType = useStore(select(selectors.field, ({ field }) => field.rdfType))
+  const rdfType = useStore(select(selectors.fieldItem, ({ field }) => field.rdfType))
   return (
     <InputField
       label="RDF Type"
@@ -200,7 +202,7 @@ function RdfType() {
 }
 
 function TypeSpecific() {
-  const type = useStore(select(selectors.field, ({ field }) => field.type))
+  const type = useStore(select(selectors.fieldItem, ({ field }) => field.type))
   switch (type) {
     case 'array':
       return <ArraySpecific />
@@ -257,7 +259,7 @@ function NumberSpecific() {
 
 function ArrayItem() {
   const updateField = useStore((state) => state.updateField)
-  const arrayItem = useStore(select(selectors.field, ({ field }) => field.arrayItem))
+  const arrayItem = useStore(select(selectors.fieldItem, ({ field }) => field.arrayItem))
   return (
     <DescriptorField
       type="yaml"
@@ -270,7 +272,9 @@ function ArrayItem() {
 
 function TrueValues() {
   const updateField = useStore((state) => state.updateField)
-  const trueValues = useStore(select(selectors.field, ({ field }) => field.trueValues))
+  const trueValues = useStore(
+    select(selectors.fieldItem, ({ field }) => field.trueValues)
+  )
   return (
     <ValuesField
       type="true"
@@ -283,7 +287,9 @@ function TrueValues() {
 
 function FalseValues() {
   const updateField = useStore((state) => state.updateField)
-  const falseValues = useStore(select(selectors.field, ({ field }) => field.falseValues))
+  const falseValues = useStore(
+    select(selectors.fieldItem, ({ field }) => field.falseValues)
+  )
   return (
     <ValuesField
       type="false"
@@ -296,7 +302,9 @@ function FalseValues() {
 
 function BareNumber() {
   const updateField = useStore((state) => state.updateField)
-  const bareNumber = useStore(select(selectors.field, ({ field }) => field.bareNumber))
+  const bareNumber = useStore(
+    select(selectors.fieldItem, ({ field }) => field.bareNumber)
+  )
   return (
     <YesNoField
       label="Bare Number"
@@ -310,7 +318,9 @@ function BareNumber() {
 
 function FloatNumber() {
   const updateField = useStore((state) => state.updateField)
-  const floatNumber = useStore(select(selectors.field, ({ field }) => field.floatNumber))
+  const floatNumber = useStore(
+    select(selectors.fieldItem, ({ field }) => field.floatNumber)
+  )
   return (
     <YesNoField
       label="Float Number"
@@ -322,7 +332,9 @@ function FloatNumber() {
 
 function DecimalChar() {
   const updateField = useStore((state) => state.updateField)
-  const decimalChar = useStore(select(selectors.field, ({ field }) => field.decimalChar))
+  const decimalChar = useStore(
+    select(selectors.fieldItem, ({ field }) => field.decimalChar)
+  )
   return (
     <InputField
       label="Decimal Char"
@@ -334,7 +346,7 @@ function DecimalChar() {
 
 function GroupChar() {
   const updateField = useStore((state) => state.updateField)
-  const groupChar = useStore(select(selectors.field, ({ field }) => field.groupChar))
+  const groupChar = useStore(select(selectors.fieldItem, ({ field }) => field.groupChar))
   return (
     <InputField
       label="Group Char"
@@ -345,7 +357,7 @@ function GroupChar() {
 }
 
 function FieldItemExtras() {
-  const { field } = useStore(selectors.field)
+  const { field } = useStore(selectors.fieldItem)
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[field.type]
   const isLeft = (name: string) => !name.startsWith('m')
@@ -389,7 +401,9 @@ function Constraint(props: { type: string }) {
 
 function Required() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <YesNoField
       label="Required"
@@ -401,7 +415,9 @@ function Required() {
 
 function Minimum() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="number"
@@ -416,7 +432,9 @@ function Minimum() {
 
 function Maximum() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="number"
@@ -431,7 +449,9 @@ function Maximum() {
 
 function MinLength() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="number"
@@ -446,7 +466,9 @@ function MinLength() {
 
 function MaxLength() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="number"
@@ -461,7 +483,9 @@ function MaxLength() {
 
 function Pattern() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="string"
@@ -474,7 +498,9 @@ function Pattern() {
 
 function Enum() {
   const updateField = useStore((state) => state.updateField)
-  const constraints = useStore(select(selectors.field, ({ field }) => field.constraints))
+  const constraints = useStore(
+    select(selectors.fieldItem, ({ field }) => field.constraints)
+  )
   return (
     <InputField
       type="string"

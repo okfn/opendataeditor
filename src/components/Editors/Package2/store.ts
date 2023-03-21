@@ -87,7 +87,7 @@ export function makeStore(props: PackageProps) {
     },
     removeResource: () => {
       const { descriptor, updateDescriptor, updateResourceState } = get()
-      const { index } = selectors.license(get())
+      const { index } = selectors.resourceItem(get())!
       const resources = [...(descriptor.resources || [])]
       resources.splice(index, 1)
       updateResourceState({ index: undefined, isExtras: false })
@@ -112,14 +112,14 @@ export function makeStore(props: PackageProps) {
     },
     updateLicense: (patch) => {
       const { descriptor, updateDescriptor } = get()
-      const { index, license } = selectors.license(get())
+      const { index, license } = selectors.licenseItem(get())
       const licenses = descriptor.licenses!
       licenses[index] = { ...license, ...patch }
       updateDescriptor({ licenses })
     },
     removeLicense: () => {
       const { descriptor, updateDescriptor, updateLicenseState } = get()
-      const { index } = selectors.license(get())
+      const { index } = selectors.licenseItem(get())
       const licenses = [...(descriptor.licenses || [])]
       licenses.splice(index, 1)
       updateLicenseState({ index: undefined, isExtras: false })
@@ -162,7 +162,7 @@ export const selectors = {
 
   // Licenses
 
-  license: (state: State) => {
+  licenseItem: (state: State) => {
     const index = state.licenseState.index!
     const licenses = state.descriptor.licenses!
     const license = licenses[index]!

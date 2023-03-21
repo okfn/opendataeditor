@@ -50,7 +50,7 @@ function LicenseList() {
 }
 
 function LicenseItem() {
-  const { license } = useStore(selectors.license)
+  const { license } = useStore(selectors.licenseItem)
   const isExtras = useStore((state) => state.licenseState.isExtras)
   const removeLicense = useStore((state) => state.removeLicense)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
@@ -77,7 +77,7 @@ function LicenseItem() {
 }
 
 function Name() {
-  const name = useStore(select(selectors.license, ({ license }) => license.name))
+  const name = useStore(select(selectors.licenseItem, ({ license }) => license.name))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (
@@ -91,7 +91,7 @@ function Name() {
 }
 
 function Title() {
-  const title = useStore(select(selectors.license, ({ license }) => license.title))
+  const title = useStore(select(selectors.licenseItem, ({ license }) => license.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (
@@ -105,7 +105,7 @@ function Title() {
 }
 
 function Path() {
-  const path = useStore(select(selectors.license, ({ license }) => license.path))
+  const path = useStore(select(selectors.licenseItem, ({ license }) => license.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (

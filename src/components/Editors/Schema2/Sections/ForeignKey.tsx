@@ -51,7 +51,7 @@ function ForeignKeyList() {
 }
 
 function ForeignKeyItem() {
-  const { foreignKey } = useStore(selectors.foreignKey)
+  const { foreignKey } = useStore(selectors.foreignKeyItem)
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
   const removeForeignKey = useStore((state) => state.removeForeignKey)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
@@ -79,7 +79,7 @@ function ForeignKeyItem() {
 
 function SourceField() {
   const fields = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.fields)
+    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.fields)
   )
   const fieldNames = useStore(selectors.fieldNames)
   const updateForeignKey = useStore((state) => state.updateForeignKey)
@@ -96,7 +96,7 @@ function SourceField() {
 function TargetField() {
   const fieldNames = useStore(selectors.fieldNames)
   const reference = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.reference)
+    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   return (
@@ -113,7 +113,7 @@ function TargetField() {
 
 function TargetResource() {
   const reference = useStore(
-    select(selectors.foreignKey, ({ foreignKey }) => foreignKey.reference)
+    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   return (
