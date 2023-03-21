@@ -7,7 +7,7 @@ import { FilesProps } from './Files'
 import { IFileItem, ITreeItem } from '../../../interfaces'
 import * as helpers from '../../../helpers'
 
-export type IDialog =
+type IDialog =
   | 'folder/copy'
   | 'folder/move'
   | 'name/create'
