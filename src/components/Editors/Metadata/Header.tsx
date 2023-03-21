@@ -14,18 +14,24 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import { useStore } from './store'
 
 // TODO: rebase from props to state
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
+  const updateEditorState = useStore((state) => state.updateEditorState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={3}>
-              <Typography variant="h5" sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}>
+              <Typography
+                variant="h5"
+                sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
+                onClick={() => updateEditorState({ editor: undefined })}
+              >
                 <strong>
                   Frictionless Metadata{' '}
                   <Chip
