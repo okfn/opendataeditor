@@ -64,3 +64,4 @@ dist/
 lib/
 tmp/
 .vim
+.vercel

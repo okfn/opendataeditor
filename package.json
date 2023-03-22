@@ -1,6 +1,6 @@
 {
-  "name": "@frictionless/application",
-  "version": "0.1.0",
+  "name": "@frictionlessdata/application",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Frictionless Application",
   "author": "Frictionless Data",
