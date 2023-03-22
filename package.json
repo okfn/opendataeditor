@@ -31,6 +31,7 @@
     "debug": "ndb node -r ts-node/register/transpile-only",
     "format": "prettier --write '{src,test}/**/*.ts*' && eslint --fix '{src,test}/**/*.ts*'",
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
+    "metadata": "NODE_ENV=production ENTRY=metadata webpack",
     "pretest": "npm run lint",
     "server": "frictionless api",
     "start": "node lib/application.js",

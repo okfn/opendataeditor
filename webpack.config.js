@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const ENTRY = process.env.ENTRY || 'application'
 const DEBUG = process.env.DEBUG || false
 
 // Base
@@ -11,7 +12,7 @@ const webpackConfig = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'application.js',
-    library: 'application',
+    library: 'frictionlessApplication',
     libraryTarget: 'umd',
     clean: true,
   },
@@ -89,6 +90,17 @@ if (NODE_ENV === 'production') {
   webpackConfig.mode = 'production'
 }
 
-// System
+// Metadata
+
+if (ENTRY === 'metadata') {
+  webpackConfig.entry = ['./src/metadata.ts']
+  webpackConfig.output.filename = 'metadata.js'
+  webpackConfig.output.library = 'frictionlessMetadata'
+  webpackConfig.output.path = path.resolve(__dirname, 'dist/metadata')
+  webpackConfig.plugins[1] = new HtmlWebpackPlugin({
+    favicon: 'assets/favicon.png',
+    template: 'src/metadata.html',
+  })
+}
 
 module.exports = webpackConfig
