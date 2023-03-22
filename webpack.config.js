@@ -52,13 +52,8 @@ const webpackConfig = {
   plugins: [
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
-      title: 'Frictionless Application',
       favicon: 'assets/favicon.png',
-      meta: {
-        viewport: 'width=device-width, initial-scale=1',
-        description:
-          'Data management application for Browser and Desktop that provides functionality to describe, extract, validate, and transform tabular data',
-      },
+      template: 'src/application.html',
     }),
   ],
 }
