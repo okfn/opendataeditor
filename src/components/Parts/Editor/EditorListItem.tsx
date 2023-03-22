@@ -1,6 +1,9 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
+import capitalize from 'lodash/capitalize'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 
 interface EditorListItemProps {
   index?: number
@@ -11,20 +14,41 @@ interface EditorListItemProps {
   isGrid?: boolean
   disabled?: boolean
   onClick?: () => void
+  onRemoveClick?: () => void
 }
 
 export default function EditorListItem(props: EditorListItemProps) {
   const theme = useTheme()
+  const EndIcon = () => {
+    const label = (props.type || 'item').toUpperCase()
+    return (
+      <Box>
+        <Typography component="span">{label}</Typography>
+        <Button
+          size="small"
+          color="warning"
+          title={`Remove ${capitalize(props.kind)}`}
+          sx={{ marginLeft: 2, textDecoration: 'underline' }}
+          onClick={(ev) => {
+            ev.stopPropagation()
+            props.onRemoveClick && props.onRemoveClick()
+          }}
+        >
+          Remove
+        </Button>
+      </Box>
+    )
+  }
   return (
     <Button
       size="large"
       color="info"
       variant="outlined"
-      endIcon={props.type && !props.isGrid ? props.type.toUpperCase() : undefined}
+      endIcon={!props.isGrid && props.type ? <EndIcon /> : null}
       onClick={() => (props.onClick ? props.onClick() : undefined)}
       disabled={props.disabled}
       key={props.index}
-      title={props.title}
+      title={props.title || `Edit ${capitalize(props.kind)}`}
       sx={{
         height: theme.spacing(5),
         width: props.isGrid ? 'inherit' : '100%',

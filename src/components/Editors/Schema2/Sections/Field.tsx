@@ -26,6 +26,7 @@ function FieldList() {
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
   const addField = useStore((state) => state.addField)
+  const removeField = useStore((state) => state.removeField)
   return (
     <EditorList
       kind="field"
@@ -49,7 +50,7 @@ function FieldList() {
           type={field.type}
           isGrid={isGrid}
           onClick={() => updateFieldState({ index })}
-          title="View Field"
+          onRemoveClick={() => removeField()}
         />
       ))}
     </EditorList>
@@ -59,7 +60,6 @@ function FieldList() {
 function FieldItem() {
   const name = useStore(select(selectors.fieldItem, ({ field }) => field.name))
   const isExtras = useStore((state) => state.fieldState.isExtras)
-  const removeField = useStore((state) => state.removeField)
   const updateFieldState = useStore((state) => state.updateFieldState)
   return (
     <EditorItem
@@ -68,7 +68,6 @@ function FieldItem() {
       isExtras={isExtras}
       extrasName="constraints"
       onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
-      onRemoveClick={() => removeField()}
       onBackClick={() => updateFieldState({ index: undefined, isExtras: false })}
     >
       {isExtras ? <FieldItemExtras /> : <FieldItemMain />}

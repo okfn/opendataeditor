@@ -21,7 +21,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
     return (
       <Button
         color="info"
-        title={`Add a new ${props.kind}`}
+        title={`Add ${startCase(props.kind)}`}
         onClick={() => props.onAddClick()}
       >
         Add {startCase(props.kind)}

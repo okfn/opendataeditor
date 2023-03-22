@@ -19,6 +19,7 @@ function LicenseList() {
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const addLicense = useStore((state) => state.addLicense)
+  const removeLicense = useStore((state) => state.removeLicense)
   return (
     <EditorList
       kind="license"
@@ -42,7 +43,7 @@ function LicenseList() {
           type="license"
           isGrid={isGrid}
           onClick={() => updateLicenseState({ index })}
-          title="View License"
+          onRemoveClick={() => removeLicense()}
         />
       ))}
     </EditorList>
@@ -52,7 +53,6 @@ function LicenseList() {
 function LicenseItem() {
   const { license } = useStore(selectors.licenseItem)
   const isExtras = useStore((state) => state.licenseState.isExtras)
-  const removeLicense = useStore((state) => state.removeLicense)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   return (
     <EditorItem
@@ -60,7 +60,6 @@ function LicenseItem() {
       name={license.name}
       isExtras={isExtras}
       onExtrasClick={() => updateLicenseState({ isExtras: !isExtras })}
-      onRemoveClick={() => removeLicense()}
       onBackClick={() => updateLicenseState({ index: undefined, isExtras: false })}
     >
       <Columns spacing={3}>

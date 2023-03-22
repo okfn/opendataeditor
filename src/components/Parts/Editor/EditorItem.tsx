@@ -13,7 +13,6 @@ export interface EditorItemProps {
   isExtras?: boolean
   extrasName?: string
   onExtrasClick?: () => void
-  onRemoveClick: () => void
   onBackClick: () => void
 }
 
@@ -24,21 +23,10 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     return (
       <Button
         color={props.isExtras ? 'warning' : 'info'}
-        title={props.extrasName}
+        title={startCase(props.extrasName)}
         onClick={() => (props.onExtrasClick ? props.onExtrasClick() : undefined)}
       >
         {startCase(props.extrasName)}
-      </Button>
-    )
-  }
-  const RemoveButton = () => {
-    return (
-      <Button
-        color="info"
-        title={`Remove ${props.kind}`}
-        onClick={() => props.onRemoveClick()}
-      >
-        Remove {startCase(props.kind)}
       </Button>
     )
   }
@@ -63,9 +51,8 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
             {props.name}
           </Box>
           <Box sx={{ float: 'right' }}>
-            <BackButton />
             <ExtrasButton />
-            <RemoveButton />
+            <BackButton />
           </Box>
         </Columns>
       </HeadingBox>

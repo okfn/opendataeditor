@@ -20,6 +20,7 @@ function ForeignKeyList() {
   const foreignKeyItems = useStore(selectors.foreignKeyItems)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   const addForeignKey = useStore((state) => state.addForeignKey)
+  const removeForeignKey = useStore((state) => state.removeForeignKey)
   return (
     <EditorList
       kind="foreign key"
@@ -43,7 +44,7 @@ function ForeignKeyList() {
           type="fk"
           isGrid={isGrid}
           onClick={() => updateForeignKeyState({ index })}
-          title="View ForeignKey"
+          onRemoveClick={() => removeForeignKey()}
         />
       ))}
     </EditorList>
@@ -53,7 +54,6 @@ function ForeignKeyList() {
 function ForeignKeyItem() {
   const { foreignKey } = useStore(selectors.foreignKeyItem)
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
-  const removeForeignKey = useStore((state) => state.removeForeignKey)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   return (
     <EditorItem
@@ -61,7 +61,6 @@ function ForeignKeyItem() {
       name={foreignKey.fields.join(',')}
       isExtras={isExtras}
       onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
-      onRemoveClick={() => removeForeignKey()}
       onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}
     >
       <Columns spacing={3}>
