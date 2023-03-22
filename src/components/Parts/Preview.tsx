@@ -25,6 +25,7 @@ export default function Preview(props: PreviewProps) {
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {
           width: '0.4em',
+          height: '0.4em',
         },
         '&::-webkit-scrollbar-track': {
           borderRadius: '3px',
