@@ -24,7 +24,10 @@ export function makeStore(_props: MetadataProps) {
     editorState: {},
     updateEditorState: (patch) => {
       const { editorState } = get()
-      if ('editor' in patch) patch.descriptor = undefined
+      if ('editor' in patch) {
+        patch.descriptor = undefined
+        patch.isPreview = undefined
+      }
       set({ editorState: { ...editorState, ...patch } })
     },
     importDescriptor: async (file) => {
