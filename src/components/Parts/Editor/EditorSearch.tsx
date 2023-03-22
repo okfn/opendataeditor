@@ -5,13 +5,13 @@ import InputAdornment from '@mui/material/InputAdornment'
 import ClearIcon from '@mui/icons-material/Clear'
 import { noop } from 'lodash'
 
-interface HeadingSearchProps {
+interface EditorSearchProps {
   value?: string
   onChange: (value?: string) => void
   onFocus?: (event?: any) => void
 }
 
-export default function HeadingSearch(props: HeadingSearchProps) {
+export default function EditorSearch(props: EditorSearchProps) {
   const onFocus = props.onFocus || noop
   return (
     <TextField
@@ -27,7 +27,7 @@ export default function HeadingSearch(props: HeadingSearchProps) {
   )
 }
 
-function ResetButton(props: HeadingSearchProps) {
+function ResetButton(props: EditorSearchProps) {
   return (
     <InputAdornment position="end">
       <IconButton
