@@ -1,4 +1,5 @@
 import * as React from 'react'
+import capitalize from 'lodash/capitalize'
 import { useTheme } from '@mui/material/styles'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
@@ -20,6 +21,7 @@ import { useStore } from './store'
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
+  const editor = useStore((state) => state.editorState.editor)
   const updateEditorState = useStore((state) => state.updateEditorState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
@@ -49,10 +51,10 @@ export default function Header() {
                   <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Metadata editors for Frictionless standards"
+                  placeholder="Metadata editors for Frictionless Standards"
                   inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={''}
+                  value={capitalize(editor) || ''}
                 />
               </Search>
             </Grid>
