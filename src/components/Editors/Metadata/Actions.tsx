@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import DownloadIcon from '@mui/icons-material/Download'
-import FileUploadIcon from '@mui/icons-material/FileUpload'
 import MenuIcon from '@mui/icons-material/Menu'
 import CodeIcon from '@mui/icons-material/Code'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
+import ImportButton from '../../Parts/Buttons/ImportButton'
 import Columns from '../../Parts/Columns'
 import { useStore } from './store'
 
@@ -43,23 +43,19 @@ function Menu() {
 
 function Import() {
   const editor = useStore((state) => state.editorState.editor)
-  return (
-    <DefaultButton
-      disabled={!editor}
-      icon={<FileUploadIcon fontSize="small" sx={{ mr: 1 }} />}
-      label="Import"
-      onClick={() => {}}
-    />
-  )
+  const importDescriptor = useStore((state) => state.importDescriptor)
+  return <ImportButton disabled={!editor} onImport={(value) => importDescriptor(value)} />
 }
 
 function Export() {
   const editor = useStore((state) => state.editorState.editor)
+  const exportDescriptor = useStore((state) => state.exportDescriptor)
   return (
     <DefaultButton
+      label="Export"
       disabled={!editor}
       icon={<DownloadIcon fontSize="small" sx={{ mr: 1 }} />}
-      label="Export"
+      onClick={exportDescriptor}
     />
   )
 }
