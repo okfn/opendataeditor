@@ -5,6 +5,7 @@ import Package from '../Package2'
 import Resource from '../Resource2'
 import Dialect from '../Dialect2'
 import Schema from '../Schema2'
+import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
 
 export default function Content() {
@@ -19,15 +20,16 @@ export default function Content() {
 
 function Editor() {
   const editor = useStore((state) => state.editorState.editor)
+  const descriptor = useStore((state) => state.editorState.descriptor)
   switch (editor) {
     case 'package':
-      return <Package />
+      return <Package package={descriptor as IPackage} />
     case 'resource':
-      return <Resource />
+      return <Resource resource={descriptor as IResource} />
     case 'dialect':
-      return <Dialect />
+      return <Dialect dialect={descriptor as IDialect} />
     case 'schema':
-      return <Schema />
+      return <Schema schema={descriptor as ISchema} />
     default:
       return null
   }
