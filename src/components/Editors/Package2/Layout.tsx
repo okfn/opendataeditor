@@ -93,14 +93,18 @@ function Selector() {
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
       <SelectField
-        color="success"
+        color="info"
         focused
         margin="none"
         value={resourceItem.resource.name}
         options={resourceNames}
         onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
         InputProps={{
-          startAdornment: <InputAdornment position="start">Resource:</InputAdornment>,
+          startAdornment: (
+            <InputAdornment position="start" disableTypography>
+              Resource:
+            </InputAdornment>
+          ),
         }}
       />
     </Box>
