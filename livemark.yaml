@@ -27,4 +27,5 @@ pages:
     - path: index
       name: Introduction
       from: README.md
+    - path: docs/metadata
     - path: docs/development
