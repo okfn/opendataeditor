@@ -5,15 +5,27 @@ import Package from '../Package2'
 import Resource from '../Resource2'
 import Dialect from '../Dialect2'
 import Schema from '../Schema2'
+import Preview from '../../Parts/Preview'
 import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
 
 export default function Content() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 8)})`
+  const isPreview = useStore((state) => state.editorState.isPreview)
+  const descriptor = useStore((state) => state.editorState.descriptor)
   return (
     <Box sx={{ height }}>
       <Editor />
+      {isPreview && (
+        <Box sx={{ borderTop: 'solid 1px #ddd', padding: 3 }}>
+          <Preview
+            height={theme.spacing(42)}
+            format="json"
+            descriptor={descriptor || {}}
+          />
+        </Box>
+      )}
     </Box>
   )
 }
