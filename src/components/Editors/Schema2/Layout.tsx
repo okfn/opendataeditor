@@ -20,6 +20,7 @@ export default function Layout() {
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs
+          index={1}
           labels={LABELS}
           onChange={(index) => updateHelp(camelCase(LABELS[index]))}
         >

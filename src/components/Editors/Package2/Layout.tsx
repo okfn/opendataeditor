@@ -35,6 +35,7 @@ function Sections() {
   return (
     <Columns spacing={3} layout={[9, 3]}>
       <VerticalTabs
+        index={1}
         labels={LABELS}
         onChange={(index) => updateHelp(camelCase(LABELS[index]))}
       >
@@ -91,7 +92,7 @@ function Selector() {
   if (packageState.tabIndex === 0) return null
   if (!resourceItem) return null
   return (
-    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '40%' }}>
+    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
       <SelectField
         color="info"
         focused
