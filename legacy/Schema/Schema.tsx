@@ -1,18 +1,21 @@
 import * as React from 'react'
 import { ISchema } from '../../../interfaces'
-import { StoreProvider, makeStore } from './store'
+import { StoreProvider, createStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import Layout from './Layout'
 
+// TODO: remove borderTop hack
+
 export interface SchemaProps {
   schema?: ISchema
-  onChange?: (schema: ISchema) => void
-  onFieldSelected?: (name?: string) => void
+  onCommit?: (schema: ISchema) => void
+  onRevert?: (schema: ISchema) => void
+  onChangeColumn?: (selectedColumn: number) => void
 }
 
 export default function Schema(props: SchemaProps) {
-  const store = React.useMemo(() => makeStore(props), Object.values(props))
+  const store = React.useMemo(() => createStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>

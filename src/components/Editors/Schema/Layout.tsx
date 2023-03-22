@@ -1,19 +1,35 @@
 import * as React from 'react'
+import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Actions from './Actions'
-import Content from './Content'
+import Columns from '../../Parts/Columns'
+import VerticalTabs from '../../Parts/VerticalTabs'
+import EditorHelp from '../../Parts/Editor/EditorHelp'
+import Schema from './Sections/Schema'
+import Field from './Sections/Field'
+import ForeignKey from './Sections/ForeignKey'
+import { useStore } from './store'
+
+const LABELS = ['Schema', 'Fields', 'Foreign Keys']
 
 export default function Layout() {
   const theme = useTheme()
+  const helpItem = useStore((state) => state.helpItem)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <Box sx={{ height: theme.spacing(50) }}>
-      <Box sx={{ height: theme.spacing(42) }}>
-        <Content />
-      </Box>
-      <Box sx={{ height: theme.spacing(8) }}>
-        <Actions />
-      </Box>
+    <Box sx={{ height: theme.spacing(42) }}>
+      <Columns spacing={3} layout={[9, 3]}>
+        <VerticalTabs
+          index={1}
+          labels={LABELS}
+          onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+        >
+          <Schema />
+          <Field />
+          <ForeignKey />
+        </VerticalTabs>
+        <EditorHelp helpItem={helpItem} />
+      </Columns>
     </Box>
   )
 }

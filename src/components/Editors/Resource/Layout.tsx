@@ -1,64 +1,56 @@
 import * as React from 'react'
+import camelCase from 'lodash/camelCase'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Tabs from '../../Parts/Tabs'
+import Columns from '../../Parts/Columns'
+import VerticalTabs from '../../Parts/VerticalTabs'
+import EditorHelp from '../../Parts/Editor/EditorHelp'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
-import Checklist from '../Checklist'
-import Actions from './Actions'
-import Content from './Content'
-import { useTheme } from '@mui/material/styles'
+import Resource from './Sections/Resource'
+import Checksum from './Sections/Checksum'
+import License from './Sections/License'
 import { useStore } from './store'
 
+const LABELS = ['Resource', 'Checksum', 'Licenses']
+
 export default function Layout() {
-  const withTabs = useStore((state) => state.withTabs)
-  const isTable = useStore((state) => state.descriptor.type === 'table')
-  if (!withTabs) return <LayoutDefault />
-  if (!isTable) return <LayoutWithTabs />
-  return <LayoutWithTabsTable />
-}
-
-function LayoutDefault() {
   const theme = useTheme()
+  const isShallow = useStore((state) => state.isShallow)
   return (
-    <Box sx={{ height: theme.spacing(50) }}>
-      <Box sx={{ height: theme.spacing(42) }}>
-        <Content />
-      </Box>
-      <Box sx={{ height: theme.spacing(8) }}>
-        <Actions />
-      </Box>
-    </Box>
+    <Box sx={{ height: theme.spacing(42) }}>{isShallow ? <Sections /> : <Groups />}</Box>
   )
 }
 
-function LayoutWithTabs() {
+function Sections() {
+  const helpItem = useStore((state) => state.helpItem)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <Tabs labels={['Resource']}>
-      <LayoutDefault />
-    </Tabs>
+    <Columns spacing={3} layout={[9, 3]}>
+      <VerticalTabs
+        labels={LABELS}
+        onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+      >
+        <Resource />
+        <Checksum />
+        <License />
+      </VerticalTabs>
+      <EditorHelp helpItem={helpItem} />
+    </Columns>
   )
 }
 
-function LayoutWithTabsTable() {
-  const update = useStore((state) => state.update)
+function Groups() {
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
-  const checklist = useStore((state) => state.descriptor.checklist)
-  const updateColumn = useStore((state) => state.updateColumn)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  console.log('draw')
   return (
-    <Tabs index={2} labels={['Resource', 'Dialect', 'Schema', 'Checklist']}>
-      <LayoutDefault />
-      <Dialect dialect={dialect} onCommit={(dialect) => update({ dialect })} />
-      <Schema
-        schema={schema}
-        onCommit={(schema) => update({ schema })}
-        onChangeColumn={(selectedColumn) => updateColumn(selectedColumn)}
-      />
-      <Checklist
-        checklist={checklist}
-        schema={schema}
-        onCommit={(checklist) => update({ checklist })}
-      />
+    <Tabs labels={['Resource', 'Dialect', 'Schema']}>
+      <Sections />
+      <Dialect dialect={dialect} onChange={(dialect) => updateDescriptor({ dialect })} />
+      <Schema schema={schema} onChange={(schema) => updateDescriptor({ schema })} />
     </Tabs>
   )
 }
