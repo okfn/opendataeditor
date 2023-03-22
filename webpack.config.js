@@ -7,7 +7,7 @@ const DEBUG = process.env.DEBUG || false
 // Base
 
 const webpackConfig = {
-  entry: ['./src/main.ts'],
+  entry: ['./src/application.ts'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'application.js',

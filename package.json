@@ -33,7 +33,7 @@
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
     "pretest": "npm run lint",
     "server": "frictionless api",
-    "start": "node lib/main.js",
+    "start": "node lib/application.js",
     "test": "jest --coverage",
     "update": "ncu -u"
   },
