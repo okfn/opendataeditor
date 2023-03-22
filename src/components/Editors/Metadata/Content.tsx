@@ -5,7 +5,7 @@ import Package from '../Package2'
 import Resource from '../Resource2'
 import Dialect from '../Dialect2'
 import Schema from '../Schema2'
-import Preview from '../../Parts/Preview'
+import DefaultPreview from '../../Parts/Preview'
 import Columns from '../../Parts/Columns'
 import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
@@ -14,7 +14,6 @@ export default function Content() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 8)})`
   const isPreview = useStore((state) => state.editorState.isPreview)
-  const descriptor = useStore((state) => state.editorState.descriptor)
   return (
     <Box sx={{ height }}>
       {isPreview ? (
@@ -32,7 +31,7 @@ export default function Content() {
                 fontSize: '80%',
               }}
             >
-              <Preview format="json" descriptor={descriptor || {}} />
+              <Preview />
             </Box>
           </Columns>
         </Box>
@@ -79,4 +78,12 @@ function Editor() {
     default:
       return null
   }
+}
+
+function Preview() {
+  const descriptor = useStore((state) => state.editorState.descriptor)
+  const revision = useStore((state) => state.editorState.revision)
+  return (
+    <DefaultPreview format="json" descriptor={descriptor || {}} revision={revision} />
+  )
 }

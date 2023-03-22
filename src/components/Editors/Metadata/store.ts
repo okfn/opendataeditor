@@ -10,6 +10,7 @@ export interface IEditorState {
   editor?: 'package' | 'resource' | 'dialect' | 'schema'
   descriptor?: object
   isPreview?: boolean
+  revision: number
 }
 
 export interface State {
@@ -21,12 +22,16 @@ export interface State {
 
 export function makeStore(_props: MetadataProps) {
   return createStore<State>((set, get) => ({
-    editorState: {},
+    editorState: { revision: 0 },
     updateEditorState: (patch) => {
       const { editorState } = get()
       if ('editor' in patch) {
         patch.descriptor = undefined
-        patch.isPreview = undefined
+        patch.isPreview = false
+        patch.revision = 0
+      }
+      if ('descriptor' in patch) {
+        patch.revision = editorState.revision + 1
       }
       set({ editorState: { ...editorState, ...patch } })
     },

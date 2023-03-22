@@ -9,6 +9,7 @@ interface PreviewProps {
   format: string
   descriptor: object
   height?: string
+  revision?: number
 }
 
 export default function Preview(props: PreviewProps) {
