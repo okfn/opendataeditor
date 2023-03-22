@@ -9,6 +9,7 @@ import { MetadataProps } from './Metadata'
 export interface IEditorState {
   editor?: 'package' | 'resource' | 'dialect' | 'schema'
   descriptor?: object
+  isPreview?: boolean
 }
 
 export interface State {

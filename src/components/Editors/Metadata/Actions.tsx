@@ -62,11 +62,15 @@ function Export() {
 
 function Preview() {
   const editor = useStore((state) => state.editorState.editor)
+  const isPreview = useStore((state) => state.editorState.isPreview)
+  const updateEditorState = useStore((state) => state.updateEditorState)
   return (
     <DefaultButton
-      disabled={!editor}
-      icon={<CodeIcon fontSize="small" sx={{ mr: 1 }} />}
       label="Preview"
+      disabled={!editor}
+      color={isPreview ? 'warning' : 'info'}
+      icon={<CodeIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => updateEditorState({ isPreview: !isPreview })}
     />
   )
 }
