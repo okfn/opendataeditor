@@ -2,6 +2,8 @@
 
 Within the Frictionless Application project we publish set of metadata components for working with Frictionless Standards.
 
+Test it here: https://metadata.frictionlessdata.io/
+
 ## NPM
 
 Install the library as you usually do with NPM:
