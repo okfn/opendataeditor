@@ -11,7 +11,7 @@ import InputIcon from '@mui/icons-material/Input'
 // import GithubIcon from '@mui/icons-material/GitHub'
 import SupportIcon from '@mui/icons-material/SupportAgent'
 import HelpIcon from '@mui/icons-material/Help'
-import SettingsIcon from '@mui/icons-material/Settings'
+import GithubIcon from '@mui/icons-material/GitHub'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -25,7 +25,7 @@ export default function Header() {
   const updateEditorState = useStore((state) => state.updateEditorState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}>
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={4} lg={3}>
@@ -60,11 +60,16 @@ export default function Header() {
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
-                <Button title="Settings" color="inherit" disabled>
-                  <SettingsIcon />
+                <Button
+                  title="Report an issue"
+                  color="inherit"
+                  href="https://github.com/frictionlessdata/application/issues"
+                  target="_blank"
+                >
+                  <GithubIcon />
                 </Button>
                 <Button
-                  title="Community"
+                  title="Talk to community"
                   color="inherit"
                   href="https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg"
                   target="_blank"
@@ -72,7 +77,7 @@ export default function Header() {
                   <SupportIcon />
                 </Button>
                 <Button
-                  title="Documentation"
+                  title="Read the documentation"
                   color="inherit"
                   href="https://application.frictionlessdata.io"
                   target="_blank"
