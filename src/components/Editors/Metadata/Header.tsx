@@ -26,10 +26,10 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar disableGutters>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={4} lg={3}>
               <Typography
                 variant="h5"
-                sx={{ ml: 2, mt: '4px', cursor: 'pointer' }}
+                sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
                 onClick={() => updateEditorState({ editor: undefined })}
               >
                 <strong>
@@ -43,7 +43,7 @@ export default function Header() {
                 </strong>
               </Typography>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={5} lg={7}>
               <Search>
                 <SearchIconWrapper>
                   <InputIcon />
@@ -56,7 +56,7 @@ export default function Header() {
                 />
               </Search>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
                 <Button title="Settings" color="inherit" disabled>
                   <SettingsIcon />
