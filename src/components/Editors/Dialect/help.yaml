@@ -1,0 +1,28 @@
+# Dialect
+
+dialect:
+  - Dialect
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html
+  - File dialect concept give us an ability to manage table header and any details related to specific formats
+
+dialect/title:
+  - Title
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html
+  - A human-readable title.
+
+dialect/header:
+  - Header
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header
+  - It's a boolean flag which defaults to True indicating whether the data has a header row or not
+
+# Csv
+
+csv:
+  - Csv
+  - https://specs.frictionlessdata.io/csv-dialect/
+  - CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner.
+
+csv/delimiter:
+  - Delimiter
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies the character sequence which should separate fields (default ",")

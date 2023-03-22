@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -16,9 +15,12 @@ interface HelpCardProps {
 }
 
 export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) {
-  const theme = useTheme()
   return (
-    <Card variant="outlined" sx={{ height: theme.spacing(37), marginTop: 2 }}>
+    <Card
+      variant="outlined"
+      square={true}
+      sx={{ height: '100%', border: 0, borderLeft: 'solid 1px #ddd' }}
+    >
       <CardContent>
         <Typography
           sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}

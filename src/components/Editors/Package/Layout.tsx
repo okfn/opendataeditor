@@ -1,71 +1,113 @@
 import * as React from 'react'
+import camelCase from 'lodash/camelCase'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import InputAdornment from '@mui/material/InputAdornment'
 import Tabs from '../../Parts/Tabs'
+import Columns from '../../Parts/Columns'
+import VerticalTabs from '../../Parts/VerticalTabs'
+import EditorHelp from '../../Parts/Editor/EditorHelp'
+import SelectField from '../../Parts/Fields/SelectField'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
-import Checklist from '../Checklist'
-import Actions from './Actions'
-import Content from './Content'
-import { useTheme } from '@mui/material/styles'
-import { useStore } from './store'
+import Package from './Sections/Package'
+import License from './Sections/License'
+import Resources from './Sections/Resource'
+import { useStore, selectors } from './store'
+
+const LABELS = ['Package', 'Resources', 'Licenses']
 
 export default function Layout() {
-  const withTabs = useStore((state) => state.withTabs)
-  const isTable = useStore((state) => state.descriptor.resources[0]?.type === 'table')
-  if (!withTabs) return <LayoutDefault />
-  if (!isTable) return <LayoutWithTabs />
-  return <LayoutWithTabsTable />
-}
-
-function LayoutDefault() {
   const theme = useTheme()
+  const isShallow = useStore((state) => state.isShallow)
   return (
-    <Box sx={{ minHeight: theme.spacing(50) }}>
-      <Box sx={{ minHeight: theme.spacing(42) }}>
-        <Content />
-      </Box>
-      <Box sx={{ height: theme.spacing(8) }}>
-        <Actions />
-      </Box>
+    <Box sx={{ height: theme.spacing(42), position: 'relative' }}>
+      {isShallow ? <Sections /> : <Groups />}
+      <Selector />
     </Box>
   )
 }
 
-export function LayoutWithTabs() {
+function Sections() {
+  const helpItem = useStore((state) => state.helpItem)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <Tabs labels={['Package']}>
-      <LayoutDefault />
+    <Columns spacing={3} layout={[9, 3]}>
+      <VerticalTabs
+        index={1}
+        labels={LABELS}
+        onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+      >
+        <Package />
+        <Resources />
+        <License />
+      </VerticalTabs>
+      <EditorHelp helpItem={helpItem} />
+    </Columns>
+  )
+}
+
+function Groups() {
+  const resourceItem = useStore(selectors.resourceItem)
+  const tabIndex = useStore((state) => state.packageState.tabIndex)
+  const updatePackageState = useStore((state) => state.updatePackageState)
+  const updateResource = useStore((state) => state.updateResource)
+  return (
+    <Tabs
+      index={tabIndex}
+      labels={['Package', 'Resource', 'Dialect', 'Schema']}
+      disabledLabels={!resourceItem ? ['Resource', 'Dialect', 'Schema'] : []}
+      onChange={(index) => updatePackageState({ tabIndex: index })}
+    >
+      <Sections />
+      {resourceItem && (
+        <Resource
+          isShallow
+          resource={resourceItem.resource}
+          onChange={(resource) => updateResource(resource)}
+        />
+      )}
+      {resourceItem && (
+        <Dialect
+          dialect={resourceItem.resource.dialect}
+          onChange={(dialect) => updateResource({ dialect })}
+        />
+      )}
+      {resourceItem && (
+        <Schema
+          schema={resourceItem.resource.schema}
+          onChange={(schema) => updateResource({ schema })}
+        />
+      )}
     </Tabs>
   )
 }
 
-export function LayoutWithTabsTable() {
-  const update = useStore((state) => state.update)
-  const resource = useStore((state) => state.descriptor.resources[0])
-  const dialect = useStore((state) => state.descriptor.resources[0]?.dialect)
-  const schema = useStore((state) => state.descriptor.resources[0]?.schema)
-  const checklist = useStore((state) => state.descriptor.resources[0]?.checklist)
+function Selector() {
+  const updateResourceState = useStore((state) => state.updateResourceState)
+  const packageState = useStore((state) => state.packageState)
+  const resourceNames = useStore(selectors.resourceNames)
+  const resourceItem = useStore(selectors.resourceItem)
+  if (packageState.tabIndex === 0) return null
+  if (!resourceItem) return null
   return (
-    <Tabs labels={['Package', 'Resource', 'Dialect', 'Schema', 'Checklist']}>
-      <LayoutDefault />
-      <Resource
-        resource={resource}
-        onCommit={(resource) => update({ resoures: [resource] })}
+    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
+      <SelectField
+        color="info"
+        focused
+        margin="none"
+        value={resourceItem.resource.name}
+        options={resourceNames}
+        onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" disableTypography>
+              Resource:
+            </InputAdornment>
+          ),
+        }}
       />
-      <Dialect
-        dialect={dialect}
-        onCommit={(dialect) => update({ resources: [{ ...resource, dialect }] })}
-      />
-      <Schema
-        schema={schema}
-        onCommit={(schema) => update({ resources: [{ ...resource, schema }] })}
-      />
-      <Checklist
-        checklist={checklist}
-        schema={schema}
-        onCommit={(checklist) => update({ resources: [{ ...resource, checklist }] })}
-      />
-    </Tabs>
+    </Box>
   )
 }

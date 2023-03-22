@@ -1,0 +1,33 @@
+# Resource
+
+resource:
+  - Resource
+  - https://specs.frictionlessdata.io/data-resource/
+  - A simple format to describe and package a single data resource such as a individual table or file.
+resource/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - A human-readable title.
+resource/description:
+  - Description
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - A description of the resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+
+# Checksum
+
+checksum:
+  - Checksum
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Checksum
+
+# Licenses
+
+licenses:
+  - Licenses
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The license(s) under which the resource is provided.
+
+licenses/name:
+  - Name
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The name MUST be an Open Definition license ID

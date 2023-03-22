@@ -1,6 +1,12 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
-import { IFileItem, ITreeItem } from './interfaces'
+import { IFileItem, ITreeItem, IHelp, IHelpItem } from './interfaces'
+
+export function readHelpItem(help: IHelp, path: string): IHelpItem | null {
+  const record = help[path]
+  if (!record) return null
+  return { path, title: record[0], link: record[1], description: record[2] }
+}
 
 export function exportDescriptor(descriptor: object) {
   const text = encodeURIComponent(JSON.stringify(descriptor, null, 2))

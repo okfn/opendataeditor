@@ -9,6 +9,7 @@ interface PreviewProps {
   format: string
   descriptor: object
   height?: string
+  revision?: number
 }
 
 export default function Preview(props: PreviewProps) {
@@ -17,7 +18,28 @@ export default function Preview(props: PreviewProps) {
     ? yaml.dump(props.descriptor)
     : JSON.stringify(props.descriptor, null, 2)
   return (
-    <Box sx={{ height: props.height || '100%', overflowY: 'auto' }}>
+    <Box
+      sx={{
+        height: props.height || '100%',
+        overflow: 'auto',
+        scrollbarWidth: 'thin',
+        '&::-webkit-scrollbar': {
+          width: '0.4em',
+          height: '0.4em',
+        },
+        '&::-webkit-scrollbar-track': {
+          borderRadius: '3px',
+          background: '#f1f1f1',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: '3px',
+          backgroundColor: '#888',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          background: '#555',
+        },
+      }}
+    >
       <pre style={{ marginTop: 0, marginBottom: 0 }}>
         <code>{text}</code>
       </pre>

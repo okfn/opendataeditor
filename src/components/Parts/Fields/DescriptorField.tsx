@@ -9,7 +9,7 @@ interface DescriptorFieldProps {
   label: string
   value?: IDict
   size?: 'small' | 'medium'
-  onChange: (value: boolean) => void
+  onChange: (value: IDict) => void
 }
 
 export default function DescriptorField(props: DescriptorFieldProps) {

@@ -6,12 +6,17 @@ import Grid, { GridSize } from '@mui/material/Grid'
 interface ColumnsProps {
   spacing?: number
   layout?: GridSize[]
+  height?: string
 }
 
 export default function Columns(props: React.PropsWithChildren<ColumnsProps>) {
   const defaultWidth = Math.round(12 / React.Children.count(props.children)) as GridSize
   return (
-    <Grid container columnSpacing={props.spacing}>
+    <Grid
+      container
+      columnSpacing={props.spacing}
+      sx={{ height: props.height || undefined }}
+    >
       {React.Children.map(props.children, (child, index) => (
         <Grid item key={index} md={props.layout ? props.layout[index] : defaultWidth}>
           {child}

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import Content from './Content'
-import Publish from '../../Editors/Package/Publish/Publish'
+import Publish from '../Package/Publish/Publish'
 import { useStore } from './store'
 import Menu from './Menu'
 

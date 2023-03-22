@@ -7,11 +7,17 @@ import TextField from '@mui/material/TextField'
 
 interface SelectFieldProps {
   type?: string
-  label: string
+  label?: string
   value: any
   size?: 'small' | 'medium'
+  margin?: 'dense' | 'none' | 'normal'
   options: string[] | { label: string; value: any }[]
   onChange: (value: any) => void
+  InputProps?: object
+  // TODO: fix
+  color?: any
+  focused?: boolean
+  disabled?: boolean
 }
 
 export default function SelectField(props: SelectFieldProps) {
@@ -23,11 +29,14 @@ export default function SelectField(props: SelectFieldProps) {
       select
       fullWidth
       label={props.label}
-      margin="normal"
+      margin={props.margin || 'normal'}
       value={props.value}
       size={props.size || 'small'}
-      disabled={props.options.length < 2}
+      InputProps={props.InputProps}
+      disabled={props.disabled}
       onChange={(ev) => props.onChange((ev.target as any).value)}
+      color={props.color}
+      focused={props.focused}
     >
       {options.map((option) => (
         <MenuItem key={option.label} value={option.value}>

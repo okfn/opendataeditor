@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles'
 // TODO: include also variant/etc
 
 const Heading = styled((props: TypographyProps) => (
-  <Typography variant="h6" {...props} />
+  <Typography variant="h4" {...props} />
 ))(({ theme }) => ({
   lineHeight: theme.spacing(5),
   marginTop: theme.spacing(2),

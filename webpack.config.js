@@ -2,16 +2,17 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const ENTRY = process.env.ENTRY || 'application'
 const DEBUG = process.env.DEBUG || false
 
 // Base
 
 const webpackConfig = {
-  entry: ['./src/main.ts'],
+  entry: ['./src/application.ts'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'application.js',
-    library: 'application',
+    library: 'frictionlessApplication',
     libraryTarget: 'umd',
     clean: true,
   },
@@ -51,13 +52,8 @@ const webpackConfig = {
   plugins: [
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
-      title: 'Frictionless Application',
       favicon: 'assets/favicon.png',
-      meta: {
-        viewport: 'width=device-width, initial-scale=1',
-        description:
-          'Data management application for Browser and Desktop that provides functionality to describe, extract, validate, and transform tabular data',
-      },
+      template: 'src/application.html',
     }),
   ],
 }
@@ -89,6 +85,17 @@ if (NODE_ENV === 'production') {
   webpackConfig.mode = 'production'
 }
 
-// System
+// Metadata
+
+if (ENTRY === 'metadata') {
+  webpackConfig.entry = ['./src/metadata.ts']
+  webpackConfig.output.filename = 'metadata.js'
+  webpackConfig.output.library = 'frictionlessMetadata'
+  webpackConfig.output.path = path.resolve(__dirname, 'dist/metadata')
+  webpackConfig.plugins[1] = new HtmlWebpackPlugin({
+    favicon: 'assets/favicon.png',
+    template: 'src/metadata.html',
+  })
+}
 
 module.exports = webpackConfig

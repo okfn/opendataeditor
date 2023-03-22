@@ -7,13 +7,20 @@ import MuiTab from '@mui/material/Tab'
 export interface TabsProps {
   index?: number
   labels: string[]
+  disabledLabels?: string[]
   children?: React.ReactNode
+  onChange?: (index: number) => void
 }
 
 export default function Tabs(props: TabsProps) {
   const theme = useTheme()
-  const [value, setValue] = React.useState(props.index || 0)
-  const handleChange = (_: any, newValue: number) => setValue(newValue)
+  let [value, setValue] = React.useState(props.index || 0)
+  // TODO: it's a hack; rebase on normal controlled/uncontrolled
+  if (props.index !== undefined) value = props.index
+  const handleChange = (_: any, newValue: number) => {
+    setValue(newValue)
+    props.onChange && props.onChange(newValue)
+  }
   const tabsHeight = `calc(${theme.spacing(6)} - 1px)`
   return (
     <Box>
@@ -23,7 +30,9 @@ export default function Tabs(props: TabsProps) {
             <MuiTab
               key={label}
               label={label.replace('_', '')}
-              disabled={label.startsWith('_')}
+              disabled={
+                label.startsWith('_') || (props.disabledLabels || []).includes(label)
+              }
             />
           ))}
         </MuiTabs>
