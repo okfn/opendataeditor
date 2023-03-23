@@ -2,9 +2,11 @@ import * as React from 'react'
 import Empty from '../../Parts/Empty'
 import SpinnerContent from '../../Parts/SpinnerContent'
 import FileTree from '../../Parts/Trees/FileTree'
+import Alert, { AlertColor } from '@mui/material/Alert'
+import IconButton from '@mui/material/IconButton'
+import Snackbar from '@mui/material/Snackbar'
+import Close from '@mui/icons-material/Close'
 import { useStore, selectors } from './store'
-import { Alert, AlertColor, IconButton, Snackbar } from '@mui/material'
-import { Close } from '@mui/icons-material'
 
 export default function Content() {
   const fileItems = useStore((state) => state.fileItems)

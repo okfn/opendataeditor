@@ -1,6 +1,10 @@
-import { Button, Checkbox, MenuItem } from '@mui/material'
-import { Select, Toolbar, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 import * as React from 'react'
 
 type ToolBarMenuItem = {

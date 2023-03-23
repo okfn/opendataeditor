@@ -1,4 +1,5 @@
 import * as React from 'react'
+import LinearProgress from '@mui/material/LinearProgress'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -7,10 +8,8 @@ import TextareaAutosize from '@mui/material/TextareaAutosize'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Columns from '../../../Parts/Columns'
 import UserInfo from '../../../Parts/UserInfo'
-import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import InputField from '../../../Parts/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
-import { LinearProgress } from '@mui/material'
 
 interface ZenodoControlParams extends IPublish {
   baseURL?: string
@@ -138,7 +137,7 @@ export default function Zenodo(props: ZenodoProps) {
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
-      <HeadingBox>Zenodo</HeadingBox>
+      <Box>Zenodo</Box>
       <Grid container columnSpacing={2}>
         <Grid item xs={12}>
           <FormControlLabel

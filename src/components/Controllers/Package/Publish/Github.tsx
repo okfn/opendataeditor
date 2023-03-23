@@ -6,7 +6,7 @@ import Columns from '../../../Parts/Columns'
 import InputField from '../../../Parts/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
 import UserInfo from '../../../Parts/UserInfo'
-import { LinearProgress } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface GithubControlParams extends IPublish {
   repo?: string

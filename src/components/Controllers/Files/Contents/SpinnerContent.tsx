@@ -1,9 +1,9 @@
 import * as React from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
-import { CircularProgress } from '@mui/material'
 
 export default function SpinnerContent() {
   return (

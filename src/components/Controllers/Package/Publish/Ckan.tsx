@@ -4,10 +4,9 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Columns from '../../../Parts/Columns'
 import UserInfo from '../../../Parts/UserInfo'
-import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import InputField from '../../../Parts/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
-import { LinearProgress } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface CKANControlParams extends IPublish {
   baseURL?: string
@@ -120,7 +119,7 @@ export default function CKAN(props: CKANProps) {
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
-      <HeadingBox>CKAN</HeadingBox>
+      <Box>CKAN</Box>
       <Grid container columnSpacing={2}>
         <Grid item xs={12}>
           <InputField

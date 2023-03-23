@@ -1,4 +1,6 @@
 import * as React from 'react'
+import FileSaver from 'file-saver'
+import Download from '@mui/icons-material/Download'
 import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
 import RenameIcon from '@mui/icons-material/Edit'
@@ -6,8 +8,6 @@ import ManageIcon from '@mui/icons-material/FileCopy'
 import DefaultButton from '../../../Parts/Buttons/DefaultButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import { useStore, selectors } from '../store'
-import FileSaver from 'file-saver'
-import { Download } from '@mui/icons-material'
 
 export default function ManageButton() {
   const path = useStore((state) => state.path)
