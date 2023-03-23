@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import ClearIcon from '@mui/icons-material/Clear'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 
 interface EditorSearchProps {
   value?: string

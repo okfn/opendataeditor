@@ -9,6 +9,7 @@ export interface ResourceProps {
   resource?: IResource
   isShallow?: boolean
   onChange?: (resource: IResource) => void
+  onBackClick?: () => void
 }
 
 export default function Resource(props: ResourceProps) {

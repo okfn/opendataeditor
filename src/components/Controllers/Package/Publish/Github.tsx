@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Columns from '../../../Parts/Columns'
-import HeadingBox from '../../../Parts/Groups/HeadingBox'
 import InputField from '../../../Parts/Fields/InputField'
 import { IPublish } from '../../../../interfaces/publish'
 import UserInfo from '../../../Parts/UserInfo'
@@ -136,7 +135,7 @@ export default function Github(props: GithubProps) {
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
-      <HeadingBox marginTop="0px">Github</HeadingBox>
+      <Box marginTop="0px">Github</Box>
       <Grid container columnSpacing={2}>
         <Grid item xs={12}>
           <InputField

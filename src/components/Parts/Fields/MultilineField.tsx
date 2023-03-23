@@ -1,6 +1,6 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 
 // TODO: shall we open a modal editor for this field?
 
