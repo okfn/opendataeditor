@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const ENTRY = process.env.ENTRY || 'application'
 const DEBUG = process.env.DEBUG || false
@@ -83,6 +84,12 @@ if (NODE_ENV === 'testing') {
 
 if (NODE_ENV === 'production') {
   webpackConfig.mode = 'production'
+  webpackConfig.plugins[2] = new CompressionPlugin({
+    algorithm: 'gzip',
+    test: /\.(js|html)$/,
+    threshold: 10240,
+    minRatio: 0.8,
+  })
 }
 
 // Metadata
