@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react'
 import Schema from '../../src/components/Editors/Schema'
 
 export default {
-  title: 'Editors/Schema2',
+  title: 'Editors/Schema',
   component: Schema,
 } as Meta
 

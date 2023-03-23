@@ -24,6 +24,7 @@ interface State {
   descriptor: IResource
   isShallow?: boolean
   onChange: (resource: IResource) => void
+  onBackClick?: () => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IResource>) => void
@@ -42,6 +43,7 @@ export function makeStore(props: ResourceProps) {
     descriptor: props.resource || cloneDeep(INITIAL_RESOURCE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
+    onBackClick: props.onBackClick,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM

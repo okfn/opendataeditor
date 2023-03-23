@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react'
 import Resource from '../../src/components/Editors/Resource'
 
 export default {
-  title: 'Editors/Resource2',
+  title: 'Editors/Resource',
   component: Resource,
 } as Meta
 

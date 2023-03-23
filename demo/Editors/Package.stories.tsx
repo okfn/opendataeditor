@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react'
 import Package from '../../src/components/Editors/Package'
 
 export default {
-  title: 'Editors/Package2',
+  title: 'Editors/Package',
   component: Package,
 } as Meta
 

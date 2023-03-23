@@ -32,12 +32,17 @@ export default function Layout() {
 function Sections() {
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
+  const vtabIndex = useStore((state) => state.packageState.vtabIndex)
+  const updatePackageState = useStore((state) => state.updatePackageState)
   return (
     <Columns spacing={3} layout={[9, 3]}>
       <VerticalTabs
-        index={1}
+        index={vtabIndex}
         labels={LABELS}
-        onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+        onChange={(index) => {
+          updateHelp(camelCase(LABELS[index]))
+          updatePackageState({ vtabIndex: index })
+        }}
       >
         <Package />
         <Resources />
@@ -66,6 +71,7 @@ function Groups() {
           isShallow
           resource={resourceItem.resource}
           onChange={(resource) => updateResource(resource)}
+          onBackClick={() => updatePackageState({ tabIndex: 0, vtabIndex: 1 })}
         />
       )}
       {resourceItem && (

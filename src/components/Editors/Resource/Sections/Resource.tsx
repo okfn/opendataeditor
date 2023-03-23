@@ -9,8 +9,13 @@ import { useStore } from '../store'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const onBackClick = useStore((state) => state.onBackClick)
   return (
-    <EditorSection name="Resource" onHeadingClick={() => updateHelp('resource')}>
+    <EditorSection
+      name="Resource"
+      onHeadingClick={() => updateHelp('resource')}
+      onBackClick={onBackClick}
+    >
       <Columns spacing={3}>
         <Box>
           <Name />

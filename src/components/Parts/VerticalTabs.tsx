@@ -12,7 +12,9 @@ export interface VerticalTabsProps {
 }
 
 export default function VerticalTabs(props: VerticalTabsProps) {
-  const [value, setValue] = React.useState(props.index || 0)
+  let [value, setValue] = React.useState(props.index || 0)
+  // TODO: it's a hack; rebase on normal controlled/uncontrolled
+  if (props.index !== undefined) value = props.index
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
     if (props.onChange) {

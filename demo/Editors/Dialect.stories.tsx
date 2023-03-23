@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react'
 import Dialect from '../../src/components/Editors/Dialect'
 
 export default {
-  title: 'Editors/Dialect2',
+  title: 'Editors/Dialect',
   component: Dialect,
 } as Meta
 
