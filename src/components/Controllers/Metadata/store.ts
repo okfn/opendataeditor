@@ -7,16 +7,19 @@ import { IFile } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
 
 export interface State {
-  client: Client
   file: IFile
+  client: Client
+  panel?: 'source'
   descriptor?: object
-  publishedPath?: string
+  updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    rootState: {},
+    updateState: (patch) => set(patch),
     loadDescriptor: async () => {
       const { client, file } = get()
       const { data } = await client.dataRead({ path: file.path })

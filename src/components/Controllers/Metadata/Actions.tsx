@@ -7,13 +7,14 @@ import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
 import Columns from '../../Parts/Columns'
+import { useStore } from './store'
 
 export default function Actions() {
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
-        <Preview />
+        <Source />
         <Columns spacing={2}>
           <Discard />
           <Save />
@@ -23,9 +24,16 @@ export default function Actions() {
   )
 }
 
-function Preview() {
+function Source() {
+  const panel = useStore((state) => state.panel)
+  const updateState = useStore((state) => state.updateState)
   return (
-    <DefaultButton icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />} label="Source" />
+    <DefaultButton
+      label="Source"
+      color={panel === 'source' ? 'warning' : 'info'}
+      icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+    />
   )
 }
 
