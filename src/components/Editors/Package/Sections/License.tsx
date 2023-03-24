@@ -51,13 +51,13 @@ function LicenseList() {
 }
 
 function LicenseItem() {
-  const { license } = useStore(selectors.licenseItem)
+  const name = useStore(select(selectors.license, (license) => license.name))
   const isExtras = useStore((state) => state.licenseState.isExtras)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   return (
     <EditorItem
       kind="license"
-      name={license.name}
+      name={name}
       isExtras={isExtras}
       onExtrasClick={() => updateLicenseState({ isExtras: !isExtras })}
       onBackClick={() => updateLicenseState({ index: undefined, isExtras: false })}
@@ -76,7 +76,7 @@ function LicenseItem() {
 }
 
 function Name() {
-  const name = useStore(select(selectors.licenseItem, ({ license }) => license.name))
+  const name = useStore(select(selectors.license, (license) => license.name))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (
@@ -90,7 +90,7 @@ function Name() {
 }
 
 function Title() {
-  const title = useStore(select(selectors.licenseItem, ({ license }) => license.title))
+  const title = useStore(select(selectors.license, (license) => license.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (
@@ -104,7 +104,7 @@ function Title() {
 }
 
 function Path() {
-  const path = useStore(select(selectors.licenseItem, ({ license }) => license.path))
+  const path = useStore(select(selectors.license, (license) => license.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   return (

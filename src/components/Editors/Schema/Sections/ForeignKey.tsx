@@ -52,13 +52,13 @@ function ForeignKeyList() {
 }
 
 function ForeignKeyItem() {
-  const { foreignKey } = useStore(selectors.foreignKeyItem)
+  const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   return (
     <EditorItem
       kind="foreignKey"
-      name={foreignKey.fields.join(',')}
+      name={fields.join(',')}
       isExtras={isExtras}
       onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
       onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}
@@ -77,9 +77,7 @@ function ForeignKeyItem() {
 }
 
 function SourceField() {
-  const fields = useStore(
-    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.fields)
-  )
+  const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const fieldNames = useStore(selectors.fieldNames)
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   return (
@@ -95,7 +93,7 @@ function SourceField() {
 function TargetField() {
   const fieldNames = useStore(selectors.fieldNames)
   const reference = useStore(
-    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.reference)
+    select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   return (
@@ -112,7 +110,7 @@ function TargetField() {
 
 function TargetResource() {
   const reference = useStore(
-    select(selectors.foreignKeyItem, ({ foreignKey }) => foreignKey.reference)
+    select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   return (

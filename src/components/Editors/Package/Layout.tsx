@@ -14,7 +14,7 @@ import Schema from '../Schema'
 import Package from './Sections/Package'
 import License from './Sections/License'
 import Resources from './Sections/Resource'
-import { useStore, selectors, select } from './store'
+import { useStore, selectors } from './store'
 
 const LABELS = ['Package', 'Resources', 'Licenses']
 
@@ -54,7 +54,7 @@ function Sections() {
 }
 
 function Groups() {
-  const resource = useStore(select(selectors.resourceItem, ({ resource }) => resource))
+  const resource = useStore(selectors.resource)
   const tabIndex = useStore((state) => state.packageState.tabIndex)
   const updatePackageState = useStore((state) => state.updatePackageState)
   const updateResource = useStore((state) => state.updateResource)
@@ -91,8 +91,8 @@ function Groups() {
 }
 
 function Selector() {
+  const resource = useStore(selectors.resource)
   const updateResourceState = useStore((state) => state.updateResourceState)
-  const resource = useStore(select(selectors.resourceItem, ({ resource }) => resource))
   const packageState = useStore((state) => state.packageState)
   const resourceNames = useStore(selectors.resourceNames)
   if (packageState.tabIndex === 0) return null
