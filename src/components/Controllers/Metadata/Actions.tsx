@@ -38,16 +38,23 @@ function Preview() {
 }
 
 function Discard() {
+  const revision = useStore((state) => state.revision)
+  const revert = useStore((state) => state.revert)
   return (
     <RevertButton
-      disabled={true}
+      disabled={!revision}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => revert()}
     />
   )
 }
 
 function Save() {
+  const revision = useStore((state) => state.revision)
   return (
-    <CommitButton disabled={true} icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />} />
+    <CommitButton
+      disabled={!revision}
+      icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
+    />
   )
 }

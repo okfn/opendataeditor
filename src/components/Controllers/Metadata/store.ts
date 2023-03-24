@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
@@ -12,8 +13,10 @@ export interface State {
   panel?: 'preview'
   revision: number
   descriptor?: object
+  checkpoint?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
+  revert: () => void
 }
 
 export function makeStore(props: MetadataProps) {
@@ -28,7 +31,11 @@ export function makeStore(props: MetadataProps) {
     loadDescriptor: async () => {
       const { client, file } = get()
       const { data } = await client.dataRead({ path: file.path })
-      set({ descriptor: data })
+      set({ descriptor: cloneDeep(data), checkpoint: data })
+    },
+    revert: () => {
+      const { checkpoint } = get()
+      set({ descriptor: cloneDeep(checkpoint), revision: 0 })
     },
   }))
 }
