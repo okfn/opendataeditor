@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { FilesProps } from './Files'
@@ -72,8 +72,8 @@ export interface State {
   createPackage: () => Promise<void>
 }
 
-export function createStore(props: FilesProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: FilesProps) {
+  return createStore<State>((set, get) => ({
     client: props.client,
     fileItems: [],
     onFileChange: props.onFileChange,

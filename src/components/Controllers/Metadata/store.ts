@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
@@ -24,8 +24,8 @@ export interface State {
   publishPackage: (params: IPublish) => Promise<any>
 }
 
-export function createStore(props: MetadataProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: MetadataProps) {
+  return createStore<State>((set, get) => ({
     // Data
 
     ...props,

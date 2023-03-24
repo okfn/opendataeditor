@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { IFile } from '../../interfaces'
@@ -18,8 +18,8 @@ export interface State {
   setFileItemAdded: (value: boolean) => void
 }
 
-export function createStore(props: ApplicationProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: ApplicationProps) {
+  return createStore<State>((set, get) => ({
     ...props,
 
     // General

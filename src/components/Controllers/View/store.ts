@@ -1,11 +1,11 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
 import { ITable, IView, IFieldItem } from '../../../interfaces'
-import { SqlProps } from './Sql'
+import { SqlProps } from './View'
 
 export interface State {
   client: Client
@@ -29,8 +29,8 @@ export interface ExceptionError {
   message: string
 }
 
-export function createStore(props: SqlProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: SqlProps) {
+  return createStore<State>((set, get) => ({
     client: props.client,
     file: props.file,
     queryValidationStatus: false,

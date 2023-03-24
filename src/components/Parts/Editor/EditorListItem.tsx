@@ -27,6 +27,7 @@ export default function EditorListItem(props: EditorListItemProps) {
         <Button
           size="small"
           color="warning"
+          component="span"
           title={`Remove ${capitalize(props.kind)}`}
           sx={{ marginLeft: 2, textDecoration: 'underline' }}
           onClick={(ev) => {

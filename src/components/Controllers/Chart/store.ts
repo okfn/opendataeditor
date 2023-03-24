@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile, IFieldItem } from '../../../interfaces'
@@ -22,8 +22,8 @@ export interface State {
   drawChart: () => Promise<void>
 }
 
-export function createStore(props: ChartProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: ChartProps) {
+  return createStore<State>((set, get) => ({
     client: props.client,
     file: props.file,
 

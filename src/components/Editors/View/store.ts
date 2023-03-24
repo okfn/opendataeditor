@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import AceEditor from 'react-ace'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { Parser, AST, Select } from 'node-sql-parser'
 import { assert } from 'ts-essentials'
 import { ViewProps } from './View'
@@ -28,8 +28,8 @@ export interface ExceptionError {
   message: string
 }
 
-export function createStore(props: ViewProps) {
-  return create<State>((set, _get) => ({
+export function makeStore(props: ViewProps) {
+  return createStore<State>((set, _get) => ({
     view: props.view || { query: '' },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
     viewError: props.viewError,

@@ -1,7 +1,7 @@
 import noop from 'lodash/noop'
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile, ITable, ITablePatch } from '../../../interfaces'
@@ -40,8 +40,8 @@ export interface State {
   onExport: (path: string) => void
 }
 
-export function createStore(props: TableProps) {
-  return create<State>((set, get) => ({
+export function makeStore(props: TableProps) {
+  return createStore<State>((set, get) => ({
     ...props,
     tablePatch: {},
 

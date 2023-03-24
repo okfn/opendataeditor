@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StoreProvider, createStore } from './store'
+import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { IChart, IFieldItem } from '../../../interfaces'
@@ -12,7 +12,7 @@ export interface ChartProps {
 }
 
 export default function Chart(props: ChartProps) {
-  const store = React.useMemo(() => createStore(props), Object.values(props))
+  const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>

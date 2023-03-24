@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StoreProvider, createStore } from './store'
+import { StoreProvider, makeStore } from './store'
 import { Client } from '../../../client'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
@@ -12,7 +12,7 @@ export interface FileProps {
 }
 
 export default function File(props: FileProps) {
-  const store = React.useMemo(() => createStore(props), Object.values(props))
+  const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>

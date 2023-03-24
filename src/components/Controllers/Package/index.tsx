@@ -1,1 +1,1 @@
-export { default } from './Metadata'
+export { default } from './Package'

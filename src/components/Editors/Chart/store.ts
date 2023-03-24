@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { ChartProps } from './Chart'
 import { IChart, ITreeItem } from '../../../interfaces'
@@ -13,8 +13,8 @@ export interface State {
   // General
 }
 
-export function createStore(props: ChartProps) {
-  return create<State>((_set, _get) => ({
+export function makeStore(props: ChartProps) {
+  return createStore<State>((_set, _get) => ({
     chart: props.chart || { query: '' },
     fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
 
