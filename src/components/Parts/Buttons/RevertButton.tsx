@@ -6,7 +6,7 @@ interface RevertButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
   icon?: React.ReactNode
   disabled?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 export default function RevertButton(props: RevertButtonProps) {
@@ -21,7 +21,7 @@ export default function RevertButton(props: RevertButtonProps) {
       }
       title="Revert the changes"
       disabled={props.disabled}
-      onClick={() => props.onClick()}
+      onClick={() => props.onClick && props.onClick()}
     >
       {props.icon} Revert
     </Button>

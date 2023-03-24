@@ -1,28 +1,33 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import Resource from '../../Editors/Resource'
+import Dialect from '../../Editors/Dialect'
+import Schema from '../../Editors/Schema'
+import { IResource, IDialect, ISchema } from '../../../interfaces'
+import Actions from './Actions'
 import { useTheme } from '@mui/material/styles'
-import Content from './Content'
-import Publish from '../Package/Publish/Publish'
 import { useStore } from './store'
-import Menu from './Menu'
 
-export default function Layout() {
+export default function Content() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
-  const isPublish = useStore((state) => state.isPublish)
-  const togglePublish = useStore((state) => state.togglePublish)
-  const publishPackage = useStore((state) => state.publishPackage)
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8)})`
+  const type = useStore((state) => state.file.type)
+  const path = useStore((state) => state.file.path)
+  const descriptor = useStore((state) => state.descriptor)
+  const loadDescriptor = useStore((state) => state.loadDescriptor)
+  React.useEffect(() => {
+    loadDescriptor().catch(console.error)
+  }, [path])
+  if (!descriptor) return null
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Menu />
-      <Box sx={{ height }}>
-        <Content />
+    <Box sx={{ height }}>
+      <Box sx={{ height: contentHeight }}>
+        {type === 'resource' && <Resource resource={descriptor as IResource} />}
+        {type === 'dialect' && <Dialect dialect={descriptor as IDialect} />}
+        {type === 'schema' && <Schema schema={descriptor as ISchema} />}
       </Box>
-      <Publish
-        open={isPublish || false}
-        togglePublish={togglePublish}
-        publishPackage={publishPackage}
-      />
+      <Actions />
     </Box>
   )
 }
