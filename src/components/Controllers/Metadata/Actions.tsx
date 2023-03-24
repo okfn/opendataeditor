@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Check'
 import SourceIcon from '@mui/icons-material/Code'
 import ChangesIcon from '@mui/icons-material/History'
+import ExportIcon from '@mui/icons-material/IosShare'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
@@ -14,13 +15,24 @@ export default function Actions() {
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
+        <SaveAs />
         <Preview />
-        <Columns spacing={2}>
-          <Discard />
-          <Save />
-        </Columns>
+        <Discard />
+        <Save />
       </Columns>
     </Box>
+  )
+}
+
+function SaveAs() {
+  const panel = useStore((state) => state.panel)
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <DefaultButton
+      label="Save as"
+      icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => updateState({ panel: panel !== 'preview' ? 'preview' : undefined })}
+    />
   )
 }
 
