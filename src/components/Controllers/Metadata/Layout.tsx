@@ -51,8 +51,7 @@ export default function Content() {
         sx={{
           overflowY: 'hidden',
           height: theme.spacing(48),
-          borderTop: 1,
-          borderColor: 'divider',
+          border: 'solid 3px #000',
           padding: 2,
           backgroundColor: '#333',
           color: '#eee',
