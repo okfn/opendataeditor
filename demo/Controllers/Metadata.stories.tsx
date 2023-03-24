@@ -12,7 +12,7 @@ export default {
 // Props
 
 const client = new Client({ session: 'storybooktestersession' })
-const record = {
+const file = {
   name: 'table',
   type: 'table',
   path: 'table.csv',
@@ -28,5 +28,5 @@ const record = {
 export const Default = Template.bind({})
 Default.args = {
   client,
-  record,
+  file,
 }
