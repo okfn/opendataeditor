@@ -10,7 +10,16 @@ import Columns from '../../Parts/Columns'
 import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
 
+// TODO: why Editor re-render on a "Preview" button click?
 export default function Content() {
+  return (
+    <Layout>
+      <Editor />
+    </Layout>
+  )
+}
+
+function Layout(props: React.PropsWithChildren<{}>) {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 8)})`
   const isPreview = useStore((state) => state.editorState.isPreview)
@@ -19,9 +28,7 @@ export default function Content() {
       {isPreview ? (
         <Box sx={{ backgroundColor: '#333' }}>
           <Columns spacing={2} layout={[9, 3]}>
-            <Box sx={{ height, backgroundColor: '#fff' }}>
-              <Editor />
-            </Box>
+            <Box sx={{ height, backgroundColor: '#fff' }}>{props.children}</Box>
             <Box
               sx={{
                 height,
@@ -36,7 +43,7 @@ export default function Content() {
           </Columns>
         </Box>
       ) : (
-        <Editor />
+        props.children
       )}
     </Box>
   )
