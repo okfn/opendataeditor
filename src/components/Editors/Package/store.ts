@@ -152,7 +152,6 @@ export const selectors = {
     const index = state.resourceState.index
     const resources = state.descriptor.resources!
     const resource = resources[index]
-    if (resource === undefined) return undefined
     return { index, resource }
   },
   resourceItems: (state: State) => {

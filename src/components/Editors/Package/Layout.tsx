@@ -14,7 +14,7 @@ import Schema from '../Schema'
 import Package from './Sections/Package'
 import License from './Sections/License'
 import Resources from './Sections/Resource'
-import { useStore, selectors } from './store'
+import { useStore, selectors, select } from './store'
 
 const LABELS = ['Package', 'Resources', 'Licenses']
 
@@ -54,7 +54,7 @@ function Sections() {
 }
 
 function Groups() {
-  const resourceItem = useStore(selectors.resourceItem)
+  const resource = useStore(select(selectors.resourceItem, ({ resource }) => resource))
   const tabIndex = useStore((state) => state.packageState.tabIndex)
   const updatePackageState = useStore((state) => state.updatePackageState)
   const updateResource = useStore((state) => state.updateResource)
@@ -62,27 +62,27 @@ function Groups() {
     <Tabs
       index={tabIndex}
       labels={['Package', 'Resource', 'Dialect', 'Schema']}
-      disabledLabels={!resourceItem ? ['Resource', 'Dialect', 'Schema'] : []}
+      disabledLabels={!resource ? ['Resource', 'Dialect', 'Schema'] : []}
       onChange={(index) => updatePackageState({ tabIndex: index })}
     >
       <Sections />
-      {resourceItem && (
+      {resource && (
         <Resource
           isShallow
-          resource={resourceItem.resource}
+          resource={resource}
           onChange={(resource) => updateResource(resource)}
           onBackClick={() => updatePackageState({ tabIndex: 0, vtabIndex: 1 })}
         />
       )}
-      {resourceItem && (
+      {resource && (
         <Dialect
-          dialect={resourceItem.resource.dialect}
+          dialect={resource.dialect}
           onChange={(dialect) => updateResource({ dialect })}
         />
       )}
-      {resourceItem && (
+      {resource && (
         <Schema
-          schema={resourceItem.resource.schema}
+          schema={resource.schema}
           onChange={(schema) => updateResource({ schema })}
         />
       )}
@@ -92,18 +92,18 @@ function Groups() {
 
 function Selector() {
   const updateResourceState = useStore((state) => state.updateResourceState)
+  const resource = useStore(select(selectors.resourceItem, ({ resource }) => resource))
   const packageState = useStore((state) => state.packageState)
   const resourceNames = useStore(selectors.resourceNames)
-  const resourceItem = useStore(selectors.resourceItem)
   if (packageState.tabIndex === 0) return null
-  if (!resourceItem) return null
+  if (!resource) return null
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
       <SelectField
         color="info"
         focused
         margin="none"
-        value={resourceItem.resource.name}
+        value={resource.name}
         options={resourceNames}
         onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
         InputProps={{
