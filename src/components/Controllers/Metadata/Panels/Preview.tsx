@@ -1,14 +1,10 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import Preview from '../../../Parts/Preview'
 import { useStore } from '../store'
 
-export default function SourcePanel() {
+export default function PreviewPanel() {
+  const revision = useStore((state) => state.revision)
   const descriptor = useStore((state) => state.descriptor)
   if (!descriptor) return null
-  return (
-    <Box>
-      <Preview format="json" descriptor={descriptor || {}} />
-    </Box>
-  )
+  return <Preview format="json" descriptor={descriptor || {}} revision={revision} />
 }

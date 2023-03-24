@@ -14,7 +14,7 @@ export default function Actions() {
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
-        <Source />
+        <Preview />
         <Columns spacing={2}>
           <Discard />
           <Save />
@@ -24,15 +24,15 @@ export default function Actions() {
   )
 }
 
-function Source() {
+function Preview() {
   const panel = useStore((state) => state.panel)
   const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
-      label="Source"
-      color={panel === 'source' ? 'warning' : 'info'}
+      label="Preview"
+      color={panel === 'preview' ? 'warning' : 'info'}
       icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+      onClick={() => updateState({ panel: panel !== 'preview' ? 'preview' : undefined })}
     />
   )
 }

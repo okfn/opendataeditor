@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
-import SourcePanel from './Panels/Source'
+import PreviewPanel from './Panels/Preview'
 import Actions from './Actions'
 import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { useTheme } from '@mui/material/styles'
@@ -18,6 +18,7 @@ export default function Content() {
   const type = useStore((state) => state.file.type)
   const path = useStore((state) => state.file.path)
   const descriptor = useStore((state) => state.descriptor)
+  const updateState = useStore((state) => state.updateState)
   const loadDescriptor = useStore((state) => state.loadDescriptor)
   React.useEffect(() => {
     loadDescriptor().catch(console.error)
@@ -26,14 +27,29 @@ export default function Content() {
   return (
     <Box sx={{ height }}>
       <Box sx={{ height: contentHeight }}>
-        {type === 'resource' && <Resource resource={descriptor as IResource} />}
-        {type === 'dialect' && <Dialect dialect={descriptor as IDialect} />}
-        {type === 'schema' && <Schema schema={descriptor as ISchema} />}
+        {type === 'resource' && (
+          <Resource
+            resource={descriptor as IResource}
+            onChange={(descriptor) => updateState({ descriptor })}
+          />
+        )}
+        {type === 'dialect' && (
+          <Dialect
+            dialect={descriptor as IDialect}
+            onChange={(descriptor) => updateState({ descriptor })}
+          />
+        )}
+        {type === 'schema' && (
+          <Schema
+            schema={descriptor as ISchema}
+            onChange={(descriptor) => updateState({ descriptor })}
+          />
+        )}
       </Box>
       <Box
         hidden={!panel}
         sx={{
-          overflowY: 'auto',
+          overflowY: 'hidden',
           height: theme.spacing(48),
           borderTop: 1,
           borderColor: 'divider',
@@ -43,7 +59,7 @@ export default function Content() {
           fontSize: '80%',
         }}
       >
-        {panel === 'source' && <SourcePanel />}
+        {panel === 'preview' && <PreviewPanel />}
       </Box>
       <Box sx={{ height: theme.spacing(8) }}>
         <Actions />

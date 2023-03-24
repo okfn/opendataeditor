@@ -9,7 +9,8 @@ import { MetadataProps } from './Metadata'
 export interface State {
   file: IFile
   client: Client
-  panel?: 'source'
+  panel?: 'preview'
+  revision: number
   descriptor?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
@@ -18,8 +19,12 @@ export interface State {
 export function makeStore(props: MetadataProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    rootState: {},
-    updateState: (patch) => set(patch),
+    revision: 0,
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('descriptor' in patch) patch.revision = revision + 1
+      set(patch)
+    },
     loadDescriptor: async () => {
       const { client, file } = get()
       const { data } = await client.dataRead({ path: file.path })
