@@ -16,13 +16,18 @@ export default function Layout() {
   const theme = useTheme()
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
+  const vtabIndex = useStore((state) => state.schemaState.vtabIndex)
+  const updateSchemaState = useStore((state) => state.updateSchemaState)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs
-          index={1}
+          index={vtabIndex}
           labels={LABELS}
-          onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+          onChange={(index) => {
+            updateHelp(camelCase(LABELS[index]))
+            updateSchemaState({ vtabIndex: index })
+          }}
         >
           <Schema />
           <Field />

@@ -45,7 +45,6 @@ function Groups() {
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
-  console.log('draw')
   return (
     <Tabs labels={['Resource', 'Dialect', 'Schema']}>
       <Sections />

@@ -17,7 +17,6 @@ export default function CardButton(props: CardButtonProps) {
     <Card
       variant="outlined"
       sx={{ width: '100%', height: '100%', border: 'dashed 1px #489be6' }}
-      onClick={() => console.log('click')}
     >
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

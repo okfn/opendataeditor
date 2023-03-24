@@ -13,16 +13,16 @@ import help from './help.yaml'
 const INITIAL_PACKAGE: IPackage = { resources: [] }
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'package')!
 
+interface IPackageState {
+  tabIndex: number
+  vtabIndex: number
+}
+
 interface ISectionState {
   query?: string
   index?: number
   isGrid?: boolean
   isExtras?: boolean
-}
-
-interface IPackageState {
-  tabIndex: number
-  vtabIndex: number
 }
 
 interface State {

@@ -13,6 +13,10 @@ import help from './help.yaml'
 const INITIAL_SCHEMA: ISchema = { fields: [] }
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
 
+interface ISchemaState {
+  vtabIndex: number
+}
+
 interface ISectionState {
   query?: string
   index?: number
@@ -27,6 +31,11 @@ interface State {
   helpItem: IHelpItem
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<ISchema>) => void
+
+  // Schema
+
+  schemaState: ISchemaState
+  updateSchemaState: (patch: Partial<ISchemaState>) => void
 
   // Fields
 
@@ -60,6 +69,14 @@ export function makeStore(props: SchemaProps) {
       Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
+    },
+
+    // Schema
+
+    schemaState: { vtabIndex: 1 },
+    updateSchemaState: (patch) => {
+      const { schemaState } = get()
+      set({ schemaState: { ...schemaState, ...patch } })
     },
 
     // Fields
