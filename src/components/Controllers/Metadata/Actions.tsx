@@ -25,13 +25,12 @@ export default function Actions() {
 }
 
 function SaveAs() {
-  const panel = useStore((state) => state.panel)
   const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
       label="Save as"
       icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => updateState({ panel: panel !== 'preview' ? 'preview' : undefined })}
+      onClick={() => updateState({ dialog: 'saveAs' })}
     />
   )
 }

@@ -11,13 +11,14 @@ export interface State {
   file: IFile
   client: Client
   panel?: 'preview'
+  dialog?: 'saveAs'
   revision: number
   descriptor?: object
   checkpoint?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
   revertDescriptor: () => void
-  saveDescriptor: () => Promise<void>
+  saveDescriptor: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
@@ -38,9 +39,9 @@ export function makeStore(props: MetadataProps) {
       const { checkpoint } = get()
       set({ descriptor: cloneDeep(checkpoint), revision: 0 })
     },
-    saveDescriptor: async () => {
+    saveDescriptor: async (path) => {
       const { file, client, descriptor } = get()
-      await client.jsonWrite({ path: file.path, data: descriptor })
+      await client.jsonWrite({ path: path || file.path, data: descriptor })
       set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
     },
   }))

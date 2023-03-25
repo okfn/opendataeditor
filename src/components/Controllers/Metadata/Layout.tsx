@@ -4,6 +4,7 @@ import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
 import PreviewPanel from './Panels/Preview'
+import Dialog from './Dialog'
 import Actions from './Actions'
 import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { useTheme } from '@mui/material/styles'
@@ -24,44 +25,47 @@ export default function Content() {
   }, [file])
   if (!descriptor) return null
   return (
-    <Box sx={{ height }}>
-      <Box sx={{ height: contentHeight }}>
-        {file.type === 'resource' && (
-          <Resource
-            resource={descriptor as IResource}
-            onChange={(descriptor) => updateState({ descriptor })}
-          />
-        )}
-        {file.type === 'dialect' && (
-          <Dialect
-            dialect={descriptor as IDialect}
-            onChange={(descriptor) => updateState({ descriptor })}
-          />
-        )}
-        {file.type === 'schema' && (
-          <Schema
-            schema={descriptor as ISchema}
-            onChange={(descriptor) => updateState({ descriptor })}
-          />
-        )}
+    <React.Fragment>
+      <Dialog />
+      <Box sx={{ height }}>
+        <Box sx={{ height: contentHeight }}>
+          {file.type === 'resource' && (
+            <Resource
+              resource={descriptor as IResource}
+              onChange={(descriptor) => updateState({ descriptor })}
+            />
+          )}
+          {file.type === 'dialect' && (
+            <Dialect
+              dialect={descriptor as IDialect}
+              onChange={(descriptor) => updateState({ descriptor })}
+            />
+          )}
+          {file.type === 'schema' && (
+            <Schema
+              schema={descriptor as ISchema}
+              onChange={(descriptor) => updateState({ descriptor })}
+            />
+          )}
+        </Box>
+        <Box
+          hidden={!panel}
+          sx={{
+            overflowY: 'hidden',
+            height: theme.spacing(48),
+            border: 'solid 3px #000',
+            padding: 2,
+            backgroundColor: '#333',
+            color: '#eee',
+            fontSize: '80%',
+          }}
+        >
+          {panel === 'preview' && <PreviewPanel />}
+        </Box>
+        <Box sx={{ height: theme.spacing(8) }}>
+          <Actions />
+        </Box>
       </Box>
-      <Box
-        hidden={!panel}
-        sx={{
-          overflowY: 'hidden',
-          height: theme.spacing(48),
-          border: 'solid 3px #000',
-          padding: 2,
-          backgroundColor: '#333',
-          color: '#eee',
-          fontSize: '80%',
-        }}
-      >
-        {panel === 'preview' && <PreviewPanel />}
-      </Box>
-      <Box sx={{ height: theme.spacing(8) }}>
-        <Actions />
-      </Box>
-    </Box>
+    </React.Fragment>
   )
 }
