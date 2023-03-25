@@ -2,52 +2,58 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import ExportIcon from '@mui/icons-material/IosShare'
 import SaveIcon from '@mui/icons-material/Check'
+import ChangesIcon from '@mui/icons-material/History'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
+import RevertButton from '../../Parts/Buttons/RevertButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import Columns from '../../Parts/Columns'
-import { useStore } from './store'
 import { useTheme } from '@mui/material/styles'
-import FileSaver from 'file-saver'
+import { useStore, selectors } from './store'
 
 export default function Actions() {
   const theme = useTheme()
   return (
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: theme.spacing(8), paddingX: 2 }}>
       <Columns spacing={2}>
-        <Export />
+        <SaveAs />
+        <Revert />
         <Save />
       </Columns>
     </Box>
   )
 }
 
-function Export() {
-  const file = useStore((state) => state.file)
-  const downloadFile = useStore((state) => state.downloadFile)
+function SaveAs() {
+  const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
+      label="Save as"
       icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
-      label="Export"
-      onClick={async () => {
-        const bytes = await downloadFile()
-        if (bytes && file) {
-          const blob = new Blob([bytes])
-          const filename = file.path?.split('/').slice(-1).join()
-          FileSaver.saveAs(blob, filename)
-        }
-      }}
+      onClick={() => updateState({ dialog: 'saveAs' })}
+    />
+  )
+}
+
+function Revert() {
+  const isUpdated = useStore(selectors.isUpdated)
+  const revertContent = useStore((state) => state.revertContent)
+  return (
+    <RevertButton
+      disabled={!isUpdated}
+      icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => revertContent()}
     />
   )
 }
 
 function Save() {
-  const commitChange = useStore((state) => state.commitChange)
-  const newFile = useStore((state) => state.newFile)
+  const isUpdated = useStore(selectors.isUpdated)
+  const saveContent = useStore((state) => state.saveContent)
   return (
     <CommitButton
-      disabled={newFile === undefined}
+      disabled={!isUpdated}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={commitChange}
+      onClick={() => saveContent()}
     />
   )
 }

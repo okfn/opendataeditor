@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
@@ -45,6 +46,13 @@ export function makeStore(props: MetadataProps) {
       set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

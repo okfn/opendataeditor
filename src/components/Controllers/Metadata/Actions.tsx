@@ -8,7 +8,7 @@ import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
 import Columns from '../../Parts/Columns'
-import { useStore } from './store'
+import { useStore, selectors } from './store'
 
 export default function Actions() {
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
@@ -17,7 +17,7 @@ export default function Actions() {
       <Columns spacing={2}>
         <SaveAs />
         <Preview />
-        <Discard />
+        <Revert />
         <Save />
       </Columns>
     </Box>
@@ -48,12 +48,12 @@ function Preview() {
   )
 }
 
-function Discard() {
-  const revision = useStore((state) => state.revision)
+function Revert() {
+  const isUpdated = useStore(selectors.isUpdated)
   const revertDescriptor = useStore((state) => state.revertDescriptor)
   return (
     <RevertButton
-      disabled={!revision}
+      disabled={!isUpdated}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => revertDescriptor()}
     />
@@ -61,11 +61,11 @@ function Discard() {
 }
 
 function Save() {
-  const revision = useStore((state) => state.revision)
+  const isUpdated = useStore(selectors.isUpdated)
   const saveDescriptor = useStore((state) => state.saveDescriptor)
   return (
     <CommitButton
-      disabled={!revision}
+      disabled={!isUpdated}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => saveDescriptor()}
     />

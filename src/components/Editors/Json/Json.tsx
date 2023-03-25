@@ -12,8 +12,7 @@ import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 import dirtyJson from 'dirty-json'
 
 interface JsonProps {
-  path: string
-  json: string
+  value: string
   onChange: (value: any) => void
 }
 
@@ -24,7 +23,17 @@ export default function Json(props: JsonProps) {
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(true)
   const [isChanged, setIsChanged] = React.useState(false)
 
+  // Options
+
   const items = [
+    {
+      key: 'clear',
+      label: 'Clear',
+      disabled: false,
+      type: 'default',
+      icon: <Delete />,
+      onClick: () => editorRef.current?.setValue(''),
+    },
     {
       key: 'fix',
       label: 'Fix',
@@ -32,14 +41,6 @@ export default function Json(props: JsonProps) {
       type: 'default',
       icon: <Handyman />,
       onClick: handleFixClick,
-    },
-    {
-      key: 'prettify',
-      label: 'Prettify',
-      disabled: false,
-      type: 'default',
-      icon: <DataObject />,
-      onClick: handlePrettifyClick,
     },
     {
       key: 'minify',
@@ -50,12 +51,12 @@ export default function Json(props: JsonProps) {
       onClick: handleMinifyClick,
     },
     {
-      key: 'clear',
-      label: 'Clear',
+      key: 'prettify',
+      label: 'Prettify',
       disabled: false,
       type: 'default',
-      icon: <Delete />,
-      onClick: () => editorRef.current?.setValue(''),
+      icon: <DataObject />,
+      onClick: handlePrettifyClick,
     },
     {
       key: 'autoprettify',
@@ -98,13 +99,6 @@ export default function Json(props: JsonProps) {
 
   // Actions
 
-  const handleEditorChange = (value: any) => {
-    const bytes = new TextEncoder().encode(value)
-    const blob = new Blob([bytes], { type: 'application/json;charset=utf-8' })
-    const file = new File([blob], props.path)
-    props.onChange(file)
-  }
-
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor
   }
@@ -138,7 +132,7 @@ export default function Json(props: JsonProps) {
       <MenuBar items={items} />
       <Editor
         language="json"
-        defaultValue={props.json}
+        defaultValue={props.value}
         options={{
           automaticLayout: true,
           autoClosingBrackets: 'always',
@@ -149,7 +143,7 @@ export default function Json(props: JsonProps) {
         }}
         onChange={(value) => {
           setIsChanged(true)
-          handleEditorChange(value)
+          props.onChange(value)
         }}
         onMount={handleEditorDidMount}
       />

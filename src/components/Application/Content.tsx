@@ -35,7 +35,7 @@ function ContentFile() {
     return <Table client={client} file={file} onExport={onSave} />
   }
   if (file.type === 'json') {
-    return <Json client={client} file={file} onSave={onSave} />
+    return <Json client={client} file={file} />
   }
   if (file.record?.type === 'text') {
     return <Text client={client} file={file} onSave={onSave} />
