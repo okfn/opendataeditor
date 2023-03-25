@@ -15,31 +15,30 @@ export default function Content() {
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
-  const type = useStore((state) => state.file.type)
-  const path = useStore((state) => state.file.path)
+  const file = useStore((state) => state.file)
   const descriptor = useStore((state) => state.descriptor)
   const updateState = useStore((state) => state.updateState)
   const loadDescriptor = useStore((state) => state.loadDescriptor)
   React.useEffect(() => {
     loadDescriptor().catch(console.error)
-  }, [path])
+  }, [file])
   if (!descriptor) return null
   return (
     <Box sx={{ height }}>
       <Box sx={{ height: contentHeight }}>
-        {type === 'resource' && (
+        {file.type === 'resource' && (
           <Resource
             resource={descriptor as IResource}
             onChange={(descriptor) => updateState({ descriptor })}
           />
         )}
-        {type === 'dialect' && (
+        {file.type === 'dialect' && (
           <Dialect
             dialect={descriptor as IDialect}
             onChange={(descriptor) => updateState({ descriptor })}
           />
         )}
-        {type === 'schema' && (
+        {file.type === 'schema' && (
           <Schema
             schema={descriptor as ISchema}
             onChange={(descriptor) => updateState({ descriptor })}

@@ -51,22 +51,24 @@ function Preview() {
 
 function Discard() {
   const revision = useStore((state) => state.revision)
-  const revert = useStore((state) => state.revert)
+  const revertDescriptor = useStore((state) => state.revertDescriptor)
   return (
     <RevertButton
       disabled={!revision}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => revert()}
+      onClick={() => revertDescriptor()}
     />
   )
 }
 
 function Save() {
   const revision = useStore((state) => state.revision)
+  const saveDescriptor = useStore((state) => state.saveDescriptor)
   return (
     <CommitButton
       disabled={!revision}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => saveDescriptor()}
     />
   )
 }

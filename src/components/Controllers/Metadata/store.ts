@@ -16,7 +16,8 @@ export interface State {
   checkpoint?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
-  revert: () => void
+  revertDescriptor: () => void
+  saveDescriptor: () => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
@@ -30,12 +31,17 @@ export function makeStore(props: MetadataProps) {
     },
     loadDescriptor: async () => {
       const { client, file } = get()
-      const { data } = await client.dataRead({ path: file.path })
+      const { data } = await client.jsonRead({ path: file.path })
       set({ descriptor: cloneDeep(data), checkpoint: data })
     },
-    revert: () => {
+    revertDescriptor: () => {
       const { checkpoint } = get()
       set({ descriptor: cloneDeep(checkpoint), revision: 0 })
+    },
+    saveDescriptor: async () => {
+      const { file, client, descriptor } = get()
+      await client.jsonWrite({ path: file.path, data: descriptor })
+      set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
     },
   }))
 }
