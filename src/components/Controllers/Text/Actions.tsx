@@ -7,13 +7,12 @@ import DefaultButton from '../../Parts/Buttons/DefaultButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
 import Columns from '../../Parts/Columns'
-import { useTheme } from '@mui/material/styles'
 import { useStore, selectors } from './store'
 
 export default function Actions() {
-  const theme = useTheme()
+  // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: theme.spacing(8), paddingX: 2 }}>
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
         <SaveAs />
         <Revert />

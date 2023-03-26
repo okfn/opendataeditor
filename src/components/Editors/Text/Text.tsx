@@ -14,7 +14,7 @@ interface TextProps {
 
 export default function Text(props: TextProps) {
   const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(30)})`
+  const height = `calc(100vh - ${theme.spacing(24)})`
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
   const items = [
     {

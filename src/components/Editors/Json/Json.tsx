@@ -19,7 +19,7 @@ interface JsonProps {
 
 export default function Json(props: JsonProps) {
   const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(30)})`
+  const height = `calc(100vh - ${theme.spacing(24)})`
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(false)
   const [isChanged, setIsChanged] = React.useState(false)
@@ -129,7 +129,7 @@ export default function Json(props: JsonProps) {
   }
 
   return (
-    <Box height={height}>
+    <Box sx={{ height }}>
       <MenuBar items={menuBarItems} />
       <Editor
         language="json"
