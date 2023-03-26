@@ -11,6 +11,7 @@ import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 // @ts-expect-error
 import dirtyJson from 'dirty-json'
 
+// TODO: merge into Text editor?
 interface JsonProps {
   value: string
   onChange: (value: any) => void
@@ -132,7 +133,7 @@ export default function Json(props: JsonProps) {
       <MenuBar items={menuBarItems} />
       <Editor
         language="json"
-        defaultValue={props.value}
+        value={props.value}
         options={{
           automaticLayout: true,
           autoClosingBrackets: 'always',

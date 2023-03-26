@@ -3,13 +3,10 @@ import JsonEditor from '../../Editors/Json/Json'
 import { useStore } from './store'
 
 export default function Content() {
-  const checkpoint = useStore((state) => state.checkpoint)
+  const content = useStore((state) => state.content)
   const updateState = useStore((state) => state.updateState)
-  if (!checkpoint) return null
+  if (!content) return null
   return (
-    <JsonEditor
-      value={checkpoint}
-      onChange={(value) => updateState({ content: value })}
-    />
+    <JsonEditor value={content} onChange={(value) => updateState({ content: value })} />
   )
 }
