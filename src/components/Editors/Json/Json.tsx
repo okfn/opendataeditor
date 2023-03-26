@@ -5,7 +5,7 @@ import DataObject from '@mui/icons-material/DataObject'
 import Delete from '@mui/icons-material/Delete'
 import Handyman from '@mui/icons-material/Handyman'
 import { useTheme } from '@mui/material/styles'
-import MenuBar from '../../Parts/MenuBar'
+import MenuBar from '../../Parts/Monaco/MenuBar'
 import Editor, { OnMount } from '@monaco-editor/react'
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 // @ts-expect-error
@@ -20,12 +20,12 @@ export default function Json(props: JsonProps) {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(30)})`
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
-  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(true)
+  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(false)
   const [isChanged, setIsChanged] = React.useState(false)
 
-  // Options
+  // MenuBar items
 
-  const items = [
+  const menuBarItems = [
     {
       key: 'clear',
       label: 'Clear',
@@ -129,7 +129,7 @@ export default function Json(props: JsonProps) {
 
   return (
     <Box height={height}>
-      <MenuBar items={items} />
+      <MenuBar items={menuBarItems} />
       <Editor
         language="json"
         defaultValue={props.value}

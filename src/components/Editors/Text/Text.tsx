@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles'
 import Editor, { OnMount } from '@monaco-editor/react'
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 import Delete from '@mui/icons-material/Delete'
-import MenuBar from '../../Parts/MenuBar'
+import MenuBar from '../../Parts/Monaco/MenuBar'
 
 interface TextProps {
   path: string
