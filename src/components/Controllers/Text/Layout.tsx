@@ -3,12 +3,20 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import Actions from './Actions'
 import Content from './Content'
+import Dialog from './Dialog'
+import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
+  const file = useStore((state) => state.file)
+  const loadContent = useStore((state) => state.loadContent)
   const height = `calc(100vh - ${theme.spacing(8)})`
+  React.useEffect(() => {
+    loadContent().catch(console.error)
+  }, [file])
   return (
     <React.Fragment>
+      <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ height }}>
           <Content />

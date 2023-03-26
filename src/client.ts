@@ -192,6 +192,11 @@ export class Client {
     const result = await this.request('/text/read', props)
     return result as { text: string }
   }
+
+  async textWrite(props: { path: string; text: string }) {
+    const result = await this.request('/text/write', props)
+    return result as { path: string }
+  }
 }
 
 // Internal

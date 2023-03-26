@@ -1,5 +1,5 @@
 import * as React from 'react'
-import JsonEditor from '../../Editors/Json/Json'
+import JsonEditor from '../../Editors/Json'
 import { useStore } from './store'
 
 export default function Content() {

@@ -27,6 +27,7 @@ export function makeStore(props: JsonProps) {
     },
     loadContent: async () => {
       const { client, file } = get()
+      // TODO: rebase on textRead
       const { data } = await client.jsonRead({ path: file.path })
       const content = JSON.stringify(data, null, 2)
       set({ content: content, checkpoint: content })
@@ -38,6 +39,7 @@ export function makeStore(props: JsonProps) {
     saveContent: async (path) => {
       const { file, client, content } = get()
       const json = JSON.parse(content!)
+      // TODO: rebase on textWrite
       await client.jsonWrite({ path: path || file.path, data: json })
       set({ checkpoint: content })
     },
