@@ -12,7 +12,7 @@ import Columns from '../../../Parts/Columns'
 import DialogContent from '@mui/material/DialogContent'
 import FileTree from '../../../Parts/Trees/FileTree'
 import { useStore, selectors } from '../store'
-import ActionButtonContent from '../../../Parts/ActionButtonContent'
+import ButtonContent from '../../../Parts/ButtonContent'
 
 export default function FolderDialog() {
   const targetTree = useStore(selectors.targetTree)
@@ -72,7 +72,7 @@ export default function FolderDialog() {
             onClick={handleClose}
             color="warning"
           >
-            <ActionButtonContent label={'Cancel'} icon={Cancel} />
+            <ButtonContent label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -82,7 +82,7 @@ export default function FolderDialog() {
             onClick={handleSelect}
             color="secondary"
           >
-            <ActionButtonContent
+            <ButtonContent
               label={dialog === 'folder/copy' ? 'Copy' : 'Move'}
               icon={dialog === 'folder/copy' ? CopyAll : ContentCopy}
             />

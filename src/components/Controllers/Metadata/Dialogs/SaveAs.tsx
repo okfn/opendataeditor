@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
 import CheckIcon from '@mui/icons-material/Check'
 import Columns from '../../../Parts/Columns'
-import ActionButtonContent from '../../../Parts/ActionButtonContent'
+import ButtonContent from '../../../Parts/ButtonContent'
 import { useStore } from '../store'
 
 // TODO: extract shared into Parts
@@ -52,7 +52,7 @@ export default function SaveAsDialog() {
             color="warning"
             variant="contained"
           >
-            <ActionButtonContent label="Cancel" icon={Cancel} />
+            <ButtonContent label="Cancel" icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -62,7 +62,7 @@ export default function SaveAsDialog() {
             color="secondary"
             variant="contained"
           >
-            <ActionButtonContent label="Save" icon={CheckIcon} />
+            <ButtonContent label="Save" icon={CheckIcon} />
           </Button>
         </Columns>
       </Box>

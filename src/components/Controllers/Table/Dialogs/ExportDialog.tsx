@@ -16,7 +16,7 @@ import * as settings from '../../../../settings'
 import ExportIcon from '@mui/icons-material/IosShare'
 import Cancel from '@mui/icons-material/Cancel'
 import Download from '@mui/icons-material/Download'
-import ActionButtonContent from '../../../Parts/ActionButtonContent'
+import ButtonContent from '../../../Parts/ButtonContent'
 
 export default function ExportDialog() {
   const [name, setName] = React.useState('')
@@ -95,7 +95,7 @@ export default function ExportDialog() {
             color="warning"
             variant="contained"
           >
-            <ActionButtonContent label={'Cancel'} icon={Cancel} />
+            <ButtonContent label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -106,7 +106,7 @@ export default function ExportDialog() {
             variant="contained"
             disabled={!name}
           >
-            <ActionButtonContent label={'Export'} icon={ExportIcon} />
+            <ButtonContent label={'Export'} icon={ExportIcon} />
           </Button>
         </Columns>
       </Box>
@@ -122,7 +122,7 @@ export default function ExportDialog() {
             variant="contained"
             disabled={!name}
           >
-            <ActionButtonContent label={'Download'} icon={Download} />
+            <ButtonContent label={'Download'} icon={Download} />
           </Button>
         </Columns>
       </Box>

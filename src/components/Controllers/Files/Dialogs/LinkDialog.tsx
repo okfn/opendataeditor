@@ -9,7 +9,7 @@ import Cancel from '@mui/icons-material/Cancel'
 import Upload from '@mui/icons-material/Upload'
 import { useStore, selectors } from '../store'
 import Columns from '../../../Parts/Columns'
-import ActionButtonContent from '../../../Parts/ActionButtonContent'
+import ButtonContent from '../../../Parts/ButtonContent'
 
 export default function LinkDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -57,7 +57,7 @@ export default function LinkDialog() {
             color="warning"
             variant="contained"
           >
-            <ActionButtonContent label={'Cancel'} icon={Cancel} />
+            <ButtonContent label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -68,7 +68,7 @@ export default function LinkDialog() {
             variant="contained"
             disabled={!url}
           >
-            <ActionButtonContent label={'Upload'} icon={Upload} />
+            <ButtonContent label={'Upload'} icon={Upload} />
           </Button>
         </Columns>
       </Box>
