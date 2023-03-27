@@ -43,7 +43,7 @@ interface State {
   resourceState: ISectionState & { index: number }
   updateResourceState: (patch: Partial<ISectionState>) => void
   updateResource: (patch: Partial<IResource>) => void
-  removeResource: () => void
+  removeResource: (index: number) => void
   addResource: () => void
 
   // Licenses
@@ -51,7 +51,7 @@ interface State {
   licenseState: ISectionState
   updateLicenseState: (patch: Partial<ISectionState>) => void
   updateLicense: (patch: Partial<ILicense>) => void
-  removeLicense: () => void
+  removeLicense: (index: number) => void
   addLicense: () => void
 }
 
@@ -94,9 +94,8 @@ export function makeStore(props: PackageProps) {
       Object.assign(resource, patch)
       updateDescriptor({ resources })
     },
-    removeResource: () => {
-      const { descriptor, updateDescriptor, resourceState, updateResourceState } = get()
-      const index = resourceState.index!
+    removeResource: (index) => {
+      const { descriptor, updateDescriptor, updateResourceState } = get()
       const resources = [...(descriptor.resources || [])]
       resources.splice(index, 1)
       updateResourceState({ index: undefined, isExtras: false })
@@ -127,9 +126,8 @@ export function makeStore(props: PackageProps) {
       licenses[index] = { ...license, ...patch }
       updateDescriptor({ licenses })
     },
-    removeLicense: () => {
-      const { descriptor, updateDescriptor, licenseState, updateLicenseState } = get()
-      const index = licenseState.index!
+    removeLicense: (index) => {
+      const { descriptor, updateDescriptor, updateLicenseState } = get()
       const licenses = [...(descriptor.licenses || [])]
       licenses.splice(index, 1)
       updateLicenseState({ index: undefined, isExtras: false })

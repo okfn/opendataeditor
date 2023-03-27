@@ -38,7 +38,7 @@ export default function Resource() {
             updateResourceState({ index })
             updatePackageState({ tabIndex: 1 })
           }}
-          onRemoveClick={() => removeResource()}
+          onRemoveClick={() => removeResource(index)}
         />
       ))}
     </EditorList>

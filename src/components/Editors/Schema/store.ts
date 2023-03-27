@@ -42,7 +42,7 @@ interface State {
   fieldState: ISectionState
   updateFieldState: (patch: Partial<ISectionState>) => void
   updateField: (patch: Partial<IField>) => void
-  removeField: () => void
+  removeField: (index: number) => void
   addField: () => void
 
   // Foreign Keys
@@ -50,7 +50,7 @@ interface State {
   foreignKeyState: ISectionState
   updateForeignKeyState: (patch: Partial<ISectionState>) => void
   updateForeignKey: (patch: Partial<IForeignKey>) => void
-  removeForeignKey: () => void
+  removeForeignKey: (index: number) => void
   addForeignKey: () => void
 }
 
@@ -99,9 +99,8 @@ export function makeStore(props: SchemaProps) {
       fields[index] = { ...field, ...patch }
       updateDescriptor({ fields })
     },
-    removeField: () => {
-      const { descriptor, fieldState, updateDescriptor, updateFieldState } = get()
-      const index = fieldState.index!
+    removeField: (index) => {
+      const { descriptor, updateDescriptor, updateFieldState } = get()
       const fields = [...descriptor.fields]
       fields.splice(index, 1)
       updateFieldState({ index: undefined, isExtras: false })
@@ -132,10 +131,8 @@ export function makeStore(props: SchemaProps) {
       foreignKeys[index] = { ...foreignKey, ...patch }
       updateDescriptor({ foreignKeys })
     },
-    removeForeignKey: () => {
-      const { descriptor, updateDescriptor } = get()
-      const { foreignKeyState, updateForeignKeyState } = get()
-      const index = foreignKeyState.index!
+    removeForeignKey: (index) => {
+      const { descriptor, updateDescriptor, updateForeignKeyState } = get()
       const foreignKeys = [...(descriptor.foreignKeys || [])]
       foreignKeys.splice(index, 1)
       updateForeignKeyState({ index: undefined, isExtras: false })

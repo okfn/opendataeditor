@@ -50,7 +50,7 @@ function FieldList() {
           type={field.type}
           isGrid={isGrid}
           onClick={() => updateFieldState({ index })}
-          onRemoveClick={() => removeField()}
+          onRemoveClick={() => removeField(index)}
         />
       ))}
     </EditorList>

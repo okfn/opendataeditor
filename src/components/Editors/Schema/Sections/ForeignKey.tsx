@@ -44,7 +44,7 @@ function ForeignKeyList() {
           type="fk"
           isGrid={isGrid}
           onClick={() => updateForeignKeyState({ index })}
-          onRemoveClick={() => removeForeignKey()}
+          onRemoveClick={() => removeForeignKey(index)}
         />
       ))}
     </EditorList>
