@@ -10,7 +10,7 @@ import Cancel from '@mui/icons-material/Cancel'
 import Create from '@mui/icons-material/Create'
 import { useStore, selectors } from '../store'
 import Columns from '../../../Parts/Columns'
-import ActionButtonContent from '../../../Parts/ActionButtonContent'
+import ButtonContent from '../../../Parts/ButtonContent'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -85,7 +85,7 @@ export default function NameDialog() {
             color="warning"
             variant="contained"
           >
-            <ActionButtonContent label={'Cancel'} icon={Cancel} />
+            <ButtonContent label={'Cancel'} icon={Cancel} />
           </Button>
           <Button
             fullWidth
@@ -96,7 +96,7 @@ export default function NameDialog() {
             variant="contained"
             disabled={!name}
           >
-            <ActionButtonContent
+            <ButtonContent
               label={dialog === 'name/create' ? 'Create' : 'Rename'}
               icon={Create}
             />

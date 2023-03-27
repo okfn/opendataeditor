@@ -33,11 +33,7 @@ const CheckboxMenuItem = (props: { menu: ToolBarMenuItem }) => {
         color: 'primary.main',
       }}
     >
-      <Checkbox
-        defaultChecked
-        onClick={props.menu.onClick}
-        disabled={props.menu.disabled}
-      />
+      <Checkbox onClick={props.menu.onClick} disabled={props.menu.disabled} />
       {props.menu.label}
     </Box>
   )

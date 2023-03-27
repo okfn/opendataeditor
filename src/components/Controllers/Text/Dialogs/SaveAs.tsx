@@ -6,45 +6,40 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
-import Upload from '@mui/icons-material/Upload'
-import { useStore, selectors } from '../store'
+import CheckIcon from '@mui/icons-material/Check'
 import Columns from '../../../Parts/Columns'
 import ButtonContent from '../../../Parts/ButtonContent'
+import { useStore } from '../store'
 
-export default function LinkDialog() {
+// TODO: extract shared into Parts
+export default function SaveAsDialog() {
+  const file = useStore((state) => state.file)
   const dialog = useStore((state) => state.dialog)
-  const setDialog = useStore((state) => state.setDialog)
-  const createFile = useStore((state) => state.createFile)
-  const folderPath = useStore(selectors.folderPath)
-  const [url, setURL] = React.useState('')
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    setURL(ev.target.value)
-  const handleCancel = () => setDialog(undefined)
-  const handleCreate = () => {
-    createFile(url)
-    handleCancel()
+  const updateState = useStore((state) => state.updateState)
+  const saveContent = useStore((state) => state.saveContent)
+  const [path, setPath] = React.useState(file.path)
+  const handleCancel = () => updateState({ dialog: undefined })
+  const handleSave = () => {
+    updateState({ dialog: undefined })
+    saveContent(path)
   }
   return (
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog.startsWith('link/')}
+      open={!!dialog && dialog === 'saveAs'}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
-      <DialogTitle id="dialog-title">Upload Link</DialogTitle>
+      <DialogTitle id="dialog-title">Save As</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
-        {folderPath && folderPath}
         <TextField
           autoFocus
           fullWidth
           size="small"
-          value={url}
-          onChange={handleChange}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') handleCreate()
-          }}
+          value={path}
+          onChange={(ev) => setPath(ev.target.value)}
         />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
@@ -57,18 +52,17 @@ export default function LinkDialog() {
             color="warning"
             variant="contained"
           >
-            <ButtonContent label={'Cancel'} icon={Cancel} />
+            <ButtonContent label="Cancel" icon={Cancel} />
           </Button>
           <Button
             fullWidth
             sx={{ my: 0.5 }}
-            onClick={handleCreate}
+            onClick={handleSave}
             aria-label="accept"
             color="secondary"
             variant="contained"
-            disabled={!url}
           >
-            <ButtonContent label={'Upload'} icon={Upload} />
+            <ButtonContent label="Save" icon={CheckIcon} />
           </Button>
         </Columns>
       </Box>

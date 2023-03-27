@@ -7,9 +7,8 @@ import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface MetadataProps {
-  client: Client
   file: IFile
-  onPathChange?: (path?: string) => void
+  client: Client
 }
 
 export default function Metadata(props: MetadataProps) {

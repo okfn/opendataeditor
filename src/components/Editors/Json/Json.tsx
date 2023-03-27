@@ -5,26 +5,36 @@ import DataObject from '@mui/icons-material/DataObject'
 import Delete from '@mui/icons-material/Delete'
 import Handyman from '@mui/icons-material/Handyman'
 import { useTheme } from '@mui/material/styles'
-import MenuBar from '../../Parts/MenuBar'
+import MenuBar from '../../Parts/Monaco/MenuBar'
 import Editor, { OnMount } from '@monaco-editor/react'
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 // @ts-expect-error
 import dirtyJson from 'dirty-json'
 
+// TODO: merge into Text editor?
 interface JsonProps {
-  path: string
-  json: string
+  value: string
   onChange: (value: any) => void
 }
 
 export default function Json(props: JsonProps) {
   const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(30)})`
+  const height = `calc(100vh - ${theme.spacing(24)})`
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
-  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(true)
+  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = React.useState(false)
   const [isChanged, setIsChanged] = React.useState(false)
 
-  const items = [
+  // MenuBar items
+
+  const menuBarItems = [
+    {
+      key: 'clear',
+      label: 'Clear',
+      disabled: false,
+      type: 'default',
+      icon: <Delete />,
+      onClick: () => editorRef.current?.setValue(''),
+    },
     {
       key: 'fix',
       label: 'Fix',
@@ -32,14 +42,6 @@ export default function Json(props: JsonProps) {
       type: 'default',
       icon: <Handyman />,
       onClick: handleFixClick,
-    },
-    {
-      key: 'prettify',
-      label: 'Prettify',
-      disabled: false,
-      type: 'default',
-      icon: <DataObject />,
-      onClick: handlePrettifyClick,
     },
     {
       key: 'minify',
@@ -50,12 +52,12 @@ export default function Json(props: JsonProps) {
       onClick: handleMinifyClick,
     },
     {
-      key: 'clear',
-      label: 'Clear',
+      key: 'prettify',
+      label: 'Prettify',
       disabled: false,
       type: 'default',
-      icon: <Delete />,
-      onClick: () => editorRef.current?.setValue(''),
+      icon: <DataObject />,
+      onClick: handlePrettifyClick,
     },
     {
       key: 'autoprettify',
@@ -98,13 +100,6 @@ export default function Json(props: JsonProps) {
 
   // Actions
 
-  const handleEditorChange = (value: any) => {
-    const bytes = new TextEncoder().encode(value)
-    const blob = new Blob([bytes], { type: 'application/json;charset=utf-8' })
-    const file = new File([blob], props.path)
-    props.onChange(file)
-  }
-
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor
   }
@@ -134,11 +129,11 @@ export default function Json(props: JsonProps) {
   }
 
   return (
-    <Box height={height}>
-      <MenuBar items={items} />
+    <Box sx={{ height }}>
+      <MenuBar items={menuBarItems} />
       <Editor
         language="json"
-        defaultValue={props.json}
+        value={props.value}
         options={{
           automaticLayout: true,
           autoClosingBrackets: 'always',
@@ -149,7 +144,7 @@ export default function Json(props: JsonProps) {
         }}
         onChange={(value) => {
           setIsChanged(true)
-          handleEditorChange(value)
+          props.onChange(value)
         }}
         onMount={handleEditorDidMount}
       />

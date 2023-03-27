@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import ExportIcon from '@mui/icons-material/IosShare'
 import SaveIcon from '@mui/icons-material/Check'
+import SourceIcon from '@mui/icons-material/Code'
 import ChangesIcon from '@mui/icons-material/History'
+import ExportIcon from '@mui/icons-material/IosShare'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
-import RevertButton from '../../Parts/Buttons/RevertButton'
 import CommitButton from '../../Parts/Buttons/CommitButton'
+import RevertButton from '../../Parts/Buttons/RevertButton'
 import Columns from '../../Parts/Columns'
 import { useStore, selectors } from './store'
 
@@ -15,6 +16,7 @@ export default function Actions() {
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
         <SaveAs />
+        <Preview />
         <Revert />
         <Save />
       </Columns>
@@ -33,26 +35,39 @@ function SaveAs() {
   )
 }
 
+function Preview() {
+  const panel = useStore((state) => state.panel)
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <DefaultButton
+      label="Preview"
+      color={panel === 'preview' ? 'warning' : 'info'}
+      icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => updateState({ panel: panel !== 'preview' ? 'preview' : undefined })}
+    />
+  )
+}
+
 function Revert() {
   const isUpdated = useStore(selectors.isUpdated)
-  const revertContent = useStore((state) => state.revertContent)
+  const revertDescriptor = useStore((state) => state.revertDescriptor)
   return (
     <RevertButton
       disabled={!isUpdated}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => revertContent()}
+      onClick={() => revertDescriptor()}
     />
   )
 }
 
 function Save() {
   const isUpdated = useStore(selectors.isUpdated)
-  const saveContent = useStore((state) => state.saveContent)
+  const saveDescriptor = useStore((state) => state.saveDescriptor)
   return (
     <CommitButton
       disabled={!isUpdated}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => saveContent()}
+      onClick={() => saveDescriptor()}
     />
   )
 }

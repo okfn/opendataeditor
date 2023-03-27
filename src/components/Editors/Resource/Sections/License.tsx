@@ -43,7 +43,7 @@ function LicenseList() {
           type="license"
           isGrid={isGrid}
           onClick={() => updateLicenseState({ index })}
-          onRemoveClick={() => removeLicense()}
+          onRemoveClick={() => removeLicense(index)}
         />
       ))}
     </EditorList>

@@ -1,51 +1,58 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
-import { IPublish } from '../../../interfaces/publish'
 
 export interface State {
-  // Data
-
-  client: Client
   file: IFile
-  type?: 'package' | 'resource' | 'dialect' | 'schema' | 'checklist' | 'pipeline'
-  onPathChange?: (path?: string) => void
+  client: Client
+  panel?: 'preview'
+  dialog?: 'saveAs'
+  revision: number
   descriptor?: object
-  isPublish?: boolean
-  publishedPath?: string
-
-  // Logic
+  checkpoint?: object
+  updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
-  togglePublish: () => void
-  publishPackage: (params: IPublish) => Promise<any>
+  revertDescriptor: () => void
+  saveDescriptor: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
   return createStore<State>((set, get) => ({
-    // Data
-
     ...props,
-
-    // Logic
-
+    revision: 0,
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('descriptor' in patch) patch.revision = revision + 1
+      set(patch)
+    },
     loadDescriptor: async () => {
       const { client, file } = get()
-      const { data } = await client.dataRead({ path: file.path })
-      set({ descriptor: data })
+      const { data } = await client.jsonRead({ path: file.path })
+      set({ descriptor: cloneDeep(data), checkpoint: data })
     },
-    togglePublish: () => {
-      set({ isPublish: !get().isPublish })
+    revertDescriptor: () => {
+      const { checkpoint } = get()
+      set({ descriptor: cloneDeep(checkpoint), revision: 0 })
     },
-    publishPackage: async (params: IPublish) => {
-      const { client } = get()
-      const { content } = await client.projectPublish({ params })
-      return content
+    saveDescriptor: async (path) => {
+      const { file, client, descriptor } = get()
+      await client.jsonWrite({ path: path || file.path, data: descriptor })
+      set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

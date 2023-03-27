@@ -3,7 +3,6 @@ import { IPublish } from './interfaces/publish'
 import { IFile, IFileItem } from './interfaces/file'
 import { ITable, IQueryData } from './interfaces/table'
 import { IFieldItem } from './interfaces/schema'
-import { IData } from './interfaces/common'
 import * as settings from './settings'
 
 export class Client {
@@ -36,13 +35,6 @@ export class Client {
   async bytesRead(props: { path: string }) {
     const result = await this.request('/bytes/read', { ...props, isBytes: true })
     return result as { bytes: ArrayBuffer }
-  }
-
-  // Data
-
-  async dataRead(props: { path: string }) {
-    const result = await this.request('/data/read', props)
-    return result as { data: IData }
   }
 
   // Field
@@ -121,6 +113,18 @@ export class Client {
     return result as { path: string }
   }
 
+  // Json
+
+  async jsonRead(props: { path: string }) {
+    const result = await this.request('/json/read', props)
+    return result as { data: any }
+  }
+
+  async jsonWrite(props: { path: string; data: any }) {
+    const result = await this.request('/json/write', props)
+    return result as { path: string }
+  }
+
   // Package
 
   async packageCreate() {
@@ -187,6 +191,11 @@ export class Client {
   async textRead(props: { path: string }) {
     const result = await this.request('/text/read', props)
     return result as { text: string }
+  }
+
+  async textWrite(props: { path: string; text: string }) {
+    const result = await this.request('/text/write', props)
+    return result as { path: string }
   }
 }
 

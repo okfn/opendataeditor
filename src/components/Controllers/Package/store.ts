@@ -33,7 +33,7 @@ export function makeStore(props: MetadataProps) {
 
     loadDescriptor: async () => {
       const { client, file } = get()
-      const { data } = await client.dataRead({ path: file.path })
+      const { data } = await client.jsonRead({ path: file.path })
       set({ descriptor: data })
     },
     togglePublish: () => {

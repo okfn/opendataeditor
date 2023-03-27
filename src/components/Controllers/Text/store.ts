@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
@@ -9,22 +10,15 @@ import { TextProps } from './Text'
 export interface State {
   client: Client
   file: IFile
-  text?: string
   language?: string
-  newFile: File | undefined
-
-  // General
-
+  dialog?: 'saveAs'
+  content?: string
+  checkpoint?: string
+  updateState: (patch: Partial<State>) => void
+  loadContent: () => Promise<void>
+  revertContent: () => void
+  saveContent: (path?: string) => Promise<void>
   setLanguage: (language: string) => void
-
-  // File
-
-  commitChange: () => Promise<void>
-  exportFile: () => Promise<ArrayBuffer | undefined>
-  loadFile: () => Promise<void>
-  updateChange: (newFile: File) => void
-  downloadFile: () => Promise<ArrayBuffer | undefined>
-  onSave: (path: string) => void
 }
 
 export function makeStore(props: TextProps) {
@@ -32,44 +26,33 @@ export function makeStore(props: TextProps) {
     ...props,
     language: 'plaintext',
     newFile: undefined,
-
-    // General
-
     setLanguage: (language: string) => set({ language }),
-
-    // File
-
-    commitChange: async () => {
-      const { client, newFile, onSave } = get()
-      if (!newFile) return
-      const { path } = await client.fileSave({ file: newFile })
-      set({ newFile: undefined })
-      onSave(path)
+    updateState: (patch) => {
+      set(patch)
     },
-    exportFile: async () => {
-      const { client, file } = get()
-      if (!file.path) return
-      const { bytes } = await client.bytesRead({ path: file.path })
-      return bytes
-    },
-    loadFile: async () => {
+    loadContent: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      set({ text })
+      set({ content: text, checkpoint: text })
     },
-    updateChange: (newFile: File) => set({ newFile }),
-    // TODO: temporary solution
-    downloadFile: async () => {
-      const { client, newFile, file } = get()
-      let downloadFilePath = file.path
-      if (newFile) {
-        const { path } = await client.fileSave({ file: newFile })
-        downloadFilePath = path
-      }
-      const { bytes } = await client.bytesRead({ path: downloadFilePath })
-      return bytes
+    revertContent: () => {
+      const { checkpoint } = get()
+      set({ content: checkpoint })
+    },
+    saveContent: async (path) => {
+      const { file, client, content } = get()
+      if (!content) return
+      await client.textWrite({ path: path || file.path, text: content })
+      set({ checkpoint: content })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.content !== state.checkpoint
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

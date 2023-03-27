@@ -7,9 +7,8 @@ import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface JsonProps {
-  client: Client
   file: IFile
-  onSave: (path: string) => void
+  client: Client
 }
 
 export default function Json(props: JsonProps) {

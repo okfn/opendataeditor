@@ -21,6 +21,7 @@ interface InputFieldProps {
   onFocus?: () => void
   onKeyDown?: () => void
   placeholder?: string
+  autoFocus?: boolean
 }
 
 export default function InputField(props: InputFieldProps) {
@@ -47,6 +48,7 @@ export default function InputField(props: InputFieldProps) {
       placeholder={props.placeholder}
       onFocus={onFocus}
       onBlur={onBlur}
+      autoFocus={props.autoFocus}
     />
   )
 }

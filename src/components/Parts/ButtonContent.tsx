@@ -1,11 +1,11 @@
 import * as React from 'react'
 
-interface ActionButtonContentProps {
+interface ButtonContentProps {
   label: string
   icon: React.ElementType
 }
 
-export default function ActionButtonContent(props: ActionButtonContentProps) {
+export default function ButtonContent(props: ButtonContentProps) {
   const { icon: Icon, label } = props
   return (
     <React.Fragment>
