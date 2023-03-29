@@ -50,6 +50,8 @@ export function makeStore(props: FileProps) {
       set({ resource: cloneDeep(file.record!.resource), revision: 0 })
     },
     save: async () => {
+      const { file, client, resource } = get()
+      await client.fileUpdate({ path: file.path, resource })
       set({ revision: 0 })
     },
   }))

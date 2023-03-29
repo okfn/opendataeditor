@@ -1,8 +1,9 @@
 import omit from 'lodash/omit'
-import { IPublish } from './interfaces/publish'
-import { IFile, IFileItem } from './interfaces/file'
-import { ITable, IQueryData } from './interfaces/table'
-import { IFieldItem } from './interfaces/schema'
+import { IPublish } from './interfaces'
+import { IFile, IFileItem } from './interfaces'
+import { ITable, IQueryData } from './interfaces'
+import { IFieldItem } from './interfaces'
+import { IResource } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -87,6 +88,11 @@ export class Client {
   async fileSelect(props: { path: string }) {
     const result = await this.request('/file/select', props)
     return result as { file?: IFile }
+  }
+
+  async fileUpdate(props: { path: string; resource: IResource }) {
+    const result = await this.request('/file/update', props)
+    return result as { path: string }
   }
 
   async fileUpload(props: { file: File; folder?: string }) {
