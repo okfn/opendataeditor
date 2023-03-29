@@ -7,7 +7,7 @@ import Welcome from './Welcome'
 import { useStore } from './store'
 
 export default function Layout() {
-  const editor = useStore((state) => state.editorState.editor)
+  const editor = useStore((state) => state.editor)
   return (
     <Box>
       <Header />

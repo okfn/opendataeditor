@@ -22,7 +22,7 @@ export default function Content() {
 function Layout(props: React.PropsWithChildren<{}>) {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 8)})`
-  const isPreview = useStore((state) => state.editorState.isPreview)
+  const isPreview = useStore((state) => state.isPreview)
   return (
     <Box sx={{ height }}>
       {isPreview ? (
@@ -50,36 +50,36 @@ function Layout(props: React.PropsWithChildren<{}>) {
 }
 
 function Editor() {
-  const editor = useStore((state) => state.editorState.editor)
-  const descriptor = useStore((state) => state.editorState.descriptor)
-  const updateEditorState = useStore((state) => state.updateEditorState)
+  const editor = useStore((state) => state.editor)
+  const descriptor = useStore((state) => state.descriptor)
+  const updateState = useStore((state) => state.updateState)
   switch (editor) {
     case 'package':
       return (
         <Package
           package={descriptor as IPackage}
-          onChange={(descriptor) => updateEditorState({ descriptor })}
+          onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'resource':
       return (
         <Resource
           resource={descriptor as IResource}
-          onChange={(descriptor) => updateEditorState({ descriptor })}
+          onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'dialect':
       return (
         <Dialect
           dialect={descriptor as IDialect}
-          onChange={(descriptor) => updateEditorState({ descriptor })}
+          onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'schema':
       return (
         <Schema
           schema={descriptor as ISchema}
-          onChange={(descriptor) => updateEditorState({ descriptor })}
+          onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     default:
@@ -88,8 +88,8 @@ function Editor() {
 }
 
 function Preview() {
-  const descriptor = useStore((state) => state.editorState.descriptor)
-  const revision = useStore((state) => state.editorState.revision)
+  const descriptor = useStore((state) => state.descriptor)
+  const revision = useStore((state) => state.revision)
   return (
     <DefaultPreview format="json" descriptor={descriptor || {}} revision={revision} />
   )

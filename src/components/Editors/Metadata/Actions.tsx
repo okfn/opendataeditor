@@ -29,26 +29,26 @@ export default function Actions() {
 }
 
 function Menu() {
-  const editor = useStore((state) => state.editorState.editor)
-  const updateEditorState = useStore((state) => state.updateEditorState)
+  const editor = useStore((state) => state.editor)
+  const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
       disabled={!editor}
       icon={<MenuIcon fontSize="small" sx={{ mr: 1 }} />}
       label="Menu"
-      onClick={() => updateEditorState({ editor: undefined })}
+      onClick={() => updateState({ editor: undefined })}
     />
   )
 }
 
 function Import() {
-  const editor = useStore((state) => state.editorState.editor)
+  const editor = useStore((state) => state.editor)
   const importDescriptor = useStore((state) => state.importDescriptor)
   return <ImportButton disabled={!editor} onImport={(value) => importDescriptor(value)} />
 }
 
 function Export() {
-  const editor = useStore((state) => state.editorState.editor)
+  const editor = useStore((state) => state.editor)
   const exportDescriptor = useStore((state) => state.exportDescriptor)
   return (
     <DefaultButton
@@ -61,16 +61,16 @@ function Export() {
 }
 
 function Preview() {
-  const editor = useStore((state) => state.editorState.editor)
-  const isPreview = useStore((state) => state.editorState.isPreview)
-  const updateEditorState = useStore((state) => state.updateEditorState)
+  const editor = useStore((state) => state.editor)
+  const isPreview = useStore((state) => state.isPreview)
+  const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
       label="Preview"
       disabled={!editor}
       color={isPreview ? 'warning' : 'info'}
       icon={<CodeIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => updateEditorState({ isPreview: !isPreview })}
+      onClick={() => updateState({ isPreview: !isPreview })}
     />
   )
 }

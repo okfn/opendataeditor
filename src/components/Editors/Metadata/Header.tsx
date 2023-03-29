@@ -21,8 +21,8 @@ import { useStore } from './store'
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
-  const editor = useStore((state) => state.editorState.editor)
-  const updateEditorState = useStore((state) => state.updateEditorState)
+  const editor = useStore((state) => state.editor)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static" elevation={0}>
@@ -32,7 +32,7 @@ export default function Header() {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
-                onClick={() => updateEditorState({ editor: undefined })}
+                onClick={() => updateState({ editor: undefined })}
               >
                 <strong>
                   Frictionless Metadata{' '}

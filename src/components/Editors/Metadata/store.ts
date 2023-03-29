@@ -6,48 +6,43 @@ import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { MetadataProps } from './Metadata'
 
-export interface IEditorState {
+export interface State {
   editor?: 'package' | 'resource' | 'dialect' | 'schema'
   descriptor?: object
   isPreview?: boolean
   revision: number
-}
-
-export interface State {
-  editorState: IEditorState
-  updateEditorState: (patch: Partial<IEditorState>) => void
+  updateState: (patch: Partial<State>) => void
   importDescriptor: (file: File) => void
   exportDescriptor: () => void
 }
 
 export function makeStore(_props: MetadataProps) {
   return createStore<State>((set, get) => ({
-    editorState: { revision: 0 },
-    updateEditorState: (patch) => {
-      const { editorState } = get()
+    revision: 0,
+    updateState: (patch) => {
+      const { revision } = get()
       if ('editor' in patch) {
         patch.descriptor = undefined
         patch.isPreview = false
         patch.revision = 0
       }
       if ('descriptor' in patch) {
-        patch.revision = editorState.revision + 1
+        patch.revision = revision + 1
       }
-      set({ editorState: { ...editorState, ...patch } })
+      set({ ...patch })
     },
     importDescriptor: async (file) => {
-      const { updateEditorState } = get()
       const text = (await file.text()).trim()
       const isYaml = !text.startsWith('{')
       // TODO: handle errors and validate descriptor
       const descriptor = isYaml ? yaml.load(text) : JSON.parse(text)
-      updateEditorState({ descriptor })
+      set({ descriptor })
     },
     exportDescriptor: () => {
-      const { editorState } = get()
-      const text = JSON.stringify(editorState.descriptor, null, 2)
+      const { editor, descriptor } = get()
+      const text = JSON.stringify(descriptor, null, 2)
       const blob = new Blob([text], { type: 'text/json;charset=utf-8' })
-      FileSaver.saveAs(blob, `${editorState.editor}.json`)
+      FileSaver.saveAs(blob, `${editor}.json`)
     },
   }))
 }
