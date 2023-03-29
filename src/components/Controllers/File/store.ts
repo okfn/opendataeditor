@@ -1,58 +1,51 @@
-import noop from 'lodash/noop'
 import * as React from 'react'
 import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import { FileProps } from './File'
+import * as helpers from '../../../helpers'
 
 export interface State {
-  // Data
-
   client: Client
   file: IFile
-  isMetadata?: boolean
-  bytes?: ArrayBuffer
-  text?: string
-
-  // Logic
-
-  toggleMetadata: () => void
-  loadBytes: () => Promise<void>
-  loadText: () => Promise<void>
-  exportFile?: (format: string) => void
-  importFile?: () => void
-  updateResource?: () => void
+  dialog?: 'saveAs'
+  content?: string
+  updateState: (patch: Partial<State>) => void
+  loadContent: () => Promise<void>
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: FileProps) {
   return createStore<State>((set, get) => ({
-    // Data
-
     ...props,
-    tablePatch: {},
-
-    // Logic
-
-    toggleMetadata: () => {
-      set({ isMetadata: !get().isMetadata })
+    updateState: (patch) => {
+      set(patch)
     },
-    loadBytes: async () => {
+    loadContent: async () => {
       const { client, file } = get()
+      if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
       const { bytes } = await client.fileRead({ path: file.path })
-      set({ bytes })
+      const text = helpers.bytesToBase64(bytes)
+      set({ content: text })
     },
-    loadText: async () => {
-      const { client, file } = get()
-      const { text } = await client.textRead({ path: file.path })
-      set({ text })
+    revert: () => {
+      console.log('revert')
     },
-    // TODO: implement
-    exportFile: noop,
-    importFile: noop,
-    updateResource: noop,
+    save: async (_path) => {
+      console.log('save')
+    },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (_state: State) => {
+    return false
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

@@ -15,8 +15,8 @@ export interface State {
   checkpoint?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
-  revertContent: () => void
-  saveContent: (path?: string) => Promise<void>
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: JsonProps) {
@@ -32,11 +32,11 @@ export function makeStore(props: JsonProps) {
       const content = JSON.stringify(data, null, 2)
       set({ content: content, checkpoint: content })
     },
-    revertContent: () => {
+    revert: () => {
       const { checkpoint } = get()
       set({ content: checkpoint })
     },
-    saveContent: async (path) => {
+    save: async (path) => {
       const { file, client, content } = get()
       const json = JSON.parse(content!)
       // TODO: rebase on textWrite

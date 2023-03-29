@@ -213,7 +213,9 @@ async function makeRequest(
     body = JSON.stringify(props)
   }
   const response = await fetch(path, { method, headers, body })
-  const result = props.isBytes ? { bytes: await response.blob() } : await response.json()
+  const result = props.isBytes
+    ? { bytes: await response.arrayBuffer() }
+    : await response.json()
   console.log({ path, props, result })
   return result
 }

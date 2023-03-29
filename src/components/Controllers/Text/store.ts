@@ -16,17 +16,14 @@ export interface State {
   checkpoint?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
-  revertContent: () => void
-  saveContent: (path?: string) => Promise<void>
-  setLanguage: (language: string) => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
     ...props,
     language: 'plaintext',
-    newFile: undefined,
-    setLanguage: (language: string) => set({ language }),
     updateState: (patch) => {
       set(patch)
     },
@@ -35,11 +32,11 @@ export function makeStore(props: TextProps) {
       const { text } = await client.textRead({ path: file.path })
       set({ content: text, checkpoint: text })
     },
-    revertContent: () => {
+    revert: () => {
       const { checkpoint } = get()
       set({ content: checkpoint })
     },
-    saveContent: async (path) => {
+    save: async (path) => {
       const { file, client, content } = get()
       if (!content) return
       await client.textWrite({ path: path || file.path, text: content })

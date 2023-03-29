@@ -35,24 +35,24 @@ function SaveAs() {
 
 function Revert() {
   const isUpdated = useStore(selectors.isUpdated)
-  const revertContent = useStore((state) => state.revertContent)
+  const revert = useStore((state) => state.revert)
   return (
     <RevertButton
       disabled={!isUpdated}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => revertContent()}
+      onClick={() => revert()}
     />
   )
 }
 
 function Save() {
   const isUpdated = useStore(selectors.isUpdated)
-  const saveContent = useStore((state) => state.saveContent)
+  const save = useStore((state) => state.save)
   return (
     <CommitButton
       disabled={!isUpdated}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => saveContent()}
+      onClick={() => save()}
     />
   )
 }

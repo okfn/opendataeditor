@@ -26,6 +26,12 @@ export function getInitialDescriptor(
   }
 }
 
+export function bytesToBase64(bytes: ArrayBuffer): string {
+  return btoa(
+    new Uint8Array(bytes).reduce((data, byte) => data + String.fromCharCode(byte), '')
+  )
+}
+
 export function exportDescriptor(descriptor: object) {
   const text = encodeURIComponent(JSON.stringify(descriptor, null, 2))
   return `data: text/json;charset=utf-8,${text}`

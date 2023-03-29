@@ -7,8 +7,8 @@ import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface FileProps {
-  client: Client
   file: IFile
+  client: Client
 }
 
 export default function File(props: FileProps) {

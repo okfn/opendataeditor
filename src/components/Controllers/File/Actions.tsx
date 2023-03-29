@@ -1,57 +1,58 @@
 import * as React from 'react'
-import noop from 'lodash/noop'
 import Box from '@mui/material/Box'
+import ExportIcon from '@mui/icons-material/IosShare'
+import SaveIcon from '@mui/icons-material/Check'
+import ChangesIcon from '@mui/icons-material/History'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
-import ExportButton from '../../Parts/Buttons/ExportButton'
-import CommitButton from '../../Parts/Buttons/CommitButton'
 import RevertButton from '../../Parts/Buttons/RevertButton'
+import CommitButton from '../../Parts/Buttons/CommitButton'
 import Columns from '../../Parts/Columns'
-import { useTheme } from '@mui/material/styles'
-import { useStore } from './store'
+import { useStore, selectors } from './store'
 
 export default function Actions() {
-  const theme = useTheme()
-  const height = `calc(${theme.spacing(8)} - 1px)`
+  // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ lineHeight: height, borderTop: 1, borderColor: 'divider', paddingX: 2 }}>
-      <Columns spacing={3}>
-        <Export />
-        <Import />
-        <Commit />
+    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
+      <Columns spacing={2}>
+        <SaveAs />
         <Revert />
+        <Save />
       </Columns>
     </Box>
   )
 }
 
-function Export() {
-  const [format, setFormat] = React.useState('csv')
-  const exportFile = useStore((state) => state.exportFile)
-  return (
-    <ExportButton
-      format={format}
-      options={['csv', 'xlsx']}
-      onExport={() => (exportFile ? exportFile(format) : undefined)}
-      onPreview={() => (exportFile ? exportFile(format) : undefined)}
-      setFormat={setFormat}
-    />
-  )
-}
-
-function Import() {
-  const importFile = useStore((state) => state.importFile)
+function SaveAs() {
+  const updateState = useStore((state) => state.updateState)
   return (
     <DefaultButton
-      label="Import"
-      onClick={() => (importFile ? importFile() : undefined)}
+      label="Save as"
+      icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => updateState({ dialog: 'saveAs' })}
     />
   )
-}
-
-function Commit() {
-  return <CommitButton disabled={true} onClick={noop} />
 }
 
 function Revert() {
-  return <RevertButton disabled={true} onClick={noop} />
+  const isUpdated = useStore(selectors.isUpdated)
+  const revert = useStore((state) => state.revert)
+  return (
+    <RevertButton
+      disabled={!isUpdated}
+      icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => revert()}
+    />
+  )
+}
+
+function Save() {
+  const isUpdated = useStore(selectors.isUpdated)
+  const save = useStore((state) => state.save)
+  return (
+    <CommitButton
+      disabled={!isUpdated}
+      icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
+      onClick={() => save()}
+    />
+  )
 }
