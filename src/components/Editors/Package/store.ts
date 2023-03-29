@@ -13,11 +13,6 @@ import help from './help.yaml'
 const INITIAL_PACKAGE: IPackage = { resources: [] }
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'package')!
 
-interface IPackageState {
-  tabIndex: number
-  vtabIndex: number
-}
-
 interface ISectionState {
   query?: string
   index?: number
@@ -29,14 +24,12 @@ interface State {
   descriptor: IPackage
   isShallow?: boolean
   onChange: (pkg: IPackage) => void
+  tabIndex: number
+  vtabIndex: number
   helpItem: IHelpItem
+  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IPackage>) => void
-
-  // Package
-
-  packageState: IPackageState
-  updatePackageState: (patch: Partial<IPackageState>) => void
 
   // Resources
 
@@ -60,7 +53,12 @@ export function makeStore(props: PackageProps) {
     descriptor: props.package || cloneDeep(INITIAL_PACKAGE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
+    tabIndex: 0,
+    vtabIndex: 1,
     helpItem: DEFAULT_HELP_ITEM,
+    updateState: (patch) => {
+      set({ ...patch })
+    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
@@ -70,14 +68,6 @@ export function makeStore(props: PackageProps) {
       Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
-    },
-
-    // Package
-
-    packageState: { tabIndex: 0, vtabIndex: 1 },
-    updatePackageState: (patch) => {
-      const { packageState } = get()
-      set({ packageState: { ...packageState, ...patch } })
     },
 
     // Resources

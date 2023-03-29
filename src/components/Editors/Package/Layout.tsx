@@ -32,8 +32,8 @@ export default function Layout() {
 function Sections() {
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
-  const vtabIndex = useStore((state) => state.packageState.vtabIndex)
-  const updatePackageState = useStore((state) => state.updatePackageState)
+  const vtabIndex = useStore((state) => state.vtabIndex)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Columns spacing={3} layout={[9, 3]}>
       <VerticalTabs
@@ -41,7 +41,7 @@ function Sections() {
         labels={LABELS}
         onChange={(index) => {
           updateHelp(camelCase(LABELS[index]))
-          updatePackageState({ vtabIndex: index })
+          updateState({ vtabIndex: index })
         }}
       >
         <Package />
@@ -55,15 +55,15 @@ function Sections() {
 
 function Groups() {
   const resource = useStore(selectors.resource)
-  const tabIndex = useStore((state) => state.packageState.tabIndex)
-  const updatePackageState = useStore((state) => state.updatePackageState)
+  const tabIndex = useStore((state) => state.tabIndex)
+  const updateState = useStore((state) => state.updateState)
   const updateResource = useStore((state) => state.updateResource)
   return (
     <Tabs
       index={tabIndex}
       labels={['Package', 'Resource', 'Dialect', 'Schema']}
       disabledLabels={!resource ? ['Resource', 'Dialect', 'Schema'] : []}
-      onChange={(index) => updatePackageState({ tabIndex: index })}
+      onChange={(index) => updateState({ tabIndex: index })}
     >
       <Sections />
       {resource && (
@@ -71,7 +71,7 @@ function Groups() {
           isShallow
           resource={resource}
           onChange={(resource) => updateResource(resource)}
-          onBackClick={() => updatePackageState({ tabIndex: 0, vtabIndex: 1 })}
+          onBackClick={() => updateState({ tabIndex: 0, vtabIndex: 1 })}
         />
       )}
       {resource && (
@@ -93,9 +93,9 @@ function Groups() {
 function Selector() {
   const resource = useStore(selectors.resource)
   const updateResourceState = useStore((state) => state.updateResourceState)
-  const packageState = useStore((state) => state.packageState)
+  const tabIndex = useStore((state) => state.tabIndex)
   const resourceNames = useStore(selectors.resourceNames)
-  if (packageState.tabIndex === 0) return null
+  if (tabIndex === 0) return null
   if (!resource) return null
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>

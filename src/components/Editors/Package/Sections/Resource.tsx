@@ -8,7 +8,7 @@ export default function Resource() {
   const isGrid = useStore((state) => state.resourceState.isGrid)
   const query = useStore((state) => state.resourceState.query)
   const resourceItems = useStore(selectors.resourceItems)
-  const updatePackageState = useStore((state) => state.updatePackageState)
+  const updateState = useStore((state) => state.updateState)
   const updateResourceState = useStore((state) => state.updateResourceState)
   const addResource = useStore((state) => state.addResource)
   const removeResource = useStore((state) => state.removeResource)
@@ -36,7 +36,7 @@ export default function Resource() {
           isGrid={isGrid}
           onClick={() => {
             updateResourceState({ index })
-            updatePackageState({ tabIndex: 1 })
+            updateState({ tabIndex: 1 })
           }}
           onRemoveClick={() => removeResource(index)}
         />
