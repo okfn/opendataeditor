@@ -1,10 +1,11 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
+import { IFile, IResource } from '../../../interfaces'
 import { JsonProps } from './Json'
 
 export interface State {
@@ -12,10 +13,13 @@ export interface State {
   client: Client
   panel?: 'metadata'
   dialog?: 'saveAs'
+  revision: number
   content?: string
+  resource: IResource
   prevContent?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
   revert: () => void
   save: (path?: string) => Promise<void>
 }
@@ -23,7 +27,12 @@ export interface State {
 export function makeStore(props: JsonProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
+      const { revision } = get()
+      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     loadContent: async () => {
@@ -33,16 +42,25 @@ export function makeStore(props: JsonProps) {
       const content = JSON.stringify(data, null, 2)
       set({ content: content, prevContent: content })
     },
-    revert: () => {
-      const { prevContent } = get()
-      set({ content: prevContent })
+    saveAs: async (path) => {
+      const { client, content } = get()
+      await client.textWrite({ path, text: content! })
     },
-    save: async (path) => {
-      const { file, client, content } = get()
-      const json = JSON.parse(content!)
-      // TODO: rebase on textWrite
-      await client.jsonWrite({ path: path || file.path, data: json })
-      set({ prevContent: content })
+    revert: () => {
+      const { file, prevContent } = get()
+      // TODO: review case of missing record (not indexed)
+      set({
+        resource: cloneDeep(file.record!.resource),
+        content: prevContent,
+        revision: 0,
+      })
+    },
+    save: async () => {
+      const { file, client, content, resource } = get()
+      await client.fileUpdate({ path: file.path, resource })
+      await client.textWrite({ path: file.path, text: content! })
+      // TODO: needs to udpate file object
+      set({ prevContent: content, revision: 0 })
     },
   }))
 }
@@ -50,7 +68,7 @@ export function makeStore(props: JsonProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.content !== state.prevContent
+    return state.revision > 0 || state.content !== state.prevContent
   },
 }
 

@@ -18,7 +18,7 @@ export interface State {
   resource: IResource
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
-  saveAs: (newPath: string) => Promise<void>
+  saveAs: (path: string) => Promise<void>
   revert: () => void
   save: () => void
 }
@@ -52,6 +52,7 @@ export function makeStore(props: FileProps) {
     save: async () => {
       const { file, client, resource } = get()
       await client.fileUpdate({ path: file.path, resource })
+      // TODO: needs to udpate file
       set({ revision: 0 })
     },
   }))
