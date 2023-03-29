@@ -30,13 +30,6 @@ export class Client {
     return makeRequest(path, { ...props, session: this.session })
   }
 
-  // Bytes
-
-  async bytesRead(props: { path: string }) {
-    const result = await this.request('/bytes/read', { ...props, isBytes: true })
-    return result as { bytes: ArrayBuffer }
-  }
-
   // Field
 
   async fieldList() {
@@ -61,11 +54,6 @@ export class Client {
     return result as { path: string; status: string; message: string }
   }
 
-  async fileUpload(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/upload', props)
-    return result as { path: string }
-  }
-
   async fileDelete(props: { path: string }) {
     const result = await this.request('/file/delete', props)
     return result as { path: string }
@@ -87,8 +75,8 @@ export class Client {
   }
 
   async fileRead(props: { path: string }) {
-    const result = await this.request('/file/read', props)
-    return result as { file?: IFile }
+    const result = await this.request('/file/read', { ...props, isBytes: true })
+    return result as { bytes: ArrayBuffer }
   }
 
   async fileRename(props: { path: string; name: string }) {
@@ -96,13 +84,18 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileUpdate(props: { path: string }) {
-    const result = await this.request('/file/update', props)
-    return result as { file: IFile }
+  async fileSelect(props: { path: string }) {
+    const result = await this.request('/file/select', props)
+    return result as { file?: IFile }
   }
 
-  async fileSave(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/save', props)
+  async fileUpload(props: { file: File; folder?: string }) {
+    const result = await this.request('/file/upload', props)
+    return result as { path: string }
+  }
+
+  async fileWrite(props: { file: File; path: string }) {
+    const result = await this.request('/file/write', props)
     return result as { path: string }
   }
 
@@ -181,8 +174,8 @@ export class Client {
     return result as { table: ITable }
   }
 
-  async tableSave(props: { path: string; tablePatch: {}; folder?: string }) {
-    const result = await this.request('/table/save', props)
+  async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {
+    const result = await this.request('/table/write', props)
     return result as { path: string; status: string; message: string }
   }
 

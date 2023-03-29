@@ -65,7 +65,7 @@ export function makeStore(props: TableProps) {
     },
     commitPatch: async () => {
       const { client, file, tablePatch } = get()
-      const { path } = await client.tableSave({ path: file.path, tablePatch })
+      const { path } = await client.tableWrite({ path: file.path, tablePatch })
       console.log(path)
       set({ tablePatch: {} })
     },
@@ -86,7 +86,7 @@ export function makeStore(props: TableProps) {
         source: file.path,
         target: `${name}.${format}`,
       })
-      const { bytes } = await client.bytesRead({ path })
+      const { bytes } = await client.fileRead({ path })
       await client.fileDelete({ path })
       return { bytes: bytes, path: path }
     },

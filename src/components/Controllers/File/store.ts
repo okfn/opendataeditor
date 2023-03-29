@@ -40,7 +40,7 @@ export function makeStore(props: FileProps) {
     },
     loadBytes: async () => {
       const { client, file } = get()
-      const { bytes } = await client.bytesRead({ path: file.path })
+      const { bytes } = await client.fileRead({ path: file.path })
       set({ bytes })
     },
     loadText: async () => {
