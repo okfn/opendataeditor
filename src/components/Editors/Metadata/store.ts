@@ -5,6 +5,7 @@ import FileSaver from 'file-saver'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { MetadataProps } from './Metadata'
+import * as helpers from '../../../helpers'
 
 export interface State {
   editor?: 'package' | 'resource' | 'dialect' | 'schema'
@@ -22,7 +23,7 @@ export function makeStore(_props: MetadataProps) {
     updateState: (patch) => {
       const { revision } = get()
       if ('editor' in patch) {
-        patch.descriptor = undefined
+        patch.descriptor = helpers.getInitialDescriptor(patch.editor)
         patch.isPreview = false
         patch.revision = 0
       }

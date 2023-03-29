@@ -1,3 +1,5 @@
+import { ISchema, IDialect, IResource, IPackage } from './interfaces'
+
 // Genearl
 
 export const PACKAGE_PATH = 'datapackage.json'
@@ -34,8 +36,14 @@ export const DEFAULT_COMMENT_CHAR = undefined
 export const DEFUALT_BUTTON_VARIANT = 'outlined'
 export const DEFUALT_PRIMARY_BUTTON_VARIANT = 'contained'
 
+// Initials
+
+export const INITIAL_SCHEMA: ISchema = { fields: [] }
+export const INITIAL_DIALECT: IDialect = {}
+export const INITIAL_RESOURCE: IResource = { name: 'name', type: 'table', path: 'path' }
+export const INITIAL_PACKAGE: IPackage = { resources: [] }
+
 // Structures
-// TODO: move to components?
 
 export const FIELDS = {
   any: {

@@ -7,10 +7,10 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { IDialect, ICsvControl, IHelpItem } from '../../../interfaces'
 import { DialectProps } from './Dialect'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 
-const INITIAL_DIALECT: IDialect = {}
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
@@ -27,7 +27,7 @@ interface State {
 
 export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
-    descriptor: props.dialect || cloneDeep(INITIAL_DIALECT),
+    descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {

@@ -7,10 +7,10 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { ISchema, IField, IForeignKey, IHelpItem } from '../../../interfaces'
 import { SchemaProps } from './Schema'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 
-const INITIAL_SCHEMA: ISchema = { fields: [] }
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
 
 interface ISectionState {
@@ -49,7 +49,7 @@ interface State {
 
 export function makeStore(props: SchemaProps) {
   return createStore<State>((set, get) => ({
-    descriptor: props.schema || cloneDeep(INITIAL_SCHEMA),
+    descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
     vtabIndex: 1,

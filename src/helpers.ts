@@ -1,11 +1,29 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
 import { IFileItem, ITreeItem, IHelp, IHelpItem } from './interfaces'
+import * as settings from './settings'
 
 export function readHelpItem(help: IHelp, path: string): IHelpItem | null {
   const record = help[path]
   if (!record) return null
   return { path, title: record[0], link: record[1], description: record[2] }
+}
+
+export function getInitialDescriptor(
+  type?: 'package' | 'resource' | 'dialect' | 'schema'
+) {
+  switch (type) {
+    case 'package':
+      return settings.INITIAL_PACKAGE
+    case 'resource':
+      return settings.INITIAL_RESOURCE
+    case 'dialect':
+      return settings.INITIAL_DIALECT
+    case 'schema':
+      return settings.INITIAL_SCHEMA
+    default:
+      return undefined
+  }
 }
 
 export function exportDescriptor(descriptor: object) {

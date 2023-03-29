@@ -7,10 +7,10 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { IPackage, IResource, ILicense, IHelpItem } from '../../../interfaces'
 import { PackageProps } from './Package'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 
-const INITIAL_PACKAGE: IPackage = { resources: [] }
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'package')!
 
 interface ISectionState {
@@ -50,7 +50,7 @@ interface State {
 
 export function makeStore(props: PackageProps) {
   return createStore<State>((set, get) => ({
-    descriptor: props.package || cloneDeep(INITIAL_PACKAGE),
+    descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
     tabIndex: 0,
