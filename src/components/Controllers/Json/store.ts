@@ -10,6 +10,7 @@ import { JsonProps } from './Json'
 export interface State {
   file: IFile
   client: Client
+  panel?: 'metadata'
   dialog?: 'saveAs'
   content?: string
   checkpoint?: string

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import ExportIcon from '@mui/icons-material/IosShare'
+import MetadataIcon from '@mui/icons-material/Tune'
 import SaveIcon from '@mui/icons-material/Check'
 import ChangesIcon from '@mui/icons-material/History'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
@@ -15,6 +16,7 @@ export default function Actions() {
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
         <SaveAs />
+        <Metadata />
         <Revert />
         <Save />
       </Columns>
@@ -29,6 +31,19 @@ function SaveAs() {
       label="Save as"
       icon={<ExportIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={() => updateState({ dialog: 'saveAs' })}
+    />
+  )
+}
+
+function Metadata() {
+  const panel = useStore((state) => state.panel)
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <DefaultButton
+      label="Metadata"
+      icon={<MetadataIcon fontSize="small" sx={{ mr: 1 }} />}
+      color={panel === 'metadata' ? 'warning' : 'info'}
+      onClick={() => updateState({ panel: 'metadata' })}
     />
   )
 }

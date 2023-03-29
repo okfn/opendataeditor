@@ -8,9 +8,9 @@ import { IFile } from '../../../interfaces'
 import { TextProps } from './Text'
 
 export interface State {
-  client: Client
   file: IFile
-  language?: string
+  client: Client
+  panel?: 'metadata'
   dialog?: 'saveAs'
   content?: string
   checkpoint?: string
@@ -23,7 +23,6 @@ export interface State {
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    language: 'plaintext',
     updateState: (patch) => {
       set(patch)
     },

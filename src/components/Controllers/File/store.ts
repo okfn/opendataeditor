@@ -9,8 +9,9 @@ import { FileProps } from './File'
 import * as helpers from '../../../helpers'
 
 export interface State {
-  client: Client
   file: IFile
+  client: Client
+  panel?: 'metadata'
   dialog?: 'saveAs'
   content?: string
   updateState: (patch: Partial<State>) => void
