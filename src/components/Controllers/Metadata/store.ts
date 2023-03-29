@@ -15,7 +15,7 @@ export interface State {
   dialog?: 'saveAs'
   revision: number
   descriptor?: object
-  checkpoint?: object
+  prevDescriptor?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
   revertDescriptor: () => void
@@ -34,16 +34,16 @@ export function makeStore(props: MetadataProps) {
     loadDescriptor: async () => {
       const { client, file } = get()
       const { data } = await client.jsonRead({ path: file.path })
-      set({ descriptor: cloneDeep(data), checkpoint: data })
+      set({ descriptor: cloneDeep(data), prevDescriptor: data })
     },
     revertDescriptor: () => {
-      const { checkpoint } = get()
-      set({ descriptor: cloneDeep(checkpoint), revision: 0 })
+      const { prevDescriptor } = get()
+      set({ descriptor: cloneDeep(prevDescriptor), revision: 0 })
     },
     saveDescriptor: async (path) => {
       const { file, client, descriptor } = get()
       await client.jsonWrite({ path: path || file.path, data: descriptor })
-      set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
+      set({ descriptor: cloneDeep(descriptor), prevDescriptor: descriptor, revision: 0 })
     },
   }))
 }

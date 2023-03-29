@@ -13,7 +13,7 @@ export interface State {
   panel?: 'metadata'
   dialog?: 'saveAs'
   content?: string
-  checkpoint?: string
+  prevContent?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
   revert: () => void
@@ -29,17 +29,17 @@ export function makeStore(props: TextProps) {
     loadContent: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      set({ content: text, checkpoint: text })
+      set({ content: text, prevContent: text })
     },
     revert: () => {
-      const { checkpoint } = get()
-      set({ content: checkpoint })
+      const { prevContent } = get()
+      set({ content: prevContent })
     },
     save: async (path) => {
       const { file, client, content } = get()
       if (!content) return
       await client.textWrite({ path: path || file.path, text: content })
-      set({ checkpoint: content })
+      set({ prevContent: content })
     },
   }))
 }
@@ -47,7 +47,7 @@ export function makeStore(props: TextProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.content !== state.checkpoint
+    return state.content !== state.prevContent
   },
 }
 

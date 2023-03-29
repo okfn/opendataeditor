@@ -13,7 +13,7 @@ export interface State {
   panel?: 'metadata'
   dialog?: 'saveAs'
   content?: string
-  checkpoint?: string
+  prevContent?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
   revert: () => void
@@ -31,18 +31,18 @@ export function makeStore(props: JsonProps) {
       // TODO: rebase on textRead
       const { data } = await client.jsonRead({ path: file.path })
       const content = JSON.stringify(data, null, 2)
-      set({ content: content, checkpoint: content })
+      set({ content: content, prevContent: content })
     },
     revert: () => {
-      const { checkpoint } = get()
-      set({ content: checkpoint })
+      const { prevContent } = get()
+      set({ content: prevContent })
     },
     save: async (path) => {
       const { file, client, content } = get()
       const json = JSON.parse(content!)
       // TODO: rebase on textWrite
       await client.jsonWrite({ path: path || file.path, data: json })
-      set({ checkpoint: content })
+      set({ prevContent: content })
     },
   }))
 }
@@ -50,7 +50,7 @@ export function makeStore(props: JsonProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.content !== state.checkpoint
+    return state.content !== state.prevContent
   },
 }
 
