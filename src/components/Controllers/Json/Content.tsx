@@ -1,5 +1,5 @@
 import * as React from 'react'
-import JsonEditor from '../../Editors/Json'
+import TextEditor from '../../Editors/Text'
 import { useStore } from './store'
 
 export default function Content() {
@@ -7,6 +7,10 @@ export default function Content() {
   const updateState = useStore((state) => state.updateState)
   if (!content) return null
   return (
-    <JsonEditor value={content} onChange={(value) => updateState({ content: value })} />
+    <TextEditor
+      text={content}
+      format="json"
+      onChange={(text) => updateState({ content: text })}
+    />
   )
 }

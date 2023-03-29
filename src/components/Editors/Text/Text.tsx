@@ -7,7 +7,7 @@ import Layout from './Layout'
 export interface TextProps {
   text: string
   format?: string
-  onChange: (value: any) => void
+  onChange: (text: any) => void
 }
 
 export default function Text(props: TextProps) {

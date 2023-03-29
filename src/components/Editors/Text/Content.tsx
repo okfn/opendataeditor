@@ -6,7 +6,7 @@ export default function Text() {
   const text = useStore((state) => state.text)
   const editor = useStore((state) => state.editor)
   const language = useStore(selectors.language)
-  const onChange = useStore((state) => state.onChange)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Editor
       value={text}
@@ -19,7 +19,7 @@ export default function Text() {
         formatOnType: true,
         scrollBeyondLastLine: false,
       }}
-      onChange={(value) => onChange(value)}
+      onChange={(value) => updateState({ text: value })}
       onMount={(ref) => {
         // @ts-ignore
         editor.current = ref

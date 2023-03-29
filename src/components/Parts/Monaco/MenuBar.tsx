@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 
-type ToolBarMenuItem = {
+export interface IMenuBarItem {
   key: string
   label: string
   disabled: boolean
@@ -17,15 +17,15 @@ type ToolBarMenuItem = {
   onClick?: (event?: any) => void
 }
 
-export default function MenuBar({ items }: { items: Array<ToolBarMenuItem> }) {
-  return <Toolbar>{items.map((menu: ToolBarMenuItem) => getMenu(menu))}</Toolbar>
+export default function MenuBar({ items }: { items: Array<IMenuBarItem> }) {
+  return <Toolbar>{items.map((menu: IMenuBarItem) => getMenu(menu))}</Toolbar>
 }
-const getMenu = (menu: ToolBarMenuItem) => {
+const getMenu = (menu: IMenuBarItem) => {
   const Elem = menus[menu.type]
   return <Elem key={menu.key} menu={menu} />
 }
 
-const CheckboxMenuItem = (props: { menu: ToolBarMenuItem }) => {
+const CheckboxMenuItem = (props: { menu: IMenuBarItem }) => {
   return (
     <Box
       sx={{
@@ -39,7 +39,7 @@ const CheckboxMenuItem = (props: { menu: ToolBarMenuItem }) => {
   )
 }
 
-const SelectMenuItem = (props: { menu: ToolBarMenuItem }) => {
+const SelectMenuItem = (props: { menu: IMenuBarItem }) => {
   return (
     <Box
       sx={{
@@ -66,7 +66,7 @@ const SelectMenuItem = (props: { menu: ToolBarMenuItem }) => {
   )
 }
 
-const DefaultMenuItem = (props: { menu: ToolBarMenuItem }) => {
+const DefaultMenuItem = (props: { menu: IMenuBarItem }) => {
   return (
     <Button
       key={props.menu.key}
