@@ -4,6 +4,7 @@ import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
 import PreviewPanel from './Panels/Preview'
+import ScrollBox from '../../Parts/ScrollBox'
 import Dialog from './Dialog'
 import Actions from './Actions'
 import { IResource, IDialect, ISchema } from '../../../interfaces'
@@ -28,7 +29,7 @@ export default function Content() {
     <React.Fragment>
       <Dialog />
       <Box sx={{ height }}>
-        <Box sx={{ height: contentHeight }}>
+        <ScrollBox height={contentHeight}>
           {file.type === 'resource' && (
             <Resource
               resource={descriptor as IResource}
@@ -47,7 +48,7 @@ export default function Content() {
               onChange={(descriptor) => updateState({ descriptor })}
             />
           )}
-        </Box>
+        </ScrollBox>
         <Box
           hidden={!panel}
           sx={{
