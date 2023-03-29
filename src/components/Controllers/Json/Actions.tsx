@@ -43,7 +43,9 @@ function Metadata() {
       label="Metadata"
       icon={<MetadataIcon fontSize="small" sx={{ mr: 1 }} />}
       color={panel === 'metadata' ? 'warning' : 'info'}
-      onClick={() => updateState({ panel: 'metadata' })}
+      onClick={() =>
+        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+      }
     />
   )
 }

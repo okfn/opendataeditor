@@ -21,7 +21,7 @@ export interface State {
   loadContent: () => Promise<void>
   saveAs: (path: string) => Promise<void>
   revert: () => void
-  save: (path?: string) => Promise<void>
+  save: () => Promise<void>
 }
 
 export function makeStore(props: JsonProps) {
@@ -37,10 +37,8 @@ export function makeStore(props: JsonProps) {
     },
     loadContent: async () => {
       const { client, file } = get()
-      // TODO: rebase on textRead
-      const { data } = await client.jsonRead({ path: file.path })
-      const content = JSON.stringify(data, null, 2)
-      set({ content: content, prevContent: content })
+      const { text } = await client.textRead({ path: file.path })
+      set({ content: text, prevContent: text })
     },
     saveAs: async (path) => {
       const { client, content } = get()
