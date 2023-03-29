@@ -9,7 +9,6 @@ import Layout from './Layout'
 export interface TextProps {
   file: IFile
   client: Client
-  onSave: (path: string) => void
 }
 
 export default function Text(props: TextProps) {

@@ -38,7 +38,7 @@ function ContentFile() {
     return <Json client={client} file={file} />
   }
   if (file.record?.type === 'text') {
-    return <Text client={client} file={file} onSave={onSave} />
+    return <Text client={client} file={file} />
   }
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
