@@ -9,8 +9,8 @@ export default function Content() {
   if (!content) return null
   return (
     <TextEditor
-      value={content}
-      language={file.record?.resource.format === 'md' ? 'markdown' : 'plaintext'}
+      text={content}
+      format={file.record?.resource.format}
       onChange={(value) => updateState({ content: value })}
     />
   )
