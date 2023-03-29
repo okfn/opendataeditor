@@ -16,8 +16,8 @@ export default function Layout() {
   const theme = useTheme()
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
-  const vtabIndex = useStore((state) => state.schemaState.vtabIndex)
-  const updateSchemaState = useStore((state) => state.updateSchemaState)
+  const vtabIndex = useStore((state) => state.vtabIndex)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
@@ -26,7 +26,7 @@ export default function Layout() {
           labels={LABELS}
           onChange={(index) => {
             updateHelp(camelCase(LABELS[index]))
-            updateSchemaState({ vtabIndex: index })
+            updateState({ vtabIndex: index })
           }}
         >
           <Schema />
