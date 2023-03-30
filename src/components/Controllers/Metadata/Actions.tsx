@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Check'
-import SourceIcon from '@mui/icons-material/Code'
+import MetadataIcon from '@mui/icons-material/Tune'
 import ChangesIcon from '@mui/icons-material/History'
 import ExportIcon from '@mui/icons-material/IosShare'
 import DefaultButton from '../../Parts/Buttons/DefaultButton'
@@ -16,7 +16,7 @@ export default function Actions() {
     <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '63px', paddingX: 2 }}>
       <Columns spacing={2}>
         <SaveAs />
-        <Preview />
+        <Metadata />
         <Revert />
         <Save />
       </Columns>
@@ -35,39 +35,36 @@ function SaveAs() {
   )
 }
 
-function Preview() {
-  const panel = useStore((state) => state.panel)
-  const updateState = useStore((state) => state.updateState)
+function Metadata() {
   return (
     <DefaultButton
-      label="Preview"
-      color={panel === 'preview' ? 'warning' : 'info'}
-      icon={<SourceIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => updateState({ panel: panel !== 'preview' ? 'preview' : undefined })}
+      label="Metadata"
+      icon={<MetadataIcon fontSize="small" sx={{ mr: 1 }} />}
+      disabled={true}
     />
   )
 }
 
 function Revert() {
   const isUpdated = useStore(selectors.isUpdated)
-  const revertDescriptor = useStore((state) => state.revertDescriptor)
+  const revert = useStore((state) => state.revert)
   return (
     <RevertButton
       disabled={!isUpdated}
       icon={<ChangesIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => revertDescriptor()}
+      onClick={() => revert()}
     />
   )
 }
 
 function Save() {
   const isUpdated = useStore(selectors.isUpdated)
-  const saveDescriptor = useStore((state) => state.saveDescriptor)
+  const save = useStore((state) => state.save)
   return (
     <CommitButton
       disabled={!isUpdated}
       icon={<SaveIcon fontSize="small" sx={{ mr: 1 }} />}
-      onClick={() => saveDescriptor()}
+      onClick={() => save()}
     />
   )
 }

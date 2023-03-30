@@ -15,10 +15,15 @@ export interface IMenuBarItem {
   options?: any
   icon?: React.ReactElement
   onClick?: (event?: any) => void
+  color?: 'info' | 'warning'
 }
 
 export default function MenuBar({ items }: { items: Array<IMenuBarItem> }) {
-  return <Toolbar>{items.map((menu: IMenuBarItem) => getMenu(menu))}</Toolbar>
+  return (
+    <Toolbar sx={{ borderBottom: 'solid 1px #ddd' }}>
+      {items.map((menu: IMenuBarItem) => getMenu(menu))}
+    </Toolbar>
+  )
 }
 const getMenu = (menu: IMenuBarItem) => {
   const Elem = menus[menu.type]
@@ -30,7 +35,7 @@ const CheckboxMenuItem = (props: { menu: IMenuBarItem }) => {
     <Box
       sx={{
         fontWeight: 300,
-        color: 'primary.main',
+        color: props.menu.color || 'primary.info',
       }}
     >
       <Checkbox onClick={props.menu.onClick} disabled={props.menu.disabled} />
@@ -44,7 +49,7 @@ const SelectMenuItem = (props: { menu: IMenuBarItem }) => {
     <Box
       sx={{
         fontWeight: 300,
-        color: 'primary.main',
+        color: props.menu.color || 'primary.info',
       }}
     >
       <Box
@@ -73,6 +78,7 @@ const DefaultMenuItem = (props: { menu: IMenuBarItem }) => {
       startIcon={props.menu.icon}
       onClick={props.menu.onClick}
       disabled={props.menu.disabled}
+      color={props.menu.color}
     >
       <Typography sx={{ fontWeight: 300, textTransform: 'capitalize' }}>
         {props.menu.label}

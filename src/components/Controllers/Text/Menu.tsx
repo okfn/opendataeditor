@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Compress from '@mui/icons-material/Compress'
 import DataObject from '@mui/icons-material/DataObject'
-import Delete from '@mui/icons-material/Delete'
+import FormatClear from '@mui/icons-material/FormatClear'
 import Handyman from '@mui/icons-material/Handyman'
 import MenuBar, { IMenuBarItem } from '../../Parts/MenuBar'
 import { useStore, selectors } from './store'
@@ -18,7 +18,7 @@ export default function Menu() {
       label: 'Clear',
       disabled: false,
       type: 'default',
-      icon: <Delete />,
+      icon: <FormatClear />,
       onClick: clear,
     },
   ]

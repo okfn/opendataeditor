@@ -7,6 +7,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
+import * as helpers from '../../../helpers'
 
 export interface State {
   file: IFile
@@ -17,9 +18,10 @@ export interface State {
   modified?: object
   revision: number
   updateState: (patch: Partial<State>) => void
-  loadDescriptor: () => Promise<void>
-  revertDescriptor: () => void
-  saveDescriptor: (path?: string) => Promise<void>
+  load: () => Promise<void>
+  clear: () => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
@@ -32,16 +34,22 @@ export function makeStore(props: MetadataProps) {
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
-    loadDescriptor: async () => {
+    load: async () => {
       const { client, file } = get()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data })
     },
-    revertDescriptor: () => {
+    clear: () => {
+      const { file, updateState } = get()
+      const descriptor = helpers.getInitialDescriptor(file.type)
+      if (!descriptor) return
+      updateState({ modified: cloneDeep(descriptor) })
+    },
+    revert: () => {
       const { original } = get()
       set({ modified: cloneDeep(original), revision: 0 })
     },
-    saveDescriptor: async (path) => {
+    save: async (path) => {
       const { file, client, modified } = get()
       await client.jsonWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
