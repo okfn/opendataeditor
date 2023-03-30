@@ -35,7 +35,7 @@ export function makeStore(props: TextProps) {
     // Text
 
     init: () => {
-      console.log(props)
+      // TODO: find a better way
       // We use it to reload editor instance on a new store created
       set({ content: props.content })
     },
@@ -80,6 +80,8 @@ export const selectors = {
     switch (state.format) {
       case 'json':
         return 'json'
+      case 'yaml':
+        return 'yaml'
       case 'md':
         return 'markdown'
       default:
