@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/ScrollBox'
 import MetadataPanel from './Panels/Metadata'
+import ChangesPanel from './Panels/Changes'
 import Actions from './Actions'
 import Content from './Content'
 import Dialog from './Dialog'
@@ -37,6 +38,7 @@ export default function Layout() {
           }}
         >
           {panel === 'metadata' && <MetadataPanel />}
+          {panel === 'changes' && <ChangesPanel />}
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Actions />

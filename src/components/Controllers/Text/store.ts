@@ -11,7 +11,7 @@ import { TextProps } from './Text'
 export interface State {
   file: IFile
   client: Client
-  panel?: 'metadata'
+  panel?: 'metadata' | 'changes'
   dialog?: 'saveAs'
   revision: number
   content?: ITextContent

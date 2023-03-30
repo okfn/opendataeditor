@@ -11,9 +11,10 @@ import * as helpers from './helpers'
 import dirtyJson from 'dirty-json'
 
 interface State {
+  diff?: boolean
   format?: string
   content?: ITextContent
-  onChange: (text: any) => void
+  onChange?: (text: any) => void
   updateState: (patch: Partial<State>) => void
   editor: React.RefObject<monaco.editor.IStandaloneCodeEditor>
   init: () => void
@@ -25,6 +26,7 @@ interface State {
 
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
+    diff: props.diff,
     format: props.format,
     onChange: props.onChange,
     editor: React.createRef<monaco.editor.IStandaloneCodeEditor>(),

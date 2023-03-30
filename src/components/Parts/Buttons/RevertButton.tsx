@@ -5,6 +5,7 @@ import * as settings from '../../../settings'
 interface RevertButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
   icon?: React.ReactNode
+  color?: 'info' | 'warning' | 'secondary' | 'success'
   disabled?: boolean
   onClick?: () => void
 }
@@ -13,7 +14,7 @@ export default function RevertButton(props: RevertButtonProps) {
   return (
     <Button
       fullWidth
-      color={props.disabled ? 'primary' : 'warning'}
+      color={props.color || props.disabled ? 'primary' : 'warning'}
       variant={
         props.disabled
           ? 'outlined'

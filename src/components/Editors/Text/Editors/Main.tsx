@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Editor from '@monaco-editor/react'
-import { useStore, selectors } from './store'
+import { useStore, selectors } from '../store'
 
 export default function Text() {
   const content = useStore((state) => state.content)
@@ -20,7 +20,7 @@ export default function Text() {
         formatOnType: true,
         scrollBeyondLastLine: false,
       }}
-      onChange={(text) => onChange(text)}
+      onChange={(text) => onChange && onChange(text)}
       onMount={(ref) => {
         // @ts-ignore
         editor.current = ref

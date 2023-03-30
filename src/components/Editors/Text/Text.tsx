@@ -6,9 +6,10 @@ import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface TextProps {
+  diff?: boolean
   format?: string
   content: ITextContent
-  onChange: (text: any) => void
+  onChange?: (text: any) => void
 }
 
 export default function Text(props: TextProps) {
