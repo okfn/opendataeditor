@@ -9,7 +9,9 @@ export default function Actions() {
   // TODO: fix geometry
   // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box sx={{ borderTop: 'solid 1px #ddd', lineHeight: '58px' }}>
+    <Box
+      sx={{ borderTop: 'solid 1px #ddd', lineHeight: '58px', backgroundColor: '#fafafa' }}
+    >
       <Columns spacing={2}>
         <CreateButton />
         <ManageButton />

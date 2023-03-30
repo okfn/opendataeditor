@@ -60,7 +60,12 @@ const SelectMenuItem = (props: { menu: IMenuBarItem }) => {
       >
         {props.menu.label}
       </Box>
-      <Select size="small" defaultValue="0" onChange={props.menu.onClick}>
+      <Select
+        size="small"
+        defaultValue="0"
+        disabled={props.menu.disabled}
+        onChange={props.menu.onClick}
+      >
         {props.menu.options.map((option: any, index: number) => (
           <MenuItem key={index} value={index}>
             {option}
