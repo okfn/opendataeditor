@@ -1,27 +1,42 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IResource, ITextContent } from '../../../interfaces'
+import { IFile, IResource } from '../../../interfaces'
 import { TextProps } from './Text'
+import * as helpers from './helpers'
+// @ts-expect-error
+import dirtyJson from 'dirty-json'
 
 export interface State {
   file: IFile
   client: Client
-  panel?: 'metadata' | 'changes'
+  panel?: 'metadata'
   dialog?: 'saveAs'
-  revision: number
-  content?: ITextContent
+  original?: string
+  modified?: string
   resource: IResource
+  revision: number
+  editor: React.RefObject<monaco.editor.IStandaloneCodeEditor>
   updateState: (patch: Partial<State>) => void
-  loadContent: () => Promise<void>
-  updateContent: (text: string) => void
+  load: () => Promise<void>
   saveAs: (path: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
+
+  // Text
+
+  clear: () => void
+
+  // Json
+
+  fix: () => void
+  minify: () => void
+  prettify: () => void
 }
 
 export function makeStore(props: TextProps) {
@@ -30,40 +45,67 @@ export function makeStore(props: TextProps) {
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
+    editor: React.createRef<monaco.editor.IStandaloneCodeEditor>(),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
-    loadContent: async () => {
+    load: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      const content = { modified: text, original: text }
-      set({ content })
-    },
-    updateContent: (text) => {
-      const { content, revision } = get()
-      content!.modified = text
-      set({ content, revision: revision + 1 })
+      set({ modified: text, original: text })
     },
     saveAs: async (path) => {
-      const { client, content } = get()
-      await client.textWrite({ path, text: content!.modified })
+      const { client, modified } = get()
+      await client.textWrite({ path, text: modified! })
     },
     revert: () => {
-      const { file, content } = get()
+      const { file, original } = get()
       // TODO: review case of missing record (not indexed)
-      const newResource = cloneDeep(file.record!.resource)
-      const newContent = { ...content!, modified: content!.original }
-      set({ resource: newResource, content: newContent, revision: 0 })
+      set({ resource: cloneDeep(file.record!.resource), modified: original, revision: 0 })
     },
     // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, content, resource } = get()
+      const { file, client, modified, resource } = get()
       await client.fileUpdate({ path: file.path, resource })
-      await client.textWrite({ path: file.path, text: content!.modified })
-      const newContent = { ...content!, original: content!.modified }
-      set({ content: newContent, revision: 0 })
+      await client.textWrite({ path: file.path, text: modified! })
+      set({ original: modified, revision: 0 })
+    },
+
+    // Text
+
+    clear: () => {
+      const { editor } = get()
+      if (!editor.current) return
+      editor.current.setValue('')
+    },
+
+    // Json
+
+    fix: () => {
+      const { editor } = get()
+      if (!editor.current) return
+      const value = editor.current.getValue()
+      const fixedValue = value && dirtyJson.parse(value)
+      const formattedValue =
+        fixedValue && helpers.prettifyJsonString(JSON.stringify(fixedValue))
+      editor.current.setValue(formattedValue)
+    },
+    minify: () => {
+      const { editor } = get()
+      if (!editor.current) return
+      const value = editor.current.getValue()
+      if (!value) return
+      const minifiedValue = helpers.minifyJsonString(value)
+      editor.current.setValue(minifiedValue)
+    },
+    prettify: () => {
+      const { editor } = get()
+      if (!editor.current) return
+      const action = editor.current.getAction('editor.action.formatDocument')
+      if (!action) return
+      action.run()
     },
   }))
 }
@@ -71,7 +113,19 @@ export function makeStore(props: TextProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0
+    return state.revision > 0 || state.original !== state.modified
+  },
+  language: (state: State) => {
+    switch (state.file.record?.resource.format) {
+      case 'json':
+        return 'json'
+      case 'yaml':
+        return 'yaml'
+      case 'md':
+        return 'markdown'
+      default:
+        return 'plaintext'
+    }
   },
 }
 
