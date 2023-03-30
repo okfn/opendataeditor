@@ -14,7 +14,7 @@ export interface State {
   panel?: 'metadata'
   dialog?: 'saveAs'
   revision: number
-  content?: ArrayBuffer
+  original?: ArrayBuffer
   resource: IResource
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
@@ -38,11 +38,11 @@ export function makeStore(props: FileProps) {
       const { client, file } = get()
       if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
       const { bytes } = await client.fileRead({ path: file.path })
-      set({ content: bytes })
+      set({ original: bytes })
     },
     saveAs: async (path) => {
-      const { client, content } = get()
-      await client.fileWrite({ path, file: new File([content!], 'name') })
+      const { client, original } = get()
+      await client.fileWrite({ path, file: new File([original!], 'name') })
     },
     revert: () => {
       const { file } = get()

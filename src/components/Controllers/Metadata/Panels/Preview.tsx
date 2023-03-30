@@ -4,7 +4,7 @@ import { useStore } from '../store'
 
 export default function PreviewPanel() {
   const revision = useStore((state) => state.revision)
-  const descriptor = useStore((state) => state.descriptor)
-  if (!descriptor) return null
-  return <Preview format="json" descriptor={descriptor || {}} revision={revision} />
+  const modified = useStore((state) => state.modified)
+  if (!modified) return null
+  return <Preview format="json" descriptor={modified || {}} revision={revision} />
 }

@@ -14,9 +14,9 @@ export interface State {
   panel?: 'metadata'
   dialog?: 'saveAs'
   revision: number
-  content?: string
+  original?: string
+  modified?: string
   resource: IResource
-  prevContent?: string
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
   saveAs: (path: string) => Promise<void>
@@ -32,33 +32,34 @@ export function makeStore(props: JsonProps) {
     resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
+      if ('modified' in patch) patch.revision = revision + 1
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     loadContent: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      set({ content: text, prevContent: text })
+      set({ modified: text, original: text })
     },
     saveAs: async (path) => {
-      const { client, content } = get()
-      await client.textWrite({ path, text: content! })
+      const { client, modified } = get()
+      await client.textWrite({ path, text: modified! })
     },
     revert: () => {
-      const { file, prevContent } = get()
+      const { file, original } = get()
       // TODO: review case of missing record (not indexed)
       set({
         resource: cloneDeep(file.record!.resource),
-        content: prevContent,
+        modified: original,
         revision: 0,
       })
     },
     save: async () => {
-      const { file, client, content, resource } = get()
+      const { file, client, modified, resource } = get()
       await client.fileUpdate({ path: file.path, resource })
-      await client.textWrite({ path: file.path, text: content! })
+      await client.textWrite({ path: file.path, text: modified! })
       // TODO: needs to udpate file object
-      set({ prevContent: content, revision: 0 })
+      set({ original: modified, revision: 0 })
     },
   }))
 }
@@ -66,7 +67,7 @@ export function makeStore(props: JsonProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0 || state.content !== state.prevContent
+    return state.revision > 0
   },
 }
 

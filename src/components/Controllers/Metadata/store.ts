@@ -13,9 +13,9 @@ export interface State {
   client: Client
   panel?: 'preview'
   dialog?: 'saveAs'
+  original?: object
+  modified?: object
   revision: number
-  descriptor?: object
-  prevDescriptor?: object
   updateState: (patch: Partial<State>) => void
   loadDescriptor: () => Promise<void>
   revertDescriptor: () => void
@@ -28,22 +28,23 @@ export function makeStore(props: MetadataProps) {
     revision: 0,
     updateState: (patch) => {
       const { revision } = get()
-      if ('descriptor' in patch) patch.revision = revision + 1
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     loadDescriptor: async () => {
       const { client, file } = get()
       const { data } = await client.jsonRead({ path: file.path })
-      set({ descriptor: cloneDeep(data), prevDescriptor: data })
+      set({ modified: cloneDeep(data), original: data })
     },
     revertDescriptor: () => {
-      const { prevDescriptor } = get()
-      set({ descriptor: cloneDeep(prevDescriptor), revision: 0 })
+      const { original } = get()
+      set({ modified: cloneDeep(original), revision: 0 })
     },
     saveDescriptor: async (path) => {
-      const { file, client, descriptor } = get()
-      await client.jsonWrite({ path: path || file.path, data: descriptor })
-      set({ descriptor: cloneDeep(descriptor), prevDescriptor: descriptor, revision: 0 })
+      const { file, client, modified } = get()
+      await client.jsonWrite({ path: path || file.path, data: modified })
+      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
   }))
 }

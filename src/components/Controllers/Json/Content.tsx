@@ -3,14 +3,14 @@ import TextEditor from '../../Editors/Text'
 import { useStore } from './store'
 
 export default function Content() {
-  const content = useStore((state) => state.content)
+  const modified = useStore((state) => state.modified)
   const updateState = useStore((state) => state.updateState)
-  if (!content) return null
+  if (!modified) return null
   return (
     <TextEditor
-      text={content}
+      text={modified}
       format="json"
-      onChange={(text) => updateState({ content: text })}
+      onChange={(text) => updateState({ modified: text })}
     />
   )
 }

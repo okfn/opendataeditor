@@ -18,13 +18,13 @@ export default function Content() {
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
   const file = useStore((state) => state.file)
-  const descriptor = useStore((state) => state.descriptor)
+  const modified = useStore((state) => state.modified)
   const updateState = useStore((state) => state.updateState)
   const loadDescriptor = useStore((state) => state.loadDescriptor)
   React.useEffect(() => {
     loadDescriptor().catch(console.error)
   }, [file])
-  if (!descriptor) return null
+  if (!modified) return null
   return (
     <React.Fragment>
       <Dialog />
@@ -32,20 +32,20 @@ export default function Content() {
         <ScrollBox height={contentHeight}>
           {file.type === 'resource' && (
             <Resource
-              resource={descriptor as IResource}
-              onChange={(descriptor) => updateState({ descriptor })}
+              resource={modified as IResource}
+              onChange={(descriptor) => updateState({ modified: descriptor })}
             />
           )}
           {file.type === 'dialect' && (
             <Dialect
-              dialect={descriptor as IDialect}
-              onChange={(descriptor) => updateState({ descriptor })}
+              dialect={modified as IDialect}
+              onChange={(descriptor) => updateState({ modified: descriptor })}
             />
           )}
           {file.type === 'schema' && (
             <Schema
-              schema={descriptor as ISchema}
-              onChange={(descriptor) => updateState({ descriptor })}
+              schema={modified as ISchema}
+              onChange={(descriptor) => updateState({ modified: descriptor })}
             />
           )}
         </ScrollBox>
