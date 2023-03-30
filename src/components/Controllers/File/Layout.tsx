@@ -6,6 +6,7 @@ import MetadataPanel from './Panels/Metadata'
 import Actions from './Actions'
 import Content from './Content'
 import Dialog from './Dialog'
+import Menu from './Menu'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -15,7 +16,7 @@ export default function Layout() {
   const loadContent = useStore((state) => state.loadContent)
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + panelHeight)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
   React.useEffect(() => {
     loadContent().catch(console.error)
   }, [file])
@@ -23,6 +24,7 @@ export default function Layout() {
     <React.Fragment>
       <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+        <Menu />
         <ScrollBox height={contentHeight}>
           <Content />
         </ScrollBox>
