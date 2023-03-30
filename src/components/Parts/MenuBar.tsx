@@ -20,7 +20,7 @@ export interface IMenuBarItem {
 
 export default function MenuBar({ items }: { items: Array<IMenuBarItem> }) {
   return (
-    <Toolbar sx={{ borderBottom: 'solid 1px #ddd' }}>
+    <Toolbar sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa' }}>
       {items.map((menu: IMenuBarItem) => getMenu(menu))}
     </Toolbar>
   )
