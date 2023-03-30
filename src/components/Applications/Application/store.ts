@@ -2,8 +2,8 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { Client } from '../../client'
-import { IFile } from '../../interfaces'
+import { Client } from '../../../client'
+import { IFile } from '../../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {

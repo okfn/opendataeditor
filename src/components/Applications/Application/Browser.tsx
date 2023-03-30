@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Files from '../Controllers/Files'
+import Files from '../../Controllers/Files'
 import { useStore } from './store'
 
 export default function Layout() {

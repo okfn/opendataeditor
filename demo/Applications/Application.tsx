@@ -2,7 +2,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Application from '../../src/components/Application'
+import Application from '../../src/components/Applications/Application'
 
 const Template: Story<Parameters<typeof Application>[0]> = (args) => (
   <Application {...args} />

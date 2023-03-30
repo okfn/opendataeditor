@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Metadata from '../../src/components/Editors/Metadata'
+import Metadata from '../../src/components/Applications/Metadata'
 
 export default {
   title: 'Editors/Metadata',

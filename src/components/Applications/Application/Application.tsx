@@ -2,8 +2,8 @@ import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { StoreProvider, makeStore } from './store'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Client } from '../../client'
-import * as themes from '../../themes'
+import { Client } from '../../../client'
+import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface ApplicationProps {
