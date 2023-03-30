@@ -3,6 +3,7 @@ import * as zustand from 'zustand'
 import { assert } from 'ts-essentials'
 import { createStore } from 'zustand/vanilla'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import { ITextContent } from '../../../interfaces'
 import { createSelector } from 'reselect'
 import { TextProps } from './Text'
 import * as helpers from './helpers'
@@ -10,11 +11,12 @@ import * as helpers from './helpers'
 import dirtyJson from 'dirty-json'
 
 interface State {
-  text: string
   format?: string
+  content?: ITextContent
   onChange: (text: any) => void
   updateState: (patch: Partial<State>) => void
   editor: React.RefObject<monaco.editor.IStandaloneCodeEditor>
+  init: () => void
   clear: () => void
   fix: () => void
   minify: () => void
@@ -23,16 +25,20 @@ interface State {
 
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
-    ...props,
+    format: props.format,
+    onChange: props.onChange,
     editor: React.createRef<monaco.editor.IStandaloneCodeEditor>(),
     updateState: (patch) => {
-      const { onChange } = get()
-      set({ ...patch })
-      if ('text' in patch) onChange(patch.text)
+      set(patch)
     },
 
     // Text
 
+    init: () => {
+      console.log(props)
+      // We use it to reload editor instance on a new store created
+      set({ content: props.content })
+    },
     clear: () => {
       const { editor } = get()
       if (!editor.current) return

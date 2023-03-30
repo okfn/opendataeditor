@@ -3,13 +3,14 @@ import Editor from '@monaco-editor/react'
 import { useStore, selectors } from './store'
 
 export default function Text() {
-  const text = useStore((state) => state.text)
+  const content = useStore((state) => state.content)
   const editor = useStore((state) => state.editor)
   const language = useStore(selectors.language)
-  const updateState = useStore((state) => state.updateState)
+  const onChange = useStore((state) => state.onChange)
+  if (!content) return null
   return (
     <Editor
-      value={text}
+      value={content.modified}
       language={language}
       options={{
         automaticLayout: true,
@@ -19,7 +20,7 @@ export default function Text() {
         formatOnType: true,
         scrollBeyondLastLine: false,
       }}
-      onChange={(value) => updateState({ text: value })}
+      onChange={(text) => onChange(text)}
       onMount={(ref) => {
         // @ts-ignore
         editor.current = ref

@@ -10,7 +10,7 @@ import Chart from '../Controllers/Chart'
 import View from '../Controllers/View'
 import * as settings from '../../settings'
 import { useStore } from './store'
-import Json from '../Controllers/Json'
+// import Json from '../Controllers/Json'
 import Text from '../Controllers/Text'
 
 export default function Content() {
@@ -35,9 +35,9 @@ function ContentFile() {
     return <Table client={client} file={file} onExport={onSave} />
   }
   if (file.type === 'json') {
-    return <Json client={client} file={file} />
+    return <Text client={client} file={file} />
   }
-  if (file.record?.type === 'text') {
+  if (file.type === 'text') {
     return <Text client={client} file={file} />
   }
   if (file.type === 'package') Controller = Package

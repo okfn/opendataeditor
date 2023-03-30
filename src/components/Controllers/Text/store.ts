@@ -5,7 +5,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IResource } from '../../../interfaces'
+import { IFile, IResource, ITextContent } from '../../../interfaces'
 import { TextProps } from './Text'
 
 export interface State {
@@ -14,11 +14,11 @@ export interface State {
   panel?: 'metadata'
   dialog?: 'saveAs'
   revision: number
-  original?: string
-  modified?: string
+  content?: ITextContent
   resource: IResource
   updateState: (patch: Partial<State>) => void
   loadContent: () => Promise<void>
+  updateContent: (text: string) => void
   saveAs: (path: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
@@ -32,34 +32,38 @@ export function makeStore(props: TextProps) {
     resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
-      if ('modified' in patch) patch.revision = revision + 1
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     loadContent: async () => {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
-      set({ modified: text, original: text })
+      const content = { modified: text, original: text }
+      set({ content })
+    },
+    updateContent: (text) => {
+      const { content, revision } = get()
+      content!.modified = text
+      set({ content, revision: revision + 1 })
     },
     saveAs: async (path) => {
-      const { client, modified } = get()
-      await client.textWrite({ path, text: modified! })
+      const { client, content } = get()
+      await client.textWrite({ path, text: content!.modified })
     },
     revert: () => {
-      const { file, original } = get()
+      const { file, content } = get()
       // TODO: review case of missing record (not indexed)
-      set({
-        resource: cloneDeep(file.record!.resource),
-        modified: original,
-        revision: 0,
-      })
+      const newResource = cloneDeep(file.record!.resource)
+      const newContent = { ...content!, modified: content!.original }
+      set({ resource: newResource, content: newContent, revision: 0 })
     },
+    // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, modified, resource } = get()
+      const { file, client, content, resource } = get()
       await client.fileUpdate({ path: file.path, resource })
-      await client.textWrite({ path: file.path, text: modified! })
-      // TODO: needs to udpate file object
-      set({ original: modified, revision: 0 })
+      await client.textWrite({ path: file.path, text: content!.modified })
+      const newContent = { ...content!, original: content!.modified }
+      set({ content: newContent, revision: 0 })
     },
   }))
 }

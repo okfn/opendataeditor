@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
+import { ITextContent } from '../../../interfaces'
 import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface TextProps {
-  text: string
   format?: string
+  content: ITextContent
   onChange: (text: any) => void
 }
 

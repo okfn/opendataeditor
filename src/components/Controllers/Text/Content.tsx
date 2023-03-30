@@ -4,14 +4,14 @@ import { useStore } from './store'
 
 export default function Content() {
   const file = useStore((state) => state.file)
-  const modified = useStore((state) => state.modified)
-  const updateState = useStore((state) => state.updateState)
-  if (!modified) return null
+  const content = useStore((state) => state.content)
+  const updateContent = useStore((state) => state.updateContent)
+  if (!content) return null
   return (
     <TextEditor
-      text={modified}
+      content={content}
       format={file.record?.resource.format}
-      onChange={(value) => updateState({ modified: value })}
+      onChange={(text) => updateContent(text)}
     />
   )
 }
