@@ -60,11 +60,13 @@ function Description() {
 
 function CommentChar() {
   const commentChar = useStore((state) => state.descriptor.commentChar)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Comment Char"
       value={commentChar || settings.DEFAULT_COMMENT_CHAR}
+      onFocus={() => updateHelp('dialect/commentChar')}
       onChange={(commentChar) => updateDescriptor({ commentChar })}
     />
   )
@@ -78,7 +80,7 @@ function CommentRows() {
     <InputField
       label="Comment Rows"
       value={(commentRows || []).join(',')}
-      onFocus={() => updateHelp('schema/commentRows')}
+      onFocus={() => updateHelp('dialect/commentRows')}
       onChange={(value) =>
         updateDescriptor({ commentRows: value ? value.split(',') : undefined })
       }
@@ -93,7 +95,7 @@ function Header() {
   return (
     <YesNoField
       label="Header"
-      value={header || settings.DEFAULT_HEADER}
+      value={header ?? settings.DEFAULT_HEADER}
       onFocus={() => updateHelp('dialect/header')}
       onChange={(header) => updateDescriptor({ header })}
     />
@@ -102,11 +104,13 @@ function Header() {
 
 function HeaderRows() {
   const headerRows = useStore((state) => state.descriptor.headerRows)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Header Rows"
       value={headerRows}
+      onFocus={() => updateHelp('dialect/headerRows')}
       onChange={(headerRows) => updateDescriptor({ headerRows })}
     />
   )
@@ -114,23 +118,29 @@ function HeaderRows() {
 
 function HeaderJoin() {
   const headerJoin = useStore((state) => state.descriptor.headerJoin)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Header Join"
       value={headerJoin}
+      onFocus={() => updateHelp('dialect/headerJoin')}
       onChange={(headerJoin) => updateDescriptor({ headerJoin })}
     />
   )
 }
 
 function HeaderCase() {
-  const headerCase = useStore((state) => state.descriptor.headerCase)
+  const headerCase = useStore(
+    (state) => state.descriptor.headerCase
+  )
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <YesNoField
       label="Header Case"
-      value={headerCase || settings.DEFAULT_HEADER_CASE}
+      value={headerCase ?? settings.DEFAULT_HEADER_CASE}
+      onFocus={() => updateHelp('dialect/headerCase')}
       onChange={(headerCase) => updateDescriptor({ headerCase })}
     />
   )

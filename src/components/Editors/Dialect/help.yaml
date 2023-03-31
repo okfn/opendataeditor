@@ -3,7 +3,7 @@
 dialect:
   - Dialect
   - https://framework.frictionlessdata.io/docs/framework/dialect.html
-  - File dialect concept give us an ability to manage table header and any details related to specific formats
+  - File dialect concept give us an ability to manage table header and any details related to specific formats.
 
 dialect/title:
   - Title
@@ -13,7 +13,37 @@ dialect/title:
 dialect/header:
   - Header
   - https://framework.frictionlessdata.io/docs/framework/dialect.html#header
-  - It's a boolean flag which defaults to True indicating whether the data has a header row or not
+  - It's a boolean flag which defaults to True indicating whether the data has a header row or not.
+
+dialect/description:
+  - Description
+  - #
+  - A brief description of the dialect.
+
+dialect/headerRows:
+  - Header Rows
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-rows
+  - It specifies the header row or rows for multiline header.
+
+dialect/commentChar:
+  - Comment Char
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-char
+  - It specifies the char to use to comment the rows.
+
+dialect/headerJoin:
+  - Header Join
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-join
+  - It specifies the header rows to combine, if there are multiple header rows.
+
+dialect/commentRows:
+  - Comment Rows
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-rows
+  - It specifies list of rows to ignore.
+
+dialect/headerCase:
+  - Header Case
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case
+  - It specifies case sensitivity mode. Header is case sensitive by default.
 
 # Csv
 
@@ -25,4 +55,118 @@ csv:
 csv/delimiter:
   - Delimiter
   - https://specs.frictionlessdata.io/csv-dialect/#specification
-  - Specifies the character sequence which should separate fields (default ",")
+  - Specifies the character sequence which should separate fields. (default ",")
+
+csv/lineTerminator:
+  - Line Terminator
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies the line terminator for the csv file while reading/writing. (default "\r\n")
+
+csv/quoteChar:
+  - Quote Char
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies a one-character string to use as the quoting character. (default '"')
+
+csv/doubleQuote:
+  - Double Quote
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Controls the handling of quotes inside fields. (default true)
+
+csv/escapeChar:
+  - Escape Char
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies a one-character string to use for escaping.
+
+csv/nullSequence:
+  - Null Sequence
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies the null sequence.
+
+csv/skipInitialSpace:
+  - Skip Initial Space
+  - https://specs.frictionlessdata.io/csv-dialect/#specification
+  - Specifies how to interpret whitespace which immediately follows a delimiter. (default false)
+
+# Excel
+
+excel:
+  - Excel
+  - #
+  - Excel Dialect defines a simple format to describe the various dialects of Excel files in a language agnostic manner.
+
+excel/sheet:
+  - Sheet
+  - #
+  - Specifies name of the sheet from where to read or write data. (default 1)
+
+excel/workBookCache:
+  - Workbook Cache
+  - #
+  - Specifies the path to the temporary file while reading remote workbooks.
+
+excel/fillMergedCells:
+  - Fill Merged Cells
+  - #
+  - Specifies to unmerge and fill all merged cells by the visible value. (default false)
+
+excel/preserveFormatting:
+  - Preserve Formatting
+  - #
+  - Specifies to preserve text formatting for numeric and temporal cells. (default false)
+
+excel/adjustFloatingPointError:
+  - Adjust Floating Point Error
+  - #
+  - Specifies to ajust the Excel behavior regarding floating point numbers.
+
+excel/stringified:
+  - Stringified
+  - #
+  - Specifies to stringify all cell values. (default false)
+
+# Json
+
+json:
+  - Json
+  - #
+  - Json Dialect defines a simple format to describe the various dialects of Json files in a language agnostic manner.
+
+json/keys:
+  - keys
+  - #
+  - Specifies the keys/columns to read from the json resource.
+
+json/keyed:
+  - Keyed
+  - #
+  - Specifies to return the data as "key:value" pair. (default false)
+
+json/property:
+  - Property
+  - #
+  - Specifies the path to the attribute in a json file, if it has nested fields.
+
+# Ods
+
+ods:
+  - Ods
+  - #
+  - Ods Dialect defines a simple format to describe the various dialects of Ods files in a language agnostic manner.
+
+ods/sheet:
+  - sheet
+  - #
+  - Specifies name of the sheet from where to read or write data. (default 1)
+
+# Html
+
+html:
+  - Html
+  - #
+  - Html Dialect defines a simple format to describe the various dialects of Html files in a language agnostic manner.
+
+
+html/selector:
+  - Selector
+  - #
+  - Specifies the css selector to use. (default table)

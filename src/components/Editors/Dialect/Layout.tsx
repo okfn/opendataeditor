@@ -7,10 +7,14 @@ import VerticalTabs from '../../Parts/VerticalTabs'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
 import Dialect from './Sections/Dialect'
 import Csv from './Sections/Csv'
+import Excel from './Sections/Excel'
+import Html from './Sections/Html'
+import Json from './Sections/Json'
+import Ods from './Sections/Ods'
 import { useStore } from './store'
 
 // TODO: support Excel/Json formats
-const LABELS = ['Dialect', 'Csv']
+const LABELS = ['Dialect', 'Csv', 'Excel', 'Html', 'Json', 'Ods']
 
 export default function Layout() {
   const theme = useTheme()
@@ -25,6 +29,10 @@ export default function Layout() {
         >
           <Dialect />
           <Csv />
+          <Excel />
+          <Html />
+          <Json />
+          <Ods />
         </VerticalTabs>
         <EditorHelp helpItem={helpItem} />
       </Columns>
