@@ -1,14 +1,11 @@
 import * as React from 'react'
-import Button from '@mui/material/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
-import * as settings from '../../../settings'
 
 // TODO: generalize not only for descriptors?
 
-interface ImportButtonProps {
+interface ImportButtonProps extends ButtonProps {
   onImport: (value: any) => void
-  variant?: 'contained' | 'outlined' | 'text'
-  disabled?: boolean
 }
 
 export default function ImportButton(props: ImportButtonProps) {
@@ -31,6 +28,7 @@ export default function ImportButton(props: ImportButtonProps) {
         component="span"
         color="info"
         fullWidth
+        {...props}
       >
         {<FileUploadIcon fontSize="small" sx={{ mr: 1 }} />}
         Import

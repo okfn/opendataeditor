@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react'
 import Metadata from '../../src/components/Applications/Metadata'
 
 export default {
-  title: 'Editors/Metadata',
+  title: 'Applications/Metadata',
   component: Metadata,
 } as Meta
 
