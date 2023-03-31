@@ -1,9 +1,5 @@
 import * as React from 'react'
-import Compress from '@mui/icons-material/Compress'
-import DataObject from '@mui/icons-material/DataObject'
-import FormatClear from '@mui/icons-material/FormatClear'
-import Handyman from '@mui/icons-material/Handyman'
-import MenuBar, { IMenuBarItem } from '../../Parts/MenuBar'
+import MenuBar, { MenuBarItem } from '../../Parts/Bars/Menu'
 import { useStore, selectors } from './store'
 
 export default function Menu() {
@@ -12,44 +8,15 @@ export default function Menu() {
   const fix = useStore((state) => state.fix)
   const minify = useStore((state) => state.minify)
   const prettify = useStore((state) => state.prettify)
-  let items: IMenuBarItem[] = [
-    {
-      key: 'clear',
-      label: 'Clear',
-      disabled: false,
-      type: 'default',
-      icon: <FormatClear />,
-      onClick: clear,
-    },
-  ]
-  if (language === 'json') {
-    items = [
-      ...items,
-      {
-        key: 'fix',
-        label: 'Fix',
-        disabled: false,
-        type: 'default',
-        icon: <Handyman />,
-        onClick: fix,
-      },
-      {
-        key: 'minify',
-        label: 'Minify',
-        disabled: false,
-        type: 'default',
-        icon: <Compress />,
-        onClick: minify,
-      },
-      {
-        key: 'prettify',
-        label: 'Prettify',
-        disabled: false,
-        type: 'default',
-        icon: <DataObject />,
-        onClick: prettify,
-      },
-    ]
-  }
-  return <MenuBar items={items} />
+  const items: MenuBarItem[] = ['clear']
+  if (language === 'json') items.push('fix', 'minify', 'prettify')
+  return (
+    <MenuBar
+      items={items}
+      onClear={clear}
+      onFix={fix}
+      onMinify={minify}
+      onPrettify={prettify}
+    />
+  )
 }

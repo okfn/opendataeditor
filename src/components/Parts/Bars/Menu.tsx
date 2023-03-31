@@ -6,9 +6,11 @@ import FormatClearIcon from '@mui/icons-material/FormatClear'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import IconButton from '../../Parts/Buttons/IconButton'
 
-interface MenuBarProps {
-  labels: string[]
-  selected: string[]
+export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify'
+
+export interface MenuBarProps {
+  items: MenuBarItem[]
+  selected?: MenuBarItem[]
   onClear?: () => void
   onFix?: () => void
   onMinify?: () => void
@@ -16,6 +18,7 @@ interface MenuBarProps {
 }
 
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
+  const selected = props.selected || []
   const Clear = () => {
     return (
       <IconButton
@@ -23,7 +26,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         label="Clear"
         Icon={FormatClearIcon}
         variant="text"
-        color={'Clear' in props.selected ? 'warning' : 'info'}
+        color={selected.includes('clear') ? 'warning' : 'info'}
         disabled={!props.onClear}
         onClick={props.onClear}
       />
@@ -37,7 +40,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         label="Fix"
         Icon={HandymanIcon}
         variant="text"
-        color={'Fix' in props.selected ? 'warning' : 'info'}
+        color={selected.includes('fix') ? 'warning' : 'info'}
         disabled={!props.onFix}
         onClick={props.onFix}
       />
@@ -51,7 +54,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         label="Minify"
         Icon={CompressIcon}
         variant="text"
-        color={'Minify' in props.selected ? 'warning' : 'info'}
+        color={selected.includes('minify') ? 'warning' : 'info'}
         disabled={!props.onMinify}
         onClick={props.onMinify}
       />
@@ -65,7 +68,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         label="Prettify"
         Icon={DataObjectIcon}
         variant="text"
-        color={'Prettify' in props.selected ? 'warning' : 'info'}
+        color={selected.includes('prettify') ? 'warning' : 'info'}
         disabled={!props.onPrettify}
         onClick={props.onPrettify}
       />
@@ -75,12 +78,12 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
-      sx={{ borderTop: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
+      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
     >
-      {'Clear' in props.labels && <Clear />}
-      {'Fix' in props.labels && <Fix />}
-      {'Minify' in props.labels && <Minify />}
-      {'Prettify' in props.labels && <Prettify />}
+      {props.items.includes('clear') && <Clear />}
+      {props.items.includes('fix') && <Fix />}
+      {props.items.includes('minify') && <Minify />}
+      {props.items.includes('prettify') && <Prettify />}
       {props.children}
     </Toolbar>
   )

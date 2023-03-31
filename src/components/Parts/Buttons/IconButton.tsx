@@ -11,9 +11,9 @@ interface IconButtonProps extends ButtonProps {
 export default function IconButton(props: IconButtonProps) {
   return (
     <Button
-      fullWidth
+      fullWidth={!props.small}
       color={props.color || 'info'}
-      startIcon={<props.Icon fontSize="small" sx={{ mr: 1 }} />}
+      startIcon={<props.Icon fontSize="small" sx={{ mr: !props.small ? 1 : 0 }} />}
       {...props}
     >
       {props.small ? (
