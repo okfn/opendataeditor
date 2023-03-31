@@ -3,12 +3,21 @@ import Toolbar from '@mui/material/Toolbar'
 import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import IconButton from '../../Parts/Buttons/IconButton'
 
-export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify' | 'metadata' | 'preview'
+export type MenuBarItem =
+  | 'clear'
+  | 'fix'
+  | 'minify'
+  | 'prettify'
+  | 'metadata'
+  | 'preview'
+  | 'source'
+  | 'errors'
 
 export interface MenuBarProps {
   items: MenuBarItem[]
@@ -20,6 +29,8 @@ export interface MenuBarProps {
   onPrettify?: () => void
   onMetadata?: () => void
   onPreview?: () => void
+  onSource?: () => void
+  onErrors?: () => void
 }
 
 // TODO: add spacing between buttons
@@ -29,9 +40,9 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.clear || 'Clear'}
         Icon={FormatClearIcon}
-        variant="text"
         color={props.colors?.clear || 'info'}
         disabled={!props.onClear}
         onClick={props.onClear}
@@ -43,9 +54,9 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.fix || 'Fix'}
         Icon={HandymanIcon}
-        variant="text"
         color={props.colors?.fix || 'info'}
         disabled={!props.onFix}
         onClick={props.onFix}
@@ -57,9 +68,9 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.minify || 'Minify'}
         Icon={CompressIcon}
-        variant="text"
         color={props.colors?.minify || 'info'}
         disabled={!props.onMinify}
         onClick={props.onMinify}
@@ -71,9 +82,9 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.prettify || 'Prettify'}
         Icon={DataObjectIcon}
-        variant="text"
         color={props.colors?.prettify || 'info'}
         disabled={!props.onPrettify}
         onClick={props.onPrettify}
@@ -85,9 +96,9 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.metadata || 'Metadata'}
         Icon={TuneIcon}
-        variant="text"
         color={props.colors?.metadata || 'info'}
         disabled={!props.onMetadata}
         onClick={props.onMetadata}
@@ -99,12 +110,40 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
+        variant="text"
         label={props.labels?.preview || 'Preview'}
         Icon={CodeIcon}
-        variant="text"
         color={props.colors?.preview || 'info'}
         disabled={!props.onPreview}
         onClick={props.onPreview}
+      />
+    )
+  }
+
+  const Source = () => {
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.source || 'Source'}
+        Icon={CodeIcon}
+        color={props.colors?.source || 'info'}
+        disabled={!props.onSource}
+        onClick={props.onSource}
+      />
+    )
+  }
+
+  const Errors = () => {
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.errors || 'Errors'}
+        Icon={ReportGmailerrorredIcon}
+        color={props.colors?.errors || 'info'}
+        disabled={!props.onErrors}
+        onClick={props.onErrors}
       />
     )
   }
@@ -120,6 +159,8 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       {props.items.includes('prettify') && <Prettify />}
       {props.items.includes('metadata') && <Metadata />}
       {props.items.includes('preview') && <Preview />}
+      {props.items.includes('source') && <Source />}
+      {props.items.includes('errors') && <Errors />}
       {props.children}
     </Toolbar>
   )
