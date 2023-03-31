@@ -15,6 +15,7 @@ interface ActionsBarProps {
   onSave?: () => void
 }
 
+// TODO: use React.useMemo for better performance/animation
 export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProps>) {
   const SaveAs = () => {
     return (

@@ -4,9 +4,10 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import HandymanIcon from '@mui/icons-material/Handyman'
+import TuneIcon from '@mui/icons-material/Tune'
 import IconButton from '../../Parts/Buttons/IconButton'
 
-export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify'
+export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify' | 'metadata'
 
 export interface MenuBarProps {
   items: MenuBarItem[]
@@ -15,8 +16,10 @@ export interface MenuBarProps {
   onFix?: () => void
   onMinify?: () => void
   onPrettify?: () => void
+  onMetadata?: () => void
 }
 
+// TODO: use React.useMemo for better performance/animation
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   const selected = props.selected || []
   const Clear = () => {
@@ -75,6 +78,20 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
+  const Metadata = () => {
+    return (
+      <IconButton
+        small
+        label="Metadata"
+        Icon={TuneIcon}
+        variant="text"
+        color={selected.includes('metadata') ? 'warning' : 'info'}
+        disabled={!props.onMetadata}
+        onClick={props.onMetadata}
+      />
+    )
+  }
+
   return (
     <Toolbar
       disableGutters
@@ -84,6 +101,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       {props.items.includes('fix') && <Fix />}
       {props.items.includes('minify') && <Minify />}
       {props.items.includes('prettify') && <Prettify />}
+      {props.items.includes('metadata') && <Metadata />}
       {props.children}
     </Toolbar>
   )
