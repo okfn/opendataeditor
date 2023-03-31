@@ -18,7 +18,7 @@ export default function DefaultButton(props: DefaultButtonProps) {
     <Button
       fullWidth
       disabled={props.disabled}
-      variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
+      variant={props.variant || settings.DEFAULT_BUTTON_VARIANT}
       color={props.color || 'info'}
       onClick={() => (props.onClick ? props.onClick() : undefined)}
       sx={{ backgroundColor: props.white ? 'white' : undefined }}

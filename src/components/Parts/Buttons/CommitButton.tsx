@@ -17,7 +17,7 @@ export default function CommitButton(props: CommitButtonProps) {
       variant={
         props.disabled
           ? 'outlined'
-          : props.variant || settings.DEFUALT_PRIMARY_BUTTON_VARIANT
+          : props.variant || settings.DEFAULT_PRIMARY_BUTTON_VARIANT
       }
       title="Save the changes"
       disabled={props.disabled}

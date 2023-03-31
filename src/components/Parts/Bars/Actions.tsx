@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Toolbar from '@mui/material/Toolbar'
 import IosShareIcon from '@mui/icons-material/IosShare'
-import PublishIcon from '@mui/icons-material/Publish'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CheckIcon from '@mui/icons-material/Check'
 import HistoryIcon from '@mui/icons-material/History'
 import IconButton from '../../Parts/Buttons/IconButton'
 import Columns from '../../Parts/Columns'
 
-interface ActionsToolbarProps {
+interface ActionsBarProps {
   isUpdated?: boolean
   onPublish?: () => void
   onSaveAs?: () => void
@@ -15,30 +15,28 @@ interface ActionsToolbarProps {
   onSave?: () => void
 }
 
-export default function ActionsToolbar(
-  props: React.PropsWithChildren<ActionsToolbarProps>
-) {
-  const Publish = () => {
+export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProps>) {
+  const SaveAs = () => {
     return (
       <IconButton
-        label="Publish"
-        Icon={PublishIcon}
+        label="Save as"
+        Icon={SaveAltIcon}
         variant="outlined"
-        disabled={!props.onPublish}
-        onClick={props.onPublish}
+        disabled={!props.onSaveAs}
+        onClick={props.onSaveAs}
         sx={{ backgroundColor: 'white' }}
       />
     )
   }
 
-  const SaveAs = () => {
+  const Publish = () => {
     return (
       <IconButton
-        label="Save as"
+        label="Publish"
         Icon={IosShareIcon}
         variant="outlined"
-        disabled={!props.onSaveAs}
-        onClick={props.onSaveAs}
+        disabled={!props.onPublish}
+        onClick={props.onPublish}
         sx={{ backgroundColor: 'white' }}
       />
     )
@@ -51,9 +49,9 @@ export default function ActionsToolbar(
         Icon={HistoryIcon}
         color={props.isUpdated ? 'warning' : 'info'}
         variant={props.isUpdated ? 'contained' : 'outlined'}
-        disabled={!props.onRevert}
+        disabled={!props.onRevert || !props.isUpdated}
         onClick={props.onRevert}
-        sx={{ backgroundColor: 'white' }}
+        sx={{ backgroundColor: !props.isUpdated ? 'white' : undefined }}
       />
     )
   }
@@ -65,33 +63,34 @@ export default function ActionsToolbar(
         Icon={CheckIcon}
         color={props.isUpdated ? 'success' : 'info'}
         variant={props.isUpdated ? 'contained' : 'outlined'}
-        disabled={!props.onSave}
+        disabled={!props.onSave || !props.isUpdated}
         onClick={props.onSave}
-        sx={{ backgroundColor: 'white' }}
+        sx={{ backgroundColor: !props.isUpdated ? 'white' : undefined }}
       />
     )
   }
 
   const DefaultBar = () => {
     return (
-      <React.Fragment>
-        <Publish />
+      <Columns spacing={2}>
         <SaveAs />
+        <Publish />
         <Revert />
         <Save />
-      </React.Fragment>
+      </Columns>
     )
   }
 
   const CustomBar = () => {
-    return <React.Fragment>{props.children}</React.Fragment>
+    return <Columns spacing={2}>{props.children}</Columns>
   }
 
   return (
-    <Toolbar sx={{ borderTop: 'solid 1px #ddd', backgroundColor: '#fafafa' }}>
-      <Columns spacing={2}>
-        {React.Children.count(props.children) ? <CustomBar /> : <DefaultBar />}
-      </Columns>
+    <Toolbar
+      disableGutters
+      sx={{ borderTop: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
+    >
+      {React.Children.count(props.children) ? <CustomBar /> : <DefaultBar />}
     </Toolbar>
   )
 }
