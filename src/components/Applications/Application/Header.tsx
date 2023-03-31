@@ -7,10 +7,9 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import InputIcon from '@mui/icons-material/Input'
+import SettingsIcon from '@mui/icons-material/Settings'
 import GithubIcon from '@mui/icons-material/GitHub'
-import SupportIcon from '@mui/icons-material/SupportAgent'
 import HelpIcon from '@mui/icons-material/Help'
-// import SettingsIcon from '@mui/icons-material/Settings'
 import InputBase from '@mui/material/InputBase'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -57,8 +56,11 @@ export default function Header() {
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
+                <Button disabled title="Open Settings" color="inherit">
+                  <SettingsIcon />
+                </Button>
                 <Button
-                  title="Report an issue"
+                  title="Report Issue"
                   color="inherit"
                   href="https://github.com/frictionlessdata/application/issues"
                   target="_blank"
@@ -66,15 +68,7 @@ export default function Header() {
                   <GithubIcon />
                 </Button>
                 <Button
-                  title="Community"
-                  color="inherit"
-                  href="https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg"
-                  target="_blank"
-                >
-                  <SupportIcon />
-                </Button>
-                <Button
-                  title="Documentation"
+                  title="Open Documentation"
                   color="inherit"
                   href="https://application.frictionlessdata.io"
                   target="_blank"
