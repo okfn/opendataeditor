@@ -1,9 +1,11 @@
 import * as React from 'react'
+import Typography from '@mui/material/Typography'
 import Button, { ButtonProps } from '@mui/material/Button'
 
 interface IconButtonProps extends ButtonProps {
   label: string
   Icon: React.ElementType
+  small?: boolean
 }
 
 export default function IconButton(props: IconButtonProps) {
@@ -14,7 +16,13 @@ export default function IconButton(props: IconButtonProps) {
       startIcon={<props.Icon fontSize="small" sx={{ mr: 1 }} />}
       {...props}
     >
-      {props.label}
+      {props.small ? (
+        <Typography sx={{ fontWeight: 300, textTransform: 'capitalize' }}>
+          {props.label}
+        </Typography>
+      ) : (
+        props.label
+      )}
     </Button>
   )
 }
