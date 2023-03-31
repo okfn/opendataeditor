@@ -20,7 +20,7 @@ export type MenuBarItem =
   | 'errors'
 
 export interface MenuBarProps {
-  items: MenuBarItem[]
+  items?: MenuBarItem[]
   labels?: { [key in MenuBarItem]?: 'string' | undefined }
   colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | undefined }
   onClear?: () => void
@@ -153,14 +153,14 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       disableGutters
       sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
     >
-      {props.items.includes('clear') && <Clear />}
-      {props.items.includes('fix') && <Fix />}
-      {props.items.includes('minify') && <Minify />}
-      {props.items.includes('prettify') && <Prettify />}
-      {props.items.includes('metadata') && <Metadata />}
-      {props.items.includes('preview') && <Preview />}
-      {props.items.includes('source') && <Source />}
-      {props.items.includes('errors') && <Errors />}
+      {props.items?.includes('clear') && <Clear />}
+      {props.items?.includes('fix') && <Fix />}
+      {props.items?.includes('minify') && <Minify />}
+      {props.items?.includes('prettify') && <Prettify />}
+      {props.items?.includes('metadata') && <Metadata />}
+      {props.items?.includes('preview') && <Preview />}
+      {props.items?.includes('source') && <Source />}
+      {props.items?.includes('errors') && <Errors />}
       {props.children}
     </Toolbar>
   )

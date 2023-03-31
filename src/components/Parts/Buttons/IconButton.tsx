@@ -3,8 +3,8 @@ import Typography from '@mui/material/Typography'
 import Button, { ButtonProps } from '@mui/material/Button'
 
 interface IconButtonProps extends ButtonProps {
-  label: string
   Icon: React.ElementType
+  label?: string
   small?: boolean
 }
 

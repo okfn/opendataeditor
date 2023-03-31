@@ -1,18 +1,25 @@
 import * as React from 'react'
-import MetadataIcon from '@mui/icons-material/Tune'
-import MenuBar, { IMenuBarItem } from '../../Parts/MenuBar'
+import InputAdornment from '@mui/material/InputAdornment'
+import SelectField from '../../Parts/Fields/SelectField'
+import MenuBar from '../../Parts/Bars/Menu'
 
 export default function Menu() {
-  const items: IMenuBarItem[] = [
-    {
-      key: 'project',
-      label: 'Project',
-      options: ['default'],
-      disabled: true,
-      type: 'select',
-      icon: <MetadataIcon />,
-      onClick: () => console.log('project'),
-    },
-  ]
-  return <MenuBar items={items} />
+  return (
+    <MenuBar>
+      <SelectField
+        color="info"
+        disabled
+        margin="none"
+        value="default"
+        options={['default']}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" disableTypography>
+              Project:
+            </InputAdornment>
+          ),
+        }}
+      />
+    </MenuBar>
+  )
 }
