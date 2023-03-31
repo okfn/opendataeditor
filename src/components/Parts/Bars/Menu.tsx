@@ -4,32 +4,35 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import HandymanIcon from '@mui/icons-material/Handyman'
+import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import IconButton from '../../Parts/Buttons/IconButton'
 
-export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify' | 'metadata'
+export type MenuBarItem = 'clear' | 'fix' | 'minify' | 'prettify' | 'metadata' | 'preview'
 
 export interface MenuBarProps {
   items: MenuBarItem[]
-  selected?: MenuBarItem[]
+  labels?: { [key in MenuBarItem]?: 'string' | undefined }
+  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | undefined }
   onClear?: () => void
   onFix?: () => void
   onMinify?: () => void
   onPrettify?: () => void
   onMetadata?: () => void
+  onPreview?: () => void
 }
 
+// TODO: add spacing between buttons
 // TODO: use React.useMemo for better performance/animation
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
-  const selected = props.selected || []
   const Clear = () => {
     return (
       <IconButton
         small
-        label="Clear"
+        label={props.labels?.clear || 'Clear'}
         Icon={FormatClearIcon}
         variant="text"
-        color={selected.includes('clear') ? 'warning' : 'info'}
+        color={props.colors?.clear || 'info'}
         disabled={!props.onClear}
         onClick={props.onClear}
       />
@@ -40,10 +43,10 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
-        label="Fix"
+        label={props.labels?.fix || 'Fix'}
         Icon={HandymanIcon}
         variant="text"
-        color={selected.includes('fix') ? 'warning' : 'info'}
+        color={props.colors?.fix || 'info'}
         disabled={!props.onFix}
         onClick={props.onFix}
       />
@@ -54,10 +57,10 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
-        label="Minify"
+        label={props.labels?.minify || 'Minify'}
         Icon={CompressIcon}
         variant="text"
-        color={selected.includes('minify') ? 'warning' : 'info'}
+        color={props.colors?.minify || 'info'}
         disabled={!props.onMinify}
         onClick={props.onMinify}
       />
@@ -68,10 +71,10 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
-        label="Prettify"
+        label={props.labels?.prettify || 'Prettify'}
         Icon={DataObjectIcon}
         variant="text"
-        color={selected.includes('prettify') ? 'warning' : 'info'}
+        color={props.colors?.prettify || 'info'}
         disabled={!props.onPrettify}
         onClick={props.onPrettify}
       />
@@ -82,12 +85,26 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <IconButton
         small
-        label="Metadata"
+        label={props.labels?.metadata || 'Metadata'}
         Icon={TuneIcon}
         variant="text"
-        color={selected.includes('metadata') ? 'warning' : 'info'}
+        color={props.colors?.metadata || 'info'}
         disabled={!props.onMetadata}
         onClick={props.onMetadata}
+      />
+    )
+  }
+
+  const Preview = () => {
+    return (
+      <IconButton
+        small
+        label={props.labels?.preview || 'Preview'}
+        Icon={CodeIcon}
+        variant="text"
+        color={props.colors?.preview || 'info'}
+        disabled={!props.onPreview}
+        onClick={props.onPreview}
       />
     )
   }
@@ -102,6 +119,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       {props.items.includes('minify') && <Minify />}
       {props.items.includes('prettify') && <Prettify />}
       {props.items.includes('metadata') && <Metadata />}
+      {props.items.includes('preview') && <Preview />}
       {props.children}
     </Toolbar>
   )

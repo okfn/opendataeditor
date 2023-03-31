@@ -65,9 +65,7 @@ export default function Content() {
         >
           {panel === 'preview' && <PreviewPanel />}
         </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Actions />
       </Box>
     </React.Fragment>
   )

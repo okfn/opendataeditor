@@ -40,9 +40,7 @@ export default function Layout() {
         >
           {panel === 'metadata' && <MetadataPanel />}
         </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Actions />
       </Box>
     </React.Fragment>
   )
