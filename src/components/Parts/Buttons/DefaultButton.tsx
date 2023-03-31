@@ -10,6 +10,7 @@ interface DefaultButtonProps {
   variant?: 'contained' | 'outlined' | 'text'
   disabled?: boolean
   onClick?: () => void
+  white?: boolean
 }
 
 export default function DefaultButton(props: DefaultButtonProps) {
@@ -20,6 +21,7 @@ export default function DefaultButton(props: DefaultButtonProps) {
       variant={props.variant || settings.DEFUALT_BUTTON_VARIANT}
       color={props.color || 'info'}
       onClick={() => (props.onClick ? props.onClick() : undefined)}
+      sx={{ backgroundColor: props.white ? 'white' : undefined }}
     >
       {props.icon} {props.label}
     </Button>
