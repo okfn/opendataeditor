@@ -5,7 +5,7 @@ import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
 import RenameIcon from '@mui/icons-material/Edit'
 import ManageIcon from '@mui/icons-material/FileCopy'
-import DefaultButton from '../../../Parts/Buttons/DefaultButton'
+import IconButton from '../../../Parts/Buttons/IconButton'
 import DropdownButton from '../../../Parts/Buttons/DropdownButton'
 import { useStore, selectors } from '../store'
 
@@ -30,10 +30,10 @@ function DownloadButton() {
   const path = useStore((state) => state.path)
   const downloadFile = useStore((state) => state.downloadFile)
   return (
-    <DefaultButton
+    <IconButton
       label="Download File"
       variant="text"
-      icon={<Download fontSize="small" sx={{ mr: 1 }} />}
+      Icon={Download}
       onClick={async () => {
         const bytes = await downloadFile()
         if (bytes) {
@@ -50,10 +50,10 @@ function CopyButton() {
   const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
-    <DefaultButton
+    <IconButton
       label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      icon={<MoveIcon fontSize="small" sx={{ mr: 1 }} />}
+      Icon={MoveIcon}
       onClick={() => setDialog('folder/copy')}
     />
   )
@@ -63,10 +63,10 @@ function MoveButton() {
   const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
-    <DefaultButton
+    <IconButton
       label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      icon={<CopyIcon fontSize="small" sx={{ mr: 1 }} />}
+      Icon={CopyIcon}
       onClick={() => setDialog('folder/move')}
     />
   )
@@ -76,10 +76,10 @@ function RenameButton() {
   const isFolder = useStore(selectors.isFolder)
   const setDialog = useStore((state) => state.setDialog)
   return (
-    <DefaultButton
+    <IconButton
       label={`Rename ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      icon={<RenameIcon fontSize="small" sx={{ mr: 1 }} />}
+      Icon={RenameIcon}
       onClick={() => setDialog('name/rename')}
     />
   )
