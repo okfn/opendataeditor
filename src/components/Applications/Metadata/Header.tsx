@@ -16,7 +16,6 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
-// TODO: rebase from props to state
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
