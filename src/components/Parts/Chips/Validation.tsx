@@ -16,7 +16,7 @@ export default function ValidationChip(props: ValidationChipProps) {
         props.errorCount ? <NumberIcon value={props.errorCount ?? 0} /> : <CheckCircle />
       }
       size="medium"
-      sx={{ height: '100%', ml: 1, border: 'dashed 1px #ddd', borderRadius: '3px' }}
+      sx={{ height: '100%', ml: 1, borderLeft: 'solid 1px #ddd', borderRadius: '3px' }}
     />
   )
 }

@@ -16,10 +16,9 @@ export default function Layout() {
         <InputIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Data management application for browser and desktop"
-        inputProps={{ 'aria-label': 'search' }}
         readOnly
-        value={file ? file.path : ''}
+        inputProps={{ 'aria-label': 'search' }}
+        value={file ? file.path : 'Data management application for browser and desktop'}
       />
       {file && (
         <InformationWrapper>
@@ -32,11 +31,11 @@ export default function Layout() {
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  // border: 'dashed 1px #fff',
+  border: 'solid 1px #ddd',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.2),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.3),
   },
   marginLeft: 0,
   width: '100%',
