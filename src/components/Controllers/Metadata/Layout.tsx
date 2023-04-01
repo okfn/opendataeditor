@@ -1,14 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Resource from '../../Editors/Resource'
-import Dialect from '../../Editors/Dialect'
-import Schema from '../../Editors/Schema'
 import PreviewPanel from './Panels/Preview'
 import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
 import Dialog from './Dialog'
+import Editor from './Editor'
 import Menu from './Menu'
-import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -20,7 +17,6 @@ export default function Content() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const file = useStore((state) => state.file)
   const modified = useStore((state) => state.modified)
-  const updateState = useStore((state) => state.updateState)
   const load = useStore((state) => state.load)
   React.useEffect(() => {
     load().catch(console.error)
@@ -32,24 +28,7 @@ export default function Content() {
       <Box sx={{ height }}>
         <Menu />
         <ScrollBox height={contentHeight}>
-          {file.type === 'resource' && (
-            <Resource
-              resource={modified as IResource}
-              onChange={(descriptor) => updateState({ modified: descriptor })}
-            />
-          )}
-          {file.type === 'dialect' && (
-            <Dialect
-              dialect={modified as IDialect}
-              onChange={(descriptor) => updateState({ modified: descriptor })}
-            />
-          )}
-          {file.type === 'schema' && (
-            <Schema
-              schema={modified as ISchema}
-              onChange={(descriptor) => updateState({ modified: descriptor })}
-            />
-          )}
+          <Editor />
         </ScrollBox>
         <Box
           hidden={!panel}
