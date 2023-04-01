@@ -116,11 +116,16 @@ const StyledTreeItem = styled(
 }))
 
 function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
-  const isValidated = props.errors !== undefined
+  // Disabled chips ATM
+  const isValidated = false
+  // const isValidated = props.errors !== undefined
   const isError = props.errors && props.errors > 0
+  const Icon = getIcon(props.type)
+  let color = 'success'
+  if (props.errors !== undefined) color = props.errors ? 'error' : 'success'
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      <TypeIcon type={props.type} />
+      <Icon color={color} />
       {props.label}
       {isValidated && (
         <Chip
@@ -133,24 +138,6 @@ function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: nu
       )}
     </Box>
   )
-}
-
-function TypeIcon(props: { type: string }) {
-  const icons: { [type: string]: React.ReactElement } = {
-    folder: <FolderIcon color="primary" />,
-    file: <DescriptionIcon color="primary" />,
-    chart: <ChartIcon color="primary" />,
-    sql: <Storage color="primary" />,
-    table: <TableView color="primary" />,
-    package: <Source color="primary" />,
-    resource: <DescriptionIcon color="primary" />,
-    dialect: <DescriptionIcon color="primary" />,
-    checklist: <CheckCircleOutline color="primary" />,
-    pipeline: <AccountTree color="primary" />,
-    schema: <DescriptionIcon color="primary" />,
-    view: <TableRows color="primary" />,
-  }
-  return icons[props.type] || <DescriptionIcon color="primary" />
 }
 
 function MinusSquare(props: SvgIconProps) {
@@ -186,3 +173,22 @@ const NumberIcon = (props: { value: number }) => (
     {props.value}
   </Typography>
 )
+
+function getIcon(type: string): React.ElementType {
+  return TYPE_ICONS[type] || DescriptionIcon
+}
+
+const TYPE_ICONS: { [key: string]: React.ElementType } = {
+  folder: FolderIcon,
+  file: DescriptionIcon,
+  chart: ChartIcon,
+  sql: Storage,
+  table: TableView,
+  package: Source,
+  resource: DescriptionIcon,
+  dialect: DescriptionIcon,
+  checklist: CheckCircleOutline,
+  pipeline: AccountTree,
+  schema: DescriptionIcon,
+  view: TableRows,
+}
