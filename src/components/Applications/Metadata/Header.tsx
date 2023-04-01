@@ -49,10 +49,11 @@ export default function Header() {
                   <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Metadata editors for Frictionless Standards"
-                  inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={capitalize(editor) || ''}
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={
+                    capitalize(editor) || 'Metadata editors for Frictionless Standards'
+                  }
                 />
               </Search>
             </Grid>
@@ -88,10 +89,11 @@ export default function Header() {
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
+  border: 'solid 1px #ddd',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.2),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.3),
   },
   marginLeft: 0,
   width: '100%',
