@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
@@ -36,21 +37,8 @@ export interface MenuBarProps {
 // TODO: add spacing between buttons
 // TODO: use React.useMemo for better performance/animation
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
-  const Clear = () => {
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.clear || 'Clear'}
-        Icon={FormatClearIcon}
-        color={props.colors?.clear || 'info'}
-        disabled={!props.onClear}
-        onClick={props.onClear}
-      />
-    )
-  }
-
   const Fix = () => {
+    if (!props.items?.includes('fix')) return null
     return (
       <IconButton
         small
@@ -65,6 +53,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Minify = () => {
+    if (!props.items?.includes('minify')) return null
     return (
       <IconButton
         small
@@ -79,6 +68,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Prettify = () => {
+    if (!props.items?.includes('prettify')) return null
     return (
       <IconButton
         small
@@ -93,6 +83,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Metadata = () => {
+    if (!props.items?.includes('metadata')) return null
     return (
       <IconButton
         small
@@ -107,6 +98,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Preview = () => {
+    if (!props.items?.includes('preview')) return null
     return (
       <IconButton
         small
@@ -121,6 +113,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Source = () => {
+    if (!props.items?.includes('source')) return null
     return (
       <IconButton
         small
@@ -135,6 +128,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   }
 
   const Errors = () => {
+    if (!props.items?.includes('errors')) return null
     return (
       <IconButton
         small
@@ -148,20 +142,47 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
+  const Clear = () => {
+    if (!props.items?.includes('clear')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.clear || 'Clear'}
+        Icon={FormatClearIcon}
+        color={props.colors?.clear || 'info'}
+        disabled={!props.onClear}
+        onClick={props.onClear}
+      />
+    )
+  }
+
+  const DefaultBar = () => {
+    return (
+      <Stack direction="row" spacing={1}>
+        <Fix />
+        <Minify />
+        <Prettify />
+        <Metadata />
+        <Preview />
+        <Source />
+        <Errors />
+        <Clear />
+        {props.children}
+      </Stack>
+    )
+  }
+
+  const CustomBar = () => {
+    return <React.Fragment>{props.children}</React.Fragment>
+  }
+
   return (
     <Toolbar
       disableGutters
       sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
     >
-      {props.items?.includes('clear') && <Clear />}
-      {props.items?.includes('fix') && <Fix />}
-      {props.items?.includes('minify') && <Minify />}
-      {props.items?.includes('prettify') && <Prettify />}
-      {props.items?.includes('metadata') && <Metadata />}
-      {props.items?.includes('preview') && <Preview />}
-      {props.items?.includes('source') && <Source />}
-      {props.items?.includes('errors') && <Errors />}
-      {props.children}
+      {props.items ? <DefaultBar /> : <CustomBar />}
     </Toolbar>
   )
 }
