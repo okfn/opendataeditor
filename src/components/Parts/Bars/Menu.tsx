@@ -37,51 +37,6 @@ export interface MenuBarProps {
 // TODO: add spacing between buttons
 // TODO: use React.useMemo for better performance/animation
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
-  const Fix = () => {
-    if (!props.items?.includes('fix')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.fix || 'Fix'}
-        Icon={HandymanIcon}
-        color={props.colors?.fix}
-        disabled={!props.onFix}
-        onClick={props.onFix}
-      />
-    )
-  }
-
-  const Minify = () => {
-    if (!props.items?.includes('minify')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.minify || 'Minify'}
-        Icon={CompressIcon}
-        color={props.colors?.minify}
-        disabled={!props.onMinify}
-        onClick={props.onMinify}
-      />
-    )
-  }
-
-  const Prettify = () => {
-    if (!props.items?.includes('prettify')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.prettify || 'Prettify'}
-        Icon={DataObjectIcon}
-        color={props.colors?.prettify}
-        disabled={!props.onPrettify}
-        onClick={props.onPrettify}
-      />
-    )
-  }
-
   const Metadata = () => {
     if (!props.items?.includes('metadata')) return null
     return (
@@ -141,6 +96,50 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       />
     )
   }
+  const Fix = () => {
+    if (!props.items?.includes('fix')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.fix || 'Fix'}
+        Icon={HandymanIcon}
+        color={props.colors?.fix}
+        disabled={!props.onFix}
+        onClick={props.onFix}
+      />
+    )
+  }
+
+  const Minify = () => {
+    if (!props.items?.includes('minify')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.minify || 'Minify'}
+        Icon={CompressIcon}
+        color={props.colors?.minify}
+        disabled={!props.onMinify}
+        onClick={props.onMinify}
+      />
+    )
+  }
+
+  const Prettify = () => {
+    if (!props.items?.includes('prettify')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.prettify || 'Prettify'}
+        Icon={DataObjectIcon}
+        color={props.colors?.prettify}
+        disabled={!props.onPrettify}
+        onClick={props.onPrettify}
+      />
+    )
+  }
 
   const Clear = () => {
     if (!props.items?.includes('clear')) return null
@@ -160,13 +159,13 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   const DefaultBar = () => {
     return (
       <Stack direction="row" spacing={1}>
-        <Fix />
-        <Minify />
-        <Prettify />
         <Metadata />
         <Preview />
         <Source />
         <Errors />
+        <Fix />
+        <Minify />
+        <Prettify />
         <Clear />
         {props.children}
       </Stack>

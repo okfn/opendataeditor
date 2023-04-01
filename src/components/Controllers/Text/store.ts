@@ -19,6 +19,7 @@ export interface State {
   dialog?: 'saveAs'
   original?: string
   modified?: string
+  rendered?: string
   resource: IResource
   revision: number
   editor: React.RefObject<monaco.editor.IStandaloneCodeEditor>
@@ -55,6 +56,10 @@ export function makeStore(props: TextProps) {
       const { client, file } = get()
       const { text } = await client.textRead({ path: file.path })
       set({ modified: text, original: text })
+      if (file.record?.resource.format === 'md') {
+        const { text } = await client.textRender({ path: file.path })
+        set({ rendered: text })
+      }
     },
     saveAs: async (path) => {
       const { client, modified } = get()
@@ -71,6 +76,10 @@ export function makeStore(props: TextProps) {
       await client.fileUpdate({ path: file.path, resource })
       await client.textWrite({ path: file.path, text: modified! })
       set({ original: modified, revision: 0 })
+      if (file.record?.resource.format === 'md') {
+        const { text } = await client.textRender({ path: file.path })
+        set({ rendered: text })
+      }
     },
 
     // Text
