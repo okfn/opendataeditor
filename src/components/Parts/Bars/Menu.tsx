@@ -45,7 +45,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.fix || 'Fix'}
         Icon={HandymanIcon}
-        color={props.colors?.fix || 'info'}
+        color={props.colors?.fix}
         disabled={!props.onFix}
         onClick={props.onFix}
       />
@@ -60,7 +60,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.minify || 'Minify'}
         Icon={CompressIcon}
-        color={props.colors?.minify || 'info'}
+        color={props.colors?.minify}
         disabled={!props.onMinify}
         onClick={props.onMinify}
       />
@@ -75,7 +75,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.prettify || 'Prettify'}
         Icon={DataObjectIcon}
-        color={props.colors?.prettify || 'info'}
+        color={props.colors?.prettify}
         disabled={!props.onPrettify}
         onClick={props.onPrettify}
       />
@@ -90,7 +90,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.metadata || 'Metadata'}
         Icon={TuneIcon}
-        color={props.colors?.metadata || 'info'}
+        color={props.colors?.metadata}
         disabled={!props.onMetadata}
         onClick={props.onMetadata}
       />
@@ -105,7 +105,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.preview || 'Preview'}
         Icon={CodeIcon}
-        color={props.colors?.preview || 'info'}
+        color={props.colors?.preview}
         disabled={!props.onPreview}
         onClick={props.onPreview}
       />
@@ -120,7 +120,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.source || 'Source'}
         Icon={CodeIcon}
-        color={props.colors?.source || 'info'}
+        color={props.colors?.source}
         disabled={!props.onSource}
         onClick={props.onSource}
       />
@@ -135,7 +135,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.errors || 'Errors'}
         Icon={ReportGmailerrorredIcon}
-        color={props.colors?.errors || 'info'}
+        color={props.colors?.errors}
         disabled={!props.onErrors}
         onClick={props.onErrors}
       />
@@ -150,7 +150,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         variant="text"
         label={props.labels?.clear || 'Clear'}
         Icon={FormatClearIcon}
-        color={props.colors?.clear || 'info'}
+        color={props.colors?.clear}
         disabled={!props.onClear}
         onClick={props.onClear}
       />

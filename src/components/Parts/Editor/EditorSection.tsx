@@ -15,7 +15,6 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     if (!props.onBackClick) return null
     return (
       <Button
-        color="info"
         title="Back to list"
         onClick={() => props.onBackClick && props.onBackClick()}
       >

@@ -7,7 +7,6 @@ export default function Menu() {
   return (
     <MenuBar>
       <SelectField
-        color="info"
         disabled
         margin="none"
         value="default"

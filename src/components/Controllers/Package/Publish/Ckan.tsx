@@ -164,7 +164,6 @@ export default function CKAN(props: CKANProps) {
               variant="contained"
               size="small"
               aria-label="publish selected right"
-              color="secondary"
             >
               Publish
             </Button>

@@ -23,7 +23,6 @@ export default function DeleteButton() {
           confirmationText: 'Delete',
           description: `You are deleting "${path}". Are you sure?`,
           confirmationButtonProps: {
-            color: 'secondary',
             variant: 'contained',
             sx: { width: '50%' },
             autoFocus: true,

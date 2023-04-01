@@ -24,7 +24,7 @@ export default function Header() {
   const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="static" color="secondary" elevation={0}>
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={4} lg={3}>

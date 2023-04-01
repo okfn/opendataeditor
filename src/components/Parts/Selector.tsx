@@ -125,7 +125,7 @@ export default function Selector(props: SelectorProps) {
             }
             disabled={leftChecked.length === 0}
             aria-label="move selected right"
-            color={leftChecked.length === 0 ? 'primary' : 'secondary'}
+            color={leftChecked.length === 0 ? 'primary' : 'warning'}
           >
             Select
           </Button>

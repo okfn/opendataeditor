@@ -22,7 +22,7 @@ export default function Header() {
   const file = useStore((state) => state.file)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="static" color="secondary" elevation={0}>
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={4} lg={3}>

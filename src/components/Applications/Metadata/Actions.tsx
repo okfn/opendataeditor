@@ -73,7 +73,7 @@ function Preview() {
       Icon={CodeIcon}
       variant="outlined"
       disabled={!editor}
-      color={isPreview ? 'warning' : 'info'}
+      color={isPreview ? 'warning' : undefined}
       onClick={() => updateState({ isPreview: !isPreview })}
       sx={{ backgroundColor: 'white' }}
     />

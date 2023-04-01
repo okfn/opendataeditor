@@ -43,7 +43,6 @@ export default function EditorListItem(props: EditorListItemProps) {
   return (
     <Button
       size="large"
-      color="info"
       variant="outlined"
       endIcon={!props.isGrid && props.type ? <EndIcon /> : null}
       onClick={() => (props.onClick ? props.onClick() : undefined)}

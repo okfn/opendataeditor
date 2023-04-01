@@ -17,7 +17,6 @@ export default function ItemButton(props: ItemButtonProps) {
   return (
     <Button
       size="large"
-      color="info"
       variant="outlined"
       endIcon={props.type && !props.isGrid ? props.type.toUpperCase() : undefined}
       onClick={() => (props.onClick ? props.onClick() : undefined)}

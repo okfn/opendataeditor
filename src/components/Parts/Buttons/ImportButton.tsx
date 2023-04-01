@@ -26,7 +26,6 @@ export default function ImportButton(props: ImportButtonProps) {
         title="Import as JSON or YAML"
         variant={props.variant || 'outlined'}
         component="span"
-        color="info"
         fullWidth
         {...props}
       >

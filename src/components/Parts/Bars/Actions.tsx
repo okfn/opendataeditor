@@ -48,7 +48,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
       <IconButton
         label="Revert"
         Icon={HistoryIcon}
-        color={props.isUpdated ? 'warning' : 'info'}
+        color={props.isUpdated ? 'warning' : undefined}
         variant={props.isUpdated ? 'contained' : 'outlined'}
         disabled={!props.onRevert || !props.isUpdated}
         onClick={props.onRevert}
@@ -62,7 +62,6 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
       <IconButton
         label="Save"
         Icon={CheckIcon}
-        color={props.isUpdated ? 'success' : 'info'}
         variant={props.isUpdated ? 'contained' : 'outlined'}
         disabled={!props.onSave || !props.isUpdated}
         onClick={props.onSave}

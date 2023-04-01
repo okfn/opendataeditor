@@ -121,8 +121,8 @@ function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: nu
   // const isValidated = props.errors !== undefined
   const isError = props.errors && props.errors > 0
   const Icon = getIcon(props.type)
-  let color = 'success'
-  if (props.errors !== undefined) color = props.errors ? 'error' : 'success'
+  let color = 'primary'
+  if (props.type !== 'folder') color = isError ? 'error' : 'success'
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
       <Icon color={color} />

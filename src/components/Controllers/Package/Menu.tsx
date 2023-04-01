@@ -23,12 +23,7 @@ export default function Menu() {
         paddingX: 2,
       }}
     >
-      <Button
-        variant="text"
-        startIcon={<PublishIcon />}
-        color="secondary"
-        onClick={() => togglePublish()}
-      >
+      <Button variant="text" startIcon={<PublishIcon />} onClick={() => togglePublish()}>
         Publish
       </Button>
     </Box>

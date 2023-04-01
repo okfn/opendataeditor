@@ -12,7 +12,7 @@ export default function IconButton(props: IconButtonProps) {
   return (
     <Button
       fullWidth={!props.small}
-      color={props.color || 'info'}
+      color={props.color}
       startIcon={<props.Icon fontSize="small" sx={{ mr: !props.small ? 1 : 0 }} />}
       {...props}
     >

@@ -59,7 +59,6 @@ export default function SaveAsDialog() {
             sx={{ my: 0.5 }}
             onClick={handleSave}
             aria-label="accept"
-            color="secondary"
             variant="contained"
           >
             <ButtonContent label="Save" icon={CheckIcon} />
