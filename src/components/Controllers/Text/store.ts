@@ -1,12 +1,12 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile, IResource } from '../../../interfaces'
+import { ITextEditor } from '../../Editors/Text'
 import { TextProps } from './Text'
 import * as helpers from './helpers'
 // @ts-expect-error
@@ -22,7 +22,7 @@ export interface State {
   rendered?: string
   resource: IResource
   revision: number
-  editor: React.RefObject<monaco.editor.IStandaloneCodeEditor>
+  editor: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   saveAs: (path: string) => Promise<void>
@@ -46,7 +46,7 @@ export function makeStore(props: TextProps) {
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
-    editor: React.createRef<monaco.editor.IStandaloneCodeEditor>(),
+    editor: React.createRef<ITextEditor>(),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1

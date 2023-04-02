@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import MonacoEditor from '@monaco-editor/react'
 import Columns from '../../Parts/Columns'
+import TextEditor from '../../Editors/Text'
 import { useStore, selectors } from './store'
 
 export default function Editor() {
@@ -23,17 +23,9 @@ function Source() {
   if (modified === undefined) return null
   return (
     <Box sx={{ paddingY: 2, height: '100%' }}>
-      <MonacoEditor
+      <TextEditor
         value={modified}
         language={language}
-        options={{
-          automaticLayout: true,
-          autoClosingBrackets: 'always',
-          autoClosingQuotes: 'always',
-          formatOnPaste: true,
-          formatOnType: true,
-          scrollBeyondLastLine: false,
-        }}
         onChange={(text) => updateState({ modified: text })}
         onMount={(ref) => {
           console.log(ref)
