@@ -47,7 +47,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={TuneIcon}
         color={props.colors?.metadata}
         disabled={!props.onMetadata}
-        onClick={props.onMetadata}
+        onClick={() => props.onMetadata!()}
       />
     )
   }
@@ -62,7 +62,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={CodeIcon}
         color={props.colors?.preview}
         disabled={!props.onPreview}
-        onClick={props.onPreview}
+        onClick={() => props.onPreview!()}
       />
     )
   }
@@ -77,7 +77,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={CodeIcon}
         color={props.colors?.source}
         disabled={!props.onSource}
-        onClick={props.onSource}
+        onClick={() => props.onSource!()}
       />
     )
   }
@@ -92,7 +92,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={ReportGmailerrorredIcon}
         color={props.colors?.errors}
         disabled={!props.onErrors}
-        onClick={props.onErrors}
+        onClick={() => props.onErrors!()}
       />
     )
   }
@@ -106,7 +106,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={HandymanIcon}
         color={props.colors?.fix}
         disabled={!props.onFix}
-        onClick={props.onFix}
+        onClick={() => props.onFix!()}
       />
     )
   }
@@ -121,7 +121,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={CompressIcon}
         color={props.colors?.minify}
         disabled={!props.onMinify}
-        onClick={props.onMinify}
+        onClick={() => props.onMinify!()}
       />
     )
   }
@@ -136,7 +136,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={DataObjectIcon}
         color={props.colors?.prettify}
         disabled={!props.onPrettify}
-        onClick={props.onPrettify}
+        onClick={() => props.onPrettify!()}
       />
     )
   }
@@ -151,7 +151,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         Icon={FormatClearIcon}
         color={props.colors?.clear}
         disabled={!props.onClear}
-        onClick={props.onClear}
+        onClick={() => props.onClear!()}
       />
     )
   }

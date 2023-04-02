@@ -24,7 +24,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
         Icon={SaveAltIcon}
         variant="outlined"
         disabled={!props.onSaveAs}
-        onClick={props.onSaveAs}
+        onClick={() => props.onSaveAs!()}
         sx={{ backgroundColor: 'white' }}
       />
     )
@@ -37,7 +37,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
         Icon={IosShareIcon}
         variant="outlined"
         disabled={!props.onPublish}
-        onClick={props.onPublish}
+        onClick={() => props.onPublish!()}
         sx={{ backgroundColor: 'white' }}
       />
     )
@@ -51,7 +51,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
         color={props.isUpdated ? 'warning' : undefined}
         variant={props.isUpdated ? 'contained' : 'outlined'}
         disabled={!props.onRevert || !props.isUpdated}
-        onClick={props.onRevert}
+        onClick={() => props.onRevert!()}
         sx={{ backgroundColor: !props.isUpdated ? 'white' : undefined }}
       />
     )
@@ -64,7 +64,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
         Icon={CheckIcon}
         variant={props.isUpdated ? 'contained' : 'outlined'}
         disabled={!props.onSave || !props.isUpdated}
-        onClick={props.onSave}
+        onClick={() => props.onSave!()}
         sx={{ backgroundColor: !props.isUpdated ? 'white' : undefined }}
       />
     )
