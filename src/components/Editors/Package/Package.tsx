@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface PackageProps {
   package?: IPackage
+  // TODO: remove without "is"?
   isShallow?: boolean
   onChange?: (pkg: IPackage) => void
   onAddResource?: () => void
