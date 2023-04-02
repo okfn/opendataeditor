@@ -6,12 +6,13 @@ import * as themes from '../../../themes'
 import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
-export interface PackageProps {
-  file: IFile
+export interface MetadataProps {
   client: Client
+  file: IFile
+  onPathChange?: (path?: string) => void
 }
 
-export default function Package(props: PackageProps) {
+export default function Metadata(props: MetadataProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

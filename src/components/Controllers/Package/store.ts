@@ -1,50 +1,67 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
-import { MetadataProps } from './Package'
-import { IPublish } from '../../../interfaces/publish'
+import { IFile, IPackage } from '../../../interfaces'
+import { PackageProps } from './Package'
+import * as helpers from '../../../helpers'
 
 export interface State {
-  // Data
-
-  client: Client
   file: IFile
-  onPathChange?: (path?: string) => void
-  descriptor?: object
-  isPublish?: boolean
-  publishedPath?: string
-
-  // Logic
-  loadDescriptor: () => Promise<void>
-  togglePublish: () => void
-  publishPackage: (params: IPublish) => Promise<any>
+  client: Client
+  panel?: 'preview'
+  dialog?: 'saveAs'
+  original?: IPackage
+  modified?: IPackage
+  revision: number
+  updateState: (patch: Partial<State>) => void
+  load: () => Promise<void>
+  clear: () => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
-export function makeStore(props: MetadataProps) {
+export function makeStore(props: PackageProps) {
   return createStore<State>((set, get) => ({
-    // Data
-
     ...props,
-
-    // Logic
-
-    loadDescriptor: async () => {
+    revision: 0,
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
+      set(patch)
+    },
+    load: async () => {
       const { client, file } = get()
       const { data } = await client.jsonRead({ path: file.path })
-      set({ descriptor: data })
+      set({ modified: cloneDeep(data), original: data })
     },
-    togglePublish: () => {
-      set({ isPublish: !get().isPublish })
+    clear: () => {
+      const { updateState } = get()
+      const descriptor = helpers.getInitialDescriptor('package') as IPackage
+      if (!descriptor) return
+      updateState({ modified: cloneDeep(descriptor) })
     },
-    publishPackage: async (params: IPublish) => {
-      const { client } = get()
-      const { content } = await client.projectPublish({ params })
-      return content
+    revert: () => {
+      const { original } = get()
+      set({ modified: cloneDeep(original), revision: 0 })
+    },
+    save: async (path) => {
+      const { file, client, modified } = get()
+      await client.jsonWrite({ path: path || file.path, data: modified })
+      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {
