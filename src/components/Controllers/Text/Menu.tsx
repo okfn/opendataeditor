@@ -15,6 +15,7 @@ export default function Menu() {
   return (
     <MenuBar
       items={items}
+      colors={{ metadata: panel === 'metadata' ? 'warning' : undefined }}
       onMetadata={() =>
         updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
       }
