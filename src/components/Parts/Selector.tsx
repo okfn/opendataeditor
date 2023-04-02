@@ -123,7 +123,6 @@ export default function Selector(props: SelectorProps) {
                 props.items.filter((_, index) => leftChecked.includes(index))
               )
             }
-            disabled={leftChecked.length === 0}
             aria-label="move selected right"
             color={leftChecked.length === 0 ? 'primary' : 'warning'}
           >

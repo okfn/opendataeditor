@@ -10,7 +10,7 @@ export default function Content() {
     <Package
       package={modified}
       onChange={(descriptor) => updateState({ modified: descriptor })}
-      onAddResource={() => console.log('add')}
+      onAddResource={() => updateState({ dialog: 'resource' })}
     />
   )
 }
