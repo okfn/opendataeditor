@@ -9,6 +9,7 @@ export interface PackageProps {
   package?: IPackage
   isShallow?: boolean
   onChange?: (pkg: IPackage) => void
+  onAddResource?: () => void
   onFieldSelected?: (name?: string) => void
 }
 
