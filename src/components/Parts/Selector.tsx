@@ -119,22 +119,6 @@ export default function Selector(props: SelectorProps) {
             variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
             size="small"
             onClick={() =>
-              props.onSelect(
-                props.items.filter((_, index) => leftChecked.includes(index))
-              )
-            }
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-            color={leftChecked.length === 0 ? 'primary' : 'warning'}
-          >
-            Select
-          </Button>
-          <Button
-            fullWidth
-            sx={{ my: 0.5 }}
-            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
-            size="small"
-            onClick={() =>
               props.onCancel(
                 props.items.filter((_, index) => leftChecked.includes(index))
               )
@@ -144,6 +128,21 @@ export default function Selector(props: SelectorProps) {
             color={leftChecked.length === 0 ? 'primary' : 'warning'}
           >
             Cancel
+          </Button>
+          <Button
+            fullWidth
+            sx={{ my: 0.5 }}
+            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+            size="small"
+            onClick={() =>
+              props.onSelect(
+                props.items.filter((_, index) => leftChecked.includes(index))
+              )
+            }
+            disabled={leftChecked.length === 0}
+            aria-label="move selected right"
+          >
+            Select
           </Button>
         </Columns>
       </Box>
