@@ -1,58 +1,68 @@
-import noop from 'lodash/noop'
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
+import { IFile, IResource } from '../../../interfaces'
 import { FileProps } from './File'
 
 export interface State {
-  // Data
-
-  client: Client
   file: IFile
-  isMetadata?: boolean
-  bytes?: ArrayBuffer
-  text?: string
-
-  // Logic
-
-  toggleMetadata: () => void
-  loadBytes: () => Promise<void>
-  loadText: () => Promise<void>
-  exportFile?: (format: string) => void
-  importFile?: () => void
-  updateResource?: () => void
+  client: Client
+  panel?: 'metadata'
+  dialog?: 'saveAs'
+  revision: number
+  original?: ArrayBuffer
+  resource: IResource
+  updateState: (patch: Partial<State>) => void
+  loadContent: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
+  revert: () => void
+  save: () => void
 }
 
 export function makeStore(props: FileProps) {
   return createStore<State>((set, get) => ({
-    // Data
-
     ...props,
-    tablePatch: {},
-
-    // Logic
-
-    toggleMetadata: () => {
-      set({ isMetadata: !get().isMetadata })
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('resource' in patch) patch.revision = revision + 1
+      set(patch)
     },
-    loadBytes: async () => {
+    loadContent: async () => {
       const { client, file } = get()
-      const { bytes } = await client.bytesRead({ path: file.path })
-      set({ bytes })
+      if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
+      const { bytes } = await client.fileRead({ path: file.path })
+      set({ original: bytes })
     },
-    loadText: async () => {
-      const { client, file } = get()
-      const { text } = await client.textRead({ path: file.path })
-      set({ text })
+    saveAs: async (path) => {
+      const { client, original } = get()
+      await client.fileWrite({ path, file: new File([original!], 'name') })
     },
-    // TODO: implement
-    exportFile: noop,
-    importFile: noop,
-    updateResource: noop,
+    revert: () => {
+      const { file } = get()
+      // TODO: review case of missing record (not indexed)
+      set({ resource: cloneDeep(file.record!.resource), revision: 0 })
+    },
+    save: async () => {
+      const { file, client, resource } = get()
+      await client.fileUpdate({ path: file.path, resource })
+      // TODO: needs to udpate file
+      set({ revision: 0 })
+    },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

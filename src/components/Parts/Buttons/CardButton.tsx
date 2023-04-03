@@ -22,7 +22,7 @@ export default function CardButton(props: CardButtonProps) {
         <Typography gutterBottom variant="h5" component="div">
           {props.label}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.primary">
           {props.text}
         </Typography>
       </CardContent>

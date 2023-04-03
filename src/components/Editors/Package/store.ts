@@ -24,6 +24,7 @@ interface State {
   descriptor: IPackage
   isShallow?: boolean
   onChange: (pkg: IPackage) => void
+  onAddResource?: () => void
   tabIndex: number
   vtabIndex: number
   helpItem: IHelpItem
@@ -53,6 +54,7 @@ export function makeStore(props: PackageProps) {
     descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
     isShallow: props.isShallow,
     onChange: props.onChange || noop,
+    onAddResource: props.onAddResource,
     tabIndex: 0,
     vtabIndex: 1,
     helpItem: DEFAULT_HELP_ITEM,
@@ -93,7 +95,8 @@ export function makeStore(props: PackageProps) {
     },
     // TODO: scroll to newly created resource
     addResource: () => {
-      const { descriptor, updateDescriptor } = get()
+      const { descriptor, updateDescriptor, onAddResource } = get()
+      if (onAddResource) return onAddResource()
       const resources = [...(descriptor.resources || [])]
       // TODO: deduplicate
       const name = `resource${resources.length}`

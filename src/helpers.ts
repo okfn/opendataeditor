@@ -9,9 +9,8 @@ export function readHelpItem(help: IHelp, path: string): IHelpItem | null {
   return { path, title: record[0], link: record[1], description: record[2] }
 }
 
-export function getInitialDescriptor(
-  type?: 'package' | 'resource' | 'dialect' | 'schema'
-) {
+// TODO: cloneDeep here?
+export function getInitialDescriptor(type?: string) {
   switch (type) {
     case 'package':
       return settings.INITIAL_PACKAGE
@@ -24,6 +23,12 @@ export function getInitialDescriptor(
     default:
       return undefined
   }
+}
+
+export function bytesToBase64(bytes: ArrayBuffer): string {
+  return btoa(
+    new Uint8Array(bytes).reduce((data, byte) => data + String.fromCharCode(byte), '')
+  )
 }
 
 export function exportDescriptor(descriptor: object) {

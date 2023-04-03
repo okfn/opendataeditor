@@ -100,7 +100,6 @@ function Selector() {
   return (
     <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
       <SelectField
-        color="info"
         focused
         margin="none"
         value={resource.name}

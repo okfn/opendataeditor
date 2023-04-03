@@ -119,15 +119,14 @@ export default function Selector(props: SelectorProps) {
             variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
             size="small"
             onClick={() =>
-              props.onSelect(
+              props.onCancel(
                 props.items.filter((_, index) => leftChecked.includes(index))
               )
             }
-            disabled={leftChecked.length === 0}
             aria-label="move selected right"
-            color={leftChecked.length === 0 ? 'primary' : 'secondary'}
+            color={leftChecked.length === 0 ? 'primary' : 'warning'}
           >
-            Select
+            Cancel
           </Button>
           <Button
             fullWidth
@@ -135,15 +134,14 @@ export default function Selector(props: SelectorProps) {
             variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
             size="small"
             onClick={() =>
-              props.onCancel(
+              props.onSelect(
                 props.items.filter((_, index) => leftChecked.includes(index))
               )
             }
             disabled={leftChecked.length === 0}
             aria-label="move selected right"
-            color={leftChecked.length === 0 ? 'primary' : 'warning'}
           >
-            Cancel
+            Select
           </Button>
         </Columns>
       </Box>

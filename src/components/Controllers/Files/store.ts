@@ -200,7 +200,7 @@ export function makeStore(props: FilesProps) {
     downloadFile: async () => {
       const { client, path } = get()
       if (!path) return
-      const { bytes } = await client.bytesRead({ path })
+      const { bytes } = await client.fileRead({ path })
       return bytes
     },
     countFiles: async () => {

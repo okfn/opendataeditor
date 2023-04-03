@@ -1,8 +1,9 @@
 import omit from 'lodash/omit'
-import { IPublish } from './interfaces/publish'
-import { IFile, IFileItem } from './interfaces/file'
-import { ITable, IQueryData } from './interfaces/table'
-import { IFieldItem } from './interfaces/schema'
+import { IPublish } from './interfaces'
+import { IFile, IFileItem } from './interfaces'
+import { ITable, IQueryData } from './interfaces'
+import { IFieldItem } from './interfaces'
+import { IResource } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -30,13 +31,6 @@ export class Client {
     return makeRequest(path, { ...props, session: this.session })
   }
 
-  // Bytes
-
-  async bytesRead(props: { path: string }) {
-    const result = await this.request('/bytes/read', { ...props, isBytes: true })
-    return result as { bytes: ArrayBuffer }
-  }
-
   // Field
 
   async fieldList() {
@@ -61,11 +55,6 @@ export class Client {
     return result as { path: string; status: string; message: string }
   }
 
-  async fileUpload(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/upload', props)
-    return result as { path: string }
-  }
-
   async fileDelete(props: { path: string }) {
     const result = await this.request('/file/delete', props)
     return result as { path: string }
@@ -87,8 +76,8 @@ export class Client {
   }
 
   async fileRead(props: { path: string }) {
-    const result = await this.request('/file/read', props)
-    return result as { file?: IFile }
+    const result = await this.request('/file/read', { ...props, isBytes: true })
+    return result as { bytes: ArrayBuffer }
   }
 
   async fileRename(props: { path: string; name: string }) {
@@ -96,13 +85,23 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileUpdate(props: { path: string }) {
-    const result = await this.request('/file/update', props)
-    return result as { file: IFile }
+  async fileSelect(props: { path: string }) {
+    const result = await this.request('/file/select', props)
+    return result as { file?: IFile }
   }
 
-  async fileSave(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/save', props)
+  async fileUpdate(props: { path: string; resource: IResource }) {
+    const result = await this.request('/file/update', props)
+    return result as { path: string }
+  }
+
+  async fileUpload(props: { file: File; folder?: string }) {
+    const result = await this.request('/file/upload', props)
+    return result as { path: string }
+  }
+
+  async fileWrite(props: { file: File; path: string }) {
+    const result = await this.request('/file/write', props)
     return result as { path: string }
   }
 
@@ -181,8 +180,8 @@ export class Client {
     return result as { table: ITable }
   }
 
-  async tableSave(props: { path: string; tablePatch: {}; folder?: string }) {
-    const result = await this.request('/table/save', props)
+  async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {
+    const result = await this.request('/table/write', props)
     return result as { path: string; status: string; message: string }
   }
 
@@ -190,6 +189,11 @@ export class Client {
 
   async textRead(props: { path: string }) {
     const result = await this.request('/text/read', props)
+    return result as { text: string }
+  }
+
+  async textRender(props: { path: string }) {
+    const result = await this.request('/text/render', props)
     return result as { text: string }
   }
 
@@ -220,7 +224,9 @@ async function makeRequest(
     body = JSON.stringify(props)
   }
   const response = await fetch(path, { method, headers, body })
-  const result = props.isBytes ? { bytes: await response.blob() } : await response.json()
+  const result = props.isBytes
+    ? { bytes: await response.arrayBuffer() }
+    : await response.json()
   console.log({ path, props, result })
   return result
 }

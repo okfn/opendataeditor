@@ -71,9 +71,7 @@ function QuoteChar() {
 }
 
 function DoubleQuote() {
-  const doubleQuote = useStore(
-    select(selectors.csv, (csv) => csv.doubleQuote)
-  )
+  const doubleQuote = useStore(select(selectors.csv, (csv) => csv.doubleQuote))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (

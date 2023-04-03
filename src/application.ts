@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Client } from './client'
-import Application from './components/Application'
+import Application from './components/Applications/Application'
 
 const session = localStorage.getItem('session') || undefined
 Client.connect({ session }).then((client) => {

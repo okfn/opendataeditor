@@ -1,39 +1,47 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
+import ScrollBox from '../../Parts/ScrollBox'
+import MetadataPanel from './Panels/Metadata'
 import Actions from './Actions'
-import Content from './Content'
+import Editor from './Editor'
+import Dialog from './Dialog'
 import Menu from './Menu'
-import Resource from '../../Editors/Resource'
 import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
-  const isMetadata = useStore((state) => state.isMetadata)
+  const panel = useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
-  const panelHeight = isMetadata ? 56 : 8
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + panelHeight)})`
-  const resource = useStore((state) => state.file.record?.resource)
-  // const updateResource = useStore((state) => state.updateResource)
+  const panelHeight = panel ? 48 : 0
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
+  const file = useStore((state) => state.file)
+  const loadContent = useStore((state) => state.loadContent)
+  React.useEffect(() => {
+    loadContent().catch(console.error)
+  }, [file])
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Menu />
+    <React.Fragment>
+      <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ height: contentHeight, overflowY: 'auto', overflowX: 'hidden' }}>
-          <Content />
+        <Menu />
+        <ScrollBox height={contentHeight}>
+          <Editor />
+        </ScrollBox>
+        <Box
+          hidden={!panel}
+          sx={{
+            overflowY: 'auto',
+            height: theme.spacing(48),
+            borderTop: 1,
+            borderColor: 'divider',
+            paddingX: 2,
+          }}
+        >
+          {panel === 'metadata' && <MetadataPanel />}
         </Box>
-        <Box sx={{ marginTop: 'auto' }}>
-          <Box
-            hidden={!isMetadata}
-            sx={{ borderTop: 1, borderColor: 'divider', paddingX: 2 }}
-          >
-            <Resource resource={resource} onChange={() => {}} />
-          </Box>
-          <Box hidden={isMetadata}>
-            <Actions />
-          </Box>
-        </Box>
+        <Actions />
       </Box>
-    </Box>
+    </React.Fragment>
   )
 }

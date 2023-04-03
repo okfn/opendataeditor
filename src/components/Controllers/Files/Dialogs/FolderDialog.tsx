@@ -80,7 +80,6 @@ export default function FolderDialog() {
             variant="contained"
             size="small"
             onClick={handleSelect}
-            color="secondary"
           >
             <ButtonContent
               label={dialog === 'folder/copy' ? 'Copy' : 'Move'}

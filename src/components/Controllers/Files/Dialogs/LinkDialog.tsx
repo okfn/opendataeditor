@@ -64,7 +64,6 @@ export default function LinkDialog() {
             sx={{ my: 0.5 }}
             onClick={handleCreate}
             aria-label="accept"
-            color="secondary"
             variant="contained"
             disabled={!url}
           >

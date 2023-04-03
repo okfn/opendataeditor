@@ -1,12 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Resource from '../../Editors/Resource'
-import Dialect from '../../Editors/Dialect'
-import Schema from '../../Editors/Schema'
 import PreviewPanel from './Panels/Preview'
-import Dialog from './Dialog'
+import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
-import { IResource, IDialect, ISchema } from '../../../interfaces'
+import Dialog from './Dialog'
+import Editor from './Editor'
+import Menu from './Menu'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -15,39 +14,22 @@ export default function Content() {
   const panel = useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const file = useStore((state) => state.file)
-  const descriptor = useStore((state) => state.descriptor)
-  const updateState = useStore((state) => state.updateState)
-  const loadDescriptor = useStore((state) => state.loadDescriptor)
+  const modified = useStore((state) => state.modified)
+  const load = useStore((state) => state.load)
   React.useEffect(() => {
-    loadDescriptor().catch(console.error)
+    load().catch(console.error)
   }, [file])
-  if (!descriptor) return null
+  if (!modified) return null
   return (
     <React.Fragment>
       <Dialog />
       <Box sx={{ height }}>
-        <Box sx={{ height: contentHeight }}>
-          {file.type === 'resource' && (
-            <Resource
-              resource={descriptor as IResource}
-              onChange={(descriptor) => updateState({ descriptor })}
-            />
-          )}
-          {file.type === 'dialect' && (
-            <Dialect
-              dialect={descriptor as IDialect}
-              onChange={(descriptor) => updateState({ descriptor })}
-            />
-          )}
-          {file.type === 'schema' && (
-            <Schema
-              schema={descriptor as ISchema}
-              onChange={(descriptor) => updateState({ descriptor })}
-            />
-          )}
-        </Box>
+        <Menu />
+        <ScrollBox height={contentHeight}>
+          <Editor />
+        </ScrollBox>
         <Box
           hidden={!panel}
           sx={{
@@ -62,9 +44,7 @@ export default function Content() {
         >
           {panel === 'preview' && <PreviewPanel />}
         </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Actions />
       </Box>
     </React.Fragment>
   )

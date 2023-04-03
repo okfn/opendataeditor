@@ -24,7 +24,7 @@ export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) 
       <CardContent>
         <Typography
           sx={{ fontSize: 14, marginTop: -0.5, marginBottom: 1 }}
-          color="text.secondary"
+          color="text.primary"
           gutterBottom
         >
           Help
@@ -32,7 +32,7 @@ export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) 
         <Typography variant="h5" component="div">
           {props.title}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography sx={{ mb: 1.5 }} color="text.primary">
           {props.subtitle}
         </Typography>
         <Typography variant="body2">{props.children}</Typography>

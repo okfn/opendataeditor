@@ -131,9 +131,7 @@ function HeaderJoin() {
 }
 
 function HeaderCase() {
-  const headerCase = useStore(
-    (state) => state.descriptor.headerCase
-  )
+  const headerCase = useStore((state) => state.descriptor.headerCase)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (

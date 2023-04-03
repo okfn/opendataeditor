@@ -4,12 +4,13 @@ import { useTheme } from '@mui/material/styles'
 import Actions from './Actions'
 import Content from './Content'
 import Dialog from './Dialog'
+import Menu from './Menu'
 import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
   const path = useStore((state) => state.path)
   const listFiles = useStore((state) => state.listFiles)
   const countFiles = useStore((state) => state.countFiles)
@@ -26,6 +27,7 @@ export default function Layout() {
     <React.Fragment>
       <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+        <Menu />
         <Box sx={{ height: contentHeight }}>
           <Content />
         </Box>

@@ -7,19 +7,21 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
+import * as helpers from '../../../helpers'
 
 export interface State {
   file: IFile
   client: Client
   panel?: 'preview'
   dialog?: 'saveAs'
+  original?: object
+  modified?: object
   revision: number
-  descriptor?: object
-  checkpoint?: object
   updateState: (patch: Partial<State>) => void
-  loadDescriptor: () => Promise<void>
-  revertDescriptor: () => void
-  saveDescriptor: (path?: string) => Promise<void>
+  load: () => Promise<void>
+  clear: () => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
@@ -28,22 +30,29 @@ export function makeStore(props: MetadataProps) {
     revision: 0,
     updateState: (patch) => {
       const { revision } = get()
-      if ('descriptor' in patch) patch.revision = revision + 1
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
-    loadDescriptor: async () => {
+    load: async () => {
       const { client, file } = get()
       const { data } = await client.jsonRead({ path: file.path })
-      set({ descriptor: cloneDeep(data), checkpoint: data })
+      set({ modified: cloneDeep(data), original: data })
     },
-    revertDescriptor: () => {
-      const { checkpoint } = get()
-      set({ descriptor: cloneDeep(checkpoint), revision: 0 })
+    clear: () => {
+      const { file, updateState } = get()
+      const descriptor = helpers.getInitialDescriptor(file.type)
+      if (!descriptor) return
+      updateState({ modified: cloneDeep(descriptor) })
     },
-    saveDescriptor: async (path) => {
-      const { file, client, descriptor } = get()
-      await client.jsonWrite({ path: path || file.path, data: descriptor })
-      set({ descriptor: cloneDeep(descriptor), checkpoint: descriptor, revision: 0 })
+    revert: () => {
+      const { original } = get()
+      set({ modified: cloneDeep(original), revision: 0 })
+    },
+    save: async (path) => {
+      const { file, client, modified } = get()
+      await client.jsonWrite({ path: path || file.path, data: modified })
+      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
   }))
 }
