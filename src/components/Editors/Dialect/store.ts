@@ -5,15 +5,8 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import {
-  IDialect,
-  ICsvControl,
-  IHelpItem,
-  IExcelControl,
-  IHtmlControl,
-  IJsonControl,
-  IOdsControl
-} from '../../../interfaces'
+import { IDialect, ICsvControl, IHelpItem, IExcelControl } from '../../../interfaces'
+import { IHtmlControl, IJsonControl, IOdsControl } from '../../../interfaces'
 import { DialectProps } from './Dialect'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
