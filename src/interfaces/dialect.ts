@@ -11,6 +11,8 @@ export interface IDialect {
   csv?: ICsvControl
   excel?: IExcelControl
   json?: IJsonControl
+  ods?: IOdsControl
+  html?: IHtmlControl
 }
 
 export interface ICsvControl {
@@ -25,13 +27,23 @@ export interface ICsvControl {
 
 export interface IExcelControl {
   sheet?: string | number
+  workBookCache?: string
   fillMergedCells?: boolean
   preserveFormatting?: boolean
-  adjustFloatingPointError: boolean
+  adjustFloatingPointError?: boolean
+  stringified?: boolean
 }
 
 export interface IJsonControl {
   keys?: string[]
   keyed?: boolean
   property?: string
+}
+
+export interface IOdsControl {
+  sheet?: string | number
+}
+
+export interface IHtmlControl {
+  selector?: string
 }

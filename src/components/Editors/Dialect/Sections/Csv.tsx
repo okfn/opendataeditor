@@ -16,6 +16,7 @@ export default function General() {
           <Delimiter />
           <QuoteChar />
           <DoubleQuote />
+          <LineTerminator />
         </Box>
         <Box>
           <EscapeChar />
@@ -41,13 +42,29 @@ function Delimiter() {
   )
 }
 
+function LineTerminator() {
+  const lineTerminator = useStore(select(selectors.csv, (csv) => csv.lineTerminator))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateCsv = useStore((state) => state.updateCsv)
+  return (
+    <InputField
+      label="Line Terminator"
+      value={lineTerminator || settings.DEFAULT_LINE_TERMINATOR}
+      onFocus={() => updateHelp('csv/lineTerminator')}
+      onChange={(lineTerminator) => updateCsv({ lineTerminator })}
+    />
+  )
+}
+
 function QuoteChar() {
   const quoteChar = useStore(select(selectors.csv, (csv) => csv.quoteChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
       label="Quote Char"
       value={quoteChar || settings.DEFAULT_QUOTE_CHAR}
+      onFocus={() => updateHelp('csv/quoteChar')}
       onChange={(quoteChar) => updateCsv({ quoteChar })}
     />
   )
@@ -55,11 +72,13 @@ function QuoteChar() {
 
 function DoubleQuote() {
   const doubleQuote = useStore(select(selectors.csv, (csv) => csv.doubleQuote))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <YesNoField
       label="Double Quote"
-      value={doubleQuote || settings.DEFAULT_DOUBLE_QUOTE}
+      value={doubleQuote ?? settings.DEFAULT_DOUBLE_QUOTE}
+      onFocus={() => updateHelp('csv/doubleQuote')}
       onChange={(doubleQuote) => updateCsv({ doubleQuote })}
     />
   )
@@ -67,11 +86,13 @@ function DoubleQuote() {
 
 function EscapeChar() {
   const escapeChar = useStore(select(selectors.csv, (csv) => csv.escapeChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
       label="Escape Char"
       value={escapeChar || settings.DEFAULT_ESCAPE_CHAR}
+      onFocus={() => updateHelp('csv/escapeChar')}
       onChange={(escapeChar) => updateCsv({ escapeChar })}
     />
   )
@@ -79,11 +100,13 @@ function EscapeChar() {
 
 function NullSequence() {
   const nullSequence = useStore(select(selectors.csv, (csv) => csv.nullSequence))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
       label="Null Sequence"
       value={nullSequence || settings.DEFAULT_NULL_SEQUENCE}
+      onFocus={() => updateHelp('csv/nullSequence')}
       onChange={(nullSequence) => updateCsv({ nullSequence })}
     />
   )
@@ -91,11 +114,13 @@ function NullSequence() {
 
 function SkipInitialSpace() {
   const skipInitialSpace = useStore(select(selectors.csv, (csv) => csv.skipInitialSpace))
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <YesNoField
       label="Skip Initial Space"
       value={skipInitialSpace || settings.DEFAULT_SKIP_INITIAL_SPACE}
+      onFocus={() => updateHelp('csv/skipInitialSpace')}
       onChange={(skipInitialSpace) => updateCsv({ skipInitialSpace })}
     />
   )

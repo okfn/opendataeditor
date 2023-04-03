@@ -5,7 +5,8 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IDialect, ICsvControl, IHelpItem } from '../../../interfaces'
+import { IDialect, ICsvControl, IHelpItem, IExcelControl } from '../../../interfaces'
+import { IHtmlControl, IJsonControl, IOdsControl } from '../../../interfaces'
 import { DialectProps } from './Dialect'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -23,6 +24,22 @@ interface State {
   // Csv
 
   updateCsv: (patch: Partial<ICsvControl>) => void
+
+  // Excel
+
+  updateExcel: (patch: Partial<IExcelControl>) => void
+
+  // Html
+
+  updateHtml: (patch: Partial<IHtmlControl>) => void
+
+  // Json
+
+  updateJson: (patch: Partial<IJsonControl>) => void
+
+  // Ods
+
+  updateOds: (patch: Partial<IOdsControl>) => void
 }
 
 export function makeStore(props: DialectProps) {
@@ -48,15 +65,59 @@ export function makeStore(props: DialectProps) {
       const csv = selectors.csv(get())
       updateDescriptor({ csv: { ...csv, ...patch } })
     },
+
+    // Excel
+
+    updateExcel: (patch) => {
+      const { updateDescriptor } = get()
+      const excel = selectors.excel(get())
+      updateDescriptor({ excel: { ...excel, ...patch } })
+    },
+
+    // Html
+
+    updateHtml: (patch) => {
+      const { updateDescriptor } = get()
+      const html = selectors.html(get())
+      updateDescriptor({ html: { ...html, ...patch } })
+    },
+
+    // Json
+
+    updateJson: (patch) => {
+      const { updateDescriptor } = get()
+      const json = selectors.json(get())
+      updateDescriptor({ json: { ...json, ...patch } })
+    },
+
+    // Ods
+
+    updateOds: (patch) => {
+      const { updateDescriptor } = get()
+      const ods = selectors.ods(get())
+      updateDescriptor({ ods: { ...ods, ...patch } })
+    },
   }))
 }
 
 export const select = createSelector
 export const selectors = {
-  // Csv
+  // Csv/Excel/Json/Html/Ods
 
   csv: (state: State) => {
     return state.descriptor.csv || {}
+  },
+  excel: (state: State) => {
+    return state.descriptor.excel || {}
+  },
+  json: (state: State) => {
+    return state.descriptor.json || {}
+  },
+  ods: (state: State) => {
+    return state.descriptor.ods || {}
+  },
+  html: (state: State) => {
+    return state.descriptor.html || {}
   },
 }
 
