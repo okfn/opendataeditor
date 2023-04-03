@@ -22,6 +22,7 @@ export default function Resource() {
           <Type />
           <Title />
           <Description />
+          <MediaType />
         </Box>
         <Box>
           <Path />
@@ -50,12 +51,14 @@ function Name() {
 
 function Type() {
   const type = useStore((state) => state.descriptor.type)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <SelectField
       label="Type"
       value={type}
       options={['file', 'text', 'json', 'table']}
+      onFocus={() => updateHelp('resource/type')}
       onChange={(value) => updateDescriptor({ type: value || 'file' })}
     />
   )
@@ -110,7 +113,7 @@ function Scheme() {
   return (
     <InputField
       label="Scheme"
-      value={scheme}
+      value={scheme || ''}
       onFocus={() => updateHelp('resource/scheme')}
       onChange={(scheme) => updateDescriptor({ scheme })}
     />
@@ -124,7 +127,7 @@ function Format() {
   return (
     <InputField
       label="Format"
-      value={format}
+      value={format || ''}
       onFocus={() => updateHelp('resource/format')}
       onChange={(format) => updateDescriptor({ format })}
     />
@@ -138,9 +141,23 @@ function Encoding() {
   return (
     <InputField
       label="Encoding"
-      value={encoding}
+      value={encoding || ''}
       onFocus={() => updateHelp('resource/encoding')}
       onChange={(encoding) => updateDescriptor({ encoding })}
+    />
+  )
+}
+
+function MediaType() {
+  const mediatype = useStore((state) => state.descriptor.mediatype)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Media Type"
+      value={mediatype || ''}
+      onFocus={() => updateHelp('resource/mediaType')}
+      onChange={(mediatype) => updateDescriptor({ mediatype })}
     />
   )
 }

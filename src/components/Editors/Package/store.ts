@@ -97,7 +97,11 @@ export function makeStore(props: PackageProps) {
       const resources = [...(descriptor.resources || [])]
       // TODO: deduplicate
       const name = `resource${resources.length}`
-      resources.push({ name, type: 'table', path: 'table.csv' })
+      resources.push({
+        name,
+        type: 'table',
+        path: 'table.csv',
+      })
       updateDescriptor({ resources })
     },
 
