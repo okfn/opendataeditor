@@ -12,8 +12,9 @@ import Resource from './Sections/Resource'
 import Checksum from './Sections/Checksum'
 import License from './Sections/License'
 import { useStore } from './store'
+import Source from './Sections/Source'
 
-const LABELS = ['Resource', 'Checksum', 'Licenses']
+const LABELS = ['Resource', 'Checksum', 'Licenses', 'Sources']
 
 export default function Layout() {
   const theme = useTheme()
@@ -35,6 +36,7 @@ function Sections() {
         <Resource />
         <Checksum />
         <License />
+        <Source />
       </VerticalTabs>
       <EditorHelp helpItem={helpItem} />
     </Columns>
