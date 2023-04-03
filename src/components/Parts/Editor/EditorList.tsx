@@ -19,11 +19,7 @@ export interface EditorListProps {
 export default function EditorList(props: React.PropsWithChildren<EditorListProps>) {
   const AddButton = () => {
     return (
-      <Button
-        color="info"
-        title={`Add ${startCase(props.kind)}`}
-        onClick={() => props.onAddClick()}
-      >
+      <Button title={`Add ${startCase(props.kind)}`} onClick={() => props.onAddClick()}>
         Add {startCase(props.kind)}
       </Button>
     )
@@ -31,7 +27,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   const GridButton = () => {
     return (
       <Button
-        color={props.isGrid ? 'warning' : 'info'}
+        color={props.isGrid ? 'warning' : undefined}
         onClick={() => props.onGridClick()}
         title="Toggle grid view"
       >

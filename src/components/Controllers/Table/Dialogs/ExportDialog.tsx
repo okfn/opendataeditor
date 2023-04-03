@@ -102,7 +102,6 @@ export default function ExportDialog() {
             sx={{ my: 0.5 }}
             onClick={handleExport}
             aria-label="export"
-            color="secondary"
             variant="contained"
             disabled={!name}
           >
@@ -118,7 +117,6 @@ export default function ExportDialog() {
             sx={{ my: 0.5 }}
             onClick={handleDownload}
             aria-label="download"
-            color="secondary"
             variant="contained"
             disabled={!name}
           >

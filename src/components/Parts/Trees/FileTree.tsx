@@ -3,15 +3,12 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import Typography from '@mui/material/Typography'
 import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
-import CheckCircle from '@mui/icons-material/CheckCircle'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
 import TableRows from '@mui/icons-material/TableRows'
 import Source from '@mui/icons-material/Source'
@@ -116,41 +113,16 @@ const StyledTreeItem = styled(
 }))
 
 function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
-  const isValidated = props.errors !== undefined
+  const Icon = getIcon(props.type)
   const isError = props.errors && props.errors > 0
+  let color = 'primary'
+  if (props.type !== 'folder') color = isError ? 'error' : 'success'
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-      <TypeIcon type={props.type} />
+      <Icon color={color} />
       {props.label}
-      {isValidated && (
-        <Chip
-          label={isError ? 'errors' : 'valid'}
-          color={isError ? 'warning' : 'success'}
-          icon={isError ? <NumberIcon value={props.errors ?? 0} /> : <CheckCircle />}
-          size="small"
-          sx={{ ml: 1 }}
-        />
-      )}
     </Box>
   )
-}
-
-function TypeIcon(props: { type: string }) {
-  const icons: { [type: string]: React.ReactElement } = {
-    folder: <FolderIcon color="primary" />,
-    file: <DescriptionIcon color="primary" />,
-    chart: <ChartIcon color="primary" />,
-    sql: <Storage color="primary" />,
-    table: <TableView color="primary" />,
-    package: <Source color="primary" />,
-    resource: <DescriptionIcon color="primary" />,
-    dialect: <DescriptionIcon color="primary" />,
-    checklist: <CheckCircleOutline color="primary" />,
-    pipeline: <AccountTree color="primary" />,
-    schema: <DescriptionIcon color="primary" />,
-    view: <TableRows color="primary" />,
-  }
-  return icons[props.type] || <DescriptionIcon color="primary" />
 }
 
 function MinusSquare(props: SvgIconProps) {
@@ -171,18 +143,21 @@ function PlusSquare(props: SvgIconProps) {
   )
 }
 
-const NumberIcon = (props: { value: number }) => (
-  <Typography
-    sx={{
-      color: '#ed6c02',
-      paddingX: '5px',
-      height: '1rem',
-      bgcolor: '#fff',
-      ml: '4px',
-      fontSize: 'inherit',
-      borderRadius: '400px',
-    }}
-  >
-    {props.value}
-  </Typography>
-)
+function getIcon(type: string): React.ElementType {
+  return TYPE_ICONS[type] || DescriptionIcon
+}
+
+const TYPE_ICONS: { [key: string]: React.ElementType } = {
+  folder: FolderIcon,
+  file: DescriptionIcon,
+  chart: ChartIcon,
+  sql: Storage,
+  table: TableView,
+  package: Source,
+  resource: DescriptionIcon,
+  dialect: DescriptionIcon,
+  checklist: CheckCircleOutline,
+  pipeline: AccountTree,
+  schema: DescriptionIcon,
+  view: TableRows,
+}

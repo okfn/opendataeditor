@@ -8,8 +8,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import InputIcon from '@mui/icons-material/Input'
-// import GithubIcon from '@mui/icons-material/GitHub'
-import SupportIcon from '@mui/icons-material/SupportAgent'
+import SettingsIcon from '@mui/icons-material/Settings'
 import HelpIcon from '@mui/icons-material/Help'
 import GithubIcon from '@mui/icons-material/GitHub'
 import InputBase from '@mui/material/InputBase'
@@ -17,7 +16,6 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
-// TODO: rebase from props to state
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
@@ -25,7 +23,7 @@ export default function Header() {
   const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="static" color="secondary" elevation={0}>
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={4} lg={3}>
@@ -51,17 +49,21 @@ export default function Header() {
                   <InputIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Metadata editors for Frictionless Standards"
-                  inputProps={{ 'aria-label': 'search' }}
                   readOnly
-                  value={capitalize(editor) || ''}
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={
+                    capitalize(editor) || 'Metadata editors for Frictionless Standards'
+                  }
                 />
               </Search>
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
+                <Button disabled title="Open Settings" color="inherit">
+                  <SettingsIcon />
+                </Button>
                 <Button
-                  title="Report an issue"
+                  title="Report Issue"
                   color="inherit"
                   href="https://github.com/frictionlessdata/application/issues"
                   target="_blank"
@@ -69,15 +71,7 @@ export default function Header() {
                   <GithubIcon />
                 </Button>
                 <Button
-                  title="Talk to community"
-                  color="inherit"
-                  href="https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg"
-                  target="_blank"
-                >
-                  <SupportIcon />
-                </Button>
-                <Button
-                  title="Read the documentation"
+                  title="Open Documentation"
                   color="inherit"
                   href="https://application.frictionlessdata.io"
                   target="_blank"
@@ -95,10 +89,11 @@ export default function Header() {
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
+  border: 'solid 1px #ddd',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.2),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.3),
   },
   marginLeft: 0,
   width: '100%',

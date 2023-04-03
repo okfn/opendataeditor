@@ -4,7 +4,7 @@ import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITable, ITablePatch } from '../../../interfaces'
+import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
 import { TableProps } from './Table'
 
 type IPanel = 'metadata' | 'errors' | 'changes' | 'source'
@@ -30,7 +30,7 @@ export interface State {
   revertPatch: () => void
   exportTable: (name: string, format: string) => Promise<string>
   importTable?: () => void
-  updateResource?: () => void
+  updateResource: (resource: IResource) => Promise<void>
   updateColumn: (selectedColumn: number) => void
   setDialog: (dialog?: IDialog) => void
   downloadTable: (
@@ -91,7 +91,10 @@ export function makeStore(props: TableProps) {
       return { bytes: bytes, path: path }
     },
     importTable: noop,
-    updateResource: noop,
+    updateResource: async (resource) => {
+      const { file, client } = get()
+      await client.jsonWrite({ path: file.path, data: resource })
+    },
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })
     },

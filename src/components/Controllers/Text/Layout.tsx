@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
 import ScrollBox from '../../Parts/ScrollBox'
 import MetadataPanel from './Panels/Metadata'
 import Actions from './Actions'
@@ -40,9 +40,7 @@ export default function Layout() {
         >
           {panel === 'metadata' && <MetadataPanel />}
         </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Actions />
       </Box>
     </React.Fragment>
   )

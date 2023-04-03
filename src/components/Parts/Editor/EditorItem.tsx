@@ -22,7 +22,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     if (!props.extrasName) return null
     return (
       <Button
-        color={props.isExtras ? 'warning' : 'info'}
+        color={props.isExtras ? 'warning' : undefined}
         title={startCase(props.extrasName)}
         onClick={() => (props.onExtrasClick ? props.onExtrasClick() : undefined)}
       >
@@ -32,7 +32,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
   }
   const BackButton = () => {
     return (
-      <Button color="info" title="Back to list" onClick={() => props.onBackClick()}>
+      <Button title="Back to list" onClick={() => props.onBackClick()}>
         Back to list
       </Button>
     )

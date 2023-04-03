@@ -13,7 +13,7 @@ interface SelectFieldProps {
   size?: 'small' | 'medium'
   margin?: 'dense' | 'none' | 'normal'
   options: string[] | { label: string; value: any }[]
-  onChange: (value: any) => void
+  onChange?: (value: any) => void
   InputProps?: object
   // TODO: fix
   color?: any
@@ -37,7 +37,7 @@ export default function SelectField(props: SelectFieldProps) {
       size={props.size || 'small'}
       InputProps={props.InputProps}
       disabled={props.disabled}
-      onChange={(ev) => props.onChange((ev.target as any).value)}
+      onChange={(ev) => props.onChange && props.onChange((ev.target as any).value)}
       color={props.color}
       focused={props.focused}
       onFocus={onFocus}

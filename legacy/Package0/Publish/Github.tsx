@@ -216,7 +216,6 @@ export default function Github(props: GithubProps) {
               variant="contained"
               size="small"
               aria-label="publish selected right"
-              color="secondary"
             >
               Publish
             </Button>

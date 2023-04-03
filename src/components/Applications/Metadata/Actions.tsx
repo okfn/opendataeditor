@@ -1,30 +1,23 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import DownloadIcon from '@mui/icons-material/Download'
 import MenuIcon from '@mui/icons-material/Menu'
 import CodeIcon from '@mui/icons-material/Code'
-import DefaultButton from '../../Parts/Buttons/DefaultButton'
+import IconButton from '../../Parts/Buttons/IconButton'
 import ImportButton from '../../Parts/Buttons/ImportButton'
+import ActionsBar from '../../Parts/Bars/Actions'
 import Columns from '../../Parts/Columns'
 import { useStore } from './store'
 
 export default function Actions() {
-  // TODO: instead of 63px use proper calculation: theme.spacing(8) - 1px
   return (
-    <Box
-      sx={{
-        borderTop: 'solid 1px #ddd',
-        lineHeight: '63px',
-        paddingX: 2,
-      }}
-    >
+    <ActionsBar>
       <Columns spacing={2}>
         <Menu />
         <Import />
         <Export />
         <Preview />
       </Columns>
-    </Box>
+    </ActionsBar>
   )
 }
 
@@ -32,11 +25,13 @@ function Menu() {
   const editor = useStore((state) => state.editor)
   const updateState = useStore((state) => state.updateState)
   return (
-    <DefaultButton
-      disabled={!editor}
-      icon={<MenuIcon fontSize="small" sx={{ mr: 1 }} />}
+    <IconButton
       label="Menu"
+      Icon={MenuIcon}
+      disabled={!editor}
+      variant="outlined"
       onClick={() => updateState({ editor: undefined })}
+      sx={{ backgroundColor: 'white' }}
     />
   )
 }
@@ -44,18 +39,26 @@ function Menu() {
 function Import() {
   const editor = useStore((state) => state.editor)
   const importDescriptor = useStore((state) => state.importDescriptor)
-  return <ImportButton disabled={!editor} onImport={(value) => importDescriptor(value)} />
+  return (
+    <ImportButton
+      disabled={!editor}
+      onImport={(value) => importDescriptor(value)}
+      sx={{ backgroundColor: 'white' }}
+    />
+  )
 }
 
 function Export() {
   const editor = useStore((state) => state.editor)
   const exportDescriptor = useStore((state) => state.exportDescriptor)
   return (
-    <DefaultButton
+    <IconButton
       label="Export"
+      Icon={DownloadIcon}
+      variant="outlined"
       disabled={!editor}
-      icon={<DownloadIcon fontSize="small" sx={{ mr: 1 }} />}
       onClick={exportDescriptor}
+      sx={{ backgroundColor: 'white' }}
     />
   )
 }
@@ -65,12 +68,14 @@ function Preview() {
   const isPreview = useStore((state) => state.isPreview)
   const updateState = useStore((state) => state.updateState)
   return (
-    <DefaultButton
+    <IconButton
       label="Preview"
+      Icon={CodeIcon}
+      variant="outlined"
       disabled={!editor}
-      color={isPreview ? 'warning' : 'info'}
-      icon={<CodeIcon fontSize="small" sx={{ mr: 1 }} />}
+      color={isPreview ? 'warning' : undefined}
       onClick={() => updateState({ isPreview: !isPreview })}
+      sx={{ backgroundColor: 'white' }}
     />
   )
 }

@@ -41,7 +41,7 @@ function ContentFile() {
   }
   if (file.type === 'package') Controller = Package
   if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
-  return <Controller client={client} file={file} />
+  return <Controller file={file} client={client} />
 }
 
 function ContentEmpty() {
