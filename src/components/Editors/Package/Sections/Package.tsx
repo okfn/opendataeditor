@@ -16,11 +16,13 @@ export default function Package() {
           <Name />
           <Title />
           <Description />
+          <Keywords />
         </Box>
         <Box>
           <Homepage />
           <Version />
           <Created />
+          <Image />
         </Box>
       </Columns>
     </EditorSection>
@@ -71,11 +73,13 @@ function Description() {
 
 function Homepage() {
   const homepage = useStore((state) => state.descriptor.homepage)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Homepage"
       value={homepage}
+      onFocus={() => updateHelp('package/homepage')}
       onChange={(homepage) => updateDescriptor({ homepage })}
     />
   )
@@ -83,23 +87,57 @@ function Homepage() {
 
 function Version() {
   const version = useStore((state) => state.descriptor.version)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Version"
       value={version}
+      onFocus={() => updateHelp('package/version')}
       onChange={(version) => updateDescriptor({ version })}
     />
   )
 }
 function Created() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <DatePickerField
       label="Created"
+      onFocus={() => updateHelp('package/created')}
       onChange={(value) => {
-        updateDescriptor({ created: value?.format('MM/DD/YYY') })
+        updateDescriptor({ created: value?.format('MM/DD/YYYY') })
       }}
+    />
+  )
+}
+
+function Keywords() {
+  const keywords = useStore((state) => state.descriptor.keywords)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Keywords"
+      value={keywords}
+      onFocus={() => updateHelp('package/keywords')}
+      onChange={(value) =>
+        updateDescriptor({ keywords: value ? value.split(',') : undefined })
+      }
+    />
+  )
+}
+
+function Image() {
+  const image = useStore((state) => state.descriptor.image)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Image"
+      value={image}
+      onFocus={() => updateHelp('package/image')}
+      onChange={(image) => updateDescriptor({ image })}
     />
   )
 }

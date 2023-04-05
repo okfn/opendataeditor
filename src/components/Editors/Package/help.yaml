@@ -3,15 +3,47 @@
 package:
   - Package
   - https://specs.frictionlessdata.io/data-package/
-  - A simple container format for describing a coherent collection of data in a single package. It provides the basis for convenient delivery, installation and management of datasets
+  - A simple container format for describing a coherent collection of data in a single package. It provides the basis for convenient delivery, installation and management of datasets.
+
+package/name:
+  - Name
+  - https://specs.frictionlessdata.io/data-package/#name
+  - Slugified the name of the package.
+
 package/title:
   - Title
-  - https://specs.frictionlessdata.io/data-package/#metadata-properties
+  - https://specs.frictionlessdata.io/data-package/#title
   - A human-readable title.
+
 package/description:
   - Description
-  - https://specs.frictionlessdata.io/data-package/#metadata-properties
+  - https://specs.frictionlessdata.io/data-package/#description
   - A description of the package. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+
+package/homepage:
+  - Homepage
+  - https://specs.frictionlessdata.io/data-package/#homepage
+  - A URL for the home on the web that is related to this data package.
+
+package/keywords:
+  - Keywords
+  - https://specs.frictionlessdata.io/data-package/#keywords
+  - An Array of string keywords to assist users searching for the package in catalogs.
+
+package/version:
+  - Version
+  - https://specs.frictionlessdata.io/data-package/#version
+  - A version string identifying the version of the package.
+
+package/created:
+  - Created
+  - https://specs.frictionlessdata.io/data-package/#created
+  - The datetime on which this was created.
+
+package/image:
+  - Image
+  - https://specs.frictionlessdata.io/data-package/#image
+  - An image to use for this data package.
 
 # Resources
 
@@ -25,9 +57,68 @@ resources:
 licenses:
   - Licenses
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - The license(s) under which the package is provided.
+  - The license(s) under which the resource is provided.
 
 licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - The name MUST be an Open Definition license ID
+  - The name MUST be an Open Definition license ID.
+
+licenses/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path
+
+licenses/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - A human-readable title.
+
+# Sources
+
+sources:
+  - Sources
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - The license(s) under which the resource is provided.
+
+sources/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - Title of the source (e.g. document or organization name).
+
+sources/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path.
+
+sources/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - An email address.
+
+# Contributors
+
+contributors:
+  - Contributors
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A name/title of the contributor (name for person, name/title of organization).
+
+contributors/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - Title of the source (e.g. document or organization name).
+
+contributors/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - An email address.
+
+contributors/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A fully qualified http URL pointing to a relevant location online for the contributor.
+
+contributors/role:
+  - Role
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A string describing the role of the contributor.

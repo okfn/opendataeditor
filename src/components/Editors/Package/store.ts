@@ -10,6 +10,8 @@ import { PackageProps } from './Package'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
+import { ISource } from '../../../interfaces/source'
+import { IContributor } from '../../../interfaces/contributor'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'package')!
 
@@ -47,6 +49,22 @@ interface State {
   updateLicense: (patch: Partial<ILicense>) => void
   removeLicense: (index: number) => void
   addLicense: () => void
+
+  // Sources
+
+  sourceState: ISectionState
+  updateSourceState: (patch: Partial<ISectionState>) => void
+  updateSource: (patch: Partial<ISource>) => void
+  removeSource: (index: number) => void
+  addSource: () => void
+
+  // Contributors
+
+  contributorState: ISectionState
+  updateContributorState: (patch: Partial<ISectionState>) => void
+  updateContributor: (patch: Partial<IContributor>) => void
+  removeContributor: (index: number) => void
+  addContributor: () => void
 }
 
 export function makeStore(props: PackageProps) {
@@ -137,6 +155,66 @@ export function makeStore(props: PackageProps) {
       licenses.push({ name: 'MIT' })
       updateDescriptor({ licenses })
     },
+
+    // Source
+
+    sourceState: {},
+    updateSourceState: (patch) => {
+      const { sourceState } = get()
+      set({ sourceState: { ...sourceState, ...patch } })
+    },
+    updateSource: (patch) => {
+      const { descriptor, sourceState, updateDescriptor } = get()
+      const index = sourceState.index!
+      const source = selectors.source(get())
+      const sources = descriptor.sources!
+      sources[index] = { ...source, ...patch }
+      updateDescriptor({ sources })
+    },
+    removeSource: (index) => {
+      const { descriptor, updateDescriptor, updateSourceState } = get()
+      const sources = [...(descriptor.sources || [])]
+      sources.splice(index, 1)
+      updateSourceState({ index: undefined, isExtras: false })
+      updateDescriptor({ sources })
+    },
+    // TODO: scroll to newly created source
+    addSource: () => {
+      const { descriptor, updateDescriptor } = get()
+      const sources = [...(descriptor.sources || [])]
+      sources.push({ title: 'Source0' })
+      updateDescriptor({ sources })
+    },
+
+    // Contributor
+
+    contributorState: {},
+    updateContributorState: (patch) => {
+      const { contributorState } = get()
+      set({ contributorState: { ...contributorState, ...patch } })
+    },
+    updateContributor: (patch) => {
+      const { descriptor, contributorState, updateDescriptor } = get()
+      const index = contributorState.index!
+      const contributor = selectors.contributor(get())
+      const contributors = descriptor.contributors!
+      contributors[index] = { ...contributor, ...patch }
+      updateDescriptor({ contributors })
+    },
+    removeContributor: (index) => {
+      const { descriptor, updateDescriptor, updateContributorState } = get()
+      const contributors = [...(descriptor.contributors || [])]
+      contributors.splice(index, 1)
+      updateContributorState({ index: undefined, isExtras: false })
+      updateDescriptor({ contributors })
+    },
+    // TODO: scroll to newly created contributor
+    addContributor: () => {
+      const { descriptor, updateDescriptor } = get()
+      const contributors = [...(descriptor.contributors || [])]
+      contributors.push({ title: 'Contributor0' })
+      updateDescriptor({ contributors })
+    },
   }))
 }
 
@@ -177,6 +255,44 @@ export const selectors = {
     for (const [index, license] of (state.descriptor.licenses || []).entries()) {
       if (query && !license.name.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ index, license })
+    }
+    return items
+  },
+
+  // Sources
+
+  source: (state: State) => {
+    const index = state.sourceState.index!
+    const sources = state.descriptor.sources!
+    const source = sources[index]!
+    return source
+  },
+  sourceItems: (state: State) => {
+    const items = []
+    const query = state.sourceState.query
+    for (const [index, source] of (state.descriptor.sources || []).entries()) {
+      if (query && !source.title.toLowerCase().includes(query.toLowerCase())) continue
+      items.push({ index, source })
+    }
+    return items
+  },
+
+  // Contributors
+
+  contributor: (state: State) => {
+    const index = state.contributorState.index!
+    const contributors = state.descriptor.contributors!
+    const contributor = contributors[index]!
+    return contributor
+  },
+  contributorItems: (state: State) => {
+    const items = []
+    const query = state.contributorState.query
+    for (const [index, contributor] of (state.descriptor.contributors || []).entries()) {
+      if (query && !contributor.title.toLowerCase().includes(query.toLowerCase())) {
+        continue
+      }
+      items.push({ index, contributor })
     }
     return items
   },
