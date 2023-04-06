@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import PreviewPanel from './Panels/Preview'
 import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
 import Dialog from './Dialog'
 import Editor from './Editor'
 import Menu from './Menu'
+import Panel from './Panel'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
@@ -30,20 +30,7 @@ export default function Content() {
         <ScrollBox height={contentHeight}>
           <Editor />
         </ScrollBox>
-        <Box
-          hidden={!panel}
-          sx={{
-            overflowY: 'hidden',
-            height: theme.spacing(48),
-            border: 'solid 3px #000',
-            padding: 2,
-            backgroundColor: '#333',
-            color: '#eee',
-            fontSize: '80%',
-          }}
-        >
-          {panel === 'preview' && <PreviewPanel />}
-        </Box>
+        <Panel />
         <Actions />
       </Box>
     </React.Fragment>
