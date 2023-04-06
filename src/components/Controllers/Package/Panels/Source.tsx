@@ -2,7 +2,7 @@ import * as React from 'react'
 import Preview from '../../../Parts/Preview'
 import { useStore } from '../store'
 
-export default function PreviewPanel() {
+export default function SourcePanel() {
   const revision = useStore((state) => state.revision)
   const modified = useStore((state) => state.modified)
   if (!modified) return null

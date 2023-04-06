@@ -25,8 +25,8 @@ export default function Resource() {
     client.fileList().then(({ items }) => {
       const paths = []
       for (const item of items) {
-        if (!['table', 'file', 'text', 'chart', 'json'].includes(item.type)) continue
         if (existentPaths.includes(item.path)) continue
+        if (item.type === 'package') continue
         paths.push(item.path)
       }
       setPaths(paths)

@@ -12,7 +12,7 @@ import * as helpers from '../../../helpers'
 export interface State {
   file: IFile
   client: Client
-  panel?: 'preview'
+  panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   original?: object
   modified?: object

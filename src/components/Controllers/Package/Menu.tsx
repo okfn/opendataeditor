@@ -8,16 +8,18 @@ export default function Menu() {
   const clear = useStore((state) => state.clear)
   return (
     <MenuBar
-      items={['report', 'preview', 'clear']}
+      items={['metadata', 'report', 'source', 'clear']}
       colors={{
-        preview: panel === 'preview' ? 'warning' : undefined,
+        metadata: panel === 'metadata' ? 'warning' : undefined,
+        source: panel === 'source' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
       }}
-      onClear={clear}
-      onPreview={() =>
-        updateState({ panel: panel !== 'preview' ? 'preview' : undefined })
+      onMetadata={() =>
+        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
       }
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+      onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+      onClear={clear}
     />
   )
 }

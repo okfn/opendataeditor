@@ -2,7 +2,7 @@ import * as React from 'react'
 import Table from '../../Editors/Table'
 import { useStore } from './store'
 
-export default function Content() {
+export default function Editor() {
   const table = useStore((state) => state.table)
   const path = useStore((state) => state.file.path)
   const report = useStore((state) => state.file.record?.report)

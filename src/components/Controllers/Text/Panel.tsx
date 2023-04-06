@@ -1,32 +1,28 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
-import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
-// TODO: rewrite
-export default function Panel() {
+export default function Layout() {
   const theme = useTheme()
   const panel = useStore((state) => state.panel)
   return (
     <Box
       hidden={!panel}
       sx={{
-        padding: 2,
+        overflowY: 'auto',
         height: theme.spacing(48),
-        borderTop: 'solid 1px #ddd',
-        border: panel === 'source' ? 'solid 3px #000' : undefined,
-        overflowY: panel === 'source' ? 'hidden' : undefined,
-        backgroundColor: panel === 'source' ? '#333' : undefined,
-        color: panel === 'source' ? '#eee' : undefined,
-        fontSize: panel === 'source' ? '80%' : undefined,
+        borderTop: 1,
+        borderColor: 'divider',
+        padding: 2,
       }}
     >
       {panel === 'metadata' && <MetadataPanel />}
-      {panel === 'source' && <SourcePanel />}
       {panel === 'report' && <ReportPanel />}
+      {panel === 'source' && <SourcePanel />}
     </Box>
   )
 }

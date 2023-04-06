@@ -3,7 +3,7 @@ import { VegaLite } from 'react-vega'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
-export default function Content() {
+export default function Editor() {
   const chart = useStore((state) => state.chart)
   return (
     <Box sx={{ mt: 2 }}>

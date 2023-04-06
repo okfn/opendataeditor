@@ -17,7 +17,6 @@ export type MenuBarItem =
   | 'minify'
   | 'prettify'
   | 'metadata'
-  | 'preview'
   | 'source'
   | 'report'
   | 'errors'
@@ -31,7 +30,6 @@ export interface MenuBarProps {
   onMinify?: () => void
   onPrettify?: () => void
   onMetadata?: () => void
-  onPreview?: () => void
   onSource?: () => void
   onReport?: () => void
   onErrors?: () => void
@@ -55,17 +53,17 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
-  const Preview = () => {
-    if (!props.items?.includes('preview')) return null
+  const Report = () => {
+    if (!props.items?.includes('report')) return null
     return (
       <IconButton
         small
         variant="text"
-        label={props.labels?.preview || 'Preview'}
-        Icon={CodeIcon}
-        color={props.colors?.preview}
-        disabled={!props.onPreview}
-        onClick={() => props.onPreview!()}
+        label={props.labels?.report || 'Report'}
+        Icon={RuleIcon}
+        color={props.colors?.report}
+        disabled={!props.onReport}
+        onClick={() => props.onReport!()}
       />
     )
   }
@@ -81,21 +79,6 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.source}
         disabled={!props.onSource}
         onClick={() => props.onSource!()}
-      />
-    )
-  }
-
-  const Report = () => {
-    if (!props.items?.includes('report')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.report || 'Report'}
-        Icon={RuleIcon}
-        color={props.colors?.report}
-        disabled={!props.onReport}
-        onClick={() => props.onReport!()}
       />
     )
   }
@@ -179,9 +162,8 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <Stack direction="row" spacing={1}>
         <Metadata />
-        <Preview />
-        <Source />
         <Report />
+        <Source />
         <Errors />
         <Fix />
         <Minify />

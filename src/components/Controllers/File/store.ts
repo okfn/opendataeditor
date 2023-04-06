@@ -11,7 +11,7 @@ import { FileProps } from './File'
 export interface State {
   file: IFile
   client: Client
-  panel?: 'metadata'
+  panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   revision: number
   original?: ArrayBuffer

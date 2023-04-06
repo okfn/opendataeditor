@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-import ConfigPanel from './Panels/Config'
 import Actions from './Actions'
-import Content from './Content'
+import Editor from './Editor'
 import Menu from './Menu'
+import Panel from './Panel'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -22,19 +22,9 @@ export default function Layout() {
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
         <Box sx={{ height: contentHeight }}>
-          <Content />
+          <Editor />
         </Box>
-        <Box
-          sx={{
-            overflowY: 'auto',
-            height: theme.spacing(48),
-            borderTop: 1,
-            borderColor: 'divider',
-            paddingX: 2,
-          }}
-        >
-          <ConfigPanel />
-        </Box>
+        <Panel />
         <Actions />
       </Box>
     </React.Fragment>

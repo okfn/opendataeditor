@@ -6,8 +6,7 @@ import SourcePanel from './Panels/Source'
 import { useTheme } from '@mui/material/styles'
 import { useStore } from './store'
 
-// TODO: rewrite
-export default function Panel() {
+export default function Content() {
   const theme = useTheme()
   const panel = useStore((state) => state.panel)
   return (
@@ -25,8 +24,8 @@ export default function Panel() {
       }}
     >
       {panel === 'metadata' && <MetadataPanel />}
-      {panel === 'source' && <SourcePanel />}
       {panel === 'report' && <ReportPanel />}
+      {panel === 'source' && <SourcePanel />}
     </Box>
   )
 }

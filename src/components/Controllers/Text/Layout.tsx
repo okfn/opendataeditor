@@ -2,11 +2,11 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import ScrollBox from '../../Parts/ScrollBox'
-import MetadataPanel from './Panels/Metadata'
 import Actions from './Actions'
 import Editor from './Editor'
 import Dialog from './Dialog'
 import Menu from './Menu'
+import Panel from './Panel'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -28,18 +28,7 @@ export default function Layout() {
         <ScrollBox height={contentHeight}>
           <Editor />
         </ScrollBox>
-        <Box
-          hidden={!panel}
-          sx={{
-            overflowY: 'auto',
-            height: theme.spacing(48),
-            borderTop: 1,
-            borderColor: 'divider',
-            paddingX: 2,
-          }}
-        >
-          {panel === 'metadata' && <MetadataPanel />}
-        </Box>
+        <Panel />
         <Actions />
       </Box>
     </React.Fragment>
