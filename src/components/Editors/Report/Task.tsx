@@ -25,9 +25,12 @@ export default function Task(props: TaskProps) {
                 <strong>{splitTableFile.base}</strong>
                 <strong>{splitTableFile.sep}</strong>
                 <strong>{splitTableFile.name}</strong>
+                <strong>&nbsp;({task.valid ? 'valid' : 'invalid'})</strong>
               </span>
             ) : (
-              <strong>{task.name}</strong>
+              <strong>
+                {task.name} ({task.valid ? 'valid' : 'invalid'})
+              </strong>
             )}
             {!task.valid && (
               <span
