@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import MetadataPanel from './Panels/Metadata'
-import ErrorsPanel from './Panels/Errors'
+import ReportPanel from './Panels/Report'
 import ChangesPanel from './Panels/Changes'
 import SourcePanel from './Panels/Source'
 import Actions from './Actions'
@@ -44,7 +44,7 @@ export default function Layout() {
           }}
         >
           {panel === 'metadata' && <MetadataPanel />}
-          {panel === 'errors' && <ErrorsPanel />}
+          {panel === 'report' && <ReportPanel />}
           {panel === 'changes' && <ChangesPanel />}
           {panel === 'source' && <SourcePanel />}
         </Box>

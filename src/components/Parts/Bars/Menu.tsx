@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
+import RuleIcon from '@mui/icons-material/Rule'
 import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
@@ -18,6 +19,7 @@ export type MenuBarItem =
   | 'metadata'
   | 'preview'
   | 'source'
+  | 'report'
   | 'errors'
 
 export interface MenuBarProps {
@@ -31,6 +33,7 @@ export interface MenuBarProps {
   onMetadata?: () => void
   onPreview?: () => void
   onSource?: () => void
+  onReport?: () => void
   onErrors?: () => void
 }
 
@@ -82,6 +85,21 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
+  const Report = () => {
+    if (!props.items?.includes('report')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.report || 'Report'}
+        Icon={RuleIcon}
+        color={props.colors?.report}
+        disabled={!props.onReport}
+        onClick={() => props.onReport!()}
+      />
+    )
+  }
+
   const Errors = () => {
     if (!props.items?.includes('errors')) return null
     return (
@@ -96,6 +114,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       />
     )
   }
+
   const Fix = () => {
     if (!props.items?.includes('fix')) return null
     return (
@@ -162,6 +181,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         <Metadata />
         <Preview />
         <Source />
+        <Report />
         <Errors />
         <Fix />
         <Minify />
