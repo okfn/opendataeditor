@@ -28,7 +28,6 @@ function Source() {
         language={language}
         onChange={(text) => updateState({ modified: text })}
         onMount={(ref) => {
-          console.log(ref)
           // @ts-ignore
           editor.current = ref
         }}

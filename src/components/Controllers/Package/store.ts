@@ -54,6 +54,7 @@ export function makeStore(props: PackageProps) {
     },
     save: async (path) => {
       const { file, client, modified } = get()
+      console.log(modified)
       await client.jsonWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
