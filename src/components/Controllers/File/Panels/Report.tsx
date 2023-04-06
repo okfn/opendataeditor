@@ -5,9 +5,6 @@ import { useStore } from '../store'
 
 export default function ReportPanel() {
   const report = useStore((state) => state.file.record?.report)
-  console.log('report')
-  console.log(report)
-  console.log('report')
   if (!report) return null
   return (
     <Box sx={{ paddingX: 2 }}>

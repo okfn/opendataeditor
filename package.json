@@ -6,8 +6,8 @@
   "author": "Frictionless Data",
   "homepage": "https://frictionlessdata.io",
   "main": "lib/application.js",
-  "engines" : {
-    "node" : "^16.0.0"
+  "engines": {
+    "node": "^16.0.0"
   },
   "files": [
     "dist",
