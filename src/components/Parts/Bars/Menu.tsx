@@ -165,10 +165,10 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         <Report />
         <Source />
         <Errors />
+        <Clear />
         <Fix />
         <Minify />
         <Prettify />
-        <Clear />
         {props.children}
       </Stack>
     )
