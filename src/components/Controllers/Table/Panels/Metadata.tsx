@@ -3,14 +3,14 @@ import Resource from '../../../Editors/Resource'
 import { useStore } from '../store'
 
 export default function MetadataPanel() {
-  const file = useStore((state) => state.file)
-  const updateResource = useStore((state) => state.updateResource)
-  if (!file.record) return null
+  const resource = useStore((state) => state.resource)
+  const updateState = useStore((state) => state.updateState)
+  if (!resource) return null
   return (
     <Resource
       isShallow
-      resource={file.record.resource}
-      onChange={(resource) => updateResource(resource)}
+      resource={resource}
+      onChange={(resource) => updateState({ resource })}
     />
   )
 }
