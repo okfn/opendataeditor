@@ -10,7 +10,7 @@ export default function Menu() {
     <MenuBar
       items={['metadata', 'report', 'source', 'clear']}
       colors={{
-        metadata: 'warning',
+        metadata: 'info',
         source: panel === 'source' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
       }}
