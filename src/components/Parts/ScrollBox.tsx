@@ -1,9 +1,7 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 
-interface ScrollBoxProps {
-  height?: string
-}
+interface ScrollBoxProps extends BoxProps {}
 
 export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>) {
   return (
@@ -28,6 +26,7 @@ export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>
           background: '#555',
         },
       }}
+      {...props}
     >
       {props.children}
     </Box>

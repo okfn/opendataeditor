@@ -14,13 +14,8 @@ export default function Panel() {
     <Box
       hidden={!panel}
       sx={{
-        padding: 2,
         height: theme.spacing(48),
         borderTop: 'solid 1px #ddd',
-        border: panel === 'source' ? 'solid 3px #000' : undefined,
-        overflowY: panel === 'source' ? 'hidden' : undefined,
-        backgroundColor: panel === 'source' ? '#333' : undefined,
-        color: panel === 'source' ? '#eee' : undefined,
         fontSize: panel === 'source' ? '80%' : undefined,
       }}
     >
