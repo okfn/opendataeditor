@@ -40,11 +40,13 @@ function Target() {
   const rendered = useStore((state) => state.rendered)
   if (!rendered) return null
   return (
-    <iframe
-      height="98%"
-      width="100%"
-      style={{ border: 0, margin: 0, padding: 0, borderLeft: 'solid 1px #ddd' }}
-      srcDoc={rendered}
-    ></iframe>
+    <Box sx={{ paddingX: 2, borderLeft: 'solid 1px #ddd', height: '100%' }}>
+      <iframe
+        height="98%"
+        width="100%"
+        style={{ border: 0, margin: 0, padding: 0 }}
+        srcDoc={rendered}
+      ></iframe>
+    </Box>
   )
 }
