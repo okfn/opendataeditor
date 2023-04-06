@@ -4,7 +4,7 @@ import { useStore } from './store'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
-  const setPanel = useStore((state) => state.setPanel)
+  const updateState = useStore((state) => state.updateState)
   return (
     <MenuBar
       items={['metadata', 'source', 'report']}
@@ -13,9 +13,11 @@ export default function Menu() {
         source: panel === 'source' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
       }}
-      onMetadata={() => setPanel(panel !== 'metadata' ? 'metadata' : undefined)}
-      onSource={() => setPanel(panel !== 'source' ? 'source' : undefined)}
-      onReport={() => setPanel(panel !== 'report' ? 'report' : undefined)}
+      onMetadata={() =>
+        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+      }
+      onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+      onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
     />
   )
 }

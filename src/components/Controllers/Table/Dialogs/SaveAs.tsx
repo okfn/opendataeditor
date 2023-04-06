@@ -18,17 +18,17 @@ import Cancel from '@mui/icons-material/Cancel'
 import Download from '@mui/icons-material/Download'
 import ButtonContent from '../../../Parts/ButtonContent'
 
-export default function ExportDialog() {
+export default function SaveAsDialog() {
   const [name, setName] = React.useState('')
   const [format, setFormat] = React.useState('csv')
   const dialog = useStore((state) => state.dialog)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   const exportTable = useStore((state) => state.exportTable)
   const downloadTable = useStore((state) => state.downloadTable)
   const onExport = useStore((state) => state.onExport)
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
-  const handleCancel = () => setDialog(undefined)
+  const handleCancel = () => updateState({ dialog: undefined })
   const handleDownload = async () => {
     const { bytes, path } = await downloadTable(name, format)
     if (bytes) {
@@ -49,7 +49,7 @@ export default function ExportDialog() {
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog.startsWith('export/')}
+      open={dialog === 'saveAs'}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"

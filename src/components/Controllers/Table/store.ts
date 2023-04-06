@@ -1,4 +1,3 @@
-import noop from 'lodash/noop'
 import * as React from 'react'
 import * as zustand from 'zustand'
 import cloneDeep from 'lodash/cloneDeep'
@@ -9,9 +8,6 @@ import { Client } from '../../../client'
 import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
 import { TableProps } from './Table'
 
-type IPanel = 'metadata' | 'report' | 'changes' | 'source'
-type IDialog = 'export/table'
-
 export interface State {
   client: Client
   file: IFile
@@ -19,21 +15,11 @@ export interface State {
   table?: ITable
   source?: string
   selectedColumn?: number
-  panel?: IPanel
-  dialog?: IDialog
-  resource: IResource
-  revision: number
-  setPanel: (panel?: IPanel) => void
   loadTable: () => Promise<void>
   loadSource: () => Promise<void>
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
-  commitPatch: () => void
-  revertPatch: () => void
   exportTable: (name: string, format: string) => Promise<string>
-  importTable?: () => void
-  updateResource: (resource: IResource) => Promise<void>
   updateColumn: (selectedColumn: number) => void
-  setDialog: (dialog?: IDialog) => void
   downloadTable: (
     name: string,
     format: string
@@ -41,7 +27,12 @@ export interface State {
   onExport: (path: string) => void
 
   // Version 2
+  panel?: 'metadata' | 'report' | 'changes' | 'source'
+  dialog?: 'saveAs'
+  resource: IResource
+  revision: number
   updateState: (patch: Partial<State>) => void
+  updateResource: (resource: IResource) => Promise<void>
   revert: () => void
   save: () => Promise<void>
 }
@@ -49,14 +40,10 @@ export interface State {
 export function makeStore(props: TableProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     tablePatch: {},
 
     // General
 
-    setPanel: (panel) => set({ panel }),
     loadTable: async () => {
       const { client, file } = get()
       const { table } = await client.tableRead({ path: file.path })
@@ -72,13 +59,6 @@ export function makeStore(props: TableProps) {
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
     },
-    commitPatch: async () => {
-      const { client, file, tablePatch } = get()
-      const { path } = await client.tableWrite({ path: file.path, tablePatch })
-      console.log(path)
-      set({ tablePatch: {} })
-    },
-    revertPatch: () => set({ tablePatch: {} }),
     // TODO: implement
     exportTable: async (name, format) => {
       const { client, file } = get()
@@ -99,7 +79,6 @@ export function makeStore(props: TableProps) {
       await client.fileDelete({ path })
       return { bytes: bytes, path: path }
     },
-    importTable: noop,
     updateResource: async (resource) => {
       const { file, client } = get()
       await client.jsonWrite({ path: file.path, data: resource })
@@ -107,9 +86,11 @@ export function makeStore(props: TableProps) {
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })
     },
-    setDialog: (dialog) => set({ dialog }),
 
     // Version 2
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
