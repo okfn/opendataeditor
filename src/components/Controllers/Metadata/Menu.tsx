@@ -10,13 +10,11 @@ export default function Menu() {
     <MenuBar
       items={['metadata', 'report', 'source', 'clear']}
       colors={{
-        metadata: panel === 'metadata' ? 'warning' : undefined,
+        metadata: 'warning',
         report: panel === 'report' ? 'warning' : undefined,
         source: panel === 'source' ? 'warning' : undefined,
       }}
-      onMetadata={() =>
-        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
-      }
+      onMetadata={() => {}}
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onClear={clear}

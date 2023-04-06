@@ -24,7 +24,7 @@ export type MenuBarItem =
 export interface MenuBarProps {
   items?: MenuBarItem[]
   labels?: { [key in MenuBarItem]?: 'string' | undefined }
-  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | undefined }
+  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | 'info' | undefined }
   onClear?: () => void
   onFix?: () => void
   onMinify?: () => void
