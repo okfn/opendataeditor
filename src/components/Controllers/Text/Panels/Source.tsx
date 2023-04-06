@@ -7,7 +7,7 @@ export default function SourcePanel() {
   const modified = useStore((state) => state.modified)
   if (!modified) return null
   return (
-    <Box sx={{ paddingY: 2, overflowY: 'auto' }}>
+    <Box sx={{ padding: 2 }}>
       <Code source={modified} />
     </Box>
   )

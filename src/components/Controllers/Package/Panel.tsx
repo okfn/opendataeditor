@@ -16,7 +16,6 @@ export default function Panel() {
       sx={{
         height: theme.spacing(48),
         borderTop: 'solid 1px #ddd',
-        fontSize: panel === 'source' ? '80%' : undefined,
       }}
     >
       {panel === 'metadata' && <MetadataPanel />}
