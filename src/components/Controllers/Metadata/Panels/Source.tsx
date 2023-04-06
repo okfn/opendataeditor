@@ -8,7 +8,7 @@ export default function SourcePanel() {
   const modified = useStore((state) => state.modified)
   if (!modified) return null
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 2, fontSize: '80%' }}>
       <Preview format="json" descriptor={modified || {}} revision={revision} />
     </Box>
   )

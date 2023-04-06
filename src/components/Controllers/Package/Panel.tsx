@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
+import ScrollBox from '../../Parts/ScrollBox'
 import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
@@ -11,16 +11,14 @@ export default function Panel() {
   const theme = useTheme()
   const panel = useStore((state) => state.panel)
   return (
-    <Box
+    <ScrollBox
       hidden={!panel}
-      sx={{
-        height: theme.spacing(48),
-        borderTop: 'solid 1px #ddd',
-      }}
+      height={theme.spacing(48)}
+      sx={{ borderTop: 'solid 1px #ddd' }}
     >
       {panel === 'metadata' && <MetadataPanel />}
-      {panel === 'source' && <SourcePanel />}
       {panel === 'report' && <ReportPanel />}
-    </Box>
+      {panel === 'source' && <SourcePanel />}
+    </ScrollBox>
   )
 }

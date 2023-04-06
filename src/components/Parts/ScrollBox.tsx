@@ -4,6 +4,7 @@ import Box, { BoxProps } from '@mui/material/Box'
 interface ScrollBoxProps extends BoxProps {}
 
 export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>) {
+  const { sx, ...others } = props
   return (
     <Box
       sx={{
@@ -25,8 +26,9 @@ export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>
         '&::-webkit-scrollbar-thumb:hover': {
           background: '#555',
         },
+        ...(sx || {}),
       }}
-      {...props}
+      {...others}
     >
       {props.children}
     </Box>
