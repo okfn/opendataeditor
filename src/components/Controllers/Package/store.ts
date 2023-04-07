@@ -5,7 +5,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IPackage } from '../../../interfaces'
+import { IFile, IPackage, ICkanControl } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as helpers from '../../../helpers'
 
@@ -24,7 +24,15 @@ export interface State {
   save: (path?: string) => Promise<void>
 
   // Resources
+
   addResources: (paths: string[]) => Promise<void>
+
+  // Publish
+
+  control?: Partial<ICkanControl>
+  isPublishing?: boolean
+  updateControl: (patch: Partial<ICkanControl>) => void
+  publish: () => void
 }
 
 export function makeStore(props: PackageProps) {
@@ -72,6 +80,16 @@ export function makeStore(props: PackageProps) {
         }
       }
       updateState({ modified: { ...modified, resources } })
+    },
+
+    // Publish
+    updateControl: (patch) => {
+      const { control } = get()
+      set({ control: { ...control, ...patch } })
+    },
+    publish: async () => {
+      const { control } = get()
+      console.log(control)
     },
   }))
 }

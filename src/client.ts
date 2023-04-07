@@ -1,5 +1,5 @@
 import omit from 'lodash/omit'
-import { IPublish } from './interfaces'
+import { ICkanControl } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
 import { IFieldItem } from './interfaces'
@@ -138,9 +138,9 @@ export class Client {
     return result as { path: string }
   }
 
-  async projectPublish(props: { params: IPublish }) {
-    const result = await this.request('/project/publish-package', props)
-    return result as { content: any }
+  async packagePublish(props: { path: string; control: ICkanControl }) {
+    const result = await this.request('/package/publish', props)
+    return result as { path: string }
   }
 
   async packageWrite(props: { path: string; data: IPackage }) {
