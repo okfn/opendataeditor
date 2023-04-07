@@ -6,6 +6,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile } from '../../../interfaces'
+import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
 import * as helpers from '../../../helpers'
 
@@ -14,8 +15,8 @@ export interface State {
   client: Client
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
-  original?: object
-  modified?: object
+  original?: IResource | IDialect | ISchema
+  modified?: IResource | IDialect | ISchema
   revision: number
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
@@ -51,7 +52,8 @@ export function makeStore(props: MetadataProps) {
     },
     save: async (path) => {
       const { file, client, modified } = get()
-      await client.jsonWrite({ path: path || file.path, data: modified })
+      if (!modified) return
+      await client.metadataWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
   }))

@@ -3,7 +3,7 @@ import { IPublish } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
 import { IFieldItem } from './interfaces'
-import { IResource, IPackage } from './interfaces'
+import { IPackage, IResource, IDialect, ISchema } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -121,6 +121,13 @@ export class Client {
 
   async jsonWrite(props: { path: string; data: any }) {
     const result = await this.request('/json/write', props)
+    return result as { path: string }
+  }
+
+  // Metadata
+
+  async metadataWrite(props: { path: string; data: IResource | IDialect | ISchema }) {
+    const result = await this.request('/metadata/write', props)
     return result as { path: string }
   }
 
