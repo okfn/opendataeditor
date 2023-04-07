@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import DialogContent from '@mui/material/DialogContent'
 import CloseIcon from '@mui/icons-material/Close'
-import VerticalTabs from '../../../Parts/VerticalTabs'
+import VerticalTabs from '../../../Parts/Tabs/Vertical'
 // import { IPublish } from '../../../../interfaces/publish'
 import { useStore } from '../store'
 
@@ -52,7 +52,8 @@ export default function Publish() {
           }}
         >
           <VerticalTabs
-            labels={['CKAN', '_Github', '_Zenodo']}
+            labels={['CKAN', 'Github', 'Zenodo']}
+            disabledLabels={['Github', 'Zenodo']}
             index={0}
             onChange={onTabChange}
           >

@@ -4,14 +4,15 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 
-export interface VerticalTabsProps {
+export interface VtabsProps {
   index?: number
   labels: string[]
+  disabledLabels?: string[]
   children?: React.ReactNode
   onChange?: (index: number) => void
 }
 
-export default function VerticalTabs(props: VerticalTabsProps) {
+export default function Vtabs(props: VtabsProps) {
   let [value, setValue] = React.useState(props.index || 0)
   // TODO: it's a hack; rebase on normal controlled/uncontrolled
   if (props.index !== undefined) value = props.index
@@ -39,7 +40,12 @@ export default function VerticalTabs(props: VerticalTabsProps) {
         }}
       >
         {props.labels.map((label, index) => (
-          <Tab key={label} label={label} {...a11yProps(index)} />
+          <Tab
+            key={label}
+            label={label}
+            disabled={(props.disabledLabels || []).includes(label)}
+            {...a11yProps(index)}
+          />
         ))}
       </Tabs>
       {React.Children.map(props.children, (child, index) => (
