@@ -95,10 +95,9 @@ export function makeStore(props: PackageProps) {
       const control = selectors.control(get())
       if (!control) return
       set({ isPublishing: true })
-      const { path } = await client.packagePublish({ path: file.path, control })
-      set({ isPublishing: false })
-      // TODO: remove debug
-      console.log('Published to:', path)
+      // TODO: show published path
+      await client.packagePublish({ path: file.path, control })
+      set({ isPublishing: false, dialog: undefined })
     },
   }))
 }

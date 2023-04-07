@@ -34,15 +34,13 @@ export default function Publish() {
           <Box>github</Box>
           <Box>zenodo</Box>
         </VerticalTabs>
-        <Box>
-          {isPublishing && (
-            <Box>
-              Publishing
-              <LinearProgress />
-            </Box>
-          )}
-        </Box>
       </DialogContent>
+      {isPublishing && (
+        <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
+          Publishing
+          <LinearProgress />
+        </Box>
+      )}
       <Box sx={{ padding: 2, borderTop: 'solid 1px #ddd', backgroundColor: '#fafafa' }}>
         <Columns spacing={2}>
           <IconButton
