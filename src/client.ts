@@ -3,7 +3,7 @@ import { IPublish } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
 import { IFieldItem } from './interfaces'
-import { IResource } from './interfaces'
+import { IResource, IPackage } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -134,6 +134,11 @@ export class Client {
   async projectPublish(props: { params: IPublish }) {
     const result = await this.request('/project/publish-package', props)
     return result as { content: any }
+  }
+
+  async packageWrite(props: { path: string; data: IPackage }) {
+    const result = await this.request('/package/write', props)
+    return result as { path: string }
   }
 
   // Project
