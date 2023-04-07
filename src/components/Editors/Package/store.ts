@@ -156,7 +156,7 @@ export function makeStore(props: PackageProps) {
       updateDescriptor({ licenses })
     },
 
-    // Source
+    // Sources
 
     sourceState: {},
     updateSourceState: (patch) => {
@@ -182,11 +182,11 @@ export function makeStore(props: PackageProps) {
     addSource: () => {
       const { descriptor, updateDescriptor } = get()
       const sources = [...(descriptor.sources || [])]
-      sources.push({ title: 'Source0' })
+      sources.push({ title: helpers.genTitle(sources, 'source') })
       updateDescriptor({ sources })
     },
 
-    // Contributor
+    // Contributors
 
     contributorState: {},
     updateContributorState: (patch) => {
@@ -212,7 +212,7 @@ export function makeStore(props: PackageProps) {
     addContributor: () => {
       const { descriptor, updateDescriptor } = get()
       const contributors = [...(descriptor.contributors || [])]
-      contributors.push({ title: 'Contributor0' })
+      contributors.push({ title: helpers.genTitle(contributors, 'contributor') })
       updateDescriptor({ contributors })
     },
   }))

@@ -14,11 +14,10 @@ export default function General() {
       <Columns spacing={3}>
         <Box>
           <Sheet />
-          <WorkBookCache />
           <FillMergedCells />
+          <PreserveFormatting />
         </Box>
         <Box>
-          <PreserveFormatting />
           <AdjustFloatingPointError />
           <Stringified />
         </Box>
@@ -36,23 +35,7 @@ function Sheet() {
       label="Sheet"
       value={sheet || settings.DEFAULT_SHEET}
       onFocus={() => updateHelp('excel/sheet')}
-      onChange={(sheet) => updateExcel({ sheet })}
-    />
-  )
-}
-
-function WorkBookCache() {
-  const workBookCache = useStore(
-    select(selectors.excel, (excel) => excel.workBookCache || '')
-  )
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateExcel = useStore((state) => state.updateExcel)
-  return (
-    <InputField
-      label="Workbook Cache"
-      value={workBookCache}
-      onFocus={() => updateHelp('excel/workBookCache')}
-      onChange={(workBookCache) => updateExcel({ workBookCache })}
+      onChange={(value) => updateExcel({ sheet: value || undefined })}
     />
   )
 }

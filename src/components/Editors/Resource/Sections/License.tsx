@@ -84,7 +84,7 @@ function Name() {
       label="Name"
       value={name}
       onFocus={() => updateHelp('licenses/name')}
-      onChange={(name) => updateLicense({ name })}
+      onChange={(value) => updateLicense({ name: value || 'name' })}
     />
   )
 }
@@ -112,7 +112,7 @@ function Path() {
       label="Path"
       value={path || ''}
       onFocus={() => updateHelp('licenses/path')}
-      onChange={(path) => updateLicense({ path })}
+      onChange={(value) => updateLicense({ path: value || undefined })}
     />
   )
 }

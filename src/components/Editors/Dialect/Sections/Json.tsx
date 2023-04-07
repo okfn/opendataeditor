@@ -33,7 +33,7 @@ function Keys() {
       label="Keys"
       value={keys}
       onFocus={() => updateHelp('json/keys')}
-      onChange={(keys) => updateJson({ keys })}
+      onChange={(value) => updateJson({ keys: value || undefined })}
     />
   )
 }
@@ -61,7 +61,7 @@ function Property() {
       label="Property"
       value={property}
       onFocus={() => updateHelp('json/property')}
-      onChange={(property) => updateJson({ property })}
+      onChange={(value) => updateJson({ property: value || undefined })}
     />
   )
 }

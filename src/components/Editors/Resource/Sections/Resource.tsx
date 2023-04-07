@@ -5,7 +5,7 @@ import SelectField from '../../../Parts/Fields/SelectField'
 import MultilineField from '../../../Parts/Fields/MultilineField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -44,7 +44,7 @@ function Name() {
       label="Name"
       value={name}
       onFocus={() => updateHelp('resource/name')}
-      onChange={(name) => updateDescriptor({ name })}
+      onChange={(value) => updateDescriptor({ name: value || 'name' })}
     />
   )
 }
@@ -101,7 +101,7 @@ function Path() {
       label="Path"
       value={path}
       onFocus={() => updateHelp('resource/path')}
-      onChange={(path) => updateDescriptor({ path })}
+      onChange={(value) => updateDescriptor({ path: value || 'path' })}
     />
   )
 }
@@ -115,7 +115,7 @@ function Scheme() {
       label="Scheme"
       value={scheme || ''}
       onFocus={() => updateHelp('resource/scheme')}
-      onChange={(scheme) => updateDescriptor({ scheme })}
+      onChange={(value) => updateDescriptor({ scheme: value || undefined })}
     />
   )
 }
@@ -129,7 +129,7 @@ function Format() {
       label="Format"
       value={format || ''}
       onFocus={() => updateHelp('resource/format')}
-      onChange={(format) => updateDescriptor({ format })}
+      onChange={(value) => updateDescriptor({ format: value || undefined })}
     />
   )
 }
@@ -143,13 +143,13 @@ function Encoding() {
       label="Encoding"
       value={encoding || ''}
       onFocus={() => updateHelp('resource/encoding')}
-      onChange={(encoding) => updateDescriptor({ encoding })}
+      onChange={(value) => updateDescriptor({ encoding: value || undefined })}
     />
   )
 }
 
 function MediaType() {
-  const mediatype = useStore((state) => state.descriptor.mediatype)
+  const mediatype = useStore(selectors.mediaType)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
@@ -157,7 +157,7 @@ function MediaType() {
       label="Media Type"
       value={mediatype || ''}
       onFocus={() => updateHelp('resource/mediaType')}
-      onChange={(mediatype) => updateDescriptor({ mediatype })}
+      onChange={(value) => updateDescriptor({ mediatype: value || undefined })}
     />
   )
 }

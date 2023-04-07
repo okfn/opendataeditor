@@ -2,6 +2,7 @@ import { ISchema } from './schema'
 import { IDialect } from './dialect'
 import { ILicense } from './license'
 import { ISource } from './source'
+import { IContributor } from './contributor'
 
 export interface IResource {
   name: string
@@ -21,4 +22,5 @@ export interface IResource {
   fields?: number
   rows?: number
   sources?: ISource[]
+  contributors?: IContributor[]
 }

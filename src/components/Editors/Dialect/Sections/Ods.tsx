@@ -28,7 +28,7 @@ function Sheet() {
       label="Sheet"
       value={sheet || settings.DEFAULT_SHEET}
       onFocus={() => updateHelp('ods/sheet')}
-      onChange={(sheet) => updateOds({ sheet })}
+      onChange={(value) => updateOds({ sheet: value || undefined })}
     />
   )
 }

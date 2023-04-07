@@ -80,7 +80,7 @@ function Homepage() {
       label="Homepage"
       value={homepage}
       onFocus={() => updateHelp('package/homepage')}
-      onChange={(homepage) => updateDescriptor({ homepage })}
+      onChange={(value) => updateDescriptor({ homepage: value || undefined })}
     />
   )
 }
@@ -94,7 +94,7 @@ function Version() {
       label="Version"
       value={version}
       onFocus={() => updateHelp('package/version')}
-      onChange={(version) => updateDescriptor({ version })}
+      onChange={(value) => updateDescriptor({ version: value || undefined })}
     />
   )
 }
@@ -137,7 +137,7 @@ function Image() {
       label="Image"
       value={image}
       onFocus={() => updateHelp('package/image')}
-      onChange={(image) => updateDescriptor({ image })}
+      onChange={(value) => updateDescriptor({ image: value || undefined })}
     />
   )
 }

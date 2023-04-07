@@ -98,7 +98,7 @@ function Path() {
       label="Path"
       value={path || ''}
       onFocus={() => updateHelp('sources/path')}
-      onChange={(path) => updateSource({ path })}
+      onChange={(value) => updateSource({ path: value || undefined })}
     />
   )
 }

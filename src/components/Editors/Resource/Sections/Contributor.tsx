@@ -95,7 +95,7 @@ function Title() {
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('contributors/title')}
-      onChange={(title) => updateContributor({ title })}
+      onChange={(value) => updateContributor({ title: value })}
     />
   )
 }
@@ -111,7 +111,7 @@ function Email() {
       label="Email"
       value={email || ''}
       onFocus={() => updateHelp('contributors/email')}
-      onChange={(value) => updateContributor({ email: value })}
+      onChange={(value) => updateContributor({ email: value || undefined })}
     />
   )
 }
@@ -125,7 +125,7 @@ function Path() {
       label="Path"
       value={path || ''}
       onFocus={() => updateHelp('contributors/path')}
-      onChange={(path) => updateContributor({ path })}
+      onChange={(value) => updateContributor({ path: value || undefined })}
     />
   )
 }
@@ -139,7 +139,7 @@ function Role() {
       label="Role"
       value={role || ''}
       onFocus={() => updateHelp('contributors/role')}
-      onChange={(role) => updateContributor({ role })}
+      onChange={(value) => updateContributor({ role: value || undefined })}
     />
   )
 }

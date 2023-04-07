@@ -7,6 +7,8 @@ import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
+import { useTheme } from '@mui/material/styles'
+import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function License() {
   const index = useStore((state) => state.licenseState.index)
@@ -14,12 +16,14 @@ export default function License() {
 }
 
 function LicenseList() {
+  const theme = useTheme()
   const isGrid = useStore((state) => state.licenseState.isGrid)
   const query = useStore((state) => state.licenseState.query)
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const addLicense = useStore((state) => state.addLicense)
   const removeLicense = useStore((state) => state.removeLicense)
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="license"
@@ -34,18 +38,20 @@ function LicenseList() {
         />
       }
     >
-      {licenseItems.map(({ index, license }) => (
-        <EditorListItem
-          key={index}
-          index={index}
-          kind="license"
-          name={license.name}
-          type="license"
-          isGrid={isGrid}
-          onClick={() => updateLicenseState({ index })}
-          onRemoveClick={() => removeLicense(index)}
-        />
-      ))}
+      <ScrollBox height={contentHeight}>
+        {licenseItems.map(({ index, license }) => (
+          <EditorListItem
+            key={index}
+            index={index}
+            kind="license"
+            name={license.name}
+            type="license"
+            isGrid={isGrid}
+            onClick={() => updateLicenseState({ index })}
+            onRemoveClick={() => removeLicense(index)}
+          />
+        ))}
+      </ScrollBox>
     </EditorList>
   )
 }

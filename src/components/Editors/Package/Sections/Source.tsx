@@ -7,6 +7,8 @@ import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
+import { useTheme } from '@mui/material/styles'
+import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function Source() {
   const index = useStore((state) => state.sourceState.index)
@@ -14,12 +16,14 @@ export default function Source() {
 }
 
 function SourceList() {
+  const theme = useTheme()
   const isGrid = useStore((state) => state.sourceState.isGrid)
   const query = useStore((state) => state.sourceState.query)
   const sourceItems = useStore(selectors.sourceItems)
   const updateSourceState = useStore((state) => state.updateSourceState)
   const addSource = useStore((state) => state.addSource)
   const removeSource = useStore((state) => state.removeSource)
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="source"
@@ -34,18 +38,20 @@ function SourceList() {
         />
       }
     >
-      {sourceItems.map(({ index, source }) => (
-        <EditorListItem
-          key={index}
-          index={index}
-          kind="source"
-          name={source.title}
-          type="source"
-          isGrid={isGrid}
-          onClick={() => updateSourceState({ index })}
-          onRemoveClick={() => removeSource(index)}
-        />
-      ))}
+      <ScrollBox height={contentHeight}>
+        {sourceItems.map(({ index, source }) => (
+          <EditorListItem
+            key={index}
+            index={index}
+            kind="source"
+            name={source.title}
+            type="source"
+            isGrid={isGrid}
+            onClick={() => updateSourceState({ index })}
+            onRemoveClick={() => removeSource(index)}
+          />
+        ))}
+      </ScrollBox>
     </EditorList>
   )
 }

@@ -103,3 +103,17 @@ export function getFolderList(file: File) {
     : []
   return folderList
 }
+
+export function genTitle(items: any[], suffix: string = '') {
+  let i = 0
+  let exists = true
+  let title: string
+  while (true) {
+    title = `${suffix}${i}`
+    exists =
+      items.filter((item) => item.title === title || item.name === title).length > 0
+    if (!exists) break
+    i++
+  }
+  return title
+}
