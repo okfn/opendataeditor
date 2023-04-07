@@ -29,7 +29,8 @@ export interface State {
 
   // Publish
 
-  control?: Partial<ICkanControl>
+  controlType: string
+  ckanControl?: Partial<ICkanControl>
   isPublishing?: boolean
   updateControl: (patch: Partial<ICkanControl>) => void
   publish: () => void
@@ -83,13 +84,21 @@ export function makeStore(props: PackageProps) {
     },
 
     // Publish
+    controlType: 'ckan',
     updateControl: (patch) => {
-      const { control } = get()
-      set({ control: { ...control, ...patch } })
+      const { ckanControl } = get()
+      set({ ckanControl: { ...ckanControl, ...patch } })
     },
+    // TODO: handle errors
     publish: async () => {
-      const { control } = get()
-      console.log(control)
+      const { file, client } = get()
+      const control = selectors.control(get())
+      if (!control) return
+      set({ isPublishing: true })
+      const { path } = await client.packagePublish({ path: file.path, control })
+      set({ isPublishing: false })
+      // TODO: remove debug
+      console.log('Published to:', path)
     },
   }))
 }
@@ -98,6 +107,20 @@ export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
     return state.revision > 0
+  },
+
+  // Publish
+
+  control: (state: State) => {
+    let control
+    if (state.controlType === 'ckan') {
+      control = { ...state.ckanControl, type: 'ckan' }
+      if (!control.baseurl) return
+      if (!control.dataset) return
+      if (!control.apikey) return
+      return control as ICkanControl
+    }
+    return undefined
   },
 }
 

@@ -21,7 +21,7 @@ export default function CkanSection() {
 
 function Baseurl() {
   const updateControl = useStore((state) => state.updateControl)
-  const baseurl = useStore((state) => state.control?.baseurl)
+  const baseurl = useStore((state) => state.ckanControl?.baseurl)
   return (
     <InputField
       required
@@ -34,7 +34,7 @@ function Baseurl() {
 
 function Dataset() {
   const updateControl = useStore((state) => state.updateControl)
-  const dataset = useStore((state) => state.control?.dataset)
+  const dataset = useStore((state) => state.ckanControl?.dataset)
   return (
     <InputField
       required
@@ -47,7 +47,7 @@ function Dataset() {
 
 function Apikey() {
   const updateControl = useStore((state) => state.updateControl)
-  const apikey = useStore((state) => state.control?.apikey)
+  const apikey = useStore((state) => state.ckanControl?.apikey)
   return (
     <InputField
       required
@@ -60,7 +60,7 @@ function Apikey() {
 
 function AllowUpdate() {
   const updateControl = useStore((state) => state.updateControl)
-  const allowUpdate = useStore((state) => state.control?.allowUpdate)
+  const allowUpdate = useStore((state) => state.ckanControl?.allowUpdate)
   return (
     <YesNoField
       label="Allow Update"

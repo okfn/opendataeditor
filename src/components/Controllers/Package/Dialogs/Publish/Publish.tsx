@@ -10,11 +10,12 @@ import VerticalTabs from '../../../../Parts/Tabs/Vertical'
 import IconButton from '../../../../Parts/Buttons/IconButton'
 import Columns from '../../../../Parts/Columns'
 import CkanSection from './Ckan'
-import { useStore } from '../../store'
+import { useStore, selectors } from '../../store'
 
 export default function Publish() {
   const dialog = useStore((state) => state.dialog)
   const publish = useStore((state) => state.publish)
+  const control = useStore(selectors.control)
   const isPublishing = useStore((state) => state.isPublishing)
   const updateState = useStore((state) => state.updateState)
   const handleCancel = () => updateState({ dialog: undefined })
@@ -52,6 +53,7 @@ export default function Publish() {
             Icon={CancelIcon}
           />
           <IconButton
+            disabled={!control}
             label="Publish"
             onClick={handlePublish}
             variant="contained"
