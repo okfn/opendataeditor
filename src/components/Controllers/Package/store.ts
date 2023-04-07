@@ -13,7 +13,7 @@ export interface State {
   file: IFile
   client: Client
   panel?: 'metadata' | 'report' | 'source'
-  dialog?: 'saveAs' | 'resource'
+  dialog?: 'saveAs' | 'resource' | 'publish'
   original?: IPackage
   modified?: IPackage
   revision: number

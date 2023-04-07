@@ -36,7 +36,7 @@ export default function Resource() {
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog === 'resource'}
+      open={dialog === 'resource'}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
