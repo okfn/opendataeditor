@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
 import Dialog from '@mui/material/Dialog'
 import LinearProgress from '@mui/material/LinearProgress'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -17,8 +18,9 @@ export default function Publish() {
   const publish = useStore((state) => state.publish)
   const control = useStore(selectors.control)
   const isPublishing = useStore((state) => state.isPublishing)
+  const publishedPath = useStore((state) => state.publishedPath)
   const updateState = useStore((state) => state.updateState)
-  const handleCancel = () => updateState({ dialog: undefined })
+  const handleCancel = () => updateState({ publishedPath: undefined, dialog: undefined })
   const handlePublish = () => publish()
   return (
     <Dialog open={dialog === 'publish'}>
@@ -41,10 +43,19 @@ export default function Publish() {
           <LinearProgress />
         </Box>
       )}
+      {!!publishedPath && (
+        <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
+          Published:{' '}
+          <Link href={publishedPath} target="_blank">
+            {publishedPath}
+          </Link>
+        </Box>
+      )}
       <Box sx={{ padding: 2, borderTop: 'solid 1px #ddd', backgroundColor: '#fafafa' }}>
         <Columns spacing={2}>
           <IconButton
             label="Cancel"
+            disabled={!!publishedPath}
             onClick={handleCancel}
             variant="contained"
             color="warning"
@@ -52,8 +63,8 @@ export default function Publish() {
           />
           <IconButton
             disabled={!control}
-            label="Publish"
-            onClick={handlePublish}
+            label={publishedPath ? 'OK' : 'Publish'}
+            onClick={publishedPath ? handleCancel : handlePublish}
             variant="contained"
             Icon={CheckIcon}
           />

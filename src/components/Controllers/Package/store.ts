@@ -32,6 +32,7 @@ export interface State {
   controlType: string
   ckanControl?: Partial<ICkanControl>
   isPublishing?: boolean
+  publishedPath?: string
   updateControl: (patch: Partial<ICkanControl>) => void
   publish: () => void
 }
@@ -95,9 +96,8 @@ export function makeStore(props: PackageProps) {
       const control = selectors.control(get())
       if (!control) return
       set({ isPublishing: true })
-      // TODO: show published path
-      await client.packagePublish({ path: file.path, control })
-      set({ isPublishing: false, dialog: undefined })
+      const { path } = await client.packagePublish({ path: file.path, control })
+      set({ isPublishing: false, publishedPath: path })
     },
   }))
 }

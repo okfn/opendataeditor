@@ -18,7 +18,7 @@ export default function Layout() {
       <StyledInputBase
         readOnly
         inputProps={{ 'aria-label': 'search' }}
-        value={file ? file.path : 'Data management application for browser and desktop'}
+        value={file ? file.path : 'Data management for humans'}
       />
       {file && (
         <InformationWrapper>

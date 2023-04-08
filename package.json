@@ -2,7 +2,7 @@
   "name": "@frictionlessdata/application",
   "version": "0.1.6",
   "license": "MIT",
-  "description": "Frictionless Application",
+  "description": "Data management for humans",
   "author": "Frictionless Data",
   "homepage": "https://frictionlessdata.io",
   "main": "lib/application.js",
