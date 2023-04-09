@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
+import { IFieldItem } from '../../../interfaces'
 import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface ChartProps {
-  chart?: object
+  fields?: IFieldItem[]
   onChange?: (chart: object) => void
 }
 

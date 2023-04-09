@@ -13,6 +13,7 @@ export interface ITargetOption {
   name: string
   type: string
   paths: string[]
+  values?: { label: string; value: any }[]
 }
 
 export abstract class Preset<Options extends IPresetOptions> {

@@ -1,12 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import InputField from '../../../Parts/Fields/InputField'
-import YesNoField from '../../../Parts/Fields/YesNoField'
-import MultilineField from '../../../Parts/Fields/MultilineField'
+// import InputField from '../../../Parts/Fields/InputField'
+import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
-import * as settings from '../../../../settings'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
+import * as settings from '../settings'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -24,29 +23,32 @@ export default function Chart() {
 }
 
 function Table() {
-  const title = useStore((state) => state.descriptor.title)
+  const table = useStore((state) => state.table)
+  const tables = useStore(selectors.tables)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const updateState = useStore((state) => state.updateState)
   return (
-    <InputField
-      label="Title"
-      value={title || ''}
-      onFocus={() => updateHelp('dialect/title')}
-      onChange={(value) => updateDescriptor({ title: value || undefined })}
+    <SelectField
+      label="Table"
+      value={table || ''}
+      options={Object.keys(tables)}
+      onFocus={() => updateHelp('chart/table')}
+      onChange={(value) => updateState({ table: value || undefined })}
     />
   )
 }
 
 function Preset() {
-  const description = useStore((state) => state.descriptor.description)
+  const preset = useStore((state) => state.preset)
   const updateHelp = useStore((state) => state.updateHelp)
-  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const updateState = useStore((state) => state.updateState)
   return (
-    <MultilineField
-      label="Description"
-      value={description || ''}
-      onFocus={() => updateHelp('dialect/description')}
-      onChange={(value) => updateDescriptor({ description: value || undefined })}
+    <SelectField
+      label="Preset"
+      value={preset || ''}
+      options={settings.PRESETS.map((item) => item.title)}
+      onFocus={() => updateHelp('chart/preset')}
+      onChange={(value) => updateState({ preset: value || undefined })}
     />
   )
 }
