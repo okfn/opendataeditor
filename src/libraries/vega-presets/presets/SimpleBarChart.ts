@@ -1,11 +1,11 @@
 import * as preset from '../preset'
 
-export interface PresetProps extends preset.PresetProps {
+export interface IPresetOptions extends preset.IPresetOptions {
   x: string
   y: string
 }
 
-export default class Preset extends preset.Preset<PresetProps> {
+export default class Preset extends preset.Preset<IPresetOptions> {
   source = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     description: 'A simple bar chart with embedded data.',
@@ -30,7 +30,7 @@ export default class Preset extends preset.Preset<PresetProps> {
   }
 
   target = {
-    fields: [
+    options: [
       {
         name: 'x',
         type: 'string',

@@ -1,24 +1,38 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
+import noop from 'lodash/noop'
+import { createStore } from 'zustand/vanilla'
+import { IHelpItem } from '../../../interfaces'
 import { ChartProps } from './Chart'
-import { IChart, ITreeItem } from '../../../interfaces'
-import * as helpers from './helpers'
+import * as helpers from '../../../helpers'
+import help from './help.yaml'
 
-export interface State {
-  chart: IChart
-  fieldTree?: ITreeItem[]
+const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
-  // General
+interface State {
+  descriptor: object
+  onChange: (chart: object) => void
+  helpItem: IHelpItem
+  updateHelp: (path: string) => void
+  updateDescriptor: (patch: Partial<object>) => void
 }
 
 export function makeStore(props: ChartProps) {
-  return createStore<State>((_set, _get) => ({
-    chart: props.chart || { query: '' },
-    fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
-
-    // General
+  return createStore<State>((set, get) => ({
+    descriptor: props.chart || {},
+    onChange: props.onChange || noop,
+    helpItem: DEFAULT_HELP_ITEM,
+    updateHelp: (path) => {
+      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      set({ helpItem })
+    },
+    updateDescriptor: (patch) => {
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
+      onChange(descriptor)
+      set({ descriptor })
+    },
   }))
 }
 

@@ -1,37 +1,37 @@
 import jsonpath from 'jsonpath'
 import cloneDeep from 'lodash/cloneDeep'
 
-export interface PresetProps {
+export interface IPresetOptions {
   data: object
 }
 
 export interface ITarget {
-  fields: ITargetField[]
+  options: ITargetOption[]
 }
 
-export interface ITargetField {
+export interface ITargetOption {
   name: string
   type: string
   paths: string[]
 }
 
-export abstract class Preset<Props extends PresetProps> {
+export abstract class Preset<Options extends IPresetOptions> {
   abstract source: any
   abstract target: ITarget
-  props: Props
+  options: Options
 
-  constructor(props: Props) {
-    this.props = props
+  constructor(options: Options) {
+    this.options = options
   }
 
   toVegaLite() {
     const chart = cloneDeep(this.source)
-    chart.data = this.props.data
-    for (const field of this.target.fields) {
-      for (const path of field.paths) {
+    chart.data = this.options.data
+    for (const option of this.target.options) {
+      for (const path of option.paths) {
         jsonpath.apply(chart, path, () => {
           // @ts-ignore
-          return this.props[field.name]
+          return this.options[option.name]
         })
       }
     }

@@ -4,3 +4,7 @@ export interface IChart {
   weight?: number
   // TODO: complete
 }
+
+export interface IChartSource {
+  table: string
+}
