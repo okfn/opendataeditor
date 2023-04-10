@@ -14,7 +14,7 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 interface State {
   table?: string
   preset?: string
-  options: object
+  options: { [key: string]: any }
   fields: IFieldItem[]
   onChange: (chart: object) => void
   helpItem: IHelpItem
@@ -44,6 +44,19 @@ export const selectors = {
     const tables: { [name: string]: string } = {}
     for (const field of state.fields) tables[field.tableName] = field.tablePath
     return tables
+  },
+  stringFields: (state: State) => {
+    return state.fields
+      .filter((item) => item.tablePath === state.table && item.type === 'string')
+      .map((item) => item.name)
+  },
+  numberFields: (state: State) => {
+    return state.fields
+      .filter(
+        (item) =>
+          item.tablePath === state.table && ['number', 'integer'].includes(item.type)
+      )
+      .map((item) => item.name)
   },
 }
 

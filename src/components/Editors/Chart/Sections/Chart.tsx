@@ -16,7 +16,9 @@ export default function Chart() {
           <Table />
           <Preset />
         </Box>
-        <Box></Box>
+        <Box>
+          <Options />
+        </Box>
       </Columns>
     </EditorSection>
   )
@@ -31,7 +33,7 @@ function Table() {
     <SelectField
       label="Table"
       value={table || ''}
-      options={Object.keys(tables)}
+      options={Object.values(tables)}
       onFocus={() => updateHelp('chart/table')}
       onChange={(value) => updateState({ table: value || undefined })}
     />
@@ -46,9 +48,36 @@ function Preset() {
     <SelectField
       label="Preset"
       value={preset || ''}
-      options={settings.PRESETS.map((item) => item.title)}
+      options={Object.keys(settings.PRESETS)}
       onFocus={() => updateHelp('chart/preset')}
       onChange={(value) => updateState({ preset: value || undefined })}
     />
+  )
+}
+
+function Options() {
+  // @ts-ignore
+  const Preset = useStore((state) => settings.PRESETS[state.preset])
+  const options = useStore((state) => state.options)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateState = useStore((state) => state.updateState)
+  const stringFields = useStore(selectors.stringFields)
+  const numberFields = useStore(selectors.numberFields)
+  if (!Preset) return null
+  return (
+    <React.Fragment>
+      {Preset.target.options.map((option: any) => (
+        <SelectField
+          label={option.label}
+          key={option.name}
+          value={options[option.name] || ''}
+          options={option.type === 'string' ? stringFields : numberFields}
+          onFocus={() => updateHelp('chart/options')}
+          onChange={(value) =>
+            updateState({ options: { ...options, [option.name]: value } })
+          }
+        />
+      ))}
+    </React.Fragment>
   )
 }

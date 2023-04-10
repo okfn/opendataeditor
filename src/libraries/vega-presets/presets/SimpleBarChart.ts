@@ -6,7 +6,7 @@ export interface IPresetOptions extends preset.IPresetOptions {
 }
 
 export default class Preset extends preset.Preset<IPresetOptions> {
-  source = {
+  static source = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     description: 'A simple bar chart with embedded data.',
     data: {
@@ -29,16 +29,18 @@ export default class Preset extends preset.Preset<IPresetOptions> {
     },
   }
 
-  target = {
+  static target = {
     options: [
       {
         name: 'x',
         type: 'string',
+        label: 'Field X',
         paths: ['$.encoding.x.field'],
       },
       {
         name: 'y',
         type: 'number',
+        label: 'Field Y',
         paths: ['$.encoding.y.field'],
       },
     ],

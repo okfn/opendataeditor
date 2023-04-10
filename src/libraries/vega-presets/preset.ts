@@ -12,13 +12,14 @@ export interface ITarget {
 export interface ITargetOption {
   name: string
   type: string
+  label: string
   paths: string[]
   values?: { label: string; value: any }[]
 }
 
-export abstract class Preset<Options extends IPresetOptions> {
-  abstract source: any
-  abstract target: ITarget
+export class Preset<Options extends IPresetOptions> {
+  static source: any
+  static target: ITarget
   options: Options
 
   constructor(options: Options) {
@@ -26,9 +27,9 @@ export abstract class Preset<Options extends IPresetOptions> {
   }
 
   toVegaLite() {
-    const chart = cloneDeep(this.source)
+    const chart = cloneDeep((this.constructor as typeof Preset).source)
     chart.data = this.options.data
-    for (const option of this.target.options) {
+    for (const option of (this.constructor as typeof Preset).target.options) {
       for (const path of option.paths) {
         jsonpath.apply(chart, path, () => {
           // @ts-ignore
