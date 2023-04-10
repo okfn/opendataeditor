@@ -16,7 +16,7 @@ export default function Layout() {
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>
+    <Box sx={{ height: theme.spacing(26) }}>
       <Columns spacing={3} layout={[9, 3]}>
         <VerticalTabs
           labels={LABELS}

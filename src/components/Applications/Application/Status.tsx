@@ -10,6 +10,7 @@ export default function Status() {
   const updateState = useStore((state) => state.updateState)
   // TODO: review/rework
   // TODO: handle time when indexing happens
+  // TODO: if file is not selected show for the whole project
   const errorCount = file?.record?.report?.stats?.errors || 0
   return (
     <Container>
@@ -17,12 +18,10 @@ export default function Status() {
         <InputIcon />
       </Prefix>
       <Contents>{file ? file.path : 'Data management for humans'}</Contents>
-      {file && (
-        <Suffix>
-          <ChartChip onClick={() => updateState({ dialog: 'chart' })} />
-          <ValidationChip errorCount={errorCount} />
-        </Suffix>
-      )}
+      <Suffix>
+        <ChartChip onClick={() => updateState({ dialog: 'chart' })} />
+        <ValidationChip errorCount={errorCount} />
+      </Suffix>
     </Container>
   )
 }

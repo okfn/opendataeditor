@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
 import ChartController from '../../../Controllers/Chart'
 import { useStore } from '../store'
 
@@ -21,10 +20,10 @@ export default function ChartDialog() {
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
-      <DialogTitle id="dialog-title">Quick Chart</DialogTitle>
-      <DialogContent sx={{ py: 0 }}>
-        <ChartController file={file} client={client} />
-      </DialogContent>
+      <DialogTitle id="dialog-title" sx={{ backgroundColor: '#fafafa' }}>
+        Quick Chart
+      </DialogTitle>
+      <ChartController file={file} client={client} />
     </Dialog>
   )
 }
