@@ -2,7 +2,7 @@ import * as React from 'react'
 // import InputField from '../../../Parts/Fields/InputField'
 import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
-import { Registry } from '../../../../libraries/vega-presets/registry'
+import registry from '../../../../libraries/vega-presets/registry'
 import { useStore, selectors } from '../store'
 
 export default function Chart() {
@@ -40,7 +40,7 @@ function Preset() {
     <SelectField
       label="Preset"
       value={preset || ''}
-      options={Registry.listPresets().map((Preset) => Preset.type)}
+      options={registry.presets.map((preset) => preset.config.type)}
       onFocus={() => updateHelp('chart/preset')}
       onChange={(value) => updateState({ preset: value || undefined })}
     />
@@ -49,16 +49,16 @@ function Preset() {
 
 function Options() {
   // @ts-ignore
-  const Preset = useStore((state) => Registry.getPreset(state.preset))
+  const preset = useStore((state) => registry.getPreset(state.preset))
   const options = useStore((state) => state.options)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const stringFields = useStore(selectors.stringFields)
   const numberFields = useStore(selectors.numberFields)
-  if (!Preset) return null
+  if (!preset) return null
   return (
     <React.Fragment>
-      {Preset.target.options.map((option: any) => (
+      {preset.config.options.map((option) => (
         <SelectField
           label={option.label}
           key={option.name}

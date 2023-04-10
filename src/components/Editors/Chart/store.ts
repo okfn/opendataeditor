@@ -6,7 +6,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { IHelpItem, IFieldItem } from '../../../interfaces'
 import { ChartProps } from './Chart'
-import { Registry } from '../../../libraries/vega-presets/registry'
+import registry from '../../../libraries/vega-presets/registry'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 
@@ -33,16 +33,13 @@ export function makeStore(props: ChartProps) {
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
-      const { table, preset, options, onChange } = get()
+      const { table, preset: presetType, options, onChange } = get()
       if (!table) return
+      if (!presetType) return
+      const preset = registry.getPreset(presetType)
       if (!preset) return
-      // @ts-ignore
-      const Preset = Registry.getPreset(preset)
-      if (!Preset) return
-      for (const option of Preset.target.options) if (!(option.name in options)) return
-      // @ts-ignore
-      const presetObject = new Preset({ ...options, data: { url: table } })
-      const chart = presetObject.toVegaLite()
+      for (const option of preset.config.options) if (!(option.name in options)) return
+      const chart = preset.toVegaLite({ ...options, data: { url: table } })
       onChange(chart)
     },
     updateHelp: (path) => {

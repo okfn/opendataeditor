@@ -1,39 +1,32 @@
 import jsonpath from 'jsonpath'
 import cloneDeep from 'lodash/cloneDeep'
 
-export interface IPresetOptions {
+export interface PresetConfig {
+  type: string
+  group: string
+  title: string
+  image: string
+  source: any
+  options: {
+    name: string
+    type: string
+    label: string
+    paths: string[]
+    values?: { label: string; value: any }[]
+  }[]
+}
+
+export interface ChartConfig {
   data: object
 }
 
-export interface ITarget {
-  options: ITargetOption[]
-}
+export class Preset<Options extends ChartConfig = ChartConfig> {
+  constructor(public config: PresetConfig) {}
 
-export interface ITargetOption {
-  name: string
-  type: string
-  label: string
-  paths: string[]
-  values?: { label: string; value: any }[]
-}
-
-export class Preset<Options extends IPresetOptions> {
-  static type: string
-  static group: string
-  static title: string
-  static image: string
-  static source: any
-  static target: ITarget
-  options: Options
-
-  constructor(options: Options) {
-    this.options = options
-  }
-
-  toVegaLite() {
-    const chart = cloneDeep((this.constructor as typeof Preset).source)
-    chart.data = this.options.data
-    for (const option of (this.constructor as typeof Preset).target.options) {
+  toVegaLite(options: Options) {
+    const chart = cloneDeep(this.config.source)
+    chart.data = options.data
+    for (const option of this.config.options) {
       for (const path of option.paths) {
         jsonpath.apply(chart, path, () => {
           // @ts-ignore

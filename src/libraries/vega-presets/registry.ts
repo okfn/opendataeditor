@@ -1,27 +1,28 @@
+import { Group } from './group'
+import { Preset } from './preset'
+
 // Groups
-import BarCharts from './groups/BarCharts'
-import LineCharts from './groups/LineCharts'
+
+import barCharts from './groups/barCharts'
+import lineCharts from './groups/lineCharts'
+
 // Presets
-import LineChart from './presets/LineChart'
-import SimpleBarChart from './presets/SimpleBarChart'
 
-export class Registry {
-  static listGroups() {
-    return [BarCharts, LineCharts]
-  }
+import lineChart from './presets/lineChart'
+import simpleBarChart from './presets/simpleBarChart'
 
-  static listPresets() {
-    return [LineChart, SimpleBarChart]
-  }
+// State
 
-  static listPresetsInGroup(type: string) {
-    return this.listPresets().map((Preset) => Preset.group === type)
-  }
+const groups: Group[] = [barCharts, lineCharts]
+const presets: Preset[] = [lineChart, simpleBarChart]
 
-  static getPreset(type: string) {
-    for (const Preset of this.listPresets()) {
-      if (Preset.type === type) return Preset
-    }
-    return undefined
+// Logic
+
+function getPreset(type: string) {
+  for (const preset of presets) {
+    if (preset.config.type === type) return preset
   }
+  return undefined
 }
+
+export default { groups, presets, getPreset }
