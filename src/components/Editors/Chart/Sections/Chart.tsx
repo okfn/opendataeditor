@@ -1,9 +1,7 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 // import InputField from '../../../Parts/Fields/InputField'
 import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
-import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
 import * as settings from '../settings'
 
@@ -11,15 +9,9 @@ export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Chart" onHeadingClick={() => updateHelp('chart')}>
-      <Columns spacing={3}>
-        <Box>
-          <Table />
-          <Preset />
-        </Box>
-        <Box>
-          <Options />
-        </Box>
-      </Columns>
+      <Table />
+      <Preset />
+      <Options />
     </EditorSection>
   )
 }
