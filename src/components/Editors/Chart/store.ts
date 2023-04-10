@@ -7,6 +7,7 @@ import { createSelector } from 'reselect'
 import { IHelpItem, IFieldItem } from '../../../interfaces'
 import { ChartProps } from './Chart'
 import * as helpers from '../../../helpers'
+import * as settings from './settings'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
@@ -23,13 +24,23 @@ interface State {
 }
 
 export function makeStore(props: ChartProps) {
-  return createStore<State>((set, _get) => ({
+  return createStore<State>((set, get) => ({
     options: {},
     fields: props.fields || [],
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
+      const { table, preset, options, onChange } = get()
+      if (!table) return
+      if (!preset) return
+      // @ts-ignore
+      const Preset = settings.PRESETS[preset]
+      if (!Preset) return
+      for (const option of Preset.target.options) if (!(option.name in options)) return
+      const presetObject = new Preset({ ...options, data: { url: table } })
+      const chart = presetObject.toVegaLite()
+      onChange(chart)
     },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
