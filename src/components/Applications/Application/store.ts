@@ -10,9 +10,7 @@ export interface State {
   client: Client
   file?: IFile
   fileItemAdded?: boolean
-
-  // General
-
+  dialog?: 'view' | 'chart'
   countFiles: () => Promise<number>
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
