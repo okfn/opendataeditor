@@ -1,6 +1,6 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
-import { IFileItem, IFieldItem, ITreeItem, IHelp, IHelpItem } from './interfaces'
+import { IFileItem, ITreeItem, IHelp, IHelpItem } from './interfaces'
 import * as settings from './settings'
 
 export function readHelpItem(help: IHelp, path: string): IHelpItem | null {

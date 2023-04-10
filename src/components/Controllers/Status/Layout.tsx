@@ -3,6 +3,7 @@ import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
 import InputBase from '@mui/material/InputBase'
 import ValidationChip from '../../Parts/Chips/Validation'
+import ChartChip from '../../Parts/Chips/Chart'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -22,6 +23,7 @@ export default function Layout() {
       />
       {file && (
         <InformationWrapper>
+          <ChartChip onClick={console.log} />
           <ValidationChip errorCount={errorCount} />
         </InformationWrapper>
       )}
