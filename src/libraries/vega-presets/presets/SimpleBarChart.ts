@@ -6,9 +6,11 @@ export interface IPresetOptions extends preset.IPresetOptions {
 }
 
 export default class Preset extends preset.Preset<IPresetOptions> {
+  static type = 'simple-bar-chart'
+  static title = 'Simple Bar Chart'
+  static image = 'https://github.com/vega/vega-lite/raw/main/examples/compiled/bar.png'
   static source = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    description: 'A simple bar chart with embedded data.',
     data: {
       values: [
         { a: 'A', b: 28 },

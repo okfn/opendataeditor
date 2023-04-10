@@ -1,1 +1,1 @@
-export { Preset, PresetProps } from './preset'
+export { Preset, IPresetOptions } from './preset'
