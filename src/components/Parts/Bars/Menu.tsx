@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
+import RuleIcon from '@mui/icons-material/Rule'
 import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
@@ -16,21 +17,21 @@ export type MenuBarItem =
   | 'minify'
   | 'prettify'
   | 'metadata'
-  | 'preview'
   | 'source'
+  | 'report'
   | 'errors'
 
 export interface MenuBarProps {
   items?: MenuBarItem[]
   labels?: { [key in MenuBarItem]?: 'string' | undefined }
-  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | undefined }
+  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | 'info' | undefined }
   onClear?: () => void
   onFix?: () => void
   onMinify?: () => void
   onPrettify?: () => void
   onMetadata?: () => void
-  onPreview?: () => void
   onSource?: () => void
+  onReport?: () => void
   onErrors?: () => void
 }
 
@@ -52,17 +53,17 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
-  const Preview = () => {
-    if (!props.items?.includes('preview')) return null
+  const Report = () => {
+    if (!props.items?.includes('report')) return null
     return (
       <IconButton
         small
         variant="text"
-        label={props.labels?.preview || 'Preview'}
-        Icon={CodeIcon}
-        color={props.colors?.preview}
-        disabled={!props.onPreview}
-        onClick={() => props.onPreview!()}
+        label={props.labels?.report || 'Report'}
+        Icon={RuleIcon}
+        color={props.colors?.report}
+        disabled={!props.onReport}
+        onClick={() => props.onReport!()}
       />
     )
   }
@@ -96,6 +97,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
       />
     )
   }
+
   const Fix = () => {
     if (!props.items?.includes('fix')) return null
     return (
@@ -160,13 +162,13 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     return (
       <Stack direction="row" spacing={1}>
         <Metadata />
-        <Preview />
+        <Report />
         <Source />
         <Errors />
+        <Clear />
         <Fix />
         <Minify />
         <Prettify />
-        <Clear />
         {props.children}
       </Stack>
     )

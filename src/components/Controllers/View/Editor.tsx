@@ -5,7 +5,7 @@ import Table from '../../Editors/Table'
 import { IReport } from '../../../interfaces'
 import { useStore } from './store'
 
-export default function Content() {
+export default function Editor() {
   const error = useStore((state) => state.error)
   const table = useStore((state) => state.table)
 

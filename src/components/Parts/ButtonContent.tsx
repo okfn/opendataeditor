@@ -5,6 +5,7 @@ interface ButtonContentProps {
   icon: React.ElementType
 }
 
+// TODO: replace by IconButton
 export default function ButtonContent(props: ButtonContentProps) {
   const { icon: Icon, label } = props
   return (

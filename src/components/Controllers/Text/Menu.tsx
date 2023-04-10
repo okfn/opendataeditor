@@ -10,15 +10,21 @@ export default function Menu() {
   const minify = useStore((state) => state.minify)
   const prettify = useStore((state) => state.prettify)
   const updateState = useStore((state) => state.updateState)
-  const items: MenuBarItem[] = ['clear', 'metadata']
+  const items: MenuBarItem[] = ['metadata', 'report', 'source', 'clear']
   if (language === 'json') items.push('fix', 'minify', 'prettify')
   return (
     <MenuBar
       items={items}
-      colors={{ metadata: panel === 'metadata' ? 'warning' : undefined }}
+      colors={{
+        metadata: panel === 'metadata' ? 'warning' : undefined,
+        report: panel === 'report' ? 'warning' : undefined,
+        source: panel === 'source' ? 'warning' : undefined,
+      }}
       onMetadata={() =>
         updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
       }
+      onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+      onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onClear={clear}
       onFix={fix}
       onMinify={minify}

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import VerticalTabs from '../../Parts/VerticalTabs'
+import VerticalTabs from '../../Parts/Tabs/Vertical'
 import General from './General'
 import Layer from './Layer'
 import { useTheme } from '@mui/material/styles'

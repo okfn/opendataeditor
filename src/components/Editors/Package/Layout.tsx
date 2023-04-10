@@ -3,11 +3,11 @@ import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import InputAdornment from '@mui/material/InputAdornment'
-import Tabs from '../../Parts/Tabs'
-import Columns from '../../Parts/Columns'
-import VerticalTabs from '../../Parts/VerticalTabs'
+import HorizontalTabs from '../../Parts/Tabs/Horizontal'
+import VerticalTabs from '../../Parts/Tabs/Vertical'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
 import SelectField from '../../Parts/Fields/SelectField'
+import Columns from '../../Parts/Columns'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
@@ -63,7 +63,7 @@ function Groups() {
   const updateState = useStore((state) => state.updateState)
   const updateResource = useStore((state) => state.updateResource)
   return (
-    <Tabs
+    <HorizontalTabs
       index={tabIndex}
       labels={['Package', 'Resource', 'Dialect', 'Schema']}
       disabledLabels={!resource ? ['Resource', 'Dialect', 'Schema'] : []}
@@ -90,7 +90,7 @@ function Groups() {
           onChange={(schema) => updateResource({ schema })}
         />
       )}
-    </Tabs>
+    </HorizontalTabs>
   )
 }
 

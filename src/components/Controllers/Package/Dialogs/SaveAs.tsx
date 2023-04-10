@@ -27,7 +27,7 @@ export default function SaveAsDialog() {
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog === 'saveAs'}
+      open={dialog === 'saveAs'}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"

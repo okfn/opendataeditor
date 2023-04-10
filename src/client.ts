@@ -1,9 +1,9 @@
 import omit from 'lodash/omit'
-import { IPublish } from './interfaces'
+import { ICkanControl } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
 import { IFieldItem } from './interfaces'
-import { IResource } from './interfaces'
+import { IPackage, IResource, IDialect, ISchema } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -124,6 +124,13 @@ export class Client {
     return result as { path: string }
   }
 
+  // Metadata
+
+  async metadataWrite(props: { path: string; data: IResource | IDialect | ISchema }) {
+    const result = await this.request('/metadata/write', props)
+    return result as { path: string }
+  }
+
   // Package
 
   async packageCreate() {
@@ -131,9 +138,14 @@ export class Client {
     return result as { path: string }
   }
 
-  async projectPublish(props: { params: IPublish }) {
-    const result = await this.request('/project/publish-package', props)
-    return result as { content: any }
+  async packagePublish(props: { path: string; control: ICkanControl }) {
+    const result = await this.request('/package/publish', props)
+    return result as { path: string }
+  }
+
+  async packageWrite(props: { path: string; data: IPackage }) {
+    const result = await this.request('/package/write', props)
+    return result as { path: string }
   }
 
   // Project

@@ -11,6 +11,7 @@ export default function Actions() {
     <ActionsBar
       isUpdated={isUpdated}
       onSaveAs={() => updateState({ dialog: 'saveAs' })}
+      onPublish={() => updateState({ dialog: 'publish' })}
       onRevert={revert}
       onSave={save}
     />

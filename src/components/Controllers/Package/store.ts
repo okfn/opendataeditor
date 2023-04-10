@@ -5,15 +5,15 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IPackage } from '../../../interfaces'
+import { IFile, IPackage, ICkanControl } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as helpers from '../../../helpers'
 
 export interface State {
   file: IFile
   client: Client
-  panel?: 'preview'
-  dialog?: 'saveAs' | 'resource'
+  panel?: 'metadata' | 'report' | 'source'
+  dialog?: 'saveAs' | 'resource' | 'publish'
   original?: IPackage
   modified?: IPackage
   revision: number
@@ -24,7 +24,17 @@ export interface State {
   save: (path?: string) => Promise<void>
 
   // Resources
+
   addResources: (paths: string[]) => Promise<void>
+
+  // Publish
+
+  controlType: string
+  ckanControl?: Partial<ICkanControl>
+  isPublishing?: boolean
+  publishedPath?: string
+  updateControl: (patch: Partial<ICkanControl>) => void
+  publish: () => void
 }
 
 export function makeStore(props: PackageProps) {
@@ -54,7 +64,8 @@ export function makeStore(props: PackageProps) {
     },
     save: async (path) => {
       const { file, client, modified } = get()
-      await client.jsonWrite({ path: path || file.path, data: modified })
+      if (!modified) return
+      await client.packageWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
 
@@ -72,6 +83,22 @@ export function makeStore(props: PackageProps) {
       }
       updateState({ modified: { ...modified, resources } })
     },
+
+    // Publish
+    controlType: 'ckan',
+    updateControl: (patch) => {
+      const { ckanControl } = get()
+      set({ ckanControl: { ...ckanControl, ...patch } })
+    },
+    // TODO: handle errors
+    publish: async () => {
+      const { file, client } = get()
+      const control = selectors.control(get())
+      if (!control) return
+      set({ isPublishing: true })
+      const { path } = await client.packagePublish({ path: file.path, control })
+      set({ isPublishing: false, publishedPath: path })
+    },
   }))
 }
 
@@ -79,6 +106,20 @@ export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
     return state.revision > 0
+  },
+
+  // Publish
+
+  control: (state: State) => {
+    let control
+    if (state.controlType === 'ckan') {
+      control = { ...state.ckanControl, type: 'ckan' }
+      if (!control.baseurl) return
+      if (!control.dataset) return
+      if (!control.apikey) return
+      return control as ICkanControl
+    }
+    return undefined
   },
 }
 

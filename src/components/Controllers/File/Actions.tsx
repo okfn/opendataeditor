@@ -1,8 +1,18 @@
 import * as React from 'react'
 import ActionsBar from '../../Parts/Bars/Actions'
-import { useStore } from './store'
+import { useStore, selectors } from './store'
 
 export default function Actions() {
   const updateState = useStore((state) => state.updateState)
-  return <ActionsBar onSaveAs={() => updateState({ dialog: 'saveAs' })} />
+  const isUpdated = useStore(selectors.isUpdated)
+  const revert = useStore((state) => state.revert)
+  const save = useStore((state) => state.save)
+  return (
+    <ActionsBar
+      isUpdated={isUpdated}
+      onSaveAs={() => updateState({ dialog: 'saveAs' })}
+      onRevert={revert}
+      onSave={save}
+    />
+  )
 }

@@ -2,10 +2,10 @@ import * as React from 'react'
 import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Tabs from '../../Parts/Tabs'
 import Columns from '../../Parts/Columns'
-import VerticalTabs from '../../Parts/VerticalTabs'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
+import HorizontalTabs from '../../Parts/Tabs/Horizontal'
+import VerticalTabs from '../../Parts/Tabs/Vertical'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import Resource from './Sections/Resource'
@@ -51,7 +51,7 @@ function Groups() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const format = useStore((state) => state.descriptor.format)
   return (
-    <Tabs labels={['Resource', 'Dialect', 'Schema']}>
+    <HorizontalTabs labels={['Resource', 'Dialect', 'Schema']}>
       <Sections />
       <Dialect
         format={format}
@@ -59,6 +59,6 @@ function Groups() {
         onChange={(dialect) => updateDescriptor({ dialect })}
       />
       <Schema schema={schema} onChange={(schema) => updateDescriptor({ schema })} />
-    </Tabs>
+    </HorizontalTabs>
   )
 }

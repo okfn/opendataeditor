@@ -15,7 +15,7 @@ import dirtyJson from 'dirty-json'
 export interface State {
   file: IFile
   client: Client
-  panel?: 'metadata'
+  panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   original?: string
   modified?: string

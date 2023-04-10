@@ -11,6 +11,9 @@ export default function Resource() {
   const file = useStore((state) => state.file)
   const client = useStore((state) => state.client)
   const dialog = useStore((state) => state.dialog)
+  const existentPaths = useStore((state) =>
+    state.modified!.resources.map((resource) => resource.path)
+  )
   const updateState = useStore((state) => state.updateState)
   const addResources = useStore((state) => state.addResources)
   const handleCancel = () => updateState({ dialog: undefined })
@@ -20,14 +23,20 @@ export default function Resource() {
   }
   React.useEffect(() => {
     client.fileList().then(({ items }) => {
-      setPaths(items.filter((item) => item.type === 'table').map((item) => item.path))
+      const paths = []
+      for (const item of items) {
+        if (existentPaths.includes(item.path)) continue
+        if (item.type === 'package') continue
+        paths.push(item.path)
+      }
+      setPaths(paths)
     })
   }, [file])
   return (
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog === 'resource'}
+      open={dialog === 'resource'}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"

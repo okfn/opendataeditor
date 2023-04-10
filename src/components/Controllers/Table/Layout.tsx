@@ -1,13 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-import MetadataPanel from './Panels/Metadata'
-import ErrorsPanel from './Panels/Errors'
-import ChangesPanel from './Panels/Changes'
-import SourcePanel from './Panels/Source'
 import Actions from './Actions'
-import Content from './Content'
+import Editor from './Editor'
 import Menu from './Menu'
+import Panel from './Panel'
 import { useStore } from './store'
 import Dialog from './Dialog'
 
@@ -31,26 +28,10 @@ export default function Layout() {
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
         <Box sx={{ height: contentHeight }}>
-          <Content />
+          <Editor />
         </Box>
-        <Box
-          hidden={!panel}
-          sx={{
-            overflowY: 'auto',
-            height: theme.spacing(48),
-            borderTop: 1,
-            borderColor: 'divider',
-            paddingX: 2,
-          }}
-        >
-          {panel === 'metadata' && <MetadataPanel />}
-          {panel === 'errors' && <ErrorsPanel />}
-          {panel === 'changes' && <ChangesPanel />}
-          {panel === 'source' && <SourcePanel />}
-        </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Panel />
+        <Actions />
       </Box>
     </React.Fragment>
   )

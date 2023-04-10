@@ -23,12 +23,14 @@ export default function Resource() {
           <Type />
           <Title />
           <Description />
-          <MediaType />
         </Box>
         <Box>
           <Path />
-          <Scheme />
-          <Format />
+          <Columns spacing={1}>
+            <Scheme />
+            <Format />
+          </Columns>
+          <MediaType />
           <Encoding />
         </Box>
       </Columns>

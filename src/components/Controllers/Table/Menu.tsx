@@ -4,18 +4,20 @@ import { useStore } from './store'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
-  const setPanel = useStore((state) => state.setPanel)
+  const updateState = useStore((state) => state.updateState)
   return (
     <MenuBar
-      items={['metadata', 'source', 'errors']}
+      items={['metadata', 'source', 'report']}
       colors={{
         metadata: panel === 'metadata' ? 'warning' : undefined,
         source: panel === 'source' ? 'warning' : undefined,
-        errors: panel === 'errors' ? 'warning' : undefined,
+        report: panel === 'report' ? 'warning' : undefined,
       }}
-      onMetadata={() => setPanel(panel !== 'metadata' ? 'metadata' : undefined)}
-      onSource={() => setPanel(panel !== 'source' ? 'source' : undefined)}
-      onErrors={() => setPanel(panel !== 'errors' ? 'errors' : undefined)}
+      onMetadata={() =>
+        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+      }
+      onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+      onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
     />
   )
 }
