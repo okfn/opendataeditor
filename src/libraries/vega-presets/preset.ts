@@ -19,6 +19,7 @@ export interface ITargetOption {
 
 export class Preset<Options extends IPresetOptions> {
   static type: string
+  static group: string
   static title: string
   static image: string
   static source: any

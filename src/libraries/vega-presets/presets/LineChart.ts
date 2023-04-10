@@ -6,16 +6,16 @@ export interface IPresetOptions extends preset.IPresetOptions {
 }
 
 export default class Preset extends preset.Preset<IPresetOptions> {
-  static type = 'simple-bar-chart'
-  static group = 'bar'
-  static title = 'Simple Bar Chart'
-  static image = 'https://github.com/vega/vega-lite/raw/main/examples/compiled/bar.png'
+  static type = 'line-chart'
+  static group = 'line'
+  static title = 'Line Chart'
+  static image = 'https://github.com/vega/vega-lite/raw/main/examples/compiled/line.png'
   static source = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    mark: 'bar',
+    mark: 'line',
     encoding: {
-      x: { field: 'a', type: 'nominal', axis: { labelAngle: 0 } },
-      y: { field: 'b', type: 'quantitative' },
+      x: { field: 'date', type: 'temporal' },
+      y: { field: 'price', type: 'quantitative' },
     },
   }
 
@@ -23,7 +23,7 @@ export default class Preset extends preset.Preset<IPresetOptions> {
     options: [
       {
         name: 'x',
-        type: 'string',
+        type: 'datetime',
         label: 'Field X',
         paths: ['$.encoding.x.field'],
       },

@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface ChartProps {
   table?: string
+  preset?: string
   fields?: IFieldItem[]
   onChange?: (chart: object) => void
 }

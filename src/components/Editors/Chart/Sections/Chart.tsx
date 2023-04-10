@@ -2,8 +2,8 @@ import * as React from 'react'
 // import InputField from '../../../Parts/Fields/InputField'
 import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
+import { Registry } from '../../../../libraries/vega-presets/registry'
 import { useStore, selectors } from '../store'
-import * as settings from '../settings'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -40,7 +40,7 @@ function Preset() {
     <SelectField
       label="Preset"
       value={preset || ''}
-      options={Object.keys(settings.PRESETS)}
+      options={Registry.listPresets().map((Preset) => Preset.type)}
       onFocus={() => updateHelp('chart/preset')}
       onChange={(value) => updateState({ preset: value || undefined })}
     />
@@ -49,7 +49,7 @@ function Preset() {
 
 function Options() {
   // @ts-ignore
-  const Preset = useStore((state) => settings.PRESETS[state.preset])
+  const Preset = useStore((state) => Registry.getPreset(state.preset))
   const options = useStore((state) => state.options)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)

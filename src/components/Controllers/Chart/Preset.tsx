@@ -1,17 +1,24 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import registry from '../../../libraries/vega-presets/registry'
+import { Registry } from '../../../libraries/vega-presets/registry'
+import { useStore } from './store'
 
 export default function Preset() {
+  const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ padding: 2 }}>
-      {registry.map((group) => (
-        <Box key={group.title}>
-          <Typography variant="h5">{group.title}</Typography>
-          {group.Presets.map((Preset) => (
+      {Registry.listGroups().map((Group) => (
+        <Box key={Group.title}>
+          <Typography variant="h5">{Group.title}</Typography>
+          {Registry.listPresetsInGroup(Group.type).map((Preset: any) => (
             <Box key={Preset.type} sx={{ paddingY: 2 }}>
-              <img src={Preset.image} width="150px" />
+              <img
+                src={Preset.image}
+                width="100px"
+                onClick={() => updateState({ preset: Preset.type })}
+                style={{ cursor: 'pointer' }}
+              />
             </Box>
           ))}
         </Box>

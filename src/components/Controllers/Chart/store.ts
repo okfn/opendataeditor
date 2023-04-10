@@ -11,6 +11,7 @@ export interface State {
   file?: IFile
   client: Client
   fields?: IFieldItem[]
+  preset?: string
   chart?: object
   updateState: (patch: Partial<State>) => void
   loadFields: () => Promise<void>
