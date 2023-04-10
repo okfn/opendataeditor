@@ -7,6 +7,7 @@ import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
+import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -34,12 +35,21 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('dialect/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }

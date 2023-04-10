@@ -10,6 +10,7 @@ import noop from 'lodash/noop'
 interface DatePickerProps {
   label: string
   name?: string
+  errorMessage?: string
   onChange: (value: any) => void
   onFocus?: (event: any) => void
 }
@@ -33,6 +34,7 @@ const DatePicker: React.FC<DatePickerProps> = (props: DatePickerProps) => {
             size="small"
             onFocus={onFocus}
             fullWidth
+            helperText={value && !value.isValid() ? props?.errorMessage : undefined}
           />
         )}
       />

@@ -9,6 +9,7 @@ import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../../Parts/ScrollBox'
+import validator from 'validator'
 
 export default function License() {
   const index = useStore((state) => state.licenseState.index)
@@ -22,13 +23,13 @@ function LicenseList() {
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const addLicense = useStore((state) => state.addLicense)
-  const removeLicense = useStore((state) => state.removeLicense)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="license"
       query={query}
       isGrid={isGrid}
+      count={licenseItems.length}
       onAddClick={() => addLicense()}
       onGridClick={() => updateLicenseState({ isGrid: !isGrid })}
       SearchInput={
@@ -38,21 +39,37 @@ function LicenseList() {
         />
       }
     >
-      <ScrollBox height={contentHeight}>
-        {licenseItems.map(({ index, license }) => (
-          <EditorListItem
-            key={index}
-            index={index}
-            kind="license"
-            name={license.name}
-            type="license"
-            isGrid={isGrid}
-            onClick={() => updateLicenseState({ index })}
-            onRemoveClick={() => removeLicense(index)}
-          />
-        ))}
-      </ScrollBox>
+      {licenseItems.length === 0 ? (
+        <LicenseListItem />
+      ) : (
+        <ScrollBox height={contentHeight}>
+          <LicenseListItem />
+        </ScrollBox>
+      )}
     </EditorList>
+  )
+}
+
+function LicenseListItem() {
+  const licenseItems = useStore(selectors.licenseItems)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateLicenseState = useStore((state) => state.updateLicenseState)
+  const removeLicense = useStore((state) => state.removeLicense)
+  return (
+    <React.Fragment>
+      {licenseItems.map(({ index, license }) => (
+        <EditorListItem
+          key={index}
+          index={index}
+          kind="license"
+          name={license.name}
+          type="license"
+          isGrid={isGrid}
+          onClick={() => updateLicenseState({ index })}
+          onRemoveClick={() => removeLicense(index)}
+        />
+      ))}
+    </React.Fragment>
   )
 }
 
@@ -99,12 +116,21 @@ function Title() {
   const title = useStore(select(selectors.license, (license) => license.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('licenses/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateLicense({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }

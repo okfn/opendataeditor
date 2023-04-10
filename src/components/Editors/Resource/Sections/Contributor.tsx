@@ -22,13 +22,13 @@ function ContributorList() {
   const contributorItems = useStore(selectors.contributorItems)
   const updateContributorState = useStore((state) => state.updateContributorState)
   const addContributor = useStore((state) => state.addContributor)
-  const removeContributor = useStore((state) => state.removeContributor)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="contributor"
       query={query}
       isGrid={isGrid}
+      count={contributorItems.length}
       onAddClick={() => addContributor()}
       onGridClick={() => updateContributorState({ isGrid: !isGrid })}
       SearchInput={
@@ -38,21 +38,39 @@ function ContributorList() {
         />
       }
     >
-      <ScrollBox height={contentHeight}>
-        {contributorItems.map(({ index, contributor }) => (
-          <EditorListItem
-            key={index}
-            index={index}
-            kind="contributor"
-            name={contributor.title}
-            type="contributor"
-            isGrid={isGrid}
-            onClick={() => updateContributorState({ index })}
-            onRemoveClick={() => removeContributor(index)}
-          />
-        ))}
-      </ScrollBox>
+      {contributorItems.length === 0 ? (
+        <ContributorListItem />
+      ) : (
+        <ScrollBox height={contentHeight}>
+          <ContributorListItem />
+        </ScrollBox>
+      )}
     </EditorList>
+  )
+}
+
+function ContributorListItem() {
+  const contributorItems = useStore(selectors.contributorItems)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateContributorState = useStore((state) => state.updateContributorState)
+  const removeContributor = useStore((state) => state.removeContributor)
+  return (
+    <React.Fragment>
+      {contributorItems.map(({ index, contributor }) => (
+        <EditorListItem
+          key={index}
+          index={index}
+          kind="contributor"
+          name={contributor.title}
+          type="contributor"
+          isGrid={isGrid}
+          onClick={() => {
+            updateContributorState({ index })
+          }}
+          onRemoveClick={() => removeContributor(index)}
+        />
+      ))}
+    </React.Fragment>
   )
 }
 

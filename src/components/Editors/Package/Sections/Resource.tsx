@@ -11,16 +11,15 @@ export default function Resource() {
   const isGrid = useStore((state) => state.resourceState.isGrid)
   const query = useStore((state) => state.resourceState.query)
   const resourceItems = useStore(selectors.resourceItems)
-  const updateState = useStore((state) => state.updateState)
   const updateResourceState = useStore((state) => state.updateResourceState)
   const addResource = useStore((state) => state.addResource)
-  const removeResource = useStore((state) => state.removeResource)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="resource"
       query={query}
       isGrid={isGrid}
+      count={resourceItems.length}
       onAddClick={() => addResource()}
       onGridClick={() => updateResourceState({ isGrid: !isGrid })}
       SearchInput={
@@ -30,23 +29,40 @@ export default function Resource() {
         />
       }
     >
-      <ScrollBox height={contentHeight}>
-        {resourceItems.map(({ index, resource }) => (
-          <EditorListItem
-            key={index}
-            index={index}
-            kind="resource"
-            name={resource.name}
-            type={resource.type}
-            isGrid={isGrid}
-            onClick={() => {
-              updateResourceState({ index })
-              updateState({ tabIndex: 1 })
-            }}
-            onRemoveClick={() => removeResource(index)}
-          />
-        ))}
-      </ScrollBox>
+      {resourceItems.length === 0 ? (
+        <ResourceListItem />
+      ) : (
+        <ScrollBox height={contentHeight}>
+          <ResourceListItem />
+        </ScrollBox>
+      )}
     </EditorList>
+  )
+}
+
+function ResourceListItem() {
+  const resourceItems = useStore(selectors.resourceItems)
+  const updateState = useStore((state) => state.updateState)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateResourceState = useStore((state) => state.updateResourceState)
+  const removeResource = useStore((state) => state.removeResource)
+  return (
+    <React.Fragment>
+      {resourceItems.map(({ index, resource }) => (
+        <EditorListItem
+          key={index}
+          index={index}
+          kind="resource"
+          name={resource.name}
+          type={resource.type}
+          isGrid={isGrid}
+          onClick={() => {
+            updateResourceState({ index })
+            updateState({ tabIndex: 1 })
+          }}
+          onRemoveClick={() => removeResource(index)}
+        />
+      ))}
+    </React.Fragment>
   )
 }

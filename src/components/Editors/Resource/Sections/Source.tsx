@@ -7,6 +7,9 @@ import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
+import { useTheme } from '@mui/material/styles'
+import validator from 'validator'
+import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function Source() {
   const index = useStore((state) => state.sourceState.index)
@@ -14,26 +17,48 @@ export default function Source() {
 }
 
 function SourceList() {
+  const theme = useTheme()
   const isGrid = useStore((state) => state.sourceState.isGrid)
   const query = useStore((state) => state.sourceState.query)
   const sourceItems = useStore(selectors.sourceItems)
   const updateSourceState = useStore((state) => state.updateSourceState)
   const addSource = useStore((state) => state.addSource)
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
+  return (
+    <ScrollBox height={contentHeight}>
+      <EditorList
+        kind="source"
+        query={query}
+        isGrid={isGrid}
+        count={sourceItems.length}
+        onAddClick={() => addSource()}
+        onGridClick={() => updateSourceState({ isGrid: !isGrid })}
+        SearchInput={
+          <EditorSearch
+            value={query || ''}
+            onChange={(query) => updateSourceState({ query })}
+          />
+        }
+      >
+        {sourceItems.length === 0 ? (
+          <ScrollBox height={contentHeight}>
+            <SourceListItem />
+          </ScrollBox>
+        ) : (
+          <SourceListItem />
+        )}
+      </EditorList>
+    </ScrollBox>
+  )
+}
+
+function SourceListItem() {
+  const sourceItems = useStore(selectors.sourceItems)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateSourceState = useStore((state) => state.updateSourceState)
   const removeSource = useStore((state) => state.removeSource)
   return (
-    <EditorList
-      kind="source"
-      query={query}
-      isGrid={isGrid}
-      onAddClick={() => addSource()}
-      onGridClick={() => updateSourceState({ isGrid: !isGrid })}
-      SearchInput={
-        <EditorSearch
-          value={query || ''}
-          onChange={(query) => updateSourceState({ query })}
-        />
-      }
-    >
+    <React.Fragment>
       {sourceItems.map(({ index, source }) => (
         <EditorListItem
           key={index}
@@ -42,11 +67,13 @@ function SourceList() {
           name={source.title}
           type="source"
           isGrid={isGrid}
-          onClick={() => updateSourceState({ index })}
+          onClick={() => {
+            updateSourceState({ index })
+          }}
           onRemoveClick={() => removeSource(index)}
         />
       ))}
-    </EditorList>
+    </React.Fragment>
   )
 }
 
@@ -64,7 +91,7 @@ function SourceItem() {
     >
       <Columns spacing={3}>
         <Box>
-          <Name />
+          <Title />
           <Email />
         </Box>
         <Box>
@@ -75,7 +102,7 @@ function SourceItem() {
   )
 }
 
-function Name() {
+function Title() {
   const title = useStore(select(selectors.source, (source) => source.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
@@ -107,12 +134,21 @@ function Email() {
   const email = useStore(select(selectors.source, (source) => source.email))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const [isValid, setIsValid] = React.useState(isValidEmail())
+  function isValidEmail() {
+    return email ? validator.isEmail(email) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Email"
       value={email || ''}
       onFocus={() => updateHelp('sources/email')}
+      onBlur={() => {
+        setIsValid(isValidEmail())
+      }}
       onChange={(value) => updateSource({ email: value || undefined })}
+      helperText={!isValid ? 'Email is not valid.' : ''}
     />
   )
 }

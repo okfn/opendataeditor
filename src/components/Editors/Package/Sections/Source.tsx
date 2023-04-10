@@ -9,6 +9,7 @@ import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../../Parts/ScrollBox'
+import validator from 'validator'
 
 export default function Source() {
   const index = useStore((state) => state.sourceState.index)
@@ -22,13 +23,13 @@ function SourceList() {
   const sourceItems = useStore(selectors.sourceItems)
   const updateSourceState = useStore((state) => state.updateSourceState)
   const addSource = useStore((state) => state.addSource)
-  const removeSource = useStore((state) => state.removeSource)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="source"
       query={query}
       isGrid={isGrid}
+      count={sourceItems.length}
       onAddClick={() => addSource()}
       onGridClick={() => updateSourceState({ isGrid: !isGrid })}
       SearchInput={
@@ -38,21 +39,39 @@ function SourceList() {
         />
       }
     >
-      <ScrollBox height={contentHeight}>
-        {sourceItems.map(({ index, source }) => (
-          <EditorListItem
-            key={index}
-            index={index}
-            kind="source"
-            name={source.title}
-            type="source"
-            isGrid={isGrid}
-            onClick={() => updateSourceState({ index })}
-            onRemoveClick={() => removeSource(index)}
-          />
-        ))}
-      </ScrollBox>
+      {sourceItems.length === 0 ? (
+        <ScrollBox height={contentHeight}>
+          <SourceListItem />
+        </ScrollBox>
+      ) : (
+        <SourceListItem />
+      )}
     </EditorList>
+  )
+}
+
+function SourceListItem() {
+  const sourceItems = useStore(selectors.sourceItems)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateSourceState = useStore((state) => state.updateSourceState)
+  const removeSource = useStore((state) => state.removeSource)
+  return (
+    <React.Fragment>
+      {sourceItems.map(({ index, source }) => (
+        <EditorListItem
+          key={index}
+          index={index}
+          kind="source"
+          name={source.title}
+          type="source"
+          isGrid={isGrid}
+          onClick={() => {
+            updateSourceState({ index })
+          }}
+          onRemoveClick={() => removeSource(index)}
+        />
+      ))}
+    </React.Fragment>
   )
 }
 
@@ -113,12 +132,21 @@ function Email() {
   const email = useStore(select(selectors.source, (source) => source.email))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const [isValid, setIsValid] = React.useState(isValidEmail())
+  function isValidEmail() {
+    return email ? validator.isEmail(email) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Email"
       value={email || ''}
       onFocus={() => updateHelp('sources/email')}
+      onBlur={() => {
+        setIsValid(isValidEmail())
+      }}
       onChange={(value) => updateSource({ email: value || undefined })}
+      helperText={!isValid ? 'Email is not valid.' : ''}
     />
   )
 }

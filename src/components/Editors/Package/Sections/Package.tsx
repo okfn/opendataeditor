@@ -6,6 +6,7 @@ import MultilineField from '../../../Parts/Fields/MultilineField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import { useStore } from '../store'
+import validator from 'validator'
 
 export default function Package() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -33,12 +34,20 @@ function Name() {
   const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidName())
+  function isValidName() {
+    return name ? validator.isSlug(name) : false
+  }
   return (
     <InputField
+      error={!isValid}
       label="Name"
       value={name}
       onFocus={() => updateHelp('package/name')}
-      onChange={(name) => updateDescriptor({ name })}
+      onBlur={() => {
+        setIsValid(isValidName())
+      }}
+      onChange={(value) => updateDescriptor({ name: value || 'name' })}
     />
   )
 }
@@ -47,12 +56,21 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
       label="Title"
+      error={!isValid}
       value={title || ''}
       onFocus={() => updateHelp('package/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }
@@ -108,6 +126,7 @@ function Created() {
       onChange={(value) => {
         updateDescriptor({ created: value?.format('MM/DD/YYYY') })
       }}
+      errorMessage={'Date is not valid'}
     />
   )
 }

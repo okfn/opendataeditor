@@ -6,6 +6,7 @@ import MultilineField from '../../../Parts/Fields/MultilineField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
+import validator from 'validator'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -39,12 +40,21 @@ function Name() {
   const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidName())
+  function isValidName() {
+    return name ? validator.isSlug(name) : false
+  }
   return (
     <InputField
+      error={!isValid}
       label="Name"
       value={name}
       onFocus={() => updateHelp('resource/name')}
+      onBlur={() => {
+        setIsValid(isValidName())
+      }}
       onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )
 }
@@ -68,12 +78,21 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('resource/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }

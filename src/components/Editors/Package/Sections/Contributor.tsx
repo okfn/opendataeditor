@@ -9,6 +9,7 @@ import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../../Parts/ScrollBox'
+import validator from 'validator'
 
 export default function Contributor() {
   const index = useStore((state) => state.contributorState.index)
@@ -22,13 +23,13 @@ function ContributorList() {
   const contributorItems = useStore(selectors.contributorItems)
   const updateContributorState = useStore((state) => state.updateContributorState)
   const addContributor = useStore((state) => state.addContributor)
-  const removeContributor = useStore((state) => state.removeContributor)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
     <EditorList
       kind="contributor"
       query={query}
       isGrid={isGrid}
+      count={contributorItems.length}
       onAddClick={() => addContributor()}
       onGridClick={() => updateContributorState({ isGrid: !isGrid })}
       SearchInput={
@@ -38,21 +39,39 @@ function ContributorList() {
         />
       }
     >
-      <ScrollBox height={contentHeight}>
-        {contributorItems.map(({ index, contributor }) => (
-          <EditorListItem
-            key={index}
-            index={index}
-            kind="contributor"
-            name={contributor.title}
-            type="contributor"
-            isGrid={isGrid}
-            onClick={() => updateContributorState({ index })}
-            onRemoveClick={() => removeContributor(index)}
-          />
-        ))}
-      </ScrollBox>
+      {contributorItems.length === 0 ? (
+        <ContributorListItem />
+      ) : (
+        <ScrollBox height={contentHeight}>
+          <ContributorListItem />
+        </ScrollBox>
+      )}
     </EditorList>
+  )
+}
+
+function ContributorListItem() {
+  const contributorItems = useStore(selectors.contributorItems)
+  const isGrid = useStore((state) => state.contributorState.isGrid)
+  const updateContributorState = useStore((state) => state.updateContributorState)
+  const removeContributor = useStore((state) => state.removeContributor)
+  return (
+    <React.Fragment>
+      {contributorItems.map(({ index, contributor }) => (
+        <EditorListItem
+          key={index}
+          index={index}
+          kind="contributor"
+          name={contributor.title}
+          type="contributor"
+          isGrid={isGrid}
+          onClick={() => {
+            updateContributorState({ index })
+          }}
+          onRemoveClick={() => removeContributor(index)}
+        />
+      ))}
+    </React.Fragment>
   )
 }
 
@@ -106,12 +125,21 @@ function Email() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const [isValid, setIsValid] = React.useState(isValidEmail())
+  function isValidEmail() {
+    return email ? validator.isEmail(email) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Email"
       value={email || ''}
       onFocus={() => updateHelp('contributors/email')}
+      onBlur={() => {
+        setIsValid(isValidEmail())
+      }}
       onChange={(value) => updateContributor({ email: value })}
+      helperText={!isValid ? 'Email is not valid.' : ''}
     />
   )
 }

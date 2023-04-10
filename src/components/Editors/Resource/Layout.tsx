@@ -50,7 +50,6 @@ function Groups() {
   const schema = useStore((state) => state.descriptor.schema)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const format = useStore((state) => state.descriptor.format)
-  console.log('format', format)
   return (
     <Tabs labels={['Resource', 'Dialect', 'Schema']}>
       <Sections />
