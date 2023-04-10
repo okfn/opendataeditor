@@ -7,7 +7,10 @@ import HistoryIcon from '@mui/icons-material/History'
 import IconButton from '../../Parts/Buttons/IconButton'
 import Columns from '../../Parts/Columns'
 
+export type ActionsBarItem = 'saveAs' | 'publish' | 'revert' | 'save'
+
 interface ActionsBarProps {
+  labels?: { [key in ActionsBarItem]?: 'string' | undefined }
   isUpdated?: boolean
   onPublish?: () => void
   onSaveAs?: () => void
@@ -20,7 +23,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
   const SaveAs = () => {
     return (
       <IconButton
-        label="Save as"
+        label={props.labels?.saveAs || 'Save As'}
         Icon={SaveAltIcon}
         variant="outlined"
         disabled={!props.onSaveAs}
@@ -33,7 +36,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
   const Publish = () => {
     return (
       <IconButton
-        label="Publish"
+        label={props.labels?.publish || 'Publish'}
         Icon={IosShareIcon}
         variant="outlined"
         disabled={!props.onPublish}
@@ -46,7 +49,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
   const Revert = () => {
     return (
       <IconButton
-        label="Revert"
+        label={props.labels?.revert || 'Revert'}
         Icon={HistoryIcon}
         color={props.isUpdated ? 'warning' : undefined}
         variant={props.isUpdated ? 'contained' : 'outlined'}
@@ -60,7 +63,7 @@ export default function ActionsBar(props: React.PropsWithChildren<ActionsBarProp
   const Save = () => {
     return (
       <IconButton
-        label="Save"
+        label={props.labels?.save || 'Save'}
         Icon={CheckIcon}
         variant={props.isUpdated ? 'contained' : 'outlined'}
         disabled={!props.onSave || !props.isUpdated}

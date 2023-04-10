@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { VegaLite } from 'react-vega'
 import Box from '@mui/material/Box'
+import Preset from './Preset'
 import { useStore } from './store'
 
 export default function Editor() {
@@ -10,6 +11,7 @@ export default function Editor() {
   if (!fields) return null
   return (
     <Box sx={{ mt: 2 }}>
+      {!chart && <Preset />}
       {!!chart && <VegaLite spec={chart} width={1000} height={550} />}
     </Box>
   )

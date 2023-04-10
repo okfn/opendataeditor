@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile, IFieldItem } from '../../../interfaces'
@@ -28,6 +29,14 @@ export function makeStore(props: ChartProps) {
       set({ fields: items })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  firstTable: (state: State) => {
+    const field = (state.fields || [])[0]
+    return field ? field.tablePath : undefined
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

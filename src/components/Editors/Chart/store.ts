@@ -26,6 +26,7 @@ interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     options: {},
+    table: props.table,
     fields: props.fields || [],
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,

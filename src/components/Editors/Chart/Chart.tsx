@@ -6,6 +6,7 @@ import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface ChartProps {
+  table?: string
   fields?: IFieldItem[]
   onChange?: (chart: object) => void
 }
