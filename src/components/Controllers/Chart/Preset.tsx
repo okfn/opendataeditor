@@ -11,7 +11,7 @@ export default function Preset() {
           <Typography variant="h5">{group.title}</Typography>
           {group.Presets.map((Preset) => (
             <Box key={Preset.type} sx={{ paddingY: 2 }}>
-              <img src={Preset.image} width="200px" />
+              <img src={Preset.image} width="150px" />
             </Box>
           ))}
         </Box>
