@@ -1,13 +1,16 @@
 import * as React from 'react'
-import Columns from '../../Parts/Columns'
-import Target from './Target'
-import Source from './Source'
+import { VegaLite } from 'react-vega'
+import Box from '@mui/material/Box'
+import { useStore } from './store'
 
 export default function Editor() {
+  const chart = useStore((state) => state.chart)
+  const fields = useStore((state) => state.fields)
+  // const updateState = useStore((state) => state.updateState)
+  if (!fields) return null
   return (
-    <Columns height="100%">
-      <Source />
-      <Target />
-    </Columns>
+    <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
+      {!!chart && <VegaLite spec={chart as any} width={600} height={600} />}
+    </Box>
   )
 }

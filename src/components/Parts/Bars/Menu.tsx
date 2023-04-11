@@ -9,6 +9,7 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
+import EditRoadIcon from '@mui/icons-material/EditRoad'
 import IconButton from '../../Parts/Buttons/IconButton'
 
 export type MenuBarItem =
@@ -19,6 +20,7 @@ export type MenuBarItem =
   | 'metadata'
   | 'source'
   | 'report'
+  | 'editor'
   | 'errors'
 
 export interface MenuBarProps {
@@ -32,6 +34,7 @@ export interface MenuBarProps {
   onMetadata?: () => void
   onSource?: () => void
   onReport?: () => void
+  onEditor?: () => void
   onErrors?: () => void
 }
 
@@ -94,6 +97,21 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.errors}
         disabled={!props.onErrors}
         onClick={() => props.onErrors!()}
+      />
+    )
+  }
+
+  const Editor = () => {
+    if (!props.items?.includes('editor')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.editor || 'Editor'}
+        Icon={EditRoadIcon}
+        color={props.colors?.editor}
+        disabled={!props.onEditor}
+        onClick={() => props.onEditor!()}
       />
     )
   }
@@ -164,6 +182,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         <Metadata />
         <Report />
         <Source />
+        <Editor />
         <Errors />
         <Clear />
         <Fix />

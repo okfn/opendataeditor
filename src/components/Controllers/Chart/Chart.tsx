@@ -7,7 +7,7 @@ import { IFile } from '../../../interfaces'
 import Layout from './Layout'
 
 export interface ChartProps {
-  file?: IFile
+  file: IFile
   client: Client
 }
 

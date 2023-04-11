@@ -10,11 +10,12 @@ export interface State {
   client: Client
   file?: IFile
   fileItemAdded?: boolean
-  dialog?: 'chart' | 'query'
+  dialog?: 'config'
   countFiles: () => Promise<number>
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
   updateState: (patch: Partial<State>) => void
+  createChart: () => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -36,6 +37,12 @@ export function makeStore(props: ApplicationProps) {
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
+    },
+    createChart: async () => {
+      const { client, selectFile } = get()
+      const path = 'chart-new.json'
+      await client.jsonWrite({ path, data: {} })
+      selectFile(path)
     },
   }))
 }

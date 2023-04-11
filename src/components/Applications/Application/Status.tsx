@@ -7,7 +7,7 @@ import { useStore } from './store'
 
 export default function Status() {
   const file = useStore((state) => state.file)
-  const updateState = useStore((state) => state.updateState)
+  const createChart = useStore((state) => state.createChart)
   // TODO: review/rework
   // TODO: handle time when indexing happens
   // TODO: if file is not selected show for the whole project
@@ -19,7 +19,7 @@ export default function Status() {
       </Prefix>
       <Contents>{file ? file.path : 'Data management for humans'}</Contents>
       <Suffix>
-        <ChartChip onClick={() => updateState({ dialog: 'chart' })} />
+        <ChartChip onClick={() => createChart()} />
         <ValidationChip errorCount={errorCount} />
       </Suffix>
     </Container>

@@ -1,17 +1,20 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFieldItem, IChart } from '../../../interfaces'
+import { IFile, IFieldItem, IChart, IResource } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
-  file?: IFile
+  file: IFile
   client: Client
-  fields?: IFieldItem[]
+  panel?: 'metadata' | 'report' | 'source' | 'editor'
   chart?: IChart
+  fields?: IFieldItem[]
+  resource: IResource
   updateState: (patch: Partial<State>) => void
   loadFields: () => Promise<void>
 }
@@ -20,6 +23,8 @@ export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     file: props.file,
     client: props.client,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       set(patch)
     },
