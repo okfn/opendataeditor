@@ -105,7 +105,7 @@ function EncodingItemType(props: { type: string }) {
     <SelectField
       label="Channel"
       value={props.type || ''}
-      options={['x', 'y', 'color']}
+      options={['x', 'y', 'xOffset', 'color']}
       onChange={(value) => {
         if (!value) return
         descriptor.encoding![value] = descriptor.encoding![props.type]

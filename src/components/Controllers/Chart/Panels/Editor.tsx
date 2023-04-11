@@ -4,6 +4,13 @@ import { useStore } from '../store'
 
 export default function Editor() {
   const fields = useStore((state) => state.fields)
+  const modified = useStore((state) => state.modified)
   const updateState = useStore((state) => state.updateState)
-  return <ChartEditor fields={fields} onChange={(chart) => updateState({ chart })} />
+  return (
+    <ChartEditor
+      chart={modified}
+      fields={fields}
+      onChange={(chart) => updateState({ modified: chart })}
+    />
+  )
 }

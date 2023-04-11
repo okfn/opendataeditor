@@ -4,6 +4,7 @@ import ScrollBox from '../../Parts/ScrollBox'
 import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
+import EditorPanel from './Panels/Editor'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -18,6 +19,7 @@ export default function Layout() {
       {panel === 'metadata' && <MetadataPanel />}
       {panel === 'report' && <ReportPanel />}
       {panel === 'source' && <SourcePanel />}
+      {panel === 'editor' && <EditorPanel />}
     </ScrollBox>
   )
 }
