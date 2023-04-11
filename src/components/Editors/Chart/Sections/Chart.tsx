@@ -16,8 +16,8 @@ export default function Chart() {
           <Mark />
         </Box>
         <Box>
-          <Height />
           <Width />
+          <Height />
         </Box>
       </Columns>
     </EditorSection>
@@ -27,17 +27,19 @@ export default function Chart() {
 function Table() {
   const descriptor = useStore((state) => state.descriptor)
   const url = useStore((state) => state.descriptor.data?.url)
-  const tables = useStore(selectors.tables)
+  const values = useStore((state) => state.descriptor.data?.values)
+  const tablePaths = useStore(selectors.tablePaths)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   return (
     <SelectField
       label="Table"
-      value={url || ''}
-      options={Object.values(tables)}
+      value={values ? '(inline)' : url || ''}
+      options={tablePaths}
       onFocus={() => updateHelp('chart/table')}
       onChange={(value) => {
         if (!value) return
+        if (value === '(inline)') return
         descriptor.data = descriptor.data || {}
         descriptor.data.url = value
         updateState({ descriptor })
@@ -66,20 +68,6 @@ function Mark() {
   )
 }
 
-function Height() {
-  const height = useStore((state) => state.descriptor.height)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateDescriptor = useStore((state) => state.updateDescriptor)
-  return (
-    <InputField
-      label="Height"
-      value={height || ''}
-      onFocus={() => updateHelp('chart/height')}
-      onChange={(value) => updateDescriptor({ height: value || undefined })}
-    />
-  )
-}
-
 function Width() {
   const width = useStore((state) => state.descriptor.width)
   const updateHelp = useStore((state) => state.updateHelp)
@@ -89,7 +77,21 @@ function Width() {
       label="Width"
       value={width || ''}
       onFocus={() => updateHelp('chart/width')}
-      onChange={(value) => updateDescriptor({ width: value || undefined })}
+      onChange={(value) => updateDescriptor({ width: parseInt(value) || undefined })}
+    />
+  )
+}
+
+function Height() {
+  const height = useStore((state) => state.descriptor.height)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Height"
+      value={height || ''}
+      onFocus={() => updateHelp('chart/height')}
+      onChange={(value) => updateDescriptor({ height: parseInt(value) || undefined })}
     />
   )
 }

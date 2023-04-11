@@ -1,5 +1,5 @@
 export interface IChart {
-  data?: { url?: string }
+  data?: { url?: string; values?: object[] }
   mark?: string
   encoding?: {
     [type: string]: { field?: string; aggregate?: string; value?: any }

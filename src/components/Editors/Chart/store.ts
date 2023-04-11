@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
+import uniq from 'lodash/uniq'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { IHelpItem, IFieldItem, IChart } from '../../../interfaces'
@@ -97,15 +98,20 @@ export function makeStore(props: ChartProps) {
 
 export const select = createSelector
 export const selectors = {
-  tables: (state: State) => {
-    const tables: { [name: string]: string } = {}
-    for (const field of state.fields) tables[field.tableName] = field.tablePath
-    return tables
+  tablePaths: (state: State) => {
+    const paths = uniq(state.fields.map((field) => field.tablePath))
+    if (state.descriptor.data?.values) paths.unshift('(inline)')
+    return paths
   },
   fieldNames: (state: State) => {
-    return state.fields
+    const names = state.fields
       .filter((item) => item.tablePath === state.descriptor.data?.url)
       .map((item) => item.name)
+    if (state.descriptor.data?.values) {
+      const item = state.descriptor.data.values[0] || {}
+      names.push(...Object.keys(item))
+    }
+    return names
   },
 
   // Channels
