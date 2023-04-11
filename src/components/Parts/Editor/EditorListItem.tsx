@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 
 interface EditorListItemProps {
-  index?: number
   kind: string
   name: string
   type?: string
@@ -47,7 +46,6 @@ export default function EditorListItem(props: EditorListItemProps) {
       endIcon={!props.isGrid && props.type ? <EndIcon /> : null}
       onClick={() => (props.onClick ? props.onClick() : undefined)}
       disabled={props.disabled}
-      key={props.index}
       title={props.title || `Edit ${capitalize(props.kind)}`}
       sx={{
         height: theme.spacing(5),

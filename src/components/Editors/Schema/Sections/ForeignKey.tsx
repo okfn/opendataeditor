@@ -38,7 +38,6 @@ function ForeignKeyList() {
       {foreignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="foreign key"
           name={foreignKey.fields.join(',')}
           type="fk"

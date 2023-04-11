@@ -6,10 +6,11 @@ import Columns from '../../Parts/Columns'
 import VerticalTabs from '../../Parts/Tabs/Vertical'
 import EditorHelp from '../../Parts/Editor/EditorHelp'
 import Chart from './Sections/Chart'
+import Channel from './Sections/Channel'
 import { useStore } from './store'
 
-const LABELS = ['Chart', 'Layers', 'Config', 'Spec']
-const DISABLED_LABELS = ['Layers', 'Config', 'Spec']
+const LABELS = ['Chart', 'Channels', 'Vega Lite']
+const DISABLED_LABELS = ['Vega Lite']
 
 export default function Layout() {
   const theme = useTheme()
@@ -24,6 +25,7 @@ export default function Layout() {
           onChange={(index) => updateHelp(camelCase(LABELS[index]))}
         >
           <Chart />
+          <Channel />
         </VerticalTabs>
         <EditorHelp helpItem={helpItem} />
       </Columns>

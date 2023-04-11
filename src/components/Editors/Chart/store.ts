@@ -7,9 +7,17 @@ import { createSelector } from 'reselect'
 import { IHelpItem, IFieldItem, IChart } from '../../../interfaces'
 import { ChartProps } from './Chart'
 import * as helpers from '../../../helpers'
+import * as settings from './settings'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
+
+interface IChannelState {
+  query?: string
+  type?: string
+  isGrid?: boolean
+  isExtras?: boolean
+}
 
 interface State {
   fields: IFieldItem[]
@@ -18,6 +26,15 @@ interface State {
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
+
+  // Channels
+
+  channelState: IChannelState
+  updateChannelState: (patch: Partial<IChannelState>) => void
+  // TODO: fix
+  updateChannel: (patch: any) => void
+  removeChannel: (type: string) => void
+  addChannel: () => void
 }
 
 export function makeStore(props: ChartProps) {
@@ -36,6 +53,38 @@ export function makeStore(props: ChartProps) {
       if (patch.descriptor) onChange(patch.descriptor)
       set({ ...patch })
     },
+
+    // Channels
+
+    channelState: {},
+    updateChannelState: (patch) => {
+      const { channelState } = get()
+      set({ channelState: { ...channelState, ...patch } })
+    },
+    updateChannel: (patch) => {
+      const { descriptor, updateState } = get()
+      const channel = selectors.channel(get())
+      Object.assign(channel, patch)
+      updateState({ descriptor })
+    },
+    removeChannel: (type) => {
+      const { descriptor, updateState, updateChannelState } = get()
+      delete descriptor.encoding![type]
+      updateChannelState({ type: undefined, isExtras: false })
+      updateState({ descriptor })
+    },
+    // TODO: scroll to newly created channel
+    addChannel: () => {
+      const { descriptor, updateState } = get()
+      descriptor.encoding = descriptor.encoding || {}
+      for (const type of settings.CHANNEL_TYPES) {
+        if (!descriptor.encoding[type]) {
+          descriptor.encoding[type] = {}
+          break
+        }
+      }
+      updateState({ descriptor })
+    },
   }))
 }
 
@@ -50,6 +99,23 @@ export const selectors = {
     return state.fields
       .filter((item) => item.tablePath === state.descriptor.data?.url)
       .map((item) => item.name)
+  },
+
+  // Channels
+
+  channel: (state: State) => {
+    const type = state.channelState.type!
+    const channel = state.descriptor.encoding![type]!
+    return channel
+  },
+  channelItems: (state: State) => {
+    const items = []
+    const query = state.channelState.query
+    for (const [type, channel] of Object.entries(state.descriptor.encoding || {})) {
+      if (query && !type.toLowerCase().includes(query.toLowerCase())) continue
+      items.push({ type, channel })
+    }
+    return items
   },
 }
 
