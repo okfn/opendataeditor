@@ -1,4 +1,6 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
+import InputField from '../../../Parts/Fields/InputField'
 import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
@@ -9,8 +11,14 @@ export default function Chart() {
   return (
     <EditorSection name="Chart" onHeadingClick={() => updateHelp('chart')}>
       <Columns spacing={3}>
-        <Table />
-        <Mark />
+        <Box>
+          <Table />
+          <Mark />
+        </Box>
+        <Box>
+          <Height />
+          <Width />
+        </Box>
       </Columns>
     </EditorSection>
   )
@@ -54,6 +62,34 @@ function Mark() {
         descriptor.mark = value
         updateState({ descriptor })
       }}
+    />
+  )
+}
+
+function Height() {
+  const height = useStore((state) => state.descriptor.height)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Height"
+      value={height || ''}
+      onFocus={() => updateHelp('chart/height')}
+      onChange={(value) => updateDescriptor({ height: value || undefined })}
+    />
+  )
+}
+
+function Width() {
+  const width = useStore((state) => state.descriptor.width)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Width"
+      value={width || ''}
+      onFocus={() => updateHelp('chart/width')}
+      onChange={(value) => updateDescriptor({ width: value || undefined })}
     />
   )
 }

@@ -9,6 +9,10 @@ export const CHANNEL_TYPES = [
   'xError2',
   'yError2',
 
+  // Position Offset Channels
+  'xOffset',
+  'yOffset',
+
   // Polar Position Channels
   'theta',
   'radius',

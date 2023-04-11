@@ -26,6 +26,7 @@ interface State {
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
+  updateDescriptor: (patch: Partial<IChart>) => void
 
   // Channels
 
@@ -52,6 +53,12 @@ export function makeStore(props: ChartProps) {
       const { onChange } = get()
       if (patch.descriptor) onChange(patch.descriptor)
       set({ ...patch })
+    },
+    updateDescriptor: (patch) => {
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
+      onChange(descriptor)
+      set({ descriptor })
     },
 
     // Channels
