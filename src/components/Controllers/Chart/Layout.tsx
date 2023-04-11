@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
+import Dialog from './Dialog'
 import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
@@ -21,6 +22,7 @@ export default function Layout() {
   }, [path])
   return (
     <React.Fragment>
+      <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
         <ScrollBox height={contentHeight}>

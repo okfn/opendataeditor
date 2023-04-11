@@ -12,6 +12,7 @@ export interface State {
   file: IFile
   client: Client
   fields?: IFieldItem[]
+  dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   original?: IChart
   modified?: IChart
@@ -31,6 +32,9 @@ export function makeStore(props: ChartProps) {
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
+      const { revision } = get()
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     load: async () => {
@@ -48,8 +52,9 @@ export function makeStore(props: ChartProps) {
       set({ modified: cloneDeep(original), revision: 0 })
     },
     save: async (path) => {
-      const { file, client, modified } = get()
+      const { file, client, resource, modified } = get()
       if (!modified) return
+      await client.fileUpdate({ path: file.path, resource })
       await client.jsonWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
@@ -57,7 +62,11 @@ export function makeStore(props: ChartProps) {
 }
 
 export const select = createSelector
-export const selectors = {}
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
+}
 
 export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)

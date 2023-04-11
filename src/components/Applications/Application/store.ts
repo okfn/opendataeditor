@@ -40,7 +40,7 @@ export function makeStore(props: ApplicationProps) {
     },
     createChart: async () => {
       const { client, selectFile } = get()
-      const path = 'chart-new.json'
+      const path = 'new-chart.json'
       await client.jsonWrite({ path, data: {} })
       selectFile(path)
     },
