@@ -4,19 +4,16 @@ import { assert } from 'ts-essentials'
 import noop from 'lodash/noop'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IHelpItem, IFieldItem } from '../../../interfaces'
+import { IHelpItem, IFieldItem, IChart } from '../../../interfaces'
 import { ChartProps } from './Chart'
-import registry from '../../../libraries/vega-presets/registry'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
 interface State {
-  table?: string
-  preset?: string
-  options: { [key: string]: any }
   fields: IFieldItem[]
+  descriptor: Partial<IChart>
   onChange: (chart: object) => void
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -26,25 +23,18 @@ interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     options: {},
-    table: props.table,
-    preset: props.preset,
     fields: props.fields || [],
+    descriptor: props.chart || {},
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
-    updateState: (patch) => {
-      set({ ...patch })
-      const { table, preset: presetType, options, onChange } = get()
-      if (!table) return
-      if (!presetType) return
-      const preset = registry.getPreset(presetType)
-      if (!preset) return
-      for (const option of preset.config.options) if (!(option.name in options)) return
-      const chart = preset.toVegaLite({ ...options, data: { url: table } })
-      onChange(chart)
-    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
+    },
+    updateState: (patch) => {
+      const { onChange } = get()
+      if (patch.descriptor) onChange(patch.descriptor)
+      set({ ...patch })
     },
   }))
 }
@@ -56,17 +46,9 @@ export const selectors = {
     for (const field of state.fields) tables[field.tableName] = field.tablePath
     return tables
   },
-  stringFields: (state: State) => {
+  fieldNames: (state: State) => {
     return state.fields
-      .filter((item) => item.tablePath === state.table && item.type === 'string')
-      .map((item) => item.name)
-  },
-  numberFields: (state: State) => {
-    return state.fields
-      .filter(
-        (item) =>
-          item.tablePath === state.table && ['number', 'integer'].includes(item.type)
-      )
+      .filter((item) => item.tablePath === state.descriptor.data?.url)
       .map((item) => item.name)
   },
 }
