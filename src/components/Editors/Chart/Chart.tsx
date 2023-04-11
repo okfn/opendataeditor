@@ -8,7 +8,7 @@ import Layout from './Layout'
 export interface ChartProps {
   chart?: IChart
   fields?: IFieldItem[]
-  onChange?: (chart: object) => void
+  onChange?: (chart: IChart) => void
 }
 
 export default function Chart(props: ChartProps) {

@@ -68,9 +68,11 @@ function Encoding() {
   const descriptor = useStore((state) => state.descriptor)
   const updateState = useStore((state) => state.updateState)
   React.useEffect(() => {
-    descriptor.encoding = { x: {}, y: {} }
-    if (!types.length) updateState({ descriptor })
-  }, [])
+    if (!types.length) {
+      descriptor.encoding = { x: {}, y: {} }
+      updateState({ descriptor })
+    }
+  }, [descriptor])
   return (
     <Box>
       <Typography variant="h5">Encoding</Typography>
@@ -138,7 +140,7 @@ function EncodingItemAggregate(props: { type: string }) {
   const updateState = useStore((state) => state.updateState)
   return (
     <SelectField
-      label="Aggregate"
+      label="Calc"
       value={aggregate || ''}
       options={['count', 'sum']}
       onChange={(value) => {

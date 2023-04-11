@@ -20,8 +20,11 @@ export default function ChartDialog() {
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
-      <DialogTitle id="dialog-title" sx={{ backgroundColor: '#fafafa' }}>
-        Quick Chart
+      <DialogTitle
+        id="dialog-title"
+        sx={{ backgroundColor: '#fafafa', borderBottom: 'solid 1px #ddd' }}
+      >
+        New Chart
       </DialogTitle>
       <ChartController file={file} client={client} />
     </Dialog>

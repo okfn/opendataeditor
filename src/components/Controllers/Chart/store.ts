@@ -4,15 +4,14 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFieldItem } from '../../../interfaces'
+import { IFile, IFieldItem, IChart } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
   file?: IFile
   client: Client
   fields?: IFieldItem[]
-  preset?: string
-  chart?: object
+  chart?: IChart
   updateState: (patch: Partial<State>) => void
   loadFields: () => Promise<void>
 }
@@ -33,12 +32,7 @@ export function makeStore(props: ChartProps) {
 }
 
 export const select = createSelector
-export const selectors = {
-  firstTable: (state: State) => {
-    const field = (state.fields || [])[0]
-    return field ? field.tablePath : undefined
-  },
-}
+export const selectors = {}
 
 export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)
