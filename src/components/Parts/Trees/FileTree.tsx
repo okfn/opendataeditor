@@ -14,6 +14,7 @@ import TableRows from '@mui/icons-material/TableRows'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
+import ScrollBox from '../ScrollBox'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -40,7 +41,7 @@ export default function FileTree(props: FileTreeProps) {
     }
   }, [props.tree])
   return (
-    <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
+    <ScrollBox sx={{ padding: 2 }} height="100%">
       <TreeView
         selected={props.selected || ''}
         expanded={expanded}
@@ -60,7 +61,7 @@ export default function FileTree(props: FileTreeProps) {
           <TreeNode item={item} key={item.path} />
         ))}
       </TreeView>
-    </Box>
+    </ScrollBox>
   )
 }
 
