@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Chip from '@mui/material/Chip'
-import TerminalIcon from '@mui/icons-material/Terminal'
+import LayersIcon from '@mui/icons-material/Layers'
 
 export interface ViewChipProps {
   onClick: () => void
@@ -10,9 +10,9 @@ export default function ViewChip(props: ViewChipProps) {
   return (
     <Chip
       onClick={props.onClick}
-      label="SQL"
+      label="VIEW"
       color="primary"
-      icon={<TerminalIcon />}
+      icon={<LayersIcon />}
       size="medium"
       sx={{
         height: '100%',

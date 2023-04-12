@@ -10,7 +10,7 @@ import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import TableRows from '@mui/icons-material/TableRows'
+import LayersIcon from '@mui/icons-material/Layers'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
@@ -160,5 +160,5 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   checklist: CheckCircleOutline,
   pipeline: AccountTree,
   schema: DescriptionIcon,
-  view: TableRows,
+  view: LayersIcon,
 }
