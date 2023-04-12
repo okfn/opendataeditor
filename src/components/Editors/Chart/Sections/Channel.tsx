@@ -7,8 +7,8 @@ import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import InputField from '../../../Parts/Fields/InputField'
 import SelectField from '../../../Parts/Fields/SelectField'
-import * as settings from '../settings'
 import { useStore, selectors, select } from '../store'
+import * as settings from '../settings'
 
 export default function Channel() {
   const type = useStore((state) => state.channelState.type)
@@ -104,26 +104,26 @@ function Field() {
 }
 
 function Aggregate() {
-  const aggregate = useStore(select(selectors.channel, (channel) => channel.aggregate))
+  const aggregate = useStore(selectors.channelAggregate)
   const updateChannel = useStore((state) => state.updateChannel)
   return (
     <SelectField
       label="Aggregate"
       value={aggregate || ''}
-      options={['count', 'sum']}
+      options={settings.CHANNEL_AGGREGATES}
       onChange={(value) => updateChannel({ aggregate: value })}
     />
   )
 }
 
 function Value() {
-  const value = useStore(select(selectors.channel, (channel) => channel.value))
+  const value = useStore(selectors.channelValue)
   const updateChannel = useStore((state) => state.updateChannel)
   return (
     <InputField
       label="Value"
       value={value || ''}
-      onChange={(value) => updateChannel({ value: value })}
+      onChange={(value) => updateChannel({ value: value ? parseInt(value) : undefined })}
     />
   )
 }

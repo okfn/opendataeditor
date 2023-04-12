@@ -1,3 +1,23 @@
+export const MARKS = [
+  'arc',
+  'area',
+  'bar',
+  'boxplot',
+  'circle',
+  'errorband',
+  'errorbar',
+  'geoshape',
+  'image',
+  'line',
+  'point',
+  'rect',
+  'rule',
+  'square',
+  'text',
+  'tick',
+  'trail',
+]
+
 export const CHANNEL_TYPES = [
   // Position Channels
   'x',
@@ -59,4 +79,30 @@ export const CHANNEL_TYPES = [
   'facet',
   'row',
   'column',
+]
+
+export const CHANNEL_AGGREGATES = [
+  'argmax',
+  'argmin',
+  'average',
+  'ci0',
+  'ci1',
+  'count',
+  'distinct',
+  'max',
+  'mean',
+  'median',
+  'min',
+  'missing',
+  'product',
+  'q1',
+  'q3',
+  'stderr',
+  'stdev',
+  'stdevp',
+  'sum',
+  'valid',
+  'values',
+  'variance',
+  'variancep',
 ]

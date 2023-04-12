@@ -101,6 +101,11 @@ export function makeStore(props: ChartProps) {
           }
         }
       }
+      if ('value' in patch) {
+        patch.field = undefined
+        // TODO: support other types for value
+        patch.type = 'quantitative'
+      }
       Object.assign(channel, patch)
       updateState({ descriptor })
     },
@@ -149,6 +154,16 @@ export const selectors = {
     const type = state.channelState.type!
     const channel = state.descriptor.encoding![type]!
     return channel
+  },
+  // TODO: remove! somehow it doesn't rerender using channel and select
+  channelAggregate: (state: State) => {
+    const channel = selectors.channel(state)
+    return channel.aggregate
+  },
+  // TODO: remove! somehow it doesn't rerender using channel and select
+  channelValue: (state: State) => {
+    const channel = selectors.channel(state)
+    return channel.value
   },
   channelItems: (state: State) => {
     const items = []

@@ -5,6 +5,7 @@ import SelectField from '../../../Parts/Fields/SelectField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
+import * as settings from '../settings'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -57,7 +58,7 @@ function Mark() {
     <SelectField
       label="Mark"
       value={mark || ''}
-      options={['bar', 'line']}
+      options={settings.MARKS}
       onFocus={() => updateHelp('chart/mark')}
       onChange={(value) => {
         if (!value) return
