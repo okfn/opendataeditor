@@ -4,8 +4,9 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { assert } from 'ts-essentials'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { ITextEditor } from '../../Editors/Text'
-import { IView, ITreeItem, IHelpItem } from '../../../interfaces'
+import { IView, IFieldItem, IHelpItem } from '../../../interfaces'
 import { ViewProps } from './View'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -16,21 +17,22 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'view')!
 export interface State {
   descriptor: IView
   onChange: (view: IView) => void
-  fieldTree?: ITreeItem[]
+  fields?: IFieldItem[]
   helpItem: IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
   updateDescriptor: (patch: Partial<IView>) => void
   editor: React.RefObject<ITextEditor>
+  searchTerm?: string
 }
 
 export function makeStore(props: ViewProps) {
   return createStore<State>((set, get) => ({
+    fields: props.fields,
     descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     view: props.view || { query: '' },
-    fieldTree: helpers.createFieldTree(props.fields || []),
     editor: React.createRef<ITextEditor>(),
     updateState: (patch) => {
       set({ ...patch })
@@ -46,6 +48,22 @@ export function makeStore(props: ViewProps) {
       set({ descriptor })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  fieldTree: (state: State) => {
+    const fields: IFieldItem[] = []
+    const search = state.searchTerm?.toLowerCase()
+    for (const field of state.fields || []) {
+      if (search) {
+        const text = field.name + field.type + field.tableName + field.tablePath
+        if (!text.includes(search)) continue
+      }
+      fields.push(field)
+    }
+    return helpers.createFieldTree(fields)
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

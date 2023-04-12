@@ -7,7 +7,7 @@ import FieldTree from '../../../Parts/Trees/FieldTree'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import Columns from '../../../Parts/Columns'
 import { useTheme } from '@mui/material/styles'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function Query() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -41,7 +41,7 @@ function QueryEditor() {
 }
 
 function QueryFields() {
-  const fieldTree = useStore((state) => state.fieldTree)
+  const fieldTree = useStore(selectors.fieldTree)
   const editor = useStore((state) => state.editor)
   const searchTerm = useStore((state) => state.searchTerm)
   const updateState = useStore((state) => state.updateState)
