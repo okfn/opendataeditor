@@ -2,7 +2,7 @@ import omit from 'lodash/omit'
 import { ICkanControl } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
-import { IFieldItem } from './interfaces'
+import { IFieldItem, IChart } from './interfaces'
 import { IPackage, IResource, IDialect, ISchema } from './interfaces'
 import * as settings from './settings'
 
@@ -29,6 +29,13 @@ export class Client {
   ) {
     if (this.basepath) path = this.basepath + path
     return makeRequest(path, { ...props, session: this.session })
+  }
+
+  // Chart
+
+  async chartRender(props: { chart: IChart }) {
+    const result = await this.request('/chart/render', props)
+    return result as { chart: IChart }
   }
 
   // Field

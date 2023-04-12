@@ -16,6 +16,7 @@ export interface State {
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   original?: IChart
   modified?: IChart
+  rendered?: IChart
   revision: number
   resource: IResource
   updateState: (patch: Partial<State>) => void
@@ -28,6 +29,7 @@ export interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    panel: 'editor',
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
@@ -42,6 +44,8 @@ export function makeStore(props: ChartProps) {
       const { items } = await client.fieldList()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data, fields: items })
+      const { chart } = await client.chartRender({ chart: data })
+      set({ rendered: chart })
     },
     clear: () => {
       const { updateState } = get()
@@ -57,6 +61,8 @@ export function makeStore(props: ChartProps) {
       await client.fileUpdate({ path: file.path, resource })
       await client.jsonWrite({ path: path || file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      const { chart } = await client.chartRender({ chart: modified })
+      set({ rendered: chart })
     },
   }))
 }

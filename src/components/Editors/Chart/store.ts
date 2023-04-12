@@ -70,8 +70,27 @@ export function makeStore(props: ChartProps) {
       set({ channelState: { ...channelState, ...patch } })
     },
     updateChannel: (patch) => {
-      const { descriptor, updateState } = get()
+      const { fields, descriptor, updateState } = get()
       const channel = selectors.channel(get())
+      if ('field' in patch) {
+        for (const item of fields || []) {
+          if (patch.field === item.name) {
+            switch (item.type) {
+              case 'number':
+              case 'integer':
+                patch.type = 'quantitative'
+                break
+              case 'date':
+              case 'time':
+              case 'datetime':
+                patch.type = 'temporal'
+                break
+              default:
+                patch.type = 'nominal'
+            }
+          }
+        }
+      }
       Object.assign(channel, patch)
       updateState({ descriptor })
     },
