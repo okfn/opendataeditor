@@ -21,7 +21,7 @@ const Context = React.createContext<{
 export default function FieldTree(props: FieldTreeProps) {
   return (
     <Context.Provider value={{ onPathDoubleClick: props.onPathDoubleClick }}>
-      <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
+      <Box sx={{ padding: 2 }}>
         <TreeView
           selected={props.selected || ''}
           defaultExpanded={props.expanded}

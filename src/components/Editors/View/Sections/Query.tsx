@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import FieldTree from '../../../Parts/Trees/FieldTree'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
+import ScrollBox from '../../../Parts/ScrollBox'
 import Columns from '../../../Parts/Columns'
 import { useTheme } from '@mui/material/styles'
 import { useStore, selectors } from '../store'
@@ -35,12 +36,14 @@ function QueryEditor() {
       onMount={(ref) => {
         // @ts-ignore
         editor.current = ref
+        editor.current.focus()
       }}
     />
   )
 }
 
 function QueryFields() {
+  const theme = useTheme()
   const fieldTree = useStore(selectors.fieldTree)
   const editor = useStore((state) => state.editor)
   const searchTerm = useStore((state) => state.searchTerm)
@@ -57,15 +60,17 @@ function QueryFields() {
           />
         </Columns>
       </Box>
-      <FieldTree
-        tree={fieldTree}
-        onPathDoubleClick={(path) => {
-          if (editor.current) {
-            editor.current.trigger('keyboard', 'type', { text: `"${path}"` })
-            editor.current.focus()
-          }
-        }}
-      />
+      <ScrollBox height={theme.spacing(34)}>
+        <FieldTree
+          tree={fieldTree}
+          onPathDoubleClick={(path) => {
+            if (editor.current) {
+              editor.current.trigger('keyboard', 'type', { text: `"${path}"` })
+              editor.current.focus()
+            }
+          }}
+        />
+      </ScrollBox>
     </Box>
   )
 }

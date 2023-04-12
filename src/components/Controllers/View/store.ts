@@ -1,28 +1,32 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
-import { ITable, IView, IFieldItem } from '../../../interfaces'
+import { IResource, IView, ITable, IFieldItem } from '../../../interfaces'
 import { SqlProps } from './View'
+import * as settings from '../../../settings'
 
 export interface State {
+  file: IFile
   client: Client
-  file?: IFile
-  view?: IView
-  queryValidationStatus: boolean
   fields?: IFieldItem[]
-  tables?: string[] | undefined
+  dialog?: 'saveAs'
+  panel?: 'metadata' | 'report' | 'source' | 'editor'
+  original?: IView
+  modified?: IView
+  revision: number
+  resource: IResource
   table?: ITable
-  error?: string | undefined
-
-  // General
-
-  setView: (view?: IView) => void
-  setQueryValidationStatus: (queryValidationStatus: boolean) => void
-  loadFields: () => Promise<void>
-  makeQuery: () => Promise<void>
+  error?: string
+  updateState: (patch: Partial<State>) => void
+  load: () => Promise<void>
+  clear: () => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export interface ExceptionError {
@@ -31,43 +35,47 @@ export interface ExceptionError {
 
 export function makeStore(props: SqlProps) {
   return createStore<State>((set, get) => ({
-    client: props.client,
     file: props.file,
-    queryValidationStatus: false,
-
-    // General
-    setQueryValidationStatus: (queryValidationStatus) => set({ queryValidationStatus }),
-    setView: (view) => set({ view }),
-    loadFields: async () => {
-      const { client } = get()
-      const { items } = await client.fieldList()
-      const tables: string[] = []
-      for (const item of items) {
-        if (tables.indexOf(item.tableName) < 0) {
-          tables.push(item.tableName)
-        }
-      }
-      set({ fields: items })
-      set({ tables: tables })
+    client: props.client,
+    panel: 'editor',
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
+      set(patch)
     },
-    makeQuery: async () => {
-      const { client, view, queryValidationStatus } = get()
-      if (!view) return
-
-      if (!queryValidationStatus) {
-        set({ table: undefined })
-        return
-      }
-
-      try {
-        const { table } = await client.tableQuery({ query: view.query })
-        set({ table })
-      } catch (error) {
-        set({ table: undefined })
-        set({ error: 'Error response from Frictionless API' })
-      }
+    load: async () => {
+      const { client, file } = get()
+      const { items } = await client.fieldList()
+      const { data } = await client.jsonRead({ path: file.path })
+      set({ modified: cloneDeep(data), original: data, fields: items })
+    },
+    clear: () => {
+      const { updateState } = get()
+      updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
+    },
+    revert: () => {
+      const { original } = get()
+      set({ modified: cloneDeep(original), revision: 0 })
+    },
+    save: async (path) => {
+      const { file, client, resource, modified } = get()
+      if (!modified) return
+      await client.fileUpdate({ path: file.path, resource })
+      await client.jsonWrite({ path: path || file.path, data: modified })
+      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

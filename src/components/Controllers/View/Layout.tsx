@@ -5,25 +5,27 @@ import Actions from './Actions'
 import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
+import ScrollBox from '../../Parts/ScrollBox'
 import { useStore } from './store'
 
 export default function Layout() {
   const theme = useTheme()
+  const panel = useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
-  const panelHeight = 48
+  const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
-  const loadFields = useStore((state) => state.loadFields)
+  const load = useStore((state) => state.load)
   const path = useStore((state) => state.file?.path)
   React.useEffect(() => {
-    loadFields().catch(console.error)
+    load().catch(console.error)
   }, [path])
   return (
     <React.Fragment>
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
-        <Box sx={{ height: contentHeight }}>
+        <ScrollBox height={contentHeight}>
           <Editor />
-        </Box>
+        </ScrollBox>
         <Panel />
         <Actions />
       </Box>
