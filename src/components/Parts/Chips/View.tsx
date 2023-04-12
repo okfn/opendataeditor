@@ -1,19 +1,19 @@
 import * as React from 'react'
 import Chip from '@mui/material/Chip'
-import LeaderboardIcon from '@mui/icons-material/Leaderboard'
+import LayersIcon from '@mui/icons-material/Layers'
 
-export interface ChartChipProps {
+export interface ViewChipProps {
   onClick: () => void
 }
 
-export default function ChartChip(props: ChartChipProps) {
+export default function ViewChip(props: ViewChipProps) {
   return (
     <Chip
-      title="Create Chart"
+      title="Create SQL View"
       onClick={props.onClick}
-      label="CHART"
+      label="SQL VIEW"
       color="primary"
-      icon={<LeaderboardIcon />}
+      icon={<LayersIcon />}
       size="medium"
       sx={{
         height: '100%',

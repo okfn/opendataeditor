@@ -3,7 +3,7 @@ import { ICkanControl } from './interfaces'
 import { IFile, IFileItem } from './interfaces'
 import { ITable, IQueryData } from './interfaces'
 import { IFieldItem, IChart } from './interfaces'
-import { IPackage, IResource, IDialect, ISchema } from './interfaces'
+import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
 
 export class Client {
@@ -218,6 +218,13 @@ export class Client {
 
   async textWrite(props: { path: string; text: string }) {
     const result = await this.request('/text/write', props)
+    return result as { path: string }
+  }
+
+  // View
+
+  async viewWrite(props: { path: string; view: IView }) {
+    const result = await this.request('/view/write', props)
     return result as { path: string }
   }
 }

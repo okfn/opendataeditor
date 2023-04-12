@@ -6,21 +6,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { ITreeItem } from '../../../interfaces'
 
-interface FileTreeProps {
+interface FieldTreeProps {
   tree: ITreeItem[]
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
-  onFieldSelected?: IOnFieldSelected
+  onPathDoubleClick?: (path: string) => void
 }
 
-type IOnFieldSelected = (name: string) => void
-const Context = React.createContext<{ onFieldSelected?: IOnFieldSelected }>({})
+const Context = React.createContext<{
+  onPathDoubleClick?: FieldTreeProps['onPathDoubleClick']
+}>({})
 
-export default function FieldsTree(props: FileTreeProps) {
+export default function FieldTree(props: FieldTreeProps) {
   return (
-    <Context.Provider value={{ onFieldSelected: props.onFieldSelected }}>
-      <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
+    <Context.Provider value={{ onPathDoubleClick: props.onPathDoubleClick }}>
+      <Box sx={{ padding: 2 }}>
         <TreeView
           selected={props.selected || ''}
           defaultExpanded={props.expanded}
@@ -63,11 +64,11 @@ function TreeNode(props: { item: ITreeItem }) {
 }
 
 function TreeLabel(props: { label: string; type: string; path: string }) {
-  const { onFieldSelected } = React.useContext(Context)
+  const { onPathDoubleClick } = React.useContext(Context)
   return (
     <Box
       onClick={(ev: React.MouseEvent<HTMLElement>) => {
-        if (ev.detail === 2 && onFieldSelected) onFieldSelected(props.label)
+        if (ev.detail === 2 && onPathDoubleClick) onPathDoubleClick(props.label)
       }}
       sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}
     >

@@ -3,11 +3,13 @@ import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
 import ValidationChip from '../../Parts/Chips/Validation'
 import ChartChip from '../../Parts/Chips/Chart'
+import ViewChip from '../../Parts/Chips/View'
 import { useStore } from './store'
 
 export default function Status() {
   const file = useStore((state) => state.file)
   const createChart = useStore((state) => state.createChart)
+  const createView = useStore((state) => state.createView)
   // TODO: review/rework
   // TODO: handle time when indexing happens
   // TODO: if file is not selected show for the whole project
@@ -19,6 +21,7 @@ export default function Status() {
       </Prefix>
       <Contents>{file ? file.path : 'Data management for humans'}</Contents>
       <Suffix>
+        <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
         <ValidationChip errorCount={errorCount} />
       </Suffix>
