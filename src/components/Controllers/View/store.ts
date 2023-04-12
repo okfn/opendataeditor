@@ -51,6 +51,11 @@ export function makeStore(props: SqlProps) {
       const { items } = await client.fieldList()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data, fields: items })
+      if (file.record?.tableName) {
+        const query = `select * from "${file.record?.tableName}"`
+        const { table } = await client.tableQuery({ query })
+        set({ table })
+      }
     },
     clear: () => {
       const { updateState } = get()
@@ -68,8 +73,13 @@ export function makeStore(props: SqlProps) {
       const { file, client, resource, modified } = get()
       if (!modified) return
       await client.fileUpdate({ path: file.path, resource })
-      await client.jsonWrite({ path: path || file.path, data: modified })
+      await client.viewWrite({ path: path || file.path, view: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      if (file.record?.tableName) {
+        const query = `select * from "${file.record?.tableName}"`
+        const { table } = await client.tableQuery({ query })
+        set({ table })
+      }
     },
   }))
 }
