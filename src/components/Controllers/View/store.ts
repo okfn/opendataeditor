@@ -43,7 +43,6 @@ export function makeStore(props: SqlProps) {
     resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
-      if ('modified' in patch) patch.revision = revision + 1
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
@@ -78,7 +77,7 @@ export function makeStore(props: SqlProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0
+    return state.revision > 0 || state.original?.query !== state.modified?.query
   },
 }
 
