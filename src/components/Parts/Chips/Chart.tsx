@@ -9,6 +9,7 @@ export interface ChartChipProps {
 export default function ChartChip(props: ChartChipProps) {
   return (
     <Chip
+      title="Create Chart"
       onClick={props.onClick}
       label="CHART"
       color="primary"
