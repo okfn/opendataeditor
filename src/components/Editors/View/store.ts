@@ -1,145 +1,51 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
-import AceEditor from 'react-ace'
-import { createStore } from 'zustand/vanilla'
-import { Parser, AST, Select } from 'node-sql-parser'
+import noop from 'lodash/noop'
+import cloneDeep from 'lodash/cloneDeep'
 import { assert } from 'ts-essentials'
+import { createStore } from 'zustand/vanilla'
+import { ITextEditor } from '../../Editors/Text'
+import { IView, ITreeItem, IHelpItem } from '../../../interfaces'
 import { ViewProps } from './View'
-import { IView, ITreeItem, IViewError, IFieldItem } from '../../../interfaces'
-import * as helpers from './helpers'
+import * as settings from '../../../settings'
+import * as helpers from '../../../helpers'
+import help from './help.yaml'
+
+const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'view')!
 
 export interface State {
-  view: IView
+  descriptor: IView
+  onChange: (view: IView) => void
   fieldTree?: ITreeItem[]
-  fields?: IFieldItem[]
-  tables?: string[]
-  queryValidationStatus: boolean
-  editor?: React.RefObject<AceEditor>
-
-  // General
-  viewError?: IViewError | undefined
-  setQuery: (query: string) => void
-  formatQuery: () => Promise<void>
-  validateQuery: () => Promise<void>
-  onQueryValidation: (queryValidationStatus: boolean) => void
-}
-
-export interface ExceptionError {
-  message: string
+  helpItem: IHelpItem
+  updateHelp: (path: string) => void
+  updateState: (patch: Partial<State>) => void
+  updateDescriptor: (patch: Partial<IView>) => void
+  editor: React.RefObject<ITextEditor>
 }
 
 export function makeStore(props: ViewProps) {
-  return createStore<State>((set, _get) => ({
+  return createStore<State>((set, get) => ({
+    descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),
+    onChange: props.onChange || noop,
+    helpItem: DEFAULT_HELP_ITEM,
     view: props.view || { query: '' },
-    fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
-    viewError: props.viewError,
-    fields: props.fields ? props.fields : undefined,
-    tables: props.fields ? getTableNames(props.fields) : [],
-    queryValidationStatus: false,
-    editor: React.createRef<AceEditor>(),
-
-    // General
-
-    setQuery: (query) => {
-      const view = { query: query }
-      set({ view })
-      if (props.onViewChange) props.onViewChange(view)
+    fieldTree: helpers.createFieldTree(props.fields || []),
+    editor: React.createRef<ITextEditor>(),
+    updateState: (patch) => {
+      set({ ...patch })
     },
-
-    onQueryValidation: (queryValidationStatus: boolean) => {
-      set({ queryValidationStatus: queryValidationStatus })
-      if (props.onQueryValidation) props.onQueryValidation(queryValidationStatus)
+    updateHelp: (path) => {
+      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      set({ helpItem })
     },
-
-    validateQuery: async () => {
-      const { view } = _get()
-      const parser = new Parser()
-      let parsedSQL
-      try {
-        parsedSQL = parser.astify(view.query)
-      } catch (error) {
-        const errorObj: IViewError = {
-          message: (error as ExceptionError).message,
-        }
-        set({ viewError: errorObj })
-      }
-      if (parsedSQL) {
-        const { tables, fields, onQueryValidation } = _get()
-
-        const errors = checkExistingTablesAndFields(parsedSQL, tables, fields)
-        if (errors.length > 0) {
-          const errorObj: IViewError = {
-            message: errors.join(' '),
-          }
-          set({ viewError: errorObj })
-          onQueryValidation(false)
-        } else {
-          set({ view: { query: view.query } })
-          onQueryValidation(true)
-        }
-      }
-    },
-
-    formatQuery: async () => {
-      const parser = new Parser()
-      const { view } = _get()
-      if (!view) return
-
-      let parsedSQL
-
-      try {
-        parsedSQL = parser.astify(view.query)
-      } catch (error) {
-        const errorObj: IViewError = {
-          message: (error as ExceptionError).message,
-        }
-        set({ viewError: errorObj })
-      }
-      if (parsedSQL) {
-        set({ view: { query: parser.sqlify(parsedSQL) } })
-      }
+    updateDescriptor: (patch) => {
+      const { descriptor, onChange } = get()
+      Object.assign(descriptor, patch)
+      onChange(descriptor)
+      set({ descriptor })
     },
   }))
-}
-
-function getTableNames(fieldTree: IFieldItem[]): string[] {
-  const tables: string[] = []
-  for (const item of fieldTree) {
-    if (tables.indexOf(item.tableName) < 0) {
-      tables.push(item.tableName)
-    }
-  }
-  return tables
-}
-
-const checkExistingTablesAndFields = (
-  sqlAST: AST | AST[],
-  tables: string[] | undefined,
-  fields: IFieldItem[] | undefined
-) => {
-  const errors: string[] = []
-  const select: Select = sqlAST as Select
-
-  if (select !== null && select.from) {
-    for (const t of select.from) {
-      if (tables && tables.indexOf(t.table) < 0) {
-        errors.push(`Table "${t.table}" does nos exist.`)
-      }
-    }
-
-    if (select.columns) {
-      for (const c of select.columns) {
-        if (c.expr && c.expr.column) {
-          const column = c.expr.column
-          if (fields && fields.findIndex((f) => f.name === column) < 0) {
-            errors.push(`Field "${c.expr.column}" does nos exist.`)
-          }
-        }
-      }
-    }
-  }
-
-  return errors
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

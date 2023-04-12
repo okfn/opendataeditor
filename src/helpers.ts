@@ -1,6 +1,6 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
-import { IFileItem, ITreeItem, IHelp, IHelpItem } from './interfaces'
+import { IFileItem, ITreeItem, IHelp, IHelpItem, IFieldItem } from './interfaces'
 import * as settings from './settings'
 
 export function readHelpItem(help: IHelp, path: string): IHelpItem | null {
@@ -102,4 +102,24 @@ export function getFolderList(file: File) {
       }, [])
     : []
   return folderList
+}
+
+export function createFieldTree(fields: IFieldItem[]): ITreeItem[] {
+  const fieldTreeMap: { [tableName: string]: ITreeItem } = {}
+  for (const item of fields) {
+    fieldTreeMap[item.tableName] = fieldTreeMap[item.tableName] || {
+      name: item.tableName,
+      path: item.tablePath,
+      type: 'table',
+      children: [],
+    }
+    fieldTreeMap[item.tableName].children.push({
+      name: item.name,
+      path: `${item.tablePath}/${item.name}`,
+      type: item.type,
+      children: [],
+    })
+  }
+  const fieldTree = Object.values(fieldTreeMap)
+  return fieldTree
 }

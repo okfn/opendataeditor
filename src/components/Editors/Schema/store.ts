@@ -26,8 +26,8 @@ interface State {
   onFieldSelected: (name?: string) => void
   vtabIndex: number
   helpItem: IHelpItem
-  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
+  updateState: (patch: Partial<State>) => void
   updateDescriptor: (patch: Partial<ISchema>) => void
 
   // Fields
