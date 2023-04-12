@@ -8,7 +8,7 @@ export default function Fields() {
   const editor = useStore((state) => state.editor)
   if (!fieldTree) return null
   return (
-    <Box sx={{ marginTop: 2, border: 'solid 1px #ccc', height: '100%' }}>
+    <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <FieldsTree
         tree={fieldTree}
         onFieldSelected={(name: string) => {
