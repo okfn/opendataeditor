@@ -58,8 +58,12 @@ export function makeStore(props: SqlProps) {
       updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
     },
     revert: () => {
-      const { original } = get()
-      set({ modified: cloneDeep(original), revision: 0 })
+      const { file, original } = get()
+      set({
+        resource: cloneDeep(file.record!.resource),
+        modified: cloneDeep(original),
+        revision: 0,
+      })
     },
     save: async (path) => {
       const { file, client, resource, modified } = get()

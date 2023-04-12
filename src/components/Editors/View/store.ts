@@ -26,14 +26,14 @@ export interface State {
   searchTerm?: string
 }
 
-export function makeStore(props: ViewProps) {
+export function makeStore(props: ViewProps, editor: React.RefObject<ITextEditor>) {
   return createStore<State>((set, get) => ({
     fields: props.fields,
     descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     view: props.view || { query: '' },
-    editor: React.createRef<ITextEditor>(),
+    editor,
     updateState: (patch) => {
       set({ ...patch })
     },

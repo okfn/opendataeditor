@@ -1,7 +1,8 @@
 import * as React from 'react'
+import * as themes from '../../../themes'
+import { ITextEditor } from '../../Editors/Text'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import * as themes from '../../../themes'
 import { IView, IFieldItem } from '../../../interfaces'
 import Layout from './Layout'
 
@@ -12,7 +13,8 @@ export interface ViewProps {
 }
 
 export default function View(props: ViewProps) {
-  const store = React.useMemo(() => makeStore(props), Object.values(props))
+  const editor = React.useMemo(() => React.createRef<ITextEditor>(), [])
+  const store = React.useMemo(() => makeStore(props, editor), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>
