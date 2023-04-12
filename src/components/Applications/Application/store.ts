@@ -16,6 +16,7 @@ export interface State {
   setFileItemAdded: (value: boolean) => void
   updateState: (patch: Partial<State>) => void
   createChart: () => Promise<void>
+  createView: () => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -42,6 +43,12 @@ export function makeStore(props: ApplicationProps) {
       const { client, selectFile } = get()
       const path = 'new-chart.json'
       await client.jsonWrite({ path, data: {} })
+      selectFile(path)
+    },
+    createView: async () => {
+      const { client, selectFile } = get()
+      const path = 'new-view.json'
+      await client.jsonWrite({ path, data: { query: '' } })
       selectFile(path)
     },
   }))
