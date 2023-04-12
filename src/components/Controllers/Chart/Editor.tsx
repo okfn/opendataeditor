@@ -7,7 +7,7 @@ export default function Editor() {
   const rendered = useStore((state) => state.rendered)
   if (!rendered) return null
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box sx={{ height: '100%', padding: 2 }}>
       <VegaLite
         spec={rendered as any}
         width={rendered.width || 600}
