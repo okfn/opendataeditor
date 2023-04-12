@@ -2,19 +2,23 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
-import { StatusProps } from './Status'
+import { ChartProps } from './Chart'
+import { IChart, ITreeItem } from '../../../interfaces'
+import * as helpers from './helpers'
 
 export interface State {
-  file?: IFile
-  client: Client
-  dialog?: 'view' | 'chart'
+  chart: IChart
+  fieldTree?: ITreeItem[]
+
+  // General
 }
 
-export function makeStore(props: StatusProps) {
+export function makeStore(props: ChartProps) {
   return createStore<State>((_set, _get) => ({
-    ...props,
+    chart: props.chart || { query: '' },
+    fieldTree: props.fields ? helpers.createTreeFromFields(props.fields) : undefined,
+
+    // General
   }))
 }
 

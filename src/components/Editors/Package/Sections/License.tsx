@@ -37,7 +37,6 @@ function LicenseList() {
       {licenseItems.map(({ index, license }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="license"
           name={license.name}
           type="license"

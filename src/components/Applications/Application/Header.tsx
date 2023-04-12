@@ -10,14 +10,11 @@ import Typography from '@mui/material/Typography'
 import SettingsIcon from '@mui/icons-material/Settings'
 import GithubIcon from '@mui/icons-material/GitHub'
 import HelpIcon from '@mui/icons-material/Help'
-import Status from '../../Controllers/Status'
-import { useStore } from './store'
+import Status from './Status'
 
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
-  const file = useStore((state) => state.file)
-  const client = useStore((state) => state.client)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static" color="secondary" elevation={0}>
@@ -40,7 +37,7 @@ export default function Header() {
               </Typography>
             </Grid>
             <Grid item xs={5} lg={7}>
-              <Status file={file} client={client} />
+              <Status />
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">

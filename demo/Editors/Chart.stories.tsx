@@ -23,5 +23,5 @@ const fields = [
 export const Default = Template.bind({})
 Default.args = {
   fields,
-  onChartChange: console.log,
+  onChange: console.log,
 }

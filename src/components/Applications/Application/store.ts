@@ -10,20 +10,20 @@ export interface State {
   client: Client
   file?: IFile
   fileItemAdded?: boolean
-
-  // General
-
+  dialog?: 'config'
   countFiles: () => Promise<number>
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
+  updateState: (patch: Partial<State>) => void
+  createChart: () => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
   return createStore<State>((set, get) => ({
     ...props,
-
-    // General
-
+    updateState: (patch) => {
+      set(patch)
+    },
     countFiles: async () => {
       const { client } = get()
       const { count } = await client.fileCount()
@@ -37,6 +37,12 @@ export function makeStore(props: ApplicationProps) {
     },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
+    },
+    createChart: async () => {
+      const { client, selectFile } = get()
+      const path = 'new-chart.json'
+      await client.jsonWrite({ path, data: {} })
+      selectFile(path)
     },
   }))
 }

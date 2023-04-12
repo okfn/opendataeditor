@@ -4,10 +4,15 @@ import Box from '@mui/material/Box'
 import { useStore } from './store'
 
 export default function Editor() {
-  const chart = useStore((state) => state.chart)
+  const rendered = useStore((state) => state.rendered)
+  if (!rendered) return null
   return (
-    <Box sx={{ mt: 2 }}>
-      <VegaLite spec={chart} width={1000} height={550} />
+    <Box sx={{ height: '100%' }}>
+      <VegaLite
+        spec={rendered as any}
+        width={rendered.width || 600}
+        height={rendered.height || 400}
+      />
     </Box>
   )
 }

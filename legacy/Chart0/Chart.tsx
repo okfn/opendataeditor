@@ -2,16 +2,16 @@ import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
-import { IFile } from '../../../interfaces'
-import { Client } from '../../../client'
+import { IChart, IFieldItem } from '../../../interfaces'
 import Layout from './Layout'
 
-export interface StatusProps {
-  file?: IFile
-  client: Client
+export interface ChartProps {
+  chart?: IChart
+  fields?: IFieldItem[]
+  onChartChange?: (chart: IChart) => void
 }
 
-export default function Status(props: StatusProps) {
+export default function Chart(props: ChartProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

@@ -1,35 +1,32 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
-import InputBase from '@mui/material/InputBase'
 import ValidationChip from '../../Parts/Chips/Validation'
+import ChartChip from '../../Parts/Chips/Chart'
 import { useStore } from './store'
 
-export default function Layout() {
+export default function Status() {
   const file = useStore((state) => state.file)
+  const createChart = useStore((state) => state.createChart)
   // TODO: review/rework
   // TODO: handle time when indexing happens
+  // TODO: if file is not selected show for the whole project
   const errorCount = file?.record?.report?.stats?.errors || 0
   return (
-    <Search>
-      <SearchIconWrapper>
+    <Container>
+      <Prefix>
         <InputIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        readOnly
-        inputProps={{ 'aria-label': 'search' }}
-        value={file ? file.path : 'Data management for humans'}
-      />
-      {file && (
-        <InformationWrapper>
-          <ValidationChip errorCount={errorCount} />
-        </InformationWrapper>
-      )}
-    </Search>
+      </Prefix>
+      <Contents>{file ? file.path : 'Data management for humans'}</Contents>
+      <Suffix>
+        <ChartChip onClick={() => createChart()} />
+        <ValidationChip errorCount={errorCount} />
+      </Suffix>
+    </Container>
   )
 }
 
-const Search = styled('div')(({ theme }) => ({
+const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   border: 'solid 1px #ddd',
   borderRadius: theme.shape.borderRadius,
@@ -45,7 +42,16 @@ const Search = styled('div')(({ theme }) => ({
   },
 }))
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const Contents = styled('div')(({ theme }) => ({
+  color: 'inherit',
+  width: '100%',
+  padding: theme.spacing(1, 1, 1, 0),
+  // vertical padding + font size from searchIcon
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  transition: theme.transitions.create('width'),
+}))
+
+const Prefix = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -55,29 +61,13 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }))
 
-const InformationWrapper = styled('div')(({ theme }) => ({
+const Suffix = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 0),
   height: '100%',
   position: 'absolute',
   right: 0,
   top: 0,
-  pointerEvents: 'none',
   display: 'flex',
   alignItems: 'right',
   justifyContent: 'right',
-}))
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& ::file-selector-button': {
-    display: 'none',
-  },
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-  },
 }))
