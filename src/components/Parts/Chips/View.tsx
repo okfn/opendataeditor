@@ -10,7 +10,7 @@ export default function ViewChip(props: ViewChipProps) {
   return (
     <Chip
       onClick={props.onClick}
-      label="VIEW"
+      label="SQL VIEW"
       color="primary"
       icon={<LayersIcon />}
       size="medium"
