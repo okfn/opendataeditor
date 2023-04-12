@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-import ConfigPanel from './Panels/Config'
+import EditorPanel from './Panels/Editor'
 
 export default function Layout() {
   const theme = useTheme()
@@ -15,7 +15,7 @@ export default function Layout() {
         paddingX: 2,
       }}
     >
-      <ConfigPanel />
+      <EditorPanel />
     </Box>
   )
 }
