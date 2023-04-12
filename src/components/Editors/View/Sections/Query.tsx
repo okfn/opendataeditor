@@ -43,13 +43,18 @@ function QueryEditor() {
 function QueryFields() {
   const fieldTree = useStore((state) => state.fieldTree)
   const editor = useStore((state) => state.editor)
+  const searchTerm = useStore((state) => state.searchTerm)
+  const updateState = useStore((state) => state.updateState)
   if (!fieldTree) return null
   return (
     <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <Box sx={{ padding: 2, borderBottom: 'solid 1px #ddd' }}>
         <Columns layout={[6, 6]}>
           <Typography variant="h4">Fields</Typography>
-          <EditorSearch onChange={console.log} />
+          <EditorSearch
+            value={searchTerm || ''}
+            onChange={(value) => updateState({ searchTerm: value })}
+          />
         </Columns>
       </Box>
       <FieldTree
