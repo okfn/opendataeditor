@@ -6,14 +6,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { ITreeItem } from '../../../interfaces'
 
-interface FileTreeProps {
+interface BaseTreeProps {
   tree: ITreeItem[]
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
 }
 
-export default function FileTree(props: FileTreeProps) {
+export default function BaseTree(props: BaseTreeProps) {
   return (
     <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
       <TreeView

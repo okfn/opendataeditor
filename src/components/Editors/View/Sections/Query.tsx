@@ -44,6 +44,8 @@ function QueryEditor() {
 
 function QueryFields() {
   const theme = useTheme()
+  // TODO: currently, we make it controlled just because it fixes field selection background color
+  const [selected, setSelected] = React.useState<string>()
   const fieldTree = useStore(selectors.fieldTree)
   const editor = useStore((state) => state.editor)
   const searchTerm = useStore((state) => state.searchTerm)
@@ -63,6 +65,8 @@ function QueryFields() {
       <ScrollBox height={theme.spacing(34)}>
         <FieldTree
           tree={fieldTree}
+          selected={selected}
+          onPathChange={setSelected}
           onPathDoubleClick={(path) => {
             if (editor.current) {
               editor.current.trigger('keyboard', 'type', { text: `"${path}"` })
