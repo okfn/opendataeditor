@@ -78,19 +78,13 @@ function ChannelItem() {
 
 function Type() {
   const type = useStore((state) => state.channelState.type!)
-  const descriptor = useStore((state) => state.descriptor)
-  const updateState = useStore((state) => state.updateState)
+  const updateChannelType = useStore((state) => state.updateChannelType)
   return (
     <SelectField
       label="Type"
       value={type || ''}
       options={settings.CHANNEL_TYPES}
-      onChange={(value) => {
-        if (!value) return
-        descriptor.encoding![value] = descriptor.encoding![type]
-        delete descriptor.encoding![type]
-        updateState({ descriptor })
-      }}
+      onChange={(value) => (value ? updateChannelType(value) : undefined)}
     />
   )
 }

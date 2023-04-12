@@ -33,6 +33,7 @@ interface State {
 
   channelState: IChannelState
   updateChannelState: (patch: Partial<IChannelState>) => void
+  updateChannelType: (type: string) => void
   // TODO: fix
   updateChannel: (patch: any) => void
   removeChannel: (type: string) => void
@@ -68,6 +69,15 @@ export function makeStore(props: ChartProps) {
     updateChannelState: (patch) => {
       const { channelState } = get()
       set({ channelState: { ...channelState, ...patch } })
+    },
+    updateChannelType: (type) => {
+      const { descriptor, channelState, updateState, updateChannelState } = get()
+      const oldType = channelState.type!
+      const channel = selectors.channel(get())
+      descriptor.encoding![type] = channel
+      updateChannelState({ type })
+      delete descriptor.encoding![oldType]
+      updateState({ descriptor })
     },
     updateChannel: (patch) => {
       const { fields, descriptor, updateState } = get()
