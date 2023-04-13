@@ -1,15 +1,13 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import FieldsTree from '../../src/components/Parts/Trees/FieldsTree'
+import FieldTree from '../../src/components/Parts/Trees/FieldTree'
 
 export default {
-  title: 'Parts/FieldsTree',
-  component: FieldsTree,
+  title: 'Parts/FieldTree',
+  component: FieldTree,
 } as Meta
 
-const Template: Story<Parameters<typeof FieldsTree>[0]> = (args) => (
-  <FieldsTree {...args} />
-)
+const Template: Story<Parameters<typeof FieldTree>[0]> = (args) => <FieldTree {...args} />
 
 // Props
 
@@ -28,6 +26,6 @@ const tree = [
 export const Default = Template.bind({})
 Default.args = {
   tree,
-  // onPathChange: console.log,
-  onFieldSelected: console.log,
+  onPathChange: console.log,
+  onPathDoubleClick: console.log,
 }

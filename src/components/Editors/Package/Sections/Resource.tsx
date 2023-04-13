@@ -51,7 +51,6 @@ function ResourceListItem() {
       {resourceItems.map(({ index, resource }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="resource"
           name={resource.name}
           type={resource.type}

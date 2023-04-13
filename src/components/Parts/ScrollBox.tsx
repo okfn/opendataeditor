@@ -21,7 +21,7 @@ export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>
         },
         '&::-webkit-scrollbar-thumb': {
           borderRadius: '3px',
-          backgroundColor: '#888',
+          backgroundColor: '#ccc',
         },
         '&::-webkit-scrollbar-thumb:hover': {
           background: '#555',

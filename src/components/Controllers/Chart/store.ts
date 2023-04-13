@@ -1,60 +1,77 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
+import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFieldItem } from '../../../interfaces'
+import { IFile, IFieldItem, IChart, IResource } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
+  file: IFile
   client: Client
-  file?: IFile
-  chart?: any
   fields?: IFieldItem[]
-  axisX?: string
-  axisY?: string
-
-  // General
-
-  loadFields: () => Promise<void>
-  setAxisX: (axisX: string) => void
-  setAxisY: (axisX: string) => void
-  drawChart: () => Promise<void>
+  dialog?: 'saveAs'
+  panel?: 'metadata' | 'report' | 'source' | 'editor'
+  original?: IChart
+  modified?: IChart
+  rendered?: IChart
+  revision: number
+  resource: IResource
+  updateState: (patch: Partial<State>) => void
+  load: () => Promise<void>
+  clear: () => void
+  revert: () => void
+  save: (path?: string) => Promise<void>
 }
 
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
-    client: props.client,
-    file: props.file,
-
-    // General
-
-    loadFields: async () => {
-      const { client } = get()
-      const { items } = await client.fieldList()
-      set({ fields: items })
+    ...props,
+    panel: 'editor',
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('modified' in patch) patch.revision = revision + 1
+      if ('resource' in patch) patch.revision = revision + 1
+      set(patch)
     },
-    setAxisX: (axisX) => set({ axisX }),
-    setAxisY: (axisY) => set({ axisY }),
-    drawChart: async () => {
-      const { client, file, axisX, axisY } = get()
-      if (!file) return
-      const { table } = await client.tableRead({ path: file.path })
-      if (!axisX || !axisY) return
-      const chart = {
-        $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-        data: { values: table.rows },
-        mark: 'line',
-        encoding: {
-          x: { timeUnit: 'year', field: axisX, type: 'temporal' },
-          y: { aggregate: 'mean', field: axisY, type: 'quantitative' },
-          color: { field: 'symbol', type: 'nominal' },
-        },
-      } as any
-      console.log(chart)
-      set({ chart })
+    load: async () => {
+      const { client, file } = get()
+      const { items } = await client.fieldList()
+      const { data } = await client.jsonRead({ path: file.path })
+      set({ modified: cloneDeep(data), original: data, fields: items })
+      const { chart } = await client.chartRender({ chart: data })
+      set({ rendered: chart })
+    },
+    clear: () => {
+      const { updateState } = get()
+      updateState({ modified: {} })
+    },
+    revert: () => {
+      const { original } = get()
+      set({ modified: cloneDeep(original), revision: 0 })
+    },
+    save: async (path) => {
+      const { file, client, resource, modified } = get()
+      if (!modified) return
+      await client.fileUpdate({ path: file.path, resource })
+      await client.jsonWrite({ path: path || file.path, data: modified })
+      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      const { chart } = await client.chartRender({ chart: modified })
+      set({ rendered: chart })
     },
   }))
+}
+
+export const select = createSelector
+export const selectors = {
+  isUpdated: (state: State) => {
+    return state.revision > 0
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

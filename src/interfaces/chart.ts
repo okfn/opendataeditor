@@ -1,6 +1,10 @@
 export interface IChart {
-  query: string
+  data?: { url?: string; values?: object[] }
+  mark?: string
+  encoding?: {
+    [type: string]: { field?: string; aggregate?: string; value?: any }
+  }
+  layers?: object[]
   height?: number
-  weight?: number
-  // TODO: complete
+  width?: number
 }

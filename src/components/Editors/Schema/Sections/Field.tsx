@@ -44,7 +44,6 @@ function FieldList() {
       {fieldItems.map(({ index, field }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="field"
           name={field.name}
           type={field.type}

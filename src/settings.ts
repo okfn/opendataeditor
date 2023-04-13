@@ -1,4 +1,4 @@
-import { ISchema, IDialect, IResource, IPackage } from './interfaces'
+import { ISchema, IDialect, IResource, IPackage, IView } from './interfaces'
 
 // Genearl
 
@@ -48,6 +48,7 @@ export const INITIAL_SCHEMA: ISchema = { fields: [] }
 export const INITIAL_DIALECT: IDialect = {}
 export const INITIAL_RESOURCE: IResource = { name: 'name', type: 'table', path: 'path' }
 export const INITIAL_PACKAGE: IPackage = { resources: [] }
+export const INITIAL_VIEW: IView = { query: '' }
 
 // Structures
 

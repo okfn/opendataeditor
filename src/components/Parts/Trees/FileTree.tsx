@@ -10,10 +10,11 @@ import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import TableRows from '@mui/icons-material/TableRows'
+import LayersIcon from '@mui/icons-material/Layers'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
+import ScrollBox from '../ScrollBox'
 
 interface FileTreeProps {
   tree: ITreeItem[]
@@ -40,7 +41,7 @@ export default function FileTree(props: FileTreeProps) {
     }
   }, [props.tree])
   return (
-    <Box sx={{ padding: 2, height: '100%', overflowY: 'auto' }}>
+    <ScrollBox sx={{ padding: 2 }} height="100%">
       <TreeView
         selected={props.selected || ''}
         expanded={expanded}
@@ -60,7 +61,7 @@ export default function FileTree(props: FileTreeProps) {
           <TreeNode item={item} key={item.path} />
         ))}
       </TreeView>
-    </Box>
+    </ScrollBox>
   )
 }
 
@@ -159,5 +160,5 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   checklist: CheckCircleOutline,
   pipeline: AccountTree,
   schema: DescriptionIcon,
-  view: TableRows,
+  view: LayersIcon,
 }
