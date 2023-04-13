@@ -1,1 +1,1 @@
-frictionless[excel,json,markdown,server,sql]
+frictionless[application]
