@@ -11,7 +11,7 @@ export default {
 
 // Props
 
-const client = new Client({ session: 'storybooktestersession' })
+const client = new Client()
 const record = {
   name: 'table',
   type: 'table',

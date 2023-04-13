@@ -8,11 +8,8 @@ import ReactDOM from 'react-dom'
 import { Client } from './client'
 import Application from './components/Applications/Application'
 
-const session = localStorage.getItem('session') || undefined
-Client.connect({ session }).then((client) => {
-  if (client.session) localStorage.setItem('session', client.session)
-  const application = document.createElement('div')
-  application.setAttribute('id', 'application')
-  document.body.appendChild(application)
-  ReactDOM.render(React.createElement(Application, { client }, null), application)
-})
+const client = new Client()
+const application = document.createElement('div')
+application.setAttribute('id', 'application')
+document.body.appendChild(application)
+ReactDOM.render(React.createElement(Application, { client }, null), application)

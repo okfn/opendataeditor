@@ -12,7 +12,7 @@ const Template: Story<Parameters<typeof Files>[0]> = (args) => <Files {...args} 
 
 // Props
 
-const client = new Client({ session: 'storybooktestersession' })
+const client = new Client()
 const onPathChange = (path?: string) => console.log(path)
 
 // Stories
