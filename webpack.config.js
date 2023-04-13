@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const version = require('./package.json').version
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -55,6 +56,7 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       favicon: 'assets/favicon.png',
       template: 'src/application.html',
+      templateParameters: { version },
     }),
   ],
 }
@@ -102,6 +104,7 @@ if (ENTRY === 'metadata') {
   webpackConfig.plugins[1] = new HtmlWebpackPlugin({
     favicon: 'assets/favicon.png',
     template: 'src/metadata.html',
+    templateParameters: { version },
   })
 }
 
