@@ -11,7 +11,7 @@ const DEBUG = process.env.DEBUG || false
 const webpackConfig = {
   entry: ['./src/application.ts'],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/application'),
     filename: 'application.js',
     library: 'frictionlessApplication',
     libraryTarget: 'umd',
@@ -70,7 +70,7 @@ if (NODE_ENV === 'development') {
         pathRewrite: { '^/api': '' },
       },
     },
-    static: './dist',
+    static: './dist/application',
   }
 }
 
