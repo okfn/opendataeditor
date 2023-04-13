@@ -1,6 +1,4 @@
 import * as React from 'react'
-import FileSaver from 'file-saver'
-import Download from '@mui/icons-material/Download'
 import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
 import RenameIcon from '@mui/icons-material/Edit'
@@ -18,31 +16,10 @@ export default function ManageButton() {
       icon={<ManageIcon fontSize="small" sx={{ mr: 1 }} />}
       disabled={!path}
     >
-      <DownloadButton />
       <CopyButton />
       <MoveButton />
       <RenameButton />
     </DropdownButton>
-  )
-}
-
-function DownloadButton() {
-  const path = useStore((state) => state.path)
-  const downloadFile = useStore((state) => state.downloadFile)
-  return (
-    <IconButton
-      label="Download File"
-      variant="text"
-      Icon={Download}
-      onClick={async () => {
-        const bytes = await downloadFile()
-        if (bytes) {
-          const blob = new Blob([bytes])
-          const filename = path?.split('/').slice(-1).join()
-          FileSaver.saveAs(blob, filename)
-        }
-      }}
-    />
   )
 }
 

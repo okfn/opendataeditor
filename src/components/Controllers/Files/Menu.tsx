@@ -9,8 +9,8 @@ export default function Menu() {
       <SelectField
         disabled
         margin="none"
-        value="default"
-        options={['default']}
+        value="current"
+        options={['current']}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" disableTypography>

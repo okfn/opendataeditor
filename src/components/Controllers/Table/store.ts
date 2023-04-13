@@ -20,10 +20,6 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   exportTable: (name: string, format: string) => Promise<string>
   updateColumn: (selectedColumn: number) => void
-  downloadTable: (
-    name: string,
-    format: string
-  ) => Promise<{ bytes: ArrayBuffer; path: string }>
   onExport: (path: string) => void
 
   // Version 2
@@ -67,17 +63,6 @@ export function makeStore(props: TableProps) {
         target: `${name}.${format}`,
       })
       return result.path
-    },
-    // TODO: temporary solution
-    downloadTable: async (name, format) => {
-      const { client, file } = get()
-      const { path } = await client.tableExport({
-        source: file.path,
-        target: `${name}.${format}`,
-      })
-      const { bytes } = await client.fileRead({ path })
-      await client.fileDelete({ path })
-      return { bytes: bytes, path: path }
     },
     updateResource: async (resource) => {
       const { file, client } = get()
