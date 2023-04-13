@@ -1,2 +1,1 @@
-frictionless[api,excel,json,sql]
-livemark
+frictionless[excel,json,markdown,server,sql]
