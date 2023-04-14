@@ -15,5 +15,5 @@ const Template: Story<Parameters<typeof Chart>[0]> = (args) => <Chart {...args} 
 
 export const Default = Template.bind({})
 Default.args = {
-  client: new Client({ session: 'storybooktestersession' }),
+  client: new Client(),
 }

@@ -135,15 +135,10 @@ export function makeStore(props: FilesProps) {
       await listFiles()
     },
     // TODO: upload in parallel?
-    // TODO: show a proper error dialog on file size
     uploadFiles: async (files) => {
       let path: string | undefined
       const { client, listFiles, setPath } = get()
       for (const file of files) {
-        if (file.size > 10000000) {
-          alert('Currently only files under 10Mb are supported')
-          return
-        }
         const folder = selectors.folderPath(get())
         const result = await client.fileUpload({ file, folder })
         path = result.path

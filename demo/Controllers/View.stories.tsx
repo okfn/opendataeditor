@@ -12,7 +12,7 @@ const Template: Story<Parameters<typeof View>[0]> = (args) => <View {...args} />
 
 // Props
 
-const client = new Client({ session: 'storybooktestersession' })
+const client = new Client()
 
 // Stories
 

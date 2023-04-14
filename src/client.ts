@@ -8,19 +8,9 @@ import * as settings from './settings'
 
 export class Client {
   basepath: string
-  session?: string
 
-  constructor(props: { basepath?: string; session?: string } = {}) {
+  constructor(props: { basepath?: string } = {}) {
     this.basepath = props.basepath || settings.DEFAULT_BASEPATH
-    this.session = props.session
-  }
-
-  static async connect(props: { basepath?: string; session?: string } = {}) {
-    const basepath = props.basepath || settings.DEFAULT_BASEPATH
-    const path = `${basepath}/project/connect`
-    const result = await makeRequest(path, { session: props.session })
-    const session = result.session as string | undefined
-    return new this({ basepath, session })
   }
 
   async request(
@@ -28,7 +18,7 @@ export class Client {
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
     if (this.basepath) path = this.basepath + path
-    return makeRequest(path, { ...props, session: this.session })
+    return makeRequest(path, props)
   }
 
   // Chart

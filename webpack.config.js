@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const version = require('./package.json').version
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -11,7 +12,7 @@ const DEBUG = process.env.DEBUG || false
 const webpackConfig = {
   entry: ['./src/application.ts'],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/application'),
     filename: 'application.js',
     library: 'frictionlessApplication',
     libraryTarget: 'umd',
@@ -55,6 +56,7 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       favicon: 'assets/favicon.png',
       template: 'src/application.html',
+      templateParameters: { version },
     }),
   ],
 }
@@ -70,7 +72,7 @@ if (NODE_ENV === 'development') {
         pathRewrite: { '^/api': '' },
       },
     },
-    static: './dist',
+    static: './dist/application',
   }
 }
 
@@ -102,6 +104,7 @@ if (ENTRY === 'metadata') {
   webpackConfig.plugins[1] = new HtmlWebpackPlugin({
     favicon: 'assets/favicon.png',
     template: 'src/metadata.html',
+    templateParameters: { version },
   })
 }
 
