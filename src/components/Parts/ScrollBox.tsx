@@ -12,8 +12,8 @@ export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>
         overflow: 'auto',
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {
-          width: '0.4em',
-          height: '0.4em',
+          width: '6px',
+          height: '6px',
         },
         '&::-webkit-scrollbar-track': {
           borderRadius: '3px',
