@@ -65,6 +65,8 @@ const webpackConfig = {
 
 if (NODE_ENV === 'development') {
   webpackConfig.mode = 'development'
+  // https://stackoverflow.com/a/66209788
+  webpackConfig.devtool = 'eval-cheap-source-map'
   webpackConfig.devServer = {
     proxy: {
       '/api': {

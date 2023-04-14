@@ -80,7 +80,7 @@
     "tmp-promise": "^3.0.3",
     "ts-essentials": "^9.0.0",
     "validator": "^13.9.0",
-    "vega": "^5.23.0",
+    "vega": "^5.24.0",
     "vega-lite": "^5.6.1",
     "yaml-loader": "^0.8.0",
     "zustand": "^4.1.1"
