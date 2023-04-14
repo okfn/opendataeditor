@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../../Parts/Columns'
-import InputField from '../../../Parts/Fields/InputField'
+import InputField from '../../../Parts/Fields/Input'
 import EditorItem from '../../../Parts/Editor/EditorItem'
 import EditorList from '../../../Parts/Editor/EditorList'
 import EditorListItem from '../../../Parts/Editor/EditorListItem'

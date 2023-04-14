@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import InputField from '../../../../Parts/Fields/InputField'
-import YesNoField from '../../../../Parts/Fields/YesNoField'
+import InputField from '../../../../Parts/Fields/Input'
+import YesNoField from '../../../../Parts/Fields/YesNo'
 import { useStore } from '../../store'
 
 export default function CkanSection() {

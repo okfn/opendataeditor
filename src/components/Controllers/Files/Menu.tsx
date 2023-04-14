@@ -1,6 +1,6 @@
 import * as React from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
-import SelectField from '../../Parts/Fields/SelectField'
+import SelectField from '../../Parts/Fields/Select'
 import MenuBar from '../../Parts/Bars/Menu'
 
 export default function Menu() {
