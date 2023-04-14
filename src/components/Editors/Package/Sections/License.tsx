@@ -7,8 +7,6 @@ import EditorList from '../../../Parts/Editor/List'
 import EditorListItem from '../../../Parts/Editor/ListItem'
 import EditorSearch from '../../../Parts/Editor/Search'
 import { useStore, selectors, select } from '../store'
-import { useTheme } from '@mui/material/styles'
-import ScrollBox from '../../../Parts/ScrollBox'
 import validator from 'validator'
 
 export default function License() {
@@ -17,19 +15,17 @@ export default function License() {
 }
 
 function LicenseList() {
-  const theme = useTheme()
   const isGrid = useStore((state) => state.licenseState.isGrid)
   const query = useStore((state) => state.licenseState.query)
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const addLicense = useStore((state) => state.addLicense)
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
+  const removeLicense = useStore((state) => state.removeLicense)
   return (
     <EditorList
       kind="license"
       query={query}
       isGrid={isGrid}
-      count={licenseItems.length}
       onAddClick={() => addLicense()}
       onGridClick={() => updateLicenseState({ isGrid: !isGrid })}
       SearchInput={
@@ -39,24 +35,6 @@ function LicenseList() {
         />
       }
     >
-      {licenseItems.length === 0 ? (
-        <LicenseListItem />
-      ) : (
-        <ScrollBox height={contentHeight}>
-          <LicenseListItem />
-        </ScrollBox>
-      )}
-    </EditorList>
-  )
-}
-
-function LicenseListItem() {
-  const licenseItems = useStore(selectors.licenseItems)
-  const isGrid = useStore((state) => state.contributorState.isGrid)
-  const updateLicenseState = useStore((state) => state.updateLicenseState)
-  const removeLicense = useStore((state) => state.removeLicense)
-  return (
-    <React.Fragment>
       {licenseItems.map(({ index, license }) => (
         <EditorListItem
           key={index}
@@ -68,7 +46,7 @@ function LicenseListItem() {
           onRemoveClick={() => removeLicense(index)}
         />
       ))}
-    </React.Fragment>
+    </EditorList>
   )
 }
 

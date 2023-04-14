@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import FieldTree from '../../src/components/Parts/Trees/FieldTree'
+import FieldTree from '../../src/components/Parts/Trees/Field'
 
 export default {
   title: 'Parts/FieldTree',

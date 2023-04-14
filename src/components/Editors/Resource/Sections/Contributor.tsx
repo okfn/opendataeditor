@@ -7,8 +7,6 @@ import EditorList from '../../../Parts/Editor/List'
 import EditorListItem from '../../../Parts/Editor/ListItem'
 import EditorSearch from '../../../Parts/Editor/Search'
 import { useStore, selectors, select } from '../store'
-import { useTheme } from '@mui/material/styles'
-import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function Contributor() {
   const index = useStore((state) => state.contributorState.index)
@@ -16,19 +14,17 @@ export default function Contributor() {
 }
 
 function ContributorList() {
-  const theme = useTheme()
   const isGrid = useStore((state) => state.contributorState.isGrid)
   const query = useStore((state) => state.contributorState.query)
   const contributorItems = useStore(selectors.contributorItems)
   const updateContributorState = useStore((state) => state.updateContributorState)
   const addContributor = useStore((state) => state.addContributor)
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
+  const removeContributor = useStore((state) => state.removeContributor)
   return (
     <EditorList
       kind="contributor"
       query={query}
       isGrid={isGrid}
-      count={contributorItems.length}
       onAddClick={() => addContributor()}
       onGridClick={() => updateContributorState({ isGrid: !isGrid })}
       SearchInput={
@@ -38,24 +34,6 @@ function ContributorList() {
         />
       }
     >
-      {contributorItems.length === 0 ? (
-        <ContributorListItem />
-      ) : (
-        <ScrollBox height={contentHeight}>
-          <ContributorListItem />
-        </ScrollBox>
-      )}
-    </EditorList>
-  )
-}
-
-function ContributorListItem() {
-  const contributorItems = useStore(selectors.contributorItems)
-  const isGrid = useStore((state) => state.contributorState.isGrid)
-  const updateContributorState = useStore((state) => state.updateContributorState)
-  const removeContributor = useStore((state) => state.removeContributor)
-  return (
-    <React.Fragment>
       {contributorItems.map(({ index, contributor }) => (
         <EditorListItem
           key={index}
@@ -69,7 +47,7 @@ function ContributorListItem() {
           onRemoveClick={() => removeContributor(index)}
         />
       ))}
-    </React.Fragment>
+    </EditorList>
   )
 }
 

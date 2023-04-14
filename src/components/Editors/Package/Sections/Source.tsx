@@ -7,8 +7,6 @@ import EditorList from '../../../Parts/Editor/List'
 import EditorListItem from '../../../Parts/Editor/ListItem'
 import EditorSearch from '../../../Parts/Editor/Search'
 import { useStore, selectors, select } from '../store'
-import { useTheme } from '@mui/material/styles'
-import ScrollBox from '../../../Parts/ScrollBox'
 import validator from 'validator'
 
 export default function Source() {
@@ -17,19 +15,17 @@ export default function Source() {
 }
 
 function SourceList() {
-  const theme = useTheme()
   const isGrid = useStore((state) => state.sourceState.isGrid)
   const query = useStore((state) => state.sourceState.query)
   const sourceItems = useStore(selectors.sourceItems)
   const updateSourceState = useStore((state) => state.updateSourceState)
   const addSource = useStore((state) => state.addSource)
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
+  const removeSource = useStore((state) => state.removeSource)
   return (
     <EditorList
       kind="source"
       query={query}
       isGrid={isGrid}
-      count={sourceItems.length}
       onAddClick={() => addSource()}
       onGridClick={() => updateSourceState({ isGrid: !isGrid })}
       SearchInput={
@@ -39,24 +35,6 @@ function SourceList() {
         />
       }
     >
-      {sourceItems.length === 0 ? (
-        <ScrollBox height={contentHeight}>
-          <SourceListItem />
-        </ScrollBox>
-      ) : (
-        <SourceListItem />
-      )}
-    </EditorList>
-  )
-}
-
-function SourceListItem() {
-  const sourceItems = useStore(selectors.sourceItems)
-  const isGrid = useStore((state) => state.contributorState.isGrid)
-  const updateSourceState = useStore((state) => state.updateSourceState)
-  const removeSource = useStore((state) => state.removeSource)
-  return (
-    <React.Fragment>
       {sourceItems.map(({ index, source }) => (
         <EditorListItem
           key={index}
@@ -70,7 +48,7 @@ function SourceListItem() {
           onRemoveClick={() => removeSource(index)}
         />
       ))}
-    </React.Fragment>
+    </EditorList>
   )
 }
 

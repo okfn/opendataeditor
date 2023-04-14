@@ -7,28 +7,22 @@ import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
 import DefaultPreview from '../../Parts/Preview'
 import Columns from '../../Parts/Columns'
+import ScrollBox from '../../Parts/ScrollBox'
 import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
 
-// TODO: why Editor re-render on a "Preview" button click?
 export default function Content() {
-  return (
-    <Layout>
-      <Editor />
-    </Layout>
-  )
-}
-
-function Layout(props: React.PropsWithChildren<{}>) {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8 + 8)})`
   const isPreview = useStore((state) => state.isPreview)
   return (
-    <Box sx={{ height }}>
+    <ScrollBox sx={{ height }}>
       {isPreview ? (
         <Box sx={{ backgroundColor: '#333' }}>
           <Columns spacing={2} layout={[9, 3]}>
-            <Box sx={{ height, backgroundColor: '#fff' }}>{props.children}</Box>
+            <Box sx={{ height, backgroundColor: '#fff' }}>
+              <Editor />
+            </Box>
             <Box
               sx={{
                 height,
@@ -43,9 +37,9 @@ function Layout(props: React.PropsWithChildren<{}>) {
           </Columns>
         </Box>
       ) : (
-        props.children
+        <Editor />
       )}
-    </Box>
+    </ScrollBox>
   )
 }
 

@@ -24,21 +24,52 @@ export default function Resource() {
 }
 
 function Hash() {
-  const sha256 = useStore((state) => state.descriptor.hash)
-  return <InputField disabled label="Hash" value={sha256 || ''} />
+  const hash = useStore((state) => state.descriptor.hash)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Hash"
+      value={hash || ''}
+      onChange={(value) => updateDescriptor({ hash: value || undefined })}
+    />
+  )
 }
 
 function Bytes() {
   const bytes = useStore((state) => state.descriptor.bytes)
-  return <InputField disabled label="Bytes" value={bytes || ''} />
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      disabled
+      label="Bytes"
+      value={bytes || ''}
+      onChange={(value) => updateDescriptor({ bytes: value || undefined })}
+    />
+  )
 }
 
 function Fields() {
   const fields = useStore((state) => state.descriptor.fields)
-  return <InputField disabled label="Fields" value={fields || ''} />
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      disabled
+      label="Fields"
+      value={fields || ''}
+      onChange={(value) => updateDescriptor({ fields: value || undefined })}
+    />
+  )
 }
 
 function Rows() {
   const rows = useStore((state) => state.descriptor.rows)
-  return <InputField disabled label="Rows" value={rows || ''} />
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      disabled
+      label="Rows"
+      value={rows || ''}
+      onChange={(value) => updateDescriptor({ fields: value || undefined })}
+    />
+  )
 }

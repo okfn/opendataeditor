@@ -9,7 +9,6 @@ import HeadingBox from './Internals/HeadingBox'
 export interface EditorListProps {
   kind: string
   query?: string
-  count?: number
   isGrid?: boolean
   onAddClick: () => void
   onGridClick: () => void
@@ -48,7 +47,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
           {props.SearchInput}
         </Columns>
       </HeadingBox>
-      {props.count && props.count > 0 ? (
+      {React.Children.count(props.children) > 0 ? (
         props.children
       ) : (
         <EditorListItem
