@@ -35,6 +35,8 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       </Button>
     )
   }
+  // TODO: we can make HeadingBox (or with Tabs/Help) "sticky" with CSS:
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/position
   return (
     <React.Fragment>
       <HeadingBox>
