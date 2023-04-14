@@ -3,7 +3,7 @@ import startCase from 'lodash/startCase'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../Columns'
-import EditorListItem from './EditorListItem'
+import EditorListItem from './ListItem'
 import HeadingBox from './Internals/HeadingBox'
 
 export interface EditorListProps {

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import InputField from '../../../Parts/Fields/Input'
 import MultiselectField from '../../../Parts/Fields/Multiselect'
 import MultilineField from '../../../Parts/Fields/Multiline'
-import EditorSection from '../../../Parts/Editor/EditorSection'
+import EditorSection from '../../../Parts/Editor/Section'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
 

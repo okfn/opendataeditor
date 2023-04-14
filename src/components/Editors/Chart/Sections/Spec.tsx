@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
-import EditorSection from '../../../Parts/Editor/EditorSection'
+import EditorSection from '../../../Parts/Editor/Section'
 import MonacoEditor from '../../../Parts/Monaco/Editor'
 import { useStore } from '../store'
 
