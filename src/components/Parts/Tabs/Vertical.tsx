@@ -36,7 +36,7 @@ export default function Vtabs(props: VtabsProps) {
           borderColor: 'divider',
           paddingTop: 2,
           height: '100%',
-          width: theme.spacing(15),
+          width: theme.spacing(16),
         }}
       >
         {props.labels.map((label, index) => (
