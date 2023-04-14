@@ -8,8 +8,8 @@ import EditorListItem from '../../../Parts/Editor/EditorListItem'
 import EditorSearch from '../../../Parts/Editor/EditorSearch'
 import { useStore, selectors, select } from '../store'
 import { useTheme } from '@mui/material/styles'
-import validator from 'validator'
 import ScrollBox from '../../../Parts/ScrollBox'
+import validator from 'validator'
 
 export default function Source() {
   const index = useStore((state) => state.sourceState.index)
@@ -25,30 +25,28 @@ function SourceList() {
   const addSource = useStore((state) => state.addSource)
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   return (
-    <ScrollBox height={contentHeight}>
-      <EditorList
-        kind="source"
-        query={query}
-        isGrid={isGrid}
-        count={sourceItems.length}
-        onAddClick={() => addSource()}
-        onGridClick={() => updateSourceState({ isGrid: !isGrid })}
-        SearchInput={
-          <EditorSearch
-            value={query || ''}
-            onChange={(query) => updateSourceState({ query })}
-          />
-        }
-      >
-        {sourceItems.length === 0 ? (
-          <ScrollBox height={contentHeight}>
-            <SourceListItem />
-          </ScrollBox>
-        ) : (
+    <EditorList
+      kind="source"
+      query={query}
+      isGrid={isGrid}
+      count={sourceItems.length}
+      onAddClick={() => addSource()}
+      onGridClick={() => updateSourceState({ isGrid: !isGrid })}
+      SearchInput={
+        <EditorSearch
+          value={query || ''}
+          onChange={(query) => updateSourceState({ query })}
+        />
+      }
+    >
+      {sourceItems.length === 0 ? (
+        <ScrollBox height={contentHeight}>
           <SourceListItem />
-        )}
-      </EditorList>
-    </ScrollBox>
+        </ScrollBox>
+      ) : (
+        <SourceListItem />
+      )}
+    </EditorList>
   )
 }
 
@@ -62,6 +60,7 @@ function SourceListItem() {
       {sourceItems.map(({ index, source }) => (
         <EditorListItem
           key={index}
+          index={index}
           kind="source"
           name={source.title}
           type="source"
@@ -124,7 +123,7 @@ function Path() {
       label="Path"
       value={path || ''}
       onFocus={() => updateHelp('sources/path')}
-      onChange={(value) => updateSource({ path: value || undefined })}
+      onChange={(path) => updateSource({ path })}
     />
   )
 }

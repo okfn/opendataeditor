@@ -11,8 +11,14 @@ import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
 import { ISource } from '../../../interfaces/source'
+import { IContributor } from '../../../interfaces/contributor'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'resource')!
+const MEDIA_TYPES: { [key: string]: string } = {
+  csv: 'text/csv',
+  json: 'application/json',
+  xls: 'application/vnd.ms-excel',
+}
 
 interface ISectionState {
   query?: string
@@ -45,6 +51,14 @@ interface State {
   updateSource: (patch: Partial<ISource>) => void
   removeSource: (index: number) => void
   addSource: () => void
+
+  // Contributors
+
+  contributorState: ISectionState
+  updateContributorState: (patch: Partial<ISectionState>) => void
+  updateContributor: (patch: Partial<IContributor>) => void
+  removeContributor: (index: number) => void
+  addContributor: () => void
 }
 
 export function makeStore(props: ResourceProps) {
@@ -95,7 +109,7 @@ export function makeStore(props: ResourceProps) {
       updateDescriptor({ licenses })
     },
 
-    // Source
+    // Sources
 
     sourceState: {},
     updateSourceState: (patch) => {
@@ -121,14 +135,50 @@ export function makeStore(props: ResourceProps) {
     addSource: () => {
       const { descriptor, updateDescriptor } = get()
       const sources = [...(descriptor.sources || [])]
-      sources.push({ title: 'Source0' })
+      sources.push({ title: helpers.genTitle(sources, 'source') })
       updateDescriptor({ sources })
+    },
+
+    // Contributors
+
+    contributorState: {},
+    updateContributorState: (patch) => {
+      const { contributorState } = get()
+      set({ contributorState: { ...contributorState, ...patch } })
+    },
+    updateContributor: (patch) => {
+      const { descriptor, contributorState, updateDescriptor } = get()
+      const index = contributorState.index!
+      const contributor = selectors.contributor(get())
+      const contributors = descriptor.contributors!
+      contributors[index] = { ...contributor, ...patch }
+      updateDescriptor({ contributors })
+    },
+    removeContributor: (index) => {
+      const { descriptor, updateDescriptor, updateContributorState } = get()
+      const contributors = [...(descriptor.contributors || [])]
+      contributors.splice(index, 1)
+      updateContributorState({ index: undefined, isExtras: false })
+      updateDescriptor({ contributors })
+    },
+    // TODO: scroll to newly created contributor
+    addContributor: () => {
+      const { descriptor, updateDescriptor } = get()
+      const contributors = [...(descriptor.contributors || [])]
+      contributors.push({ title: helpers.genTitle(contributors, 'contributor') })
+      updateDescriptor({ contributors })
     },
   }))
 }
 
 export const select = createSelector
 export const selectors = {
+  mediaType: (state: State) => {
+    const format = state.descriptor.format
+    let mediatype = state.descriptor.mediatype
+    if (!mediatype) mediatype = format ? MEDIA_TYPES[format] : ''
+    return mediatype
+  },
   // Licenses
 
   license: (state: State) => {
@@ -161,6 +211,26 @@ export const selectors = {
     for (const [index, source] of (state.descriptor.sources || []).entries()) {
       if (query && !source.title.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ index, source })
+    }
+    return items
+  },
+
+  // Contributors
+
+  contributor: (state: State) => {
+    const index = state.contributorState.index!
+    const contributors = state.descriptor.contributors!
+    const contributor = contributors[index]!
+    return contributor
+  },
+  contributorItems: (state: State) => {
+    const items = []
+    const query = state.contributorState.query
+    for (const [index, contributor] of (state.descriptor.contributors || []).entries()) {
+      if (query && !contributor.title.toLowerCase().includes(query.toLowerCase())) {
+        continue
+      }
+      items.push({ index, contributor })
     }
     return items
   },

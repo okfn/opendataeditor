@@ -13,8 +13,9 @@ import Checksum from './Sections/Checksum'
 import License from './Sections/License'
 import { useStore } from './store'
 import Source from './Sections/Source'
+import Contributor from './Sections/Contributor'
 
-const LABELS = ['Resource', 'Checksum', 'Licenses', 'Sources']
+const LABELS = ['Resource', 'Checksum', 'Licenses', 'Sources', 'Contributors']
 
 export default function Layout() {
   const theme = useTheme()
@@ -37,6 +38,7 @@ function Sections() {
         <Checksum />
         <License />
         <Source />
+        <Contributor />
       </VerticalTabs>
       <EditorHelp helpItem={helpItem} />
     </Columns>
@@ -47,10 +49,15 @@ function Groups() {
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const format = useStore((state) => state.descriptor.format)
   return (
     <HorizontalTabs labels={['Resource', 'Dialect', 'Schema']}>
       <Sections />
-      <Dialect dialect={dialect} onChange={(dialect) => updateDescriptor({ dialect })} />
+      <Dialect
+        format={format}
+        dialect={dialect}
+        onChange={(dialect) => updateDescriptor({ dialect })}
+      />
       <Schema schema={schema} onChange={(schema) => updateDescriptor({ schema })} />
     </HorizontalTabs>
   )

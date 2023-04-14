@@ -15,8 +15,10 @@ import Package from './Sections/Package'
 import License from './Sections/License'
 import Resources from './Sections/Resource'
 import { useStore, selectors } from './store'
+import Source from './Sections/Source'
+import Contributor from './Sections/Contributor'
 
-const LABELS = ['Package', 'Resources', 'Licenses']
+const LABELS = ['Package', 'Resources', 'Licenses', 'Sources', 'Contributors']
 
 export default function Layout() {
   const theme = useTheme()
@@ -47,6 +49,8 @@ function Sections() {
         <Package />
         <Resources />
         <License />
+        <Source />
+        <Contributor />
       </VerticalTabs>
       <EditorHelp helpItem={helpItem} />
     </Columns>

@@ -99,11 +99,6 @@ excel/sheet:
   - #
   - Specifies name of the sheet from where to read or write data. (default 1)
 
-excel/workBookCache:
-  - Workbook Cache
-  - #
-  - Specifies the path to the temporary file while reading remote workbooks.
-
 excel/fillMergedCells:
   - Fill Merged Cells
   - #

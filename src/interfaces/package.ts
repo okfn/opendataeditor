@@ -1,6 +1,7 @@
 import { IResource } from './resource'
 import { IContributor } from './contributor'
 import { ILicense } from './license'
+import { ISource } from './source'
 
 export interface IPackage {
   name?: string
@@ -14,4 +15,5 @@ export interface IPackage {
   resources: IResource[]
   contributors?: IContributor[]
   keywords?: string[]
+  sources?: ISource[]
 }

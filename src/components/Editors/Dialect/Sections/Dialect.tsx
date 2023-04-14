@@ -7,6 +7,7 @@ import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
+import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -34,12 +35,21 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('dialect/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }
@@ -67,7 +77,7 @@ function CommentChar() {
       label="Comment Char"
       value={commentChar || settings.DEFAULT_COMMENT_CHAR}
       onFocus={() => updateHelp('dialect/commentChar')}
-      onChange={(commentChar) => updateDescriptor({ commentChar })}
+      onChange={(value) => updateDescriptor({ commentChar: value || undefined })}
     />
   )
 }
@@ -97,7 +107,7 @@ function Header() {
       label="Header"
       value={header ?? settings.DEFAULT_HEADER}
       onFocus={() => updateHelp('dialect/header')}
-      onChange={(header) => updateDescriptor({ header })}
+      onChange={(value) => updateDescriptor({ header: value || undefined })}
     />
   )
 }
@@ -111,7 +121,9 @@ function HeaderRows() {
       label="Header Rows"
       value={headerRows}
       onFocus={() => updateHelp('dialect/headerRows')}
-      onChange={(headerRows) => updateDescriptor({ headerRows })}
+      onChange={(headerRows) =>
+        updateDescriptor({ headerRows: headerRows ? headerRows.split(',') : undefined })
+      }
     />
   )
 }
@@ -125,7 +137,7 @@ function HeaderJoin() {
       label="Header Join"
       value={headerJoin}
       onFocus={() => updateHelp('dialect/headerJoin')}
-      onChange={(headerJoin) => updateDescriptor({ headerJoin })}
+      onChange={(value) => updateDescriptor({ headerJoin: value || undefined })}
     />
   )
 }
@@ -139,7 +151,7 @@ function HeaderCase() {
       label="Header Case"
       value={headerCase ?? settings.DEFAULT_HEADER_CASE}
       onFocus={() => updateHelp('dialect/headerCase')}
-      onChange={(headerCase) => updateDescriptor({ headerCase })}
+      onChange={(value) => updateDescriptor({ headerCase: value || undefined })}
     />
   )
 }

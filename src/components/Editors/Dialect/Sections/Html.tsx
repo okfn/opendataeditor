@@ -28,7 +28,7 @@ function Selector() {
       label="Selector"
       value={selector || settings.DEFAULT_SELECTOR}
       onFocus={() => updateHelp('html/selector')}
-      onChange={(selector) => updateHtml({ selector })}
+      onChange={(value) => updateHtml({ selector: value || undefined })}
     />
   )
 }

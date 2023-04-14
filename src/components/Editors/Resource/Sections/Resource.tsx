@@ -5,7 +5,8 @@ import SelectField from '../../../Parts/Fields/SelectField'
 import MultilineField from '../../../Parts/Fields/MultilineField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import Columns from '../../../Parts/Columns'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
+import validator from 'validator'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -41,12 +42,21 @@ function Name() {
   const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidName())
+  function isValidName() {
+    return name ? validator.isSlug(name) : false
+  }
   return (
     <InputField
+      error={!isValid}
       label="Name"
       value={name}
       onFocus={() => updateHelp('resource/name')}
-      onChange={(name) => updateDescriptor({ name })}
+      onBlur={() => {
+        setIsValid(isValidName())
+      }}
+      onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )
 }
@@ -70,12 +80,21 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidTitle())
+  function isValidTitle() {
+    return title ? !validator.isNumeric(title) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Title"
       value={title || ''}
       onFocus={() => updateHelp('resource/title')}
+      onBlur={() => {
+        setIsValid(isValidTitle())
+      }}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
+      helperText={!isValid ? 'Title is not valid.' : ''}
     />
   )
 }
@@ -103,7 +122,7 @@ function Path() {
       label="Path"
       value={path}
       onFocus={() => updateHelp('resource/path')}
-      onChange={(path) => updateDescriptor({ path })}
+      onChange={(value) => updateDescriptor({ path: value || 'path' })}
     />
   )
 }
@@ -117,7 +136,7 @@ function Scheme() {
       label="Scheme"
       value={scheme || ''}
       onFocus={() => updateHelp('resource/scheme')}
-      onChange={(scheme) => updateDescriptor({ scheme })}
+      onChange={(value) => updateDescriptor({ scheme: value || undefined })}
     />
   )
 }
@@ -131,7 +150,7 @@ function Format() {
       label="Format"
       value={format || ''}
       onFocus={() => updateHelp('resource/format')}
-      onChange={(format) => updateDescriptor({ format })}
+      onChange={(value) => updateDescriptor({ format: value || undefined })}
     />
   )
 }
@@ -145,13 +164,13 @@ function Encoding() {
       label="Encoding"
       value={encoding || ''}
       onFocus={() => updateHelp('resource/encoding')}
-      onChange={(encoding) => updateDescriptor({ encoding })}
+      onChange={(value) => updateDescriptor({ encoding: value || undefined })}
     />
   )
 }
 
 function MediaType() {
-  const mediatype = useStore((state) => state.descriptor.mediatype)
+  const mediatype = useStore(selectors.mediaType)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
@@ -159,7 +178,7 @@ function MediaType() {
       label="Media Type"
       value={mediatype || ''}
       onFocus={() => updateHelp('resource/mediaType')}
-      onChange={(mediatype) => updateDescriptor({ mediatype })}
+      onChange={(value) => updateDescriptor({ mediatype: value || undefined })}
     />
   )
 }

@@ -6,6 +6,7 @@ import YesNoField from '../../../Parts/Fields/YesNoField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
+import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -14,11 +15,10 @@ export default function General() {
       <Columns spacing={3}>
         <Box>
           <Sheet />
-          <WorkBookCache />
           <FillMergedCells />
+          <PreserveFormatting />
         </Box>
         <Box>
-          <PreserveFormatting />
           <AdjustFloatingPointError />
           <Stringified />
         </Box>
@@ -31,28 +31,21 @@ function Sheet() {
   const sheet = useStore(select(selectors.excel, (excel) => excel.sheet))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
+  const [isValid, setIsValid] = React.useState(isValidSheet())
+  function isValidSheet() {
+    return sheet ? validator.isNumeric(sheet) : true
+  }
   return (
     <InputField
+      error={!isValid}
       label="Sheet"
       value={sheet || settings.DEFAULT_SHEET}
       onFocus={() => updateHelp('excel/sheet')}
-      onChange={(sheet) => updateExcel({ sheet })}
-    />
-  )
-}
-
-function WorkBookCache() {
-  const workBookCache = useStore(
-    select(selectors.excel, (excel) => excel.workBookCache || '')
-  )
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateExcel = useStore((state) => state.updateExcel)
-  return (
-    <InputField
-      label="Workbook Cache"
-      value={workBookCache}
-      onFocus={() => updateHelp('excel/workBookCache')}
-      onChange={(workBookCache) => updateExcel({ workBookCache })}
+      onBlur={() => {
+        setIsValid(isValidSheet())
+      }}
+      onChange={(value) => updateExcel({ sheet: value || undefined })}
+      helperText={!isValid ? 'Sheet is not valid.' : ''}
     />
   )
 }
