@@ -1,8 +1,8 @@
 import * as React from 'react'
-import CreateDialog from './Dialogs/CreateDialog'
-import FolderDialog from './Dialogs/FolderDialog'
-import LinkDialog from './Dialogs/LinkDialog'
-import NameDialog from './Dialogs/NameDialog'
+import CreateDialog from './Dialogs/Create'
+import FolderDialog from './Dialogs/Folder'
+import LinkDialog from './Dialogs/Link'
+import NameDialog from './Dialogs/Name'
 import { useStore } from './store'
 
 export default function Dialog() {

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Columns from '../../Parts/Columns'
 import ActionsBar from '../../Parts/Bars/Actions'
-import CreateButton from './Buttons/CreateButton'
-import DeleteButton from './Buttons/DeleteButton'
-import ManageButton from './Buttons/ManageButton'
+import CreateButton from './Buttons/Create'
+import DeleteButton from './Buttons/Delete'
+import ManageButton from './Buttons/Manage'
 
 export default function Actions() {
   return (
