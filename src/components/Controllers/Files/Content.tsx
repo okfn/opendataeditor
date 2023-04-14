@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Empty from '../../Parts/Empty'
-import SpinnerContent from '../../Parts/SpinnerContent'
+import Spinner from '../../Parts/Spinner'
 import FileTree from '../../Parts/Trees/FileTree'
 import Alert, { AlertColor } from '@mui/material/Alert'
 import IconButton from '@mui/material/IconButton'
@@ -12,12 +12,16 @@ export default function Content() {
   const fileItems = useStore((state) => state.fileItems)
   const loading = useStore((state) => state.loading)
   return loading ? (
-    <SpinnerContent />
+    <LoadingContent />
   ) : fileItems.length ? (
     <FilesContent />
   ) : (
     <EmptyContent />
   )
+}
+
+function LoadingContent() {
+  return <Spinner />
 }
 
 function FilesContent() {

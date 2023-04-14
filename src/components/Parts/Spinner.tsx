@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export default function SpinnerContent() {
+export default function Spinner() {
   return (
     <StyledCard>
       <StyledCardContent>
