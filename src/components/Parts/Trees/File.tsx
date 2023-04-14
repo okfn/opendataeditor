@@ -113,11 +113,12 @@ const StyledTreeItem = styled(
   },
 }))
 
+// TODO: Add Files action "Manage -> IndexAll/Selected"
 function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
   const Icon = getIcon(props.type)
-  const isError = props.errors && props.errors > 0
-  let color = 'primary'
-  if (props.type !== 'folder') color = isError ? 'error' : 'success'
+  let color = 'disabled'
+  if (props.type === 'folder') color = 'primary'
+  if (props.errors !== undefined) color = props.errors > 0 ? 'error' : 'success'
   return (
     <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
       <Icon color={color} />
