@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
-import FileTree from '../../Parts/Trees/FileTree'
+import FileTree from '../../Parts/Trees/File'
 import Alert, { AlertColor } from '@mui/material/Alert'
 import IconButton from '@mui/material/IconButton'
 import Snackbar from '@mui/material/Snackbar'

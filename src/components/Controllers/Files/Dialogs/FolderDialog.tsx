@@ -9,7 +9,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy'
 import CopyAll from '@mui/icons-material/CopyAll'
 import Columns from '../../../Parts/Columns'
 import DialogContent from '@mui/material/DialogContent'
-import FileTree from '../../../Parts/Trees/FileTree'
+import FileTree from '../../../Parts/Trees/File'
 import IconButton from '../../../Parts/Buttons/IconButton'
 import { useStore, selectors } from '../store'
 
