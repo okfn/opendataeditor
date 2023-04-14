@@ -6,7 +6,7 @@ import YesNoField from '../../../Parts/Fields/YesNoField'
 import EditorSection from '../../../Parts/Editor/EditorSection'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
-import validator from 'validator'
+// import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -33,7 +33,9 @@ function Sheet() {
   const updateExcel = useStore((state) => state.updateExcel)
   const [isValid, setIsValid] = React.useState(isValidSheet())
   function isValidSheet() {
-    return sheet ? validator.isNumeric(sheet) : true
+    // Sheet can be both string/number for now
+    // return sheet ? validator.isNumeric(sheet) : true
+    return true
   }
   return (
     <InputField

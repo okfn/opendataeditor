@@ -60,7 +60,6 @@ function SourceListItem() {
       {sourceItems.map(({ index, source }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="source"
           name={source.title}
           type="source"

@@ -60,7 +60,6 @@ function ContributorListItem() {
       {contributorItems.map(({ index, contributor }) => (
         <EditorListItem
           key={index}
-          index={index}
           kind="contributor"
           name={contributor.title}
           type="contributor"
