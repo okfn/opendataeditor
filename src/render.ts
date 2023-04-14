@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOMClient from 'react-dom/client'
 
 /**
  * Render a component
@@ -9,5 +9,7 @@ import ReactDOM from 'react-dom'
  * @param {Element} element - DOM element to render into
  */
 export function render(component: any, props: any, element: any) {
-  ReactDOM.render(React.createElement(component, props, null), element)
+  const node = React.createElement(component, props, null)
+  const root = ReactDOMClient.createRoot(element)
+  root.render(node)
 }
