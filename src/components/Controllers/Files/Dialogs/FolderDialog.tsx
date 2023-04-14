@@ -10,7 +10,7 @@ import CopyAll from '@mui/icons-material/CopyAll'
 import Columns from '../../../Parts/Columns'
 import DialogContent from '@mui/material/DialogContent'
 import FileTree from '../../../Parts/Trees/File'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {

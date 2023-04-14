@@ -3,8 +3,8 @@ import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
 import RenameIcon from '@mui/icons-material/Edit'
 import ManageIcon from '@mui/icons-material/FileCopy'
-import IconButton from '../../../Parts/Buttons/IconButton'
-import DropdownButton from '../../../Parts/Buttons/DropdownButton'
+import IconButton from '../../../Parts/Buttons/Icon'
+import DropdownButton from '../../../Parts/Buttons/Dropdown'
 import { useStore, selectors } from '../store'
 
 export default function ManageButton() {

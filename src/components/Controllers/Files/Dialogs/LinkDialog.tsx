@@ -8,7 +8,7 @@ import Cancel from '@mui/icons-material/Cancel'
 import Upload from '@mui/icons-material/Upload'
 import { useStore, selectors } from '../store'
 import Columns from '../../../Parts/Columns'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 
 export default function LinkDialog() {
   const dialog = useStore((state) => state.dialog)

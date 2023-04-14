@@ -10,7 +10,7 @@ import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import EditRoadIcon from '@mui/icons-material/EditRoad'
-import IconButton from '../../Parts/Buttons/IconButton'
+import IconButton from '../../Parts/Buttons/Icon'
 
 export type MenuBarItem =
   | 'clear'

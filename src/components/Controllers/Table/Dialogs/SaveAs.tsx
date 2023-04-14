@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField'
 import Columns from '../../../Parts/Columns'
 import Cancel from '@mui/icons-material/Cancel'
 import CheckIcon from '@mui/icons-material/Check'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
 

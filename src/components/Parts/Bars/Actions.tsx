@@ -4,7 +4,7 @@ import IosShareIcon from '@mui/icons-material/IosShare'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CheckIcon from '@mui/icons-material/Check'
 import HistoryIcon from '@mui/icons-material/History'
-import IconButton from '../../Parts/Buttons/IconButton'
+import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../../Parts/Columns'
 
 export type ActionsBarItem = 'saveAs' | 'publish' | 'revert' | 'save'

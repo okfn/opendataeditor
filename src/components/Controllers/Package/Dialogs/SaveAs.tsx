@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
 import CheckIcon from '@mui/icons-material/Check'
 import Columns from '../../../Parts/Columns'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore } from '../store'
 
 // TODO: extract shared into Parts

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Stack from '@mui/material/Stack'
-import CardButton from '../../Parts/Buttons/CardButton'
+import CardButton from '../../Parts/Buttons/Card'
 import { useStore } from './store'
 
 export default function Welcome() {

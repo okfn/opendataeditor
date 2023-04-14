@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 import { selectors, useStore } from '../store'
 import { useConfirm } from 'material-ui-confirm'
 

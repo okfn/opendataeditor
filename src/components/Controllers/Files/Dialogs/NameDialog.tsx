@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
 import Create from '@mui/icons-material/Create'
-import IconButton from '../../../Parts/Buttons/IconButton'
+import IconButton from '../../../Parts/Buttons/Icon'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
 
