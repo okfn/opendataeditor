@@ -61,6 +61,7 @@ export function makeStore(props: MetadataProps) {
 
 export const select = createSelector
 export const selectors = {
+  // TODO: consider using https://github.com/epoberezkin/fast-deep-equal (200 000 op/sec)
   isUpdated: (state: State) => {
     return state.revision > 0
   },
