@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { assert } from 'ts-essentials'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { ITextEditor } from '../../Editors/Text'
+import { IMonacoEditor } from '../../Parts/Monaco/Editor'
 import { IView, IFieldItem, IHelpItem } from '../../../interfaces'
 import { ViewProps } from './View'
 import * as settings from '../../../settings'
@@ -22,11 +22,11 @@ export interface State {
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
   updateDescriptor: (patch: Partial<IView>) => void
-  editor: React.RefObject<ITextEditor>
+  editor: React.RefObject<IMonacoEditor>
   searchTerm?: string
 }
 
-export function makeStore(props: ViewProps, editor: React.RefObject<ITextEditor>) {
+export function makeStore(props: ViewProps, editor: React.RefObject<IMonacoEditor>) {
   return createStore<State>((set, get) => ({
     fields: props.fields,
     descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),

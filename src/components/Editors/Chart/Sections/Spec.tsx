@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import EditorSection from '../../../Parts/Editor/EditorSection'
-import TextEditor from '../../Text'
+import MonacoEditor from '../../../Parts/Monaco/Editor'
 import { useStore } from '../store'
 
 export default function Spec() {
@@ -11,7 +11,7 @@ export default function Spec() {
   const updateState = useStore((state) => state.updateState)
   return (
     <EditorSection name="Descriptor" onHeadingClick={() => updateHelp('spec')}>
-      <TextEditor
+      <MonacoEditor
         value={JSON.stringify(descriptor, null, 2)}
         language="json"
         onChange={(text) => updateState({ descriptor: JSON.parse(text || '{)') })}

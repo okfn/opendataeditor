@@ -2,10 +2,10 @@ import * as React from 'react'
 import Editor, { EditorProps } from '@monaco-editor/react'
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 
-export type ITextEditor = editor.IStandaloneCodeEditor
-export interface TextEditorProps extends EditorProps {}
+export type IMonacoEditor = editor.IStandaloneCodeEditor
+export interface MonacoEditorProps extends EditorProps {}
 
-export default function TextEditor(props: TextEditorProps) {
+export default function MonacoEditor(props: MonacoEditorProps) {
   const { options, ...others } = props
   return (
     <Editor

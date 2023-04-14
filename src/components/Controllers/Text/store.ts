@@ -6,7 +6,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IFile, IResource } from '../../../interfaces'
-import { ITextEditor } from '../../Editors/Text'
+import { IMonacoEditor } from '../../Parts/Monaco/Editor'
 import { TextProps } from './Text'
 import * as helpers from './helpers'
 // @ts-expect-error
@@ -22,7 +22,7 @@ export interface State {
   rendered?: string
   resource: IResource
   revision: number
-  editor: React.RefObject<ITextEditor>
+  editor: React.RefObject<IMonacoEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   saveAs: (path: string) => Promise<void>
@@ -46,7 +46,7 @@ export function makeStore(props: TextProps) {
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
-    editor: React.createRef<ITextEditor>(),
+    editor: React.createRef<IMonacoEditor>(),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
