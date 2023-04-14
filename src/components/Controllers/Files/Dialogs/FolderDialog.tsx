@@ -2,8 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import IconButton from '@mui/material/IconButton'
-import Button from '@mui/material/Button'
+import MuiIconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import Cancel from '@mui/icons-material/Cancel'
 import ContentCopy from '@mui/icons-material/ContentCopy'
@@ -11,8 +10,8 @@ import CopyAll from '@mui/icons-material/CopyAll'
 import Columns from '../../../Parts/Columns'
 import DialogContent from '@mui/material/DialogContent'
 import FileTree from '../../../Parts/Trees/FileTree'
+import IconButton from '../../../Parts/Buttons/IconButton'
 import { useStore, selectors } from '../store'
-import ButtonContent from '../../../Parts/ButtonContent'
 
 export default function FolderDialog() {
   const targetTree = useStore(selectors.targetTree)
@@ -38,13 +37,13 @@ export default function FolderDialog() {
     >
       <DialogTitle>
         {dialog === 'folder/copy' ? 'Copy' : 'Move'} {isFolder ? 'Folder' : 'File'}
-        <IconButton
+        <MuiIconButton
           aria-label="close"
           onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, color: 'grey' }}
         >
           <CloseIcon />
-        </IconButton>
+        </MuiIconButton>
       </DialogTitle>
       <DialogContent
         sx={{
@@ -64,28 +63,25 @@ export default function FolderDialog() {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <Button
+          <IconButton
             fullWidth
+            label={'Cancel'}
+            Icon={Cancel}
             sx={{ my: 0.5 }}
             variant="contained"
             size="small"
             onClick={handleClose}
             color="warning"
-          >
-            <ButtonContent label={'Cancel'} icon={Cancel} />
-          </Button>
-          <Button
+          />
+          <IconButton
             fullWidth
+            label={dialog === 'folder/copy' ? 'Copy' : 'Move'}
+            Icon={dialog === 'folder/copy' ? CopyAll : ContentCopy}
             sx={{ my: 0.5 }}
             variant="contained"
             size="small"
             onClick={handleSelect}
-          >
-            <ButtonContent
-              label={dialog === 'folder/copy' ? 'Copy' : 'Move'}
-              icon={dialog === 'folder/copy' ? CopyAll : ContentCopy}
-            />
-          </Button>
+          />
         </Columns>
       </Box>
     </Dialog>

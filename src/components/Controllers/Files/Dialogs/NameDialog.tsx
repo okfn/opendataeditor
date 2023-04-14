@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -8,9 +7,9 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
 import Create from '@mui/icons-material/Create'
-import { useStore, selectors } from '../store'
+import IconButton from '../../../Parts/Buttons/IconButton'
 import Columns from '../../../Parts/Columns'
-import ButtonContent from '../../../Parts/ButtonContent'
+import { useStore, selectors } from '../store'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -77,29 +76,26 @@ export default function NameDialog() {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <Button
+          <IconButton
             fullWidth
+            label="Cancel"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
             color="warning"
             variant="contained"
-          >
-            <ButtonContent label={'Cancel'} icon={Cancel} />
-          </Button>
-          <Button
+            Icon={Cancel}
+          />
+          <IconButton
             fullWidth
+            label={dialog === 'name/create' ? 'Create' : 'Rename'}
+            Icon={Create}
             sx={{ my: 0.5 }}
             onClick={handleCreate}
             aria-label="accept"
             variant="contained"
             disabled={!name}
-          >
-            <ButtonContent
-              label={dialog === 'name/create' ? 'Create' : 'Rename'}
-              icon={Create}
-            />
-          </Button>
+          />
         </Columns>
       </Box>
     </Dialog>

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -9,7 +8,7 @@ import Cancel from '@mui/icons-material/Cancel'
 import Upload from '@mui/icons-material/Upload'
 import { useStore, selectors } from '../store'
 import Columns from '../../../Parts/Columns'
-import ButtonContent from '../../../Parts/ButtonContent'
+import IconButton from '../../../Parts/Buttons/IconButton'
 
 export default function LinkDialog() {
   const dialog = useStore((state) => state.dialog)
@@ -49,26 +48,26 @@ export default function LinkDialog() {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <Button
+          <IconButton
             fullWidth
+            label={'Cancel'}
+            Icon={Cancel}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
             color="warning"
             variant="contained"
-          >
-            <ButtonContent label={'Cancel'} icon={Cancel} />
-          </Button>
-          <Button
+          />
+          <IconButton
             fullWidth
+            label={'Upload'}
+            Icon={Upload}
             sx={{ my: 0.5 }}
             onClick={handleCreate}
             aria-label="accept"
             variant="contained"
             disabled={!url}
-          >
-            <ButtonContent label={'Upload'} icon={Upload} />
-          </Button>
+          />
         </Columns>
       </Box>
     </Dialog>

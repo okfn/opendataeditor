@@ -3,17 +3,16 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import TextField from '@mui/material/TextField'
-import { useStore } from '../store'
 import Columns from '../../../Parts/Columns'
-import * as settings from '../../../../settings'
-import ExportIcon from '@mui/icons-material/IosShare'
 import Cancel from '@mui/icons-material/Cancel'
-import ButtonContent from '../../../Parts/ButtonContent'
+import CheckIcon from '@mui/icons-material/Check'
+import IconButton from '../../../Parts/Buttons/IconButton'
+import * as settings from '../../../../settings'
+import { useStore } from '../store'
 
 export default function SaveAsDialog() {
   const [name, setName] = React.useState('')
@@ -25,7 +24,7 @@ export default function SaveAsDialog() {
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
   const handleCancel = () => updateState({ dialog: undefined })
-  const handleExport = async () => {
+  const handleSave = async () => {
     console.log(name, format)
     const path = await exportTable(name, format)
     onExport(path)
@@ -51,7 +50,7 @@ export default function SaveAsDialog() {
               value={name}
               onChange={handleChange}
               onKeyPress={(event) => {
-                if (event.key === 'Enter') handleExport()
+                if (event.key === 'Enter') handleSave()
               }}
             />
           </Grid>
@@ -73,26 +72,25 @@ export default function SaveAsDialog() {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <Button
+          <IconButton
             fullWidth
+            label="Cancel"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
             color="warning"
             variant="contained"
-          >
-            <ButtonContent label={'Cancel'} icon={Cancel} />
-          </Button>
-          <Button
+            Icon={Cancel}
+          />
+          <IconButton
             fullWidth
+            label="Save"
             sx={{ my: 0.5 }}
-            onClick={handleExport}
-            aria-label="export"
+            onClick={handleSave}
+            aria-label="accept"
             variant="contained"
-            disabled={!name}
-          >
-            <ButtonContent label={'Save'} icon={ExportIcon} />
-          </Button>
+            Icon={CheckIcon}
+          />
         </Columns>
       </Box>
     </Dialog>

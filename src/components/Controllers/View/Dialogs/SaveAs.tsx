@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -8,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import Cancel from '@mui/icons-material/Cancel'
 import CheckIcon from '@mui/icons-material/Check'
 import Columns from '../../../Parts/Columns'
-import ButtonContent from '../../../Parts/ButtonContent'
+import IconButton from '../../../Parts/Buttons/IconButton'
 import { useStore } from '../store'
 
 // TODO: extract shared into Parts
@@ -44,25 +43,25 @@ export default function SaveAsDialog() {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <Button
+          <IconButton
             fullWidth
+            label="Cancel"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
             color="warning"
             variant="contained"
-          >
-            <ButtonContent label="Cancel" icon={Cancel} />
-          </Button>
-          <Button
+            Icon={Cancel}
+          />
+          <IconButton
             fullWidth
+            label="Save"
             sx={{ my: 0.5 }}
             onClick={handleSave}
             aria-label="accept"
             variant="contained"
-          >
-            <ButtonContent label="Save" icon={CheckIcon} />
-          </Button>
+            Icon={CheckIcon}
+          />
         </Columns>
       </Box>
     </Dialog>
