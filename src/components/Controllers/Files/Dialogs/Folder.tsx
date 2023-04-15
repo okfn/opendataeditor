@@ -56,9 +56,9 @@ export default function FolderDialog() {
       >
         <FileTree
           tree={targetTree}
-          selected={target}
+          defaultSelected={target}
           defaultExpanded={[targetTree[0].path]}
-          onPathChange={setTarget}
+          onSelect={setTarget}
         />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>

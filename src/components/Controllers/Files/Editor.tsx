@@ -28,7 +28,7 @@ function FilesContent() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
   const setPath = useStore((state) => state.setPath)
-  const addedPath = useStore((state) => state.addedPath)
+  const fileEvent = useStore((state) => state.fileEvent)
   const message = useStore((state) => state.message)
   const setMessage = useStore((state) => state.setMessage)
   const open = message && true
@@ -36,9 +36,9 @@ function FilesContent() {
     <React.Fragment>
       <FileTree
         tree={fileTree}
-        added={addedPath}
-        selected={path}
-        onPathChange={setPath}
+        event={fileEvent}
+        onSelect={setPath}
+        defaultSelected={path}
       />
       {open && (
         <Snackbar

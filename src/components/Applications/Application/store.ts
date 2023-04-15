@@ -3,14 +3,14 @@ import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
+import { IFile, IFileEvent } from '../../../interfaces'
 import { ApplicationProps } from './Application'
 
 export interface State {
   file?: IFile
   client: Client
   dialog?: 'config'
-  addedPath?: string
+  fileEvent?: IFileEvent
   updateState: (patch: Partial<State>) => void
   select: (path?: string) => Promise<void>
   save: () => void
@@ -34,9 +34,10 @@ export function makeStore(props: ApplicationProps) {
       const { file, select } = get()
       if (!file) return
       select(file.path)
+      set({ fileEvent: { type: 'update', paths: [file.path] } })
     },
     saveAs: (path) => {
-      set({ addedPath: path })
+      set({ fileEvent: { type: 'create', paths: [path] } })
     },
     createChart: async () => {
       const { client, select } = get()

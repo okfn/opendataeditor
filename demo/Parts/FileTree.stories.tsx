@@ -28,7 +28,7 @@ const tree = [
 export const Default = Template.bind({})
 Default.args = {
   tree,
-  onPathChange: console.log,
+  onSelect: console.log,
 }
 
 export const Added = Template.bind({})
@@ -36,7 +36,7 @@ Added.args = {
   tree,
   event: { type: 'create', paths: ['folder/table2'] },
   defaultExpanded: ['folder1'],
-  onPathChange: console.log,
+  onSelect: console.log,
 }
 
 export const Drafted = Template.bind({})
@@ -44,5 +44,5 @@ Drafted.args = {
   tree,
   event: { type: 'draft', paths: ['folder/table2'] },
   defaultExpanded: ['folder1'],
-  onPathChange: console.log,
+  onSelect: console.log,
 }

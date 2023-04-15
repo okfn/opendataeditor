@@ -5,11 +5,12 @@ import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
 import { Client } from '../../../client'
 import { ConfirmProvider } from 'material-ui-confirm'
+import { IFileEvent } from '../../../interfaces'
 
 export interface FilesProps {
   client: Client
-  addedPath?: string
-  onPathChange: (path?: string) => void
+  fileEvent?: IFileEvent
+  onFileSelect: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

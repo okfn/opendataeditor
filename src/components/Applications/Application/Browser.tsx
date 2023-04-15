@@ -6,13 +6,13 @@ import { useStore } from './store'
 export default function Layout() {
   const client = useStore((state) => state.client)
   const select = useStore((state) => state.select)
-  const addedPath = useStore((state) => state.addedPath)
+  const fileEvent = useStore((state) => state.fileEvent)
   return (
     <Box sx={{ borderRight: 'solid 1px #ddd' }}>
       <Files
         client={client}
-        addedPath={addedPath}
-        onPathChange={(path) => select(path)}
+        fileEvent={fileEvent}
+        onFileSelect={(path) => select(path)}
       />
     </Box>
   )

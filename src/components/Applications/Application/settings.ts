@@ -12,10 +12,12 @@ export const RESOURCE_CONTROLLERS: {
   [type: string]: React.ElementType<ResourceControllerProps>
 } = {
   chart: Chart,
+  dialect: Metadata,
   file: File,
   json: Text,
-  metadata: Metadata,
   package: Package,
+  resource: Metadata,
+  schema: Metadata,
   table: Table,
   text: Text,
   view: View,

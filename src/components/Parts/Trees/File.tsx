@@ -21,9 +21,9 @@ export interface FileTreeProps {
   // TODO: accept fileItems as prop?
   tree: ITreeItem[]
   event?: IFileEvent
+  onSelect?: (path: string) => void
   defaultSelected?: string
   defaultExpanded?: string[]
-  onPathChange?: (path: string) => void
 }
 
 const Context = React.createContext<{
@@ -38,7 +38,7 @@ export default function FileTree(props: FileTreeProps) {
           defaultSelected={props.defaultSelected}
           defaultExpanded={props.defaultExpanded}
           onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-            if (props.onPathChange) props.onPathChange(nodeId)
+            if (props.onSelect) props.onSelect(nodeId)
           }}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
