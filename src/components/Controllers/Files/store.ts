@@ -15,21 +15,6 @@ type IDialog =
   | 'link/create'
   | 'create/dialog'
 
-type IAction =
-  | 'upload/file'
-  | 'upload/folder'
-  | 'name/create'
-  | 'link/create'
-  | 'create/package'
-  | 'create/view'
-  | 'create/chart'
-  | 'create/pipeline'
-
-type IMessage = {
-  status: string
-  description: string
-}
-
 export interface State {
   path?: string
   client: Client
@@ -37,15 +22,10 @@ export interface State {
   fileItems: IFileItem[]
   onFileSelect: (path?: string) => void
   dialog?: IDialog
-  action?: IAction
   updateState: (patch: Partial<State>) => void
+  updatePath: (newPath?: string) => void
   loading?: boolean
-  message?: IMessage | undefined
   open?: boolean
-  setPath: (path?: string) => void
-  setDialog: (dialog?: IDialog) => void
-  setAction: (value: IAction | undefined) => void
-  setMessage: (message: IMessage | undefined) => void
 
   // File
 
@@ -79,20 +59,13 @@ export function makeStore(props: FilesProps) {
     updateState: (patch) => {
       set(patch)
     },
-    setDialog: (dialog) => set({ dialog }),
-    setPath: (newPath) => {
+    updatePath: (newPath) => {
       const { path, onFileSelect } = get()
       if (path === newPath) return
       set({ path: newPath })
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
       onFileSelect(newPath)
-    },
-    setAction: (action) => {
-      set({ action })
-    },
-    setMessage: (message) => {
-      set({ message })
     },
 
     // File
@@ -104,11 +77,11 @@ export function makeStore(props: FilesProps) {
       await listFiles()
     },
     deleteFile: async () => {
-      const { client, path, listFiles, setPath } = get()
+      const { client, path, listFiles, updatePath } = get()
       if (!path) return
       await client.fileDelete({ path })
       await listFiles()
-      setPath(undefined)
+      updatePath(undefined)
     },
     listFiles: async () => {
       const { client } = get()
@@ -131,7 +104,7 @@ export function makeStore(props: FilesProps) {
     // TODO: upload in parallel?
     uploadFiles: async (files) => {
       const paths: string[] = []
-      const { client, listFiles, setPath } = get()
+      const { client, listFiles, updatePath } = get()
       for (const file of files) {
         const folder = selectors.folderPath(get())
         const result = await client.fileUpload({ file, folder })
@@ -139,21 +112,20 @@ export function makeStore(props: FilesProps) {
       }
       if (!paths.length) return
       await listFiles()
-      if (paths.length === 1) setPath(paths[0])
+      if (paths.length === 1) updatePath(paths[0])
       set({ fileEvent: { type: 'create', paths } })
     },
     createFile: async (path) => {
-      const { client, listFiles, setPath } = get()
+      const { client, listFiles, updatePath } = get()
       const folder = selectors.folderPath(get())
       const result = await client.fileCreate({ path, folder })
-      set({ message: { status: result.status, description: result.message } })
       if (!result.path) return
       await listFiles()
-      setPath(result.path)
+      updatePath(result.path)
       set({ fileEvent: { type: 'create', paths: [result.path] } })
     },
     uploadFolder: async (files) => {
-      const { path, client, listFiles, setPath } = get()
+      const { path, client, listFiles, updatePath } = get()
       let filesList: { [key: string]: any }[] = []
       let basePath
       const fileParts = files[0].webkitRelativePath.split('/')
@@ -184,7 +156,7 @@ export function makeStore(props: FilesProps) {
         await client.fileUpload({ file: file.file, folder: folder })
       }
       await listFiles()
-      setPath(path)
+      updatePath(path)
     },
     downloadFile: async () => {
       const { client, path } = get()
@@ -211,10 +183,11 @@ export function makeStore(props: FilesProps) {
     // Package
 
     createPackage: async () => {
-      const { client, listFiles, setPath } = get()
+      const { client, listFiles, updatePath } = get()
       const { path } = await client.packageCreate()
       await listFiles()
-      setPath(path)
+      set({ fileEvent: { type: 'create', paths: [path] } })
+      updatePath(path)
     },
   }))
 }

@@ -25,39 +25,39 @@ export default function ManageButton() {
 
 function CopyButton() {
   const isFolder = useStore(selectors.isFolder)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       Icon={MoveIcon}
-      onClick={() => setDialog('folder/copy')}
+      onClick={() => updateState({ dialog: 'folder/copy' })}
     />
   )
 }
 
 function MoveButton() {
   const isFolder = useStore(selectors.isFolder)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       Icon={CopyIcon}
-      onClick={() => setDialog('folder/move')}
+      onClick={() => updateState({ dialog: 'folder/move' })}
     />
   )
 }
 
 function RenameButton() {
   const isFolder = useStore(selectors.isFolder)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       label={`Rename ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
       Icon={RenameIcon}
-      onClick={() => setDialog('name/rename')}
+      onClick={() => updateState({ dialog: 'name/rename' })}
     />
   )
 }

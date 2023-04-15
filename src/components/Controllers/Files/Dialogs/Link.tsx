@@ -12,13 +12,13 @@ import IconButton from '../../../Parts/Buttons/Icon'
 
 export default function LinkDialog() {
   const dialog = useStore((state) => state.dialog)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   const createFile = useStore((state) => state.createFile)
   const folderPath = useStore(selectors.folderPath)
   const [url, setURL] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setURL(ev.target.value)
-  const handleCancel = () => setDialog(undefined)
+  const handleCancel = () => updateState({ dialog: undefined })
   const handleCreate = () => {
     createFile(url)
     handleCancel()

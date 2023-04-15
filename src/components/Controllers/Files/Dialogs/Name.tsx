@@ -13,7 +13,7 @@ import { useStore, selectors } from '../store'
 
 export default function NameDialog() {
   const dialog = useStore((state) => state.dialog)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   const createFolder = useStore((state) => state.createFolder)
   const renameFile = useStore((state) => state.renameFile)
   const isFolder = useStore(selectors.isFolder)
@@ -23,7 +23,7 @@ export default function NameDialog() {
   const [folder, setFolder] = React.useState('')
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
-  const handleCancel = () => setDialog(undefined)
+  const handleCancel = () => updateState({ dialog: undefined })
   const handleCreate = () => {
     const action = dialog === 'name/create' ? createFolder : renameFile
     action(name)

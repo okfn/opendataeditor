@@ -16,17 +16,17 @@ import { useStore, selectors } from '../store'
 export default function FolderDialog() {
   const targetTree = useStore(selectors.targetTree)
   const dialog = useStore((state) => state.dialog)
-  const setDialog = useStore((state) => state.setDialog)
+  const updateState = useStore((state) => state.updateState)
   const copyFile = useStore((state) => state.copyFile)
   const moveFile = useStore((state) => state.moveFile)
   const isFolder = useStore(selectors.isFolder)
   const folderPath = useStore(selectors.folderPath)
   const [target, setTarget] = React.useState(folderPath || '/')
-  const handleClose = () => setDialog(undefined)
+  const handleClose = () => updateState({ dialog: undefined })
   const handleSelect = () => {
     const action = dialog === 'folder/copy' ? copyFile : moveFile
     action(target !== '/' ? target : undefined)
-    setDialog(undefined)
+    handleClose()
   }
   return (
     <Dialog

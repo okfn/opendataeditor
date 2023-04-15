@@ -13,27 +13,18 @@ export default function Layout() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
   const path = useStore((state) => state.path)
   const listFiles = useStore((state) => state.listFiles)
-  const countFiles = useStore((state) => state.countFiles)
-  const setDialog = useStore((state) => state.setDialog)
   React.useEffect(() => {
     listFiles().catch(console.error)
-    countFiles()
-      .then((result) => {
-        if (result <= 0) setDialog('create/dialog')
-      })
-      .catch(console.error)
   }, [path])
   return (
     <React.Fragment>
       <Dialog />
-      <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ height }}>
         <Menu />
         <Box sx={{ height: contentHeight }}>
           <Editor />
         </Box>
-        <Box sx={{ height: theme.spacing(8) }}>
-          <Actions />
-        </Box>
+        <Actions />
       </Box>
     </React.Fragment>
   )
