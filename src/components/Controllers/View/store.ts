@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -13,9 +14,11 @@ import * as settings from '../../../settings'
 export interface State {
   file: IFile
   client: Client
-  fields?: IFieldItem[]
+  onSave: () => void
+  onSaveAs: (path: string) => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
+  fields?: IFieldItem[]
   original?: IView
   modified?: IView
   revision: number
@@ -26,7 +29,8 @@ export interface State {
   load: () => Promise<void>
   clear: () => void
   revert: () => void
-  save: (path?: string) => Promise<void>
+  save: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
 }
 
 export interface ExceptionError {
@@ -35,8 +39,9 @@ export interface ExceptionError {
 
 export function makeStore(props: SqlProps) {
   return createStore<State>((set, get) => ({
-    file: props.file,
-    client: props.client,
+    ...props,
+    onSaveAs: props.onSaveAs || noop,
+    onSave: props.onSave || noop,
     panel: 'editor',
     revision: 0,
     // TODO: review case of missing record (not indexed)
@@ -69,17 +74,26 @@ export function makeStore(props: SqlProps) {
         revision: 0,
       })
     },
-    save: async (path) => {
-      const { file, client, resource, modified } = get()
+    save: async () => {
+      const { file, client, resource, modified, onSave } = get()
       if (!modified) return
       await client.fileUpdate({ path: file.path, resource })
-      await client.viewWrite({ path: path || file.path, view: modified })
+      await client.viewWrite({ path: file.path, view: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      // TODO: move to autoupdating on change (throttle)
       if (file.record?.tableName) {
         const query = `select * from "${file.record?.tableName}"`
         const { table } = await client.tableQuery({ query })
         set({ table })
       }
+      onSave()
+    },
+    saveAs: async (path) => {
+      const { client, modified, onSaveAs } = get()
+      if (!modified) return
+      // TODO: write resource as well?
+      await client.viewWrite({ path, view: modified })
+      onSaveAs(path)
     },
   }))
 }

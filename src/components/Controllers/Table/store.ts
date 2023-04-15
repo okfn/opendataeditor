@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -9,8 +10,22 @@ import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
-  client: Client
   file: IFile
+  client: Client
+  onSave: () => void
+  onSaveAs: (path: string) => void
+  panel?: 'metadata' | 'report' | 'changes' | 'source'
+  dialog?: 'saveAs'
+  resource: IResource
+  revision: number
+  updateState: (patch: Partial<State>) => void
+  updateResource: (resource: IResource) => Promise<void>
+  revert: () => void
+  save: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
+
+  // Legacy
+
   tablePatch: ITablePatch
   table?: ITable
   source?: string
@@ -20,26 +35,41 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   exportTable: (name: string, format: string) => Promise<string>
   updateColumn: (selectedColumn: number) => void
-  onSave?: () => void
-
-  // Version 2
-  panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs'
-  resource: IResource
-  revision: number
-  updateState: (patch: Partial<State>) => void
-  updateResource: (resource: IResource) => Promise<void>
-  saveAs: (path: string) => Promise<void>
-  revert: () => void
-  save: () => Promise<void>
 }
 
 export function makeStore(props: TableProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    onSave: props.onSave || noop,
+    onSaveAs: props.onSaveAs || noop,
     tablePatch: {},
+    revision: 0,
+    // TODO: review case of missing record (not indexed)
+    resource: cloneDeep(props.file.record!.resource),
+    updateState: (patch) => {
+      const { revision } = get()
+      if ('resource' in patch) patch.revision = revision + 1
+      set(patch)
+    },
+    revert: () => {
+      const { file } = get()
+      // TODO: review case of missing record (not indexed)
+      set({ resource: cloneDeep(file.record!.resource), revision: 0 })
+    },
+    // TODO: implement
+    save: async () => {
+      const { file, client, resource, onSave } = get()
+      await client.fileUpdate({ path: file.path, resource })
+      set({ revision: 0 })
+      onSave()
+    },
+    // TODO: implement
+    saveAs: async (path) => {
+      const { onSaveAs } = get()
+      onSaveAs(path)
+    },
 
-    // General
+    // Legacy
 
     loadTable: async () => {
       const { client, file } = get()
@@ -71,30 +101,6 @@ export function makeStore(props: TableProps) {
     },
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })
-    },
-
-    // Version 2
-    revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
-    updateState: (patch) => {
-      const { revision } = get()
-      if ('resource' in patch) patch.revision = revision + 1
-      set(patch)
-    },
-    saveAs: async (path) => {
-      console.log('saveAs', path)
-    },
-    revert: () => {
-      const { file } = get()
-      // TODO: review case of missing record (not indexed)
-      set({ resource: cloneDeep(file.record!.resource), revision: 0 })
-    },
-    // TODO: needs to udpate file object as well
-    save: async () => {
-      const { file, client, resource } = get()
-      await client.fileUpdate({ path: file.path, resource })
-      set({ revision: 0 })
     },
   }))
 }

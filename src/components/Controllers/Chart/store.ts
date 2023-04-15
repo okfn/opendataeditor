@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -11,9 +12,11 @@ import { ChartProps } from './Chart'
 export interface State {
   file: IFile
   client: Client
-  fields?: IFieldItem[]
+  onSave: () => void
+  onSaveAs: (path: string) => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
+  fields?: IFieldItem[]
   original?: IChart
   modified?: IChart
   rendered?: IChart
@@ -23,12 +26,15 @@ export interface State {
   load: () => Promise<void>
   clear: () => void
   revert: () => void
-  save: (path?: string) => Promise<void>
+  save: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
 }
 
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    onSaveAs: props.onSaveAs || noop,
+    onSave: props.onSave || noop,
     panel: 'editor',
     revision: 0,
     // TODO: review case of missing record (not indexed)
@@ -55,14 +61,21 @@ export function makeStore(props: ChartProps) {
       const { original } = get()
       set({ modified: cloneDeep(original), revision: 0 })
     },
-    save: async (path) => {
-      const { file, client, resource, modified } = get()
+    save: async () => {
+      const { file, client, resource, modified, onSave } = get()
       if (!modified) return
       await client.fileUpdate({ path: file.path, resource })
-      await client.jsonWrite({ path: path || file.path, data: modified })
+      await client.jsonWrite({ path: file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
       const { chart } = await client.chartRender({ chart: modified })
       set({ rendered: chart })
+      onSave()
+    },
+    saveAs: async (path) => {
+      const { client, modified, onSaveAs } = get()
+      // TODO: write resource as well?
+      await client.jsonWrite({ path, data: modified })
+      onSaveAs(path)
     },
   }))
 }

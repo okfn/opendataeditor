@@ -15,12 +15,12 @@ export default function SaveAsDialog() {
   const file = useStore((state) => state.file)
   const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
-  const save = useStore((state) => state.save)
+  const saveAs = useStore((state) => state.saveAs)
   const [path, setPath] = React.useState(file.path)
   const handleCancel = () => updateState({ dialog: undefined })
   const handleSave = () => {
     updateState({ dialog: undefined })
-    save(path)
+    saveAs(path)
   }
   return (
     <Dialog

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -13,6 +14,8 @@ import * as helpers from '../../../helpers'
 export interface State {
   file: IFile
   client: Client
+  onSave: () => void
+  onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   original?: IResource | IDialect | ISchema
@@ -22,12 +25,15 @@ export interface State {
   load: () => Promise<void>
   clear: () => void
   revert: () => void
-  save: (path?: string) => Promise<void>
+  save: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
 }
 
 export function makeStore(props: MetadataProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    onSave: props.onSave || noop,
+    onSaveAs: props.onSaveAs || noop,
     revision: 0,
     updateState: (patch) => {
       const { revision } = get()
@@ -50,11 +56,19 @@ export function makeStore(props: MetadataProps) {
       const { original } = get()
       set({ modified: cloneDeep(original), revision: 0 })
     },
-    save: async (path) => {
-      const { file, client, modified } = get()
+    save: async () => {
+      const { file, client, modified, onSave } = get()
       if (!modified) return
-      await client.metadataWrite({ path: path || file.path, data: modified })
+      await client.metadataWrite({ path: file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      onSave()
+    },
+    saveAs: async (path) => {
+      const { client, modified, onSaveAs } = get()
+      if (!modified) return
+      // TODO: write resource as well?
+      await client.metadataWrite({ path, data: modified })
+      onSaveAs(path)
     },
   }))
 }

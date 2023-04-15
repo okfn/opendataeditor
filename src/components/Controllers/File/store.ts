@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -11,21 +12,25 @@ import { FileProps } from './File'
 export interface State {
   file: IFile
   client: Client
+  onSave: () => void
+  onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   revision: number
   original?: ArrayBuffer
   resource: IResource
   updateState: (patch: Partial<State>) => void
-  loadContent: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  load: () => Promise<void>
   revert: () => void
   save: () => void
+  saveAs: (path: string) => Promise<void>
 }
 
 export function makeStore(props: FileProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    onSaveAs: props.onSaveAs || noop,
+    onSave: props.onSave || noop,
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
@@ -34,15 +39,11 @@ export function makeStore(props: FileProps) {
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
-    loadContent: async () => {
+    load: async () => {
       const { client, file } = get()
       if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
       const { bytes } = await client.fileRead({ path: file.path })
       set({ original: bytes })
-    },
-    saveAs: async (path) => {
-      const { client, original } = get()
-      await client.fileWrite({ path, file: new File([original!], 'name') })
     },
     revert: () => {
       const { file } = get()
@@ -50,10 +51,16 @@ export function makeStore(props: FileProps) {
       set({ resource: cloneDeep(file.record!.resource), revision: 0 })
     },
     save: async () => {
-      const { file, client, resource } = get()
+      const { file, client, resource, onSave } = get()
       await client.fileUpdate({ path: file.path, resource })
-      // TODO: needs to udpate file
       set({ revision: 0 })
+      onSave()
+    },
+    saveAs: async (path) => {
+      const { client, original, onSaveAs } = get()
+      // TODO: write resource as well?
+      await client.fileWrite({ path, file: new File([original!], 'name') })
+      onSaveAs(path)
     },
   }))
 }

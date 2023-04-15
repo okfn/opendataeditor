@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -15,6 +16,8 @@ import dirtyJson from 'dirty-json'
 export interface State {
   file: IFile
   client: Client
+  onSave: () => void
+  onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
   original?: string
@@ -25,9 +28,9 @@ export interface State {
   editor: React.RefObject<IMonacoEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
+  saveAs: (path: string) => Promise<void>
 
   // Text
 
@@ -43,6 +46,8 @@ export interface State {
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    onSave: props.onSave || noop,
+    onSaveAs: props.onSaveAs || noop,
     revision: 0,
     // TODO: review case of missing record (not indexed)
     resource: cloneDeep(props.file.record!.resource),
@@ -61,10 +66,6 @@ export function makeStore(props: TextProps) {
         set({ rendered: text })
       }
     },
-    saveAs: async (path) => {
-      const { client, modified } = get()
-      await client.textWrite({ path, text: modified! })
-    },
     revert: () => {
       const { file, original } = get()
       // TODO: review case of missing record (not indexed)
@@ -72,14 +73,21 @@ export function makeStore(props: TextProps) {
     },
     // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, modified, resource } = get()
+      const { file, client, modified, resource, onSave } = get()
       await client.fileUpdate({ path: file.path, resource })
       await client.textWrite({ path: file.path, text: modified! })
       set({ original: modified, revision: 0 })
+      // TODO: move to autoupdating on change (throttle)
       if (file.record?.resource.format === 'md') {
         const { text } = await client.textRender({ path: file.path })
         set({ rendered: text })
       }
+      onSave()
+    },
+    saveAs: async (path) => {
+      const { client, modified, onSaveAs } = get()
+      await client.textWrite({ path, text: modified! })
+      onSaveAs(path)
     },
 
     // Text
