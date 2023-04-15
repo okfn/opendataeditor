@@ -11,7 +11,6 @@ export interface State {
   file?: IFile
   fileItemAdded?: boolean
   dialog?: 'config'
-  countFiles: () => Promise<number>
   selectFile: (path?: string) => void
   setFileItemAdded: (value: boolean) => void
   updateState: (patch: Partial<State>) => void
@@ -24,11 +23,6 @@ export function makeStore(props: ApplicationProps) {
     ...props,
     updateState: (patch) => {
       set(patch)
-    },
-    countFiles: async () => {
-      const { client } = get()
-      const { count } = await client.fileCount()
-      return count
     },
     selectFile: async (path) => {
       if (!path) return

@@ -4,13 +4,8 @@ import Browser from './Browser'
 import Content from './Content'
 import Dialog from './Dialog'
 import Header from './Header'
-import { useStore } from './store'
 
 export default function Layout() {
-  const countFiles = useStore((state) => state.countFiles)
-  React.useEffect(() => {
-    countFiles().catch(console.error)
-  }, [])
   return (
     <React.Fragment>
       <Dialog />

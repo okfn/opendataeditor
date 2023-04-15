@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { assert } from 'ts-essentials'
 import Box from '@mui/material/Box'
 import Empty from '../../Parts/Empty'
 import File from '../../Controllers/File'
@@ -8,7 +7,7 @@ import Package from '../../Controllers/Package'
 import Metadata from '../../Controllers/Metadata'
 import Chart from '../../Controllers/Chart'
 import View from '../../Controllers/View'
-import * as settings from '../../../settings'
+import { ResourceControllerProps } from '../../Parts/Controller/Resource'
 import { useStore } from './store'
 import Text from '../../Controllers/Text'
 
@@ -20,30 +19,28 @@ export default function Content() {
 function ContentFile() {
   const client = useStore((state) => state.client)
   const file = useStore((state) => state.file)
-  const selectFile = useStore((state) => state.selectFile)
-  const setFileItemAdded = useStore((state) => state.setFileItemAdded)
-  assert(file)
-  const onSave = (path: string) => {
-    selectFile(path)
-    setFileItemAdded(true)
+  const onSaveAs = (path: string) => {
+    console.log('saveAs', path)
   }
-  let Controller = File
-  if (file.type === 'view') Controller = View
-  if (file.type === 'chart') Controller = Chart
-  if (file.type === 'table') {
-    return <Table client={client} file={file} onExport={onSave} />
+  const onSave = () => {
+    console.log('save')
   }
-  if (file.type === 'json') {
-    return <Text client={client} file={file} />
-  }
-  if (file.type === 'text') {
-    return <Text client={client} file={file} />
-  }
-  if (file.type === 'package') Controller = Package
-  if (settings.METADATA_TYPES.includes(file.type)) Controller = Metadata
-  return <Controller file={file} client={client} />
+  if (!file) return null
+  const Controller = CONTROLLERS[file.type] || File
+  return <Controller file={file} client={client} onSaveAs={onSaveAs} onSave={onSave} />
 }
 
 function ContentEmpty() {
   return <Empty title="No Files Selected" description="Select a file in the left menu" />
+}
+
+const CONTROLLERS: { [type: string]: React.ElementType<ResourceControllerProps> } = {
+  chart: Chart,
+  file: File,
+  json: Text,
+  metadata: Metadata,
+  package: Package,
+  table: Table,
+  text: Text,
+  view: View,
 }

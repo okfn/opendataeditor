@@ -1,15 +1,11 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
-import { Client } from '../../../client'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
-import { IFile } from '../../../interfaces'
+import { ResourceControllerProps } from '../../Parts/Controller/Resource'
 import Layout from './Layout'
 
-export interface PackageProps {
-  file: IFile
-  client: Client
-}
+export interface PackageProps extends ResourceControllerProps {}
 
 export default function Package(props: PackageProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))

@@ -20,7 +20,7 @@ export interface State {
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   exportTable: (name: string, format: string) => Promise<string>
   updateColumn: (selectedColumn: number) => void
-  onExport: (path: string) => void
+  onSave?: () => void
 
   // Version 2
   panel?: 'metadata' | 'report' | 'changes' | 'source'
@@ -29,6 +29,7 @@ export interface State {
   revision: number
   updateState: (patch: Partial<State>) => void
   updateResource: (resource: IResource) => Promise<void>
+  saveAs: (path: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
 }
@@ -80,6 +81,9 @@ export function makeStore(props: TableProps) {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
+    },
+    saveAs: async (path) => {
+      console.log('saveAs', path)
     },
     revert: () => {
       const { file } = get()
