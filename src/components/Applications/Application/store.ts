@@ -11,16 +11,16 @@ export interface State {
   client: Client
   dialog?: 'config'
   updateState: (patch: Partial<State>) => void
+  select: (path?: string) => Promise<void>
+  save: () => void
+  saveAs: (path: string) => void
   createChart: () => Promise<void>
   createView: () => Promise<void>
-  saveAs: (path: string) => void
-  save: () => void
 
   // Legacy
 
-  selectFile: (path?: string) => void
-  setFileItemAdded: (value: boolean) => void
   fileItemAdded?: boolean
+  setFileItemAdded: (value: boolean) => void
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -29,33 +29,34 @@ export function makeStore(props: ApplicationProps) {
     updateState: (patch) => {
       set(patch)
     },
-    createChart: async () => {
-      const { client, selectFile } = get()
-      const path = 'new-chart.json'
-      await client.jsonWrite({ path, data: {} })
-      selectFile(path)
+    select: async (path) => {
+      const { client } = get()
+      const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
+      set({ file })
     },
-    createView: async () => {
-      const { client, selectFile } = get()
-      const path = 'new-view.json'
-      await client.jsonWrite({ path, data: { query: '' } })
-      selectFile(path)
+    save: () => {
+      const { file, select } = get()
+      if (!file) return
+      select(file.path)
     },
     saveAs: (path) => {
       console.log('saveAs', path)
     },
-    save: () => {
-      console.log('save')
+    createChart: async () => {
+      const { client, select } = get()
+      const path = 'new-chart.json'
+      await client.jsonWrite({ path, data: {} })
+      select(path)
+    },
+    createView: async () => {
+      const { client, select } = get()
+      const path = 'new-view.json'
+      await client.jsonWrite({ path, data: { query: '' } })
+      select(path)
     },
 
     // Legacy
 
-    selectFile: async (path) => {
-      if (!path) return
-      const { client } = get()
-      const { file } = await client.fileIndex({ path })
-      set({ file })
-    },
     setFileItemAdded: (fileItemAdded) => {
       set({ fileItemAdded })
     },

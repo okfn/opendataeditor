@@ -4,6 +4,6 @@ import { Client } from '../../../client'
 export interface ResourceControllerProps {
   file: IFile
   client: Client
-  onSaveAs?: (path: string) => void
   onSave?: () => void
+  onSaveAs?: (path: string) => void
 }
