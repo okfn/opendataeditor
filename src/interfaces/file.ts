@@ -1,6 +1,11 @@
 import { IResource } from './resource'
 import { IReport } from './report'
 
+export interface IFileEvent {
+  type: 'create' | 'delete' | 'draft' | 'update'
+  paths: string[]
+}
+
 export interface IFileItem {
   path: string
   type: string

@@ -9,9 +9,15 @@ export default {
 
 const Template: Story<Parameters<typeof Selector>[0]> = (args) => <Selector {...args} />
 
+// Props
+
+const items = ['path1.csv', 'path2.csv', 'path3.csv']
+
+// Stories
+
 export const Default = Template.bind({})
 Default.args = {
-  items: ['path1.csv', 'path2.csv', 'path3.csv'],
+  items,
   onSelect: console.log,
   onCancel: console.log,
 }

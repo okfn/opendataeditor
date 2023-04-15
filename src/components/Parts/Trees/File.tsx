@@ -8,7 +8,7 @@ import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
-import { ITreeItem } from '../../../interfaces'
+import { ITreeItem, IFileEvent } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
 import LayersIcon from '@mui/icons-material/Layers'
@@ -17,35 +17,33 @@ import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../ScrollBox'
 
-interface FileTreeProps {
+export interface FileTreeProps {
   // TODO: accept fileItems as prop?
   tree: ITreeItem[]
-  added?: string
-  selected?: string
+  event?: IFileEvent
+  defaultSelected?: string
   defaultExpanded?: string[]
-  onExpand?: (newExpanded: string[]) => void
   onPathChange?: (path: string) => void
 }
 
 const Context = React.createContext<{
-  added?: FileTreeProps['added']
+  event?: FileTreeProps['event']
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
   return (
-    <Context.Provider value={{ added: props.added }}>
+    <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <TreeView
-          selected={props.selected || ''}
+          defaultSelected={props.defaultSelected}
           defaultExpanded={props.defaultExpanded}
-          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+          onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
             if (props.onPathChange) props.onPathChange(nodeId)
-            event.stopPropagation()
           }}
-          sx={{ height: '100%' }}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
           aria-label="customized"
+          sx={{ height: '100%' }}
         >
           {props.tree.map((item) => (
             <TreeNode item={item} key={item.path} />
@@ -79,12 +77,21 @@ const StyledTreeItem = styled(
       errors?: number
     }
   ) => {
-    const { added } = React.useContext(Context)
+    const { event } = React.useContext(Context)
+    let animation
+    let backgroundColor
+    if (event && event.paths.includes(props.nodeId)) {
+      if (event.type === 'draft') backgroundColor = 'yellow'
+      if (event.type === 'create' || event.type === 'update') {
+        animation = `${eventCreateKeyframe} 1s`
+      }
+    }
     return (
       <TreeItem
         {...props}
         sx={{
-          animation: props.nodeId === added ? `${addedPathKeyframe} 1s` : undefined,
+          animation,
+          backgroundColor,
         }}
         label={
           <TreeItemIcon
@@ -177,7 +184,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
 }
 
 // TODO: use color from theme
-const addedPathKeyframe = keyframes`
+const eventCreateKeyframe = keyframes`
   from {
     background-color: yellow;
   }
