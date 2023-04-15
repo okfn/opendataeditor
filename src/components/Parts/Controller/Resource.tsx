@@ -1,8 +1,7 @@
-import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
 
 export interface ResourceControllerProps {
-  file: IFile
+  path: string
   client: Client
   onSave?: () => void
   onSaveAs?: (path: string) => void
