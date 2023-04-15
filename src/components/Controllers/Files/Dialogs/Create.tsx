@@ -14,8 +14,6 @@ import Folder from '@mui/icons-material/Folder'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import ViewIcon from '@mui/icons-material/Storage'
-import ChartIcon from '@mui/icons-material/Leaderboard'
 import { useStore } from '../store'
 
 export default function CreateDialog() {
@@ -89,20 +87,6 @@ export default function CreateDialog() {
               icon={Folder}
               label="Create Package"
               onClick={() => handleClick('create/package')}
-            />
-          </Grid>
-          <Grid container item xs={12} sm={6} md={4}>
-            <CustomIconButton
-              icon={ViewIcon}
-              label="Create SQL View"
-              onClick={() => handleClick('create/view')}
-            />
-          </Grid>
-          <Grid container item xs={12} sm={6} md={4}>
-            <CustomIconButton
-              icon={ChartIcon}
-              label="Create Chart"
-              onClick={() => handleClick('create/chart')}
             />
           </Grid>
           <Grid container item xs={12} sm={6} md={4}>
