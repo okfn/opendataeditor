@@ -14,13 +14,10 @@ export default function Layout() {
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
-  const path = useStore((state) => state.file.path)
-  const loadTable = useStore((state) => state.loadTable)
-  const loadSource = useStore((state) => state.loadSource)
+  const load = useStore((state) => state.load)
+  const path = useStore((state) => state.path)
   React.useEffect(() => {
-    // TODO: rework
-    loadTable().catch(console.error)
-    loadSource().catch(console.error)
+    load().catch(console.error)
   }, [path])
   return (
     <React.Fragment>

@@ -15,13 +15,11 @@ export default function Content() {
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
-  const file = useStore((state) => state.file)
-  const modified = useStore((state) => state.modified)
   const load = useStore((state) => state.load)
+  const path = useStore((state) => state.path)
   React.useEffect(() => {
     load().catch(console.error)
-  }, [file])
-  if (!modified) return null
+  }, [path])
   return (
     <React.Fragment>
       <Dialog />

@@ -12,12 +12,13 @@ import { MetadataProps } from './Metadata'
 import * as helpers from '../../../helpers'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  panel?: 'metadata' | 'report' | 'source'
+  panel?: 'report' | 'source'
   dialog?: 'saveAs'
+  file?: IFile
   original?: IResource | IDialect | ISchema
   modified?: IResource | IDialect | ISchema
   revision: number
@@ -42,12 +43,16 @@ export function makeStore(props: MetadataProps) {
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      set({ file })
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data })
     },
     clear: () => {
       const { file, updateState } = get()
+      if (!file) return
       const descriptor = helpers.getInitialDescriptor(file.type)
       if (!descriptor) return
       updateState({ modified: cloneDeep(descriptor) })
@@ -57,11 +62,12 @@ export function makeStore(props: MetadataProps) {
       set({ modified: cloneDeep(original), revision: 0 })
     },
     save: async () => {
-      const { file, client, modified, onSave } = get()
-      if (!modified) return
+      const { file, client, modified, onSave, load } = get()
+      if (!file || !modified) return
       await client.metadataWrite({ path: file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
       onSave()
+      load()
     },
     saveAs: async (path) => {
       const { client, modified, onSaveAs } = get()

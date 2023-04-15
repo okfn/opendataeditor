@@ -14,16 +14,17 @@ import * as helpers from './helpers'
 import dirtyJson from 'dirty-json'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
+  file?: IFile
+  resource?: IResource
   original?: string
   modified?: string
   rendered?: string
-  resource: IResource
   revision: number
   editor: React.RefObject<IMonacoEditor>
   updateState: (patch: Partial<State>) => void
@@ -49,8 +50,6 @@ export function makeStore(props: TextProps) {
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
     revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     editor: React.createRef<IMonacoEditor>(),
     updateState: (patch) => {
       const { revision } = get()
@@ -58,9 +57,14 @@ export function makeStore(props: TextProps) {
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      const resource = cloneDeep(file.record!.resource)
+      set({ file, resource })
       const { text } = await client.textRead({ path: file.path })
       set({ modified: text, original: text })
+      // Update on changes using throttle
       if (file.record?.resource.format === 'md') {
         const { text } = await client.textRender({ path: file.path })
         set({ rendered: text })
@@ -68,21 +72,18 @@ export function makeStore(props: TextProps) {
     },
     revert: () => {
       const { file, original } = get()
-      // TODO: review case of missing record (not indexed)
+      if (!file) return
       set({ resource: cloneDeep(file.record!.resource), modified: original, revision: 0 })
     },
     // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, modified, resource, onSave } = get()
+      const { file, client, modified, resource, onSave, load } = get()
+      if (!file || !resource) return
       await client.fileUpdate({ path: file.path, resource })
       await client.textWrite({ path: file.path, text: modified! })
       set({ original: modified, revision: 0 })
-      // TODO: move to autoupdating on change (throttle)
-      if (file.record?.resource.format === 'md') {
-        const { text } = await client.textRender({ path: file.path })
-        set({ rendered: text })
-      }
       onSave()
+      load()
     },
     saveAs: async (path) => {
       const { client, modified, onSaveAs } = get()
@@ -133,7 +134,7 @@ export const selectors = {
     return state.revision > 0 || state.original !== state.modified
   },
   language: (state: State) => {
-    switch (state.file.record?.resource.format) {
+    switch (state.file?.record?.resource.format) {
       case 'json':
         return 'json'
       case 'yaml':

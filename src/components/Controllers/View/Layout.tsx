@@ -16,7 +16,7 @@ export default function Layout() {
   const panelHeight = panel ? 48 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const load = useStore((state) => state.load)
-  const path = useStore((state) => state.file?.path)
+  const path = useStore((state) => state.path)
   React.useEffect(() => {
     load().catch(console.error)
   }, [path])

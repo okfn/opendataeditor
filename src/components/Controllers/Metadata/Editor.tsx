@@ -9,6 +9,7 @@ export default function Content() {
   const file = useStore((state) => state.file)
   const modified = useStore((state) => state.modified)
   const updateState = useStore((state) => state.updateState)
+  if (!file) return null
   if (!modified) return null
   return (
     <React.Fragment>

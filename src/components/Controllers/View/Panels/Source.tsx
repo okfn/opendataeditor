@@ -4,6 +4,7 @@ import { useStore } from '../store'
 
 export default function SourcePanel() {
   const file = useStore((state) => state.file)
+  if (!file) return null
   return (
     <Box
       sx={{

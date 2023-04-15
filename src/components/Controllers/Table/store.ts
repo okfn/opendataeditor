@@ -10,16 +10,18 @@ import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs'
-  resource: IResource
+  file?: IFile
+  resource?: IResource
   revision: number
   updateState: (patch: Partial<State>) => void
   updateResource: (resource: IResource) => Promise<void>
+  load: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
@@ -30,10 +32,8 @@ export interface State {
   table?: ITable
   source?: string
   selectedColumn?: number
-  loadTable: () => Promise<void>
-  loadSource: () => Promise<void>
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
-  exportTable: (name: string, format: string) => Promise<string>
+  exportTable: (name: string, format: string) => Promise<void>
   updateColumn: (selectedColumn: number) => void
 }
 
@@ -44,24 +44,33 @@ export function makeStore(props: TableProps) {
     onSaveAs: props.onSaveAs || noop,
     tablePatch: {},
     revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
+    load: async () => {
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      const resource = cloneDeep(file.record!.resource)
+      const { text } = await client.textRead({ path: file.path })
+      const { table } = await client.tableRead({ path: file.path })
+      set({ file, resource, source: text, table })
+    },
     revert: () => {
       const { file } = get()
-      // TODO: review case of missing record (not indexed)
+      if (!file) return
       set({ resource: cloneDeep(file.record!.resource), revision: 0 })
     },
     // TODO: implement
     save: async () => {
-      const { file, client, resource, onSave } = get()
+      const { file, client, resource, onSave, load } = get()
+      if (!file || !resource) return
       await client.fileUpdate({ path: file.path, resource })
       set({ revision: 0 })
       onSave()
+      load()
     },
     // TODO: implement
     saveAs: async (path) => {
@@ -71,33 +80,16 @@ export function makeStore(props: TableProps) {
 
     // Legacy
 
-    loadTable: async () => {
-      const { client, file } = get()
-      const { table } = await client.tableRead({ path: file.path })
-      set({ table })
-    },
-    loadSource: async () => {
-      const { client, file } = get()
-      const { text } = await client.textRead({ path: file.path })
-      set({ source: text })
-    },
     updatePatch: (rowNumber, fieldName, value) => {
       const { tablePatch } = get()
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
     },
-    // TODO: implement
     exportTable: async (name, format) => {
-      const { client, file } = get()
-      const result = await client.tableExport({
-        source: file.path,
-        target: `${name}.${format}`,
-      })
-      return result.path
+      console.log(name, format)
     },
     updateResource: async (resource) => {
-      const { file, client } = get()
-      await client.jsonWrite({ path: file.path, data: resource })
+      console.log(resource)
     },
     updateColumn: (selectedColumn) => {
       set({ selectedColumn })

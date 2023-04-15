@@ -1,6 +1,5 @@
 import * as React from 'react'
 import ScrollBox from '../../Parts/ScrollBox'
-import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
 import { useTheme } from '@mui/material/styles'
@@ -16,7 +15,6 @@ export default function Panel() {
       height={theme.spacing(48)}
       sx={{ borderTop: 'solid 1px #ddd' }}
     >
-      {panel === 'metadata' && <MetadataPanel />}
       {panel === 'report' && <ReportPanel />}
       {panel === 'source' && <SourcePanel />}
     </ScrollBox>

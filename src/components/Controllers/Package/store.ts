@@ -11,12 +11,13 @@ import { PackageProps } from './Package'
 import * as helpers from '../../../helpers'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  panel?: 'metadata' | 'report' | 'source'
+  panel?: 'report' | 'source'
   dialog?: 'saveAs' | 'resource' | 'publish'
+  file?: IFile
   original?: IPackage
   modified?: IPackage
   revision: number
@@ -54,7 +55,10 @@ export function makeStore(props: PackageProps) {
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      set({ file })
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data })
     },
@@ -69,11 +73,12 @@ export function makeStore(props: PackageProps) {
       set({ modified: cloneDeep(original), revision: 0 })
     },
     save: async () => {
-      const { file, client, modified, onSave } = get()
-      if (!modified) return
+      const { file, client, modified, onSave, load } = get()
+      if (!file || !modified) return
       await client.packageWrite({ path: file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
       onSave()
+      load()
     },
     saveAs: async (path) => {
       const { client, modified, onSaveAs } = get()
@@ -107,6 +112,7 @@ export function makeStore(props: PackageProps) {
     // TODO: handle errors
     publish: async () => {
       const { file, client } = get()
+      if (!file) return
       const control = selectors.control(get())
       if (!control) return
       set({ isPublishing: true })

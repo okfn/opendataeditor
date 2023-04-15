@@ -17,7 +17,7 @@ function ContentFile() {
   const save = useStore((state) => state.save)
   if (!file) return null
   const Controller = settings.RESOURCE_CONTROLLERS[file.type] || File
-  return <Controller file={file} client={client} onSaveAs={saveAs} onSave={save} />
+  return <Controller path={file.path} client={client} onSaveAs={saveAs} onSave={save} />
 }
 
 function ContentEmpty() {

@@ -4,13 +4,14 @@ import { useStore } from './store'
 import * as helpers from '../../../helpers'
 
 export default function Editor() {
-  const format = useStore((state) => state.file.record?.resource.format)
+  const format = useStore((state) => state.file?.record?.resource.format)
+  if (!format) return null
   if (['png', 'jpg'].includes(format || '')) return <ImageEditor />
   return <NonSupportedEditor />
 }
 
 function ImageEditor() {
-  const format = useStore((state) => state.file.record?.resource.format)
+  const format = useStore((state) => state.file?.record?.resource.format)
   const original = useStore((state) => state.original)
   if (!format) return null
   if (!original) return null
@@ -23,7 +24,8 @@ function ImageEditor() {
 }
 
 function NonSupportedEditor() {
-  const format = useStore((state) => state.file.record?.resource.format)
+  const format = useStore((state) => state.file?.record?.resource.format)
+  if (!format) return null
   return (
     <Box
       sx={{

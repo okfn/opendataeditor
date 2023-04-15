@@ -10,15 +10,16 @@ import { IFile, IResource } from '../../../interfaces'
 import { FileProps } from './File'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
+  file?: IFile
+  resource?: IResource
   revision: number
   original?: ArrayBuffer
-  resource: IResource
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   revert: () => void
@@ -32,34 +33,37 @@ export function makeStore(props: FileProps) {
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
     revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      const resource = cloneDeep(file.record!.resource)
+      set({ file, resource })
       if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
       const { bytes } = await client.fileRead({ path: file.path })
       set({ original: bytes })
     },
     revert: () => {
       const { file } = get()
-      // TODO: review case of missing record (not indexed)
+      if (!file) return
       set({ resource: cloneDeep(file.record!.resource), revision: 0 })
     },
     save: async () => {
-      const { file, client, resource, onSave } = get()
+      const { file, client, resource, onSave, load } = get()
+      if (!file || !resource) return
       await client.fileUpdate({ path: file.path, resource })
       set({ revision: 0 })
       onSave()
+      load()
     },
+    // TODO: implement using client.fileCopy
     saveAs: async (path) => {
-      const { client, original, onSaveAs } = get()
-      // TODO: write resource as well?
-      await client.fileWrite({ path, file: new File([original!], 'name') })
+      const { onSaveAs } = get()
       onSaveAs(path)
     },
   }))

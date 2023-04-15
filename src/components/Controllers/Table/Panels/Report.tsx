@@ -4,7 +4,7 @@ import Report from '../../../Editors/Report'
 import { useStore } from '../store'
 
 export default function ReportPanel() {
-  const report = useStore((state) => state.file.record?.report)
+  const report = useStore((state) => state.file?.record?.report)
   if (!report) return null
   return (
     <Box>

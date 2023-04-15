@@ -12,17 +12,18 @@ import { SqlProps } from './View'
 import * as settings from '../../../settings'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   fields?: IFieldItem[]
+  file?: IFile
+  resource?: IResource
   original?: IView
   modified?: IView
   revision: number
-  resource: IResource
   table?: ITable
   error?: string
   updateState: (patch: Partial<State>) => void
@@ -44,18 +45,21 @@ export function makeStore(props: SqlProps) {
     onSave: props.onSave || noop,
     panel: 'editor',
     revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
       if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      const resource = cloneDeep(file.record!.resource)
+      set({ file, resource })
       const { items } = await client.fieldList()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data, fields: items })
+      // TODO: move to autoupdating on change (throttle)
       if (file.record?.tableName) {
         const query = `select * from "${file.record?.tableName}"`
         const { table } = await client.tableQuery({ query })
@@ -68,6 +72,7 @@ export function makeStore(props: SqlProps) {
     },
     revert: () => {
       const { file, original } = get()
+      if (!file) return
       set({
         resource: cloneDeep(file.record!.resource),
         modified: cloneDeep(original),
@@ -75,18 +80,13 @@ export function makeStore(props: SqlProps) {
       })
     },
     save: async () => {
-      const { file, client, resource, modified, onSave } = get()
-      if (!modified) return
+      const { file, client, resource, modified, onSave, load } = get()
+      if (!file || !resource || !modified) return
       await client.fileUpdate({ path: file.path, resource })
       await client.viewWrite({ path: file.path, view: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
-      // TODO: move to autoupdating on change (throttle)
-      if (file.record?.tableName) {
-        const query = `select * from "${file.record?.tableName}"`
-        const { table } = await client.tableQuery({ query })
-        set({ table })
-      }
       onSave()
+      load()
     },
     saveAs: async (path) => {
       const { client, modified, onSaveAs } = get()

@@ -19,16 +19,13 @@ export default function SaveAsDialog() {
   const [format, setFormat] = React.useState('csv')
   const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
-  const exportTable = useStore((state) => state.exportTable)
   const saveAs = useStore((state) => state.saveAs)
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
     setName(ev.target.value)
   const handleCancel = () => updateState({ dialog: undefined })
   const handleSave = async () => {
     console.log(name, format)
-    const path = await exportTable(name, format)
-    saveAs(path)
-    handleCancel()
+    saveAs(`${name}.${format}`)
   }
   return (
     <Dialog

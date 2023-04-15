@@ -10,18 +10,19 @@ import { IFile, IFieldItem, IChart, IResource } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
-  file: IFile
+  path: string
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   fields?: IFieldItem[]
+  file?: IFile
+  resource?: IResource
   original?: IChart
   modified?: IChart
   rendered?: IChart
   revision: number
-  resource: IResource
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -37,8 +38,6 @@ export function makeStore(props: ChartProps) {
     onSave: props.onSave || noop,
     panel: 'editor',
     revision: 0,
-    // TODO: review case of missing record (not indexed)
-    resource: cloneDeep(props.file.record!.resource),
     updateState: (patch) => {
       const { revision } = get()
       if ('modified' in patch) patch.revision = revision + 1
@@ -46,10 +45,15 @@ export function makeStore(props: ChartProps) {
       set(patch)
     },
     load: async () => {
-      const { client, file } = get()
+      const { path, client } = get()
+      const { file } = await client.fileIndex({ path })
+      if (!file) return
+      const resource = cloneDeep(file.record!.resource)
+      set({ file, resource })
       const { items } = await client.fieldList()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data, fields: items })
+      // Update on changes using throttle
       const { chart } = await client.chartRender({ chart: data })
       set({ rendered: chart })
     },
@@ -62,14 +66,13 @@ export function makeStore(props: ChartProps) {
       set({ modified: cloneDeep(original), revision: 0 })
     },
     save: async () => {
-      const { file, client, resource, modified, onSave } = get()
-      if (!modified) return
+      const { file, client, resource, modified, onSave, load } = get()
+      if (!file || !resource || !modified) return
       await client.fileUpdate({ path: file.path, resource })
       await client.jsonWrite({ path: file.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified, revision: 0 })
-      const { chart } = await client.chartRender({ chart: modified })
-      set({ rendered: chart })
       onSave()
+      load()
     },
     saveAs: async (path) => {
       const { client, modified, onSaveAs } = get()
