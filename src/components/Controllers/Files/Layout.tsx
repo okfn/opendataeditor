@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import Actions from './Actions'
-import Content from './Content'
+import Editor from './Editor'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import { useStore } from './store'
@@ -29,7 +29,7 @@ export default function Layout() {
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
         <Box sx={{ height: contentHeight }}>
-          <Content />
+          <Editor />
         </Box>
         <Box sx={{ height: theme.spacing(8) }}>
           <Actions />

@@ -32,22 +32,19 @@ type IMessage = {
 
 export interface State {
   client: Client
+  addedPath?: string
   path?: string
   fileItems: IFileItem[]
-  onFileChange: (path?: string) => void
+  onPathChange: (path?: string) => void
   dialog?: IDialog
   action?: IAction
-  fileItemAdded?: boolean
+  updateState: (patch: Partial<State>) => void
   loading?: boolean
   message?: IMessage | undefined
   open?: boolean
-
-  // General
-
   setPath: (path?: string) => void
   setDialog: (dialog?: IDialog) => void
   setAction: (value: IAction | undefined) => void
-  setFileItemAdded: (value: boolean) => void
   setMessage: (message: IMessage | undefined) => void
 
   // File
@@ -76,26 +73,23 @@ export function makeStore(props: FilesProps) {
   return createStore<State>((set, get) => ({
     client: props.client,
     fileItems: [],
-    onFileChange: props.onFileChange,
-    fileItemAdded: false,
+    onPathChange: props.onPathChange,
+    addedPath: props.addedPath,
     loading: true,
-
-    // General
-
+    updateState: (patch) => {
+      set(patch)
+    },
     setDialog: (dialog) => set({ dialog }),
     setPath: (newPath) => {
-      const { path, onFileChange } = get()
+      const { path, onPathChange } = get()
       if (path === newPath) return
       set({ path: newPath })
       const isFolder = selectors.isFolder(get())
       if (isFolder) return
-      onFileChange(newPath)
+      onPathChange(newPath)
     },
     setAction: (action) => {
       set({ action })
-    },
-    setFileItemAdded: (fileItemAdded) => {
-      set({ fileItemAdded })
     },
     setMessage: (message) => {
       set({ message })
@@ -146,7 +140,7 @@ export function makeStore(props: FilesProps) {
       if (!path) return
       await listFiles()
       setPath(path)
-      set({ fileItemAdded: true })
+      set({ addedPath: path })
     },
     createFile: async (path) => {
       const { client, listFiles, setPath } = get()
@@ -156,7 +150,7 @@ export function makeStore(props: FilesProps) {
       if (!result.path) return
       await listFiles()
       setPath(result.path)
-      set({ fileItemAdded: true })
+      set({ addedPath: result.path })
     },
     uploadFolder: async (files) => {
       const { path, client, listFiles, setPath } = get()
@@ -209,9 +203,9 @@ export function makeStore(props: FilesProps) {
     createFolder: async (name) => {
       const { client, listFiles } = get()
       const folder = selectors.folderPath(get())
-      await client.folderCreate({ name, folder })
+      const { path } = await client.folderCreate({ name, folder })
       await listFiles()
-      set({ fileItemAdded: true })
+      set({ addedPath: path })
     },
 
     // Package

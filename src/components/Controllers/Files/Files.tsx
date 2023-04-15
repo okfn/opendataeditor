@@ -8,8 +8,8 @@ import { ConfirmProvider } from 'material-ui-confirm'
 
 export interface FilesProps {
   client: Client
-  fileItemAdded?: boolean
-  onFileChange: (path?: string) => void
+  addedPath?: string
+  onPathChange: (path?: string) => void
 }
 
 export default function Files(props: FilesProps) {

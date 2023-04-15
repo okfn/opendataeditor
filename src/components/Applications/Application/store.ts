@@ -10,17 +10,13 @@ export interface State {
   file?: IFile
   client: Client
   dialog?: 'config'
+  addedPath?: string
   updateState: (patch: Partial<State>) => void
   select: (path?: string) => Promise<void>
   save: () => void
   saveAs: (path: string) => void
   createChart: () => Promise<void>
   createView: () => Promise<void>
-
-  // Legacy
-
-  fileItemAdded?: boolean
-  setFileItemAdded: (value: boolean) => void
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -40,7 +36,7 @@ export function makeStore(props: ApplicationProps) {
       select(file.path)
     },
     saveAs: (path) => {
-      console.log('saveAs', path)
+      set({ addedPath: path })
     },
     createChart: async () => {
       const { client, select } = get()
@@ -53,12 +49,6 @@ export function makeStore(props: ApplicationProps) {
       const path = 'new-view.json'
       await client.jsonWrite({ path, data: { query: '' } })
       select(path)
-    },
-
-    // Legacy
-
-    setFileItemAdded: (fileItemAdded) => {
-      set({ fileItemAdded })
     },
   }))
 }

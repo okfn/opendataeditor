@@ -1,6 +1,7 @@
 import * as React from 'react'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
+import { keyframes } from '@mui/system'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
@@ -17,51 +18,41 @@ import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../ScrollBox'
 
 interface FileTreeProps {
+  // TODO: accept fileItems as prop?
   tree: ITreeItem[]
+  added?: string
   selected?: string
-  expanded?: string[]
-  fileItemAdded?: boolean
-  folderPath?: string
+  defaultExpanded?: string[]
   onExpand?: (newExpanded: string[]) => void
-  onFileItemAdd?: (itemAdded: boolean) => void
   onPathChange?: (path: string) => void
 }
 
-export default function FileTree(props: FileTreeProps) {
-  const [expanded, setExpanded] = React.useState<string[]>(
-    props.selected ? [props.selected] : []
-  )
+const Context = React.createContext<{
+  added?: FileTreeProps['added']
+}>({})
 
-  React.useEffect(() => {
-    const isNewItemAdded =
-      props.fileItemAdded && props.folderPath && !expanded.includes(props.folderPath)
-    if (isNewItemAdded) {
-      props.folderPath && setExpanded([props.folderPath, ...expanded])
-      props.onFileItemAdd && props.onFileItemAdd(false)
-    }
-  }, [props.tree])
+export default function FileTree(props: FileTreeProps) {
   return (
-    <ScrollBox sx={{ padding: 2 }} height="100%">
-      <TreeView
-        selected={props.selected || ''}
-        expanded={expanded}
-        onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
-          if (props.onPathChange) props.onPathChange(nodeId)
-          event.stopPropagation()
-        }}
-        onNodeToggle={(_event, newExpanded) => {
-          setExpanded(newExpanded)
-        }}
-        sx={{ height: '100%' }}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-        aria-label="customized"
-      >
-        {props.tree.map((item) => (
-          <TreeNode item={item} key={item.path} />
-        ))}
-      </TreeView>
-    </ScrollBox>
+    <Context.Provider value={{ added: props.added }}>
+      <ScrollBox sx={{ padding: 2 }} height="100%">
+        <TreeView
+          selected={props.selected || ''}
+          defaultExpanded={props.defaultExpanded}
+          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+            if (props.onPathChange) props.onPathChange(nodeId)
+            event.stopPropagation()
+          }}
+          sx={{ height: '100%' }}
+          defaultCollapseIcon={<MinusSquare />}
+          defaultExpandIcon={<PlusSquare />}
+          aria-label="customized"
+        >
+          {props.tree.map((item) => (
+            <TreeNode item={item} key={item.path} />
+          ))}
+        </TreeView>
+      </ScrollBox>
+    </Context.Provider>
   )
 }
 
@@ -88,11 +79,20 @@ const StyledTreeItem = styled(
       errors?: number
     }
   ) => {
+    const { added } = React.useContext(Context)
     return (
       <TreeItem
         {...props}
+        sx={{
+          animation: props.nodeId === added ? `${addedPathKeyframe} 1s` : undefined,
+        }}
         label={
-          <TreeItemIcon label={props.label} type={props.type} errors={props.errors} />
+          <TreeItemIcon
+            nodeId={props.nodeId}
+            label={props.label}
+            type={props.type}
+            errors={props.errors}
+          />
         }
       />
     )
@@ -114,13 +114,25 @@ const StyledTreeItem = styled(
 }))
 
 // TODO: Add Files action "Manage -> IndexAll/Selected"
-function TreeItemIcon(props: { label: React.ReactNode; type: string; errors?: number }) {
+function TreeItemIcon(props: {
+  nodeId: string
+  label: React.ReactNode
+  type: string
+  errors?: number
+}) {
   const Icon = getIcon(props.type)
   let color = 'disabled'
   if (props.type === 'folder') color = 'primary'
   if (props.errors !== undefined) color = props.errors > 0 ? 'error' : 'success'
   return (
-    <Box sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
+    <Box
+      sx={{
+        py: 1,
+        display: 'flex',
+        alignItems: 'center',
+        '& svg': { mr: 1 },
+      }}
+    >
       <Icon color={color} />
       {props.label}
     </Box>
@@ -163,3 +175,13 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   schema: DescriptionIcon,
   view: LayersIcon,
 }
+
+// TODO: use color from theme
+const addedPathKeyframe = keyframes`
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: inherit;
+  }
+`

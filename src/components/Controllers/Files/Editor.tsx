@@ -8,7 +8,7 @@ import Snackbar from '@mui/material/Snackbar'
 import Close from '@mui/icons-material/Close'
 import { useStore, selectors } from './store'
 
-export default function Content() {
+export default function Editor() {
   const fileItems = useStore((state) => state.fileItems)
   const loading = useStore((state) => state.loading)
   return loading ? (
@@ -28,9 +28,7 @@ function FilesContent() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
   const setPath = useStore((state) => state.setPath)
-  const fileItemAdded = useStore((state) => state.fileItemAdded)
-  const setFileItemAdded = useStore((state) => state.setFileItemAdded)
-  const folderPath = useStore(selectors.folderPath)
+  const addedPath = useStore((state) => state.addedPath)
   const message = useStore((state) => state.message)
   const setMessage = useStore((state) => state.setMessage)
   const open = message && true
@@ -38,11 +36,9 @@ function FilesContent() {
     <React.Fragment>
       <FileTree
         tree={fileTree}
+        added={addedPath}
         selected={path}
-        folderPath={folderPath}
         onPathChange={setPath}
-        fileItemAdded={fileItemAdded}
-        onFileItemAdd={setFileItemAdded}
       />
       {open && (
         <Snackbar
