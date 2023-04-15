@@ -21,8 +21,8 @@ export interface FileTreeProps {
   // TODO: accept fileItems as prop?
   tree: ITreeItem[]
   event?: IFileEvent
+  selected?: string
   onSelect?: (path: string) => void
-  defaultSelected?: string
   defaultExpanded?: string[]
 }
 
@@ -35,7 +35,7 @@ export default function FileTree(props: FileTreeProps) {
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <TreeView
-          defaultSelected={props.defaultSelected}
+          selected={props.selected || ''}
           defaultExpanded={props.defaultExpanded}
           onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
             if (props.onSelect) props.onSelect(nodeId)

@@ -23,7 +23,7 @@ export interface State {
   onFileSelect: (path?: string) => void
   dialog?: IDialog
   updateState: (patch: Partial<State>) => void
-  updatePath: (newPath?: string) => void
+  updatePath: (path?: string) => void
   loading?: boolean
   open?: boolean
 
@@ -59,13 +59,10 @@ export function makeStore(props: FilesProps) {
     updateState: (patch) => {
       set(patch)
     },
-    updatePath: (newPath) => {
-      const { path, onFileSelect } = get()
-      if (path === newPath) return
-      set({ path: newPath })
-      const isFolder = selectors.isFolder(get())
-      if (isFolder) return
-      onFileSelect(newPath)
+    updatePath: (path) => {
+      const { onFileSelect } = get()
+      set({ path })
+      if (!selectors.isFolder(get())) onFileSelect(path)
     },
 
     // File

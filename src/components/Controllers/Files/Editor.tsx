@@ -27,12 +27,7 @@ function FilesContent() {
   const updatePath = useStore((state) => state.updatePath)
   return (
     <React.Fragment>
-      <FileTree
-        tree={fileTree}
-        event={fileEvent}
-        onSelect={updatePath}
-        defaultSelected={path}
-      />
+      <FileTree tree={fileTree} event={fileEvent} selected={path} onSelect={updatePath} />
     </React.Fragment>
   )
 }
