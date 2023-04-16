@@ -1,23 +1,26 @@
 import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import MonacoEditor from '../../../Parts/Monaco/Editor'
 import { useStore } from '../store'
 
 export default function SourcePanel() {
-  const file = useStore((state) => state.file)
-  if (!file) return null
+  const theme = useTheme()
+  const modified = useStore((state) => state.modified)
+  const updateState = useStore((state) => state.updateState)
+  if (!modified) return null
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#fafafa',
-        padding: 2,
-        color: '#777',
-        fontFamily: 'Monospace',
-      }}
-    >
-      This file type does not have a supported source view ({file.record!.resource.format}
-      )
+    <Box>
+      <MonacoEditor
+        value={JSON.stringify(modified, null, 2)}
+        language="json"
+        onChange={(text) => {
+          try {
+            updateState({ modified: JSON.parse(text || '{)') })
+          } catch (error) {}
+        }}
+        height={theme.spacing(47)}
+      />
     </Box>
   )
 }
