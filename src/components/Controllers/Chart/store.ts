@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
 import isEqual from 'fast-deep-equal'
+import throttle from 'lodash/throttle'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -31,6 +32,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
+  render: () => void
 }
 
 export function makeStore(props: ChartProps) {
@@ -40,10 +42,13 @@ export function makeStore(props: ChartProps) {
     onSave: props.onSave || noop,
     panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
+      const { render } = get()
       set(patch)
+      // TODO: stop using this pattern in favour of proper updateDescriptor/etc methods
+      if ('modified' in patch) render()
     },
     load: async () => {
-      const { path, client } = get()
+      const { path, client, render } = get()
       const { file } = await client.fileIndex({ path })
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
@@ -51,17 +56,15 @@ export function makeStore(props: ChartProps) {
       const { items } = await client.fieldList()
       const { data } = await client.jsonRead({ path: file.path })
       set({ modified: cloneDeep(data), original: data, fields: items })
-      // Update on changes using throttle
-      const { chart } = await client.chartRender({ chart: data })
-      set({ rendered: chart })
+      render()
     },
     clear: () => {
       const { updateState } = get()
       updateState({ modified: {} })
     },
     revert: () => {
-      const { original, onRevert } = get()
-      set({ modified: cloneDeep(original) })
+      const { original, onRevert, updateState } = get()
+      updateState({ modified: cloneDeep(original) })
       onRevert && onRevert()
     },
     save: async () => {
@@ -79,6 +82,12 @@ export function makeStore(props: ChartProps) {
       await client.jsonWrite({ path, data: modified })
       onSaveAs(path)
     },
+    render: throttle(async () => {
+      const { client, modified } = get()
+      if (!modified) return
+      const { chart } = await client.chartRender({ chart: modified })
+      set({ rendered: chart })
+    }, 1000),
   }))
 }
 
