@@ -77,7 +77,10 @@ const StyledTreeItem = styled(
       errors?: number
     }
   ) => {
+    // We bump revision for every new event to trigger animation re-render
+    const [revision, setRevision] = React.useState(0)
     const { event } = React.useContext(Context)
+    React.useEffect(() => setRevision(revision + 1), [event])
     let animation
     let backgroundColor
     if (event && event.paths.includes(props.nodeId)) {
@@ -90,6 +93,7 @@ const StyledTreeItem = styled(
     return (
       <TreeItem
         {...props}
+        key={revision}
         sx={{
           animation,
           backgroundColor,

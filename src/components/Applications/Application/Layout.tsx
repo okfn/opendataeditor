@@ -24,7 +24,7 @@ export default function Layout() {
       <Dialog />
       <Header />
       <Columns layout={[3, 9]}>
-        <Box sx={{ height }}>
+        <Box sx={{ height, borderRight: 'solid 1px #ddd' }}>
           <Project />
           <Box sx={{ height: contentHeight }}>
             <Files />
