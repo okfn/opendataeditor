@@ -134,13 +134,19 @@ export const selectors = {
     )
   },
   language: (state: State) => {
-    switch (state.file?.record?.resource.format) {
+    const resource = state.file?.record!.resource
+    if (!resource) return undefined
+    switch (resource.format) {
       case 'json':
         return 'json'
       case 'yaml':
         return 'yaml'
       case 'md':
         return 'markdown'
+      case 'py':
+        return 'python'
+      case 'js':
+        return 'javascript'
       default:
         return 'plaintext'
     }
