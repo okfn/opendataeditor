@@ -12,8 +12,10 @@ import { ChartProps } from './Chart'
 export interface State {
   path: string
   client: Client
+  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
+  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   fields?: IFieldItem[]
@@ -62,8 +64,9 @@ export function makeStore(props: ChartProps) {
       updateState({ modified: {} })
     },
     revert: () => {
-      const { original } = get()
+      const { original, onRevert } = get()
       set({ modified: cloneDeep(original), revision: 0 })
+      onRevert && onRevert()
     },
     save: async () => {
       const { file, client, resource, modified, onSave, load } = get()
@@ -86,7 +89,7 @@ export function makeStore(props: ChartProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0
+    return state.isDraft || state.revision > 0
   },
 }
 

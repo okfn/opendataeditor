@@ -13,16 +13,20 @@ export default function Controller() {
 function FileController() {
   const file = useStore((state) => state.file)
   const client = useStore((state) => state.client)
+  const revert = useStore((state) => state.revert)
   const onCreate = useStore((state) => state.onCreate)
   const onUpdate = useStore((state) => state.onUpdate)
+  const fileEvent = useStore((state) => state.fileEvent)
   if (!file) return null
   const Controller = settings.CONTROLLERS[file.type] || File
   return (
     <Controller
       path={file.path}
       client={client}
-      onSaveAs={onCreate}
+      isDraft={fileEvent?.type === 'draft'}
       onSave={() => onUpdate(file.path)}
+      onSaveAs={onCreate}
+      onRevert={revert}
     />
   )
 }

@@ -26,8 +26,10 @@ export interface State {
   updateState: (patch: Partial<State>) => void
   onCreate: (path: string) => Promise<void>
   onDelete: (path: string) => Promise<void>
+  onDraft: (path: string) => Promise<void>
   onUpdate: (path: string) => Promise<void>
   select: (path?: string) => Promise<void>
+  revert: () => Promise<void>
 
   // File
 
@@ -72,10 +74,17 @@ export function makeStore(props: ApplicationProps) {
       set({ fileEvent: { type: 'delete', paths: [path] } })
       select(undefined)
     },
+    onDraft: async (path) => {
+      const { listFiles, select } = get()
+      await listFiles()
+      set({ fileEvent: { type: 'draft', paths: [path] } })
+      select(path)
+    },
     onUpdate: async (path) => {
-      const { listFiles } = get()
+      const { listFiles, select } = get()
       await listFiles()
       set({ fileEvent: { type: 'update', paths: [path] } })
+      select(path)
     },
     select: async (path) => {
       const { client } = get()
@@ -84,6 +93,12 @@ export function makeStore(props: ApplicationProps) {
         const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
         set({ file })
       }
+    },
+    revert: async () => {
+      const { path, client, fileEvent, onDelete } = get()
+      if (!path) return
+      if (fileEvent?.type === 'draft') await client.fileDelete({ path })
+      onDelete(path)
     },
 
     // File
@@ -197,14 +212,14 @@ export function makeStore(props: ApplicationProps) {
       onCreate(path)
     },
     createChart: async () => {
-      const { client, onCreate } = get()
+      const { client, onDraft } = get()
       const { path } = await client.chartCreate()
-      onCreate(path)
+      onDraft(path)
     },
     createView: async () => {
-      const { client, onCreate } = get()
+      const { client, onDraft } = get()
       const { path } = await client.viewCreate()
-      onCreate(path)
+      onDraft(path)
     },
   }))
 }

@@ -14,8 +14,10 @@ import * as settings from '../../../settings'
 export interface State {
   path: string
   client: Client
+  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
+  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   fields?: IFieldItem[]
@@ -71,13 +73,14 @@ export function makeStore(props: SqlProps) {
       updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
     },
     revert: () => {
-      const { file, original } = get()
+      const { file, original, onRevert } = get()
       if (!file) return
       set({
         resource: cloneDeep(file.record!.resource),
         modified: cloneDeep(original),
         revision: 0,
       })
+      onRevert && onRevert()
     },
     save: async () => {
       const { file, client, resource, modified, onSave, load } = get()
@@ -101,7 +104,11 @@ export function makeStore(props: SqlProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0 || state.original?.query !== state.modified?.query
+    return (
+      state.isDraft ||
+      state.revision > 0 ||
+      state.original?.query !== state.modified?.query
+    )
   },
 }
 
