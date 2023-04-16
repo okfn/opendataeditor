@@ -19,12 +19,13 @@ function FileController() {
   const fileEvent = useStore((state) => state.fileEvent)
   if (!file) return null
   const Controller = settings.CONTROLLERS[file.type] || File
+  const handleUpdate = React.useMemo(() => () => onUpdate(file.path), [file.path])
   return (
     <Controller
       path={file.path}
       client={client}
       isDraft={fileEvent?.type === 'draft'}
-      onSave={() => onUpdate(file.path)}
+      onSave={handleUpdate}
       onSaveAs={onCreate}
       onRevert={revert}
     />
