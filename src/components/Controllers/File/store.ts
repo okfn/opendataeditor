@@ -15,7 +15,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  panel?: 'metadata' | 'report' | 'source'
+  panel?: 'metadata' | 'report'
   dialog?: 'saveAs'
   file?: IFile
   resource?: IResource

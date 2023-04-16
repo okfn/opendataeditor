@@ -10,10 +10,10 @@ export default function Menu() {
     <MenuBar
       items={items}
       colors={{
+        editor: panel === 'editor' ? 'warning' : undefined,
         metadata: panel === 'metadata' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
         source: panel === 'source' ? 'warning' : undefined,
-        editor: panel === 'editor' ? 'warning' : undefined,
       }}
       onMetadata={() =>
         updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })

@@ -179,10 +179,10 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   const DefaultBar = () => {
     return (
       <Stack direction="row" spacing={1}>
+        <Editor />
         <Metadata />
         <Report />
         <Source />
-        <Editor />
         <Errors />
         <Clear />
         <Fix />

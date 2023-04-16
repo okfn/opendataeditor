@@ -1,19 +1,18 @@
 import * as React from 'react'
-import MenuBar, { MenuBarItem } from '../../Parts/Bars/Menu'
+import MenuBar from '../../Parts/Bars/Menu'
 import { useStore } from './store'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
   const updateState = useStore((state) => state.updateState)
-  const items: MenuBarItem[] = ['metadata', 'report', 'source', 'editor']
   return (
     <MenuBar
-      items={items}
+      items={['editor', 'metadata', 'report', 'source']}
       colors={{
+        editor: panel === 'editor' ? 'warning' : undefined,
         metadata: panel === 'metadata' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
         source: panel === 'source' ? 'warning' : undefined,
-        editor: panel === 'editor' ? 'warning' : undefined,
       }}
       onMetadata={() =>
         updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })

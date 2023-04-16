@@ -45,7 +45,7 @@ export function makeStore(props: SqlProps) {
     ...props,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
-    panel: 'editor',
+    panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
       set(patch)
     },
