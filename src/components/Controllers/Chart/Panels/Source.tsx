@@ -14,7 +14,11 @@ export default function SourcePanel() {
       <MonacoEditor
         value={JSON.stringify(modified, null, 2)}
         language="json"
-        onChange={(text) => updateState({ modified: JSON.parse(text || '{)') })}
+        onChange={(text) => {
+          try {
+            updateState({ modified: JSON.parse(text || '{)') })
+          } catch (error) {}
+        }}
         height={theme.spacing(47)}
       />
     </Box>
