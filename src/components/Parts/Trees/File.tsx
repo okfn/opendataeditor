@@ -87,7 +87,7 @@ const StyledTreeItem = styled(
       if (event.type === 'draft') {
         backgroundColor = 'yellow'
       } else {
-        animation = `${fileEventKeyframe} 1s /*${Math.random()}*/`
+        animation = `${fileEventKeyframe} 1s`
       }
     }
     return (
