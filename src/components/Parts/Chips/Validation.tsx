@@ -2,21 +2,38 @@ import * as React from 'react'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import CheckCircle from '@mui/icons-material/CheckCircle'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 export interface ValidationChipProps {
-  errorCount: number
+  errorCount?: number
 }
 
 export default function ValidationChip(props: ValidationChipProps) {
   return (
     <Chip
       label={props.errorCount ? 'ERRORS' : 'VALID'}
-      color={props.errorCount ? 'error' : 'success'}
+      color={
+        props.errorCount
+          ? 'error'
+          : props.errorCount !== undefined
+          ? 'success'
+          : 'primary'
+      }
       icon={
-        props.errorCount ? <NumberIcon value={props.errorCount ?? 0} /> : <CheckCircle />
+        props.errorCount ? (
+          <NumberIcon value={props.errorCount ?? 0} />
+        ) : props.errorCount !== undefined ? (
+          <CheckCircle />
+        ) : (
+          <HelpOutlineIcon />
+        )
       }
       size="medium"
-      sx={{ height: '100%', borderLeft: 'solid 1px #ddd', borderRadius: '3px' }}
+      sx={{
+        height: '100%',
+        borderLeft: 'solid 1px #ddd',
+        borderRadius: '3px',
+      }}
     />
   )
 }

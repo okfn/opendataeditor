@@ -22,6 +22,7 @@ export interface State {
   fileItems: IFileItem[]
   fileEvent?: IFileEvent
   dialog?: IDialog
+  // TODO: do we need it as we already have fileItems?
   loading?: boolean
   updateState: (patch: Partial<State>) => void
   onCreate: (path: string) => Promise<void>
@@ -251,6 +252,16 @@ export const selectors = {
       { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree
+  },
+  errorCount: (state: State) => {
+    if (state.file) {
+      return state.file?.record?.report?.stats?.errors
+    } else {
+      const indexed = state.fileItems.filter((item) => item.errorCount !== undefined)
+      return indexed.length
+        ? indexed.reduce((count, item) => count + (item.errorCount || 0), 0)
+        : undefined
+    }
   },
 }
 
