@@ -2,10 +2,10 @@ import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { StoreProvider, makeStore } from './store'
 import * as themes from '../../../themes'
-import { ResourceControllerProps } from '../../Parts/Controller/Resource'
+import ControllerProps from '../../Parts/Controller/Props'
 import Layout from './Layout'
 
-export interface SqlProps extends ResourceControllerProps {}
+export interface SqlProps extends ControllerProps {}
 
 export default function Sql(props: SqlProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))

@@ -24,9 +24,9 @@ export interface State {
   dialog?: IDialog
   loading?: boolean
   updateState: (patch: Partial<State>) => void
+  onCreate: (path: string, focus?: boolean) => Promise<void>
+  onUpdate: (path: string) => Promise<void>
   select: (path?: string) => Promise<void>
-  save: () => void
-  saveAs: (path: string) => void
 
   // File
 
@@ -59,6 +59,17 @@ export function makeStore(props: ApplicationProps) {
     updateState: (patch) => {
       set(patch)
     },
+    onCreate: async (path, focus) => {
+      const { listFiles, select } = get()
+      await listFiles()
+      set({ fileEvent: { type: 'create', paths: [path] } })
+      if (focus) select(path)
+    },
+    onUpdate: async (path) => {
+      const { listFiles } = get()
+      await listFiles()
+      set({ fileEvent: { type: 'update', paths: [path] } })
+    },
     select: async (path) => {
       const { client } = get()
       set({ path })
@@ -67,23 +78,25 @@ export function makeStore(props: ApplicationProps) {
         set({ file })
       }
     },
-    save: () => {
-      const { file, select } = get()
-      if (!file) return
-      select(file.path)
-      set({ fileEvent: { type: 'update', paths: [file.path] } })
-    },
-    saveAs: (path) => {
-      set({ fileEvent: { type: 'create', paths: [path] } })
-    },
 
     // File
 
+    countFiles: async () => {
+      const { client } = get()
+      const { count } = await client.fileCount()
+      return count
+    },
+    listFiles: async () => {
+      const { client } = get()
+      const { items } = await client.fileList()
+      set({ fileItems: items })
+      set({ loading: false })
+    },
     copyFile: async (folder) => {
-      const { client, path, listFiles } = get()
+      const { client, path, onCreate } = get()
       if (!path) return
-      await client.fileCopy({ path, folder })
-      await listFiles()
+      const result = await client.fileCopy({ path, folder })
+      onCreate(result.path)
     },
     deleteFile: async () => {
       const { client, path, listFiles, select } = get()
@@ -91,12 +104,6 @@ export function makeStore(props: ApplicationProps) {
       await client.fileDelete({ path })
       await listFiles()
       select(undefined)
-    },
-    listFiles: async () => {
-      const { client } = get()
-      const { items } = await client.fileList()
-      set({ fileItems: items })
-      set({ loading: false })
     },
     moveFile: async (folder) => {
       const { client, path, listFiles } = get()
@@ -132,11 +139,6 @@ export function makeStore(props: ApplicationProps) {
       await listFiles()
       select(result.path)
       set({ fileEvent: { type: 'create', paths: [result.path] } })
-    },
-    countFiles: async () => {
-      const { client } = get()
-      const { count } = await client.fileCount()
-      return count
     },
 
     // Folder
@@ -186,25 +188,23 @@ export function makeStore(props: ApplicationProps) {
     // Others
 
     createPackage: async () => {
-      const { client, listFiles, select } = get()
+      const { client, onCreate } = get()
       const { path } = await client.packageCreate()
-      await listFiles()
-      set({ fileEvent: { type: 'create', paths: [path] } })
-      select(path)
+      onCreate(path, true)
     },
-
     createChart: async () => {
-      const { client, select } = get()
+      const { client, onCreate } = get()
+      // TODO: rename after dedup enabled
       const path = 'new-chart.json'
-      await client.jsonWrite({ path, data: {} })
-      select(path)
+      await client.jsonWrite({ path, data: { encoding: {} } })
+      onCreate(path, true)
     },
-
     createView: async () => {
-      const { client, select } = get()
+      const { client, onCreate } = get()
+      // TODO: rename after dedup enabled
       const path = 'new-view.json'
       await client.jsonWrite({ path, data: { query: '' } })
-      select(path)
+      onCreate(path, true)
     },
   }))
 }

@@ -13,11 +13,18 @@ export default function Controller() {
 function FileController() {
   const file = useStore((state) => state.file)
   const client = useStore((state) => state.client)
-  const saveAs = useStore((state) => state.saveAs)
-  const save = useStore((state) => state.save)
+  const onCreate = useStore((state) => state.onCreate)
+  const onUpdate = useStore((state) => state.onUpdate)
   if (!file) return null
-  const Controller = settings.RESOURCE_CONTROLLERS[file.type] || File
-  return <Controller path={file.path} client={client} onSaveAs={saveAs} onSave={save} />
+  const Controller = settings.CONTROLLERS[file.type] || File
+  return (
+    <Controller
+      path={file.path}
+      client={client}
+      onSaveAs={onCreate}
+      onSave={() => onUpdate(file.path)}
+    />
+  )
 }
 
 function EmptyController() {

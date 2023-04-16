@@ -1,6 +1,6 @@
 import { Client } from '../../../client'
 
-export interface ResourceControllerProps {
+export default interface ControllerProps {
   path: string
   client: Client
   onSave?: () => void

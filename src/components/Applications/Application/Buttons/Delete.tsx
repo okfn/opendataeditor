@@ -5,10 +5,10 @@ import { selectors, useStore } from '../store'
 import { useConfirm } from 'material-ui-confirm'
 
 export default function DeleteButton() {
+  const confirm = useConfirm()
   const path = useStore((state) => state.path)
   const deleteFile = useStore((state) => state.deleteFile)
   const isFolder = useStore(selectors.isFolder)
-  const confirm = useConfirm()
   const type = isFolder ? 'Folder' : 'File'
   return (
     <IconButton

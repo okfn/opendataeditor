@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
+import { ConfirmProvider } from 'material-ui-confirm'
 import { StoreProvider, makeStore } from './store'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Client } from '../../../client'
@@ -15,8 +16,10 @@ export default function Application(props: ApplicationProps) {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>
-        <CssBaseline />
-        <Layout />
+        <ConfirmProvider>
+          <CssBaseline />
+          <Layout />
+        </ConfirmProvider>
       </StoreProvider>
     </ThemeProvider>
   )
