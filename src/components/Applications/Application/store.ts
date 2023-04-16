@@ -198,16 +198,12 @@ export function makeStore(props: ApplicationProps) {
     },
     createChart: async () => {
       const { client, onCreate } = get()
-      // TODO: rename after dedup enabled
-      const path = 'new-chart.json'
-      await client.jsonWrite({ path, data: { encoding: {} } })
+      const { path } = await client.chartCreate()
       onCreate(path)
     },
     createView: async () => {
       const { client, onCreate } = get()
-      // TODO: rename after dedup enabled
-      const path = 'new-view.json'
-      await client.jsonWrite({ path, data: { query: '' } })
+      const { path } = await client.viewCreate()
       onCreate(path)
     },
   }))

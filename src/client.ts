@@ -23,6 +23,11 @@ export class Client {
 
   // Chart
 
+  async chartCreate() {
+    const result = await this.request('/chart/create')
+    return result as { path: string }
+  }
+
   async chartRender(props: { chart: IChart }) {
     const result = await this.request('/chart/render', props)
     return result as { chart: IChart }
@@ -212,6 +217,11 @@ export class Client {
   }
 
   // View
+
+  async viewCreate() {
+    const result = await this.request('/view/create')
+    return result as { path: string }
+  }
 
   async viewWrite(props: { path: string; view: IView }) {
     const result = await this.request('/view/write', props)
