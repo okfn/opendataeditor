@@ -254,14 +254,16 @@ export const selectors = {
     return targetTree
   },
   errorCount: (state: State) => {
-    if (state.file) {
-      return state.file?.record?.report?.stats?.errors
-    } else {
-      const indexed = state.fileItems.filter((item) => item.errorCount !== undefined)
-      return indexed.length
-        ? indexed.reduce((count, item) => count + (item.errorCount || 0), 0)
-        : undefined
-    }
+    return state.file?.record?.report?.stats?.errors
+    // For now we don't show integrated project status (probably we don't need to)
+    // if (state.file) {
+    // return state.file?.record?.report?.stats?.errors
+    // } else {
+    // const indexed = state.fileItems.filter((item) => item.errorCount !== undefined)
+    // return indexed.length
+    // ? indexed.reduce((count, item) => count + (item.errorCount || 0), 0)
+    // : undefined
+    // }
   },
 }
 

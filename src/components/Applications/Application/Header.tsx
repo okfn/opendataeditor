@@ -11,10 +11,12 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import GithubIcon from '@mui/icons-material/GitHub'
 import HelpIcon from '@mui/icons-material/Help'
 import Status from './Status'
+import { useStore } from './store'
 
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
+  const select = useStore((state) => state.select)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static" color="secondary" elevation={0}>
@@ -24,6 +26,7 @@ export default function Header() {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                onClick={() => select(undefined)}
               >
                 <strong>
                   Frictionless Application{' '}
