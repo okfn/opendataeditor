@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
 import isEqual from 'fast-deep-equal'
+import throttle from 'lodash/throttle'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -32,6 +33,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
+  render: () => void
 
   // Text
 
@@ -51,26 +53,25 @@ export function makeStore(props: TextProps) {
     onSaveAs: props.onSaveAs || noop,
     editor: React.createRef<IMonacoEditor>(),
     updateState: (patch) => {
+      const { render } = get()
       set(patch)
+      // TODO: stop using this pattern in favour of proper updateDescriptor/etc methods
+      if ('modified' in patch) render()
     },
     load: async () => {
-      const { path, client } = get()
+      const { path, client, render } = get()
       const { file } = await client.fileIndex({ path })
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
       set({ file, resource })
       const { text } = await client.textRead({ path: file.path })
       set({ modified: text, original: text })
-      // Update on changes using throttle
-      if (file.record?.resource.format === 'md') {
-        const { text } = await client.textRender({ path: file.path })
-        set({ rendered: text })
-      }
+      render()
     },
     revert: () => {
-      const { file, original } = get()
+      const { file, original, updateState } = get()
       if (!file) return
-      set({ resource: cloneDeep(file.record!.resource), modified: original })
+      updateState({ resource: cloneDeep(file.record!.resource), modified: original })
     },
     // TODO: needs to udpate file object as well
     save: async () => {
@@ -87,6 +88,15 @@ export function makeStore(props: TextProps) {
       await client.textWrite({ path, text: modified! })
       onSaveAs(path)
     },
+    render: throttle(async () => {
+      const { file, client, modified } = get()
+      if (!file) return
+      if (!modified) return
+      if (file.record?.resource.format === 'md') {
+        const { text } = await client.textRender({ text: modified })
+        set({ rendered: text })
+      }
+    }, 1000),
 
     // Text
 

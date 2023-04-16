@@ -206,7 +206,7 @@ export class Client {
     return result as { text: string }
   }
 
-  async textRender(props: { path: string }) {
+  async textRender(props: { text: string }) {
     const result = await this.request('/text/render', props)
     return result as { text: string }
   }
