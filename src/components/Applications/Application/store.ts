@@ -63,34 +63,31 @@ export function makeStore(props: ApplicationProps) {
       set(patch)
     },
     onCreate: async (path) => {
-      const { listFiles, select } = get()
-      await listFiles()
+      const { select } = get()
       set({ fileEvent: { type: 'create', paths: [path] } })
       select(path)
     },
     onDelete: async (path) => {
-      const { listFiles, select } = get()
-      await listFiles()
+      const { select } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
       select(undefined)
     },
     onDraft: async (path) => {
-      const { listFiles, select } = get()
-      await listFiles()
+      const { select } = get()
       set({ fileEvent: { type: 'draft', paths: [path] } })
       select(path)
     },
     onUpdate: async (path) => {
-      const { listFiles, select } = get()
-      await listFiles()
+      const { select } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
       select(path)
     },
     select: async (path) => {
-      const { client } = get()
+      const { client, listFiles } = get()
       set({ path })
       if (!selectors.isFolder(get())) {
         const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
+        await listFiles()
         set({ file })
       }
     },
