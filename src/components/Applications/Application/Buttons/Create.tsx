@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/AddBox'
-import FolderIcon from '@mui/icons-material/Folder'
+import SourceIcon from '@mui/icons-material/Source'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import DropdownButton from '../../../Parts/Buttons/Dropdown'
 import IconButton from '../../../Parts/Buttons/Icon'
@@ -108,7 +108,7 @@ function CreatePackage() {
     <IconButton
       variant="text"
       label="Create Package"
-      Icon={FolderIcon}
+      Icon={SourceIcon}
       onClick={createPackage}
     />
   )
