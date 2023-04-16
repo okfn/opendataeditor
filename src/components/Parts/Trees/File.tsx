@@ -81,9 +81,10 @@ const StyledTreeItem = styled(
     let animation
     let backgroundColor
     if (event && event.paths.includes(props.nodeId)) {
-      if (event.type === 'draft') backgroundColor = 'yellow'
-      if (event.type === 'create' || event.type === 'update') {
-        animation = `${eventCreateKeyframe} 1s`
+      if (event.type === 'draft') {
+        backgroundColor = 'yellow'
+      } else {
+        animation = `${fileEventKeyframe} 1s /*${Math.random()}*/`
       }
     }
     return (
@@ -184,7 +185,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
 }
 
 // TODO: use color from theme
-const eventCreateKeyframe = keyframes`
+const fileEventKeyframe = keyframes`
   from {
     background-color: yellow;
   }

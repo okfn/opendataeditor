@@ -70,7 +70,7 @@ export function makeStore(props: ApplicationProps) {
     onDelete: async (path) => {
       const { select } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
-      select(undefined)
+      setTimeout(() => select(undefined), 1000)
     },
     onDraft: async (path) => {
       const { select } = get()
