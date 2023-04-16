@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
+import isEqual from 'fast-deep-equal'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -21,7 +22,6 @@ export interface State {
   file?: IFile
   original?: IResource | IDialect | ISchema
   modified?: IResource | IDialect | ISchema
-  revision: number
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -35,11 +35,7 @@ export function makeStore(props: MetadataProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    revision: 0,
     updateState: (patch) => {
-      const { revision } = get()
-      if ('modified' in patch) patch.revision = revision + 1
-      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     load: async () => {
@@ -59,13 +55,13 @@ export function makeStore(props: MetadataProps) {
     },
     revert: () => {
       const { original } = get()
-      set({ modified: cloneDeep(original), revision: 0 })
+      set({ modified: cloneDeep(original) })
     },
     save: async () => {
       const { file, client, modified, onSave, load } = get()
       if (!file || !modified) return
       await client.metadataWrite({ path: file.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified, revision: 0 })
+      set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()
     },
@@ -81,9 +77,8 @@ export function makeStore(props: MetadataProps) {
 
 export const select = createSelector
 export const selectors = {
-  // TODO: consider using https://github.com/epoberezkin/fast-deep-equal (200 000 op/sec)
   isUpdated: (state: State) => {
-    return state.revision > 0
+    return !isEqual(state.original, state.modified)
   },
 }
 

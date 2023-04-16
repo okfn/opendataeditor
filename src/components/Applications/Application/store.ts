@@ -93,8 +93,9 @@ export function makeStore(props: ApplicationProps) {
     },
     revert: async () => {
       const { path, client, fileEvent, onDelete } = get()
+      if (fileEvent?.type !== 'draft') return
       if (!path) return
-      if (fileEvent?.type === 'draft') await client.fileDelete({ path })
+      await client.fileDelete({ path })
       onDelete(path)
     },
 

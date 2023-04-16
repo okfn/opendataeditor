@@ -4,12 +4,11 @@ import Preview from '../../../Parts/Preview'
 import { useStore } from '../store'
 
 export default function SourcePanel() {
-  const revision = useStore((state) => state.revision)
   const modified = useStore((state) => state.modified)
   if (!modified) return null
   return (
     <Box sx={{ padding: 2, fontSize: '80%' }}>
-      <Preview format="json" descriptor={modified || {}} revision={revision} />
+      <Preview format="json" descriptor={modified || {}} />
     </Box>
   )
 }

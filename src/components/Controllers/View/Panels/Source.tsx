@@ -16,7 +16,7 @@ export default function SourcePanel() {
         fontFamily: 'Monospace',
       }}
     >
-      This file type does not have a supported source view ({file.record?.resource.format}
+      This file type does not have a supported source view ({file.record!.resource.format}
       )
     </Box>
   )

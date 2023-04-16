@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
+import isEqual from 'fast-deep-equal'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
@@ -18,7 +19,6 @@ export interface State {
   dialog?: 'saveAs'
   file?: IFile
   resource?: IResource
-  revision: number
   updateState: (patch: Partial<State>) => void
   updateResource: (resource: IResource) => Promise<void>
   load: () => Promise<void>
@@ -43,10 +43,7 @@ export function makeStore(props: TableProps) {
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
     tablePatch: {},
-    revision: 0,
     updateState: (patch) => {
-      const { revision } = get()
-      if ('resource' in patch) patch.revision = revision + 1
       set(patch)
     },
     load: async () => {
@@ -61,14 +58,13 @@ export function makeStore(props: TableProps) {
     revert: () => {
       const { file } = get()
       if (!file) return
-      set({ resource: cloneDeep(file.record!.resource), revision: 0 })
+      set({ resource: cloneDeep(file.record!.resource) })
     },
     // TODO: implement
     save: async () => {
       const { file, client, resource, onSave, load } = get()
       if (!file || !resource) return
       await client.fileUpdate({ path: file.path, resource })
-      set({ revision: 0 })
       onSave()
       load()
     },
@@ -100,7 +96,7 @@ export function makeStore(props: TableProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return state.revision > 0
+    return !isEqual(state.resource, state.file?.record!.resource)
   },
 }
 
