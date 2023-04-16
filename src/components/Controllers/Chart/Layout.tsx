@@ -4,9 +4,9 @@ import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
 import Dialog from './Dialog'
-import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
+import Viewer from './Viewer'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -26,7 +26,7 @@ export default function Layout() {
       <Box sx={{ height }}>
         <Menu />
         <ScrollBox height={contentHeight}>
-          <Editor />
+          <Viewer />
         </ScrollBox>
         <Panel />
         <Actions />

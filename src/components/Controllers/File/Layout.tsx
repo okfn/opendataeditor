@@ -3,10 +3,10 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/ScrollBox'
 import Actions from './Actions'
-import Editor from './Editor'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
+import Viewer from './Viewer'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -26,7 +26,7 @@ export default function Layout() {
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
         <ScrollBox height={contentHeight}>
-          <Editor />
+          <Viewer />
         </ScrollBox>
         <Panel />
         <Actions />

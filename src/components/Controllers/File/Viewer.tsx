@@ -3,14 +3,14 @@ import Box from '@mui/material/Box'
 import { useStore } from './store'
 import * as helpers from '../../../helpers'
 
-export default function Editor() {
+export default function Viewer() {
   const format = useStore((state) => state.file?.record?.resource.format)
   if (!format) return null
-  if (['png', 'jpg'].includes(format || '')) return <ImageEditor />
-  return <NonSupportedEditor />
+  if (['png', 'jpg'].includes(format || '')) return <ImageViewer />
+  return <NonSupportedViewer />
 }
 
-function ImageEditor() {
+function ImageViewer() {
   const format = useStore((state) => state.file?.record?.resource.format)
   const original = useStore((state) => state.original)
   if (!format) return null
@@ -23,7 +23,7 @@ function ImageEditor() {
   )
 }
 
-function NonSupportedEditor() {
+function NonSupportedViewer() {
   const format = useStore((state) => state.file?.record?.resource.format)
   if (!format) return null
   return (

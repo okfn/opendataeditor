@@ -3,7 +3,7 @@ import { VegaLite } from 'react-vega'
 import Box from '@mui/material/Box'
 import { useStore } from './store'
 
-export default function Editor() {
+export default function Viewer() {
   const rendered = useStore((state) => state.rendered)
   if (!rendered) return null
   return (
