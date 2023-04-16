@@ -34,7 +34,7 @@ interface State {
   channelState: IChannelState
   updateChannelState: (patch: Partial<IChannelState>) => void
   updateChannelType: (type: string) => void
-  // TODO: fix
+  // TODO: add proper type
   updateChannel: (patch: any) => void
   removeChannel: (type: string) => void
   addChannel: () => void
