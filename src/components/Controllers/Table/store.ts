@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
+import { IFile, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -18,23 +18,21 @@ export interface State {
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs'
   file?: IFile
+  source?: string
+  rowCount?: number
   resource?: IResource
   updateState: (patch: Partial<State>) => void
-  updateResource: (resource: IResource) => Promise<void>
   load: () => Promise<void>
+  loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
+  tableLoader: ITableLoader
 
   // Legacy
 
   tablePatch: ITablePatch
-  table?: ITable
-  source?: string
-  selectedColumn?: number
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
-  exportTable: (name: string, format: string) => Promise<void>
-  updateColumn: (selectedColumn: number) => void
 }
 
 export function makeStore(props: TableProps) {
@@ -51,9 +49,13 @@ export function makeStore(props: TableProps) {
       const { file } = await client.fileIndex({ path })
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
-      const { text } = await client.textRead({ path: file.path })
-      const { table } = await client.tableRead({ path: file.path })
-      set({ file, resource, source: text, table })
+      const { count } = await client.tableCount({ path: file.path })
+      set({ file, resource, rowCount: count })
+    },
+    loadSource: async () => {
+      const { path, client } = get()
+      const { text } = await client.textRead({ path })
+      set({ source: text })
     },
     revert: () => {
       const { file } = get()
@@ -73,6 +75,17 @@ export function makeStore(props: TableProps) {
       const { onSaveAs } = get()
       onSaveAs(path)
     },
+    tableLoader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount } = get()
+      const offset = skip
+      const order = sortInfo?.name
+      const desc = sortInfo?.dir === -1
+      const { table } = await client.tableRead({ path, limit, offset, order, desc })
+      return {
+        data: table!.rows,
+        count: rowCount || 0,
+      }
+    },
 
     // Legacy
 
@@ -80,15 +93,6 @@ export function makeStore(props: TableProps) {
       const { tablePatch } = get()
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
-    },
-    exportTable: async (name, format) => {
-      console.log(name, format)
-    },
-    updateResource: async (resource) => {
-      console.log(resource)
-    },
-    updateColumn: (selectedColumn) => {
-      set({ selectedColumn })
     },
   }))
 }

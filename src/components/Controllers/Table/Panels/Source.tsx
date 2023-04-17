@@ -6,7 +6,12 @@ import { useStore } from '../store'
 
 export default function SourcePanel() {
   const theme = useTheme()
+  const file = useStore((state) => state.file)
   const source = useStore((state) => state.source)
+  const loadSource = useStore((state) => state.loadSource)
+  React.useEffect(() => {
+    loadSource().catch(console.error)
+  }, [file])
   if (!source) return null
   return (
     <Box>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Alert from '@mui/material/Alert'
-import Table from '../../Editors/Table'
+// import Table from '../../Editors/Table'
 import { IReport } from '../../../interfaces'
 import { useStore } from './store'
 
@@ -34,9 +34,10 @@ export default function Viewer() {
     }
   }
 
-  return (
-    <React.Fragment>
-      <Table table={table} report={report} />
-    </React.Fragment>
-  )
+  // TODO: recover
+  console.log(report)
+  return null
+  // <React.Fragment>
+  // <Table table={table} report={report} />
+  // </React.Fragment>
 }

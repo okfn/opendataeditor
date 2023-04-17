@@ -19,7 +19,7 @@ export interface State {
   dialog?: 'saveAs'
   file?: IFile
   resource?: IResource
-  original?: ArrayBuffer
+  source?: ArrayBuffer
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   revert: () => void
@@ -43,7 +43,7 @@ export function makeStore(props: FileProps) {
       set({ file, resource })
       if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
       const { bytes } = await client.fileRead({ path: file.path })
-      set({ original: bytes })
+      set({ source: bytes })
     },
     revert: () => {
       const { file } = get()

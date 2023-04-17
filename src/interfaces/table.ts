@@ -1,5 +1,14 @@
 import { ISchema } from './schema'
 
+export type ITableLoader = (props: {
+  skip: number
+  limit: number
+  sortInfo: any
+}) => Promise<{
+  data: object[]
+  count: number
+}>
+
 export interface ITable {
   tableSchema: ISchema
   header: IHeader
