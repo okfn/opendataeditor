@@ -1,5 +1,6 @@
 import * as React from 'react'
 import yaml from 'js-yaml'
+import noop from 'lodash/noop'
 import isPlainObject from 'lodash/isPlainObject'
 import TextField from '@mui/material/TextField'
 import { IDict } from '../../../interfaces'
@@ -10,11 +11,13 @@ interface DescriptorFieldProps {
   value?: IDict
   size?: 'small' | 'medium'
   onChange: (value: IDict) => void
+  onFocus?: () => void
 }
 
 export default function DescriptorField(props: DescriptorFieldProps) {
   const encode = props.type === 'yaml' ? yaml.dump : JSON.stringify
   const decode = props.type === 'yaml' ? yaml.load : JSON.parse
+  const onFocus = props.onFocus || noop
   return (
     <TextField
       fullWidth
@@ -23,6 +26,7 @@ export default function DescriptorField(props: DescriptorFieldProps) {
       label={props.label}
       size={props.size || 'small'}
       defaultValue={props.value ? encode(props.value).trim() : null}
+      onFocus={onFocus}
       onBlur={(ev) => {
         ev.preventDefault()
         try {
