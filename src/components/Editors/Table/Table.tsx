@@ -3,8 +3,8 @@ import * as React from 'react'
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
-import { IReport, IError, IDict, IRow } from '../../../interfaces'
-import { ITable, ITablePatch } from '../../../interfaces'
+import { IReport, IError, IDict } from '../../../interfaces'
+import { ISchema, ITableLoader } from '../../../interfaces'
 
 // NOTE:
 // The code here is very prototypy!
@@ -26,40 +26,22 @@ let inEdit: boolean
 const DEFAULT_ACTIVE_CELL: [number, number] = [0, 1]
 
 export interface TableProps {
-  table: ITable
+  loader: ITableLoader
+  schema: ISchema
   report: IReport
   height?: string
-  onUpdate?: (rowNumber: number, fieldName: string, value: any) => void
-  tablePatch?: ITablePatch
+  onChange?: (rowNumber: number, fieldName: string, value: any) => void
   selectedColumn?: number
 }
 
 export default function Table(props: TableProps) {
   const [gridRef, setGridRef] = React.useState(null)
-  const table = props.table
-  const fields = table.tableSchema.fields
-  const report = props.report
-  const onUpdate = props.onUpdate
-  const tablePatch = props.tablePatch || {}
-  const selectedColumn = props.selectedColumn
 
   // Errors
 
   const errorIndex = React.useMemo(() => {
-    return createErrorIndex(report)
-  }, [report])
-
-  // Data
-
-  const dataSource = React.useMemo(() => {
-    const dataSource: IRow[] = []
-    for (const [index, row] of table.rows.entries()) {
-      const _rowNumber = index + 2
-      const rowPatch = tablePatch[_rowNumber]
-      dataSource.push({ ...row, ...rowPatch, _rowNumber })
-    }
-    return dataSource
-  }, [table.rows, tablePatch])
+    return createErrorIndex(props.report)
+  }, [props.report])
 
   // Columns
 
@@ -84,14 +66,14 @@ export default function Table(props: TableProps) {
       if (columnName in errorIndex.label) {
         return { style: { color: 'white', background: 'red' } }
       }
-      if (columnIndex === selectedColumn) {
+      if (columnIndex === props.selectedColumn) {
         return { style: { backgroundColor: 'lightgreen' } }
       }
       return {}
     }
 
     const columns = []
-    for (const [key, field] of Object.entries(fields)) {
+    for (const [key, field] of Object.entries(props.schema.fields)) {
       const columnIndex = parseInt(key) + 1
       // Otherwise the _rowNumber and _rowValid are displayed on the table
       if (field.name === '_rowNumber' || field.name === '_rowValid') continue
@@ -113,7 +95,7 @@ export default function Table(props: TableProps) {
             cellProps.style.color = 'white'
             cellProps.style.background = 'red'
           }
-          if (context.columnIndex === selectedColumn) {
+          if (context.columnIndex === props.selectedColumn) {
             cellProps.style.background = 'lightGreen'
           }
           if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
@@ -141,7 +123,7 @@ export default function Table(props: TableProps) {
     }
 
     return [rowNumberColumn, ...columns]
-  }, [fields, errorIndex, selectedColumn])
+  }, [props.schema.fields, errorIndex, props.selectedColumn])
 
   // Actions
 
@@ -205,8 +187,7 @@ export default function Table(props: TableProps) {
     const value = ['number'].includes(context.cellProps.type)
       ? parseInt(context.value)
       : context.value
-    // TODO: call the callback only if the value is changed
-    if (onUpdate) onUpdate(rowNumber, fieldName, value)
+    if (props.onChange) props.onChange(rowNumber, fieldName, value)
   }
 
   // TODO: support copy/paste?
@@ -223,8 +204,8 @@ export default function Table(props: TableProps) {
         idProperty="_rowNumber"
         handle={setGridRef as any}
         columns={columns}
-        dataSource={dataSource}
-        editable={!!onUpdate}
+        dataSource={props.loader as any}
+        editable={!!props.onChange}
         onKeyDown={onKeyDown}
         onEditStart={onEditStart}
         onEditStop={onEditStop}

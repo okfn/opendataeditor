@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITable, ITablePatch, IResource } from '../../../interfaces'
+import { IFile, ITable, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -25,6 +25,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
+  loadTable: ITableLoader
 
   // Legacy
 
@@ -72,6 +73,14 @@ export function makeStore(props: TableProps) {
     saveAs: async (path) => {
       const { onSaveAs } = get()
       onSaveAs(path)
+    },
+    loadTable: async ({ skip, limit, sortInfo }) => {
+      console.log(skip, limit, sortInfo)
+      const { table } = get()
+      return {
+        data: table!.rows,
+        count: table!.rows.length,
+      }
     },
 
     // Legacy

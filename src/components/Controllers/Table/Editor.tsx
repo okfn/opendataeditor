@@ -5,17 +5,17 @@ import { useStore } from './store'
 export default function Editor() {
   const table = useStore((state) => state.table)
   const report = useStore((state) => state.file?.record?.report)
-  const tablePatch = useStore((state) => state.tablePatch)
+  const loadTable = useStore((state) => state.loadTable)
   const updatePatch = useStore((state) => state.updatePatch)
   const selectedColumn = useStore((state) => state.selectedColumn)
   if (!table) return null
   if (!report) return null
   return (
     <Table
-      table={table}
+      loader={loadTable}
+      schema={table.tableSchema}
       report={report}
-      onUpdate={updatePatch}
-      tablePatch={tablePatch}
+      onChange={updatePatch}
       selectedColumn={selectedColumn}
     />
   )
