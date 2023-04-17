@@ -32,10 +32,8 @@ export interface State {
   tablePatch: ITablePatch
   table?: ITable
   source?: string
-  selectedColumn?: number
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   exportTable: (name: string, format: string) => Promise<void>
-  updateColumn: (selectedColumn: number) => void
 }
 
 export function makeStore(props: TableProps) {
@@ -95,9 +93,6 @@ export function makeStore(props: TableProps) {
     },
     updateResource: async (resource) => {
       console.log(resource)
-    },
-    updateColumn: (selectedColumn) => {
-      set({ selectedColumn })
     },
   }))
 }
