@@ -2,5 +2,59 @@
 
 chart:
   - Chart
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html
-  - File dialect concept give us an ability to manage table header and any details related to specific formats.
+  - https://vega.github.io/vega-lite/docs/spec.html
+  - Set properties of the chart.
+
+chart/table:
+  - Table
+  - https://vega.github.io/vega/docs/data/
+  - Data file to load.
+
+chart/mark:
+  - Table
+  - https://vega.github.io/vega-lite/docs/mark.html
+  - Specifies basis shapes such as circle, square etc
+
+chart/width:
+  - Table
+  - https://vega.github.io/vega-lite/docs/size.html#default-width-and-height
+  - A number representing a fixed pixel width.
+
+chart/height:
+  - Table
+  - https://vega.github.io/vega-lite/docs/size.html#default-width-and-height
+  - A number representing a fixed pixel height.
+
+# Channels
+
+channels:
+  - Channels
+  - https://vega.github.io/vega-lite/docs/encoding.html#channel-definition
+  - Set channel properties for the chart
+
+channels/type:
+  - Channel Type
+  - https://vega.github.io/vega-lite/docs/encoding.html#channels
+  - Specifies the type of the channel.
+
+channels/aggregate:
+  - Channel Aggregate
+  - https://vega.github.io/vega-lite/docs/aggregate.html
+  - Specifies aggregate operation for the channel.
+
+channels/field:
+  - Channel Field
+  - https://vega.github.io/vega-lite/docs/field.html
+  - Specifies the field to apply aggregate function.
+
+channels/value:
+  - Channel Value
+  - https://vega.github.io/vega-lite/docs/value.html
+  - Specify a constant value to a encoding channel.
+
+# Descriptor
+
+descriptor:
+  - Descriptor
+  - https://vega.github.io/vega-lite/docs/spec.html
+  - Descriptor for the chart in JSON format.
