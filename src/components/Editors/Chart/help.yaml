@@ -2,7 +2,7 @@
 
 chart:
   - Chart
-  - https://vega.github.io/vega-lite/docs/size.html#default-width-and-height
+  - https://vega.github.io/vega-lite/docs/spec.html
   - Set properties of the chart.
 
 chart/table:
