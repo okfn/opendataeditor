@@ -111,12 +111,14 @@ function Name() {
 
 function Type() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const type = useStore(select(selectors.field, (field) => field.type))
   return (
     <SelectField
       label="Type"
       value={type}
       options={Object.keys(settings.FIELDS)}
+      onFocus={() => updateHelp('fields/type')}
       onChange={(value) => updateField({ type: value })}
     />
   )
@@ -126,6 +128,7 @@ function Format() {
   const updateField = useStore((state) => state.updateField)
   const format = useStore(select(selectors.field, (field) => field.format))
   const type = useStore(select(selectors.field, (field) => field.type))
+  const updateHelp = useStore((state) => state.updateHelp)
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
@@ -133,6 +136,7 @@ function Format() {
     <InputField
       label="Format"
       value={format || ''}
+      onFocus={() => updateHelp('fields/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   ) : (
@@ -140,6 +144,7 @@ function Format() {
       label="Format"
       value={format || ''}
       options={FIELD.formats}
+      onFocus={() => updateHelp('fields/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   )
@@ -147,11 +152,13 @@ function Format() {
 
 function Title() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const title = useStore(select(selectors.field, (field) => field.title))
   return (
     <InputField
       label="Title"
       value={title || ''}
+      onFocus={() => updateHelp('fields/title')}
       onChange={(value) => updateField({ title: value || undefined })}
     />
   )
@@ -159,11 +166,13 @@ function Title() {
 
 function Description() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const descriptor = useStore(select(selectors.field, (field) => field.description))
   return (
     <MultilineField
       label="Description"
       value={descriptor || ''}
+      onFocus={() => updateHelp('fields/description')}
       onChange={(value) => updateField({ description: value || undefined })}
     />
   )
@@ -171,11 +180,13 @@ function Description() {
 
 function MissingValues() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
   return (
     <InputField
       label="Missing Values"
       value={(missingValues || []).join(',')}
+      onFocus={() => updateHelp('fields/missingValues')}
       onChange={(value) =>
         updateField({ missingValues: value ? value.split(',') : undefined })
       }
@@ -185,11 +196,13 @@ function MissingValues() {
 
 function RdfType() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
   return (
     <InputField
       label="RDF Type"
       value={rdfType || ''}
+      onFocus={() => updateHelp('fields/rdfType')}
       onChange={(value) => updateField({ rdfType: value || undefined })}
     />
   )
@@ -254,11 +267,13 @@ function NumberSpecific() {
 function ArrayItem() {
   const updateField = useStore((state) => state.updateField)
   const arrayItem = useStore(select(selectors.field, (field) => field.arrayItem))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <DescriptorField
       type="yaml"
       label="Array Item"
       value={arrayItem}
+      onFocus={() => updateHelp('fields/arrayItem')}
       onChange={(value) => updateField({ arrayItem: value || undefined })}
     />
   )
@@ -267,11 +282,13 @@ function ArrayItem() {
 function TrueValues() {
   const updateField = useStore((state) => state.updateField)
   const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <ValuesField
       type="true"
       values={trueValues || []}
       options={settings.TRUE_VALUES}
+      onFocus={() => updateHelp('fields/trueValues')}
       onChange={(value) => updateField({ trueValues: value || undefined })}
     />
   )
@@ -280,11 +297,13 @@ function TrueValues() {
 function FalseValues() {
   const updateField = useStore((state) => state.updateField)
   const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <ValuesField
       type="false"
       values={falseValues || []}
       options={settings.FALSE_VALUES}
+      onFocus={() => updateHelp('fields/falseValues')}
       onChange={(value) => updateField({ falseValues: value || undefined })}
     />
   )
@@ -293,10 +312,12 @@ function FalseValues() {
 function BareNumber() {
   const updateField = useStore((state) => state.updateField)
   const bareNumber = useStore(select(selectors.field, (field) => field.bareNumber))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Bare Number"
       value={bareNumber || settings.DEFAULT_BARE_NUMBER}
+      onFocus={() => updateHelp('fields/bareNumber')}
       onChange={(value) =>
         updateField({ bareNumber: value === false ? value : undefined })
       }
@@ -307,10 +328,12 @@ function BareNumber() {
 function FloatNumber() {
   const updateField = useStore((state) => state.updateField)
   const floatNumber = useStore(select(selectors.field, (field) => field.floatNumber))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Float Number"
       value={floatNumber || false}
+      onFocus={() => updateHelp('fields/floatNumber')}
       onChange={(value) => updateField({ floatNumber: value || undefined })}
     />
   )
@@ -319,9 +342,11 @@ function FloatNumber() {
 function DecimalChar() {
   const updateField = useStore((state) => state.updateField)
   const decimalChar = useStore(select(selectors.field, (field) => field.decimalChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       label="Decimal Char"
+      onFocus={() => updateHelp('fields/decimalChar')}
       value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
       onChange={(value) => updateField({ decimalChar: value || undefined })}
     />
@@ -331,9 +356,11 @@ function DecimalChar() {
 function GroupChar() {
   const updateField = useStore((state) => state.updateField)
   const groupChar = useStore(select(selectors.field, (field) => field.groupChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       label="Group Char"
+      onFocus={() => updateHelp('fields/groupChar')}
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
       onChange={(value) => updateField({ groupChar: value || undefined })}
     />
@@ -386,9 +413,11 @@ function Constraint(props: { type: string }) {
 function Required() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Required"
+      onFocus={() => updateHelp('fields/required')}
       value={constraints?.required || false}
       onChange={(required) => updateField({ constraints: { ...constraints, required } })}
     />
@@ -398,11 +427,13 @@ function Required() {
 function Minimum() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Minimum"
       value={constraints?.minimum || ''}
+      onFocus={() => updateHelp('fields/minimum')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
       }
@@ -413,11 +444,13 @@ function Minimum() {
 function Maximum() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Maximum"
       value={constraints?.maximum || ''}
+      onFocus={() => updateHelp('fields/maximum')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
       }
@@ -428,11 +461,13 @@ function Maximum() {
 function MinLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Min Length"
       value={constraints?.minLength || ''}
+      onFocus={() => updateHelp('fields/minLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
       }
@@ -443,11 +478,13 @@ function MinLength() {
 function MaxLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Max Length"
       value={constraints?.maxLength || ''}
+      onFocus={() => updateHelp('fields/maxLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
       }
@@ -458,11 +495,13 @@ function MaxLength() {
 function Pattern() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="string"
       label="Pattern"
       value={constraints?.pattern || ''}
+      onFocus={() => updateHelp('fields/pattern')}
       onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
     />
   )
@@ -471,11 +510,13 @@ function Pattern() {
 function Enum() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="string"
       label="Enum"
       value={(constraints?.enum || []).join(',')}
+      onFocus={() => updateHelp('fields/enum')}
       onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )
