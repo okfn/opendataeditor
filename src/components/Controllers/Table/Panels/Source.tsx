@@ -6,12 +6,12 @@ import { useStore } from '../store'
 
 export default function SourcePanel() {
   const theme = useTheme()
-  const source = useStore((state) => state.source)
-  if (!source) return null
+  const original = useStore((state) => state.original)
+  if (!original) return null
   return (
     <Box>
       <MonacoEditor
-        value={source}
+        value={original}
         language="json"
         height={theme.spacing(47)}
         options={{ readOnly: true }}

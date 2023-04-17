@@ -26,7 +26,7 @@ export default function Datagrid() {
   }
 
   const handleKeyDown = (event: any) => {
-    if (editing) return
+    if (!editing) return
     const grid = gridRef.current
     let [rowIndex, colIndex] = grid.computedActiveCell
     if (event.key === ' ' || event.key === 'Enter') {
@@ -57,6 +57,7 @@ export default function Datagrid() {
   }
 
   const handleEditComplete = (context: any) => {
+    if (!editing) return
     const rowNumber = context.rowId
     const fieldName = context.columnId
     // TODO: improve this logic
@@ -72,6 +73,7 @@ export default function Datagrid() {
     // console.log(context)
   }
 
+  // TODO: recover editing "editable={!!onChange}"
   return (
     <InovuaDatagrid
       pagination={true}
@@ -82,7 +84,6 @@ export default function Datagrid() {
       }}
       columns={columns}
       dataSource={loader as any}
-      editable={!!onChange}
       onKeyDown={handleKeyDown}
       onEditStart={handleEditStart}
       onEditStop={handleEditStop}

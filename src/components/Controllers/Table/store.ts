@@ -18,10 +18,10 @@ export interface State {
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs'
   file?: IFile
+  original?: string
   rowCount?: number
   resource?: IResource
   updateState: (patch: Partial<State>) => void
-  updateResource: (resource: IResource) => Promise<void>
   load: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
@@ -31,9 +31,7 @@ export interface State {
   // Legacy
 
   tablePatch: ITablePatch
-  source?: string
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
-  exportTable: (name: string, format: string) => Promise<void>
 }
 
 export function makeStore(props: TableProps) {
@@ -52,7 +50,7 @@ export function makeStore(props: TableProps) {
       const resource = cloneDeep(file.record!.resource)
       const { count } = await client.tableCount({ path: file.path })
       const { text } = await client.textRead({ path: file.path })
-      set({ file, resource, source: text, rowCount: count })
+      set({ file, resource, original: text, rowCount: count })
     },
     revert: () => {
       const { file } = get()
@@ -90,12 +88,6 @@ export function makeStore(props: TableProps) {
       const { tablePatch } = get()
       tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
       set({ tablePatch: { ...tablePatch } })
-    },
-    exportTable: async (name, format) => {
-      console.log(name, format)
-    },
-    updateResource: async (resource) => {
-      console.log(resource)
     },
   }))
 }
