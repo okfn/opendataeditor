@@ -3,7 +3,7 @@ import { ISchema } from './schema'
 export type ITableLoader = (props: {
   skip: number
   limit: number
-  sortInfo: object
+  sortInfo: any
 }) => Promise<{
   data: object[]
   count: number

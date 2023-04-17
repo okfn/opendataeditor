@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITable, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
+import { IFile, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -30,7 +30,6 @@ export interface State {
   // Legacy
 
   tablePatch: ITablePatch
-  table?: ITable
   source?: string
   updatePatch: (rowNumber: number, fieldName: string, value: any) => void
   exportTable: (name: string, format: string) => Promise<void>
@@ -51,8 +50,7 @@ export function makeStore(props: TableProps) {
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
       const { text } = await client.textRead({ path: file.path })
-      const { table } = await client.tableRead({ path: file.path })
-      set({ file, resource, source: text, table })
+      set({ file, resource, source: text })
     },
     revert: () => {
       const { file } = get()
@@ -73,8 +71,11 @@ export function makeStore(props: TableProps) {
       onSaveAs(path)
     },
     loadTable: async ({ skip, limit, sortInfo }) => {
-      console.log(skip, limit, sortInfo)
-      const { table } = get()
+      const { path, client } = get()
+      const offset = skip
+      const order = sortInfo?.name
+      const desc = sortInfo?.dir === -1
+      const { table } = await client.tableRead({ path, limit, offset, order, desc })
       return {
         data: table!.rows,
         count: table!.rows.length,
