@@ -79,11 +79,13 @@ function ChannelItem() {
 function Type() {
   const type = useStore((state) => state.channelState.type!)
   const updateChannelType = useStore((state) => state.updateChannelType)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
       label="Type"
       value={type || ''}
       options={settings.CHANNEL_TYPES}
+      onFocus={() => updateHelp('channels/type')}
       onChange={(value) => (value ? updateChannelType(value) : undefined)}
     />
   )
@@ -93,11 +95,13 @@ function Field() {
   const field = useStore(select(selectors.channel, (channel) => channel.field))
   const updateChannel = useStore((state) => state.updateChannel)
   const fieldNames = useStore(selectors.fieldNames)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
       label="Field"
       value={field || ''}
       options={fieldNames}
+      onFocus={() => updateHelp('channels/field')}
       onChange={(value) => updateChannel({ field: value })}
     />
   )
@@ -105,12 +109,14 @@ function Field() {
 
 function Aggregate() {
   const aggregate = useStore(selectors.channelAggregate)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
   return (
     <SelectField
       label="Aggregate"
       value={aggregate || ''}
       options={settings.CHANNEL_AGGREGATES}
+      onFocus={() => updateHelp('channels/aggregate')}
       onChange={(value) => updateChannel({ aggregate: value })}
     />
   )
@@ -118,11 +124,13 @@ function Aggregate() {
 
 function Value() {
   const value = useStore(selectors.channelValue)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
   return (
     <InputField
       label="Value"
       value={value || ''}
+      onFocus={() => updateHelp('channels/value')}
       onChange={(value) => updateChannel({ value: value ? parseInt(value) : undefined })}
     />
   )
