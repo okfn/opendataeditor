@@ -18,11 +18,12 @@ export interface State {
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs'
   file?: IFile
-  original?: string
+  source?: string
   rowCount?: number
   resource?: IResource
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
+  loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
@@ -49,8 +50,12 @@ export function makeStore(props: TableProps) {
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
       const { count } = await client.tableCount({ path: file.path })
-      const { text } = await client.textRead({ path: file.path })
-      set({ file, resource, original: text, rowCount: count })
+      set({ file, resource, rowCount: count })
+    },
+    loadSource: async () => {
+      const { path, client } = get()
+      const { text } = await client.textRead({ path })
+      set({ source: text })
     },
     revert: () => {
       const { file } = get()

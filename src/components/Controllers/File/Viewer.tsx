@@ -12,10 +12,10 @@ export default function Viewer() {
 
 function ImageViewer() {
   const format = useStore((state) => state.file?.record?.resource.format)
-  const original = useStore((state) => state.original)
+  const source = useStore((state) => state.source)
   if (!format) return null
-  if (!original) return null
-  const text = helpers.bytesToBase64(original)
+  if (!source) return null
+  const text = helpers.bytesToBase64(source)
   return (
     <Box sx={{ padding: 2 }}>
       <img src={`data:image/${format};base64,${text}`} />
