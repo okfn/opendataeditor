@@ -18,6 +18,7 @@ export interface State {
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs'
   file?: IFile
+  rowCount?: number
   resource?: IResource
   updateState: (patch: Partial<State>) => void
   updateResource: (resource: IResource) => Promise<void>
@@ -25,7 +26,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
-  loadTable: ITableLoader
+  tableLoader: ITableLoader
 
   // Legacy
 
@@ -49,8 +50,9 @@ export function makeStore(props: TableProps) {
       const { file } = await client.fileIndex({ path })
       if (!file) return
       const resource = cloneDeep(file.record!.resource)
+      const { count } = await client.tableCount({ path: file.path })
       const { text } = await client.textRead({ path: file.path })
-      set({ file, resource, source: text })
+      set({ file, resource, source: text, rowCount: count })
     },
     revert: () => {
       const { file } = get()
@@ -70,15 +72,15 @@ export function makeStore(props: TableProps) {
       const { onSaveAs } = get()
       onSaveAs(path)
     },
-    loadTable: async ({ skip, limit, sortInfo }) => {
-      const { path, client } = get()
+    tableLoader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount } = get()
       const offset = skip
       const order = sortInfo?.name
       const desc = sortInfo?.dir === -1
       const { table } = await client.tableRead({ path, limit, offset, order, desc })
       return {
         data: table!.rows,
-        count: table!.rows.length,
+        count: rowCount || 0,
       }
     },
 

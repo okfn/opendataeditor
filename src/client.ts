@@ -164,14 +164,9 @@ export class Client {
 
   // Table
 
-  async tablePatch(props: { query: string }) {
-    const result = await this.request('/table/patch', props)
-    return result as { table: ITable }
-  }
-
-  async tableDownload(props: { path: string; name: string; format: string }) {
-    const result = await this.request('/table/export', props)
-    return result as { path: string }
+  async tableCount(props: { path: string }) {
+    const result = await this.request('/table/count', props)
+    return result as { count: number }
   }
 
   async tableExport(props: { source: string; target: string }) {
