@@ -1,13 +1,20 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import File from '../../Controllers/File'
 import Empty from '../../Parts/Empty'
+import Spinner from '../../Parts/Spinner'
 import { useStore } from './store'
 import * as settings from './settings'
 
 export default function Controller() {
   const file = useStore((state) => state.file)
-  return <Box height="100%">{file ? <FileController /> : <EmptyController />}</Box>
+  const indexing = useStore((state) => state.indexing)
+  return indexing ? (
+    <LoadingController />
+  ) : file ? (
+    <FileController />
+  ) : (
+    <EmptyController />
+  )
 }
 
 function FileController() {
@@ -34,4 +41,8 @@ function FileController() {
 
 function EmptyController() {
   return <Empty title="No Files Selected" description="Select a file in the left menu" />
+}
+
+function LoadingController() {
+  return <Spinner message="Indexing file" />
 }

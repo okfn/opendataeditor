@@ -10,10 +10,6 @@ export default function Files() {
   return loading ? <LoadingFiles /> : fileItems.length ? <PresentFiles /> : <EmptyFiles />
 }
 
-function LoadingFiles() {
-  return <Spinner />
-}
-
 function PresentFiles() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
@@ -28,4 +24,8 @@ function PresentFiles() {
 
 function EmptyFiles() {
   return <Empty title="No Files Added" description='Use "Create" button to add files' />
+}
+
+function LoadingFiles() {
+  return <Spinner message="Loading files" />
 }

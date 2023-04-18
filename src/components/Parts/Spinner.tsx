@@ -5,12 +5,18 @@ import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export default function Spinner() {
+export interface SpinnerProps {
+  message?: string
+}
+
+export default function Spinner(props: SpinnerProps) {
   return (
     <StyledCard>
       <StyledCardContent>
         <CircularProgress />
-        <Typography sx={{ fontWeight: 600 }}>Please wait ...</Typography>
+        <Typography sx={{ fontWeight: 600 }}>
+          {props.message || 'Please wait'}...
+        </Typography>
       </StyledCardContent>
     </StyledCard>
   )

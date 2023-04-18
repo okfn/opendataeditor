@@ -24,6 +24,7 @@ export interface State {
   dialog?: IDialog
   // TODO: do we need it as we already have fileItems?
   loading?: boolean
+  indexing?: boolean
   updateState: (patch: Partial<State>) => void
   onCreate: (path: string) => Promise<void>
   onDelete: (path: string) => Promise<void>
@@ -87,9 +88,10 @@ export function makeStore(props: ApplicationProps) {
       const { client, listFiles } = get()
       set({ path })
       if (!selectors.isFolder(get())) {
+        set({ file: undefined, indexing: true })
         const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
         await listFiles()
-        set({ file })
+        set({ file, indexing: false })
       }
     },
     revert: async () => {
