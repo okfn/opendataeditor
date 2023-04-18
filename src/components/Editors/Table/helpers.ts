@@ -23,6 +23,7 @@ export function createColumns(schema: ISchema, report?: IReport) {
 
   const dataColumns = []
   for (const field of schema.fields) {
+    // TODO: fix this on ther server side -- schema should not have hidden fields
     // Otherwise the _rowNumber and _rowValid are displayed on the table
     if (field.name === '_rowNumber' || field.name === '_rowValid') continue
     dataColumns.push({
