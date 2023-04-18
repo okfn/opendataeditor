@@ -92,7 +92,7 @@ export class Client {
     return result as { file?: IFile }
   }
 
-  async fileUpdate(props: { path: string; resource: IResource }) {
+  async fileUpdate(props: { path: string; resource: IResource; reindex?: boolean }) {
     const result = await this.request('/file/update', props)
     return result as { path: string }
   }

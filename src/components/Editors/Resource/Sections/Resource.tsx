@@ -113,12 +113,14 @@ function Description() {
   )
 }
 
+// TODO: enable in context of metadata.frictionlessdata.io
 function Path() {
   const path = useStore((state) => state.descriptor.path)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
+      disabled
       label="Path"
       value={path}
       onFocus={() => updateHelp('resource/path')}

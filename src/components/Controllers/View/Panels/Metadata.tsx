@@ -8,7 +8,7 @@ export default function MetadataPanel() {
   if (!resource) return null
   return (
     <Resource
-      isShallow
+      shallow
       resource={resource}
       onChange={(resource) => updateState({ resource })}
     />

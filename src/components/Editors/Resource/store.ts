@@ -29,7 +29,7 @@ interface ISectionState {
 
 interface State {
   descriptor: IResource
-  isShallow?: boolean
+  shallow?: boolean
   onChange: (resource: IResource) => void
   onBackClick?: () => void
   helpItem: IHelpItem
@@ -64,7 +64,7 @@ interface State {
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
-    isShallow: props.isShallow,
+    shallow: props.shallow,
     onChange: props.onChange || noop,
     onBackClick: props.onBackClick,
     helpItem: DEFAULT_HELP_ITEM,

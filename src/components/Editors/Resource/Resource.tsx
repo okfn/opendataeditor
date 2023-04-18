@@ -7,8 +7,7 @@ import Layout from './Layout'
 
 export interface ResourceProps {
   resource?: IResource
-  // TODO: remove without "is"?
-  isShallow?: boolean
+  shallow?: boolean
   onChange?: (resource: IResource) => void
   onBackClick?: () => void
 }

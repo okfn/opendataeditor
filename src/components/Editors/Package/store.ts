@@ -24,7 +24,7 @@ interface ISectionState {
 
 interface State {
   descriptor: IPackage
-  isShallow?: boolean
+  shallow?: boolean
   onChange: (pkg: IPackage) => void
   onAddResource?: () => void
   tabIndex: number
@@ -70,7 +70,7 @@ interface State {
 export function makeStore(props: PackageProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
-    isShallow: props.isShallow,
+    shallow: props.shallow,
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
     tabIndex: 0,

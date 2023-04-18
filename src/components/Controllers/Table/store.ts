@@ -62,11 +62,14 @@ export function makeStore(props: TableProps) {
       if (!file) return
       set({ resource: cloneDeep(file.record!.resource) })
     },
-    // TODO: implement
     save: async () => {
       const { file, client, resource, onSave, load } = get()
       if (!file || !resource) return
-      await client.fileUpdate({ path: file.path, resource })
+      let reindex = false
+      if (!isEqual(resource.dialect, file!.record!.resource.dialect)) reindex = true
+      if (!isEqual(resource.schema, file!.record!.resource.schema)) reindex = true
+      console.log(reindex)
+      await client.fileUpdate({ path: file.path, resource, reindex })
       onSave()
       load()
     },

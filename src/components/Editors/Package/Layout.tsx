@@ -22,10 +22,10 @@ const LABELS = ['Package', 'Resources', 'Licenses', 'Sources', 'Contributors']
 
 export default function Layout() {
   const theme = useTheme()
-  const isShallow = useStore((state) => state.isShallow)
+  const shallow = useStore((state) => state.shallow)
   return (
     <Box sx={{ height: theme.spacing(42), position: 'relative' }}>
-      {isShallow ? <Sections /> : <Groups />}
+      {shallow ? <Sections /> : <Groups />}
       <Selector />
     </Box>
   )
@@ -72,7 +72,7 @@ function Groups() {
       <Sections />
       {resource && (
         <Resource
-          isShallow
+          shallow
           resource={resource}
           onChange={(resource) => updateResource(resource)}
           onBackClick={() => updateState({ tabIndex: 0, vtabIndex: 1 })}

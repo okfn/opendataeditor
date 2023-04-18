@@ -19,9 +19,9 @@ const LABELS = ['Resource', 'Checksum', 'Licenses', 'Sources', 'Contributors']
 
 export default function Layout() {
   const theme = useTheme()
-  const isShallow = useStore((state) => state.isShallow)
+  const shallow = useStore((state) => state.shallow)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>{isShallow ? <Sections /> : <Groups />}</Box>
+    <Box sx={{ height: theme.spacing(42) }}>{shallow ? <Sections /> : <Groups />}</Box>
   )
 }
 
