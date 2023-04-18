@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import { assert } from 'ts-essentials'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { ITableLoader } from '../../../interfaces'
+import { ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './Table'
 import * as helpers from './helpers'
 
@@ -11,6 +11,7 @@ interface State {
   loader: ITableLoader
   height?: string
   onChange?: (rowNumber: number, fieldName: string, value: any) => void
+  onErrorClick?: (error: IError) => void
   columns: any[]
   editing?: boolean
   gridRef?: any
@@ -22,7 +23,7 @@ interface State {
 export function makeStore(props: TableProps) {
   return createStore<State>((set, _get) => ({
     ...props,
-    columns: helpers.createColumns(props.schema, props.report),
+    columns: helpers.createColumns(props.schema, props.report, props.onErrorClick),
     gridRef: React.createRef(),
     updateState: (patch) => {
       set({ ...patch })

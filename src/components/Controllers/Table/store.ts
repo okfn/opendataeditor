@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
+import { IFile, ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -17,7 +17,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs'
+  dialog?: 'saveAs' | 'error'
   file?: IFile
   source?: string
   rowCount?: number
@@ -30,6 +30,7 @@ export interface State {
   saveAs: (path: string) => Promise<void>
   tableLoader: ITableLoader
   toggleErrorMode: () => Promise<void>
+  error?: IError
 
   // Legacy
 
