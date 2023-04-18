@@ -12,9 +12,12 @@ export interface TableProps {
   report?: IReport
   height?: string
   onChange?: (rowNumber: number, fieldName: string, value: any) => void
+  // Currently used only to rerender
+  mode?: 'errors'
 }
 
 export default function Table(props: TableProps) {
+  console.log(props)
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

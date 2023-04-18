@@ -15,6 +15,8 @@ interface State {
   editing?: boolean
   gridRef?: any
   updateState: (patch: Partial<State>) => void
+  // Currently used only to rerender
+  mode?: 'errors'
 }
 
 export function makeStore(props: TableProps) {

@@ -5,6 +5,7 @@ import { useStore } from './store'
 import * as settings from './settings'
 
 export default function Datagrid() {
+  const mode = useStore((store) => store.mode)
   const loader = useStore((store) => store.loader)
   const columns = useStore((store) => store.columns)
   const editing = useStore((store) => store.editing)
@@ -76,6 +77,7 @@ export default function Datagrid() {
   // TODO: recover editing "editable={!!onChange}"
   return (
     <InovuaDatagrid
+      key={mode}
       pagination={true}
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
       idProperty="_rowNumber"
