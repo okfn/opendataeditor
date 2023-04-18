@@ -23,7 +23,8 @@ export class Client {
 
   // Chart
 
-  async chartCreate(props: { path?: string } = {}) {
+  // TODO: provide proper type for chart
+  async chartCreate(props: { path?: string; chart?: any } = {}) {
     const result = await this.request('/chart/create', props)
     return result as { path: string }
   }

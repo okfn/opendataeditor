@@ -212,14 +212,37 @@ export function makeStore(props: ApplicationProps) {
       const { path } = await client.packageCreate()
       onCreate(path)
     },
+    // TODO: rewrite this method
     createChart: async () => {
       const { file, client, onDraft } = get()
       let path
+      let chart
       if (file?.type === 'table') {
         const resource = file.record!.resource
         path = `${resource.name}.chart.json`
+        chart = {
+          data: { url: file.path },
+          mark: 'bar',
+          encoding: {},
+          width: 600,
+          height: 200,
+        }
+        const { items } = await client.fieldList()
+        for (const field of items) {
+          if (field.tablePath !== file.path) continue
+          if (field.type === 'string') {
+            // @ts-ignore
+            chart.encoding.x = { field: field.name, type: 'nominal' }
+          }
+          if (['integer', 'number'].includes(field.type)) {
+            // @ts-ignore
+            chart.encoding.y = { field: field.name, type: 'quantitative' }
+          }
+          // @ts-ignore
+          if (chart.encoding.x && chart.encoding.y) break
+        }
       }
-      const result = await client.chartCreate({ path })
+      const result = await client.chartCreate({ path, chart })
       onDraft(result.path)
     },
     createView: async () => {
