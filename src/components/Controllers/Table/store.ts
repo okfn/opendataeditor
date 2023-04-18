@@ -73,9 +73,10 @@ export function makeStore(props: TableProps) {
       onSave()
       load()
     },
-    // TODO: implement
     saveAs: async (path) => {
-      const { onSaveAs } = get()
+      const { file, client, onSaveAs } = get()
+      if (!file) return
+      await client.fileCopy({ path: file.path, newPath: path })
       onSaveAs(path)
     },
     tableLoader: async ({ skip, limit, sortInfo }) => {

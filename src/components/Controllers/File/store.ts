@@ -57,9 +57,10 @@ export function makeStore(props: FileProps) {
       onSave()
       load()
     },
-    // TODO: implement using client.fileCopy
     saveAs: async (path) => {
-      const { onSaveAs } = get()
+      const { file, client, onSaveAs } = get()
+      if (!file) return
+      await client.fileCopy({ path: file.path, newPath: path })
       onSaveAs(path)
     },
   }))

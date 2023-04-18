@@ -42,7 +42,7 @@ export class Client {
 
   // File
 
-  async fileCopy(props: { path: string; folder?: string }) {
+  async fileCopy(props: { path: string; folder?: string; newPath?: string }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
