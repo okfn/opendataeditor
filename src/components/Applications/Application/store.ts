@@ -72,7 +72,7 @@ export function makeStore(props: ApplicationProps) {
     onDelete: async (path) => {
       const { select } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
-      setTimeout(() => select(undefined), 1000)
+      setTimeout(() => select(undefined), 500)
     },
     onDraft: async (path) => {
       const { select } = get()
@@ -213,9 +213,14 @@ export function makeStore(props: ApplicationProps) {
       onCreate(path)
     },
     createChart: async () => {
-      const { client, onDraft } = get()
-      const { path } = await client.chartCreate()
-      onDraft(path)
+      const { file, client, onDraft } = get()
+      let path
+      if (file?.type === 'table') {
+        const resource = file.record!.resource
+        path = `${resource.name}.chart.json`
+      }
+      const result = await client.chartCreate({ path })
+      onDraft(result.path)
     },
     createView: async () => {
       const { client, onDraft } = get()
