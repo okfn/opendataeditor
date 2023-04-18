@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import ScrollBox from '../../Parts/ScrollBox'
 import { useTheme } from '@mui/material/styles'
 import Actions from './Actions'
 import Editor from './Editor'
@@ -13,7 +14,7 @@ export default function Layout() {
   const panel = useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 48 : 0
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + panelHeight)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const load = useStore((state) => state.load)
   const path = useStore((state) => state.path)
   React.useEffect(() => {
@@ -22,11 +23,11 @@ export default function Layout() {
   return (
     <React.Fragment>
       <Dialog />
-      <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ height }}>
         <Menu />
-        <Box sx={{ height: contentHeight }}>
+        <ScrollBox height={contentHeight}>
           <Editor />
-        </Box>
+        </ScrollBox>
         <Panel />
         <Actions />
       </Box>
