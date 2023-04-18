@@ -27,6 +27,7 @@ export default function Header() {
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
                 onClick={() => select(undefined)}
+                title="Back to home"
               >
                 <strong>
                   Frictionless Application{' '}
@@ -44,11 +45,11 @@ export default function Header() {
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
-                <Button disabled title="Open Settings" color="inherit">
+                <Button disabled title="Open settings" color="inherit">
                   <SettingsIcon />
                 </Button>
                 <Button
-                  title="Report Issue"
+                  title="Report an issue"
                   color="inherit"
                   href="https://github.com/frictionlessdata/application/issues"
                   target="_blank"
@@ -56,7 +57,7 @@ export default function Header() {
                   <GithubIcon />
                 </Button>
                 <Button
-                  title="Open Documentation"
+                  title="Open documentation"
                   color="inherit"
                   href="https://application.frictionlessdata.io"
                   target="_blank"

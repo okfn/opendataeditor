@@ -9,8 +9,12 @@ export interface ValidationChipProps {
 }
 
 export default function ValidationChip(props: ValidationChipProps) {
+  let title = 'Select a file to validate'
+  if (props.errorCount !== undefined) title = 'There is no validation errors'
+  if (props.errorCount) title = 'There are validation errors'
   return (
     <Chip
+      title={title}
       label={props.errorCount ? 'ERRORS' : 'VALID'}
       color={
         props.errorCount
