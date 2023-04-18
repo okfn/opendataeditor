@@ -23,8 +23,8 @@ export class Client {
 
   // Chart
 
-  async chartCreate() {
-    const result = await this.request('/chart/create')
+  async chartCreate(props: { path?: string } = {}) {
+    const result = await this.request('/chart/create', props)
     return result as { path: string }
   }
 
@@ -135,8 +135,8 @@ export class Client {
 
   // Package
 
-  async packageCreate() {
-    const result = await this.request('/package/create')
+  async packageCreate(props: { path?: string } = {}) {
+    const result = await this.request('/package/create', props)
     return result as { path: string }
   }
 
@@ -215,8 +215,8 @@ export class Client {
 
   // View
 
-  async viewCreate() {
-    const result = await this.request('/view/create')
+  async viewCreate(props: { path?: string } = {}) {
+    const result = await this.request('/view/create', props)
     return result as { path: string }
   }
 
