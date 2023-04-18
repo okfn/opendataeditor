@@ -7,9 +7,18 @@ export default function Editor() {
   const report = useStore((state) => state.file?.record?.report)
   const tableLoader = useStore((state) => state.tableLoader)
   const updatePatch = useStore((state) => state.updatePatch)
+  const updateState = useStore((state) => state.updateState)
+  const mode = useStore((state) => state.mode)
   if (!schema) return null
   if (!report) return null
   return (
-    <Table loader={tableLoader} schema={schema} report={report} onChange={updatePatch} />
+    <Table
+      loader={tableLoader}
+      schema={schema}
+      report={report}
+      onChange={updatePatch}
+      onErrorClick={(error) => updateState({ error, dialog: 'error' })}
+      mode={mode}
+    />
   )
 }

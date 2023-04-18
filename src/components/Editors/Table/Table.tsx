@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import { IReport } from '../../../interfaces'
+import { IReport, IError } from '../../../interfaces'
 import { ISchema, ITableLoader } from '../../../interfaces'
 import * as themes from '../../../themes'
 import Layout from './Layout'
@@ -12,6 +12,9 @@ export interface TableProps {
   report?: IReport
   height?: string
   onChange?: (rowNumber: number, fieldName: string, value: any) => void
+  onErrorClick?: (error: IError) => void
+  // Currently used only to rerender
+  mode?: 'errors'
 }
 
 export default function Table(props: TableProps) {

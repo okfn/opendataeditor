@@ -2,7 +2,11 @@ import { ISchema, IReport, IError } from '../../../interfaces'
 import { IErrorIndex } from './interfaces'
 
 // TODO: use proper InovuaDatagrid types
-export function createColumns(schema: ISchema, report?: IReport) {
+export function createColumns(
+  schema: ISchema,
+  report?: IReport,
+  onErrorClick?: (error: IError) => void
+) {
   const errorIndex = createErrorIndex(report)
 
   const rowNumberColumn = {
@@ -23,6 +27,7 @@ export function createColumns(schema: ISchema, report?: IReport) {
 
   const dataColumns = []
   for (const field of schema.fields) {
+    // TODO: fix this on ther server side -- schema should not have hidden fields
     // Otherwise the _rowNumber and _rowValid are displayed on the table
     if (field.name === '_rowNumber' || field.name === '_rowValid') continue
     dataColumns.push({
@@ -50,7 +55,6 @@ export function createColumns(schema: ISchema, report?: IReport) {
         return value
       },
       // TODO: support the same for header/label errors
-      // TODO: rebase alert to dialoge window or right panel
       cellDOMProps: (context: any) => {
         const { data, name } = context
         let error: IError | null = null
@@ -60,8 +64,10 @@ export function createColumns(schema: ISchema, report?: IReport) {
         if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
         if (error) {
           return {
+            style: { cursor: 'pointer' },
             onClick: () => {
-              alert(error!.message)
+              // @ts-ignore
+              if (onErrorClick) onErrorClick(error)
             },
           }
         }

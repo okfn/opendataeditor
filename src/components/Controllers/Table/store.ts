@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITablePatch, IResource, ITableLoader } from '../../../interfaces'
+import { IFile, ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -15,8 +15,9 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
+  mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs'
+  dialog?: 'saveAs' | 'error'
   file?: IFile
   source?: string
   rowCount?: number
@@ -28,6 +29,8 @@ export interface State {
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
   tableLoader: ITableLoader
+  toggleErrorMode: () => Promise<void>
+  error?: IError
 
   // Legacy
 
@@ -68,7 +71,6 @@ export function makeStore(props: TableProps) {
       let reindex = false
       if (!isEqual(resource.dialect, file!.record!.resource.dialect)) reindex = true
       if (!isEqual(resource.schema, file!.record!.resource.schema)) reindex = true
-      console.log(reindex)
       await client.fileUpdate({ path: file.path, resource, reindex })
       onSave()
       load()
@@ -80,14 +82,29 @@ export function makeStore(props: TableProps) {
       onSaveAs(path)
     },
     tableLoader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount } = get()
-      const offset = skip
-      const order = sortInfo?.name
-      const desc = sortInfo?.dir === -1
-      const { table } = await client.tableRead({ path, limit, offset, order, desc })
+      const { path, client, rowCount, mode } = get()
+      const { table } = await client.tableRead({
+        path,
+        valid: mode === 'errors' ? false : undefined,
+        limit,
+        offset: skip,
+        order: sortInfo?.name,
+        desc: sortInfo?.dir === -1,
+      })
       return {
         data: table!.rows,
         count: rowCount || 0,
+      }
+    },
+    toggleErrorMode: async () => {
+      const { client, mode, file } = get()
+      if (!file) return
+      if (mode === 'errors') {
+        const { count } = await client.tableCount({ path: file.path })
+        set({ mode: undefined, rowCount: count })
+      } else {
+        const { count } = await client.tableCount({ path: file.path, valid: false })
+        set({ mode: 'errors', rowCount: count })
       }
     },
 
