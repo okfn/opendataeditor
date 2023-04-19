@@ -10,7 +10,6 @@ import EditorSearch from '../../../Parts/Editor/Search'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
 import SelectField from '../../../Parts/Fields/Select'
-import ValuesField from '../../../Parts/Fields/Values'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import DescriptorField from '../../../Parts/Fields/Descriptor'
 import * as settings from '../../../../settings'
@@ -295,12 +294,13 @@ function TrueValues() {
   const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <ValuesField
-      type="true"
-      values={trueValues || []}
-      options={settings.TRUE_VALUES}
+    <InputField
+      label="True Values"
+      value={(trueValues || []).join(',')}
       onFocus={() => updateHelp('fields/trueValues')}
-      onChange={(value) => updateField({ trueValues: value || undefined })}
+      onChange={(value) =>
+        updateField({ trueValues: value ? value.split(',') : undefined })
+      }
     />
   )
 }
@@ -310,12 +310,13 @@ function FalseValues() {
   const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <ValuesField
-      type="false"
-      values={falseValues || []}
-      options={settings.FALSE_VALUES}
+    <InputField
+      label="False Values"
+      value={(falseValues || []).join(',')}
       onFocus={() => updateHelp('fields/falseValues')}
-      onChange={(value) => updateField({ falseValues: value || undefined })}
+      onChange={(value) =>
+        updateField({ falseValues: value ? value.split(',') : undefined })
+      }
     />
   )
 }
