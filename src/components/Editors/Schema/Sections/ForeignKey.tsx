@@ -90,7 +90,6 @@ function SourceField() {
 }
 
 function TargetField() {
-  const fieldNames = useStore(selectors.fieldNames)
   const reference = useStore(
     select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
@@ -99,7 +98,7 @@ function TargetField() {
     <SelectField
       label="Target Field"
       value={reference.fields[0]}
-      options={fieldNames}
+      options={reference.fields}
       onChange={(name) =>
         updateForeignKey({ reference: { ...reference, fields: [name] } })
       }
