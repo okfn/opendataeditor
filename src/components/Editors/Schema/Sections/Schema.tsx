@@ -6,6 +6,7 @@ import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../../Parts/Editor/Section'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
+import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -13,6 +14,7 @@ export default function General() {
     <EditorSection name="Schema" onHeadingClick={() => updateHelp('schema')}>
       <Columns spacing={3}>
         <Box>
+          <Name />
           <Title />
           <Description />
         </Box>
@@ -22,6 +24,29 @@ export default function General() {
         </Box>
       </Columns>
     </EditorSection>
+  )
+}
+
+function Name() {
+  const name = useStore((state) => state.descriptor.name || 'name')
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const [isValid, setIsValid] = React.useState(isValidName())
+  function isValidName() {
+    return validator.isSlug(name)
+  }
+  return (
+    <InputField
+      error={!isValid}
+      label="Name"
+      value={name}
+      onFocus={() => updateHelp('package/name')}
+      onBlur={() => {
+        setIsValid(isValidName())
+      }}
+      onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      helperText={!isValid ? 'Name is not valid.' : ''}
+    />
   )
 }
 
