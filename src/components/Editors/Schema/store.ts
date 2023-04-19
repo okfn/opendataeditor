@@ -99,8 +99,7 @@ export function makeStore(props: SchemaProps) {
     addField: () => {
       const { descriptor, updateDescriptor } = get()
       const fields = [...descriptor.fields]
-      // TODO: deduplicate
-      const name = `field${fields.length}`
+      const name = helpers.generateTitle(fields, 'field')
       fields.push({ name, type: 'string' })
       updateDescriptor({ fields })
     },

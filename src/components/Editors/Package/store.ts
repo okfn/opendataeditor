@@ -116,8 +116,7 @@ export function makeStore(props: PackageProps) {
       const { descriptor, updateDescriptor, onAddResource } = get()
       if (onAddResource) return onAddResource()
       const resources = [...(descriptor.resources || [])]
-      // TODO: deduplicate
-      const name = `resource${resources.length}`
+      const name = helpers.generateTitle(resources, 'resource')
       resources.push({
         name,
         type: 'table',
