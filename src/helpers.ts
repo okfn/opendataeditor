@@ -104,7 +104,7 @@ export function getFolderList(file: File) {
   return folderList
 }
 
-export function genTitle(items: any[], suffix: string = '') {
+export function generateTitle(items: any[], suffix: string = '') {
   let i = 0
   let exists = true
   let title: string
