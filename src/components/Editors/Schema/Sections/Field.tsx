@@ -1,6 +1,7 @@
 import * as React from 'react'
 import partition from 'lodash/partition'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import Columns from '../../../Parts/Columns'
 import EditorItem from '../../../Parts/Editor/Item'
 import EditorList from '../../../Parts/Editor/List'
@@ -17,6 +18,7 @@ import { useStore, selectors, select } from '../store'
 import DatePickerField from '../../../Parts/Fields/DatePicker'
 import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import TimePickerField from '../../../Parts/Fields/TimePicker'
+import ScrollBox from '../../../Parts/ScrollBox'
 import validator from 'validator'
 import dayjs from 'dayjs'
 
@@ -26,6 +28,8 @@ export default function Field() {
 }
 
 function FieldList() {
+  const theme = useTheme()
+  const height = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   const isGrid = useStore((state) => state.fieldState.isGrid)
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
@@ -46,17 +50,19 @@ function FieldList() {
         />
       }
     >
-      {fieldItems.map(({ index, field }) => (
-        <EditorListItem
-          key={index}
-          kind="field"
-          name={field.name}
-          type={field.type}
-          isGrid={isGrid}
-          onClick={() => updateFieldState({ index })}
-          onRemoveClick={() => removeField(index)}
-        />
-      ))}
+      <ScrollBox sx={{ height }}>
+        {fieldItems.map(({ index, field }) => (
+          <EditorListItem
+            key={index}
+            kind="field"
+            name={field.name}
+            type={field.type}
+            isGrid={isGrid}
+            onClick={() => updateFieldState({ index })}
+            onRemoveClick={() => removeField(index)}
+          />
+        ))}
+      </ScrollBox>
     </EditorList>
   )
 }
