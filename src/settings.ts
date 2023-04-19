@@ -41,6 +41,9 @@ export const DEFAULT_SELECTOR = 'table'
 export const DEFAULT_KEYED = false
 export const DEFUALT_BUTTON_VARIANT = 'outlined'
 export const DEFUALT_PRIMARY_BUTTON_VARIANT = 'contained'
+export const DEFUALT_DATE_FORMAT = 'DD/MM/YYYY'
+export const DEFUALT_DATETIME_FORMAT = 'DD/MM/YYYYTHH:mm:ss'
+export const DEFUALT_TIME_FORMAT = 'HH:mm:ss'
 
 // Initials
 

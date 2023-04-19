@@ -4,27 +4,27 @@ import 'dayjs/locale/en'
 import TextField from '@mui/material/TextField'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
+import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import noop from 'lodash/noop'
 
-interface DatePickerProps {
+interface DateTimePickerProps {
   label: string
-  name?: string
   value?: Dayjs | null
+  name?: string
   errorMessage?: string
   onChange: (value: any) => void
   onFocus?: (event: any) => void
 }
-const DatePicker: React.FC<DatePickerProps> = (props: DatePickerProps) => {
+const DateTimePicker: React.FC<DateTimePickerProps> = (props: DateTimePickerProps) => {
   const [value, setValue] = React.useState<Dayjs | null>(props.value ?? null)
-  const [isValid, setIsValid] = React.useState(isValidDate())
+  const [isValid, setIsValid] = React.useState(isValidDateTime())
   const onFocus = props.onFocus || noop
-  function isValidDate() {
+  function isValidDateTime() {
     return value ? value.isValid() : true
   }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'en'}>
-      <MuiDatePicker
+      <MuiDateTimePicker
         label={props.label}
         value={value}
         onChange={(newValue) => {
@@ -40,14 +40,14 @@ const DatePicker: React.FC<DatePickerProps> = (props: DatePickerProps) => {
             size="small"
             onFocus={onFocus}
             onBlur={() => {
-              setIsValid(isValidDate())
+              setIsValid(isValidDateTime())
             }}
             fullWidth
-            helperText={value && !value.isValid() ? props?.errorMessage : undefined}
+            helperText={!isValid ? props?.errorMessage : undefined}
           />
         )}
       />
     </LocalizationProvider>
   )
 }
-export default DatePicker
+export default DateTimePicker

@@ -14,6 +14,11 @@ import MultilineField from '../../../Parts/Fields/Multiline'
 import DescriptorField from '../../../Parts/Fields/Descriptor'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
+import DatePickerField from '../../../Parts/Fields/DatePicker'
+import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
+import TimePickerField from '../../../Parts/Fields/TimePicker'
+import validator from 'validator'
+import dayjs from 'dayjs'
 
 export default function Field() {
   const index = useStore((state) => state.fieldState.index)
@@ -425,35 +430,223 @@ function Required() {
 }
 
 function Minimum() {
+  const type = useStore(select(selectors.field, (field) => field.type))
+  switch (type) {
+    case 'date':
+      return <MinimumDate />
+    case 'datetime':
+      return <MinimumDateTime />
+    case 'time':
+      return <MinimumTime />
+    default:
+      return <MinimumNumber />
+  }
+}
+
+function Maximum() {
+  const type = useStore(select(selectors.field, (field) => field.type))
+  switch (type) {
+    case 'date':
+      return <MaximumDate />
+    case 'datetime':
+      return <MaximumDateTime />
+    case 'time':
+      return <MaximumTime />
+    default:
+      return <MaximumNumber />
+  }
+}
+
+function MinimumDate() {
+  const field = useStore(selectors.field)
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATE_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
   return (
-    <InputField
-      type="number"
+    <DatePickerField
       label="Minimum"
-      value={constraints?.minimum || ''}
-      onFocus={() => updateHelp('fields/minimum')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
-      }
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, minimum: value.format(format) } })
+      }}
+      errorMessage={'Minimum value is not valid'}
     />
   )
 }
 
-function Maximum() {
+function MaximumDate() {
+  const field = useStore(selectors.field)
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATE_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <DatePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, maximum: value.format(format) } })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumDateTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATETIME_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
+  return (
+    <DateTimePickerField
+      label="Minimum"
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, minimum: value.format(format) } })
+      }}
+      errorMessage={'Minimum value is not valid'}
+    />
+  )
+}
+
+function MaximumDateTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATETIME_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <DateTimePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, maximum: value.format(format) } })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_TIME_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
+  return (
+    <TimePickerField
+      label="Minimum"
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({
+          constraints: {
+            ...constraints,
+            minimum: value.format(format),
+          },
+        })
+      }}
+      errorMessage={'Minimum value is not valid'}
+    />
+  )
+}
+
+function MaximumTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_TIME_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <TimePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({
+          constraints: {
+            ...constraints,
+            maximum: value.format(format),
+          },
+        })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const [isValid, setIsValid] = React.useState(isValidMinimumNumber())
+  function isValidMinimumNumber() {
+    if (!constraints) return true
+    return constraints.minimum
+      ? validator.isNumeric(constraints.minimum.toString())
+      : true
+  }
   return (
     <InputField
+      error={!isValid}
+      type="number"
+      label="Minimum"
+      value={constraints?.minimum || ''}
+      onFocus={() => updateHelp('fields/minimum')}
+      onBlur={() => {
+        setIsValid(isValidMinimumNumber())
+      }}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
+      }
+      helperText={!isValid ? 'Minimum value is not valid.' : ''}
+    />
+  )
+}
+
+function MaximumNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const [isValid, setIsValid] = React.useState(isValidMaximumNumber())
+  function isValidMaximumNumber() {
+    if (!constraints) return true
+    return constraints.maximum
+      ? validator.isNumeric(constraints.maximum.toString())
+      : true
+  }
+  return (
+    <InputField
+      error={!isValid}
       type="number"
       label="Maximum"
       value={constraints?.maximum || ''}
       onFocus={() => updateHelp('fields/maximum')}
+      onBlur={() => {
+        setIsValid(isValidMaximumNumber())
+      }}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
       }
+      helperText={!isValid ? 'Maximum value is not valid.' : ''}
     />
   )
 }
