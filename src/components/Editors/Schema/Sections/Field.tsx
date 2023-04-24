@@ -1,6 +1,7 @@
 import * as React from 'react'
 import partition from 'lodash/partition'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import Columns from '../../../Parts/Columns'
 import EditorItem from '../../../Parts/Editor/Item'
 import EditorList from '../../../Parts/Editor/List'
@@ -9,11 +10,16 @@ import EditorSearch from '../../../Parts/Editor/Search'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
 import SelectField from '../../../Parts/Fields/Select'
-import ValuesField from '../../../Parts/Fields/Values'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import DescriptorField from '../../../Parts/Fields/Descriptor'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
+import DatePickerField from '../../../Parts/Fields/DatePicker'
+import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
+import TimePickerField from '../../../Parts/Fields/TimePicker'
+import ScrollBox from '../../../Parts/ScrollBox'
+import validator from 'validator'
+import dayjs from 'dayjs'
 
 export default function Field() {
   const index = useStore((state) => state.fieldState.index)
@@ -21,6 +27,8 @@ export default function Field() {
 }
 
 function FieldList() {
+  const theme = useTheme()
+  const height = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   const isGrid = useStore((state) => state.fieldState.isGrid)
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
@@ -41,17 +49,19 @@ function FieldList() {
         />
       }
     >
-      {fieldItems.map(({ index, field }) => (
-        <EditorListItem
-          key={index}
-          kind="field"
-          name={field.name}
-          type={field.type}
-          isGrid={isGrid}
-          onClick={() => updateFieldState({ index })}
-          onRemoveClick={() => removeField(index)}
-        />
-      ))}
+      <ScrollBox sx={{ height }}>
+        {fieldItems.map(({ index, field }) => (
+          <EditorListItem
+            key={index}
+            kind="field"
+            name={field.name}
+            type={field.type}
+            isGrid={isGrid}
+            onClick={() => updateFieldState({ index })}
+            onRemoveClick={() => removeField(index)}
+          />
+        ))}
+      </ScrollBox>
     </EditorList>
   )
 }
@@ -111,12 +121,14 @@ function Name() {
 
 function Type() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const type = useStore(select(selectors.field, (field) => field.type))
   return (
     <SelectField
       label="Type"
       value={type}
       options={Object.keys(settings.FIELDS)}
+      onFocus={() => updateHelp('fields/type')}
       onChange={(value) => updateField({ type: value })}
     />
   )
@@ -126,6 +138,7 @@ function Format() {
   const updateField = useStore((state) => state.updateField)
   const format = useStore(select(selectors.field, (field) => field.format))
   const type = useStore(select(selectors.field, (field) => field.type))
+  const updateHelp = useStore((state) => state.updateHelp)
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
@@ -133,6 +146,7 @@ function Format() {
     <InputField
       label="Format"
       value={format || ''}
+      onFocus={() => updateHelp('fields/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   ) : (
@@ -140,6 +154,7 @@ function Format() {
       label="Format"
       value={format || ''}
       options={FIELD.formats}
+      onFocus={() => updateHelp('fields/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   )
@@ -147,11 +162,13 @@ function Format() {
 
 function Title() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const title = useStore(select(selectors.field, (field) => field.title))
   return (
     <InputField
       label="Title"
       value={title || ''}
+      onFocus={() => updateHelp('fields/title')}
       onChange={(value) => updateField({ title: value || undefined })}
     />
   )
@@ -159,11 +176,13 @@ function Title() {
 
 function Description() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const descriptor = useStore(select(selectors.field, (field) => field.description))
   return (
     <MultilineField
       label="Description"
       value={descriptor || ''}
+      onFocus={() => updateHelp('fields/description')}
       onChange={(value) => updateField({ description: value || undefined })}
     />
   )
@@ -171,11 +190,13 @@ function Description() {
 
 function MissingValues() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
   return (
     <InputField
       label="Missing Values"
       value={(missingValues || []).join(',')}
+      onFocus={() => updateHelp('fields/missingValues')}
       onChange={(value) =>
         updateField({ missingValues: value ? value.split(',') : undefined })
       }
@@ -185,11 +206,13 @@ function MissingValues() {
 
 function RdfType() {
   const updateField = useStore((state) => state.updateField)
+  const updateHelp = useStore((state) => state.updateHelp)
   const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
   return (
     <InputField
       label="RDF Type"
       value={rdfType || ''}
+      onFocus={() => updateHelp('fields/rdfType')}
       onChange={(value) => updateField({ rdfType: value || undefined })}
     />
   )
@@ -254,11 +277,13 @@ function NumberSpecific() {
 function ArrayItem() {
   const updateField = useStore((state) => state.updateField)
   const arrayItem = useStore(select(selectors.field, (field) => field.arrayItem))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <DescriptorField
       type="yaml"
       label="Array Item"
       value={arrayItem}
+      onFocus={() => updateHelp('fields/arrayItem')}
       onChange={(value) => updateField({ arrayItem: value || undefined })}
     />
   )
@@ -267,12 +292,15 @@ function ArrayItem() {
 function TrueValues() {
   const updateField = useStore((state) => state.updateField)
   const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <ValuesField
-      type="true"
-      values={trueValues || []}
-      options={settings.TRUE_VALUES}
-      onChange={(value) => updateField({ trueValues: value || undefined })}
+    <InputField
+      label="True Values"
+      value={(trueValues || []).join(',')}
+      onFocus={() => updateHelp('fields/trueValues')}
+      onChange={(value) =>
+        updateField({ trueValues: value ? value.split(',') : undefined })
+      }
     />
   )
 }
@@ -280,12 +308,15 @@ function TrueValues() {
 function FalseValues() {
   const updateField = useStore((state) => state.updateField)
   const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <ValuesField
-      type="false"
-      values={falseValues || []}
-      options={settings.FALSE_VALUES}
-      onChange={(value) => updateField({ falseValues: value || undefined })}
+    <InputField
+      label="False Values"
+      value={(falseValues || []).join(',')}
+      onFocus={() => updateHelp('fields/falseValues')}
+      onChange={(value) =>
+        updateField({ falseValues: value ? value.split(',') : undefined })
+      }
     />
   )
 }
@@ -293,10 +324,12 @@ function FalseValues() {
 function BareNumber() {
   const updateField = useStore((state) => state.updateField)
   const bareNumber = useStore(select(selectors.field, (field) => field.bareNumber))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Bare Number"
       value={bareNumber || settings.DEFAULT_BARE_NUMBER}
+      onFocus={() => updateHelp('fields/bareNumber')}
       onChange={(value) =>
         updateField({ bareNumber: value === false ? value : undefined })
       }
@@ -307,10 +340,12 @@ function BareNumber() {
 function FloatNumber() {
   const updateField = useStore((state) => state.updateField)
   const floatNumber = useStore(select(selectors.field, (field) => field.floatNumber))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Float Number"
       value={floatNumber || false}
+      onFocus={() => updateHelp('fields/floatNumber')}
       onChange={(value) => updateField({ floatNumber: value || undefined })}
     />
   )
@@ -319,9 +354,11 @@ function FloatNumber() {
 function DecimalChar() {
   const updateField = useStore((state) => state.updateField)
   const decimalChar = useStore(select(selectors.field, (field) => field.decimalChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       label="Decimal Char"
+      onFocus={() => updateHelp('fields/decimalChar')}
       value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
       onChange={(value) => updateField({ decimalChar: value || undefined })}
     />
@@ -331,9 +368,11 @@ function DecimalChar() {
 function GroupChar() {
   const updateField = useStore((state) => state.updateField)
   const groupChar = useStore(select(selectors.field, (field) => field.groupChar))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       label="Group Char"
+      onFocus={() => updateHelp('fields/groupChar')}
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
       onChange={(value) => updateField({ groupChar: value || undefined })}
     />
@@ -386,9 +425,11 @@ function Constraint(props: { type: string }) {
 function Required() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
       label="Required"
+      onFocus={() => updateHelp('fields/required')}
       value={constraints?.required || false}
       onChange={(required) => updateField({ constraints: { ...constraints, required } })}
     />
@@ -396,31 +437,223 @@ function Required() {
 }
 
 function Minimum() {
+  const type = useStore(select(selectors.field, (field) => field.type))
+  switch (type) {
+    case 'date':
+      return <MinimumDate />
+    case 'datetime':
+      return <MinimumDateTime />
+    case 'time':
+      return <MinimumTime />
+    default:
+      return <MinimumNumber />
+  }
+}
+
+function Maximum() {
+  const type = useStore(select(selectors.field, (field) => field.type))
+  switch (type) {
+    case 'date':
+      return <MaximumDate />
+    case 'datetime':
+      return <MaximumDateTime />
+    case 'time':
+      return <MaximumTime />
+    default:
+      return <MaximumNumber />
+  }
+}
+
+function MinimumDate() {
+  const field = useStore(selectors.field)
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATE_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
   return (
-    <InputField
-      type="number"
+    <DatePickerField
       label="Minimum"
-      value={constraints?.minimum || ''}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
-      }
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, minimum: value.format(format) } })
+      }}
+      errorMessage={'Minimum value is not valid'}
     />
   )
 }
 
-function Maximum() {
+function MaximumDate() {
+  const field = useStore(selectors.field)
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATE_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <DatePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, maximum: value.format(format) } })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumDateTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATETIME_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
+  return (
+    <DateTimePickerField
+      label="Minimum"
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, minimum: value.format(format) } })
+      }}
+      errorMessage={'Minimum value is not valid'}
+    />
+  )
+}
+
+function MaximumDateTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_DATETIME_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <DateTimePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({ constraints: { ...constraints, maximum: value.format(format) } })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_TIME_FORMAT
+  const value = constraints ? dayjs(constraints.minimum, format) : null
+  return (
+    <TimePickerField
+      label="Minimum"
+      value={value}
+      onFocus={() => updateHelp('package/minimum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({
+          constraints: {
+            ...constraints,
+            minimum: value.format(format),
+          },
+        })
+      }}
+      errorMessage={'Minimum value is not valid'}
+    />
+  )
+}
+
+function MaximumTime() {
+  const field = useStore(selectors.field)
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const format = field.format || settings.DEFUALT_TIME_FORMAT
+  const value = constraints ? dayjs(constraints.maximum, format) : null
+  return (
+    <TimePickerField
+      label="Maximum"
+      value={value}
+      onFocus={() => updateHelp('package/maximum')}
+      onChange={(value) => {
+        if (!value) return
+        updateField({
+          constraints: {
+            ...constraints,
+            maximum: value.format(format),
+          },
+        })
+      }}
+      errorMessage={'Maximum value is not valid'}
+    />
+  )
+}
+
+function MinimumNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const [isValid, setIsValid] = React.useState(isValidMinimumNumber())
+  function isValidMinimumNumber() {
+    if (!constraints) return true
+    return constraints.minimum
+      ? validator.isNumeric(constraints.minimum.toString())
+      : true
+  }
   return (
     <InputField
+      error={!isValid}
+      type="number"
+      label="Minimum"
+      value={constraints?.minimum || ''}
+      onFocus={() => updateHelp('fields/minimum')}
+      onBlur={() => {
+        setIsValid(isValidMinimumNumber())
+      }}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
+      }
+      helperText={!isValid ? 'Minimum value is not valid.' : ''}
+    />
+  )
+}
+
+function MaximumNumber() {
+  const updateField = useStore((state) => state.updateField)
+  const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const [isValid, setIsValid] = React.useState(isValidMaximumNumber())
+  function isValidMaximumNumber() {
+    if (!constraints) return true
+    return constraints.maximum
+      ? validator.isNumeric(constraints.maximum.toString())
+      : true
+  }
+  return (
+    <InputField
+      error={!isValid}
       type="number"
       label="Maximum"
       value={constraints?.maximum || ''}
+      onFocus={() => updateHelp('fields/maximum')}
+      onBlur={() => {
+        setIsValid(isValidMaximumNumber())
+      }}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
       }
+      helperText={!isValid ? 'Maximum value is not valid.' : ''}
     />
   )
 }
@@ -428,11 +661,13 @@ function Maximum() {
 function MinLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Min Length"
       value={constraints?.minLength || ''}
+      onFocus={() => updateHelp('fields/minLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
       }
@@ -443,11 +678,13 @@ function MinLength() {
 function MaxLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="number"
       label="Max Length"
       value={constraints?.maxLength || ''}
+      onFocus={() => updateHelp('fields/maxLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
       }
@@ -458,11 +695,13 @@ function MaxLength() {
 function Pattern() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="string"
       label="Pattern"
       value={constraints?.pattern || ''}
+      onFocus={() => updateHelp('fields/pattern')}
       onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
     />
   )
@@ -471,11 +710,13 @@ function Pattern() {
 function Enum() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
       type="string"
       label="Enum"
       value={(constraints?.enum || []).join(',')}
+      onFocus={() => updateHelp('fields/enum')}
       onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )

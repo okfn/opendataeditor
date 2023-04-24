@@ -31,7 +31,7 @@ export default function Package() {
 }
 
 function Name() {
-  const name = useStore((state) => state.descriptor.name)
+  const name = useStore((state) => state.descriptor.name || 'name')
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidName())
@@ -48,6 +48,7 @@ function Name() {
         setIsValid(isValidName())
       }}
       onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )
 }

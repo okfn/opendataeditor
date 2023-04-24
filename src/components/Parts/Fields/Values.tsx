@@ -1,4 +1,5 @@
 import * as React from 'react'
+import noop from 'lodash/noop'
 import capitalize from 'lodash/capitalize'
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
@@ -11,9 +12,11 @@ interface ValuesFieldProps {
   options: string[]
   size?: 'small' | 'medium'
   onChange: (value: string[]) => void
+  onFocus?: () => void
 }
 
 export default function ValuesField(props: ValuesFieldProps) {
+  const onFocus = props.onFocus || noop
   return (
     <TextField
       select
@@ -23,6 +26,7 @@ export default function ValuesField(props: ValuesFieldProps) {
       label={`${capitalize(props.type)} Values`}
       value={encodeValues(props.values)}
       onChange={(ev) => props.onChange(decodeValues((ev.target as any).value))}
+      onFocus={onFocus}
       SelectProps={{ multiple: true }}
     >
       {props.options.map((option) => (

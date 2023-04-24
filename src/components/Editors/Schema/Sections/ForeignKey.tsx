@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import Columns from '../../../Parts/Columns'
 import InputField from '../../../Parts/Fields/Input'
 import SelectField from '../../../Parts/Fields/Select'
@@ -8,6 +9,7 @@ import EditorList from '../../../Parts/Editor/List'
 import EditorListItem from '../../../Parts/Editor/ListItem'
 import EditorSearch from '../../../Parts/Editor/Search'
 import { useStore, selectors, select } from '../store'
+import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
@@ -15,6 +17,8 @@ export default function ForeignKey() {
 }
 
 function ForeignKeyList() {
+  const theme = useTheme()
+  const height = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   const isGrid = useStore((state) => state.foreignKeyState.isGrid)
   const query = useStore((state) => state.foreignKeyState.query)
   const foreignKeyItems = useStore(selectors.foreignKeyItems)
@@ -35,17 +39,19 @@ function ForeignKeyList() {
         />
       }
     >
-      {foreignKeyItems.map(({ index, foreignKey }) => (
-        <EditorListItem
-          key={index}
-          kind="foreign key"
-          name={foreignKey.fields.join(',')}
-          type="fk"
-          isGrid={isGrid}
-          onClick={() => updateForeignKeyState({ index })}
-          onRemoveClick={() => removeForeignKey(index)}
-        />
-      ))}
+      <ScrollBox sx={{ height }}>
+        {foreignKeyItems.map(({ index, foreignKey }) => (
+          <EditorListItem
+            key={index}
+            kind="foreign key"
+            name={foreignKey.fields.join(',')}
+            type="fk"
+            isGrid={isGrid}
+            onClick={() => updateForeignKeyState({ index })}
+            onRemoveClick={() => removeForeignKey(index)}
+          />
+        ))}
+      </ScrollBox>
     </EditorList>
   )
 }
@@ -90,7 +96,6 @@ function SourceField() {
 }
 
 function TargetField() {
-  const fieldNames = useStore(selectors.fieldNames)
   const reference = useStore(
     select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
@@ -99,7 +104,7 @@ function TargetField() {
     <SelectField
       label="Target Field"
       value={reference.fields[0]}
-      options={fieldNames}
+      options={reference.fields}
       onChange={(name) =>
         updateForeignKey({ reference: { ...reference, fields: [name] } })
       }
