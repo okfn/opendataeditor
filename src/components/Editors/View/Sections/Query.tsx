@@ -25,7 +25,7 @@ export default function Query() {
 function QueryEditor() {
   const theme = useTheme()
   const query = useStore((state) => state.descriptor.query)
-  const editor = useStore((state) => state.editor)
+  const editorRef = useStore((state) => state.editorRef)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MonacoEditor
@@ -35,8 +35,8 @@ function QueryEditor() {
       onChange={(text) => updateDescriptor({ query: text })}
       onMount={(ref) => {
         // @ts-ignore
-        editor.current = ref
-        editor.current.focus()
+        editorRef.current = ref
+        editorRef.current.focus()
       }}
     />
   )
@@ -47,7 +47,7 @@ function QueryFields() {
   // TODO: currently, we make it controlled just because it fixes field selection background color
   const [selected, setSelected] = React.useState<string>()
   const fieldTree = useStore(selectors.fieldTree)
-  const editor = useStore((state) => state.editor)
+  const editorRef = useStore((state) => state.editorRef)
   const searchTerm = useStore((state) => state.searchTerm)
   const updateState = useStore((state) => state.updateState)
   if (!fieldTree) return null
@@ -68,9 +68,9 @@ function QueryFields() {
           selected={selected}
           onPathChange={setSelected}
           onPathDoubleClick={(path) => {
-            if (editor.current) {
-              editor.current.trigger('keyboard', 'type', { text: `"${path}"` })
-              editor.current.focus()
+            if (editorRef.current) {
+              editorRef.current.trigger('keyboard', 'type', { text: `"${path}"` })
+              editorRef.current.focus()
             }
           }}
         />

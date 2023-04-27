@@ -13,8 +13,8 @@ export interface ViewProps {
 }
 
 export default function View(props: ViewProps) {
-  const editor = React.useMemo(() => React.createRef<IMonacoEditor>(), [])
-  const store = React.useMemo(() => makeStore(props, editor), Object.values(props))
+  const editorRef = React.useMemo(() => React.createRef<IMonacoEditor>(), [])
+  const store = React.useMemo(() => makeStore(props, editorRef), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <StoreProvider value={store}>

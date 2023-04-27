@@ -17,7 +17,7 @@ export default function Editor() {
 
 function Source() {
   const modified = useStore((state) => state.modified)
-  const editor = useStore((state) => state.editor)
+  const editorRef = useStore((state) => state.editorRef)
   const language = useStore(selectors.language)
   const updateState = useStore((state) => state.updateState)
   if (modified === undefined) return null
@@ -29,7 +29,7 @@ function Source() {
         onChange={(text) => updateState({ modified: text })}
         onMount={(ref) => {
           // @ts-ignore
-          editor.current = ref
+          editorRef.current = ref
         }}
       />
     </Box>

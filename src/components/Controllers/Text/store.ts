@@ -27,7 +27,7 @@ export interface State {
   original?: string
   modified?: string
   rendered?: string
-  editor: React.RefObject<IMonacoEditor>
+  editorRef: React.RefObject<IMonacoEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   revert: () => void
@@ -51,7 +51,7 @@ export function makeStore(props: TextProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    editor: React.createRef<IMonacoEditor>(),
+    editorRef: React.createRef<IMonacoEditor>(),
     updateState: (patch) => {
       const { render } = get()
       set(patch)
@@ -101,34 +101,34 @@ export function makeStore(props: TextProps) {
     // Text
 
     clear: () => {
-      const { editor } = get()
-      if (!editor.current) return
-      editor.current.setValue('')
+      const { editorRef } = get()
+      if (!editorRef.current) return
+      editorRef.current.setValue('')
     },
 
     // Json
 
     fix: () => {
-      const { editor } = get()
-      if (!editor.current) return
-      const value = editor.current.getValue()
+      const { editorRef } = get()
+      if (!editorRef.current) return
+      const value = editorRef.current.getValue()
       const fixedValue = value && dirtyJson.parse(value)
       const formattedValue =
         fixedValue && helpers.prettifyJsonString(JSON.stringify(fixedValue))
-      editor.current.setValue(formattedValue)
+      editorRef.current.setValue(formattedValue)
     },
     minify: () => {
-      const { editor } = get()
-      if (!editor.current) return
-      const value = editor.current.getValue()
+      const { editorRef } = get()
+      if (!editorRef.current) return
+      const value = editorRef.current.getValue()
       if (!value) return
       const minifiedValue = helpers.minifyJsonString(value)
-      editor.current.setValue(minifiedValue)
+      editorRef.current.setValue(minifiedValue)
     },
     prettify: () => {
-      const { editor } = get()
-      if (!editor.current) return
-      const action = editor.current.getAction('editor.action.formatDocument')
+      const { editorRef } = get()
+      if (!editorRef.current) return
+      const action = editorRef.current.getAction('editor.action.formatDocument')
       if (!action) return
       action.run()
     },

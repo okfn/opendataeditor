@@ -22,18 +22,18 @@ export interface State {
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
   updateDescriptor: (patch: Partial<IView>) => void
-  editor: React.RefObject<IMonacoEditor>
+  editorRef: React.RefObject<IMonacoEditor>
   searchTerm?: string
 }
 
-export function makeStore(props: ViewProps, editor: React.RefObject<IMonacoEditor>) {
+export function makeStore(props: ViewProps, editorRef: React.RefObject<IMonacoEditor>) {
   return createStore<State>((set, get) => ({
     fields: props.fields,
     descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     view: props.view || { query: '' },
-    editor,
+    editorRef,
     updateState: (patch) => {
       set({ ...patch })
     },
