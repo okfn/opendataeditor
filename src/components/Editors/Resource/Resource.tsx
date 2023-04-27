@@ -10,6 +10,7 @@ export interface ResourceProps {
   shallow?: boolean
   onChange?: (resource: IResource) => void
   onBackClick?: () => void
+  onFieldSelected?: (name?: string) => void
 }
 
 export default function Resource(props: ResourceProps) {

@@ -31,6 +31,8 @@ export interface State {
   tableLoader: ITableLoader
   toggleErrorMode: () => Promise<void>
   error?: IError
+  // TODO: Figure out how to highlight the column in datagrid without rerender
+  selectedField?: string
 
   // Legacy
 

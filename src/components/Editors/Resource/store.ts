@@ -32,6 +32,7 @@ interface State {
   shallow?: boolean
   onChange: (resource: IResource) => void
   onBackClick?: () => void
+  onFieldSelected?: (name?: string) => void
   helpItem: IHelpItem
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IResource>) => void
@@ -67,6 +68,7 @@ export function makeStore(props: ResourceProps) {
     shallow: props.shallow,
     onChange: props.onChange || noop,
     onBackClick: props.onBackClick,
+    onFieldSelected: props.onFieldSelected,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM

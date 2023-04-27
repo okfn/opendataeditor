@@ -50,6 +50,7 @@ function Groups() {
   const schema = useStore((state) => state.descriptor.schema)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const format = useStore((state) => state.descriptor.format)
+  const onFieldSelected = useStore((state) => state.onFieldSelected)
   return (
     <HorizontalTabs labels={['Resource', 'Dialect', 'Schema']}>
       <Sections />
@@ -58,7 +59,11 @@ function Groups() {
         dialect={dialect}
         onChange={(dialect) => updateDescriptor({ dialect })}
       />
-      <Schema schema={schema} onChange={(schema) => updateDescriptor({ schema })} />
+      <Schema
+        schema={schema}
+        onChange={(schema) => updateDescriptor({ schema })}
+        onFieldSelected={onFieldSelected}
+      />
     </HorizontalTabs>
   )
 }
