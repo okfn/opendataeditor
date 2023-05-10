@@ -106,3 +106,5 @@ export const CHANNEL_AGGREGATES = [
   'variance',
   'variancep',
 ]
+
+export const TRANSFORM_TYPES = ['aggregate', 'calculate']

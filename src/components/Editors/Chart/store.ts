@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import uniq from 'lodash/uniq'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IHelpItem, IFieldItem, IChart } from '../../../interfaces'
+import { IHelpItem, IFieldItem, IChart, ITransform } from '../../../interfaces'
 import { ChartProps } from './Chart'
 import * as helpers from '../../../helpers'
 import * as settings from './settings'
@@ -15,6 +15,14 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
 interface IChannelState {
   query?: string
+  type?: string
+  isGrid?: boolean
+  isExtras?: boolean
+}
+
+interface ISectionState {
+  query?: string
+  index?: number
   type?: string
   isGrid?: boolean
   isExtras?: boolean
@@ -38,6 +46,15 @@ interface State {
   updateChannel: (patch: any) => void
   removeChannel: (type: string) => void
   addChannel: () => void
+
+  // Transform
+
+  transformState: ISectionState
+  updateTransformState: (patch: Partial<ISectionState>) => void
+  updateTransformType: (type: string) => void
+  updateTransform: (patch: Partial<ITransform>) => void
+  removeTransform: (index: number) => void
+  addTransform: () => void
 }
 
 export function makeStore(props: ChartProps) {
@@ -127,6 +144,47 @@ export function makeStore(props: ChartProps) {
       }
       updateState({ descriptor })
     },
+
+    // Transform
+
+    transformState: {},
+    updateTransformState: (patch) => {
+      const { transformState } = get()
+      set({ transformState: { ...transformState, ...patch } })
+    },
+    updateTransformType: (type) => {
+      const { descriptor, transformState, updateState, updateTransformState } = get()
+      const index = transformState.index!
+      const transform = selectors.transform(get())
+      descriptor.transform![index] = transform
+      updateTransformState({ type })
+      updateState({ descriptor })
+    },
+    updateTransform: (patch) => {
+      const { descriptor, transformState, updateDescriptor } = get()
+      const index = transformState.index!
+      const transform = selectors.transform(get())
+      const transforms = descriptor.transform!
+      transforms[index] = { ...transform, ...patch }
+      console.log('descriptor', descriptor)
+      updateDescriptor({ transform: transforms })
+    },
+    removeTransform: (index) => {
+      const { descriptor, updateDescriptor, updateTransformState } = get()
+      const transforms = [...(descriptor.transform || [])]
+      transforms.splice(index, 1)
+      updateTransformState({ index: undefined, isExtras: false })
+      updateDescriptor({ transform: transforms })
+    },
+    // TODO: scroll to newly created transform
+    addTransform: () => {
+      const { descriptor, updateDescriptor } = get()
+      const transforms = [...(descriptor.transform || [])]
+      transforms.push({
+        title: helpers.generateTitle(transforms, 'transform'),
+      })
+      updateDescriptor({ transform: transforms })
+    },
   }))
 }
 
@@ -171,6 +229,26 @@ export const selectors = {
     for (const [type, channel] of Object.entries(state.descriptor.encoding || {})) {
       if (query && !type.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ type, channel })
+    }
+    return items
+  },
+
+  // Transform
+
+  transform: (state: State) => {
+    const index = state.transformState.index!
+    const transforms = state.descriptor.transform!
+    const transform = transforms[index]!
+    return transform
+  },
+  transformItems: (state: State) => {
+    const items = []
+    const query = state.transformState.query
+    for (const [index, transform] of (state.descriptor.transform || []).entries()) {
+      if (query && !transform[query.toLowerCase()]) {
+        continue
+      }
+      items.push({ index, transform })
     }
     return items
   },

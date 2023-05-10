@@ -8,8 +8,9 @@ import EditorHelp from '../../Parts/Editor/Help'
 import Chart from './Sections/Chart'
 import Channel from './Sections/Channel'
 import { useStore } from './store'
+import Transform from './Sections/Transform'
 
-const LABELS = ['Chart', 'Channels']
+const LABELS = ['Chart', 'Channels', 'Transform']
 
 export default function Layout() {
   const theme = useTheme()
@@ -24,6 +25,7 @@ export default function Layout() {
         >
           <Chart />
           <Channel />
+          <Transform />
         </VerticalTabs>
         <EditorHelp helpItem={helpItem} />
       </Columns>
