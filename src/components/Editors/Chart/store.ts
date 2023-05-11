@@ -55,6 +55,12 @@ interface State {
   updateTransform: (patch: Partial<ITransform>) => void
   removeTransform: (index: number) => void
   addTransform: () => void
+
+  // Transform
+
+  filterState: Partial<ISectionState>
+  updateFilterState: (patch: Partial<ISectionState>) => void
+  updateFilterType: (type: string) => void
 }
 
 export function makeStore(props: ChartProps) {
@@ -155,8 +161,7 @@ export function makeStore(props: ChartProps) {
     updateTransformType: (type) => {
       const { descriptor, transformState, updateState, updateTransformState } = get()
       const index = transformState.index!
-      const transform = selectors.transform(get())
-      descriptor.transform![index] = transform
+      descriptor.transform![index] = {}
       updateTransformState({ type })
       updateState({ descriptor })
     },
@@ -184,6 +189,20 @@ export function makeStore(props: ChartProps) {
         title: helpers.generateTitle(transforms, 'transform'),
       })
       updateDescriptor({ transform: transforms })
+    },
+
+    // Filter
+    filterState: {},
+    updateFilterState: (patch) => {
+      const { filterState } = get()
+      set({ filterState: { ...filterState, ...patch } })
+    },
+    updateFilterType: (type) => {
+      const { descriptor, transformState, updateState, updateFilterState } = get()
+      const index = transformState.index!
+      descriptor.transform![index] = {}
+      updateFilterState({ type })
+      updateState({ descriptor })
     },
   }))
 }
@@ -251,6 +270,18 @@ export const selectors = {
       items.push({ index, transform })
     }
     return items
+  },
+
+  // Filter
+
+  filterPredicate: (state: State) => {
+    const allKeys = ['timeUnit', 'field']
+    const transform = selectors.transform(state)
+    if (!transform.filter) return ''
+    const predicate = Object.keys(transform?.filter).filter(
+      (x) => allKeys.indexOf(x) === -1
+    )[0]
+    return predicate || ''
   },
 }
 

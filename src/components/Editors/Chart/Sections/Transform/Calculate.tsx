@@ -20,12 +20,15 @@ export default function Calculate() {
 function Expression() {
   const transform = useStore(selectors.transform!)
   const updateHelp = useStore((state) => state.updateHelp)
+  const updateTransform = useStore((state) => state.updateTransform)
   return (
     <InputField
       label="Expression"
       value={transform?.aggregate?.value!}
       onFocus={() => updateHelp('transforms/calculateExpression')}
-      // onChange={(value) => updateDescriptor({ width: parseInt(value) || undefined })}
+      onChange={(value) => {
+        updateTransform({ ...transform.aggregate, calculate: value })
+      }}
     />
   )
 }
@@ -33,12 +36,15 @@ function Expression() {
 function As() {
   const transform = useStore(selectors.transform!)
   const updateHelp = useStore((state) => state.updateHelp)
+  const updateTransform = useStore((state) => state.updateTransform)
   return (
     <InputField
       label="As"
       value={transform?.aggregate?.value!}
       onFocus={() => updateHelp('transforms/calculateAs')}
-      // onChange={(value) => updateDescriptor({ width: parseInt(value) || undefined })}
+      onChange={(value) => {
+        updateTransform({ ...transform.aggregate, as: value })
+      }}
     />
   )
 }

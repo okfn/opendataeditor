@@ -24,3 +24,24 @@ export interface ICalculate extends ITransform {
   title: string
   calculate: { expression: string; as: string }
 }
+
+// Filter
+
+export interface IFilter extends ITransform {
+  [key: string]: any
+}
+
+export interface IParamPredicate extends IFilter {
+  title: string
+  filter: { param: string }
+}
+
+export interface IFieldPredicate extends IFilter {
+  title: string
+  filter: { timeUnit: string; field: string; [predicate: string]: string }
+}
+
+export interface IExpression extends IFilter {
+  title: string
+  filter: string
+}

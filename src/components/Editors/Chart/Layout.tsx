@@ -8,9 +8,9 @@ import EditorHelp from '../../Parts/Editor/Help'
 import Chart from './Sections/Chart'
 import Channel from './Sections/Channel'
 import { useStore } from './store'
-import Transform from './Sections/Transform'
+import Transform from './Sections/Transform/Transform'
 
-const LABELS = ['Chart', 'Channels', 'Transform']
+const LABELS = ['Chart', 'Channels', 'Transforms']
 
 export default function Layout() {
   const theme = useTheme()

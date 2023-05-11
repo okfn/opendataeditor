@@ -1,19 +1,21 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Parts/Columns'
-import EditorItem from '../../../Parts/Editor/Item'
-import EditorList from '../../../Parts/Editor/List'
-import EditorListItem from '../../../Parts/Editor/ListItem'
-import EditorSearch from '../../../Parts/Editor/Search'
-import SelectField from '../../../Parts/Fields/Select'
-import { useStore, selectors, select } from '../store'
-import Aggregate from './Transform/Aggregate'
-import * as settings from '../settings'
-import Calculate from './Transform/Calculate'
+import Columns from '../../../../Parts/Columns'
+import EditorItem from '../../../../Parts/Editor/Item'
+import EditorList from '../../../../Parts/Editor/List'
+import EditorListItem from '../../../../Parts/Editor/ListItem'
+import EditorSearch from '../../../../Parts/Editor/Search'
+import SelectField from '../../../../Parts/Fields/Select'
+import { useStore, selectors, select } from '../../store'
+import Aggregate from './Aggregate'
+import * as settings from '../../settings'
+import Calculate from './Calculate'
+import Filter from '../Filter/Filter'
 
 const TRANSFORMS: { [key: string]: any } = {
   aggregate: Aggregate,
   calculate: Calculate,
+  filter: Filter,
 }
 
 export default function Transform() {
@@ -94,7 +96,7 @@ function Type() {
   return (
     <SelectField
       label="Type"
-      value={type}
+      value={type ?? 'aggregate'}
       options={settings.TRANSFORM_TYPES}
       onFocus={() => updateHelp('transforms/type')}
       onChange={(value) => (value ? updateTransformType(value) : undefined)}

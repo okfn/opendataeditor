@@ -107,4 +107,24 @@ export const CHANNEL_AGGREGATES = [
   'variancep',
 ]
 
-export const TRANSFORM_TYPES = ['aggregate', 'calculate']
+export const TRANSFORM_TYPES = ['aggregate', 'calculate', 'filter']
+
+// Filter
+
+export const FILTER_TYPES = ['fieldpredicate', 'parampredicate', 'vegaexpression']
+
+export const TIME_UNITS = [
+  'year',
+  'month',
+  'date',
+  'week',
+  'day',
+  'quarter',
+  'dayofyear',
+  'hours',
+  'minutes',
+  'seconds',
+  'milliseconds',
+]
+
+export const FIELD_PREDICATES = ['gt', 'gte', 'lt', 'lte', 'equal', 'oneOf']

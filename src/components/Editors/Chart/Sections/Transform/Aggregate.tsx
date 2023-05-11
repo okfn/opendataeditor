@@ -50,7 +50,8 @@ function Operation() {
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <SelectField
-      label="Op"
+      focused
+      label="Operation"
       margin="none"
       value={transform?.aggregate?.op!}
       options={settings.CHANNEL_AGGREGATES}
@@ -93,7 +94,6 @@ function GroupBy() {
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <SelectField
-      focused
       label="GroupBy"
       value={transform?.aggregate?.field!}
       options={fieldNames}
