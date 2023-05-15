@@ -107,10 +107,6 @@ export const CHANNEL_AGGREGATES = [
   'variancep',
 ]
 
-export const DEFAULT_BIN = false
-export const DEFAULT_BINNED = false
-export const DEFAULT_TOOLTIP = false
-
 export const TRANSFORM_TYPES = ['aggregate', 'calculate', 'filter', 'bin']
 
 // Filter
@@ -132,3 +128,11 @@ export const TIME_UNITS = [
 ]
 
 export const FIELD_PREDICATES = ['gt', 'gte', 'lt', 'lte', 'equal', 'oneOf']
+
+// General
+
+export const DEFAULT_BIN = false
+export const DEFAULT_BINNED = false
+export const DEFAULT_TOOLTIP = false
+
+export const SORT_TYPES = ['ascending', 'descending']

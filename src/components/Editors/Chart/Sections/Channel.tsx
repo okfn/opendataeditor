@@ -78,6 +78,7 @@ function ChannelItem() {
         <Box>
           <Aggregate />
           <Value />
+          <Sort />
         </Box>
       </Columns>
       {PROPERTIES[type] &&
@@ -123,7 +124,6 @@ function Aggregate() {
   const aggregate = useStore(selectors.channelAggregate)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
-  console.log('aggregate', aggregate)
   return (
     <SelectField
       label="Aggregate"
@@ -159,6 +159,21 @@ function Title() {
       value={title || ''}
       onFocus={() => updateHelp('channels/title')}
       onChange={(value) => updateChannel({ title: value })}
+    />
+  )
+}
+
+function Sort() {
+  const sort = useStore(select(selectors.channel, (channel) => channel.sort))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  return (
+    <SelectField
+      label="Sort"
+      value={sort || ''}
+      options={settings.SORT_TYPES}
+      onFocus={() => updateHelp('channels/aggregate')}
+      onChange={(value) => updateChannel({ sort: value })}
     />
   )
 }

@@ -9,6 +9,7 @@ export interface IChart {
       title?: string
       bin?: boolean | IBin
       axis?: { [type: string]: any }
+      sort?: string
     }
   }
   layers?: object[]
