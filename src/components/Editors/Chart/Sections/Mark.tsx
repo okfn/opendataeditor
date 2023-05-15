@@ -61,24 +61,3 @@ function Tooltip() {
     />
   )
 }
-
-// function Content() {
-//   const bin = useStore(select(selectors.channel, (channel) => channel.bin))
-//   const updateHelp = useStore((state) => state.updateHelp)
-//   const updateChannel = useStore((state) => state.updateChannel)
-//   const step = typeof bin === 'object' ? bin.step : ''
-//   return (
-//     <InputField
-//       label="Content"
-//       value={step}
-//       onFocus={() => updateHelp('transforms/binStep')}
-//       onChange={(value) => {
-//         let bin
-//         if (parseInt(value) >= 0) {
-//           bin = { binned: true, step: parseInt(value) }
-//         }
-//         updateChannel({ bin })
-//       }}
-//     />
-//   )
-// }
