@@ -6,18 +6,16 @@ import Columns from '../../../Parts/Columns'
 
 export default function Axis() {
   return (
-    <React.Fragment>
-      <Columns spacing={3}>
-        <Box>
-          <Title />
-          <LabelAngle />
-        </Box>
-        <Box>
-          <LabelAlign />
-          <LabelExpr />
-        </Box>
-      </Columns>
-    </React.Fragment>
+    <Columns spacing={3}>
+      <Box>
+        <Title />
+        <LabelAngle />
+      </Box>
+      <Box>
+        <LabelAlign />
+        <LabelExpr />
+      </Box>
+    </Columns>
   )
 }
 function Title() {
