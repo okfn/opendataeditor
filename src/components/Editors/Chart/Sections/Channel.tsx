@@ -12,6 +12,11 @@ import * as settings from '../settings'
 import Bin from './Bin'
 import Axis from './Axis'
 
+const PROPERTIES: { [key: string]: any } = {
+  x: [Bin, Axis],
+  y: [Bin, Axis],
+}
+
 export default function Channel() {
   const type = useStore((state) => state.channelState.type)
   return type === undefined ? <ChannelList /> : <ChannelItem />
@@ -75,16 +80,10 @@ function ChannelItem() {
           <Value />
         </Box>
       </Columns>
-      <Columns>
-        <Box>
-          <Bin />
-        </Box>
-      </Columns>
-      <Columns>
-        <Box>
-          <Axis />
-        </Box>
-      </Columns>
+      {PROPERTIES[type] &&
+        PROPERTIES[type].map((Item: React.ReactElement, index: number) => {
+          return <Item key={index} />
+        })}
     </EditorItem>
   )
 }

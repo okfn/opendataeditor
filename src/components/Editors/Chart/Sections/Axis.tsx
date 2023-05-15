@@ -9,14 +9,30 @@ export default function Axis() {
     <React.Fragment>
       <Columns spacing={3}>
         <Box>
+          <Title />
           <LabelAngle />
-          <LabelAlign />
         </Box>
         <Box>
+          <LabelAlign />
           <LabelExpr />
         </Box>
       </Columns>
     </React.Fragment>
+  )
+}
+function Title() {
+  const axis = useStore(select(selectors.channel, (channel) => channel.axis))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  return (
+    <InputField
+      label="Axis Title"
+      value={axis?.title ?? ''}
+      onFocus={() => updateHelp('transforms/axisTitle')}
+      onChange={(value) => {
+        updateChannel({ axis: { ...axis, title: value } })
+      }}
+    />
   )
 }
 

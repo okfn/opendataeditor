@@ -8,16 +8,14 @@ import Columns from '../../../Parts/Columns'
 
 export default function Bin() {
   return (
-    <React.Fragment>
-      <Columns spacing={3}>
-        <Box>
-          <IsBin />
-        </Box>
-        <Box>
-          <Step />
-        </Box>
-      </Columns>
-    </React.Fragment>
+    <Columns spacing={3}>
+      <Box>
+        <IsBin />
+      </Box>
+      <Box>
+        <Step />
+      </Box>
+    </Columns>
   )
 }
 
