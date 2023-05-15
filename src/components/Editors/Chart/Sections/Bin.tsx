@@ -4,16 +4,19 @@ import YesNoField from '../../../Parts/Fields/YesNo'
 import { useStore, selectors, select } from '../store'
 import * as settings from '../settings'
 import InputField from '../../../Parts/Fields/Input'
+import Columns from '../../../Parts/Columns'
 
 export default function Bin() {
   return (
     <React.Fragment>
-      <Box>
-        <IsBin />
-      </Box>
-      <Box>
-        <Step />
-      </Box>
+      <Columns spacing={3}>
+        <Box>
+          <IsBin />
+        </Box>
+        <Box>
+          <Step />
+        </Box>
+      </Columns>
     </React.Fragment>
   )
 }

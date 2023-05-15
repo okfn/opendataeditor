@@ -10,6 +10,7 @@ import SelectField from '../../../Parts/Fields/Select'
 import { useStore, selectors, select } from '../store'
 import * as settings from '../settings'
 import Bin from './Bin'
+import Axis from './Axis'
 
 export default function Channel() {
   const type = useStore((state) => state.channelState.type)
@@ -74,8 +75,15 @@ function ChannelItem() {
           <Value />
         </Box>
       </Columns>
-      <Columns spacing={3}>
-        <Bin />
+      <Columns>
+        <Box>
+          <Bin />
+        </Box>
+      </Columns>
+      <Columns>
+        <Box>
+          <Axis />
+        </Box>
       </Columns>
     </EditorItem>
   )

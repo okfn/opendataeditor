@@ -67,7 +67,7 @@ function As() {
       value={transform?.bin?.as ?? ''}
       onFocus={() => updateHelp('transforms/binAs')}
       onChange={(value) => {
-        updateTransform({ bin: { ...transform.as, as: value } })
+        updateTransform({ bin: { ...transform.bin, as: value } })
       }}
     />
   )

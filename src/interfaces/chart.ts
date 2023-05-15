@@ -8,6 +8,7 @@ export interface IChart {
       value?: any
       title?: string
       bin?: boolean | IBin
+      axis?: { [type: string]: any }
     }
   }
   layers?: object[]
@@ -58,12 +59,6 @@ export interface IFieldPredicate extends IFilter {
 export interface IExpression extends IFilter {
   title: string
   filter: string
-}
-
-// Axis
-
-export interface IAxis {
-  [key: string]: any
 }
 
 // Bin
