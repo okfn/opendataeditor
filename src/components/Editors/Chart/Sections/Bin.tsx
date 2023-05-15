@@ -43,7 +43,6 @@ function Step() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
   const step = typeof bin === 'object' ? bin.step : ''
-  console.log('step', step)
   return (
     <InputField
       label="Step"
