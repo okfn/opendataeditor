@@ -1,6 +1,6 @@
 export interface IChart {
   data?: { url?: string; values?: object[] }
-  mark?: string
+  mark?: string | ITransform
   encoding?: {
     [type: string]: {
       field?: string
@@ -15,6 +15,11 @@ export interface IChart {
   height?: number
   width?: number
   transform?: ITransform[]
+}
+
+// Chart
+export interface IMtooltip {
+  tooltip: boolean
 }
 
 // Transform

@@ -108,7 +108,8 @@ export const CHANNEL_AGGREGATES = [
 ]
 
 export const DEFAULT_BIN = false
-export const DEFAULT_BIN_BINNED = false
+export const DEFAULT_BINNED = false
+export const DEFAULT_TOOLTIP = false
 
 export const TRANSFORM_TYPES = ['aggregate', 'calculate', 'filter', 'bin']
 

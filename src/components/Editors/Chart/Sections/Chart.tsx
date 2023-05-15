@@ -5,7 +5,7 @@ import SelectField from '../../../Parts/Fields/Select'
 import EditorSection from '../../../Parts/Editor/Section'
 import Columns from '../../../Parts/Columns'
 import { useStore, selectors } from '../store'
-import * as settings from '../settings'
+import Mark from './Mark'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -14,13 +14,13 @@ export default function Chart() {
       <Columns spacing={3}>
         <Box>
           <Table />
-          <Mark />
+          <Height />
         </Box>
         <Box>
           <Width />
-          <Height />
         </Box>
       </Columns>
+      <Mark />
     </EditorSection>
   )
 }
@@ -43,26 +43,6 @@ function Table() {
         if (value === '(inline)') return
         descriptor.data = descriptor.data || {}
         descriptor.data.url = value
-        updateState({ descriptor })
-      }}
-    />
-  )
-}
-
-function Mark() {
-  const descriptor = useStore((state) => state.descriptor)
-  const mark = useStore((state) => state.descriptor.mark)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <SelectField
-      label="Mark"
-      value={mark || ''}
-      options={settings.MARKS}
-      onFocus={() => updateHelp('chart/mark')}
-      onChange={(value) => {
-        if (!value) return
-        descriptor.mark = value
         updateState({ descriptor })
       }}
     />
