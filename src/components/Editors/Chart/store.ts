@@ -251,6 +251,10 @@ export const selectors = {
     }
     return items
   },
+  channelBin: (state: State) => {
+    const channel = selectors.channel(state)
+    return channel.bin
+  },
 
   // Transform
 

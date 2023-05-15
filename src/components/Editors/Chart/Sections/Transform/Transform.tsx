@@ -11,11 +11,13 @@ import Aggregate from './Aggregate'
 import * as settings from '../../settings'
 import Calculate from './Calculate'
 import Filter from '../Filter/Filter'
+import Bin from './Bin'
 
 const TRANSFORMS: { [key: string]: any } = {
   aggregate: Aggregate,
   calculate: Calculate,
   filter: Filter,
+  bin: Bin,
 }
 
 export default function Transform() {

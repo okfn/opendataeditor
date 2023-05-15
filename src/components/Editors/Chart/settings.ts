@@ -107,7 +107,10 @@ export const CHANNEL_AGGREGATES = [
   'variancep',
 ]
 
-export const TRANSFORM_TYPES = ['aggregate', 'calculate', 'filter']
+export const DEFAULT_BIN = false
+export const DEFAULT_BIN_BINNED = false
+
+export const TRANSFORM_TYPES = ['aggregate', 'calculate', 'filter', 'bin']
 
 // Filter
 

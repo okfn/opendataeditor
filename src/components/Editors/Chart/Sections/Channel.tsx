@@ -9,6 +9,7 @@ import InputField from '../../../Parts/Fields/Input'
 import SelectField from '../../../Parts/Fields/Select'
 import { useStore, selectors, select } from '../store'
 import * as settings from '../settings'
+import Bin from './Bin'
 
 export default function Channel() {
   const type = useStore((state) => state.channelState.type)
@@ -66,11 +67,15 @@ function ChannelItem() {
         <Box>
           <Type />
           <Field />
+          <Title />
         </Box>
         <Box>
           <Aggregate />
           <Value />
         </Box>
+      </Columns>
+      <Columns spacing={3}>
+        <Bin />
       </Columns>
     </EditorItem>
   )
@@ -111,6 +116,7 @@ function Aggregate() {
   const aggregate = useStore(selectors.channelAggregate)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  console.log('aggregate', aggregate)
   return (
     <SelectField
       label="Aggregate"
@@ -132,6 +138,20 @@ function Value() {
       value={value || ''}
       onFocus={() => updateHelp('channels/value')}
       onChange={(value) => updateChannel({ value: value ? parseInt(value) : undefined })}
+    />
+  )
+}
+
+function Title() {
+  const title = useStore(select(selectors.channel, (channel) => channel.title))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  return (
+    <InputField
+      label="Title"
+      value={title || ''}
+      onFocus={() => updateHelp('channels/title')}
+      onChange={(value) => updateChannel({ title: value })}
     />
   )
 }

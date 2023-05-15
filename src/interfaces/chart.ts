@@ -2,13 +2,21 @@ export interface IChart {
   data?: { url?: string; values?: object[] }
   mark?: string
   encoding?: {
-    [type: string]: { field?: string; aggregate?: string; value?: any }
+    [type: string]: {
+      field?: string
+      aggregate?: string
+      value?: any
+      title?: string
+      bin?: boolean | IBin
+    }
   }
   layers?: object[]
   height?: number
   width?: number
   transform?: ITransform[]
 }
+
+// Transform
 
 export interface ITransform {
   [key: string]: any
@@ -23,6 +31,12 @@ export interface IAggregate extends ITransform {
 export interface ICalculate extends ITransform {
   title: string
   calculate: { expression: string; as: string }
+}
+
+export interface ITbin extends ITransform {
+  bin: boolean
+  field: string
+  as: string
 }
 
 // Filter
@@ -44,4 +58,16 @@ export interface IFieldPredicate extends IFilter {
 export interface IExpression extends IFilter {
   title: string
   filter: string
+}
+
+// Axis
+
+export interface IAxis {
+  [key: string]: any
+}
+
+// Bin
+export interface IBin {
+  binned: boolean
+  step: number
 }
