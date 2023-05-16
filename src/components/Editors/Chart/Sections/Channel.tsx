@@ -74,6 +74,7 @@ function ChannelItem() {
           <Type />
           <Field />
           <Title />
+          <Stack />
         </Box>
         <Box>
           <Aggregate />
@@ -82,7 +83,7 @@ function ChannelItem() {
         </Box>
       </Columns>
       {PROPERTIES[type] &&
-        PROPERTIES[type].map((Item: React.ReactElement, index: number) => {
+        PROPERTIES[type].map((Item: any, index: number) => {
           return <Item key={index} />
         })}
     </EditorItem>
@@ -174,6 +175,20 @@ function Sort() {
       options={settings.SORT_TYPES}
       onFocus={() => updateHelp('channels/aggregate')}
       onChange={(value) => updateChannel({ sort: value })}
+    />
+  )
+}
+
+function Stack() {
+  const stack = useStore(select(selectors.channel, (channel) => channel.stack))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  return (
+    <InputField
+      label="Stack"
+      value={stack || ''}
+      onFocus={() => updateHelp('channels/stack')}
+      onChange={(value) => updateChannel({ stack: value })}
     />
   )
 }

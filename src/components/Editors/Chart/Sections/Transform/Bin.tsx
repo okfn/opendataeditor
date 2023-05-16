@@ -45,7 +45,6 @@ function Field() {
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <SelectField
-      focused
       label="Field"
       value={transform?.bin?.field ?? ''}
       options={fieldNames}

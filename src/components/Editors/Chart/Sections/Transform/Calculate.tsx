@@ -24,10 +24,10 @@ function Expression() {
   return (
     <InputField
       label="Expression"
-      value={transform?.aggregate?.value!}
+      value={transform?.calculate}
       onFocus={() => updateHelp('transforms/calculateExpression')}
       onChange={(value) => {
-        updateTransform({ ...transform.aggregate, calculate: value })
+        updateTransform({ ...transform, calculate: value })
       }}
     />
   )
@@ -40,10 +40,10 @@ function As() {
   return (
     <InputField
       label="As"
-      value={transform?.aggregate?.value!}
+      value={transform?.as}
       onFocus={() => updateHelp('transforms/calculateAs')}
       onChange={(value) => {
-        updateTransform({ ...transform.aggregate, as: value })
+        updateTransform({ ...transform, as: value })
       }}
     />
   )

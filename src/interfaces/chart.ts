@@ -10,6 +10,7 @@ export interface IChart {
       bin?: boolean | IBin
       axis?: { [type: string]: any }
       sort?: string
+      stack?: string
     }
   }
   layers?: object[]
@@ -24,52 +25,63 @@ export interface IMark {
   tooltip: boolean
 }
 
-// Transform
-
-export interface ITransform {
-  [key: string]: any
+// Channel
+export interface IBin {
+  binned: boolean
+  step: number
 }
 
-export interface IAggregate extends ITransform {
+// Transform
+
+export type ITransform = IAggregate | ICalculate | ITbin | IFilter | IStack | IFold
+
+export interface IAggregate {
   title: string
   aggregate: { op: string; field: string; as: string }[]
   groupby: string[]
 }
 
-export interface ICalculate extends ITransform {
+export interface ICalculate {
   title: string
   calculate: { expression: string; as: string }
 }
 
-export interface ITbin extends ITransform {
+export interface ITbin {
+  title: string
   bin: boolean
   field: string
   as: string
 }
 
-// Filter
-
-export interface IFilter extends ITransform {
-  [key: string]: any
+export interface IStack {
+  title: string
+  stack: string
+  offset: string
+  as: string | string[]
+  groupby: string[]
+  sort: { field: string; order: string }[]
 }
 
-export interface IParamPredicate extends IFilter {
+export interface IFold {
+  title: string
+  fold: string[]
+}
+
+// Filter
+
+export type IFilter = IParamPredicate | IFieldPredicate | IExpression
+
+export interface IParamPredicate {
   title: string
   filter: { param: string }
 }
 
-export interface IFieldPredicate extends IFilter {
+export interface IFieldPredicate {
   title: string
   filter: { timeUnit: string; field: string; [predicate: string]: string }
 }
 
-export interface IExpression extends IFilter {
+export interface IExpression {
   title: string
   filter: string
-}
-
-// Bin
-export interface IBin {
-  binned: boolean
-  step: number
 }
