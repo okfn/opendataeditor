@@ -18,6 +18,7 @@ interface IChannelState {
   type?: string
   isGrid?: boolean
   isExtras?: boolean
+  activeInput?: string
 }
 
 interface ISectionState {
@@ -161,7 +162,8 @@ export function makeStore(props: ChartProps) {
     updateTransformType: (type) => {
       const { descriptor, transformState, updateState, updateTransformState } = get()
       const index = transformState.index!
-      descriptor.transform![index] = {}
+      const title = descriptor.transform![index].title
+      descriptor.transform![index] = { title }
       updateTransformState({ type })
       updateState({ descriptor })
     },
@@ -242,6 +244,17 @@ export const selectors = {
     const channel = selectors.channel(state)
     return channel.value
   },
+  // TODO: remove! somehow it doesn't rerender using channel and select
+  channelActiveInput: (state: State) => {
+    const activeInput = state.channelState.activeInput!
+    const channel = selectors.channel(state) as { [key: string]: any }
+    return channel[activeInput]
+  },
+  // TODO: remove! somehow it doesn't rerender using channel and select
+  channelActiveInputValue: (activeInput: string) => (state: State) => {
+    const channel = selectors.channel(state) as { [key: string]: any }
+    return channel[activeInput]
+  },
   channelItems: (state: State) => {
     const items = []
     const query = state.channelState.query
@@ -250,10 +263,6 @@ export const selectors = {
       items.push({ type, channel })
     }
     return items
-  },
-  channelBin: (state: State) => {
-    const channel = selectors.channel(state)
-    return channel.bin
   },
 
   // Transform
@@ -268,7 +277,7 @@ export const selectors = {
     const items = []
     const query = state.transformState.query
     for (const [index, transform] of (state.descriptor.transform || []).entries()) {
-      if (query && !transform[query.toLowerCase()]) {
+      if (query && !transform[query.toLowerCase() as keyof ITransform]) {
         continue
       }
       items.push({ index, transform })

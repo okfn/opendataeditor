@@ -21,14 +21,13 @@ function FoldField() {
   const transform = useStore(selectors.transform!) as IFold
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
-  const fold = transform?.fold ?? []
   return (
     <InputField
       label="As"
-      value={fold.join(',')}
+      value={transform?.fold || [].join(',')}
       onFocus={() => updateHelp('transforms/fold')}
       onChange={(value) => {
-        updateTransform({ ...transform, as: value.split(',') })
+        updateTransform({ ...transform, fold: value.split(',') })
       }}
     />
   )

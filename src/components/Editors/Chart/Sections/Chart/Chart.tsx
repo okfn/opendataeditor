@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import InputField from '../../../Parts/Fields/Input'
-import SelectField from '../../../Parts/Fields/Select'
-import EditorSection from '../../../Parts/Editor/Section'
-import Columns from '../../../Parts/Columns'
-import { useStore, selectors } from '../store'
-import * as settings from '../settings'
-import YesNoField from '../../../Parts/Fields/YesNo'
+import InputField from '../../../../Parts/Fields/Input'
+import SelectField from '../../../../Parts/Fields/Select'
+import EditorSection from '../../../../Parts/Editor/Section'
+import Columns from '../../../../Parts/Columns'
+import { useStore, selectors } from '../../store'
+import * as settings from '../../settings'
+import YesNoField from '../../../../Parts/Fields/YesNo'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -15,12 +15,13 @@ export default function Chart() {
       <Columns spacing={3}>
         <Box>
           <Table />
+          <Title />
           <Mark />
-          <Tooltip />
         </Box>
         <Box>
           <Width />
           <Height />
+          <Tooltip />
         </Box>
       </Columns>
     </EditorSection>
@@ -47,6 +48,20 @@ function Table() {
         descriptor.data.url = value
         updateState({ descriptor })
       }}
+    />
+  )
+}
+
+function Title() {
+  const title = useStore((state) => state.descriptor.title)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateDescriptor = useStore((state) => state.updateDescriptor)
+  return (
+    <InputField
+      label="Title"
+      value={title || ''}
+      onFocus={() => updateHelp('chart/title')}
+      onChange={(value) => updateDescriptor({ title: value })}
     />
   )
 }

@@ -1,14 +1,14 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Parts/Columns'
-import EditorItem from '../../../Parts/Editor/Item'
-import EditorList from '../../../Parts/Editor/List'
-import EditorListItem from '../../../Parts/Editor/ListItem'
-import EditorSearch from '../../../Parts/Editor/Search'
-import InputField from '../../../Parts/Fields/Input'
-import SelectField from '../../../Parts/Fields/Select'
-import { useStore, selectors, select } from '../store'
-import * as settings from '../settings'
+import Columns from '../../../../Parts/Columns'
+import EditorItem from '../../../../Parts/Editor/Item'
+import EditorList from '../../../../Parts/Editor/List'
+import EditorListItem from '../../../../Parts/Editor/ListItem'
+import EditorSearch from '../../../../Parts/Editor/Search'
+import InputField from '../../../../Parts/Fields/Input'
+import SelectField from '../../../../Parts/Fields/Select'
+import { useStore, selectors, select } from '../../store'
+import * as settings from '../../settings'
 import Bin from './Bin'
 import Axis from './Axis'
 
@@ -73,7 +73,7 @@ function ChannelItem() {
         <Box>
           <Type />
           <Field />
-          <Title />
+          <ChannelTitle />
           <Stack />
         </Box>
         <Box>
@@ -99,7 +99,7 @@ function Type() {
       label="Type"
       value={type || ''}
       options={settings.CHANNEL_TYPES}
-      onFocus={() => updateHelp('channels/type')}
+      onFocus={() => updateHelp('channel/type')}
       onChange={(value) => (value ? updateChannelType(value) : undefined)}
     />
   )
@@ -115,8 +115,44 @@ function Field() {
       label="Field"
       value={field || ''}
       options={fieldNames}
-      onFocus={() => updateHelp('channels/field')}
+      onFocus={() => updateHelp('channel/field')}
       onChange={(value) => updateChannel({ field: value })}
+    />
+  )
+}
+
+function ChannelTitle() {
+  const title = useStore(selectors.channelActiveInputValue('title'))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
+  return (
+    <InputField
+      label="Title"
+      value={title || ''}
+      onFocus={() => {
+        updateHelp('channel/title')
+        updateChannelState({ activeInput: 'title' })
+      }}
+      onChange={(value) => updateChannel({ title: value || undefined })}
+    />
+  )
+}
+
+function Stack() {
+  const stack = useStore(selectors.channelActiveInputValue('stack'))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
+  return (
+    <InputField
+      label="Stack"
+      value={stack || ''}
+      onFocus={() => {
+        updateHelp('channel/stack')
+        updateChannelState({ activeInput: 'stack' })
+      }}
+      onChange={(value) => updateChannel({ stack: value || undefined })}
     />
   )
 }
@@ -130,7 +166,7 @@ function Aggregate() {
       label="Aggregate"
       value={aggregate || ''}
       options={settings.CHANNEL_AGGREGATES}
-      onFocus={() => updateHelp('channels/aggregate')}
+      onFocus={() => updateHelp('channel/aggregate')}
       onChange={(value) => updateChannel({ aggregate: value })}
     />
   )
@@ -144,22 +180,8 @@ function Value() {
     <InputField
       label="Value"
       value={value || ''}
-      onFocus={() => updateHelp('channels/value')}
+      onFocus={() => updateHelp('channel/value')}
       onChange={(value) => updateChannel({ value: value ? parseInt(value) : undefined })}
-    />
-  )
-}
-
-function Title() {
-  const title = useStore(select(selectors.channel, (channel) => channel.title))
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateChannel = useStore((state) => state.updateChannel)
-  return (
-    <InputField
-      label="Title"
-      value={title || ''}
-      onFocus={() => updateHelp('channels/title')}
-      onChange={(value) => updateChannel({ title: value })}
     />
   )
 }
@@ -173,22 +195,8 @@ function Sort() {
       label="Sort"
       value={sort || ''}
       options={settings.SORT_TYPES}
-      onFocus={() => updateHelp('channels/aggregate')}
+      onFocus={() => updateHelp('channel/aggregate')}
       onChange={(value) => updateChannel({ sort: value })}
-    />
-  )
-}
-
-function Stack() {
-  const stack = useStore(select(selectors.channel, (channel) => channel.stack))
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateChannel = useStore((state) => state.updateChannel)
-  return (
-    <InputField
-      label="Stack"
-      value={stack || ''}
-      onFocus={() => updateHelp('channels/stack')}
-      onChange={(value) => updateChannel({ stack: value })}
     />
   )
 }

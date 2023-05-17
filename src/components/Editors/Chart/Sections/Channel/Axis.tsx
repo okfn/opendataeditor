@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { useStore, selectors, select } from '../store'
-import InputField from '../../../Parts/Fields/Input'
-import Columns from '../../../Parts/Columns'
+import { useStore, selectors } from '../../store'
+import InputField from '../../../../Parts/Fields/Input'
+import Columns from '../../../../Parts/Columns'
 
 export default function Axis() {
   return (
@@ -19,14 +19,18 @@ export default function Axis() {
   )
 }
 function Title() {
-  const axis = useStore(select(selectors.channel, (channel) => channel.axis))
+  const axis = useStore(selectors.channelActiveInputValue('axis'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <InputField
       label="Axis Title"
       value={axis?.title ?? ''}
-      onFocus={() => updateHelp('transforms/axisTitle')}
+      onFocus={() => {
+        updateHelp('channel/axisTitle')
+        updateChannelState({ activeInput: 'axis' })
+      }}
       onChange={(value) => {
         updateChannel({ axis: { ...axis, title: value } })
       }}
@@ -35,14 +39,18 @@ function Title() {
 }
 
 function LabelAngle() {
-  const axis = useStore(select(selectors.channel, (channel) => channel.axis))
+  const axis = useStore(selectors.channelActiveInputValue('axis'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <InputField
       label="Label Angle"
       value={axis?.labelAngle ?? ''}
-      onFocus={() => updateHelp('transforms/axisLabelAngle')}
+      onFocus={() => {
+        updateHelp('channel/axisLabelAngle')
+        updateChannelState({ activeInput: 'axis' })
+      }}
       onChange={(value) => {
         updateChannel({ axis: { ...axis, labelAngle: value } })
       }}
@@ -51,14 +59,18 @@ function LabelAngle() {
 }
 
 function LabelAlign() {
-  const axis = useStore(select(selectors.channel, (channel) => channel.axis))
+  const axis = useStore(selectors.channelActiveInputValue('axis'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <InputField
       label="Label Align"
       value={axis?.labelAlign ?? ''}
-      onFocus={() => updateHelp('transforms/axisLabelAlign')}
+      onFocus={() => {
+        updateHelp('channel/axisLabelAlign')
+        updateChannelState({ activeInput: 'axis' })
+      }}
       onChange={(value) => {
         updateChannel({ axis: { ...axis, labelAlign: value } })
       }}
@@ -67,14 +79,18 @@ function LabelAlign() {
 }
 
 function LabelExpr() {
-  const axis = useStore(select(selectors.channel, (channel) => channel.axis))
+  const axis = useStore(selectors.channelActiveInputValue('axis'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <InputField
       label="Label Expression"
       value={axis?.labelExpr ?? ''}
-      onFocus={() => updateHelp('transforms/axisLabelExpression')}
+      onFocus={() => {
+        updateHelp('channel/axisLabelExpression')
+        updateChannelState({ activeInput: 'axis' })
+      }}
       onChange={(value) => {
         updateChannel({ axis: { ...axis, labelExpr: value } })
       }}

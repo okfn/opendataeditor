@@ -1,10 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../../Parts/Columns'
-import InputField from '../../../../Parts/Fields/Input'
-import { useStore, selectors } from '../../store'
-import SelectField from '../../../../Parts/Fields/Select'
-import * as settings from '../../settings'
+import Columns from '../../../../../Parts/Columns'
+import InputField from '../../../../../Parts/Fields/Input'
+import { useStore, selectors } from '../../../store'
+import SelectField from '../../../../../Parts/Fields/Select'
+import * as settings from '../../../settings'
+import { IFieldPredicate } from '../../../../../../interfaces'
 
 export default function FieldPredicate() {
   return (
@@ -15,14 +16,14 @@ export default function FieldPredicate() {
       </Box>
       <Box>
         <Field />
-        <Value />
+        <PredicateValue />
       </Box>
     </Columns>
   )
 }
 
 function TimeUnit() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -40,7 +41,7 @@ function TimeUnit() {
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IFieldPredicate
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
@@ -59,7 +60,7 @@ function Field() {
 }
 
 function Predicate() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const predicate = useStore(selectors.filterPredicate)
@@ -78,8 +79,8 @@ function Predicate() {
   )
 }
 
-function Value() {
-  const transform = useStore(selectors.transform!)
+function PredicateValue() {
+  const transform = useStore(selectors.transform!) as IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const predicate = useStore(selectors.filterPredicate)
@@ -87,16 +88,10 @@ function Value() {
     transform.filter && transform.filter[predicate] ? transform.filter[predicate] : ''
   return (
     <InputField
-      label="Value"
+      label="Predicate Value"
       value={value}
       onFocus={() => updateHelp('transforms/filterFieldPredicateValue')}
       onChange={(value) => {
-        console.log(
-          'predicate',
-          predicate,
-          value,
-          transform.filter[predicate] ? 'yes' : 'no'
-        )
         transform.filter[predicate] = value
         updateTransform({ filter: { ...transform.filter } })
       }}

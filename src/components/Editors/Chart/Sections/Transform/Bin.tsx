@@ -5,6 +5,7 @@ import Columns from '../../../../Parts/Columns'
 import YesNoField from '../../../../Parts/Fields/YesNo'
 import InputField from '../../../../Parts/Fields/Input'
 import SelectField from '../../../../Parts/Fields/Select'
+import { ITbin } from '../../../../../interfaces'
 
 export default function Bin() {
   return (
@@ -23,50 +24,50 @@ export default function Bin() {
 }
 
 function IsBin() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as ITbin
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <YesNoField
       label="Bin"
-      value={transform?.bin?.bin ?? ''}
+      value={transform?.bin ?? ''}
       onFocus={() => updateHelp('transforms/binBin')}
       onChange={(value) => {
-        updateTransform({ bin: { ...transform.bin, bin: value } })
+        updateTransform({ ...transform, bin: value })
       }}
     />
   )
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as ITbin
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <SelectField
       label="Field"
-      value={transform?.bin?.field ?? ''}
+      value={transform?.field ?? ''}
       options={fieldNames}
       onFocus={() => updateHelp('transforms/binField')}
       onChange={(value) => {
-        updateTransform({ bin: { ...transform.bin, field: value } })
+        updateTransform({ ...transform, field: value })
       }}
     />
   )
 }
 
 function As() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as ITbin
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <InputField
       label="As"
-      value={transform?.bin?.as ?? ''}
+      value={transform?.as ?? ''}
       onFocus={() => updateHelp('transforms/binAs')}
       onChange={(value) => {
-        updateTransform({ bin: { ...transform.bin, as: value } })
+        updateTransform({ ...transform, as: value })
       }}
     />
   )

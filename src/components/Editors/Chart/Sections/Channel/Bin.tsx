@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import YesNoField from '../../../Parts/Fields/YesNo'
-import { useStore, selectors, select } from '../store'
-import * as settings from '../settings'
-import InputField from '../../../Parts/Fields/Input'
-import Columns from '../../../Parts/Columns'
+import YesNoField from '../../../../Parts/Fields/YesNo'
+import { useStore, selectors } from '../../store'
+import * as settings from '../../settings'
+import InputField from '../../../../Parts/Fields/Input'
+import Columns from '../../../../Parts/Columns'
 
 export default function Bin() {
   return (
@@ -20,15 +20,19 @@ export default function Bin() {
 }
 
 function IsBin() {
-  const bin = useStore(selectors.channelBin)
+  const bin = useStore(selectors.channelActiveInputValue('bin'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
-  const isBin = typeof bin === 'boolean' ? bin : settings.DEFAULT_BIN
+  const updateChannelState = useStore((state) => state.updateChannelState)
+  const isBin = typeof bin === 'object' ? bin.binned : bin ?? settings.DEFAULT_BINNED
   return (
     <YesNoField
       label="Bin"
       value={isBin}
-      onFocus={() => updateHelp('channels/bin')}
+      onFocus={() => {
+        updateHelp('channel/bin')
+        updateChannelState({ activeInput: 'bin' })
+      }}
       onChange={(value) => {
         updateChannel({ bin: value })
       }}
@@ -37,15 +41,19 @@ function IsBin() {
 }
 
 function Step() {
-  const bin = useStore(select(selectors.channel, (channel) => channel.bin))
+  const bin = useStore(selectors.channelActiveInputValue('bin'))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
   const step = typeof bin === 'object' ? bin.step : ''
   return (
     <InputField
       label="Step"
       value={step}
-      onFocus={() => updateHelp('transforms/binStep')}
+      onFocus={() => {
+        updateHelp('channel/binStep')
+        updateChannelState({ activeInput: 'bin' })
+      }}
       onChange={(value) => {
         let bin
         if (parseInt(value) >= 0) {

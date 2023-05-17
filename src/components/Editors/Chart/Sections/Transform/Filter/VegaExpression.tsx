@@ -1,8 +1,9 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../../Parts/Columns'
-import InputField from '../../../../Parts/Fields/Input'
-import { useStore, selectors } from '../../store'
+import Columns from '../../../../../Parts/Columns'
+import InputField from '../../../../../Parts/Fields/Input'
+import { useStore, selectors } from '../../../store'
+import { IExpression } from '../../../../../../interfaces'
 
 export default function VegaExpression() {
   return (
@@ -15,7 +16,7 @@ export default function VegaExpression() {
 }
 
 function Expression() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IExpression
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (

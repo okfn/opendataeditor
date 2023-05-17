@@ -1,4 +1,5 @@
 export interface IChart {
+  title?: string
   data?: { url?: string; values?: object[] }
   mark?: string | IMark
   encoding?: {
@@ -16,7 +17,7 @@ export interface IChart {
   layers?: object[]
   height?: number
   width?: number
-  transform?: ITransform[]
+  transform?: Partial<ITransform>[]
 }
 
 // Chart
@@ -37,7 +38,7 @@ export type ITransform = IAggregate | ICalculate | ITbin | IFilter | IStack | IF
 
 export interface IAggregate {
   title: string
-  aggregate: { op: string; field: string; as: string }[]
+  aggregate: Partial<{ op: string; field: string; as: string }>[]
   groupby: string[]
 }
 

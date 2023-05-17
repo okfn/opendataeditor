@@ -5,6 +5,7 @@ import InputField from '../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../store'
 import SelectField from '../../../../Parts/Fields/Select'
 import * as settings from '../../settings'
+import { IAggregate } from '../../../../../interfaces'
 
 export default function Aggregate() {
   return (
@@ -22,22 +23,22 @@ export default function Aggregate() {
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IAggregate
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
+  const aggregate =
+    transform.aggregate && transform.aggregate.length > 0
+      ? transform.aggregate[0]
+      : undefined
   return (
     <SelectField
       focused
       label="Field"
-      value={transform?.aggregate?.field!}
+      value={aggregate?.field ?? ''}
       options={fieldNames}
       onFocus={() => updateHelp('transforms/aggregateField')}
       onChange={(value) => {
-        let aggregate = {}
-        if (transform.aggregate && transform.aggregate.length > 0) {
-          aggregate = transform.aggregate[0]
-        }
         updateTransform({ aggregate: [{ ...aggregate, field: value }] })
       }}
     />
@@ -45,22 +46,22 @@ function Field() {
 }
 
 function Operation() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
+  const aggregate =
+    transform.aggregate && transform.aggregate.length > 0
+      ? transform.aggregate[0]
+      : undefined
   return (
     <SelectField
       focused
       label="Operation"
       margin="none"
-      value={transform?.aggregate?.op!}
+      value={aggregate?.op ?? ''}
       options={settings.CHANNEL_AGGREGATES}
       onFocus={() => updateHelp('transforms/aggregateOperation')}
       onChange={(value) => {
-        let aggregate = {}
-        if (transform.aggregate && transform.aggregate.length > 0) {
-          aggregate = transform.aggregate[0]
-        }
         updateTransform({ aggregate: [{ ...aggregate, op: value }] })
       }}
     />
@@ -68,19 +69,19 @@ function Operation() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
+  const aggregate =
+    transform.aggregate && transform.aggregate.length > 0
+      ? transform.aggregate[0]
+      : undefined
   return (
     <InputField
       label="As"
-      value={transform?.aggregate?.value!}
+      value={aggregate?.as ?? ''}
       onFocus={() => updateHelp('transforms/aggregateAs')}
       onChange={(value) => {
-        let aggregate = {}
-        if (transform.aggregate && transform.aggregate.length > 0) {
-          aggregate = transform.aggregate[0]
-        }
         updateTransform({ aggregate: [{ ...aggregate, as: value }] })
       }}
     />
@@ -88,18 +89,16 @@ function As() {
 }
 
 function GroupBy() {
-  const transform = useStore(selectors.transform!)
-  const fieldNames = useStore(selectors.fieldNames)
+  const transform = useStore(selectors.transform!) as IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
-    <SelectField
+    <InputField
       label="GroupBy"
-      value={transform?.aggregate?.field!}
-      options={fieldNames}
-      onFocus={() => updateHelp('transforms/aggregateField')}
+      value={(transform?.groupby || []).join()}
+      onFocus={() => updateHelp('transforms/aggregateAs')}
       onChange={(value) => {
-        updateTransform({ groupBy: [value] })
+        updateTransform({ groupby: value.split(',') })
       }}
     />
   )

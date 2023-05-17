@@ -63,6 +63,28 @@ function Offset() {
   )
 }
 
+function SortOrder() {
+  const transform = useStore(selectors.transform!) as IStack
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateTransform = useStore((state) => state.updateTransform)
+  const sort = transform.sort && transform.sort.length > 0 ? transform.sort[0] : undefined
+  return (
+    <SelectField
+      label="Sort Order"
+      value={sort?.order ?? ''}
+      options={settings.SORT_TYPES}
+      onFocus={() => updateHelp('channels/aggregate')}
+      onChange={(value) => {
+        const field = sort ? sort.field : ''
+        updateTransform({
+          ...transform,
+          sort: [{ field: field, order: value }],
+        })
+      }}
+    />
+  )
+}
+
 function As() {
   const transform = useStore(selectors.transform!) as IStack
   const updateHelp = useStore((state) => state.updateHelp)
@@ -81,17 +103,15 @@ function As() {
 
 function GroupBy() {
   const transform = useStore(selectors.transform!) as IStack
-  const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
-    <SelectField
+    <InputField
       label="GroupBy"
-      value={transform?.groupby ?? ''}
-      options={fieldNames}
+      value={(transform?.groupby || []).join()}
       onFocus={() => updateHelp('transforms/stackGroupBy')}
       onChange={(value) => {
-        updateTransform({ ...transform, groupby: [value] })
+        updateTransform({ groupby: value.split(',') })
       }}
     />
   )
@@ -114,28 +134,6 @@ function SortField() {
         updateTransform({
           ...transform,
           sort: [{ field: value, order: order }],
-        })
-      }}
-    />
-  )
-}
-
-function SortOrder() {
-  const transform = useStore(selectors.transform!) as IStack
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateTransform = useStore((state) => state.updateTransform)
-  const sort = transform.sort && transform.sort.length > 0 ? transform.sort[0] : undefined
-  return (
-    <SelectField
-      label="Sort Order"
-      value={sort?.order ?? ''}
-      options={settings.SORT_TYPES}
-      onFocus={() => updateHelp('channels/aggregate')}
-      onChange={(value) => {
-        const field = sort ? sort.field : ''
-        updateTransform({
-          ...transform,
-          sort: [{ field: field, order: value }],
         })
       }}
     />

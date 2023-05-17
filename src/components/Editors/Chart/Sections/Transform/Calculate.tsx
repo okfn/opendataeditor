@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../../../Parts/Columns'
 import InputField from '../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../store'
+import { ICalculate } from '../../../../../interfaces'
 
 export default function Calculate() {
   return (
@@ -18,13 +19,13 @@ export default function Calculate() {
 }
 
 function Expression() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as ICalculate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <InputField
       label="Expression"
-      value={transform?.calculate}
+      value={transform?.calculate ?? ''}
       onFocus={() => updateHelp('transforms/calculateExpression')}
       onChange={(value) => {
         updateTransform({ ...transform, calculate: value })
@@ -34,13 +35,13 @@ function Expression() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!)
+  const transform = useStore(selectors.transform!) as ICalculate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
     <InputField
       label="As"
-      value={transform?.as}
+      value={transform?.as ?? ''}
       onFocus={() => updateHelp('transforms/calculateAs')}
       onChange={(value) => {
         updateTransform({ ...transform, as: value })
