@@ -80,6 +80,7 @@ function ChannelItem() {
           <Aggregate />
           <Value />
           <Sort />
+          <FieldType />
         </Box>
       </Columns>
       {PROPERTIES[type] &&
@@ -109,12 +110,14 @@ function Field() {
   const field = useStore(select(selectors.channel, (channel) => channel.field))
   const updateChannel = useStore((state) => state.updateChannel)
   const fieldNames = useStore(selectors.fieldNames)
+  const customFields = useStore((state) => state.customFields)
   const updateHelp = useStore((state) => state.updateHelp)
+  const allFields = fieldNames.concat(customFields)
   return (
     <SelectField
       label="Field"
       value={field || ''}
-      options={fieldNames}
+      options={allFields}
       onFocus={() => updateHelp('channel/field')}
       onChange={(value) => updateChannel({ field: value })}
     />
@@ -197,6 +200,23 @@ function Sort() {
       options={settings.SORT_TYPES}
       onFocus={() => updateHelp('channel/aggregate')}
       onChange={(value) => updateChannel({ sort: value })}
+    />
+  )
+}
+
+function FieldType() {
+  const type = useStore((state) => state.channelState.type!)
+  const updateChannel = useStore((state) => state.updateChannel)
+  const updateHelp = useStore((state) => state.updateHelp)
+  return (
+    <SelectField
+      label="Field Type"
+      value={type || ''}
+      options={settings.FIELD_TYPES}
+      onFocus={() => updateHelp('channel/type')}
+      onChange={(value) =>
+        value ? updateChannel({ customFieldType: value }) : undefined
+      }
     />
   )
 }

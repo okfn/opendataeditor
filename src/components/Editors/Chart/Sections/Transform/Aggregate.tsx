@@ -72,6 +72,8 @@ function As() {
   const transform = useStore(selectors.transform!) as IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
+  const customFields = useStore((state) => state.customFields)
+  const updateState = useStore((state) => state.updateState)
   const aggregate =
     transform.aggregate && transform.aggregate.length > 0
       ? transform.aggregate[0]
@@ -83,6 +85,17 @@ function As() {
       onFocus={() => updateHelp('transforms/aggregateAs')}
       onChange={(value) => {
         updateTransform({ aggregate: [{ ...aggregate, as: value }] })
+      }}
+      onBlur={() => {
+        if (!aggregate?.as) {
+          const newList = customFields.filter((field) => field !== aggregate?.as)
+          updateState({ customFields: newList })
+          return
+        }
+        if (aggregate?.as && !customFields.includes(aggregate.as)) {
+          customFields.push(aggregate.as)
+        }
+        updateState({ customFields })
       }}
     />
   )

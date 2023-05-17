@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import uniq from 'lodash/uniq'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IHelpItem, IFieldItem, IChart, ITransform } from '../../../interfaces'
+import { IHelpItem, IFieldItem, IChart, ITransform, IFilter } from '../../../interfaces'
 import { ChartProps } from './Chart'
 import * as helpers from '../../../helpers'
 import * as settings from './settings'
@@ -31,12 +31,14 @@ interface ISectionState {
 
 interface State {
   fields: IFieldItem[]
+  customFields: string[]
   descriptor: Partial<IChart>
   onChange: (chart: object) => void
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<IChart>) => void
+  updateCustomFields: (field: string) => void
 
   // Channels
 
@@ -68,6 +70,7 @@ export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     options: {},
     fields: props.fields || [],
+    customFields: [],
     descriptor: props.chart || {},
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -85,6 +88,11 @@ export function makeStore(props: ChartProps) {
       Object.assign(descriptor, patch)
       onChange(descriptor)
       set({ descriptor })
+    },
+    updateCustomFields: (field) => {
+      const { customFields } = get()
+      customFields.push(field)
+      set({ customFields })
     },
 
     // Channels
@@ -129,6 +137,10 @@ export function makeStore(props: ChartProps) {
         patch.field = undefined
         // TODO: support other types for value
         patch.type = 'quantitative'
+      }
+      if ('customFieldType' in patch) {
+        patch.type = patch.customFieldType
+        delete patch.customFieldType
       }
       Object.assign(channel, patch)
       updateState({ descriptor })
@@ -289,7 +301,7 @@ export const selectors = {
 
   filterPredicate: (state: State) => {
     const allKeys = ['timeUnit', 'field']
-    const transform = selectors.transform(state)
+    const transform = selectors.transform(state) as IFilter
     if (!transform.filter) return ''
     const predicate = Object.keys(transform?.filter).filter(
       (x) => allKeys.indexOf(x) === -1
