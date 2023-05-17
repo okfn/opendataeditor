@@ -44,7 +44,8 @@ export interface IAggregate {
 
 export interface ICalculate {
   title: string
-  calculate: { expression: string; as: string }
+  calculate: string
+  as: string
 }
 
 export interface ITbin {

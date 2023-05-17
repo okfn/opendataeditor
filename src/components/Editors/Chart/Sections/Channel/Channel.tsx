@@ -205,7 +205,7 @@ function Sort() {
 }
 
 function FieldType() {
-  const type = useStore((state) => state.channelState.type!)
+  const type = useStore(selectors.channelActiveInputValue('type'))
   const updateChannel = useStore((state) => state.updateChannel)
   const updateHelp = useStore((state) => state.updateHelp)
   return (

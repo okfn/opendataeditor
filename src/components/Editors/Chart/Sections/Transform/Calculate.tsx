@@ -38,6 +38,8 @@ function As() {
   const transform = useStore(selectors.transform!) as ICalculate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
+  const customFields = useStore((state) => state.customFields)
+  const updateState = useStore((state) => state.updateState)
   return (
     <InputField
       label="As"
@@ -45,6 +47,17 @@ function As() {
       onFocus={() => updateHelp('transforms/calculateAs')}
       onChange={(value) => {
         updateTransform({ ...transform, as: value })
+      }}
+      onBlur={() => {
+        if (!transform?.as) {
+          const newList = customFields.filter((field) => field !== transform?.as)
+          updateState({ customFields: newList })
+          return
+        }
+        if (transform?.as && !customFields.includes(transform.as)) {
+          customFields.push(transform.as)
+        }
+        updateState({ customFields })
       }}
     />
   )

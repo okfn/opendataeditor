@@ -54,7 +54,7 @@ function TransformList() {
         <EditorListItem
           key={index}
           kind="transform"
-          name={transform.title}
+          name={transform.title ?? ''}
           type="transform"
           isGrid={isGrid}
           onClick={() => {
@@ -76,7 +76,7 @@ function TransformItem() {
   return (
     <EditorItem
       kind="transform"
-      name={title}
+      name={title ?? ''}
       isExtras={isExtras}
       onExtrasClick={() => updateTransformState({ isExtras: !isExtras })}
       onBackClick={() => updateTransformState({ index: undefined, isExtras: false })}
