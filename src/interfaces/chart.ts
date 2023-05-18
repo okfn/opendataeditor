@@ -12,6 +12,7 @@ export interface IChart {
       axis?: { [type: string]: any }
       sort?: string
       stack?: string
+      timeUnit?: string
     }
   }
   layers?: object[]

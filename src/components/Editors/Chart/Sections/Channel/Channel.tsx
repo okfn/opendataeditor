@@ -11,10 +11,11 @@ import { useStore, selectors, select } from '../../store'
 import * as settings from '../../settings'
 import Bin from './Bin'
 import Axis from './Axis'
+import Sorting from './Sorting'
 
 const PROPERTIES: { [key: string]: any } = {
-  x: [Bin, Axis],
-  y: [Bin, Axis],
+  x: [Bin, Axis, Sorting],
+  y: [Bin, Axis, Sorting],
 }
 
 export default function Channel() {
@@ -79,8 +80,8 @@ function ChannelItem() {
         <Box>
           <Aggregate />
           <Value />
-          <Sort />
           <FieldType />
+          <TimeUnit />
         </Box>
       </Columns>
       {PROPERTIES[type] &&
@@ -189,21 +190,6 @@ function Value() {
   )
 }
 
-function Sort() {
-  const sort = useStore(select(selectors.channel, (channel) => channel.sort))
-  const updateHelp = useStore((state) => state.updateHelp)
-  const updateChannel = useStore((state) => state.updateChannel)
-  return (
-    <SelectField
-      label="Sort"
-      value={sort || ''}
-      options={settings.SORT_TYPES}
-      onFocus={() => updateHelp('channel/aggregate')}
-      onChange={(value) => updateChannel({ sort: value })}
-    />
-  )
-}
-
 function FieldType() {
   const type = useStore(selectors.channelActiveInputValue('type'))
   const updateChannel = useStore((state) => state.updateChannel)
@@ -214,9 +200,31 @@ function FieldType() {
       value={type || ''}
       options={settings.FIELD_TYPES}
       onFocus={() => updateHelp('channel/type')}
-      onChange={(value) =>
-        value ? updateChannel({ customFieldType: value }) : undefined
-      }
+      onChange={(value) => {
+        if (!value) value = undefined
+        updateChannel({ customFieldType: value })
+      }}
+    />
+  )
+}
+
+function TimeUnit() {
+  const timeUnit = useStore(selectors.channelActiveInputValue('timeUnit'))
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateChannel = useStore((state) => state.updateChannel)
+  const updateChannelState = useStore((state) => state.updateChannelState)
+  return (
+    <SelectField
+      label="TimeUnit"
+      value={timeUnit ?? ''}
+      options={settings.TIME_UNITS}
+      onFocus={() => {
+        updateHelp('channel/timeUnit')
+        updateChannelState({ activeInput: 'timeUnit' })
+      }}
+      onChange={(value) => {
+        updateChannel({ timeUnit: value })
+      }}
     />
   )
 }

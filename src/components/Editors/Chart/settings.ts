@@ -141,4 +141,4 @@ export const DEFAULT_BINNED = false
 export const DEFAULT_TOOLTIP = false
 
 export const SORT_TYPES = ['ascending', 'descending']
-export const FIELD_TYPES = ['quantitative', 'nominal', 'temporal']
+export const FIELD_TYPES = ['', 'quantitative', 'nominal', 'temporal', 'ordinal']
