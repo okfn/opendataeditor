@@ -1,8 +1,8 @@
 import omit from 'lodash/omit'
 import { ICkanControl } from './interfaces'
-import { IFile, IFileItem } from './interfaces'
-import { ITable, IQueryData } from './interfaces'
-import { IFieldItem, IChart } from './interfaces'
+import { IResourceItem, IFileItem } from './interfaces'
+import { ITable, IReport } from './interfaces'
+import { IFieldItem, IChart, IStats } from './interfaces'
 import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
 
@@ -43,19 +43,19 @@ export class Client {
 
   // File
 
-  async fileCopy(props: { path: string; folder?: string; newPath?: string }) {
+  async fileCopy(props: { source: string; target?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
 
-  async fileCount() {
-    const result = await this.request('/file/count')
-    return result as { count: number }
-  }
-
-  async fileCreate(props: { path: string; folder?: string }) {
-    const result = await this.request('/file/create', props)
-    return result as { path: string; status: string; message: string }
+  async fileCreate(props: {
+    file: File
+    name?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
+    const result = await this.request('/file/upload', props)
+    return result as { path: string }
   }
 
   async fileDelete(props: { path: string }) {
@@ -63,17 +63,12 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileIndex(props: { path: string }) {
-    const result = await this.request('/file/index', props)
-    return result as { file?: IFile }
-  }
-
   async fileList() {
     const result = await this.request('/file/list')
     return result as { items: IFileItem[] }
   }
 
-  async fileMove(props: { path: string; folder?: string }) {
+  async fileMove(props: { source: string; target?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }
@@ -83,34 +78,9 @@ export class Client {
     return result as { bytes: ArrayBuffer }
   }
 
-  async fileRename(props: { path: string; name: string }) {
-    const result = await this.request('/file/rename', props)
-    return result as { path: string }
-  }
-
-  async fileSelect(props: { path: string }) {
-    const result = await this.request('/file/select', props)
-    return result as { file?: IFile }
-  }
-
-  async fileUpdate(props: { path: string; resource: IResource; reindex?: boolean }) {
-    const result = await this.request('/file/update', props)
-    return result as { path: string }
-  }
-
-  async fileUpload(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/upload', props)
-    return result as { path: string }
-  }
-
-  async fileWrite(props: { file: File; path: string }) {
-    const result = await this.request('/file/write', props)
-    return result as { path: string }
-  }
-
   // Folder
 
-  async folderCreate(props: { name: string; folder?: string }) {
+  async folderCreate(props: { path: string; folder?: string }) {
     const result = await this.request('/folder/create', props)
     return result as { path: string }
   }
@@ -122,8 +92,15 @@ export class Client {
     return result as { data: any }
   }
 
-  async jsonWrite(props: { path: string; data: any }) {
+  async jsonWrite(props: { path: string; data: any; deduplicate?: boolean }) {
     const result = await this.request('/json/write', props)
+    return result as { path: string }
+  }
+
+  // Link
+
+  async linkFetch(props: { url: string; folder?: string; deduplicate?: boolean }) {
+    const result = await this.request('/link/fetch', props)
     return result as { path: string }
   }
 
@@ -136,7 +113,9 @@ export class Client {
 
   // Package
 
-  async packageCreate(props: { path?: string } = {}) {
+  async packageCreate(
+    props: { path?: string; package?: IPackage; deduplicate?: boolean } = {}
+  ) {
     const result = await this.request('/package/create', props)
     return result as { path: string }
   }
@@ -151,16 +130,45 @@ export class Client {
     return result as { path: string }
   }
 
-  // Project
+  // Report
 
-  async projectIndex() {
-    const result = await this.request('/project/index')
-    return result as {}
+  async reportRead(props: { id: string }) {
+    const result = await this.request('/report/read', props)
+    return result as { report?: IReport }
   }
 
-  async projectQuery(props: { query: string }) {
-    const result = await this.request('/project/query', props)
-    return result as { data: IQueryData }
+  // Resource
+
+  async resourceCreate(props: { path: string }) {
+    const result = await this.request('/resource/create', props)
+    return result as { resource: IResource }
+  }
+
+  async resourceDelete(props: { id: string }) {
+    const result = await this.request('/resource/delete', props)
+    return result as { id: string }
+  }
+
+  async resourceMap(props: {} = {}) {
+    const result = await this.request('/resource/map', props)
+    return result as { items: { [path: string]: IResourceItem } }
+  }
+
+  async resourceRead(props: { id: string }) {
+    const result = await this.request('/resource/read', props)
+    return result as { resource?: IResource }
+  }
+
+  async resourceWrite(props: { id: string; resource: IResource }) {
+    const result = await this.request('/resource/write', props)
+    return result as { id: string }
+  }
+
+  // Stats
+
+  async statsRead(props: { id: string }) {
+    const result = await this.request('/stats/read', props)
+    return result as { stats?: IStats }
   }
 
   // Table
