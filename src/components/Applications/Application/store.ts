@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFileItem, ITreeItem, IFileEvent } from '../../../interfaces'
+import { IRecord, IFile, ITreeItem, IFileEvent } from '../../../interfaces'
 import { ApplicationProps } from './Application'
 import * as helpers from '../../../helpers'
 
@@ -16,13 +16,12 @@ type IDialog =
   | 'create/dialog'
 
 export interface State {
-  client: Client
   path?: string
-  file?: IFile
-  fileItems: IFileItem[]
+  client: Client
+  record?: IRecord
+  files: IFile[]
   fileEvent?: IFileEvent
   dialog?: IDialog
-  // TODO: do we need it as we already have fileItems?
   loading?: boolean
   indexing?: boolean
   updateState: (patch: Partial<State>) => void
@@ -30,19 +29,17 @@ export interface State {
   onDelete: (path: string) => Promise<void>
   onDraft: (path: string) => Promise<void>
   onUpdate: (path: string) => Promise<void>
+  load: () => Promise<void>
   select: (path?: string) => Promise<void>
   revert: () => Promise<void>
 
   // File
 
+  createFiles: (files: FileList) => Promise<void>
   copyFile: (folder?: string) => Promise<void>
   deleteFile: () => Promise<void>
-  listFiles: () => Promise<void>
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
-  uploadFiles: (files: FileList) => Promise<void>
-  createFile: (url: string) => Promise<void>
-  countFiles: () => Promise<number>
 
   // Folder
 
@@ -51,6 +48,7 @@ export interface State {
 
   // Others
 
+  fetchLink: (url: string) => Promise<void>
   createPackage: () => Promise<void>
   createChart: () => Promise<void>
   createView: () => Promise<void>
@@ -59,8 +57,7 @@ export interface State {
 export function makeStore(props: ApplicationProps) {
   return createStore<State>((set, get) => ({
     client: props.client,
-    fileItems: [],
-    loading: true,
+    files: [],
     updateState: (patch) => {
       set(patch)
     },
@@ -84,15 +81,21 @@ export function makeStore(props: ApplicationProps) {
       set({ fileEvent: { type: 'update', paths: [path] } })
       select(path)
     },
+    load: async () => {
+      const { client, updateState } = get()
+      updateState({ loading: true })
+      const { files } = await client.fileList()
+      updateState({ loading: false, files })
+    },
     select: async (path) => {
-      const { client, listFiles } = get()
-      set({ path })
-      if (!selectors.isFolder(get())) {
-        set({ file: undefined, indexing: true })
-        const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
-        await listFiles()
-        set({ file, indexing: false })
-      }
+      const { client, load } = get()
+      set({ path, record: undefined })
+      if (!path) return
+      if (selectors.isFolder(get())) return
+      set({ indexing: true })
+      const { record } = await client.recordCreate({ path })
+      await load()
+      set({ record, indexing: false })
     },
     revert: async () => {
       const { path, client, fileEvent, onDelete } = get()
@@ -104,29 +107,23 @@ export function makeStore(props: ApplicationProps) {
 
     // File
 
-    countFiles: async () => {
-      const { client } = get()
-      const { count } = await client.fileCount()
-      return count
-    },
-    listFiles: async () => {
-      const { client } = get()
-      const { items } = await client.fileList()
-      set({ fileItems: items })
-      set({ loading: false })
-    },
-    createFile: async (path) => {
-      const { client, onCreate } = get()
-      const folder = selectors.folderPath(get())
-      const result = await client.fileCreate({ path, folder })
-      // TODO: review
-      if (!result.path) return
-      onCreate(result.path)
+    createFiles: async (files) => {
+      const paths: string[] = []
+      const { client, load, select } = get()
+      for (const file of files) {
+        const folder = selectors.folderPath(get())
+        const result = await client.fileCreate({ file, folder })
+        paths.push(result.path)
+      }
+      if (!paths.length) return
+      await load()
+      if (paths.length === 1) select(paths[0])
+      set({ fileEvent: { type: 'create', paths } })
     },
     copyFile: async (folder) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileCopy({ path, folder })
+      const result = await client.fileCopy({ source: path, target: folder })
       onCreate(result.path)
     },
     deleteFile: async () => {
@@ -138,28 +135,14 @@ export function makeStore(props: ApplicationProps) {
     moveFile: async (folder) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileMove({ path, folder })
+      const result = await client.fileMove({ source: path, target: folder })
       onCreate(result.path)
     },
     renameFile: async (name) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileRename({ path, name })
+      const result = await client.fileMove({ source: path, newName: name })
       onCreate(result.path)
-    },
-    // TODO: upload in parallel?
-    uploadFiles: async (files) => {
-      const paths: string[] = []
-      const { client, listFiles, select } = get()
-      for (const file of files) {
-        const folder = selectors.folderPath(get())
-        const result = await client.fileUpload({ file, folder })
-        paths.push(result.path)
-      }
-      if (!paths.length) return
-      await listFiles()
-      if (paths.length === 1) select(paths[0])
-      set({ fileEvent: { type: 'create', paths } })
     },
 
     // Folder
@@ -167,7 +150,7 @@ export function makeStore(props: ApplicationProps) {
     createFolder: async (name) => {
       const { client, onCreate } = get()
       const folder = selectors.folderPath(get())
-      const { path } = await client.folderCreate({ name, folder })
+      const { path } = await client.folderCreate({ path: name, folder })
       onCreate(path)
     },
     uploadFolder: async (files) => {
@@ -176,7 +159,7 @@ export function makeStore(props: ApplicationProps) {
       let basePath
       const fileParts = files[0].webkitRelativePath.split('/')
       if (fileParts.length > 1) {
-        basePath = await client.folderCreate({ name: fileParts[0], folder: path })
+        basePath = await client.folderCreate({ path: fileParts[0], folder: path })
       }
       for (const file of files) {
         let folders = helpers.getFolderList(file)
@@ -194,19 +177,23 @@ export function makeStore(props: ApplicationProps) {
         const folderParts = file.folder.split('/')
         folderParts[0] = basePath?.path
         const folder = folderParts.join('/')
-
         if (file.type === 'folder') {
-          await client.folderCreate({ name: file.name, folder: folder })
+          await client.folderCreate({ path: file.name, folder: folder })
           continue
         }
-        await client.fileUpload({ file: file.file, folder: folder })
+        await client.fileCreate({ file: file.file, folder: folder })
       }
-      // TODO: review
       if (path) onCreate(path)
     },
 
     // Others
 
+    fetchLink: async (url) => {
+      const { client, onCreate } = get()
+      const folder = selectors.folderPath(get())
+      const result = await client.linkFetch({ url, folder, deduplicate: true })
+      onCreate(result.path)
+    },
     createPackage: async () => {
       const { client, onCreate } = get()
       const { path } = await client.packageCreate()
@@ -214,29 +201,28 @@ export function makeStore(props: ApplicationProps) {
     },
     // TODO: rewrite this method
     createChart: async () => {
-      const { file, client, onDraft } = get()
+      const { record, client, onDraft } = get()
       let path
       let chart
-      if (file?.type === 'table') {
-        const resource = file.record!.resource
-        path = `${resource.name}.chart.json`
+      if (record?.type === 'table') {
+        path = `${record.resource.name}.chart.json`
         chart = {
-          data: { url: file.path },
+          data: { url: record.path },
           mark: 'bar',
           encoding: {},
           width: 600,
           height: 200,
         }
-        const { items } = await client.fieldList()
-        for (const field of items) {
-          if (field.tablePath !== file.path) continue
-          if (field.type === 'string') {
+        const { columns } = await client.columnList()
+        for (const column of columns) {
+          if (column.tablePath !== record.path) continue
+          if (column.type === 'string') {
             // @ts-ignore
-            chart.encoding.x = { field: field.name, type: 'nominal' }
+            chart.encoding.x = { column: column.name, type: 'nominal' }
           }
-          if (['integer', 'number'].includes(field.type)) {
+          if (['integer', 'number'].includes(column.type)) {
             // @ts-ignore
-            chart.encoding.y = { field: field.name, type: 'quantitative' }
+            chart.encoding.y = { column: column.name, type: 'quantitative' }
           }
           // @ts-ignore
           if (chart.encoding.x && chart.encoding.y) break
@@ -254,17 +240,15 @@ export function makeStore(props: ApplicationProps) {
 }
 
 export const selectors = {
-  fileItem: (state: State) => {
-    return state.fileItems.find((item) => item.path === state.path)
+  file: (state: State) => {
+    return state.files.find((file) => file.path === state.path)
   },
   filePaths: (state: State) => {
-    return state.fileItems
-      .filter((item) => item.type === 'folder')
-      .map((item) => item.path)
+    return state.files.filter((file) => file.type === 'folder').map((file) => file.path)
   },
   isFolder: (state: State) => {
-    return !!state.fileItems.find(
-      (item) => item.path === state.path && item.type === 'folder'
+    return !!state.files.find(
+      (file) => file.path === state.path && file.type === 'folder'
     )
   },
   folderPath: (state: State) => {
@@ -274,26 +258,14 @@ export const selectors = {
     return helpers.getFolderPath(state.path)
   },
   fileTree: (state: State) => {
-    return helpers.createFileTree(state.fileItems)
+    return helpers.createFileTree(state.files)
   },
   targetTree: (state: State) => {
-    const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
+    const fileTree = helpers.createFileTree(state.files, ['folder'])
     const targetTree: ITreeItem[] = [
       { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree
-  },
-  errorCount: (state: State) => {
-    return state.file?.record?.report?.stats?.errors
-    // For now we don't show integrated project status (probably we don't need to)
-    // if (state.file) {
-    // return state.file?.record?.report?.stats?.errors
-    // } else {
-    // const indexed = state.fileItems.filter((item) => item.errorCount !== undefined)
-    // return indexed.length
-    // ? indexed.reduce((count, item) => count + (item.errorCount || 0), 0)
-    // : undefined
-    // }
   },
 }
 

@@ -7,10 +7,9 @@ import ViewChip from '../../Parts/Chips/View'
 import { useStore, selectors } from './store'
 
 export default function Status() {
-  const file = useStore((state) => state.file)
+  const file = useStore(selectors.file)
   const createChart = useStore((state) => state.createChart)
   const createView = useStore((state) => state.createView)
-  const errorCount = useStore(selectors.errorCount)
   return (
     <Container>
       <Prefix>
@@ -20,7 +19,7 @@ export default function Status() {
       <Suffix>
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
-        <ValidationChip errorCount={errorCount} />
+        <ValidationChip errorCount={file?.errors} />
       </Suffix>
     </Container>
   )

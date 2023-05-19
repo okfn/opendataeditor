@@ -15,9 +15,9 @@ export default function Layout() {
   const height = `calc(100vh - ${theme.spacing(8)})`
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
   const path = useStore((state) => state.path)
-  const listFiles = useStore((state) => state.listFiles)
+  const load = useStore((state) => state.load)
   React.useEffect(() => {
-    listFiles().catch(console.error)
+    load().catch(console.error)
   }, [path])
   return (
     <React.Fragment>

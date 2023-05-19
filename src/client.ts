@@ -1,8 +1,8 @@
 import omit from 'lodash/omit'
 import { ICkanControl } from './interfaces'
-import { IResourceItem, IFileItem } from './interfaces'
+import { IRecord, IFile } from './interfaces'
 import { ITable, IReport } from './interfaces'
-import { IFieldItem, IChart, IStats } from './interfaces'
+import { IColumn, IChart, IStats } from './interfaces'
 import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
 
@@ -34,11 +34,11 @@ export class Client {
     return result as { chart: IChart }
   }
 
-  // Field
+  // Column
 
-  async fieldList() {
-    const result = await this.request('/field/list')
-    return result as { items: IFieldItem[] }
+  async columnList() {
+    const result = await this.request('/column/list')
+    return result as { columns: IColumn[] }
   }
 
   // File
@@ -65,10 +65,15 @@ export class Client {
 
   async fileList() {
     const result = await this.request('/file/list')
-    return result as { items: IFileItem[] }
+    return result as { files: IFile[] }
   }
 
-  async fileMove(props: { source: string; target?: string; deduplicate?: boolean }) {
+  async fileMove(props: {
+    source: string
+    target?: string
+    newName?: string
+    deduplicate?: boolean
+  }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }
@@ -130,38 +135,33 @@ export class Client {
     return result as { path: string }
   }
 
+  // Record
+
+  async recordCreate(props: { path: string }) {
+    const result = await this.request('/record/create', props)
+    return result as { record: IRecord }
+  }
+
+  async recordDelete(props: { id: string }) {
+    const result = await this.request('/record/delete', props)
+    return result as { record?: IRecord }
+  }
+
+  async recordRead(props: { id: string }) {
+    const result = await this.request('/record/read', props)
+    return result as { record?: IRecord }
+  }
+
+  async recordWrite(props: { id: string; type?: string; reosurce: IResource }) {
+    const result = await this.request('/record/write', props)
+    return result as { record?: IRecord }
+  }
+
   // Report
 
   async reportRead(props: { id: string }) {
     const result = await this.request('/report/read', props)
     return result as { report?: IReport }
-  }
-
-  // Resource
-
-  async resourceCreate(props: { path: string }) {
-    const result = await this.request('/resource/create', props)
-    return result as { resource: IResource }
-  }
-
-  async resourceDelete(props: { id: string }) {
-    const result = await this.request('/resource/delete', props)
-    return result as { id: string }
-  }
-
-  async resourceMap(props: {} = {}) {
-    const result = await this.request('/resource/map', props)
-    return result as { items: { [path: string]: IResourceItem } }
-  }
-
-  async resourceRead(props: { id: string }) {
-    const result = await this.request('/resource/read', props)
-    return result as { resource?: IResource }
-  }
-
-  async resourceWrite(props: { id: string; resource: IResource }) {
-    const result = await this.request('/resource/write', props)
-    return result as { id: string }
   }
 
   // Stats

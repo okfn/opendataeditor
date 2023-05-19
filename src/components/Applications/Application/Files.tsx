@@ -5,9 +5,9 @@ import FileTree from '../../Parts/Trees/File'
 import { useStore, selectors } from './store'
 
 export default function Files() {
-  const fileItems = useStore((state) => state.fileItems)
+  const files = useStore((state) => state.files)
   const loading = useStore((state) => state.loading)
-  return loading ? <LoadingFiles /> : fileItems.length ? <PresentFiles /> : <EmptyFiles />
+  return loading ? <LoadingFiles /> : files.length ? <PresentFiles /> : <EmptyFiles />
 }
 
 function PresentFiles() {

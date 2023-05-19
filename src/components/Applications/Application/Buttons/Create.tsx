@@ -27,7 +27,7 @@ export default function CreateButton() {
 }
 
 function UploadFile() {
-  const uploadFiles = useStore((state) => state.uploadFiles)
+  const createFiles = useStore((state) => state.createFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
@@ -44,7 +44,7 @@ function UploadFile() {
           multiple
           ref={inputFileRef}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFiles(ev.target.files)
+            if (ev.target.files) createFiles(ev.target.files)
           }}
         />
       </Button>

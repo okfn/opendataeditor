@@ -6,11 +6,11 @@ import { useStore } from './store'
 import * as settings from './settings'
 
 export default function Controller() {
-  const file = useStore((state) => state.file)
+  const record = useStore((state) => state.record)
   const indexing = useStore((state) => state.indexing)
   return indexing ? (
     <LoadingController />
-  ) : file ? (
+  ) : record ? (
     <FileController />
   ) : (
     <EmptyController />
@@ -18,18 +18,18 @@ export default function Controller() {
 }
 
 function FileController() {
-  const file = useStore((state) => state.file)
   const client = useStore((state) => state.client)
+  const record = useStore((state) => state.record)
   const revert = useStore((state) => state.revert)
   const onCreate = useStore((state) => state.onCreate)
   const onUpdate = useStore((state) => state.onUpdate)
   const fileEvent = useStore((state) => state.fileEvent)
-  if (!file) return null
-  const Controller = settings.CONTROLLERS[file.type] || File
-  const handleUpdate = React.useMemo(() => () => onUpdate(file.path), [file.path])
+  if (!record) return null
+  const Controller = settings.CONTROLLERS[record.type] || File
+  const handleUpdate = React.useMemo(() => () => onUpdate(record.path), [record.path])
   return (
     <Controller
-      path={file.path}
+      path={record.path}
       client={client}
       isDraft={fileEvent?.type === 'draft'}
       onSave={handleUpdate}
