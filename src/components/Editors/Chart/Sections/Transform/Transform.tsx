@@ -25,13 +25,13 @@ const TRANSFORMS: { [key: string]: any } = {
 }
 
 export default function Transform() {
-  const index = useStore((state) => state.transformState.index)
+  const index = useStore((state) => state.transformStates[state.layer]?.index)
   return index === undefined ? <TransformList /> : <TransformItem />
 }
 
 function TransformList() {
-  const isGrid = useStore((state) => state.transformState.isGrid)
-  const query = useStore((state) => state.transformState.query)
+  const isGrid = useStore((state) => state.transformStates[state.layer]?.isGrid)
+  const query = useStore((state) => state.transformStates[state.layer]?.query)
   const transformItems = useStore(selectors.transformItems)
   const updateTransformState = useStore((state) => state.updateTransformState)
   const addTransform = useStore((state) => state.addTransform)
@@ -69,9 +69,9 @@ function TransformList() {
 
 function TransformItem() {
   const title = useStore(select(selectors.transform, (transform) => transform.title))
-  const isExtras = useStore((state) => state.transformState.isExtras)
+  const isExtras = useStore((state) => state.transformStates[state.layer].isExtras)
   const updateTransformState = useStore((state) => state.updateTransformState)
-  const type = useStore((state) => state.transformState.type ?? 'aggregate')
+  const type = useStore((state) => state.transformStates[state.layer].type ?? 'aggregate')
   const ViewTransform = TRANSFORMS[type]
   return (
     <EditorItem
@@ -96,7 +96,7 @@ function TransformItem() {
 }
 
 function Type() {
-  const type = useStore((state) => state.transformState.type!)
+  const type = useStore((state) => state.transformStates[state.layer].type!)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransformType = useStore((state) => state.updateTransformType)
   return (

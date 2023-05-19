@@ -15,7 +15,7 @@ export interface IChart {
       timeUnit?: string
     }
   }
-  layers?: object[]
+  layer?: Partial<IChart>[]
   height?: number
   width?: number
   transform?: Partial<ITransform>[]

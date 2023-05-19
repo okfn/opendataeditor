@@ -33,7 +33,10 @@ interface State {
   fields: IFieldItem[]
   customFields: string[]
   descriptor: Partial<IChart>
-  layer: number
+  shallow: boolean
+  tabIndex: number
+  tabNames: string[]
+  vtabIndex: number
   onChange: (chart: object) => void
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -41,11 +44,16 @@ interface State {
   updateDescriptor: (patch: Partial<IChart>) => void
   updateCustomFields: (field: string) => void
 
+  // Layer
+  addLayer: () => void
+  removeLayer: () => void
+
   // Channels
 
   channelStates: IChannelState[]
   updateChannelState: (patch: Partial<IChannelState>) => void
   updateChannelType: (type: string) => void
+  updateLayerChannel: (patch: any) => void
   // TODO: add proper type
   updateChannel: (patch: any) => void
   removeChannel: (type: string) => void
@@ -53,7 +61,7 @@ interface State {
 
   // Transform
 
-  transformState: ISectionState
+  transformStates: ISectionState[]
   updateTransformState: (patch: Partial<ISectionState>) => void
   updateTransformType: (type: string) => void
   updateTransform: (patch: Partial<ITransform>) => void
@@ -73,12 +81,21 @@ export function makeStore(props: ChartProps) {
     fields: props.fields || [],
     customFields: [],
     descriptor: props.chart || {},
-    layer: 0,
+    shallow: false,
+    tabIndex: 0,
+    vtabIndex: 1,
+    tabNames: ['General'],
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })
+    },
+    updateLayerChannel: (patch) => {
+      const { descriptor, updateState } = get()
+      const channel = selectors.channel(get())
+      Object.assign(channel, patch)
+      updateState({ descriptor })
     },
     updateState: (patch) => {
       const { onChange } = get()
@@ -97,18 +114,55 @@ export function makeStore(props: ChartProps) {
       set({ customFields })
     },
 
+    // Layers
+    addLayer: () => {
+      const { tabNames, updateDescriptor, descriptor } = get()
+      const length = tabNames.length
+      const layer = descriptor.layer || []
+      tabNames.push(`Layer ${length}`)
+      if (!layer[length - 1]) {
+        layer[length - 1] = {}
+      }
+      updateDescriptor({ layer })
+      set({ tabNames, tabIndex: length })
+    },
+    removeLayer: () => {
+      const { channelStates, descriptor, tabNames, tabIndex, updateState } = get()
+      delete channelStates[tabIndex]
+      delete descriptor.layer?.[tabIndex - 1]
+      delete tabNames[tabIndex]
+      set({ channelStates, tabNames, tabIndex: tabIndex - 1 })
+      updateState({ descriptor })
+    },
+
     // Channels
 
     channelStates: [],
     updateChannelState: (patch) => {
-      const { channelStates, layer } = get()
-      channelStates[layer] = { ...channelStates[layer], ...patch }
+      const { channelStates, tabIndex } = get()
+      channelStates[tabIndex] = { ...channelStates[tabIndex], ...patch }
       set({ channelStates: { ...channelStates, ...patch } })
     },
     updateChannelType: (type) => {
-      const { descriptor, layer, channelStates, updateState, updateChannelState } = get()
-      const oldType = channelStates[layer].type!
+      const { descriptor, tabIndex, channelStates, updateState, updateChannelState } =
+        get()
+      const oldType = channelStates[tabIndex].type!
       const channel = selectors.channel(get())
+
+      // Layer
+      if (tabIndex > 0) {
+        const layer = tabIndex - 1
+        if (!descriptor.layer) descriptor.layer = []
+        const currentLayer = descriptor.layer[layer]
+        console.log(currentLayer, descriptor.layer, tabIndex, 'type', oldType, type)
+        currentLayer.encoding = { ...currentLayer.encoding, [type]: channel }
+        descriptor.layer[layer] = currentLayer
+        updateChannelState({ type })
+        delete descriptor.layer[layer].encoding![oldType]
+        updateState({ descriptor })
+        return
+      }
+
       descriptor.encoding![type] = channel
       updateChannelState({ type })
       delete descriptor.encoding![oldType]
@@ -156,7 +210,23 @@ export function makeStore(props: ChartProps) {
     },
     // TODO: scroll to newly created channel
     addChannel: () => {
-      const { descriptor, updateState } = get()
+      const { descriptor, updateState, tabIndex } = get()
+
+      // Layer
+      if (tabIndex > 0) {
+        const layer = tabIndex - 1
+        descriptor.layer![layer].encoding = descriptor.layer![layer].encoding || {}
+        for (const type of settings.CHANNEL_TYPES) {
+          if (!descriptor.layer![layer].encoding?.[type]) {
+            const encoding = descriptor.layer![layer].encoding
+            descriptor.layer![layer].encoding = { ...encoding, [type]: {} }
+            break
+          }
+        }
+        updateState({ descriptor })
+        return
+      }
+
       descriptor.encoding = descriptor.encoding || {}
       for (const type of settings.CHANNEL_TYPES) {
         if (!descriptor.encoding[type]) {
@@ -169,22 +239,24 @@ export function makeStore(props: ChartProps) {
 
     // Transform
 
-    transformState: {},
+    transformStates: [],
     updateTransformState: (patch) => {
-      const { transformState } = get()
-      set({ transformState: { ...transformState, ...patch } })
+      const { transformStates, tabIndex } = get()
+      transformStates[tabIndex] = { ...transformStates[tabIndex], ...patch }
+      set({ transformStates: { ...transformStates, ...patch } })
     },
     updateTransformType: (type) => {
-      const { descriptor, transformState, updateState, updateTransformState } = get()
-      const index = transformState.index!
+      const { descriptor, tabIndex, transformStates, updateState, updateTransformState } =
+        get()
+      const index = transformStates[tabIndex].index!
       const title = descriptor.transform![index].title
       descriptor.transform![index] = { title }
       updateTransformState({ type })
       updateState({ descriptor })
     },
     updateTransform: (patch) => {
-      const { descriptor, transformState, updateDescriptor } = get()
-      const index = transformState.index!
+      const { descriptor, tabIndex, transformStates, updateDescriptor } = get()
+      const index = transformStates[tabIndex].index!
       const transform = selectors.transform(get())
       const transforms = descriptor.transform!
       transforms[index] = { ...transform, ...patch }
@@ -215,8 +287,9 @@ export function makeStore(props: ChartProps) {
       set({ filterState: { ...filterState, ...patch } })
     },
     updateFilterType: (type) => {
-      const { descriptor, transformState, updateState, updateFilterState } = get()
-      const index = transformState.index!
+      const { descriptor, tabIndex, transformStates, updateState, updateFilterState } =
+        get()
+      const index = transformStates[tabIndex].index!
       descriptor.transform![index] = {}
       updateFilterState({ type })
       updateState({ descriptor })
@@ -245,8 +318,13 @@ export const selectors = {
   // Channels
 
   channel: (state: State) => {
-    const type = state.channelStates[state.layer].type!
-    const channel = state.descriptor.encoding![type]!
+    const type = state.channelStates[state.tabIndex]?.type!
+    let channel
+    if (state.tabIndex > 0 && state.descriptor.layer) {
+      channel = state.descriptor.layer[state.tabIndex - 1]?.encoding![type]!
+    } else {
+      channel = state.descriptor.encoding![type]!
+    }
     return channel
   },
   // TODO: remove! somehow it doesn't rerender using channel and select
@@ -260,20 +338,18 @@ export const selectors = {
     return channel.value
   },
   // TODO: remove! somehow it doesn't rerender using channel and select
-  channelActiveInput: (state: State) => {
-    const activeInput = state.channelStates[state.layer].activeInput!
-    const channel = selectors.channel(state) as { [key: string]: any }
-    return channel[activeInput]
-  },
-  // TODO: remove! somehow it doesn't rerender using channel and select
   channelActiveInputValue: (activeInput: string) => (state: State) => {
     const channel = selectors.channel(state) as { [key: string]: any }
     return channel[activeInput]
   },
   channelItems: (state: State) => {
     const items = []
-    const query = state.channelStates[state.layer]?.query
-    for (const [type, channel] of Object.entries(state.descriptor.encoding || {})) {
+    const query = state.channelStates[state.tabIndex]?.query
+    let encoding = state.descriptor.encoding
+    if (state.tabIndex > 0) {
+      encoding = state.descriptor.layer?.[state.tabIndex - 1]?.encoding || {}
+    }
+    for (const [type, channel] of Object.entries(encoding || {})) {
       if (query && !type.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ type, channel })
     }
@@ -283,14 +359,14 @@ export const selectors = {
   // Transform
 
   transform: (state: State) => {
-    const index = state.transformState.index!
+    const index = state.transformStates[state.tabIndex].index!
     const transforms = state.descriptor.transform!
     const transform = transforms[index]!
     return transform
   },
   transformItems: (state: State) => {
     const items = []
-    const query = state.transformState.query
+    const query = state.transformStates[state.tabIndex]?.query
     for (const [index, transform] of (state.descriptor.transform || []).entries()) {
       if (query && !transform[query.toLowerCase() as keyof ITransform]) {
         continue
