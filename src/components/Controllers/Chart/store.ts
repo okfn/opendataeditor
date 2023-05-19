@@ -8,7 +8,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFieldItem, IChart, IResource } from '../../../interfaces'
+import { IRecord, IColumn, IChart, IResource, IReport } from '../../../interfaces'
 import { ChartProps } from './Chart'
 
 export interface State {
@@ -20,8 +20,9 @@ export interface State {
   onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
-  fields?: IFieldItem[]
-  file?: IFile
+  record?: IRecord
+  report?: IReport
+  columns?: IColumn[]
   resource?: IResource
   original?: IChart
   modified?: IChart
@@ -49,13 +50,13 @@ export function makeStore(props: ChartProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      const { items } = await client.fieldList()
-      const { data } = await client.jsonRead({ path: file.path })
-      set({ modified: cloneDeep(data), original: data, fields: items })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ id: record.id })
+      const resource = cloneDeep(record.resource)
+      set({ record, resource, report })
+      const { columns } = await client.columnList()
+      const { data } = await client.jsonRead({ path: record.path })
+      set({ modified: cloneDeep(data), original: data, columns })
       render()
     },
     clear: () => {
@@ -68,10 +69,10 @@ export function makeStore(props: ChartProps) {
       onRevert && onRevert()
     },
     save: async () => {
-      const { file, client, resource, modified, onSave, load } = get()
-      if (!file || !resource || !modified) return
-      await client.fileUpdate({ path: file.path, resource })
-      await client.jsonWrite({ path: file.path, data: modified })
+      const { record, client, resource, modified, onSave, load } = get()
+      if (!record || !resource || !modified) return
+      await client.recordWrite({ id: record.id, resource })
+      await client.jsonWrite({ path: record.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()
@@ -97,7 +98,7 @@ export const selectors = {
     return (
       state.isDraft ||
       !isEqual(state.original, state.modified) ||
-      !isEqual(state.resource, state.file?.record!.resource)
+      !isEqual(state.resource, state.record?.resource)
     )
   },
 }

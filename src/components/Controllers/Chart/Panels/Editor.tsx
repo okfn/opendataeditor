@@ -3,13 +3,13 @@ import ChartEditor from '../../../Editors/Chart'
 import { useStore } from '../store'
 
 export default function Editor() {
-  const fields = useStore((state) => state.fields)
+  const columns = useStore((state) => state.columns)
   const modified = useStore((state) => state.modified)
   const updateState = useStore((state) => state.updateState)
   return (
     <ChartEditor
       chart={modified}
-      fields={fields}
+      fields={columns}
       onChange={(chart) => updateState({ modified: chart })}
     />
   )
