@@ -53,7 +53,7 @@ export function makeStore(props: ChartProps) {
       const { record } = await client.recordCreate({ path })
       const { report } = await client.reportRead({ id: record.id })
       const resource = cloneDeep(record.resource)
-      set({ record, resource, report })
+      set({ record, report, resource })
       const { columns } = await client.columnList()
       const { data } = await client.jsonRead({ path: record.path })
       set({ modified: cloneDeep(data), original: data, columns })

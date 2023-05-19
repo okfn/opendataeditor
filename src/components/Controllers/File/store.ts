@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IResource } from '../../../interfaces'
+import { IRecord, IReport, IResource } from '../../../interfaces'
 import { FileProps } from './File'
 
 export interface State {
@@ -17,7 +17,8 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report'
   dialog?: 'saveAs'
-  file?: IFile
+  record?: IRecord
+  report?: IReport
   resource?: IResource
   source?: ArrayBuffer
   updateState: (patch: Partial<State>) => void
@@ -37,30 +38,30 @@ export function makeStore(props: FileProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      if (!['jpg', 'png'].includes(file.record?.resource.format || '')) return
-      const { bytes } = await client.fileRead({ path: file.path })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ id: record.id })
+      const resource = cloneDeep(record.resource)
+      set({ record, report, resource })
+      if (!['jpg', 'png'].includes(record.resource.format || '')) return
+      const { bytes } = await client.fileRead({ path: record.path })
       set({ source: bytes })
     },
     revert: () => {
-      const { file } = get()
-      if (!file) return
-      set({ resource: cloneDeep(file.record!.resource) })
+      const { record } = get()
+      if (!record) return
+      set({ resource: cloneDeep(record.resource) })
     },
     save: async () => {
-      const { file, client, resource, onSave, load } = get()
-      if (!file || !resource) return
-      await client.fileUpdate({ path: file.path, resource })
+      const { client, record, resource, onSave, load } = get()
+      if (!record || !resource) return
+      await client.recordWrite({ id: record.id, resource })
       onSave()
       load()
     },
     saveAs: async (path) => {
-      const { file, client, onSaveAs } = get()
-      if (!file) return
-      await client.fileCopy({ path: file.path, newPath: path })
+      const { client, record, onSaveAs } = get()
+      if (!record) return
+      await client.fileCopy({ source: record.path, target: path })
       onSaveAs(path)
     },
   }))
@@ -69,7 +70,7 @@ export function makeStore(props: FileProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return !isEqual(state.resource, state.file?.record!.resource)
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 
