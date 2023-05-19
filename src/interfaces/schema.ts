@@ -10,13 +10,6 @@ export interface ISchema {
   missingValues?: string[]
 }
 
-export type IFieldItem = {
-  name: string
-  type: string
-  tableName: string
-  tablePath: string
-}
-
 export interface IField {
   name: string
   type: string

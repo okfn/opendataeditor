@@ -1,6 +1,6 @@
 import sortBy from 'lodash/sortBy'
 import cloneDeep from 'lodash/cloneDeep'
-import { IFileItem, ITreeItem, IHelp, IHelpItem, IFieldItem } from './interfaces'
+import { IFile, ITreeItem, IHelp, IHelpItem, IColumn } from './interfaces'
 import * as settings from './settings'
 
 export function readHelpItem(help: IHelp, path: string): IHelpItem | null {
@@ -42,25 +42,25 @@ export function getFolderPath(path: string) {
   return parts.slice(0, -1).join('/')
 }
 
-export function createFileTree(items: IFileItem[], types?: string[]): ITreeItem[] {
+export function createFileTree(files: IFile[], types?: string[]): ITreeItem[] {
   let maxLevel = 0
 
   // Create tree
   const tree: ITreeItem[] = []
-  items = cloneDeep(items)
-  items = sortBy(items, (item) => item.type !== 'folder')
-  for (const item of items) {
-    if (types && !types.includes(item.type)) continue
-    const parts = item.path.split('/')
+  files = cloneDeep(files)
+  files = sortBy(files, (file) => file.type !== 'folder')
+  for (const file of files) {
+    if (types && !types.includes(file.type)) continue
+    const parts = file.path.split('/')
     const level = parts.length
     const name = parts[level - 1]
     maxLevel = Math.max(maxLevel, level)
     tree.push({
       name,
-      path: item.path,
-      type: item.type,
+      type: file.type,
+      path: file.path,
       children: [],
-      errors: item.errorCount ?? undefined,
+      errors: file.errors ?? undefined,
     })
   }
 
@@ -118,19 +118,19 @@ export function generateTitle(items: any[], suffix: string = '') {
   return title
 }
 
-export function createFieldTree(fields: IFieldItem[]): ITreeItem[] {
+export function createFieldTree(columns: IColumn[]): ITreeItem[] {
   const fieldTreeMap: { [tableName: string]: ITreeItem } = {}
-  for (const item of fields) {
-    fieldTreeMap[item.tableName] = fieldTreeMap[item.tableName] || {
-      name: item.tableName,
-      path: item.tablePath,
+  for (const column of columns) {
+    fieldTreeMap[column.tableName] = fieldTreeMap[column.tableName] || {
+      name: column.tableName,
+      path: column.tablePath,
       type: 'table',
       children: [],
     }
-    fieldTreeMap[item.tableName].children.push({
-      name: item.name,
-      path: `${item.tablePath}/${item.name}`,
-      type: item.type,
+    fieldTreeMap[column.tableName].children.push({
+      name: column.name,
+      path: `${column.tablePath}/${column.name}`,
+      type: column.type,
       children: [],
     })
   }

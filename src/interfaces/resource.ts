@@ -4,10 +4,6 @@ import { ILicense } from './license'
 import { ISource } from './source'
 import { IContributor } from './contributor'
 
-export interface IStats {
-  errors: number
-}
-
 export interface IResource {
   name: string
   type: string
