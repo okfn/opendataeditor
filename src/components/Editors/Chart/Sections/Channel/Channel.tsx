@@ -19,13 +19,13 @@ const PROPERTIES: { [key: string]: any } = {
 }
 
 export default function Channel() {
-  const type = useStore((state) => state.channelState.type)
+  const type = useStore((state) => state.channelStates[state.layer]?.type)
   return type === undefined ? <ChannelList /> : <ChannelItem />
 }
 
 function ChannelList() {
-  const isGrid = useStore((state) => state.channelState.isGrid)
-  const query = useStore((state) => state.channelState.query)
+  const isGrid = useStore((state) => state.channelStates[state.layer]?.isGrid)
+  const query = useStore((state) => state.channelStates[state.layer]?.query)
   const channelItems = useStore(selectors.channelItems)
   const updateChannelState = useStore((state) => state.updateChannelState)
   const addChannel = useStore((state) => state.addChannel)
@@ -60,8 +60,8 @@ function ChannelList() {
 }
 
 function ChannelItem() {
-  const type = useStore((state) => state.channelState.type!)
-  const isExtras = useStore((state) => state.channelState.isExtras)
+  const type = useStore((state) => state.channelStates[state.layer]?.type!)
+  const isExtras = useStore((state) => state.channelStates[state.layer]?.isExtras)
   const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <EditorItem
@@ -93,7 +93,7 @@ function ChannelItem() {
 }
 
 function Type() {
-  const type = useStore((state) => state.channelState.type!)
+  const type = useStore((state) => state.channelStates[state.layer]?.type!)
   const updateChannelType = useStore((state) => state.updateChannelType)
   const updateHelp = useStore((state) => state.updateHelp)
   return (

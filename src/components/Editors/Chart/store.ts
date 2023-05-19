@@ -33,6 +33,7 @@ interface State {
   fields: IFieldItem[]
   customFields: string[]
   descriptor: Partial<IChart>
+  layer: number
   onChange: (chart: object) => void
   helpItem: IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -42,7 +43,7 @@ interface State {
 
   // Channels
 
-  channelState: IChannelState
+  channelStates: IChannelState[]
   updateChannelState: (patch: Partial<IChannelState>) => void
   updateChannelType: (type: string) => void
   // TODO: add proper type
@@ -72,6 +73,7 @@ export function makeStore(props: ChartProps) {
     fields: props.fields || [],
     customFields: [],
     descriptor: props.chart || {},
+    layer: 0,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -97,14 +99,15 @@ export function makeStore(props: ChartProps) {
 
     // Channels
 
-    channelState: {},
+    channelStates: [],
     updateChannelState: (patch) => {
-      const { channelState } = get()
-      set({ channelState: { ...channelState, ...patch } })
+      const { channelStates, layer } = get()
+      channelStates[layer] = { ...channelStates[layer], ...patch }
+      set({ channelStates: { ...channelStates, ...patch } })
     },
     updateChannelType: (type) => {
-      const { descriptor, channelState, updateState, updateChannelState } = get()
-      const oldType = channelState.type!
+      const { descriptor, layer, channelStates, updateState, updateChannelState } = get()
+      const oldType = channelStates[layer].type!
       const channel = selectors.channel(get())
       descriptor.encoding![type] = channel
       updateChannelState({ type })
@@ -242,7 +245,7 @@ export const selectors = {
   // Channels
 
   channel: (state: State) => {
-    const type = state.channelState.type!
+    const type = state.channelStates[state.layer].type!
     const channel = state.descriptor.encoding![type]!
     return channel
   },
@@ -258,7 +261,7 @@ export const selectors = {
   },
   // TODO: remove! somehow it doesn't rerender using channel and select
   channelActiveInput: (state: State) => {
-    const activeInput = state.channelState.activeInput!
+    const activeInput = state.channelStates[state.layer].activeInput!
     const channel = selectors.channel(state) as { [key: string]: any }
     return channel[activeInput]
   },
@@ -269,7 +272,7 @@ export const selectors = {
   },
   channelItems: (state: State) => {
     const items = []
-    const query = state.channelState.query
+    const query = state.channelStates[state.layer]?.query
     for (const [type, channel] of Object.entries(state.descriptor.encoding || {})) {
       if (query && !type.toLowerCase().includes(query.toLowerCase())) continue
       items.push({ type, channel })
