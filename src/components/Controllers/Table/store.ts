@@ -55,10 +55,9 @@ export function makeStore(props: TableProps) {
       const { path, client } = get()
       const { record } = await client.recordRead({ path })
       const { report } = await client.reportRead({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource })
       const { count } = await client.tableCount({ path })
-      set({ rowCount: count })
+      const resource = cloneDeep(record.resource)
+      set({ record, report, resource, rowCount: count })
     },
     loadSource: async () => {
       const { path, client } = get()

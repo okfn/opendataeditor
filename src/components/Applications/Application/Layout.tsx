@@ -14,11 +14,10 @@ export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
-  const path = useStore((state) => state.path)
   const load = useStore((state) => state.load)
   React.useEffect(() => {
     load().catch(console.error)
-  }, [path])
+  }, [])
   return (
     <React.Fragment>
       <Dialog />

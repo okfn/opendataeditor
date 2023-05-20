@@ -88,14 +88,18 @@ export function makeStore(props: ApplicationProps) {
       updateState({ loading: false, files })
     },
     select: async (path) => {
-      const { client, load } = get()
+      const { client, files } = get()
       set({ path, record: undefined })
       if (!path) return
       if (selectors.isFolder(get())) return
       set({ indexing: true })
       const { record } = await client.fileIndex({ path })
-      set({ record, indexing: false })
-      await load()
+      const newFiles = files.map((file) =>
+        file.path === path
+          ? { ...file, type: record.type, errors: record.stats.errors }
+          : file
+      )
+      set({ record, indexing: false, files: newFiles })
     },
     revert: async () => {
       const { path, client, fileEvent, onDelete } = get()
