@@ -16,6 +16,7 @@ export default function ChartChip(props: ChartChipProps) {
       icon={<LeaderboardIcon />}
       size="medium"
       sx={{
+        width: '7vw',
         height: '100%',
         borderLeft: 'solid 1px #ddd',
         borderRadius: '3px',
