@@ -9,8 +9,7 @@ export interface ViewChipProps {
 export default function ViewChip(props: ViewChipProps) {
   return (
     <Chip
-      disabled
-      title="Create a SQL View (coming soon)"
+      title="Create a SQL View"
       onClick={props.onClick}
       label="SQL VIEW"
       color="primary"
