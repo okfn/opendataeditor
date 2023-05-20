@@ -2,7 +2,7 @@ import omit from 'lodash/omit'
 import { ICkanControl } from './interfaces'
 import { IRecord, IFile } from './interfaces'
 import { ITable, IReport } from './interfaces'
-import { IColumn, IChart, IStats } from './interfaces'
+import { IColumn, IChart } from './interfaces'
 import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
 
@@ -142,33 +142,26 @@ export class Client {
     return result as { record: IRecord }
   }
 
-  async recordDelete(props: { id: string }) {
+  async recordDelete(props: { name: string }) {
     const result = await this.request('/record/delete', props)
     return result as { record?: IRecord }
   }
 
-  async recordRead(props: { id: string }) {
+  async recordRead(props: { name: string }) {
     const result = await this.request('/record/read', props)
     return result as { record?: IRecord }
   }
 
-  async recordWrite(props: { id: string; type?: string; resource: IResource }) {
+  async recordWrite(props: { name: string; type?: string; resource: IResource }) {
     const result = await this.request('/record/write', props)
     return result as { record?: IRecord }
   }
 
   // Report
 
-  async reportRead(props: { id: string }) {
+  async reportRead(props: { name: string }) {
     const result = await this.request('/report/read', props)
     return result as { report?: IReport }
-  }
-
-  // Stats
-
-  async statsRead(props: { id: string }) {
-    const result = await this.request('/stats/read', props)
-    return result as { stats?: IStats }
   }
 
   // Table
