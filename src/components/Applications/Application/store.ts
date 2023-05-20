@@ -93,9 +93,9 @@ export function makeStore(props: ApplicationProps) {
       if (!path) return
       if (selectors.isFolder(get())) return
       set({ indexing: true })
-      const { record } = await client.recordCreate({ path })
-      await load()
+      const { record } = await client.fileIndex({ path })
       set({ record, indexing: false })
+      await load()
     },
     revert: async () => {
       const { path, client, fileEvent, onDelete } = get()
@@ -123,7 +123,7 @@ export function makeStore(props: ApplicationProps) {
     copyFile: async (folder) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileCopy({ source: path, target: folder })
+      const result = await client.fileCopy({ path, toPath: folder })
       onCreate(result.path)
     },
     deleteFile: async () => {
@@ -135,13 +135,13 @@ export function makeStore(props: ApplicationProps) {
     moveFile: async (folder) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileMove({ source: path, target: folder })
+      const result = await client.fileMove({ path, toPath: folder })
       onCreate(result.path)
     },
     renameFile: async (name) => {
       const { client, path, onCreate } = get()
       if (!path) return
-      const result = await client.fileMove({ source: path, newName: name })
+      const result = await client.fileMove({ path, newName: name })
       onCreate(result.path)
     },
 

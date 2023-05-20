@@ -50,8 +50,8 @@ export function makeStore(props: ChartProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       const resource = cloneDeep(record.resource)
       set({ record, report, resource })
       const { columns } = await client.columnList()
@@ -69,10 +69,10 @@ export function makeStore(props: ChartProps) {
       onRevert && onRevert()
     },
     save: async () => {
-      const { record, client, resource, modified, onSave, load } = get()
-      if (!record || !resource || !modified) return
-      await client.recordWrite({ name: record.name, resource })
-      await client.jsonWrite({ path: record.path, data: modified })
+      const { path, client, resource, modified, onSave, load } = get()
+      if (!resource || !modified) return
+      await client.recordWrite({ path, resource })
+      await client.jsonWrite({ path, data: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()

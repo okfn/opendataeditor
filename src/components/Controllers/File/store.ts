@@ -38,8 +38,8 @@ export function makeStore(props: FileProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       const resource = cloneDeep(record.resource)
       set({ record, report, resource })
       if (!['jpg', 'png'].includes(record.resource.format || '')) return
@@ -52,16 +52,15 @@ export function makeStore(props: FileProps) {
       set({ resource: cloneDeep(record.resource) })
     },
     save: async () => {
-      const { client, record, resource, onSave, load } = get()
-      if (!record || !resource) return
-      await client.recordWrite({ name: record.name, resource })
+      const { client, path, resource, onSave, load } = get()
+      if (!resource) return
+      await client.recordWrite({ path, resource })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, record, onSaveAs } = get()
-      if (!record) return
-      await client.fileCopy({ source: record.path, target: path })
+    saveAs: async (toPath) => {
+      const { path, client, onSaveAs } = get()
+      await client.fileCopy({ path, toPath })
       onSaveAs(path)
     },
   }))

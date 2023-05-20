@@ -52,8 +52,8 @@ export function makeStore(props: SqlProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       const resource = cloneDeep(record.resource)
       set({ record, report, resource })
       const { columns } = await client.columnList()
@@ -80,10 +80,10 @@ export function makeStore(props: SqlProps) {
       onRevert && onRevert()
     },
     save: async () => {
-      const { record, client, resource, modified, onSave, load } = get()
-      if (!record || !resource || !modified) return
-      await client.recordWrite({ name: record.name, resource })
-      await client.viewWrite({ path: record.path, view: modified })
+      const { path, client, resource, modified, onSave, load } = get()
+      if (!resource || !modified) return
+      await client.recordWrite({ path, resource })
+      await client.viewWrite({ path, view: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()

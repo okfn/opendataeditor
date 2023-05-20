@@ -41,8 +41,8 @@ export function makeStore(props: MetadataProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       set({ record, report })
       const { data } = await client.jsonRead({ path: record.path })
       set({ modified: cloneDeep(data), original: data })

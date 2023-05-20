@@ -53,8 +53,8 @@ export function makeStore(props: PackageProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       set({ record, report })
       const { data } = await client.jsonRead({ path: record.path })
       set({ modified: cloneDeep(data), original: data })
@@ -92,7 +92,7 @@ export function makeStore(props: PackageProps) {
       if (!modified) return
       const resources = [...modified.resources]
       for (const path of paths) {
-        const { record } = await client.recordCreate({ path })
+        const { record } = await client.fileIndex({ path })
         resources.push(record.resource)
       }
       updateState({ modified: { ...modified, resources } })

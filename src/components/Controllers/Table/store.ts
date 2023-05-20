@@ -53,11 +53,11 @@ export function makeStore(props: TableProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       const resource = cloneDeep(record.resource)
       set({ record, report, resource })
-      const { count } = await client.tableCount({ name: record.name })
+      const { count } = await client.tableCount({ path })
       set({ rowCount: count })
     },
     loadSource: async () => {
@@ -82,16 +82,15 @@ export function makeStore(props: TableProps) {
       const { load } = get()
       load()
     },
-    saveAs: async (path) => {
-      const { record, client, onSaveAs } = get()
-      if (!record) return
-      await client.fileCopy({ source: record.path, target: path })
+    saveAs: async (toPath) => {
+      const { path, client, onSaveAs } = get()
+      await client.fileCopy({ path, toPath })
       onSaveAs(path)
     },
     tableLoader: async ({ skip, limit, sortInfo }) => {
-      const { record, client, rowCount, mode } = get()
+      const { path, client, rowCount, mode } = get()
       const { rows } = await client.tableRead({
-        name: record!.name,
+        path,
         valid: mode === 'errors' ? false : undefined,
         limit,
         offset: skip,
@@ -104,13 +103,12 @@ export function makeStore(props: TableProps) {
       }
     },
     toggleErrorMode: async () => {
-      const { client, mode, record } = get()
-      if (!record) return
+      const { path, client, mode } = get()
       if (mode === 'errors') {
-        const { count } = await client.tableCount({ name: record.name })
+        const { count } = await client.tableCount({ path })
         set({ mode: undefined, rowCount: count })
       } else {
-        const { count } = await client.tableCount({ name: record.name, valid: false })
+        const { count } = await client.tableCount({ path, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
     },

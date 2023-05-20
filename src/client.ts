@@ -43,7 +43,7 @@ export class Client {
 
   // File
 
-  async fileCopy(props: { source: string; target?: string; deduplicate?: boolean }) {
+  async fileCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
@@ -63,14 +63,19 @@ export class Client {
     return result as { path: string }
   }
 
+  async fileIndex(props: { path: string }) {
+    const result = await this.request('/file/index', props)
+    return result as { record: IRecord }
+  }
+
   async fileList() {
     const result = await this.request('/file/list')
     return result as { files: IFile[] }
   }
 
   async fileMove(props: {
-    source: string
-    target?: string
+    path: string
+    toPath?: string
     newName?: string
     deduplicate?: boolean
   }) {
@@ -104,7 +109,12 @@ export class Client {
 
   // Link
 
-  async linkFetch(props: { url: string; folder?: string; deduplicate?: boolean }) {
+  async linkFetch(props: {
+    url: string
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
     const result = await this.request('/link/fetch', props)
     return result as { path: string }
   }
@@ -137,36 +147,26 @@ export class Client {
 
   // Record
 
-  async recordCreate(props: { path: string }) {
-    const result = await this.request('/record/create', props)
+  async recordRead(props: { path: string }) {
+    const result = await this.request('/record/read', props)
     return result as { record: IRecord }
   }
 
-  async recordDelete(props: { name: string }) {
-    const result = await this.request('/record/delete', props)
-    return result as { record?: IRecord }
-  }
-
-  async recordRead(props: { name: string }) {
-    const result = await this.request('/record/read', props)
-    return result as { record?: IRecord }
-  }
-
-  async recordWrite(props: { name: string; type?: string; resource: IResource }) {
+  async recordWrite(props: { path: string; type?: string; resource: IResource }) {
     const result = await this.request('/record/write', props)
-    return result as { record?: IRecord }
+    return result as { record: IRecord }
   }
 
   // Report
 
-  async reportRead(props: { name: string }) {
+  async reportRead(props: { path: string }) {
     const result = await this.request('/report/read', props)
     return result as { report?: IReport }
   }
 
   // Table
 
-  async tableCount(props: { name: string; valid?: boolean }) {
+  async tableCount(props: { path: string; valid?: boolean }) {
     const result = await this.request('/table/count', props)
     return result as { count: number }
   }
@@ -182,7 +182,7 @@ export class Client {
   }
 
   async tableRead(props: {
-    name: string
+    path: string
     valid?: boolean
     limit?: number
     offset?: number

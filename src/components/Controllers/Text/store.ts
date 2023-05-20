@@ -61,8 +61,8 @@ export function makeStore(props: TextProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { record } = await client.recordCreate({ path })
-      const { report } = await client.reportRead({ name: record.name })
+      const { record } = await client.recordRead({ path })
+      const { report } = await client.reportRead({ path })
       const resource = cloneDeep(record.resource)
       set({ record, report, resource })
       const { text } = await client.textRead({ path: record.path })
@@ -76,10 +76,10 @@ export function makeStore(props: TextProps) {
     },
     // TODO: needs to udpate file object as well
     save: async () => {
-      const { record, client, modified, resource, onSave, load } = get()
-      if (!record || !resource) return
-      await client.recordWrite({ name: record.name, resource })
-      await client.textWrite({ path: record.path, text: modified! })
+      const { path, client, modified, resource, onSave, load } = get()
+      if (!resource) return
+      await client.recordWrite({ path, resource })
+      await client.textWrite({ path, text: modified! })
       set({ original: modified })
       onSave()
       load()
