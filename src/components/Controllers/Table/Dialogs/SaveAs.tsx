@@ -14,9 +14,9 @@ import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore } from '../store'
 
 export default function SaveAsDialog() {
-  const file = useStore((state) => state.file)
-  if (!file) return null
-  const [name, setName] = React.useState(file.record!.resource.name)
+  const record = useStore((state) => state.record)
+  if (!record) return null
+  const [name, setName] = React.useState(record.resource.name)
   const [format, setFormat] = React.useState('csv')
   const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
@@ -60,9 +60,7 @@ export default function SaveAsDialog() {
               value={format}
               onChange={(event) => setFormat(event.target.value)}
             >
-              <MenuItem value={file.record!.resource.format}>
-                {file.record!.resource.format}
-              </MenuItem>
+              <MenuItem value={record.resource.format}>{record.resource.format}</MenuItem>
             </Select>
           </Grid>
         </Grid>

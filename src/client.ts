@@ -166,7 +166,7 @@ export class Client {
 
   // Table
 
-  async tableCount(props: { path: string; valid?: boolean }) {
+  async tableCount(props: { name: string; valid?: boolean }) {
     const result = await this.request('/table/count', props)
     return result as { count: number }
   }

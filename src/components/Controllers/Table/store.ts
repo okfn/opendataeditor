@@ -7,7 +7,8 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
+import { IRecord, IReport } from '../../../interfaces'
+import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './Table'
 
 export interface State {
@@ -18,7 +19,8 @@ export interface State {
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs' | 'error'
-  file?: IFile
+  record?: IRecord
+  report?: IReport
   source?: string
   rowCount?: number
   resource?: IResource
@@ -51,11 +53,12 @@ export function makeStore(props: TableProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      const { count } = await client.tableCount({ path: file.path })
-      set({ file, resource, rowCount: count })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ name: record.name })
+      const resource = cloneDeep(record.resource)
+      set({ record, report, resource })
+      const { count } = await client.tableCount({ name: record.name })
+      set({ rowCount: count })
     },
     loadSource: async () => {
       const { path, client } = get()
@@ -63,24 +66,26 @@ export function makeStore(props: TableProps) {
       set({ source: text })
     },
     revert: () => {
-      const { file } = get()
-      if (!file) return
-      set({ resource: cloneDeep(file.record!.resource) })
+      const { record } = get()
+      if (!record) return
+      set({ resource: cloneDeep(record.resource) })
     },
+    // TODO: rewrite
     save: async () => {
-      const { file, client, resource, onSave, load } = get()
-      if (!file || !resource) return
-      let reindex = false
-      if (!isEqual(resource.dialect, file!.record!.resource.dialect)) reindex = true
-      if (!isEqual(resource.schema, file!.record!.resource.schema)) reindex = true
-      await client.fileUpdate({ path: file.path, resource, reindex })
-      onSave()
+      // const { record, client, resource, onSave, load } = get()
+      // if (!record || !resource) return
+      // let reindex = false
+      // if (!isEqual(resource.dialect, record.resource.dialect)) reindex = true
+      // if (!isEqual(resource.schema, record.resource.schema)) reindex = true
+      // await client.recordWrite({ name: record.name, resource, reindex })
+      // onSave()
+      const { load } = get()
       load()
     },
     saveAs: async (path) => {
-      const { file, client, onSaveAs } = get()
-      if (!file) return
-      await client.fileCopy({ path: file.path, newPath: path })
+      const { record, client, onSaveAs } = get()
+      if (!record) return
+      await client.fileCopy({ source: record.path, target: path })
       onSaveAs(path)
     },
     tableLoader: async ({ skip, limit, sortInfo }) => {
@@ -99,13 +104,13 @@ export function makeStore(props: TableProps) {
       }
     },
     toggleErrorMode: async () => {
-      const { client, mode, file } = get()
-      if (!file) return
+      const { client, mode, record } = get()
+      if (!record) return
       if (mode === 'errors') {
-        const { count } = await client.tableCount({ path: file.path })
+        const { count } = await client.tableCount({ name: record.name })
         set({ mode: undefined, rowCount: count })
       } else {
-        const { count } = await client.tableCount({ path: file.path, valid: false })
+        const { count } = await client.tableCount({ name: record.name, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
     },
@@ -123,7 +128,7 @@ export function makeStore(props: TableProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return !isEqual(state.resource, state.file?.record!.resource)
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

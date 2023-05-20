@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
+import { IRecord, IReport } from '../../../interfaces'
 import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { MetadataProps } from './Metadata'
 import * as helpers from '../../../helpers'
@@ -19,7 +19,8 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs'
-  file?: IFile
+  record?: IRecord
+  report?: IReport
   original?: IResource | IDialect | ISchema
   modified?: IResource | IDialect | ISchema
   updateState: (patch: Partial<State>) => void
@@ -40,16 +41,16 @@ export function makeStore(props: MetadataProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      set({ file })
-      const { data } = await client.jsonRead({ path: file.path })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ name: record.name })
+      set({ record, report })
+      const { data } = await client.jsonRead({ path: record.path })
       set({ modified: cloneDeep(data), original: data })
     },
     clear: () => {
-      const { file, updateState } = get()
-      if (!file) return
-      const descriptor = helpers.getInitialDescriptor(file.type)
+      const { record, updateState } = get()
+      if (!record) return
+      const descriptor = helpers.getInitialDescriptor(record.type)
       if (!descriptor) return
       updateState({ modified: cloneDeep(descriptor) })
     },
@@ -58,9 +59,9 @@ export function makeStore(props: MetadataProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { file, client, modified, onSave, load } = get()
-      if (!file || !modified) return
-      await client.metadataWrite({ path: file.path, data: modified })
+      const { record, client, modified, onSave, load } = get()
+      if (!record || !modified) return
+      await client.metadataWrite({ path: record.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()

@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IPackage, ICkanControl } from '../../../interfaces'
+import { IRecord, IReport, IPackage, ICkanControl } from '../../../interfaces'
 import { PackageProps } from './Package'
 import * as helpers from '../../../helpers'
 
@@ -18,7 +18,8 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs' | 'resource' | 'publish'
-  file?: IFile
+  record?: IRecord
+  report?: IReport
   original?: IPackage
   modified?: IPackage
   updateState: (patch: Partial<State>) => void
@@ -52,10 +53,10 @@ export function makeStore(props: PackageProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      set({ file })
-      const { data } = await client.jsonRead({ path: file.path })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ name: record.name })
+      set({ record, report })
+      const { data } = await client.jsonRead({ path: record.path })
       set({ modified: cloneDeep(data), original: data })
     },
     clear: () => {
@@ -69,9 +70,9 @@ export function makeStore(props: PackageProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { file, client, modified, onSave, load } = get()
-      if (!file || !modified) return
-      await client.packageWrite({ path: file.path, data: modified })
+      const { record, client, modified, onSave, load } = get()
+      if (!record || !modified) return
+      await client.packageWrite({ path: record.path, data: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()
       load()
@@ -91,10 +92,8 @@ export function makeStore(props: PackageProps) {
       if (!modified) return
       const resources = [...modified.resources]
       for (const path of paths) {
-        const { file } = await client.fileSelect({ path })
-        if (file?.record) {
-          resources.push(file.record.resource)
-        }
+        const { record } = await client.recordCreate({ path })
+        resources.push(record.resource)
       }
       updateState({ modified: { ...modified, resources } })
     },
@@ -107,12 +106,12 @@ export function makeStore(props: PackageProps) {
     },
     // TODO: handle errors
     publish: async () => {
-      const { file, client } = get()
-      if (!file) return
+      const { record, client } = get()
+      if (!record) return
       const control = selectors.control(get())
       if (!control) return
       set({ isPublishing: true })
-      const { path } = await client.packagePublish({ path: file.path, control })
+      const { path } = await client.packagePublish({ path: record.path, control })
       set({ isPublishing: false, publishedPath: path })
     },
   }))

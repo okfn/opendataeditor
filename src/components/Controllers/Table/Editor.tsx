@@ -3,8 +3,8 @@ import Table from '../../Editors/Table'
 import { useStore } from './store'
 
 export default function Editor() {
-  const schema = useStore((state) => state.file?.record?.resource.schema)
-  const report = useStore((state) => state.file?.record?.report)
+  const schema = useStore((state) => state.record?.resource.schema)
+  const report = useStore((state) => state.report)
   const tableLoader = useStore((state) => state.tableLoader)
   const updatePatch = useStore((state) => state.updatePatch)
   const updateState = useStore((state) => state.updateState)

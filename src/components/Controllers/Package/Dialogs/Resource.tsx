@@ -8,7 +8,7 @@ import { useStore } from '../store'
 // TODO: move Selector here and make it a proper dialog
 export default function Resource() {
   const [paths, setPaths] = React.useState<string[]>([])
-  const file = useStore((state) => state.file)
+  const record = useStore((state) => state.record)
   const client = useStore((state) => state.client)
   const dialog = useStore((state) => state.dialog)
   const existentPaths = useStore((state) =>
@@ -22,16 +22,16 @@ export default function Resource() {
     addResources(paths)
   }
   React.useEffect(() => {
-    client.fileList().then(({ items }) => {
+    client.fileList().then(({ files }) => {
       const paths = []
-      for (const item of items) {
-        if (existentPaths.includes(item.path)) continue
-        if (item.type === 'package') continue
-        paths.push(item.path)
+      for (const file of files) {
+        if (existentPaths.includes(file.path)) continue
+        if (file.type === 'package') continue
+        paths.push(file.path)
       }
       setPaths(paths)
     })
-  }, [file])
+  }, [record])
   return (
     <Dialog
       fullWidth

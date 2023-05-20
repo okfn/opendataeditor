@@ -8,7 +8,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IResource } from '../../../interfaces'
+import { IRecord, IReport, IResource } from '../../../interfaces'
 import { IMonacoEditor } from '../../Parts/Monaco/Editor'
 import { TextProps } from './Text'
 import * as helpers from './helpers'
@@ -22,7 +22,8 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'saveAs'
-  file?: IFile
+  record?: IRecord
+  report?: IReport
   resource?: IResource
   original?: string
   modified?: string
@@ -60,25 +61,25 @@ export function makeStore(props: TextProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      const { text } = await client.textRead({ path: file.path })
+      const { record } = await client.recordCreate({ path })
+      const { report } = await client.reportRead({ name: record.name })
+      const resource = cloneDeep(record.resource)
+      set({ record, report, resource })
+      const { text } = await client.textRead({ path: record.path })
       set({ modified: text, original: text })
       render()
     },
     revert: () => {
-      const { file, original, updateState } = get()
-      if (!file) return
-      updateState({ resource: cloneDeep(file.record!.resource), modified: original })
+      const { record, original, updateState } = get()
+      if (!record) return
+      updateState({ resource: cloneDeep(record.resource), modified: original })
     },
     // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, modified, resource, onSave, load } = get()
-      if (!file || !resource) return
-      await client.fileUpdate({ path: file.path, resource })
-      await client.textWrite({ path: file.path, text: modified! })
+      const { record, client, modified, resource, onSave, load } = get()
+      if (!record || !resource) return
+      await client.recordWrite({ name: record.name, resource })
+      await client.textWrite({ path: record.path, text: modified! })
       set({ original: modified })
       onSave()
       load()
@@ -89,10 +90,10 @@ export function makeStore(props: TextProps) {
       onSaveAs(path)
     },
     render: throttle(async () => {
-      const { file, client, modified } = get()
-      if (!file) return
+      const { record, client, modified } = get()
+      if (!record) return
       if (!modified) return
-      if (file.record?.resource.format === 'md') {
+      if (record.resource.format === 'md') {
         const { text } = await client.textRender({ text: modified })
         set({ rendered: text })
       }
@@ -140,11 +141,11 @@ export const selectors = {
   isUpdated: (state: State) => {
     return (
       state.original !== state.modified ||
-      !isEqual(state.resource, state.file?.record!.resource)
+      !isEqual(state.resource, state.record?.resource)
     )
   },
   language: (state: State) => {
-    const resource = state.file?.record!.resource
+    const resource = state.record?.resource
     if (!resource) return undefined
     switch (resource.format) {
       case 'json':

@@ -5,7 +5,7 @@ import { useStore } from './store'
 // TODO: make non-alternative buttons in controllers' menus like editor/metadata
 // disabled but colored and fix other things like do not provide empty callbacks
 export default function Menu() {
-  const file = useStore((state) => state.file)
+  const record = useStore((state) => state.record)
   const mode = useStore((state) => state.mode)
   const panel = useStore((state) => state.panel)
   const updateState = useStore((state) => state.updateState)
@@ -26,7 +26,7 @@ export default function Menu() {
       }
       onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
-      onErrors={file?.record?.report.stats.errors ? () => toggleErrorMode() : undefined}
+      onErrors={record?.stats.errors ? () => toggleErrorMode() : undefined}
     />
   )
 }
