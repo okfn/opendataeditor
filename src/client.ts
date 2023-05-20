@@ -1,7 +1,7 @@
 import omit from 'lodash/omit'
 import { ICkanControl } from './interfaces'
 import { IRecord, IFile } from './interfaces'
-import { ITable, IReport } from './interfaces'
+import { ITable, IRow, IReport } from './interfaces'
 import { IColumn, IChart } from './interfaces'
 import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
@@ -182,7 +182,7 @@ export class Client {
   }
 
   async tableRead(props: {
-    path: string
+    name: string
     valid?: boolean
     limit?: number
     offset?: number
@@ -190,7 +190,7 @@ export class Client {
     desc?: boolean
   }) {
     const result = await this.request('/table/read', props)
-    return result as { table: ITable }
+    return result as { rows: IRow[] }
   }
 
   async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {

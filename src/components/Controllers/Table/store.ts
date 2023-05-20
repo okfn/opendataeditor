@@ -89,9 +89,9 @@ export function makeStore(props: TableProps) {
       onSaveAs(path)
     },
     tableLoader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount, mode } = get()
-      const { table } = await client.tableRead({
-        path,
+      const { record, client, rowCount, mode } = get()
+      const { rows } = await client.tableRead({
+        name: record!.name,
         valid: mode === 'errors' ? false : undefined,
         limit,
         offset: skip,
@@ -99,7 +99,7 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
       return {
-        data: table!.rows,
+        data: rows,
         count: rowCount || 0,
       }
     },
