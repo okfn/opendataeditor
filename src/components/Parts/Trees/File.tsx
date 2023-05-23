@@ -11,7 +11,7 @@ import ChartIcon from '@mui/icons-material/Leaderboard'
 import { ITreeItem, IFileEvent } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import LayersIcon from '@mui/icons-material/Layers'
+import TroubleshootIcon from '@mui/icons-material/Troubleshoot'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
@@ -185,7 +185,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   checklist: CheckCircleOutline,
   pipeline: AccountTree,
   schema: DescriptionIcon,
-  view: LayersIcon,
+  view: TroubleshootIcon,
 }
 
 // TODO: use color from theme
