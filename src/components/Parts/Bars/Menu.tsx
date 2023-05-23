@@ -38,9 +38,30 @@ export interface MenuBarProps {
   onErrors?: () => void
 }
 
+// TODO: don't use hard-coded color (info=#9c27b0)
 // TODO: add spacing between buttons
 // TODO: use React.useMemo for better performance/animation
 export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
+  const Editor = () => {
+    if (!props.items?.includes('editor')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.editor || 'Editor'}
+        Icon={EditRoadIcon}
+        color={props.colors?.editor}
+        disabled={!props.onEditor}
+        onClick={() => props.onEditor!()}
+        sx={{
+          '&.Mui-disabled': {
+            color: props.colors?.editor ? '#9c27b0' : undefined,
+          },
+        }}
+      />
+    )
+  }
+
   const Metadata = () => {
     if (!props.items?.includes('metadata')) return null
     return (
@@ -52,6 +73,11 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.metadata}
         disabled={!props.onMetadata}
         onClick={() => props.onMetadata!()}
+        sx={{
+          '&.Mui-disabled': {
+            color: props.colors?.editor ? '#9c27b0' : undefined,
+          },
+        }}
       />
     )
   }
@@ -97,21 +123,6 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.errors}
         disabled={!props.onErrors}
         onClick={() => props.onErrors!()}
-      />
-    )
-  }
-
-  const Editor = () => {
-    if (!props.items?.includes('editor')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.editor || 'Editor'}
-        Icon={EditRoadIcon}
-        color={props.colors?.editor}
-        disabled={!props.onEditor}
-        onClick={() => props.onEditor!()}
       />
     )
   }

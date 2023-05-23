@@ -20,7 +20,6 @@ export default function Menu() {
         report: panel === 'report' ? 'warning' : undefined,
         errors: mode === 'errors' ? 'warning' : undefined,
       }}
-      onEditor={() => {}}
       onMetadata={() =>
         updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
       }

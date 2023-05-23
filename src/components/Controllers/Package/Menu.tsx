@@ -15,8 +15,6 @@ export default function Menu() {
         source: panel === 'source' ? 'warning' : undefined,
         report: panel === 'report' ? 'warning' : undefined,
       }}
-      onEditor={() => {}}
-      onMetadata={() => {}}
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onClear={clear}
