@@ -34,7 +34,7 @@ export default function ValidationChip(props: ValidationChipProps) {
       }
       size="medium"
       sx={{
-        width: '7vw',
+        width: '8vw',
         height: '100%',
         borderLeft: 'solid 1px #ddd',
         borderRadius: '3px',

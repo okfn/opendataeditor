@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
-import ValidationChip from '../../Parts/Chips/Validation'
+import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
 import ViewChip from '../../Parts/Chips/View'
+import ScriptChip from '../../Parts/Chips/Script'
 import { useStore, selectors } from './store'
 
 export default function Status() {
@@ -17,9 +18,10 @@ export default function Status() {
       </Prefix>
       <Contents>{file ? file.path : 'Data management for humans'}</Contents>
       <Suffix>
+        <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
-        <ValidationChip errorCount={file?.errors} />
+        <ReportChip errorCount={file?.errors} />
       </Suffix>
     </Container>
   )

@@ -1,19 +1,19 @@
 import * as React from 'react'
 import Chip from '@mui/material/Chip'
-import LeaderboardIcon from '@mui/icons-material/Leaderboard'
+import TerminalIcon from '@mui/icons-material/Terminal'
 
-export interface ChartChipProps {
+export interface PythonChipProps {
   onClick: () => void
 }
 
-export default function ChartChip(props: ChartChipProps) {
+export default function PythonChip(props: PythonChipProps) {
   return (
     <Chip
-      title="Create a chart"
+      title="Create a Python script"
       onClick={props.onClick}
-      label="CHART"
+      label="Python"
       color="primary"
-      icon={<LeaderboardIcon />}
+      icon={<TerminalIcon />}
       size="medium"
       sx={{
         width: '6vw',

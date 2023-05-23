@@ -16,7 +16,7 @@ export default function ViewChip(props: ViewChipProps) {
       icon={<TroubleshootIcon />}
       size="medium"
       sx={{
-        width: '7vw',
+        width: '6vw',
         height: '100%',
         borderLeft: 'solid 1px #ddd',
         borderRadius: '3px',
