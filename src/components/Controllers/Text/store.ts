@@ -10,9 +10,9 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport, IResource } from '../../../interfaces'
 import { IMonacoEditor } from '../../Parts/Monaco/Editor'
-import { TextProps } from './Text'
+import { TextProps } from './index'
 import * as helpers from './helpers'
-// @ts-expect-error
+// @ts-ignore
 import dirtyJson from 'dirty-json'
 
 export interface State {

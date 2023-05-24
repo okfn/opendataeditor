@@ -9,7 +9,7 @@ import { assert } from 'ts-essentials'
 import { IRecord, IReport } from '../../../interfaces'
 import { Client } from '../../../client'
 import { IResource, IView, ITable, IColumn } from '../../../interfaces'
-import { SqlProps } from './View'
+import { ViewProps } from './index'
 import * as settings from '../../../settings'
 
 export interface State {
@@ -41,7 +41,7 @@ export interface ExceptionError {
   message: string
 }
 
-export function makeStore(props: SqlProps) {
+export function makeStore(props: ViewProps) {
   return createStore<State>((set, get) => ({
     ...props,
     onSaveAs: props.onSaveAs || noop,

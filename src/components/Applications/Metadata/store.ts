@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import FileSaver from 'file-saver'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { MetadataProps } from './Metadata'
+import { MetadataProps } from './index'
 import * as helpers from '../../../helpers'
 
 export interface State {

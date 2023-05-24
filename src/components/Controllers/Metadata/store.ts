@@ -9,7 +9,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport } from '../../../interfaces'
 import { IResource, IDialect, ISchema } from '../../../interfaces'
-import { MetadataProps } from './Metadata'
+import { MetadataProps } from './index'
 import * as helpers from '../../../helpers'
 
 export interface State {

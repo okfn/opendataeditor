@@ -9,7 +9,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IColumn, IChart, IResource, IReport } from '../../../interfaces'
-import { ChartProps } from './Chart'
+import { ChartProps } from './index'
 
 export interface State {
   path: string

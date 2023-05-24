@@ -9,7 +9,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport } from '../../../interfaces'
 import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
-import { TableProps } from './Table'
+import { TableProps } from './index'
 
 export interface State {
   path: string

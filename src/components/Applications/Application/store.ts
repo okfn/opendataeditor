@@ -4,7 +4,7 @@ import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IFile, ITreeItem, IFileEvent } from '../../../interfaces'
-import { ApplicationProps } from './Application'
+import { ApplicationProps } from './index'
 import * as helpers from '../../../helpers'
 
 type IDialog =

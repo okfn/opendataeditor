@@ -8,7 +8,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport, IPackage, ICkanControl } from '../../../interfaces'
-import { PackageProps } from './Package'
+import { PackageProps } from './index'
 import * as helpers from '../../../helpers'
 
 export interface State {

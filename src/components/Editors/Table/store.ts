@@ -5,7 +5,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
 import { ITableLoader, IError } from '../../../interfaces'
-import { TableProps } from './Table'
+import { TableProps } from './index'
 import * as helpers from './helpers'
 
 interface State {

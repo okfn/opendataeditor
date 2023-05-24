@@ -8,7 +8,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport, IResource } from '../../../interfaces'
-import { FileProps } from './File'
+import { FileProps } from './index'
 
 export interface State {
   path: string

@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
+import { StoreProvider, makeStore } from './store'
 import * as themes from '../../../themes'
 import ControllerProps from '../../Parts/Controller/Props'
 import Layout from './Layout'
 
-export interface MetadataProps extends ControllerProps {}
+export interface ViewProps extends ControllerProps {}
 
-export default function Metadata(props: MetadataProps) {
+export default function View(props: ViewProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>
