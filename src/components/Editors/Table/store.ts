@@ -12,12 +12,14 @@ import { TableProps } from './index'
 interface State {
   // Currently used only to rerender
   mode?: 'errors'
+  height?: string
   source: IRow[] | ITableLoader
   schema: ISchema
   report?: IReport
   patch?: ITablePatch
   readOnly?: boolean
-  height?: string
+  onCellUpdate?: (rowNumber: number, fieldName: string, value: any) => void
+  onRowDelete?: (rowNumber: number) => void
   onErrorClick?: (error: IError) => void
   columns: any[]
   gridRef?: React.MutableRefObject<TypeComputedProps | null>
@@ -47,20 +49,19 @@ export function makeStore(props: TableProps) {
       updateState({ editing: true })
     },
     saveEditing: (context) => {
-      const { gridRef, patch } = get()
+      const { gridRef, onCellUpdate } = get()
       const grid = gridRef?.current
-      if (!patch) return
+      if (!onCellUpdate) return
       if (!grid) return
 
       // Write editing
-      console.log(context)
       const rowNumber = context.rowId
       const fieldName = context.columnId
       let value = context.value
       if (context.cellProps.type === 'number') value = parseInt(value)
-      patch.updatedCells[rowNumber] = {
-        ...patch.updatedCells[rowNumber],
-        [fieldName]: value,
+      onCellUpdate(rowNumber, fieldName, value)
+      for (const row of grid.data) {
+        if (row._rowNumber === rowNumber) row[fieldName] = value
       }
     },
     stopEditing: () => {

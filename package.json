@@ -50,7 +50,7 @@
     "@emotion/styled": "^11.3.0",
     "@fontsource/roboto": "^4.5.1",
     "@fontsource/roboto-mono": "^4.5.8",
-    "@inovua/reactdatagrid-community": "^4.21.0",
+    "@inovua/reactdatagrid-community": "^5.9.3",
     "@monaco-editor/react": "^4.4.6",
     "@mui/icons-material": "^5.0.5",
     "@mui/lab": "^5.0.0-alpha.97",

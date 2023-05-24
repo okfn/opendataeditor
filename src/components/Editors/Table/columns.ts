@@ -39,8 +39,8 @@ export function createColumns(
           ? { style: { color: 'white', background: 'red' } }
           : undefined,
       render: (context: any) => {
-        let { value } = context
         const { cellProps, data } = context
+        let { value } = context
         const rowKey = `${data._rowNumber}`
         const cellKey = `${data._rowNumber},${cellProps.name}`
         if (rowKey in errorIndex.row) {

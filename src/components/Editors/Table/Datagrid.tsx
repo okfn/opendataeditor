@@ -22,6 +22,7 @@ export default function Datagrid() {
       pagination={true}
       editable={!readOnly}
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
+      clearDataSourceCacheOnChange={false}
       onReady={(gridRef) => updateState({ gridRef })}
       onEditStart={startEditing}
       onEditComplete={saveEditing}
