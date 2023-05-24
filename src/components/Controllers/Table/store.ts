@@ -116,8 +116,10 @@ export function makeStore(props: TableProps) {
 
     updatePatch: (rowNumber, fieldName, value) => {
       const { tablePatch } = get()
-      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
-      set({ tablePatch: { ...tablePatch } })
+      tablePatch[rowNumber] = tablePatch[rowNumber] || { update: {} }
+      tablePatch[rowNumber].update[fieldName] = value
+      console.log(tablePatch)
+      set({ tablePatch })
     },
   }))
 }
