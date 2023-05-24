@@ -93,6 +93,11 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.report}
         disabled={!props.onReport}
         onClick={() => props.onReport!()}
+        sx={{
+          '&.Mui-disabled': {
+            color: props.colors?.editor ? '#9c27b0' : undefined,
+          },
+        }}
       />
     )
   }
@@ -108,6 +113,11 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         color={props.colors?.source}
         disabled={!props.onSource}
         onClick={() => props.onSource!()}
+        sx={{
+          '&.Mui-disabled': {
+            color: props.colors?.editor ? '#9c27b0' : undefined,
+          },
+        }}
       />
     )
   }

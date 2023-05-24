@@ -3,6 +3,11 @@ export interface ITable {
   rows: IRow[]
 }
 
+export type IHeader = string[]
+export interface IRow {
+  [key: string]: any
+}
+
 export type ITableLoader = (props: {
   skip: number
   limit: number
@@ -14,9 +19,4 @@ export type ITableLoader = (props: {
 
 export interface ITablePatch {
   [key: number]: IRow
-}
-
-export type IHeader = string[]
-export interface IRow {
-  [key: string]: any
 }
