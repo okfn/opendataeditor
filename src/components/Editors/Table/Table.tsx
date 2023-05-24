@@ -11,7 +11,8 @@ export interface TableProps {
   schema: ISchema
   report?: IReport
   height?: string
-  onChange?: (rowNumber: number, fieldName: string, value: any) => void
+  readOnly?: boolean
+  onUpdate?: (rowNumber: number, fieldName: string, value: any) => void
   onErrorClick?: (error: IError) => void
   // Currently used only to rerender
   mode?: 'errors'

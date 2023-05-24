@@ -16,7 +16,7 @@ export default function Editor() {
       loader={tableLoader}
       schema={schema}
       report={report}
-      onChange={updatePatch}
+      onUpdate={updatePatch}
       onErrorClick={(error) => updateState({ error, dialog: 'error' })}
       mode={mode}
     />
