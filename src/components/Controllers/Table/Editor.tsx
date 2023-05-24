@@ -6,19 +6,19 @@ export default function Editor() {
   const schema = useStore((state) => state.record?.resource.schema)
   const report = useStore((state) => state.report)
   const loader = useStore((state) => state.loader)
-  const updatePatch = useStore((state) => state.updatePatch)
+  const patch = useStore((state) => state.patch)
   const updateState = useStore((state) => state.updateState)
   const mode = useStore((state) => state.mode)
   if (!schema) return null
   if (!report) return null
   return (
     <Table
-      loader={loader}
+      mode={mode}
+      source={loader}
       schema={schema}
       report={report}
-      onUpdate={updatePatch}
+      patch={patch}
       onErrorClick={(error) => updateState({ error, dialog: 'error' })}
-      mode={mode}
     />
   )
 }

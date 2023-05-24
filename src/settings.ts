@@ -52,6 +52,7 @@ export const INITIAL_DIALECT: IDialect = {}
 export const INITIAL_RESOURCE: IResource = { name: 'name', type: 'table', path: 'path' }
 export const INITIAL_PACKAGE: IPackage = { resources: [] }
 export const INITIAL_VIEW: IView = { query: '' }
+export const INITIAL_TABLE_PATCH = { updatedCells: {}, deletedRows: [] }
 
 // Structures
 

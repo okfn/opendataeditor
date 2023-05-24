@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import { IReport, IError } from '../../../interfaces'
-import { ISchema, ITableLoader } from '../../../interfaces'
+import { IReport, IError, IRow } from '../../../interfaces'
+import { ISchema, ITableLoader, ITablePatch } from '../../../interfaces'
 import * as themes from '../../../themes'
 import Layout from './Layout'
 
 export interface TableProps {
-  loader: ITableLoader
+  source: IRow[] | ITableLoader
   schema: ISchema
   report?: IReport
-  height?: string
+  patch?: ITablePatch
   readOnly?: boolean
-  onUpdate?: (rowNumber: number, fieldName: string, value: any) => void
+  height?: string
   onErrorClick?: (error: IError) => void
   // Currently used only to rerender
   mode?: 'errors'
