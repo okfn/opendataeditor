@@ -17,16 +17,8 @@ export default function Editor() {
       source={loader}
       schema={schema}
       report={report}
+      onChange={(change) => patch.changes.push(change)}
       onErrorClick={(error) => updateState({ error, dialog: 'error' })}
-      onCellUpdate={(rowNumber, fieldName, value) => {
-        patch.updatedCells[rowNumber] = {
-          ...patch.updatedCells[rowNumber],
-          [fieldName]: value,
-        }
-      }}
-      onRowDelete={(rowNumber) => {
-        patch.deletedRows.push(rowNumber)
-      }}
     />
   )
 }

@@ -5,9 +5,10 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
 import { IError, IRow, ISchema, IReport } from '../../../interfaces'
-import { ITableLoader, ITablePatch } from '../../../interfaces'
+import { ITableLoader, ITableChange } from '../../../interfaces'
 import { createColumns } from './columns'
 import { TableProps } from './index'
+import * as helpers from '../../../helpers'
 
 interface State {
   // Currently used only to rerender
@@ -16,10 +17,8 @@ interface State {
   source: IRow[] | ITableLoader
   schema: ISchema
   report?: IReport
-  patch?: ITablePatch
   readOnly?: boolean
-  onCellUpdate?: (rowNumber: number, fieldName: string, value: any) => void
-  onRowDelete?: (rowNumber: number) => void
+  onChange?: (change: ITableChange) => void
   onErrorClick?: (error: IError) => void
   columns: any[]
   gridRef?: React.MutableRefObject<TypeComputedProps | null>
@@ -49,9 +48,9 @@ export function makeStore(props: TableProps) {
       updateState({ editing: true })
     },
     saveEditing: (context) => {
-      const { gridRef, onCellUpdate } = get()
+      const { gridRef, onChange } = get()
       const grid = gridRef?.current
-      if (!onCellUpdate) return
+      if (!onChange) return
       if (!grid) return
 
       // Write editing
@@ -59,10 +58,9 @@ export function makeStore(props: TableProps) {
       const fieldName = context.columnId
       let value = context.value
       if (context.cellProps.type === 'number') value = parseInt(value)
-      onCellUpdate(rowNumber, fieldName, value)
-      for (const row of grid.data) {
-        if (row._rowNumber === rowNumber) row[fieldName] = value
-      }
+      const change: ITableChange = { type: 'update-cell', rowNumber, fieldName, value }
+      helpers.applyTablePatch({ changes: [change] }, grid.data)
+      onChange(change)
     },
     stopEditing: () => {
       const { gridRef, updateState } = get()

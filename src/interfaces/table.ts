@@ -18,6 +18,19 @@ export type ITableLoader = (props: {
 }>
 
 export interface ITablePatch {
-  updatedCells: { [rowNumber: number]: { [fieldName: string]: any } }
-  deletedRows: number[]
+  changes: ITableChange[]
+}
+
+export type ITableChange = IDeleteRow | IUpdateCell
+
+interface IDeleteRow {
+  type: 'delete-row'
+  rowNumber: number
+}
+
+interface IUpdateCell {
+  type: 'update-cell'
+  rowNumber: number
+  fieldName: string
+  value: any
 }

@@ -8,9 +8,9 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport } from '../../../interfaces'
-import { ITablePatch, IResource, ITableLoader, IError, IRow } from '../../../interfaces'
+import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './index'
-import * as settings from '../../../settings'
+import * as helpers from '../../../helpers'
 
 export interface State {
   path: string
@@ -44,7 +44,7 @@ export function makeStore(props: TableProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+    patch: { changes: [] },
     updateState: (patch) => {
       set(patch)
     },
@@ -97,15 +97,9 @@ export function makeStore(props: TableProps) {
       })
 
       // Patch rows
-      const data: IRow[] = []
-      for (let row of rows) {
-        if (patch.deletedRows.includes(row._rowNumber)) continue
-        const updatedCells = patch.updatedCells[row._rowNumber]
-        if (updatedCells) row = { ...row, ...updatedCells }
-        data.push(row)
-      }
+      helpers.applyTablePatch(patch, rows)
 
-      return { data, count: rowCount || 0 }
+      return { data: rows, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
       const { path, client, mode } = get()

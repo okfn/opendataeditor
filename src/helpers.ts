@@ -1,5 +1,7 @@
 import sortBy from 'lodash/sortBy'
+import remove from 'lodash/remove'
 import cloneDeep from 'lodash/cloneDeep'
+import { ITablePatch, IRow } from './interfaces'
 import { IFile, ITreeItem, IHelp, IHelpItem, IColumn } from './interfaces'
 import * as settings from './settings'
 
@@ -136,4 +138,16 @@ export function createFieldTree(columns: IColumn[]): ITreeItem[] {
   }
   const fieldTree = Object.values(fieldTreeMap)
   return fieldTree
+}
+
+export function applyTablePatch(patch: ITablePatch, rows: IRow[]) {
+  for (const change of patch.changes) {
+    if (change.type === 'delete-row') {
+      remove(rows, (row) => row._rowNumber === change.rowNumber)
+    } else if (change.type === 'update-cell') {
+      for (const row of rows) {
+        if (row._rowNumber === change.rowNumber) row[change.fieldName] = change.value
+      }
+    }
+  }
 }
