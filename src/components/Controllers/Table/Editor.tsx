@@ -17,6 +17,7 @@ export default function Editor() {
       source={loader}
       schema={schema}
       report={report}
+      patch={patch}
       onChange={(change) => {
         patch.changes.push(change)
         updateState({ patch })
