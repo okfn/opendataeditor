@@ -53,7 +53,6 @@ export function makeStore(props: TableProps) {
       if (!onChange) return
       if (!grid) return
 
-      // Write editing
       const rowNumber = context.rowId
       const fieldName = context.columnId
       let value = context.value
@@ -67,7 +66,6 @@ export function makeStore(props: TableProps) {
       const grid = gridRef?.current
       if (!grid) return
 
-      // Stop editing
       requestAnimationFrame(() => {
         updateState({ editing: false })
         grid.focus()

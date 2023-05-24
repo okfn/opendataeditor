@@ -85,8 +85,6 @@ export function makeStore(props: TableProps) {
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount, mode, patch } = get()
-
-      // Load rows
       const { rows } = await client.tableRead({
         path,
         valid: mode === 'errors' ? false : undefined,
@@ -96,9 +94,7 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
 
-      // Patch rows
       helpers.applyTablePatch(patch, rows)
-
       return { data: rows, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
