@@ -17,7 +17,10 @@ export default function Editor() {
       source={loader}
       schema={schema}
       report={report}
-      onChange={(change) => patch.changes.push(change)}
+      onChange={(change) => {
+        patch.changes.push(change)
+        updateState({ patch })
+      }}
       onErrorClick={(error) => updateState({ error, dialog: 'error' })}
     />
   )

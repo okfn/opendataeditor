@@ -10,6 +10,7 @@ import { Client } from '../../../client'
 import { IRecord, IReport } from '../../../interfaces'
 import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { TableProps } from './index'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 
 export interface State {
@@ -44,7 +45,7 @@ export function makeStore(props: TableProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    patch: { changes: [] },
+    patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
     updateState: (patch) => {
       set(patch)
     },
@@ -64,7 +65,10 @@ export function makeStore(props: TableProps) {
     revert: () => {
       const { record } = get()
       if (!record) return
-      set({ resource: cloneDeep(record.resource) })
+      set({
+        patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+        resource: cloneDeep(record.resource),
+      })
     },
     // TODO: rewrite
     save: async () => {
@@ -113,7 +117,9 @@ export function makeStore(props: TableProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return !isEqual(state.resource, state.record?.resource)
+    return (
+      !!state.patch.changes.length || !isEqual(state.resource, state.record?.resource)
+    )
   },
 }
 
