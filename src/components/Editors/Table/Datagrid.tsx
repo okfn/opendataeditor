@@ -21,6 +21,8 @@ export default function Datagrid() {
   }
 
   const handleEditComplete = (context: any) => {
+    const grid = gridRef?.current
+    if (!grid) return
     if (!editing) return
 
     // Write editing
@@ -29,6 +31,7 @@ export default function Datagrid() {
     let value = context.value
     if (context.cellProps.type === 'number') value = parseInt(value)
     if (onUpdate) onUpdate(rowNumber, fieldName, value)
+    grid.reload()
   }
 
   const handleEditStop = () => {

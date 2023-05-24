@@ -5,8 +5,8 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
 import { ITableLoader, IError } from '../../../interfaces'
+import { createColumns } from './columns'
 import { TableProps } from './index'
-import * as helpers from './helpers'
 
 interface State {
   loader: ITableLoader
@@ -25,7 +25,7 @@ interface State {
 export function makeStore(props: TableProps) {
   return createStore<State>((set, _get) => ({
     ...props,
-    columns: helpers.createColumns(props.schema, props.report, props.onErrorClick),
+    columns: createColumns(props.schema, props.report, props.onErrorClick),
     updateState: (patch) => {
       set({ ...patch })
     },

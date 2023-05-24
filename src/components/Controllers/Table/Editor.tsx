@@ -5,7 +5,7 @@ import { useStore } from './store'
 export default function Editor() {
   const schema = useStore((state) => state.record?.resource.schema)
   const report = useStore((state) => state.report)
-  const tableLoader = useStore((state) => state.tableLoader)
+  const loader = useStore((state) => state.loader)
   const updatePatch = useStore((state) => state.updatePatch)
   const updateState = useStore((state) => state.updateState)
   const mode = useStore((state) => state.mode)
@@ -13,7 +13,7 @@ export default function Editor() {
   if (!report) return null
   return (
     <Table
-      loader={tableLoader}
+      loader={loader}
       schema={schema}
       report={report}
       onUpdate={updatePatch}

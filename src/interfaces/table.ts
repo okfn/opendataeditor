@@ -19,7 +19,7 @@ export type ITableLoader = (props: {
 
 export interface ITablePatch {
   [rowNumber: number]: {
-    update: { [fieldName: string]: any }
+    update?: { [fieldName: string]: any }
     delete?: boolean
   }
 }

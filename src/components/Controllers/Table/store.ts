@@ -8,7 +8,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport } from '../../../interfaces'
-import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
+import { ITablePatch, IResource, ITableLoader, IError, IRow } from '../../../interfaces'
 import { TableProps } from './index'
 
 export interface State {
@@ -30,16 +30,13 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
-  tableLoader: ITableLoader
+  patch: ITablePatch
+  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
+  loader: ITableLoader
   toggleErrorMode: () => Promise<void>
   error?: IError
   // TODO: Figure out how to highlight the column in datagrid without rerender
   selectedField?: string
-
-  // Legacy
-
-  tablePatch: ITablePatch
-  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
 }
 
 export function makeStore(props: TableProps) {
@@ -47,7 +44,7 @@ export function makeStore(props: TableProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    tablePatch: {},
+    patch: {},
     updateState: (patch) => {
       set(patch)
     },
@@ -86,8 +83,17 @@ export function makeStore(props: TableProps) {
       await client.fileCopy({ path, toPath })
       onSaveAs(path)
     },
-    tableLoader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount, mode } = get()
+    updatePatch: (rowNumber, fieldName, value) => {
+      const { patch } = get()
+      patch[rowNumber] = patch[rowNumber] || {}
+      patch[rowNumber].update = patch[rowNumber].update || {}
+      patch[rowNumber].update![fieldName] = value
+      set({ patch })
+    },
+    loader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount, mode, patch } = get()
+
+      // Load rows
       const { rows } = await client.tableRead({
         path,
         valid: mode === 'errors' ? false : undefined,
@@ -96,10 +102,19 @@ export function makeStore(props: TableProps) {
         order: sortInfo?.name,
         desc: sortInfo?.dir === -1,
       })
-      return {
-        data: rows,
-        count: rowCount || 0,
+
+      // Patch rows
+      const data: IRow[] = []
+      for (let row of rows) {
+        const rowPatch = patch[row._rowNumber]
+        if (rowPatch) {
+          if (rowPatch.delete) continue
+          if (rowPatch.update) row = { ...row, ...rowPatch.update }
+        }
+        data.push(row)
       }
+
+      return { data, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
       const { path, client, mode } = get()
@@ -110,16 +125,6 @@ export function makeStore(props: TableProps) {
         const { count } = await client.tableCount({ path, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
-    },
-
-    // Legacy
-
-    updatePatch: (rowNumber, fieldName, value) => {
-      const { tablePatch } = get()
-      tablePatch[rowNumber] = tablePatch[rowNumber] || { update: {} }
-      tablePatch[rowNumber].update[fieldName] = value
-      console.log(tablePatch)
-      set({ tablePatch })
     },
   }))
 }
