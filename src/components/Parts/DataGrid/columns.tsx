@@ -1,11 +1,12 @@
 import * as React from 'react'
 import LightTooltip from '../Tooltips/Light'
-import { ISchema, IReport, IError, ITablePatch } from '../../../interfaces'
-import { IErrorIndex } from './interfaces'
+import { ISchema, IReport, IError, ITablePatch, ITableChange } from '../../../interfaces'
+import { IErrorIndex, IPatchIndex } from './interfaces'
 
 // TODO: use proper InovuaDatagrid types
-export function createColumns(schema: ISchema, report?: IReport, _patch?: ITablePatch) {
+export function createColumns(schema: ISchema, report?: IReport, patch?: ITablePatch) {
   const errorIndex = createErrorIndex(report)
+  const patchIndex = createPatchIndex(patch)
 
   const rowNumberColumn = {
     name: '_rowNumber',
@@ -39,23 +40,35 @@ export function createColumns(schema: ISchema, report?: IReport, _patch?: ITable
       render: (context: any) => {
         const { cellProps, data } = context
         let { value } = context
-        let error: IError | undefined
         const rowKey = `${data._rowNumber}`
         const cellKey = `${data._rowNumber},${cellProps.id}`
 
-        // Row errors
+        // Find changes
+        let change: ITableChange | undefined
+        if (rowKey in patchIndex.row) {
+          change = patchIndex.row[rowKey]
+        } else if (cellKey in patchIndex.cell) {
+          change = patchIndex.cell[cellKey]
+        }
+
+        // Render change
+        if (change) {
+          cellProps.style.background = 'yellow'
+          console.log(cellProps)
+          return value
+        }
+
+        // Find errors
+        let error: IError | undefined
         if (rowKey in errorIndex.row) {
           error = errorIndex.row[rowKey][0]
-        }
-
-        // Cell errors
-        if (cellKey in errorIndex.cell) {
+        } else if (cellKey in errorIndex.cell) {
           error = errorIndex.cell[cellKey][0]
-          value = error.cell || ''
         }
 
-        // Errors found
+        // Render error
         if (error) {
+          value = error.cell || value
           cellProps.style.color = 'white'
           cellProps.style.cursor = 'pointer'
           cellProps.style.background = 'red'
@@ -73,7 +86,7 @@ export function createColumns(schema: ISchema, report?: IReport, _patch?: ITable
   return [rowNumberColumn, ...dataColumns]
 }
 
-export function createErrorIndex(report?: IReport) {
+function createErrorIndex(report?: IReport) {
   const errorIndex: IErrorIndex = { header: {}, label: {}, row: {}, cell: {} }
   if (!report) return errorIndex
   const errorTask = report.tasks[0]
@@ -98,4 +111,19 @@ export function createErrorIndex(report?: IReport) {
     }
   }
   return errorIndex
+}
+
+function createPatchIndex(patch?: ITablePatch) {
+  const patchIndex: IPatchIndex = { header: {}, label: {}, row: {}, cell: {} }
+  if (!patch) return patchIndex
+  for (const change of patch.changes) {
+    if (change.type === 'delete-row') {
+      const rowKey = `${change.rowNumber}`
+      patchIndex.row[rowKey] = change
+    } else if (change.type === 'update-cell') {
+      const cellKey = `${change.rowNumber},${change.fieldName}`
+      patchIndex.cell[cellKey] = change
+    }
+  }
+  return patchIndex
 }

@@ -151,6 +151,7 @@ export function makeStore(props: TableProps) {
       const change: ITableChange = { type: 'update-cell', rowNumber, fieldName, value }
       helpers.applyTablePatch({ changes: [change] }, grid.data)
       patch.changes.push(change)
+      set({ patch: { ...patch } })
     },
     stopEditing: () => {
       const { gridRef, updateState } = get()
