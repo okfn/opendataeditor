@@ -1,3 +1,5 @@
+import * as React from 'react'
+import LightTooltip from '../Tooltips/Light'
 import { ISchema, IReport, IError, ITablePatch } from '../../../interfaces'
 import { IErrorIndex } from './interfaces'
 
@@ -37,38 +39,34 @@ export function createColumns(schema: ISchema, report?: IReport, _patch?: ITable
       render: (context: any) => {
         const { cellProps, data } = context
         let { value } = context
+        let error: IError | undefined
         const rowKey = `${data._rowNumber}`
-        const cellKey = `${data._rowNumber},${cellProps.name}`
+        const cellKey = `${data._rowNumber},${cellProps.id}`
+
+        // Row errors
         if (rowKey in errorIndex.row) {
-          cellProps.style.color = 'white'
-          cellProps.style.background = 'red'
+          error = errorIndex.row[rowKey][0]
         }
+
+        // Cell errors
         if (cellKey in errorIndex.cell) {
-          cellProps.style.color = 'white'
-          cellProps.style.background = 'red'
+          error = errorIndex.cell[cellKey][0]
+          value = error.cell || ''
         }
-        if (cellKey in errorIndex.cell) {
-          value = errorIndex.cell[cellKey][0].cell || ''
-        }
-        return value
-      },
-      // TODO: support the same for header/label errors
-      cellDOMProps: (context: any) => {
-        const { data, name } = context
-        let error: IError | null = null
-        const rowKey = `${data._rowNumber}`
-        const cellKey = `${data._rowNumber},${name}`
-        if (rowKey in errorIndex.row) error = errorIndex.row[rowKey][0]
-        if (cellKey in errorIndex.cell) error = errorIndex.cell[cellKey][0]
+
+        // Errors found
         if (error) {
-          return {
-            style: { cursor: 'pointer' },
-            onClick: () => {
-              alert(error)
-            },
-          }
+          cellProps.style.color = 'white'
+          cellProps.style.cursor = 'pointer'
+          cellProps.style.background = 'red'
+          return (
+            <LightTooltip title={error.message}>
+              <div>{value}</div>
+            </LightTooltip>
+          )
         }
-        return {}
+
+        return value
       },
     })
   }
