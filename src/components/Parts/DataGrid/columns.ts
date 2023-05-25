@@ -1,12 +1,8 @@
-import { ISchema, IReport, IError } from '../../../interfaces'
+import { ISchema, IReport, IError, ITablePatch } from '../../../interfaces'
 import { IErrorIndex } from './interfaces'
 
 // TODO: use proper InovuaDatagrid types
-export function createColumns(
-  schema: ISchema,
-  report?: IReport,
-  onErrorClick?: (error: IError) => void
-) {
+export function createColumns(schema: ISchema, report?: IReport, _patch?: ITablePatch) {
   const errorIndex = createErrorIndex(report)
 
   const rowNumberColumn = {
@@ -66,8 +62,7 @@ export function createColumns(
           return {
             style: { cursor: 'pointer' },
             onClick: () => {
-              // @ts-ignore
-              if (onErrorClick) onErrorClick(error)
+              alert(error)
             },
           }
         }
