@@ -47,7 +47,9 @@ export function createColumns(schema: ISchema, report?: IReport, _patch?: ITable
           cellProps.style.color = 'white'
           cellProps.style.background = 'red'
         }
-        if (cellKey in errorIndex.cell) value = errorIndex.cell[cellKey][0].cell || ''
+        if (cellKey in errorIndex.cell) {
+          value = errorIndex.cell[cellKey][0].cell || ''
+        }
         return value
       },
       // TODO: support the same for header/label errors

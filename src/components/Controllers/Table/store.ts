@@ -116,7 +116,11 @@ export function makeStore(props: TableProps) {
       return { data: rows, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
-      const { path, client, mode } = get()
+      const { path, client, mode, gridRef } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      // Update mode/rowCount
       if (mode === 'errors') {
         const { count } = await client.tableCount({ path })
         set({ mode: undefined, rowCount: count })
@@ -124,6 +128,9 @@ export function makeStore(props: TableProps) {
         const { count } = await client.tableCount({ path, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
+
+      if (grid.setSkip) grid.setSkip(0)
+      grid.reload()
     },
 
     // Editing
