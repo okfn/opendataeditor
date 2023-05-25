@@ -43,7 +43,7 @@ export interface State {
 
   // Editing
 
-  editing?: boolean
+  initialEditingValue?: any
   // TODO: find proper context type
   startEditing: (context: any) => void
   saveEditing: (context: any) => void
@@ -135,18 +135,21 @@ export function makeStore(props: TableProps) {
 
     // Editing
 
-    startEditing: () => {
+    startEditing: (context) => {
       const { updateState } = get()
-      updateState({ editing: true })
+      updateState({ initialEditingValue: context.value })
     },
     saveEditing: (context) => {
-      const { gridRef, patch } = get()
+      const { gridRef, patch, initialEditingValue } = get()
       const grid = gridRef?.current
       if (!grid) return
 
+      // Don't save if not changed
+      let value = context.value
+      if (value === initialEditingValue) return
+
       const rowNumber = context.rowId
       const fieldName = context.columnId
-      let value = context.value
       if (context.cellProps.type === 'number') value = parseInt(value)
       const change: ITableChange = { type: 'update-cell', rowNumber, fieldName, value }
       helpers.applyTablePatch({ changes: [change] }, grid.data)
@@ -159,7 +162,7 @@ export function makeStore(props: TableProps) {
       if (!grid) return
 
       requestAnimationFrame(() => {
-        updateState({ editing: false })
+        updateState({ initialEditingValue: undefined })
         grid.focus()
       })
     },
