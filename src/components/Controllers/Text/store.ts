@@ -9,7 +9,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { IRecord, IReport, IResource } from '../../../interfaces'
-import { IMonacoEditor } from '../../Parts/Monaco/Editor'
+import { ITextEditor } from '../../Parts/TextEditor'
 import { TextProps } from './index'
 import * as helpers from './helpers'
 // @ts-ignore
@@ -28,7 +28,7 @@ export interface State {
   original?: string
   modified?: string
   rendered?: string
-  editorRef: React.RefObject<IMonacoEditor>
+  editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   revert: () => void
@@ -52,7 +52,7 @@ export function makeStore(props: TextProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    editorRef: React.createRef<IMonacoEditor>(),
+    editorRef: React.createRef<ITextEditor>(),
     updateState: (patch) => {
       const { render } = get()
       set(patch)

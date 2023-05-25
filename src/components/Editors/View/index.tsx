@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as themes from '../../../themes'
-import { IMonacoEditor } from '../../Parts/Monaco/Editor'
+import { ITextEditor } from '../../Parts/TextEditor'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import { IView, IFieldItem } from '../../../interfaces'
@@ -13,7 +13,7 @@ export interface ViewProps {
 }
 
 export default function View(props: ViewProps) {
-  const editorRef = React.useMemo(() => React.createRef<IMonacoEditor>(), [])
+  const editorRef = React.useMemo(() => React.createRef<ITextEditor>(), [])
   const store = React.useMemo(() => makeStore(props, editorRef), Object.values(props))
   return (
     <ThemeProvider theme={themes.DEFAULT}>

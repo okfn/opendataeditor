@@ -1,6 +1,6 @@
 import * as React from 'react'
 import EditorSection from '../../../Parts/Editor/Section'
-import MonacoEditor from '../../../Parts/Monaco/Editor'
+import TextEditor from '../../../Parts/TextEditor'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import FieldTree from '../../../Parts/Trees/Field'
@@ -28,7 +28,7 @@ function QueryEditor() {
   const editorRef = useStore((state) => state.editorRef)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
-    <MonacoEditor
+    <TextEditor
       height={theme.spacing(34)}
       value={query}
       language="sql"

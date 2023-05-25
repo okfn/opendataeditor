@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import MonacoEditor from '../../../Parts/Monaco/Editor'
+import TextEditor from '../../../Parts/TextEditor'
 import { useStore } from '../store'
 
 export default function SourcePanel() {
@@ -15,7 +15,7 @@ export default function SourcePanel() {
   if (!source) return null
   return (
     <Box>
-      <MonacoEditor
+      <TextEditor
         value={source}
         language="json"
         height={theme.spacing(47)}
