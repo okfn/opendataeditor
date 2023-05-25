@@ -5,10 +5,10 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { ISchema, IField, IForeignKey, IHelpItem } from '../../../interfaces'
 import { SchemaProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
@@ -21,20 +21,20 @@ interface ISectionState {
 }
 
 interface State {
-  descriptor: ISchema
-  onChange: (schema: ISchema) => void
+  descriptor: types.ISchema
+  onChange: (schema: types.ISchema) => void
   onFieldSelected: (name?: string) => void
   vtabIndex: number
-  helpItem: IHelpItem
+  helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
-  updateDescriptor: (patch: Partial<ISchema>) => void
+  updateDescriptor: (patch: Partial<types.ISchema>) => void
 
   // Fields
 
   fieldState: ISectionState
   updateFieldState: (patch: Partial<ISectionState>) => void
-  updateField: (patch: Partial<IField>) => void
+  updateField: (patch: Partial<types.IField>) => void
   removeField: (index: number) => void
   addField: () => void
 
@@ -42,7 +42,7 @@ interface State {
 
   foreignKeyState: ISectionState
   updateForeignKeyState: (patch: Partial<ISectionState>) => void
-  updateForeignKey: (patch: Partial<IForeignKey>) => void
+  updateForeignKey: (patch: Partial<types.IForeignKey>) => void
   removeForeignKey: (index: number) => void
   addForeignKey: () => void
 }

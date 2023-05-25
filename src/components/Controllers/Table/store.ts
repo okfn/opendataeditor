@@ -7,12 +7,11 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport, ITableChange } from '../../../interfaces'
-import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
 import { IDataGrid } from '../../Parts/DataGrid'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -22,20 +21,20 @@ export interface State {
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs' | 'error'
-  record?: IRecord
-  report?: IReport
+  record?: types.IRecord
+  report?: types.IReport
   source?: string
   rowCount?: number
-  resource?: IResource
+  resource?: types.IResource
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
-  loader: ITableLoader
-  patch: ITablePatch
-  error?: IError
+  loader: types.ITableLoader
+  patch: types.ITablePatch
+  error?: types.IError
   toggleErrorMode: () => Promise<void>
   // TODO: Figure out how to highlight the column in datagrid without rerender
   selectedField?: string
@@ -151,7 +150,12 @@ export function makeStore(props: TableProps) {
       const rowNumber = context.rowId
       const fieldName = context.columnId
       if (context.cellProps.type === 'number') value = parseInt(value)
-      const change: ITableChange = { type: 'update-cell', rowNumber, fieldName, value }
+      const change: types.ITableChange = {
+        type: 'update-cell',
+        rowNumber,
+        fieldName,
+        value,
+      }
       helpers.applyTablePatch({ changes: [change] }, grid.data)
       patch.changes.push(change)
       set({ patch: { ...patch } })

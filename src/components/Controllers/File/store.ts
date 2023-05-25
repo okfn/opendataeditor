@@ -7,8 +7,8 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport, IResource } from '../../../interfaces'
 import { FileProps } from './index'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -17,9 +17,9 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report'
   dialog?: 'saveAs'
-  record?: IRecord
-  report?: IReport
-  resource?: IResource
+  record?: types.IRecord
+  report?: types.IReport
+  resource?: types.IResource
   source?: ArrayBuffer
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>

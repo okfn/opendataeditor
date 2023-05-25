@@ -6,11 +6,10 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { IRecord, IReport } from '../../../interfaces'
 import { Client } from '../../../client'
-import { IResource, IView, ITable, IColumn } from '../../../interfaces'
 import { ViewProps } from './index'
 import * as settings from '../../../settings'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -21,13 +20,13 @@ export interface State {
   onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
-  columns?: IColumn[]
-  record?: IRecord
-  report?: IReport
-  resource?: IResource
-  original?: IView
-  modified?: IView
-  table?: ITable
+  columns?: types.IColumn[]
+  record?: types.IRecord
+  report?: types.IReport
+  resource?: types.IResource
+  original?: types.IView
+  modified?: types.IView
+  table?: types.ITable
   error?: string
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>

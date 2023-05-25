@@ -1,4 +1,4 @@
-import { ISchema, IDialect, IResource, IPackage, IView } from './interfaces'
+import * as types from './types'
 
 // Genearl
 
@@ -47,12 +47,16 @@ export const DEFUALT_TIME_FORMAT = 'HH:mm:ss'
 
 // Initials
 
-export const INITIAL_SCHEMA: ISchema = { fields: [] }
-export const INITIAL_DIALECT: IDialect = {}
-export const INITIAL_RESOURCE: IResource = { name: 'name', type: 'table', path: 'path' }
-export const INITIAL_PACKAGE: IPackage = { resources: [] }
-export const INITIAL_VIEW: IView = { query: '' }
-export const INITIAL_TABLE_PATCH = { changes: [] }
+export const INITIAL_SCHEMA: types.ISchema = { fields: [] }
+export const INITIAL_DIALECT: types.IDialect = {}
+export const INITIAL_PACKAGE: types.IPackage = { resources: [] }
+export const INITIAL_VIEW: types.IView = { query: '' }
+export const INITIAL_TABLE_PATCH: types.ITablePatch = { changes: [] }
+export const INITIAL_RESOURCE: types.IResource = {
+  name: 'name',
+  type: 'table',
+  path: 'path',
+}
 
 // Structures
 

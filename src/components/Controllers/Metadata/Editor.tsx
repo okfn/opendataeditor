@@ -2,8 +2,8 @@ import * as React from 'react'
 import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
-import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
+import * as types from '../../../types'
 
 export default function Content() {
   const record = useStore((state) => state.record)
@@ -15,19 +15,19 @@ export default function Content() {
     <React.Fragment>
       {record.type === 'resource' && (
         <Resource
-          resource={modified as IResource}
+          resource={modified as types.IResource}
           onChange={(descriptor) => updateState({ modified: descriptor })}
         />
       )}
       {record.type === 'dialect' && (
         <Dialect
-          dialect={modified as IDialect}
+          dialect={modified as types.IDialect}
           onChange={(descriptor) => updateState({ modified: descriptor })}
         />
       )}
       {record.type === 'schema' && (
         <Schema
-          schema={modified as ISchema}
+          schema={modified as types.ISchema}
           onChange={(descriptor) => updateState({ modified: descriptor })}
         />
       )}

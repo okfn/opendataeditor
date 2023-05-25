@@ -7,10 +7,9 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport } from '../../../interfaces'
-import { IResource, IDialect, ISchema } from '../../../interfaces'
 import { MetadataProps } from './index'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -19,10 +18,10 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs'
-  record?: IRecord
-  report?: IReport
-  original?: IResource | IDialect | ISchema
-  modified?: IResource | IDialect | ISchema
+  record?: types.IRecord
+  report?: types.IReport
+  original?: types.IResource | types.IDialect | types.ISchema
+  modified?: types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void

@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import { IFieldItem, IChart } from '../../../interfaces'
 import * as themes from '../../../themes'
+import * as types from '../../../types'
 import Layout from './Layout'
 
 export interface ChartProps {
-  chart?: IChart
-  fields?: IFieldItem[]
-  onChange?: (chart: IChart) => void
+  chart?: types.IChart
+  fields?: types.IFieldItem[]
+  onChange?: (chart: types.IChart) => void
 }
 
 export default function Chart(props: ChartProps) {

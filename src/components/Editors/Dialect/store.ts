@@ -5,42 +5,41 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IDialect, ICsvControl, IHelpItem, IExcelControl } from '../../../interfaces'
-import { IHtmlControl, IJsonControl, IOdsControl } from '../../../interfaces'
 import { DialectProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
   format?: string
-  descriptor: IDialect
-  onChange: (dialect: IDialect) => void
-  helpItem: IHelpItem
+  descriptor: types.IDialect
+  onChange: (dialect: types.IDialect) => void
+  helpItem: types.IHelpItem
   updateHelp: (path: string) => void
-  updateDescriptor: (patch: Partial<IDialect>) => void
+  updateDescriptor: (patch: Partial<types.IDialect>) => void
 
   // Csv
 
-  updateCsv: (patch: Partial<ICsvControl>) => void
+  updateCsv: (patch: Partial<types.ICsvControl>) => void
 
   // Excel
 
-  updateExcel: (patch: Partial<IExcelControl>) => void
+  updateExcel: (patch: Partial<types.IExcelControl>) => void
 
   // Html
 
-  updateHtml: (patch: Partial<IHtmlControl>) => void
+  updateHtml: (patch: Partial<types.IHtmlControl>) => void
 
   // Json
 
-  updateJson: (patch: Partial<IJsonControl>) => void
+  updateJson: (patch: Partial<types.IJsonControl>) => void
 
   // Ods
 
-  updateOds: (patch: Partial<IOdsControl>) => void
+  updateOds: (patch: Partial<types.IOdsControl>) => void
 }
 
 export function makeStore(props: DialectProps) {

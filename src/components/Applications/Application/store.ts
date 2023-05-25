@@ -3,9 +3,9 @@ import * as zustand from 'zustand'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IFile, ITreeItem, IFileEvent } from '../../../interfaces'
 import { ApplicationProps } from './index'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 type IDialog =
   | 'folder/copy'
@@ -18,9 +18,9 @@ type IDialog =
 export interface State {
   path?: string
   client: Client
-  record?: IRecord
-  files: IFile[]
-  fileEvent?: IFileEvent
+  record?: types.IRecord
+  files: types.IFile[]
+  fileEvent?: types.IFileEvent
   dialog?: IDialog
   loading?: boolean
   indexing?: boolean
@@ -266,7 +266,7 @@ export const selectors = {
   },
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.files, ['folder'])
-    const targetTree: ITreeItem[] = [
+    const targetTree: types.ITreeItem[] = [
       { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree

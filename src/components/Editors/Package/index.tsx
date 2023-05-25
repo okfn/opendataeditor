@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { IPackage } from '../../../interfaces'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
+import * as types from '../../../types'
 import Layout from './Layout'
 
 export interface PackageProps {
-  package?: IPackage
+  package?: types.IPackage
   shallow?: boolean
-  onChange?: (pkg: IPackage) => void
+  onChange?: (pkg: types.IPackage) => void
   onAddResource?: () => void
   onFieldSelected?: (name?: string) => void
 }

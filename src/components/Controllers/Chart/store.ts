@@ -8,8 +8,8 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IColumn, IChart, IResource, IReport } from '../../../interfaces'
 import { ChartProps } from './index'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -20,13 +20,13 @@ export interface State {
   onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
-  record?: IRecord
-  report?: IReport
-  columns?: IColumn[]
-  resource?: IResource
-  original?: IChart
-  modified?: IChart
-  rendered?: IChart
+  record?: types.IRecord
+  report?: types.IReport
+  columns?: types.IColumn[]
+  resource?: types.IResource
+  original?: types.IChart
+  modified?: types.IChart
+  rendered?: types.IChart
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void

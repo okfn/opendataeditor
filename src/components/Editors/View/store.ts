@@ -6,22 +6,22 @@ import { assert } from 'ts-essentials'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { ITextEditor } from '../../Parts/TextEditor'
-import { IView, IFieldItem, IHelpItem } from '../../../interfaces'
 import { ViewProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import help from './help.yaml'
+import * as types from '../../../types'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'view')!
 
 export interface State {
-  descriptor: IView
-  onChange: (view: IView) => void
-  fields?: IFieldItem[]
-  helpItem: IHelpItem
+  descriptor: types.IView
+  onChange: (view: types.IView) => void
+  fields?: types.IFieldItem[]
+  helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
-  updateDescriptor: (patch: Partial<IView>) => void
+  updateDescriptor: (patch: Partial<types.IView>) => void
   editorRef: React.RefObject<ITextEditor>
   searchTerm?: string
 }
@@ -53,7 +53,7 @@ export function makeStore(props: ViewProps, editorRef: React.RefObject<ITextEdit
 export const select = createSelector
 export const selectors = {
   fieldTree: (state: State) => {
-    const fields: IFieldItem[] = []
+    const fields: types.IFieldItem[] = []
     const search = state.searchTerm?.toLowerCase()
     for (const field of state.fields || []) {
       if (search) {

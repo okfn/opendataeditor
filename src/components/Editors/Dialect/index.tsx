@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { IDialect } from '../../../interfaces'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
+import * as types from '../../../types'
 import Layout from './Layout'
 
 export interface DialectProps {
   format?: string
-  dialect?: IDialect
-  onChange?: (dialect: IDialect) => void
+  dialect?: types.IDialect
+  onChange?: (dialect: types.IDialect) => void
 }
 
 export default function Dialect(props: DialectProps) {

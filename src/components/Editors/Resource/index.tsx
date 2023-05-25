@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { IResource } from '../../../interfaces'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
+import * as types from '../../../types'
 import Layout from './Layout'
 
 export interface ResourceProps {
-  resource?: IResource
+  resource?: types.IResource
   shallow?: boolean
-  onChange?: (resource: IResource) => void
+  onChange?: (resource: types.IResource) => void
   onBackClick?: () => void
   onFieldSelected?: (name?: string) => void
 }

@@ -5,10 +5,10 @@ import noop from 'lodash/noop'
 import uniq from 'lodash/uniq'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IHelpItem, IFieldItem, IChart } from '../../../interfaces'
 import { ChartProps } from './index'
 import * as helpers from '../../../helpers'
 import * as settings from './settings'
+import * as types from '../../../types'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
@@ -21,13 +21,13 @@ interface IChannelState {
 }
 
 interface State {
-  fields: IFieldItem[]
-  descriptor: Partial<IChart>
+  fields: types.IFieldItem[]
+  descriptor: Partial<types.IChart>
   onChange: (chart: object) => void
-  helpItem: IHelpItem
+  helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
-  updateDescriptor: (patch: Partial<IChart>) => void
+  updateDescriptor: (patch: Partial<types.IChart>) => void
 
   // Channels
 

@@ -8,10 +8,10 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport, IResource } from '../../../interfaces'
 import { ITextEditor } from '../../Parts/TextEditor'
 import { TextProps } from './index'
 import * as helpers from './helpers'
+import * as types from '../../../types'
 // @ts-ignore
 import dirtyJson from 'dirty-json'
 
@@ -22,9 +22,9 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report'
   dialog?: 'saveAs'
-  record?: IRecord
-  report?: IReport
-  resource?: IResource
+  record?: types.IRecord
+  report?: types.IReport
+  resource?: types.IResource
   original?: string
   modified?: string
   rendered?: string

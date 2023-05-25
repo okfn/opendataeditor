@@ -3,13 +3,13 @@ import * as themes from '../../../themes'
 import { ITextEditor } from '../../Parts/TextEditor'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import { IView, IFieldItem } from '../../../interfaces'
 import Layout from './Layout'
+import * as types from '../../../types'
 
 export interface ViewProps {
-  view?: IView
-  fields?: IFieldItem[]
-  onChange?: (view: IView) => void
+  view?: types.IView
+  fields?: types.IFieldItem[]
+  onChange?: (view: types.IView) => void
 }
 
 export default function View(props: ViewProps) {

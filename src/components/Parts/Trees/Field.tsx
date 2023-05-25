@@ -4,10 +4,10 @@ import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { ITreeItem } from '../../../interfaces'
+import * as types from '../../../types'
 
 interface FieldTreeProps {
-  tree: ITreeItem[]
+  tree: types.ITreeItem[]
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
@@ -43,7 +43,7 @@ export default function FieldTree(props: FieldTreeProps) {
   )
 }
 
-function TreeNode(props: { item: ITreeItem }) {
+function TreeNode(props: { item: types.ITreeItem }) {
   return (
     <TreeItem
       key={props.item.path}

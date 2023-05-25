@@ -1,10 +1,6 @@
 import omit from 'lodash/omit'
-import { ICkanControl } from './interfaces'
-import { IRecord, IFile } from './interfaces'
-import { ITable, IRow, IReport } from './interfaces'
-import { IColumn, IChart } from './interfaces'
-import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
+import * as types from './types'
 
 export class Client {
   basepath: string
@@ -29,16 +25,16 @@ export class Client {
     return result as { path: string }
   }
 
-  async chartRender(props: { chart: IChart }) {
+  async chartRender(props: { chart: types.IChart }) {
     const result = await this.request('/chart/render', props)
-    return result as { chart: IChart }
+    return result as { chart: types.IChart }
   }
 
   // Column
 
   async columnList() {
     const result = await this.request('/column/list')
-    return result as { columns: IColumn[] }
+    return result as { columns: types.IColumn[] }
   }
 
   // File
@@ -65,12 +61,12 @@ export class Client {
 
   async fileIndex(props: { path: string }) {
     const result = await this.request('/file/index', props)
-    return result as { record: IRecord }
+    return result as { record: types.IRecord }
   }
 
   async fileList() {
     const result = await this.request('/file/list')
-    return result as { files: IFile[] }
+    return result as { files: types.IFile[] }
   }
 
   async fileMove(props: {
@@ -121,7 +117,10 @@ export class Client {
 
   // Metadata
 
-  async metadataWrite(props: { path: string; data: IResource | IDialect | ISchema }) {
+  async metadataWrite(props: {
+    path: string
+    data: types.IResource | types.IDialect | types.ISchema
+  }) {
     const result = await this.request('/metadata/write', props)
     return result as { path: string }
   }
@@ -129,18 +128,18 @@ export class Client {
   // Package
 
   async packageCreate(
-    props: { path?: string; package?: IPackage; deduplicate?: boolean } = {}
+    props: { path?: string; package?: types.IPackage; deduplicate?: boolean } = {}
   ) {
     const result = await this.request('/package/create', props)
     return result as { path: string }
   }
 
-  async packagePublish(props: { path: string; control: ICkanControl }) {
+  async packagePublish(props: { path: string; control: types.ICkanControl }) {
     const result = await this.request('/package/publish', props)
     return result as { path: string }
   }
 
-  async packageWrite(props: { path: string; data: IPackage }) {
+  async packageWrite(props: { path: string; data: types.IPackage }) {
     const result = await this.request('/package/write', props)
     return result as { path: string }
   }
@@ -149,19 +148,19 @@ export class Client {
 
   async recordRead(props: { path: string }) {
     const result = await this.request('/record/read', props)
-    return result as { record: IRecord }
+    return result as { record: types.IRecord }
   }
 
-  async recordWrite(props: { path: string; type?: string; resource: IResource }) {
+  async recordWrite(props: { path: string; type?: string; resource: types.IResource }) {
     const result = await this.request('/record/write', props)
-    return result as { record: IRecord }
+    return result as { record: types.IRecord }
   }
 
   // Report
 
   async reportRead(props: { path: string }) {
     const result = await this.request('/report/read', props)
-    return result as { report?: IReport }
+    return result as { report?: types.IReport }
   }
 
   // Table
@@ -178,7 +177,7 @@ export class Client {
 
   async tableQuery(props: { query: string }) {
     const result = await this.request('/table/query', props)
-    return result as { table: ITable }
+    return result as { table: types.ITable }
   }
 
   async tableRead(props: {
@@ -190,7 +189,7 @@ export class Client {
     desc?: boolean
   }) {
     const result = await this.request('/table/read', props)
-    return result as { rows: IRow[] }
+    return result as { rows: types.IRow[] }
   }
 
   async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {
@@ -222,7 +221,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async viewWrite(props: { path: string; view: IView }) {
+  async viewWrite(props: { path: string; view: types.IView }) {
     const result = await this.request('/view/write', props)
     return result as { path: string }
   }

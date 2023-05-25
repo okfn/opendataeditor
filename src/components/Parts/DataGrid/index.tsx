@@ -3,16 +3,16 @@ import * as React from 'react'
 import InovuaDatagrid from '@inovua/reactdatagrid-community'
 import { TypeDataGridProps } from '@inovua/reactdatagrid-community/types'
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
-import { ISchema, IReport, ITablePatch, ITableLoader, IRow } from '../../../interfaces'
 import { createColumns } from './columns'
 import * as settings from './settings'
+import * as types from '../../../types'
 
 export type IDataGrid = TypeComputedProps | null
 export interface DataGridProps extends Partial<TypeDataGridProps> {
-  source: ITableLoader | IRow[]
-  schema: ISchema
-  report?: IReport
-  patch?: ITablePatch
+  source: types.ITableLoader | types.IRow[]
+  schema: types.ISchema
+  report?: types.IReport
+  patch?: types.ITablePatch
 }
 
 export default function DataGrid(props: DataGridProps) {

@@ -1,10 +1,14 @@
 import * as React from 'react'
 import LightTooltip from '../Tooltips/Light'
-import { ISchema, IReport, IError, ITablePatch, ITableChange } from '../../../interfaces'
-import { IErrorIndex, IPatchIndex } from './interfaces'
+import * as types from '../../../types'
+import { IErrorIndex, IPatchIndex } from './types'
 
 // TODO: use proper InovuaDatagrid types
-export function createColumns(schema: ISchema, report?: IReport, patch?: ITablePatch) {
+export function createColumns(
+  schema: types.ISchema,
+  report?: types.IReport,
+  patch?: types.ITablePatch
+) {
   const errorIndex = createErrorIndex(report)
   const patchIndex = createPatchIndex(patch)
 
@@ -44,7 +48,7 @@ export function createColumns(schema: ISchema, report?: IReport, patch?: ITableP
         const cellKey = `${data._rowNumber},${cellProps.id}`
 
         // Find changes
-        let change: ITableChange | undefined
+        let change: types.ITableChange | undefined
         if (rowKey in patchIndex.row) {
           change = patchIndex.row[rowKey]
         } else if (cellKey in patchIndex.cell) {
@@ -59,7 +63,7 @@ export function createColumns(schema: ISchema, report?: IReport, patch?: ITableP
         }
 
         // Find errors
-        let error: IError | undefined
+        let error: types.IError | undefined
         if (rowKey in errorIndex.row) {
           error = errorIndex.row[rowKey][0]
         } else if (cellKey in errorIndex.cell) {
@@ -86,7 +90,7 @@ export function createColumns(schema: ISchema, report?: IReport, patch?: ITableP
   return [rowNumberColumn, ...dataColumns]
 }
 
-function createErrorIndex(report?: IReport) {
+function createErrorIndex(report?: types.IReport) {
   const errorIndex: IErrorIndex = { header: {}, label: {}, row: {}, cell: {} }
   if (!report) return errorIndex
   const errorTask = report.tasks[0]
@@ -113,7 +117,7 @@ function createErrorIndex(report?: IReport) {
   return errorIndex
 }
 
-function createPatchIndex(patch?: ITablePatch) {
+function createPatchIndex(patch?: types.ITablePatch) {
   const patchIndex: IPatchIndex = { header: {}, label: {}, row: {}, cell: {} }
   if (!patch) return patchIndex
   for (const change of patch.changes) {

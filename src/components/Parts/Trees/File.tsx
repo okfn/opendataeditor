@@ -8,7 +8,6 @@ import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
-import { ITreeItem, IFileEvent } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot'
@@ -16,11 +15,12 @@ import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../ScrollBox'
+import * as types from '../../../types'
 
 export interface FileTreeProps {
   // TODO: accept fileItems as prop?
-  tree: ITreeItem[]
-  event?: IFileEvent
+  tree: types.ITreeItem[]
+  event?: types.IFileEvent
   selected?: string
   onSelect?: (path: string) => void
   defaultExpanded?: string[]
@@ -54,7 +54,7 @@ export default function FileTree(props: FileTreeProps) {
   )
 }
 
-function TreeNode(props: { item: ITreeItem }) {
+function TreeNode(props: { item: types.ITreeItem }) {
   return (
     <StyledTreeItem
       key={props.item.path}

@@ -7,9 +7,9 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport, IPackage, ICkanControl } from '../../../interfaces'
 import { PackageProps } from './index'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -18,10 +18,10 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs' | 'resource' | 'publish'
-  record?: IRecord
-  report?: IReport
-  original?: IPackage
-  modified?: IPackage
+  record?: types.IRecord
+  report?: types.IReport
+  original?: types.IPackage
+  modified?: types.IPackage
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -36,10 +36,10 @@ export interface State {
   // Publish
 
   controlType: string
-  ckanControl?: Partial<ICkanControl>
+  ckanControl?: Partial<types.ICkanControl>
   isPublishing?: boolean
   publishedPath?: string
-  updateControl: (patch: Partial<ICkanControl>) => void
+  updateControl: (patch: Partial<types.ICkanControl>) => void
   publish: () => void
 }
 
@@ -61,7 +61,7 @@ export function makeStore(props: PackageProps) {
     },
     clear: () => {
       const { updateState } = get()
-      const descriptor = helpers.getInitialDescriptor('package') as IPackage
+      const descriptor = helpers.getInitialDescriptor('package') as types.IPackage
       if (!descriptor) return
       updateState({ modified: cloneDeep(descriptor) })
     },
@@ -132,7 +132,7 @@ export const selectors = {
       if (!control.baseurl) return
       if (!control.dataset) return
       if (!control.apikey) return
-      return control as ICkanControl
+      return control as types.ICkanControl
     }
     return undefined
   },

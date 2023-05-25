@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { ISchema } from '../../../interfaces'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
-import * as themes from '../../../themes'
 import Layout from './Layout'
+import * as themes from '../../../themes'
+import * as types from '../../../types'
 
 export interface SchemaProps {
-  schema?: ISchema
-  onChange?: (schema: ISchema) => void
+  schema?: types.ISchema
+  onChange?: (schema: types.ISchema) => void
   onFieldSelected?: (name?: string) => void
 }
 
