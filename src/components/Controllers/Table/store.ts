@@ -7,8 +7,9 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IRecord, IReport } from '../../../interfaces'
+import { IRecord, IReport, ITableChange } from '../../../interfaces'
 import { ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
+import { IDataGrid } from '../../Parts/DataGrid'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -38,6 +39,15 @@ export interface State {
   toggleErrorMode: () => Promise<void>
   // TODO: Figure out how to highlight the column in datagrid without rerender
   selectedField?: string
+  gridRef?: React.MutableRefObject<IDataGrid>
+
+  // Editing
+
+  editing?: boolean
+  // TODO: find proper context type
+  startEditing: (context: any) => void
+  saveEditing: (context: any) => void
+  stopEditing: (context: any) => void
 }
 
 export function makeStore(props: TableProps) {
@@ -63,12 +73,16 @@ export function makeStore(props: TableProps) {
       set({ source: text })
     },
     revert: () => {
-      const { record } = get()
+      const { record, gridRef } = get()
+      const grid = gridRef?.current
       if (!record) return
+      if (!grid) return
+
       set({
         patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
         resource: cloneDeep(record.resource),
       })
+      grid.reload()
     },
     // TODO: rewrite
     save: async () => {
@@ -110,6 +124,36 @@ export function makeStore(props: TableProps) {
         const { count } = await client.tableCount({ path, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
+    },
+
+    // Editing
+
+    startEditing: () => {
+      const { updateState } = get()
+      updateState({ editing: true })
+    },
+    saveEditing: (context) => {
+      const { gridRef, patch } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      const rowNumber = context.rowId
+      const fieldName = context.columnId
+      let value = context.value
+      if (context.cellProps.type === 'number') value = parseInt(value)
+      const change: ITableChange = { type: 'update-cell', rowNumber, fieldName, value }
+      helpers.applyTablePatch({ changes: [change] }, grid.data)
+      patch.changes.push(change)
+    },
+    stopEditing: () => {
+      const { gridRef, updateState } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      requestAnimationFrame(() => {
+        updateState({ editing: false })
+        grid.focus()
+      })
     },
   }))
 }

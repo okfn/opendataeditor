@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Table from '../../Editors/Table'
+import DataGrid from '../../Parts/DataGrid'
 import { useStore } from './store'
 
 export default function Editor() {
@@ -7,22 +7,23 @@ export default function Editor() {
   const report = useStore((state) => state.report)
   const loader = useStore((state) => state.loader)
   const patch = useStore((state) => state.patch)
+  const startEditing = useStore((state) => state.startEditing)
+  const saveEditing = useStore((state) => state.saveEditing)
+  const stopEditing = useStore((state) => state.stopEditing)
   const updateState = useStore((state) => state.updateState)
-  const mode = useStore((state) => state.mode)
   if (!schema) return null
   if (!report) return null
   return (
-    <Table
-      mode={mode}
+    <DataGrid
       source={loader}
       schema={schema}
       report={report}
       patch={patch}
-      onChange={(change) => {
-        patch.changes.push(change)
-        updateState({ patch })
-      }}
-      onErrorClick={(error) => updateState({ error, dialog: 'error' })}
+      editable={true}
+      onEditStart={startEditing}
+      onEditComplete={saveEditing}
+      onEditStop={stopEditing}
+      handle={(gridRef) => updateState({ gridRef })}
     />
   )
 }
