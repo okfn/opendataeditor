@@ -8,8 +8,8 @@ export default function Menu() {
   const record = useStore((state) => state.record)
   const mode = useStore((state) => state.mode)
   const panel = useStore((state) => state.panel)
-  const patch = useStore((state) => state.patch)
-  const undonePatch = useStore((state) => state.undonePatch)
+  const history = useStore((state) => state.history)
+  const undoneHistory = useStore((state) => state.undoneHistory)
   const updateState = useStore((state) => state.updateState)
   const toggleErrorMode = useStore((state) => state.toggleErrorMode)
   const undoChange = useStore((state) => state.undoChange)
@@ -30,8 +30,8 @@ export default function Menu() {
       onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onErrors={record?.stats.errors ? () => toggleErrorMode() : undefined}
-      onUndo={patch?.changes.length ? () => undoChange() : undefined}
-      onRedo={undonePatch?.changes.length ? () => redoChange() : undefined}
+      onUndo={history?.changes.length ? () => undoChange() : undefined}
+      onRedo={undoneHistory?.changes.length ? () => redoChange() : undefined}
     />
   )
 }

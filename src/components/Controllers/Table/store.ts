@@ -33,8 +33,8 @@ export interface State {
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
   loader: types.ITableLoader
-  patch: types.ITablePatch
-  undonePatch: types.ITablePatch
+  history: types.IHistory
+  undoneHistory: types.IHistory
   error?: types.IError
   toggleErrorMode: () => Promise<void>
   // TODO: Figure out how to highlight the column in datagrid without rerender
@@ -57,8 +57,8 @@ export function makeStore(props: TableProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
-    undonePatch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+    history: cloneDeep(settings.INITIAL_HISTORY),
+    undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
     updateState: (patch) => {
       set(patch)
     },
@@ -82,8 +82,8 @@ export function makeStore(props: TableProps) {
       if (!grid) return
 
       set({
-        patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
-        undonePatch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+        history: cloneDeep(settings.INITIAL_HISTORY),
+        undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
         resource: cloneDeep(record.resource),
       })
       grid.reload()
@@ -106,7 +106,7 @@ export function makeStore(props: TableProps) {
       onSaveAs(path)
     },
     loader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount, mode, patch } = get()
+      const { path, client, rowCount, mode, history } = get()
       const { rows } = await client.tableRead({
         path,
         valid: mode === 'errors' ? false : undefined,
@@ -116,7 +116,7 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
 
-      helpers.applyTablePatch(patch, rows)
+      helpers.applyTableHistory(history, rows)
       return { data: rows, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
@@ -144,7 +144,7 @@ export function makeStore(props: TableProps) {
       updateState({ initialEditingValue: context.value })
     },
     saveEditing: (context) => {
-      const { gridRef, patch, undonePatch, initialEditingValue } = get()
+      const { gridRef, history, undoneHistory, initialEditingValue } = get()
       const grid = gridRef?.current
       if (!grid) return
 
@@ -155,16 +155,16 @@ export function makeStore(props: TableProps) {
       const rowNumber = context.rowId
       const fieldName = context.columnId
       if (context.cellProps.type === 'number') value = parseInt(value)
-      const change: types.ITableChange = {
+      const change: types.IChange = {
         type: 'update-cell',
         rowNumber,
         fieldName,
         value,
       }
-      helpers.applyTablePatch({ changes: [change] }, grid.data)
-      patch.changes.push(change)
-      undonePatch.changes = []
-      set({ patch: { ...patch } })
+      helpers.applyTableHistory({ changes: [change] }, grid.data)
+      history.changes.push(change)
+      undoneHistory.changes = []
+      set({ history: { ...history } })
     },
     stopEditing: () => {
       const { gridRef, updateState } = get()
@@ -174,17 +174,17 @@ export function makeStore(props: TableProps) {
       })
     },
     undoChange: () => {
-      const { patch, undonePatch, gridRef } = get()
-      const change = patch.changes.pop()
-      if (change) undonePatch.changes.push(change)
-      set({ patch: { ...patch } })
+      const { history, undoneHistory, gridRef } = get()
+      const change = history.changes.pop()
+      if (change) undoneHistory.changes.push(change)
+      set({ history: { ...history } })
       gridRef?.current?.reload()
     },
     redoChange: () => {
-      const { patch, undonePatch, gridRef } = get()
-      const change = undonePatch.changes.pop()
-      if (change) patch.changes.push(change)
-      set({ patch: { ...patch } })
+      const { history, undoneHistory, gridRef } = get()
+      const change = undoneHistory.changes.pop()
+      if (change) history.changes.push(change)
+      set({ history: { ...history } })
       gridRef?.current?.reload()
     },
   }))
@@ -194,7 +194,7 @@ export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
     return (
-      !!state.patch.changes.length || !isEqual(state.resource, state.record?.resource)
+      !!state.history.changes.length || !isEqual(state.resource, state.record?.resource)
     )
   },
 }

@@ -12,14 +12,14 @@ export interface DataGridProps extends Partial<TypeDataGridProps> {
   source: types.ITableLoader | types.IRow[]
   schema: types.ISchema
   report?: types.IReport
-  patch?: types.ITablePatch
+  history?: types.IHistory
 }
 
 export default function DataGrid(props: DataGridProps) {
-  const { source, schema, report, patch, ...others } = props
+  const { source, schema, report, history, ...others } = props
   const columns = React.useMemo(
-    () => createColumns(schema, report, patch),
-    [schema, report, patch]
+    () => createColumns(schema, report, history),
+    [schema, report, history]
   )
   return (
     <InovuaDatagrid

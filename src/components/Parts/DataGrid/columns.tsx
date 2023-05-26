@@ -7,10 +7,10 @@ import * as types from '../../../types'
 export function createColumns(
   schema: types.ISchema,
   report?: types.IReport,
-  patch?: types.ITablePatch
+  history?: types.IHistory
 ) {
   const errorIndex = helpers.createErrorIndex(report)
-  const patchIndex = helpers.createPatchIndex(patch)
+  const changeIndex = helpers.createChangeIndex(history)
 
   const rowNumberColumn = {
     name: '_rowNumber',
@@ -48,11 +48,11 @@ export function createColumns(
         const cellKey = `${data._rowNumber},${cellProps.id}`
 
         // Find changes
-        let change: types.ITableChange | undefined
-        if (rowKey in patchIndex.row) {
-          change = patchIndex.row[rowKey]
-        } else if (cellKey in patchIndex.cell) {
-          change = patchIndex.cell[cellKey]
+        let change: types.IChange | undefined
+        if (rowKey in changeIndex.row) {
+          change = changeIndex.row[rowKey]
+        } else if (cellKey in changeIndex.cell) {
+          change = changeIndex.cell[cellKey]
         }
 
         // Render change

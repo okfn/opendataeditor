@@ -6,7 +6,7 @@ export default function Editor() {
   const schema = useStore((state) => state.record?.resource.schema)
   const report = useStore((state) => state.report)
   const loader = useStore((state) => state.loader)
-  const patch = useStore((state) => state.patch)
+  const history = useStore((state) => state.history)
   const startEditing = useStore((state) => state.startEditing)
   const saveEditing = useStore((state) => state.saveEditing)
   const stopEditing = useStore((state) => state.stopEditing)
@@ -18,7 +18,7 @@ export default function Editor() {
       source={loader}
       schema={schema}
       report={report}
-      patch={patch}
+      history={history}
       editable={true}
       onEditStart={startEditing}
       onEditComplete={saveEditing}
