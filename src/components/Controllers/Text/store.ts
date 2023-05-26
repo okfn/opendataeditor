@@ -39,6 +39,8 @@ export interface State {
   // Text
 
   clear: () => void
+  undo: () => void
+  redo: () => void
 
   // Json
 
@@ -103,8 +105,15 @@ export function makeStore(props: TextProps) {
 
     clear: () => {
       const { editorRef } = get()
-      if (!editorRef.current) return
-      editorRef.current.setValue('')
+      editorRef.current?.setValue('')
+    },
+    undo: () => {
+      const { editorRef } = get()
+      editorRef.current?.trigger(null, 'undo', null)
+    },
+    redo: () => {
+      const { editorRef } = get()
+      editorRef.current?.trigger(null, 'redo', null)
     },
 
     // Json

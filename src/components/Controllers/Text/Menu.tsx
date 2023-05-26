@@ -6,11 +6,21 @@ export default function Menu() {
   const language = useStore(selectors.language)
   const panel = useStore((state) => state.panel)
   const clear = useStore((state) => state.clear)
+  const undo = useStore((state) => state.undo)
+  const redo = useStore((state) => state.redo)
   const fix = useStore((state) => state.fix)
   const minify = useStore((state) => state.minify)
   const prettify = useStore((state) => state.prettify)
   const updateState = useStore((state) => state.updateState)
-  const items: MenuBarItem[] = ['editor', 'metadata', 'report', 'source', 'clear']
+  const items: MenuBarItem[] = [
+    'editor',
+    'metadata',
+    'report',
+    'source',
+    'clear',
+    'undo',
+    'redo',
+  ]
   if (language === 'json') items.push('fix', 'minify', 'prettify')
   return (
     <MenuBar
@@ -26,6 +36,8 @@ export default function Menu() {
       }
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onClear={clear}
+      onUndo={undo}
+      onRedo={redo}
       onFix={fix}
       onMinify={minify}
       onPrettify={prettify}

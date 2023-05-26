@@ -7,6 +7,7 @@ import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import UndoIcon from '@mui/icons-material/Undo'
+import RedoIcon from '@mui/icons-material/Redo'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
@@ -20,10 +21,11 @@ export type MenuBarItem =
   | 'source'
   | 'errors'
   | 'clear'
+  | 'undo'
+  | 'redo'
   | 'fix'
   | 'minify'
   | 'prettify'
-  | 'undo'
 
 export interface MenuBarProps {
   items?: MenuBarItem[]
@@ -35,10 +37,11 @@ export interface MenuBarProps {
   onSource?: () => void
   onErrors?: () => void
   onClear?: () => void
+  onUndo?: () => void
+  onRedo?: () => void
   onFix?: () => void
   onMinify?: () => void
   onPrettify?: () => void
-  onUndo?: () => void
 }
 
 // TODO: don't use hard-coded color (info=#9c27b0)
@@ -140,6 +143,51 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
+  const Clear = () => {
+    if (!props.items?.includes('clear')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.clear || 'Clear'}
+        Icon={FormatClearIcon}
+        color={props.colors?.clear}
+        disabled={!props.onClear}
+        onClick={() => props.onClear!()}
+      />
+    )
+  }
+
+  const Undo = () => {
+    if (!props.items?.includes('undo')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.undo || 'Undo'}
+        Icon={UndoIcon}
+        color={props.colors?.undo}
+        disabled={!props.onUndo}
+        onClick={() => props.onUndo!()}
+      />
+    )
+  }
+
+  const Redo = () => {
+    if (!props.items?.includes('redo')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.redo || 'Redo'}
+        Icon={RedoIcon}
+        color={props.colors?.redo}
+        disabled={!props.onRedo}
+        onClick={() => props.onRedo!()}
+      />
+    )
+  }
+
   const Fix = () => {
     if (!props.items?.includes('fix')) return null
     return (
@@ -185,36 +233,6 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
-  const Clear = () => {
-    if (!props.items?.includes('clear')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.clear || 'Clear'}
-        Icon={FormatClearIcon}
-        color={props.colors?.clear}
-        disabled={!props.onClear}
-        onClick={() => props.onClear!()}
-      />
-    )
-  }
-
-  const Undo = () => {
-    if (!props.items?.includes('undo')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.undo || 'Undo'}
-        Icon={UndoIcon}
-        color={props.colors?.undo}
-        disabled={!props.onUndo}
-        onClick={() => props.onUndo!()}
-      />
-    )
-  }
-
   const DefaultBar = () => {
     return (
       <Stack direction="row" spacing={1}>
@@ -224,10 +242,11 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         <Source />
         <Errors />
         <Clear />
+        <Undo />
+        <Redo />
         <Fix />
         <Minify />
         <Prettify />
-        <Undo />
         {props.children}
       </Stack>
     )
