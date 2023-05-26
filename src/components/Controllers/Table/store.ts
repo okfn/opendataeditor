@@ -34,6 +34,7 @@ export interface State {
   saveAs: (path: string) => Promise<void>
   loader: types.ITableLoader
   patch: types.ITablePatch
+  undonePatch: types.ITablePatch
   error?: types.IError
   toggleErrorMode: () => Promise<void>
   // TODO: Figure out how to highlight the column in datagrid without rerender
@@ -48,6 +49,7 @@ export interface State {
   saveEditing: (context: any) => void
   stopEditing: (context: any) => void
   undoChange: () => void
+  redoChange: () => void
 }
 
 export function makeStore(props: TableProps) {
@@ -56,6 +58,7 @@ export function makeStore(props: TableProps) {
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
     patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+    undonePatch: cloneDeep(settings.INITIAL_TABLE_PATCH),
     updateState: (patch) => {
       set(patch)
     },
@@ -80,6 +83,7 @@ export function makeStore(props: TableProps) {
 
       set({
         patch: cloneDeep(settings.INITIAL_TABLE_PATCH),
+        undonePatch: cloneDeep(settings.INITIAL_TABLE_PATCH),
         resource: cloneDeep(record.resource),
       })
       grid.reload()
@@ -140,7 +144,7 @@ export function makeStore(props: TableProps) {
       updateState({ initialEditingValue: context.value })
     },
     saveEditing: (context) => {
-      const { gridRef, patch, initialEditingValue } = get()
+      const { gridRef, patch, undonePatch, initialEditingValue } = get()
       const grid = gridRef?.current
       if (!grid) return
 
@@ -159,6 +163,7 @@ export function makeStore(props: TableProps) {
       }
       helpers.applyTablePatch({ changes: [change] }, grid.data)
       patch.changes.push(change)
+      undonePatch.changes = []
       set({ patch: { ...patch } })
     },
     stopEditing: () => {
@@ -169,8 +174,16 @@ export function makeStore(props: TableProps) {
       })
     },
     undoChange: () => {
-      const { patch, gridRef } = get()
-      patch.changes.pop()
+      const { patch, undonePatch, gridRef } = get()
+      const change = patch.changes.pop()
+      if (change) undonePatch.changes.push(change)
+      set({ patch: { ...patch } })
+      gridRef?.current?.reload()
+    },
+    redoChange: () => {
+      const { patch, undonePatch, gridRef } = get()
+      const change = undonePatch.changes.pop()
+      if (change) patch.changes.push(change)
       set({ patch: { ...patch } })
       gridRef?.current?.reload()
     },
