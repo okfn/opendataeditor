@@ -47,6 +47,7 @@ export interface State {
   startEditing: (context: any) => void
   saveEditing: (context: any) => void
   stopEditing: (context: any) => void
+  undoChange: () => void
 }
 
 export function makeStore(props: TableProps) {
@@ -162,13 +163,16 @@ export function makeStore(props: TableProps) {
     },
     stopEditing: () => {
       const { gridRef, updateState } = get()
-      const grid = gridRef?.current
-      if (!grid) return
-
       requestAnimationFrame(() => {
         updateState({ initialEditingValue: undefined })
-        grid.focus()
+        gridRef?.current?.focus()
       })
+    },
+    undoChange: () => {
+      const { patch, gridRef } = get()
+      patch.changes.pop()
+      set({ patch: { ...patch } })
+      gridRef?.current?.reload()
     },
   }))
 }

@@ -8,11 +8,13 @@ export default function Menu() {
   const record = useStore((state) => state.record)
   const mode = useStore((state) => state.mode)
   const panel = useStore((state) => state.panel)
+  const patch = useStore((state) => state.patch)
   const updateState = useStore((state) => state.updateState)
   const toggleErrorMode = useStore((state) => state.toggleErrorMode)
+  const undoChange = useStore((state) => state.undoChange)
   return (
     <MenuBar
-      items={['editor', 'metadata', 'source', 'report', 'errors']}
+      items={['editor', 'metadata', 'source', 'report', 'errors', 'undo']}
       colors={{
         editor: 'info',
         metadata: panel === 'metadata' ? 'warning' : undefined,
@@ -26,6 +28,7 @@ export default function Menu() {
       onSource={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onErrors={record?.stats.errors ? () => toggleErrorMode() : undefined}
+      onUndo={patch?.changes.length ? () => undoChange() : undefined}
     />
   )
 }
