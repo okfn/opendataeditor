@@ -11,15 +11,15 @@ export interface IHistory {
   changes: IChange[]
 }
 
-export type IChange = IDeleteRow | IUpdateCell
+export type IChange = IRowDelete | ICellUpdate
 
-interface IDeleteRow {
-  type: 'delete-row'
+interface IRowDelete {
+  type: 'row-delete'
   rowNumber: number
 }
 
-interface IUpdateCell {
-  type: 'update-cell'
+interface ICellUpdate {
+  type: 'cell-update'
   rowNumber: number
   fieldName: string
   value: any

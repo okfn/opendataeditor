@@ -161,7 +161,7 @@ export function makeStore(props: TableProps) {
       const fieldName = context.columnId
       if (context.cellProps.type === 'number') value = parseInt(value)
       const change: types.IChange = {
-        type: 'update-cell',
+        type: 'cell-update',
         rowNumber,
         fieldName,
         value,

@@ -3,9 +3,9 @@ import * as types from '../types'
 
 export function applyTableHistory(history: types.IHistory, rows: types.IRow[]) {
   for (const change of history.changes) {
-    if (change.type === 'delete-row') {
+    if (change.type === 'row-delete') {
       remove(rows, (row) => row._rowNumber === change.rowNumber)
-    } else if (change.type === 'update-cell') {
+    } else if (change.type === 'cell-update') {
       for (const row of rows) {
         if (row._rowNumber === change.rowNumber) row[change.fieldName] = change.value
       }
