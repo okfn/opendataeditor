@@ -1,5 +1,4 @@
 import { IDict } from './common'
-import { IResource } from './resource'
 
 export interface IChangeIndex {
   header: IDict<IChange>
@@ -12,7 +11,7 @@ export interface IHistory {
   changes: IChange[]
 }
 
-export type IChange = IDeleteRow | IUpdateCell | IUpdateResource
+export type IChange = IDeleteRow | IUpdateCell
 
 interface IDeleteRow {
   type: 'delete-row'
@@ -24,9 +23,4 @@ interface IUpdateCell {
   rowNumber: number
   fieldName: string
   value: any
-}
-
-interface IUpdateResource {
-  type: 'update-resource'
-  resource: IResource
 }
