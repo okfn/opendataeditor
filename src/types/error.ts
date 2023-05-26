@@ -13,5 +13,4 @@ export interface IError {
 }
 
 export interface IHeaderError extends IError {}
-
 export interface IRowError extends IError {}

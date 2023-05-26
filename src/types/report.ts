@@ -1,4 +1,5 @@
 import { IError } from './error'
+import { IDict } from './common'
 
 export interface IReport {
   valid: boolean
@@ -16,4 +17,11 @@ export interface IReportTask {
   labels: string[]
   stats: { errors: number; warnings: number; seconds: number }
   errors: IError[]
+}
+
+export interface IErrorIndex {
+  header: IDict<IError[]>
+  label: IDict<IError[]>
+  row: IDict<IError[]>
+  cell: IDict<IError[]>
 }

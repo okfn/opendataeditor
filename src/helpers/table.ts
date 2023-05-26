@@ -12,3 +12,18 @@ export function applyTablePatch(patch: types.ITablePatch, rows: types.IRow[]) {
     }
   }
 }
+
+export function createPatchIndex(patch?: types.ITablePatch) {
+  const patchIndex: types.IChangeIndex = { header: {}, label: {}, row: {}, cell: {} }
+  if (!patch) return patchIndex
+  for (const change of patch.changes) {
+    if (change.type === 'delete-row') {
+      const rowKey = `${change.rowNumber}`
+      patchIndex.row[rowKey] = change
+    } else if (change.type === 'update-cell') {
+      const cellKey = `${change.rowNumber},${change.fieldName}`
+      patchIndex.cell[cellKey] = change
+    }
+  }
+  return patchIndex
+}

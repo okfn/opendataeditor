@@ -1,3 +1,5 @@
+import { IDict } from './common'
+
 export interface ITable {
   header: IHeader
   rows: IRow[]
@@ -16,6 +18,13 @@ export type ITableLoader = (props: {
   data: object[]
   count: number
 }>
+
+export interface IChangeIndex {
+  header: IDict<ITableChange>
+  label: IDict<ITableChange>
+  row: IDict<ITableChange>
+  cell: IDict<ITableChange>
+}
 
 export interface ITablePatch {
   changes: ITableChange[]

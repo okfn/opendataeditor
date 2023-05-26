@@ -1,7 +1,7 @@
 import * as React from 'react'
 import LightTooltip from '../Tooltips/Light'
+import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import { IErrorIndex, IPatchIndex } from './types'
 
 // TODO: use proper InovuaDatagrid types
 export function createColumns(
@@ -9,8 +9,8 @@ export function createColumns(
   report?: types.IReport,
   patch?: types.ITablePatch
 ) {
-  const errorIndex = createErrorIndex(report)
-  const patchIndex = createPatchIndex(patch)
+  const errorIndex = helpers.createErrorIndex(report)
+  const patchIndex = helpers.createPatchIndex(patch)
 
   const rowNumberColumn = {
     name: '_rowNumber',
@@ -88,46 +88,4 @@ export function createColumns(
     })
   }
   return [rowNumberColumn, ...dataColumns]
-}
-
-function createErrorIndex(report?: types.IReport) {
-  const errorIndex: IErrorIndex = { header: {}, label: {}, row: {}, cell: {} }
-  if (!report) return errorIndex
-  const errorTask = report.tasks[0]
-  if (!errorTask) return errorIndex
-  for (const error of errorTask.errors) {
-    if (!error.rowNumber && !error.fieldNumber) {
-      const headerKey = '1'
-      errorIndex.header[headerKey] = errorIndex.header[headerKey] || []
-      errorIndex.header[headerKey].push(error)
-    } else if (!error.rowNumber) {
-      const labelKey = `${error.fieldName}`
-      errorIndex.label[labelKey] = errorIndex.label[labelKey] || []
-      errorIndex.label[labelKey].push(error)
-    } else if (!error.fieldNumber) {
-      const rowKey = `${error.rowNumber}`
-      errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
-      errorIndex.row[rowKey].push(error)
-    } else {
-      const cellKey = `${error.rowNumber},${error.fieldName}`
-      errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
-      errorIndex.cell[cellKey].push(error)
-    }
-  }
-  return errorIndex
-}
-
-function createPatchIndex(patch?: types.ITablePatch) {
-  const patchIndex: IPatchIndex = { header: {}, label: {}, row: {}, cell: {} }
-  if (!patch) return patchIndex
-  for (const change of patch.changes) {
-    if (change.type === 'delete-row') {
-      const rowKey = `${change.rowNumber}`
-      patchIndex.row[rowKey] = change
-    } else if (change.type === 'update-cell') {
-      const cellKey = `${change.rowNumber},${change.fieldName}`
-      patchIndex.cell[cellKey] = change
-    }
-  }
-  return patchIndex
 }
