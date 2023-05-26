@@ -6,6 +6,7 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
+import UndoIcon from '@mui/icons-material/Undo'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
@@ -13,29 +14,31 @@ import EditRoadIcon from '@mui/icons-material/EditRoad'
 import IconButton from '../../Parts/Buttons/Icon'
 
 export type MenuBarItem =
+  | 'editor'
+  | 'metadata'
+  | 'report'
+  | 'source'
+  | 'errors'
   | 'clear'
   | 'fix'
   | 'minify'
   | 'prettify'
-  | 'metadata'
-  | 'source'
-  | 'report'
-  | 'editor'
-  | 'errors'
+  | 'undo'
 
 export interface MenuBarProps {
   items?: MenuBarItem[]
   labels?: { [key in MenuBarItem]?: string | undefined }
   colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | 'info' | undefined }
+  onEditor?: () => void
+  onMetadata?: () => void
+  onReport?: () => void
+  onSource?: () => void
+  onErrors?: () => void
   onClear?: () => void
   onFix?: () => void
   onMinify?: () => void
   onPrettify?: () => void
-  onMetadata?: () => void
-  onSource?: () => void
-  onReport?: () => void
-  onEditor?: () => void
-  onErrors?: () => void
+  onUndo?: () => void
 }
 
 // TODO: don't use hard-coded color (info=#9c27b0)
@@ -197,6 +200,21 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
     )
   }
 
+  const Undo = () => {
+    if (!props.items?.includes('undo')) return null
+    return (
+      <IconButton
+        small
+        variant="text"
+        label={props.labels?.undo || 'Undo'}
+        Icon={UndoIcon}
+        color={props.colors?.undo}
+        disabled={!props.onUndo}
+        onClick={() => props.onUndo!()}
+      />
+    )
+  }
+
   const DefaultBar = () => {
     return (
       <Stack direction="row" spacing={1}>
@@ -209,6 +227,7 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
         <Fix />
         <Minify />
         <Prettify />
+        <Undo />
         {props.children}
       </Stack>
     )
