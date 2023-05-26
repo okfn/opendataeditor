@@ -1,5 +1,4 @@
 import * as settings from '../settings'
-import * as types from '../types'
 
 export function exportDescriptor(descriptor: object) {
   const text = encodeURIComponent(JSON.stringify(descriptor, null, 2))
@@ -34,12 +33,6 @@ export function generateTitle(items: any[], suffix: string = '') {
     i++
   }
   return title
-}
-
-export function readHelpItem(help: types.IHelp, path: string): types.IHelpItem | null {
-  const record = help[path]
-  if (!record) return null
-  return { path, title: record[0], link: record[1], description: record[2] }
 }
 
 export function bytesToBase64(bytes: ArrayBuffer): string {
