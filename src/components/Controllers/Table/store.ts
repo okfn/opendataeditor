@@ -90,6 +90,11 @@ export function makeStore(props: TableProps) {
     },
     // TODO: rewrite
     save: async () => {
+      // Plan:
+      // client.tablePatch
+      // client.recordWrite (optional)
+      // client.recordUpdate
+
       // const { record, client, resource, onSave, load } = get()
       // if (!record || !resource) return
       // let reindex = false

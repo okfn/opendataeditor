@@ -93,7 +93,7 @@ export function makeStore(props: ApplicationProps) {
       if (!path) return
       if (selectors.isFolder(get())) return
       set({ indexing: true })
-      const { record } = await client.fileIndex({ path })
+      const { record } = await client.recordIndex({ path })
       const newFiles = files.map((file) =>
         file.path === path
           ? { ...file, type: record.type, errors: record.stats.errors }

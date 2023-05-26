@@ -59,11 +59,6 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileIndex(props: { path: string }) {
-    const result = await this.request('/file/index', props)
-    return result as { record: types.IRecord }
-  }
-
   async fileList() {
     const result = await this.request('/file/list')
     return result as { files: types.IFile[] }
@@ -145,6 +140,16 @@ export class Client {
   }
 
   // Record
+
+  async recordDelete(props: { path: string }) {
+    const result = await this.request('/record/delete', props)
+    return result as { record: types.IRecord }
+  }
+
+  async recordIndex(props: { path: string }) {
+    const result = await this.request('/record/index', props)
+    return result as { record: types.IRecord }
+  }
 
   async recordRead(props: { path: string }) {
     const result = await this.request('/record/read', props)
