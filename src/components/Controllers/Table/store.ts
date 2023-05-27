@@ -94,15 +94,8 @@ export function makeStore(props: TableProps) {
       // client.tablePatch
       // client.recordWrite (optional)
       // client.recordUpdate
-
-      // const { record, client, resource, onSave, load } = get()
-      // if (!record || !resource) return
-      // let reindex = false
-      // if (!isEqual(resource.dialect, record.resource.dialect)) reindex = true
-      // if (!isEqual(resource.schema, record.resource.schema)) reindex = true
-      // await client.recordWrite({ name: record.name, resource, reindex })
-      // onSave()
-      const { load } = get()
+      const { path, client, history, load } = get()
+      await client.tablePatch({ path, history })
       load()
     },
     saveAs: async (toPath) => {

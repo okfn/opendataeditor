@@ -185,6 +185,11 @@ export class Client {
     return result as { table: types.ITable }
   }
 
+  async tablePatch(props: { path: string; history: types.IHistory }) {
+    const result = await this.request('/table/patch', props)
+    return result as { path: string }
+  }
+
   async tableRead(props: {
     path: string
     valid?: boolean
@@ -195,11 +200,6 @@ export class Client {
   }) {
     const result = await this.request('/table/read', props)
     return result as { rows: types.IRow[] }
-  }
-
-  async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {
-    const result = await this.request('/table/write', props)
-    return result as { path: string; status: string; message: string }
   }
 
   // Text
