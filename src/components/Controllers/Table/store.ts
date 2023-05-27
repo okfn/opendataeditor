@@ -40,6 +40,7 @@ export interface State {
   // TODO: Figure out how to highlight the column in datagrid without rerender
   selectedField?: string
   gridRef?: React.MutableRefObject<IDataGrid>
+  clearHistory: () => void
 
   // Editing
 
@@ -76,24 +77,28 @@ export function makeStore(props: TableProps) {
       set({ source: text })
     },
     revert: () => {
-      const { record, gridRef } = get()
-      const grid = gridRef?.current
+      const { record, gridRef, clearHistory } = get()
       if (!record) return
-      if (!grid) return
-
-      set({
-        history: cloneDeep(settings.INITIAL_HISTORY),
-        undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
-        resource: cloneDeep(record.resource),
-      })
-      grid.reload()
+      if (selectors.isDataUpdated(get())) {
+        clearHistory()
+        gridRef?.current?.reload()
+      }
+      if (selectors.isMetadataUpdated(get())) {
+        set({ resource: cloneDeep(record.resource) })
+      }
     },
     save: async () => {
-      const { path, client, history, revert, load } = get()
-      await client.tablePatch({ path, history })
-      await client.tableExport({ path })
+      const { path, client, history, load, resource, clearHistory } = get()
+      if (!resource) return
+      if (selectors.isDataUpdated(get())) {
+        await client.tablePatch({ path, history })
+        await client.tableExport({ path })
+      }
+      if (selectors.isMetadataUpdated(get())) {
+        await client.recordWrite({ path, resource })
+      }
       await client.recordSync({ path })
-      revert()
+      clearHistory()
       load()
     },
     saveAs: async (toPath) => {
@@ -131,6 +136,12 @@ export function makeStore(props: TableProps) {
 
       if (grid.setSkip) grid.setSkip(0)
       grid.reload()
+    },
+    clearHistory: () => {
+      set({
+        history: cloneDeep(settings.INITIAL_HISTORY),
+        undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
+      })
     },
 
     // Editing
@@ -189,9 +200,13 @@ export function makeStore(props: TableProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      !!state.history.changes.length || !isEqual(state.resource, state.record?.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !!state.history.changes.length
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 
