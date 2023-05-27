@@ -88,14 +88,12 @@ export function makeStore(props: TableProps) {
       })
       grid.reload()
     },
-    // TODO: rewrite
     save: async () => {
-      // Plan:
-      // client.tablePatch
-      // client.recordWrite (optional)
-      // client.recordUpdate
-      const { path, client, history, load } = get()
+      const { path, client, history, revert, load } = get()
       await client.tablePatch({ path, history })
+      await client.tableExport({ path })
+      await client.recordIndex({ path, sync: true })
+      revert()
       load()
     },
     saveAs: async (toPath) => {

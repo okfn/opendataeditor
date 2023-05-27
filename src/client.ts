@@ -146,7 +146,7 @@ export class Client {
     return result as { record: types.IRecord }
   }
 
-  async recordIndex(props: { path: string }) {
+  async recordIndex(props: { path: string; sync?: boolean }) {
     const result = await this.request('/record/index', props)
     return result as { record: types.IRecord }
   }
@@ -175,7 +175,7 @@ export class Client {
     return result as { count: number }
   }
 
-  async tableExport(props: { source: string; target: string }) {
+  async tableExport(props: { path: string; toPath?: string }) {
     const result = await this.request('/table/export', props)
     return result as { path: string }
   }
