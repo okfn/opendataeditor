@@ -165,7 +165,7 @@ export class Client {
 
   async reportRead(props: { path: string }) {
     const result = await this.request('/report/read', props)
-    return result as { report?: types.IReport }
+    return result as { report: types.IReport }
   }
 
   // Table
