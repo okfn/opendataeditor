@@ -133,8 +133,9 @@ export function makeStore(props: ApplicationProps) {
     deleteFile: async () => {
       const { client, path, onDelete } = get()
       if (!path) return
-      const result = await client.fileDelete({ path })
-      onDelete(result.path)
+      await client.recordDelete({ path })
+      await client.fileDelete({ path })
+      onDelete(path)
     },
     moveFile: async (folder) => {
       const { client, path, onCreate } = get()

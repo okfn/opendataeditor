@@ -3,7 +3,7 @@ import * as types from './types'
 // Genearl
 
 export const PACKAGE_PATH = 'datapackage.json'
-export const FORMATS = ['csv', 'xlsx', 'jsonl']
+export const TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'xlsx', 'xls']
 export const HASHINGS = ['md5', 'sha256']
 export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
