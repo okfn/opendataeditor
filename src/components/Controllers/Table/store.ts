@@ -88,7 +88,7 @@ export function makeStore(props: TableProps) {
       }
     },
     save: async () => {
-      const { path, client, history, load, resource, clearHistory } = get()
+      const { path, client, history, load, resource, clearHistory, onSave } = get()
       if (!resource) return
       if (selectors.isDataUpdated(get())) {
         await client.tablePatch({ path, history })
@@ -99,6 +99,7 @@ export function makeStore(props: TableProps) {
       }
       await client.recordSync({ path })
       clearHistory()
+      onSave()
       load()
     },
     saveAs: async (toPath) => {

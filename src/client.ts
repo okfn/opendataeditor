@@ -50,7 +50,7 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    const result = await this.request('/file/upload', props)
+    const result = await this.request('/file/create', props)
     return result as { path: string }
   }
 
