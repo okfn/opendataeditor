@@ -92,7 +92,7 @@ export function makeStore(props: TableProps) {
       const { path, client, history, revert, load } = get()
       await client.tablePatch({ path, history })
       await client.tableExport({ path })
-      await client.recordIndex({ path, sync: true })
+      await client.recordSync({ path })
       revert()
       load()
     },

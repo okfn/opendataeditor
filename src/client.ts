@@ -156,6 +156,11 @@ export class Client {
     return result as { record: types.IRecord }
   }
 
+  async recordSync(props: { path: string }) {
+    const result = await this.request('/record/sync', props)
+    return result as { record: types.IRecord }
+  }
+
   async recordWrite(props: { path: string; type?: string; resource: types.IResource }) {
     const result = await this.request('/record/write', props)
     return result as { record: types.IRecord }
