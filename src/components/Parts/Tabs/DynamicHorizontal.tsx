@@ -13,7 +13,7 @@ export interface TabsProps {
   children?: React.ReactNode
   onChange?: (index: number) => void
   onAdd?: () => void
-  onRemove?: () => void
+  onRemove?: (index: number) => void
 }
 
 export default function Tabs(props: TabsProps) {
@@ -38,7 +38,7 @@ export default function Tabs(props: TabsProps) {
                   {index > 0 && (
                     <Close
                       sx={{ paddingLeft: '13px', fontSize: '.8rem' }}
-                      onClick={() => props.onRemove && props.onRemove()}
+                      onClick={() => props.onRemove && props.onRemove(index)}
                     />
                   )}
                 </span>

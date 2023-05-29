@@ -46,7 +46,7 @@ interface State {
 
   // Layer
   addLayer: () => void
-  removeLayer: () => void
+  removeLayer: (index: number) => void
 
   // Channels
 
@@ -126,12 +126,16 @@ export function makeStore(props: ChartProps) {
       updateDescriptor({ layer })
       set({ tabNames, tabIndex: length })
     },
-    removeLayer: () => {
+    removeLayer: (index) => {
       const { channelStates, descriptor, tabNames, tabIndex, updateState } = get()
-      delete channelStates[tabIndex]
-      delete descriptor.layer?.[tabIndex - 1]
-      delete tabNames[tabIndex]
-      set({ channelStates, tabNames, tabIndex: tabIndex - 1 })
+      const updatedChannelStates = channelStates.filter(
+        (_, stateIndex) => stateIndex !== index
+      )
+      descriptor.layer = descriptor?.layer?.filter(
+        (_, layerIndex) => layerIndex !== index - 1
+      )
+      tabNames.splice(index, 1)
+      set({ channelStates: updatedChannelStates, tabNames, tabIndex: tabIndex - 1 })
       updateState({ descriptor })
     },
 
@@ -154,7 +158,6 @@ export function makeStore(props: ChartProps) {
         const layer = tabIndex - 1
         if (!descriptor.layer) descriptor.layer = []
         const currentLayer = descriptor.layer[layer]
-        console.log(currentLayer, descriptor.layer, tabIndex, 'type', oldType, type)
         currentLayer.encoding = { ...currentLayer.encoding, [type]: channel }
         descriptor.layer[layer] = currentLayer
         updateChannelState({ type })
