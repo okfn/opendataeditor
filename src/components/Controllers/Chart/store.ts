@@ -71,7 +71,7 @@ export function makeStore(props: ChartProps) {
     save: async () => {
       const { path, client, resource, modified, onSave, load } = get()
       if (!resource || !modified) return
-      await client.recordWrite({ path, resource })
+      await client.recordPatch({ path, resource })
       await client.jsonWrite({ path, data: modified })
       set({ modified: cloneDeep(modified), original: modified })
       onSave()

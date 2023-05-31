@@ -93,7 +93,7 @@ export function makeStore(props: ApplicationProps) {
       if (!path) return
       if (selectors.isFolder(get())) return
       set({ indexing: true })
-      const { record } = await client.recordIndex({ path })
+      const { record } = await client.fileIndex({ path })
       const newFiles = files.map((file) =>
         file.path === path
           ? { ...file, type: record.type, errors: record.stats.errors }
@@ -133,7 +133,6 @@ export function makeStore(props: ApplicationProps) {
     deleteFile: async () => {
       const { client, path, onDelete } = get()
       if (!path) return
-      await client.recordDelete({ path })
       await client.fileDelete({ path })
       onDelete(path)
     },

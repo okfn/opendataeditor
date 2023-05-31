@@ -54,7 +54,7 @@ export function makeStore(props: FileProps) {
     save: async () => {
       const { client, path, resource, onSave, load } = get()
       if (!resource) return
-      await client.recordWrite({ path, resource })
+      await client.recordPatch({ path, resource })
       onSave()
       load()
     },

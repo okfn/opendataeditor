@@ -64,6 +64,11 @@ export class Client {
     return result as { files: types.IFile[] }
   }
 
+  async fileIndex(props: { path: string }) {
+    const result = await this.request('/file/index', props)
+    return result as { record: types.IRecord }
+  }
+
   async fileMove(props: {
     path: string
     toPath?: string
@@ -77,6 +82,11 @@ export class Client {
   async fileRead(props: { path: string }) {
     const result = await this.request('/file/read', { ...props, isBytes: true })
     return result as { bytes: ArrayBuffer }
+  }
+
+  async fileSync(props: { path: string }) {
+    const result = await this.request('/file/sync', props)
+    return result as { record: types.IRecord }
   }
 
   // Folder
@@ -141,28 +151,13 @@ export class Client {
 
   // Record
 
-  async recordDelete(props: { path: string }) {
-    const result = await this.request('/record/delete', props)
-    return result as { record: types.IRecord }
-  }
-
-  async recordIndex(props: { path: string; sync?: boolean }) {
-    const result = await this.request('/record/index', props)
+  async recordPatch(props: { path: string; type?: string; resource: types.IResource }) {
+    const result = await this.request('/record/patch', props)
     return result as { record: types.IRecord }
   }
 
   async recordRead(props: { path: string }) {
     const result = await this.request('/record/read', props)
-    return result as { record: types.IRecord }
-  }
-
-  async recordSync(props: { path: string }) {
-    const result = await this.request('/record/sync', props)
-    return result as { record: types.IRecord }
-  }
-
-  async recordWrite(props: { path: string; type?: string; resource: types.IResource }) {
-    const result = await this.request('/record/write', props)
     return result as { record: types.IRecord }
   }
 

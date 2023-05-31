@@ -92,12 +92,11 @@ export function makeStore(props: TableProps) {
       if (!resource) return
       if (selectors.isDataUpdated(get())) {
         await client.tablePatch({ path, history })
-        await client.tableExport({ path })
       }
       if (selectors.isMetadataUpdated(get())) {
-        await client.recordWrite({ path, resource })
+        await client.recordPatch({ path, resource })
       }
-      await client.recordSync({ path })
+      await client.fileSync({ path })
       clearHistory()
       onSave()
       load()

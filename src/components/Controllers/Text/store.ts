@@ -80,7 +80,7 @@ export function makeStore(props: TextProps) {
     save: async () => {
       const { path, client, modified, resource, onSave, load } = get()
       if (!resource) return
-      await client.recordWrite({ path, resource })
+      await client.recordPatch({ path, resource })
       await client.textWrite({ path, text: modified! })
       set({ original: modified })
       onSave()

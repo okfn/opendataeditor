@@ -92,7 +92,7 @@ export function makeStore(props: PackageProps) {
       if (!modified) return
       const resources = [...modified.resources]
       for (const path of paths) {
-        const { record } = await client.recordIndex({ path })
+        const { record } = await client.fileIndex({ path })
         resources.push(record.resource)
       }
       updateState({ modified: { ...modified, resources } })
