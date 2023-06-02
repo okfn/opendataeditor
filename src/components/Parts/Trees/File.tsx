@@ -82,13 +82,8 @@ const StyledTreeItem = styled(
     const { event } = React.useContext(Context)
     React.useEffect(() => setRevision(revision + 1), [event])
     let animation
-    let backgroundColor
     if (event && event.paths.includes(props.nodeId)) {
-      if (event.type === 'draft') {
-        backgroundColor = 'yellow'
-      } else {
-        animation = `${fileEventKeyframe} 1s`
-      }
+      animation = `${fileEventKeyframe} 1s`
     }
     return (
       <TreeItem
@@ -96,7 +91,6 @@ const StyledTreeItem = styled(
         key={revision}
         sx={{
           animation,
-          backgroundColor,
         }}
         label={
           <TreeItemIcon

@@ -5,6 +5,6 @@ export interface IFile {
 }
 
 export interface IFileEvent {
-  type: 'create' | 'delete' | 'draft' | 'update'
+  type: 'create' | 'delete' | 'update'
   paths: string[]
 }

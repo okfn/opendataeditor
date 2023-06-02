@@ -16,7 +16,6 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   columns?: types.IColumn[]
@@ -74,13 +73,12 @@ export function makeStore(props: ViewProps) {
       updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
     },
     revert: () => {
-      const { record, original, onRevert } = get()
+      const { record, original } = get()
       if (!record) return
       set({
         resource: cloneDeep(record.resource),
         modified: cloneDeep(original),
       })
-      onRevert && onRevert()
     },
     save: async () => {
       const { path, client, resource, modified, onSave, load } = get()

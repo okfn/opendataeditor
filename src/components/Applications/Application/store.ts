@@ -27,11 +27,9 @@ export interface State {
   updateState: (patch: Partial<State>) => void
   onCreate: (path: string) => Promise<void>
   onDelete: (path: string) => Promise<void>
-  onDraft: (path: string) => Promise<void>
   onUpdate: (path: string) => Promise<void>
   load: () => Promise<void>
   select: (path?: string) => Promise<void>
-  revert: () => Promise<void>
 
   // File
 
@@ -71,11 +69,6 @@ export function makeStore(props: ApplicationProps) {
       set({ fileEvent: { type: 'delete', paths: [path] } })
       setTimeout(() => select(undefined), 500)
     },
-    onDraft: async (path) => {
-      const { select } = get()
-      set({ fileEvent: { type: 'draft', paths: [path] } })
-      select(path)
-    },
     onUpdate: async (path) => {
       const { select } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
@@ -99,13 +92,6 @@ export function makeStore(props: ApplicationProps) {
       )
       set({ record, indexing: false, files: newFiles })
     },
-    revert: async () => {
-      const { path, client, fileEvent, onDelete } = get()
-      if (fileEvent?.type !== 'draft') return
-      if (!path) return
-      await client.fileDelete({ path })
-      onDelete(path)
-    },
 
     // File
 
@@ -114,7 +100,7 @@ export function makeStore(props: ApplicationProps) {
       const { client, load, select } = get()
       for (const file of files) {
         const folder = selectors.folderPath(get())
-        const result = await client.fileCreate({ file, folder })
+        const result = await client.fileCreate({ file, folder, deduplicate: true })
         paths.push(result.path)
       }
       if (!paths.length) return

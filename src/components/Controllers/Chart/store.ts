@@ -14,10 +14,8 @@ import * as types from '../../../types'
 export interface State {
   path: string
   client: Client
-  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
-  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   record?: types.IRecord
@@ -42,7 +40,6 @@ export function makeStore(props: ChartProps) {
     ...props,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
-    panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
       const { render } = get()
       set(patch)
@@ -70,9 +67,8 @@ export function makeStore(props: ChartProps) {
       updateState({ modified: {} })
     },
     revert: () => {
-      const { original, onRevert, updateState } = get()
+      const { original, updateState } = get()
       updateState({ modified: cloneDeep(original) })
-      onRevert && onRevert()
     },
     save: async () => {
       const { path, client, modified, resource, onSave, load } = get()

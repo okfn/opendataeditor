@@ -20,10 +20,8 @@ export default function Controller() {
 function FileController() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
-  const revert = useStore((state) => state.revert)
   const onCreate = useStore((state) => state.onCreate)
   const onUpdate = useStore((state) => state.onUpdate)
-  const fileEvent = useStore((state) => state.fileEvent)
   if (!record) return null
   const Controller = settings.CONTROLLERS[record.type] || File
   const handleUpdate = React.useMemo(() => () => onUpdate(record.path), [record.path])
@@ -31,10 +29,8 @@ function FileController() {
     <Controller
       path={record.path}
       client={client}
-      isDraft={fileEvent?.type === 'draft'}
       onSave={handleUpdate}
       onSaveAs={onCreate}
-      onRevert={revert}
     />
   )
 }
