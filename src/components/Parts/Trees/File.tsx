@@ -18,7 +18,7 @@ import ScrollBox from '../ScrollBox'
 import * as types from '../../../types'
 
 export interface FileTreeProps {
-  // TODO: accept fileItems as prop?
+  // TODO: accept IFile[] as prop?
   tree: types.IFileTreeItem[]
   event?: types.IFileEvent
   selected?: string

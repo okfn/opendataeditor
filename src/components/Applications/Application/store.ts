@@ -95,7 +95,8 @@ export function makeStore(props: ApplicationProps) {
       if (path === newPath) return
       set({ path: newPath })
       if (selectors.isFolder(get())) return
-      set({ record: undefined })
+      if (get().record?.path === newPath) return
+      set({ record: undefined, measure: undefined })
       if (!newPath) return
       set({ indexing: true })
       const { record, measure } = await client.fileIndex({ path: newPath })
