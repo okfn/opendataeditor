@@ -20,17 +20,17 @@ export default function Controller() {
 function FileController() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
-  const onCreate = useStore((state) => state.onCreate)
-  const onUpdate = useStore((state) => state.onUpdate)
+  const onFileCreate = useStore((state) => state.onFileCreate)
+  const onFilePatch = useStore((state) => state.onFilePatch)
   if (!record) return null
   const Controller = settings.CONTROLLERS[record.type] || File
-  const handleUpdate = React.useMemo(() => () => onUpdate(record.path), [record.path])
+  const handleUpdate = React.useMemo(() => () => onFilePatch(record.path), [record.path])
   return (
     <Controller
       path={record.path}
       client={client}
       onSave={handleUpdate}
-      onSaveAs={onCreate}
+      onSaveAs={(path) => onFileCreate([path])}
     />
   )
 }

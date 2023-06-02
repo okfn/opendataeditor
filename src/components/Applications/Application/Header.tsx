@@ -16,7 +16,7 @@ import { useStore } from './store'
 export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
-  const select = useStore((state) => state.select)
+  const selectFile = useStore((state) => state.selectFile)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static" color="secondary" elevation={0}>
@@ -26,7 +26,7 @@ export default function Header() {
               <Typography
                 variant="h5"
                 sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
-                onClick={() => select(undefined)}
+                onClick={() => selectFile(undefined)}
                 title="Back to home"
               >
                 <strong>
