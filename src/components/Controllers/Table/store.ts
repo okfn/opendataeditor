@@ -23,6 +23,7 @@ export interface State {
   dialog?: 'saveAs' | 'error'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   source?: string
   rowCount?: number
   resource?: types.IResource
@@ -64,12 +65,17 @@ export function makeStore(props: TableProps) {
       set(patch)
     },
     load: async () => {
-      const { path, client } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
+      const { path, client, clearHistory } = get()
+      const { record, report, measure } = await client.fileIndex({ path })
       const { count } = await client.tableCount({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource, rowCount: count })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        rowCount: count,
+      })
+      clearHistory()
     },
     loadSource: async () => {
       const { path, client } = get()
@@ -88,22 +94,23 @@ export function makeStore(props: TableProps) {
       }
     },
     save: async () => {
-      const { path, client, history, load, resource, clearHistory, onSave } = get()
-      if (!resource) return
-      if (selectors.isDataUpdated(get())) {
-        await client.tablePatch({ path, history })
-      }
-      if (selectors.isMetadataUpdated(get())) {
-        await client.recordPatch({ path, resource })
-      }
-      await client.fileSync({ path })
-      clearHistory()
+      const { path, client, history, load, resource, onSave } = get()
+      await client.tablePatch({
+        path,
+        history: selectors.isDataUpdated(get()) ? history : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
     saveAs: async (toPath) => {
-      const { path, client, onSaveAs } = get()
-      await client.tableExport({ path, toPath })
+      const { path, client, history, resource, onSaveAs } = get()
+      await client.tablePatch({
+        path,
+        toPath,
+        history: selectors.isDataUpdated(get()) ? history : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSaveAs(toPath)
     },
     loader: async ({ skip, limit, sortInfo }) => {

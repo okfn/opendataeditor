@@ -14,7 +14,6 @@ import * as types from '../../../types'
 export interface State {
   path: string
   client: Client
-  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
   onRevert?: () => void
@@ -23,6 +22,7 @@ export interface State {
   columns?: types.IColumn[]
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   resource?: types.IResource
   original?: types.IView
   modified?: types.IView
@@ -45,19 +45,23 @@ export function makeStore(props: ViewProps) {
     ...props,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
-    panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
       set(patch)
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource })
-      const { columns } = await client.columnList()
+      const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
-      set({ modified: cloneDeep(data), original: data, columns })
+      const { columns } = await client.columnList()
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modified: cloneDeep(data),
+        original: data,
+        columns,
+      })
       // TODO: move to autoupdating on change (throttle)
       if (record.name) {
         const query = `select * from "${record.name}"`
@@ -80,19 +84,23 @@ export function makeStore(props: ViewProps) {
     },
     save: async () => {
       const { path, client, resource, modified, onSave, load } = get()
-      if (!resource || !modified) return
-      await client.recordPatch({ path, resource })
-      await client.viewWrite({ path, view: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      await client.viewPatch({
+        path,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.viewWrite({ path, view: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, resource, modified, onSaveAs } = get()
+      await client.viewPatch({
+        path,
+        toPath,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
   }))
 }
@@ -100,11 +108,13 @@ export function makeStore(props: ViewProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.isDraft ||
-      !isEqual(state.original, state.modified) ||
-      !isEqual(state.resource, state.record?.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.original, state.modified)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

@@ -19,6 +19,7 @@ export interface State {
   dialog?: 'saveAs'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   resource?: types.IResource
   source?: ArrayBuffer
   updateState: (patch: Partial<State>) => void
@@ -38,13 +39,12 @@ export function makeStore(props: FileProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource })
-      if (!['jpg', 'png'].includes(record.resource.format || '')) return
-      const { bytes } = await client.fileRead({ path: record.path })
-      set({ source: bytes })
+      const { record, report, measure } = await client.fileIndex({ path })
+      set({ record, report, measure, resource: cloneDeep(record.resource) })
+      if (['jpg', 'png'].includes(record.resource.format || '')) {
+        const { bytes } = await client.fileRead({ path: record.path })
+        set({ source: bytes })
+      }
     },
     revert: () => {
       const { record } = get()
@@ -52,15 +52,14 @@ export function makeStore(props: FileProps) {
       set({ resource: cloneDeep(record.resource) })
     },
     save: async () => {
-      const { client, path, resource, onSave, load } = get()
-      if (!resource) return
-      await client.recordPatch({ path, resource })
+      const { path, client, resource, onSave, load } = get()
+      await client.filePatch({ path, resource })
       onSave()
       load()
     },
     saveAs: async (toPath) => {
-      const { path, client, onSaveAs } = get()
-      await client.fileCopy({ path, toPath })
+      const { path, client, resource, onSaveAs } = get()
+      await client.filePatch({ path, toPath, resource })
       onSaveAs(path)
     },
   }))

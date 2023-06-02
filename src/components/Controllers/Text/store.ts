@@ -24,6 +24,7 @@ export interface State {
   dialog?: 'saveAs'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   resource?: types.IResource
   original?: string
   modified?: string
@@ -63,12 +64,16 @@ export function makeStore(props: TextProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource })
+      const { record, report, measure } = await client.fileIndex({ path })
       const { text } = await client.textRead({ path: record.path })
-      set({ modified: text, original: text })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modified: text,
+        original: text,
+      })
       render()
     },
     revert: () => {
@@ -79,24 +84,30 @@ export function makeStore(props: TextProps) {
     // TODO: needs to udpate file object as well
     save: async () => {
       const { path, client, modified, resource, onSave, load } = get()
-      if (!resource) return
-      await client.recordPatch({ path, resource })
-      await client.textWrite({ path, text: modified! })
-      set({ original: modified })
+      await client.textPatch({
+        path,
+        text: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      await client.textWrite({ path, text: modified! })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modified, resource, onSaveAs } = get()
+      await client.textPatch({
+        path,
+        toPath,
+        text: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
     render: throttle(async () => {
       const { record, client, modified } = get()
       if (!record) return
       if (!modified) return
-      if (record.resource.format === 'md') {
-        const { text } = await client.textRender({ text: modified })
+      if (record.type === 'article') {
+        const { text } = await client.articleRender({ text: modified })
         set({ rendered: text })
       }
     }, 1000),
@@ -148,10 +159,13 @@ export function makeStore(props: TextProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.original !== state.modified ||
-      !isEqual(state.resource, state.record?.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.original, state.modified)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
   language: (state: State) => {
     const resource = state.record?.resource

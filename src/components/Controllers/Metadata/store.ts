@@ -20,6 +20,7 @@ export interface State {
   dialog?: 'saveAs'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   original?: types.IResource | types.IDialect | types.ISchema
   modified?: types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
@@ -40,11 +41,9 @@ export function makeStore(props: MetadataProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      set({ record, report })
+      const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
-      set({ modified: cloneDeep(data), original: data })
+      set({ record, report, measure, modified: cloneDeep(data), original: data })
     },
     clear: () => {
       const { record, updateState } = get()
@@ -58,19 +57,15 @@ export function makeStore(props: MetadataProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { record, client, modified, onSave, load } = get()
-      if (!record || !modified) return
-      await client.metadataWrite({ path: record.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, onSave, load } = get()
+      await client.jsonPatch({ path, data: modified })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.metadataWrite({ path, data: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modified, onSaveAs } = get()
+      await client.jsonPatch({ path, toPath, data: modified })
+      onSaveAs(toPath)
     },
   }))
 }

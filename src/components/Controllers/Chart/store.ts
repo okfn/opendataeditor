@@ -22,6 +22,7 @@ export interface State {
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   columns?: types.IColumn[]
   resource?: types.IResource
   original?: types.IChart
@@ -50,13 +51,18 @@ export function makeStore(props: ChartProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      const resource = cloneDeep(record.resource)
-      set({ record, report, resource })
+      const { record, report, measure } = await client.fileIndex({ path })
       const { columns } = await client.columnList()
       const { data } = await client.jsonRead({ path: record.path })
-      set({ modified: cloneDeep(data), original: data, columns })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modified: cloneDeep(data),
+        original: data,
+        columns,
+      })
       render()
     },
     clear: () => {
@@ -69,19 +75,24 @@ export function makeStore(props: ChartProps) {
       onRevert && onRevert()
     },
     save: async () => {
-      const { path, client, resource, modified, onSave, load } = get()
-      if (!resource || !modified) return
-      await client.recordPatch({ path, resource })
-      await client.jsonWrite({ path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, resource, onSave, load } = get()
+      await client.jsonPatch({
+        path,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      // TODO: write resource as well?
-      await client.jsonWrite({ path, data: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modified, resource, onSaveAs } = get()
+      await client.jsonPatch({
+        path,
+        toPath,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
     render: throttle(async () => {
       const { client, modified } = get()
@@ -95,11 +106,13 @@ export function makeStore(props: ChartProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.isDraft ||
-      !isEqual(state.original, state.modified) ||
-      !isEqual(state.resource, state.record?.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.original, state.modified)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

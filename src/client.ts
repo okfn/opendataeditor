@@ -86,7 +86,7 @@ export class Client {
 
   async filePatch(props: {
     path: string
-    file: File
+    file?: File
     toPath?: string
     resource?: types.IResource
   }) {
@@ -108,14 +108,14 @@ export class Client {
 
   // Json
 
-  async jsonCreate(props: { path: string; data: any }) {
+  async jsonCreate(props: { path: string; data: types.IData }) {
     const result = await this.request('/json/create', props)
     return result as { path: string }
   }
 
   async jsonPatch(props: {
     path: string
-    data: any
+    data?: types.IData
     toPath?: string
     resource?: types.IResource
   }) {
@@ -142,7 +142,7 @@ export class Client {
 
   // Package
 
-  async packagePatch(props: { path: string; data: any; toPath?: string }) {
+  async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
     const result = await this.request('/package/patch', props)
     return result as { path: string }
   }
@@ -161,7 +161,7 @@ export class Client {
 
   // Resource
 
-  async resourcePatch(props: { path: string; data: any; toPath?: string }) {
+  async resourcePatch(props: { path: string; data?: any; toPath?: string }) {
     const result = await this.request('/resource/patch', props)
     return result as { path: string }
   }
@@ -225,7 +225,7 @@ export class Client {
 
   async textPatch(props: {
     path: string
-    text: string
+    text?: string
     toPath?: string
     resource?: types.IResource
   }) {
@@ -247,7 +247,7 @@ export class Client {
 
   async viewPatch(props: {
     path: string
-    data: types.IView
+    data?: types.IView
     toPath?: string
     resource?: types.IResource
   }) {

@@ -93,11 +93,9 @@ export function makeStore(props: ApplicationProps) {
       if (!path) return
       if (selectors.isFolder(get())) return
       set({ indexing: true })
-      const { record } = await client.fileIndex({ path })
+      const { record, measure } = await client.fileIndex({ path })
       const newFiles = files.map((file) =>
-        file.path === path
-          ? { ...file, type: record.type, errors: record.stats.errors }
-          : file
+        file.path === path ? { ...file, type: record.type, errors: measure.errors } : file
       )
       set({ record, indexing: false, files: newFiles })
     },
@@ -199,46 +197,46 @@ export function makeStore(props: ApplicationProps) {
       onCreate(result.path)
     },
     createPackage: async () => {
-      const { client, onCreate } = get()
-      const { path } = await client.packageCreate()
-      onCreate(path)
+      // const { client, onCreate } = get()
+      // const { path } = await client.packageCreate()
+      // onCreate(path)
     },
     // TODO: rewrite this method
     createChart: async () => {
-      const { record, client, onDraft } = get()
-      let path
-      let chart
-      if (record?.type === 'table') {
-        path = `${record.resource.name}.chart.json`
-        chart = {
-          data: { url: record.path },
-          mark: 'bar',
-          encoding: {},
-          width: 600,
-          height: 200,
-        }
-        const { columns } = await client.columnList()
-        for (const column of columns) {
-          if (column.tablePath !== record.path) continue
-          if (column.type === 'string') {
-            // @ts-ignore
-            chart.encoding.x = { column: column.name, type: 'nominal' }
-          }
-          if (['integer', 'number'].includes(column.type)) {
-            // @ts-ignore
-            chart.encoding.y = { column: column.name, type: 'quantitative' }
-          }
-          // @ts-ignore
-          if (chart.encoding.x && chart.encoding.y) break
-        }
-      }
-      const result = await client.chartCreate({ path, chart })
-      onDraft(result.path)
+      // const { record, client, onDraft } = get()
+      // let path
+      // let chart
+      // if (record?.type === 'table') {
+      // path = `${record.resource.name}.chart.json`
+      // chart = {
+      // data: { url: record.path },
+      // mark: 'bar',
+      // encoding: {},
+      // width: 600,
+      // height: 200,
+      // }
+      // const { columns } = await client.columnList()
+      // for (const column of columns) {
+      // if (column.tablePath !== record.path) continue
+      // if (column.type === 'string') {
+      // // @ts-ignore
+      // chart.encoding.x = { column: column.name, type: 'nominal' }
+      // }
+      // if (['integer', 'number'].includes(column.type)) {
+      // // @ts-ignore
+      // chart.encoding.y = { column: column.name, type: 'quantitative' }
+      // }
+      // // @ts-ignore
+      // if (chart.encoding.x && chart.encoding.y) break
+      // }
+      // }
+      // const result = await client.chartCreate({ path, chart })
+      // onDraft(result.path)
     },
     createView: async () => {
-      const { client, onDraft } = get()
-      const { path } = await client.viewCreate()
-      onDraft(path)
+      // const { client, onDraft } = get()
+      // const { path } = await client.viewCreate()
+      // onDraft(path)
     },
   }))
 }

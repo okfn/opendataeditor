@@ -20,6 +20,7 @@ export interface State {
   dialog?: 'saveAs' | 'resource' | 'publish'
   record?: types.IRecord
   report?: types.IReport
+  measure?: types.IMeasure
   original?: types.IPackage
   modified?: types.IPackage
   updateState: (patch: Partial<State>) => void
@@ -53,11 +54,9 @@ export function makeStore(props: PackageProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { record } = await client.recordRead({ path })
-      const { report } = await client.reportRead({ path })
-      set({ record, report })
+      const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
-      set({ modified: cloneDeep(data), original: data })
+      set({ record, report, measure, modified: cloneDeep(data), original: data })
     },
     clear: () => {
       const { updateState } = get()
@@ -70,18 +69,14 @@ export function makeStore(props: PackageProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { record, client, modified, onSave, load } = get()
-      if (!record || !modified) return
-      await client.packageWrite({ path: record.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, onSave, load } = get()
+      await client.packagePatch({ path, data: modified })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.packageWrite({ path, data: modified })
+    saveAs: async (toPath) => {
+      const { path, client, modified, onSaveAs } = get()
+      await client.packagePatch({ path, toPath, data: modified })
       onSaveAs(path)
     },
 
