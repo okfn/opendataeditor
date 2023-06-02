@@ -20,6 +20,7 @@ export interface State {
   path?: string
   client: Client
   record?: types.IRecord
+  measure?: types.IMeasure
   files: types.IFile[]
   fileEvent?: types.IFileEvent
   dialog?: IDialog
@@ -91,12 +92,14 @@ export function makeStore(props: ApplicationProps) {
     },
     onFileSelect: async (path) => {
       const { client, loadFiles } = get()
-      set({ path, record: undefined })
-      if (!path || selectors.isFolder(get())) return
-      set({ indexing: true, path })
-      const { record } = await client.fileIndex({ path })
+      set({ path })
+      if (selectors.isFolder(get())) return
+      set({ record: undefined })
+      if (!path) return
+      set({ indexing: true })
+      const { record, measure } = await client.fileIndex({ path })
       await loadFiles()
-      set({ indexing: false, record })
+      set({ indexing: false, record, measure })
     },
 
     // File
@@ -236,12 +239,6 @@ export function makeStore(props: ApplicationProps) {
 }
 
 export const selectors = {
-  file: (state: State) => {
-    return state.files.find((file) => file.path === state.path)
-  },
-  filePaths: (state: State) => {
-    return state.files.filter((file) => file.type === 'folder').map((file) => file.path)
-  },
   isFolder: (state: State) => {
     return !!state.files.find(
       (file) => file.path === state.path && file.type === 'folder'

@@ -5,25 +5,24 @@ import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
 import ViewChip from '../../Parts/Chips/View'
 import ScriptChip from '../../Parts/Chips/Script'
-import { useStore, selectors } from './store'
+import { useStore } from './store'
 
 export default function Status() {
-  const file = useStore(selectors.file)
-  const isFolder = useStore(selectors.isFolder)
-  const createChart = useStore((state) => state.createChart)
+  const record = useStore((state) => state.record)
+  const measure = useStore((state) => state.measure)
   const createView = useStore((state) => state.createView)
-  const isFileSelected = file && !isFolder
+  const createChart = useStore((state) => state.createChart)
   return (
     <Container>
       <Prefix>
         <InputIcon />
       </Prefix>
-      <Contents>{isFileSelected ? file.path : 'Data management for humans'}</Contents>
+      <Contents>{record ? record.path : 'Data management for humans'}</Contents>
       <Suffix>
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
-        <ReportChip errorCount={isFileSelected ? file.errorCount : undefined} />
+        <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>
   )
