@@ -8,7 +8,7 @@ import * as types from '../../../types'
 
 export interface ViewProps {
   view?: types.IView
-  fields?: types.IFieldItem[]
+  columns?: types.IColumn[]
   onChange?: (view: types.IView) => void
 }
 

@@ -21,7 +21,7 @@ interface IChannelState {
 }
 
 interface State {
-  fields: types.IFieldItem[]
+  fields: types.IColumn[]
   descriptor: Partial<types.IChart>
   onChange: (chart: object) => void
   helpItem: types.IHelpItem

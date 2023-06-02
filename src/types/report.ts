@@ -1,5 +1,5 @@
+import { IDict } from './general'
 import { IError } from './error'
-import { IDict } from './common'
 
 export interface IReport {
   valid: boolean

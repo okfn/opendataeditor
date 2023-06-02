@@ -1,4 +1,4 @@
-import { IDict } from './common'
+import { IDict } from './general'
 
 export interface ISchema {
   name?: string

@@ -9,19 +9,21 @@ import { useStore, selectors } from './store'
 
 export default function Status() {
   const file = useStore(selectors.file)
+  const isFolder = useStore(selectors.isFolder)
   const createChart = useStore((state) => state.createChart)
   const createView = useStore((state) => state.createView)
+  const isFileSelected = file && !isFolder
   return (
     <Container>
       <Prefix>
         <InputIcon />
       </Prefix>
-      <Contents>{file ? file.path : 'Data management for humans'}</Contents>
+      <Contents>{isFileSelected ? file.path : 'Data management for humans'}</Contents>
       <Suffix>
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
-        <ReportChip errorCount={file?.errors} />
+        <ReportChip errorCount={isFileSelected ? file.errorCount : undefined} />
       </Suffix>
     </Container>
   )

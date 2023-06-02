@@ -19,7 +19,7 @@ import * as types from '../../../types'
 
 export interface FileTreeProps {
   // TODO: accept fileItems as prop?
-  tree: types.ITreeItem[]
+  tree: types.IFileTreeItem[]
   event?: types.IFileEvent
   selected?: string
   onSelect?: (path: string) => void
@@ -54,14 +54,15 @@ export default function FileTree(props: FileTreeProps) {
   )
 }
 
-function TreeNode(props: { item: types.ITreeItem }) {
+function TreeNode(props: { item: types.IFileTreeItem }) {
   return (
     <StyledTreeItem
       key={props.item.path}
       nodeId={props.item.path}
       label={props.item.name}
       type={props.item.type}
-      errors={props.item.errors}
+      indexed={props.item.indexed}
+      errorCount={props.item.errorCount}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -74,7 +75,8 @@ const StyledTreeItem = styled(
   (
     props: TreeItemProps & {
       type: string
-      errors?: number
+      indexed?: boolean
+      errorCount?: number
     }
   ) => {
     // We bump revision for every new event to trigger animation re-render
@@ -97,7 +99,8 @@ const StyledTreeItem = styled(
             nodeId={props.nodeId}
             label={props.label}
             type={props.type}
-            errors={props.errors}
+            indexed={props.indexed}
+            errorCount={props.errorCount}
           />
         }
       />
@@ -124,12 +127,13 @@ function TreeItemIcon(props: {
   nodeId: string
   label: React.ReactNode
   type: string
-  errors?: number
+  indexed?: boolean
+  errorCount?: number
 }) {
   const Icon = getIcon(props.type)
   let color = 'disabled'
   if (props.type === 'folder') color = 'primary'
-  if (props.errors !== undefined) color = props.errors > 0 ? 'error' : 'success'
+  if (props.indexed) color = props.errorCount ? 'error' : 'success'
   return (
     <Box
       sx={{

@@ -17,7 +17,7 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'view')!
 export interface State {
   descriptor: types.IView
   onChange: (view: types.IView) => void
-  fields?: types.IFieldItem[]
+  columns?: types.IColumn[]
   helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
@@ -28,7 +28,7 @@ export interface State {
 
 export function makeStore(props: ViewProps, editorRef: React.RefObject<ITextEditor>) {
   return createStore<State>((set, get) => ({
-    fields: props.fields,
+    columns: props.columns,
     descriptor: props.view || cloneDeep(settings.INITIAL_VIEW),
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -52,17 +52,17 @@ export function makeStore(props: ViewProps, editorRef: React.RefObject<ITextEdit
 
 export const select = createSelector
 export const selectors = {
-  fieldTree: (state: State) => {
-    const fields: types.IFieldItem[] = []
+  columnTree: (state: State) => {
+    const columns: types.IColumn[] = []
     const search = state.searchTerm?.toLowerCase()
-    for (const field of state.fields || []) {
+    for (const column of state.columns || []) {
       if (search) {
-        const text = field.name + field.type + field.tableName + field.tablePath
+        const text = column.name + column.type + column.tableName + column.tablePath
         if (!text.includes(search)) continue
       }
-      fields.push(field)
+      columns.push(column)
     }
-    return helpers.createFieldTree(fields)
+    return helpers.createColumnTree(columns)
   },
 }
 

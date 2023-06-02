@@ -5,11 +5,11 @@ import * as types from '../types'
 export function createFileTree(
   files: types.IFile[],
   types?: string[]
-): types.ITreeItem[] {
+): types.IFileTreeItem[] {
   let maxLevel = 0
 
   // Create tree
-  const tree: types.ITreeItem[] = []
+  const tree: types.IFileTreeItem[] = []
   files = cloneDeep(files)
   files = sortBy(files, (file) => file.type !== 'folder')
   for (const file of files) {
@@ -22,8 +22,9 @@ export function createFileTree(
       name,
       type: file.type,
       path: file.path,
+      indexed: file.indexed,
+      errorCount: file.errorCount,
       children: [],
-      errors: file.errors ?? undefined,
     })
   }
 

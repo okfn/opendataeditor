@@ -9,7 +9,7 @@ export default function EditorPanel() {
   return (
     <ViewEditor
       view={modified}
-      fields={columns}
+      columns={columns}
       onChange={(view) => updateState({ modified: view })}
     />
   )

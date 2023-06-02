@@ -6,8 +6,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as types from '../../../types'
 
-interface FieldTreeProps {
-  tree: types.ITreeItem[]
+interface ColumnTreeProps {
+  tree: types.IColumnTreeItem[]
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
@@ -15,10 +15,10 @@ interface FieldTreeProps {
 }
 
 const Context = React.createContext<{
-  onPathDoubleClick?: FieldTreeProps['onPathDoubleClick']
+  onPathDoubleClick?: ColumnTreeProps['onPathDoubleClick']
 }>({})
 
-export default function FieldTree(props: FieldTreeProps) {
+export default function ColumnTree(props: ColumnTreeProps) {
   return (
     <Context.Provider value={{ onPathDoubleClick: props.onPathDoubleClick }}>
       <Box sx={{ padding: 2 }}>
@@ -43,7 +43,7 @@ export default function FieldTree(props: FieldTreeProps) {
   )
 }
 
-function TreeNode(props: { item: types.ITreeItem }) {
+function TreeNode(props: { item: types.IColumnTreeItem }) {
   return (
     <TreeItem
       key={props.item.path}

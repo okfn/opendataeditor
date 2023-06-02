@@ -33,10 +33,10 @@ export interface State {
   onFileCreate: (paths: string[]) => Promise<void>
   onFileDelete: (path: string) => Promise<void>
   onFilePatch: (path: string) => Promise<void>
+  onFileSelect: (path?: string) => Promise<void>
 
   // File
 
-  selectFile: (path?: string) => Promise<void>
   loadFiles: () => Promise<void>
   createFiles: (files: FileList) => Promise<void>
   copyFile: (folder?: string) => Promise<void>
@@ -72,36 +72,35 @@ export function makeStore(props: ApplicationProps) {
       updateState({ loading: false })
     },
     onFileCreate: async (paths) => {
-      const { loadFiles, selectFile } = get()
+      const { loadFiles, onFileSelect } = get()
       await loadFiles()
       set({ fileEvent: { type: 'create', paths } })
-      if (paths.length === 1) selectFile(paths[0])
+      if (paths.length === 1) onFileSelect(paths[0])
     },
     onFileDelete: async (path) => {
-      const { loadFiles, selectFile } = get()
+      const { loadFiles, onFileSelect } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
       await delay(500)
       await loadFiles()
-      selectFile(undefined)
+      onFileSelect(undefined)
     },
     onFilePatch: async (path) => {
-      const { selectFile } = get()
+      const { onFileSelect } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
-      selectFile(path)
+      onFileSelect(path)
     },
-
-    // File
-
-    selectFile: async (path) => {
+    onFileSelect: async (path) => {
       const { client, loadFiles } = get()
       set({ path, record: undefined })
-      if (!path) return
-      if (selectors.isFolder(get())) return
-      set({ indexing: true })
+      if (!path || selectors.isFolder(get())) return
+      set({ indexing: true, path })
       const { record } = await client.fileIndex({ path })
       await loadFiles()
       set({ indexing: false, record })
     },
+
+    // File
+
     loadFiles: async () => {
       const { client, updateState } = get()
       const { files } = await client.fileList()
@@ -259,7 +258,7 @@ export const selectors = {
   },
   targetTree: (state: State) => {
     const fileTree = helpers.createFileTree(state.files, ['folder'])
-    const targetTree: types.ITreeItem[] = [
+    const targetTree: types.IFileTreeItem[] = [
       { name: 'Project', path: '/', type: 'folder', children: fileTree },
     ]
     return targetTree

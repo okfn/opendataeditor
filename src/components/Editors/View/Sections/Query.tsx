@@ -3,7 +3,7 @@ import EditorSection from '../../../Parts/Editor/Section'
 import TextEditor from '../../../Parts/TextEditor'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import FieldTree from '../../../Parts/Trees/Field'
+import ColumnTree from '../../../Parts/Trees/Column'
 import EditorSearch from '../../../Parts/Editor/Search'
 import ScrollBox from '../../../Parts/ScrollBox'
 import Columns from '../../../Parts/Columns'
@@ -17,7 +17,7 @@ export default function Query() {
       <EditorSection name="Query" onHeadingClick={() => updateHelp('query')}>
         <QueryEditor />
       </EditorSection>
-      <QueryFields />
+      <QueryColumns />
     </Columns>
   )
 }
@@ -42,20 +42,20 @@ function QueryEditor() {
   )
 }
 
-function QueryFields() {
+function QueryColumns() {
   const theme = useTheme()
   // TODO: currently, we make it controlled just because it fixes field selection background color
   const [selected, setSelected] = React.useState<string>()
-  const fieldTree = useStore(selectors.fieldTree)
+  const columnTree = useStore(selectors.columnTree)
   const editorRef = useStore((state) => state.editorRef)
   const searchTerm = useStore((state) => state.searchTerm)
   const updateState = useStore((state) => state.updateState)
-  if (!fieldTree) return null
+  if (!columnTree) return null
   return (
     <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <Box sx={{ padding: 2, borderBottom: 'solid 1px #ddd' }}>
         <Columns layout={[6, 6]}>
-          <Typography variant="h4">Fields</Typography>
+          <Typography variant="h4">Columns</Typography>
           <EditorSearch
             value={searchTerm || ''}
             onChange={(value) => updateState({ searchTerm: value })}
@@ -63,8 +63,8 @@ function QueryFields() {
         </Columns>
       </Box>
       <ScrollBox height={theme.spacing(34)}>
-        <FieldTree
-          tree={fieldTree}
+        <ColumnTree
+          tree={columnTree}
           selected={selected}
           onPathChange={setSelected}
           onPathDoubleClick={(path) => {

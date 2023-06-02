@@ -14,10 +14,15 @@ function PresentFiles() {
   const path = useStore((state) => state.path)
   const fileTree = useStore(selectors.fileTree)
   const fileEvent = useStore((state) => state.fileEvent)
-  const selectFile = useStore((state) => state.selectFile)
+  const onFileSelect = useStore((state) => state.onFileSelect)
   return (
     <React.Fragment>
-      <FileTree tree={fileTree} event={fileEvent} selected={path} onSelect={selectFile} />
+      <FileTree
+        tree={fileTree}
+        event={fileEvent}
+        selected={path}
+        onSelect={onFileSelect}
+      />
     </React.Fragment>
   )
 }
