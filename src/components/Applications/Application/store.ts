@@ -90,14 +90,15 @@ export function makeStore(props: ApplicationProps) {
       set({ fileEvent: { type: 'update', paths: [path] } })
       onFileSelect(path)
     },
-    onFileSelect: async (path) => {
-      const { client, loadFiles } = get()
-      set({ path })
+    onFileSelect: async (newPath) => {
+      const { path, client, loadFiles } = get()
+      if (path === newPath) return
+      set({ path: newPath })
       if (selectors.isFolder(get())) return
       set({ record: undefined })
-      if (!path) return
+      if (!newPath) return
       set({ indexing: true })
-      const { record, measure } = await client.fileIndex({ path })
+      const { record, measure } = await client.fileIndex({ path: newPath })
       await loadFiles()
       set({ indexing: false, record, measure })
     },
