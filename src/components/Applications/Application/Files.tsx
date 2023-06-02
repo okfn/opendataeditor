@@ -27,5 +27,5 @@ function EmptyFiles() {
 }
 
 function LoadingFiles() {
-  return <Spinner message="Loading files" />
+  return <Spinner message="Loading" />
 }

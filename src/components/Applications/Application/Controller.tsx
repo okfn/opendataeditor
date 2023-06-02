@@ -40,5 +40,5 @@ function EmptyController() {
 }
 
 function LoadingController() {
-  return <Spinner message="Indexing file" />
+  return <Spinner message="Indexing" />
 }
