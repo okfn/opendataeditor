@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
+import Spinner from '../../Parts/Spinner'
 import TextEditor from '../../Parts/TextEditor'
 import { useStore, selectors } from './store'
 
@@ -16,23 +17,28 @@ export default function Editor() {
 }
 
 function Source() {
+  const [visibility, setVisibility] = React.useState('hidden')
   const modified = useStore((state) => state.modified)
   const editorRef = useStore((state) => state.editorRef)
   const language = useStore(selectors.language)
   const updateState = useStore((state) => state.updateState)
   if (modified === undefined) return null
   return (
-    <Box sx={{ paddingY: 2, height: '100%' }}>
-      <TextEditor
-        value={modified}
-        language={language}
-        onChange={(text) => updateState({ modified: text })}
-        onMount={(ref) => {
-          // @ts-ignore
-          editorRef.current = ref
-        }}
-      />
-    </Box>
+    <React.Fragment>
+      {visibility === 'hidden' && <Spinner message="Loading" />}
+      <Box sx={{ paddingY: 2, height: '100%', visibility }}>
+        <TextEditor
+          value={modified}
+          language={language}
+          onChange={(text) => updateState({ modified: text })}
+          onMount={(ref) => {
+            // @ts-ignore
+            editorRef.current = ref
+            setVisibility('visible')
+          }}
+        />
+      </Box>
+    </React.Fragment>
   )
 }
 

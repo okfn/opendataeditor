@@ -28,6 +28,7 @@ const StyledCard = styled(Card)(() => ({
   square: 'true',
   display: 'flex',
   alignItems: 'center',
+  zIndex: 1000000,
 }))
 
 const StyledCardContent = styled(CardContent)(() => ({
@@ -35,4 +36,7 @@ const StyledCardContent = styled(CardContent)(() => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
+  fontSize: '16px',
+  color: '#777',
+  zIndex: 1000000,
 }))
