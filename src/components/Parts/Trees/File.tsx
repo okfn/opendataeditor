@@ -79,10 +79,7 @@ const StyledTreeItem = styled(
       errorCount?: number
     }
   ) => {
-    // We bump revision for every new event to trigger animation re-render
-    const [revision, setRevision] = React.useState(0)
     const { event } = React.useContext(Context)
-    React.useEffect(() => setRevision(revision + 1), [event])
     let animation
     if (event && event.paths.includes(props.nodeId)) {
       animation = `${fileEventKeyframe} 1s`
@@ -90,10 +87,7 @@ const StyledTreeItem = styled(
     return (
       <TreeItem
         {...props}
-        key={revision}
-        sx={{
-          animation,
-        }}
+        sx={{ animation }}
         label={
           <TreeItemIcon
             nodeId={props.nodeId}

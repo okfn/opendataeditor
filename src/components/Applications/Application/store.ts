@@ -77,6 +77,8 @@ export function makeStore(props: ApplicationProps) {
       await loadFiles()
       set({ fileEvent: { type: 'create', paths } })
       if (paths.length === 1) onFileSelect(paths[0])
+      await delay(500)
+      set({ fileEvent: undefined })
     },
     onFileDelete: async (path) => {
       const { loadFiles, onFileSelect } = get()
@@ -84,11 +86,14 @@ export function makeStore(props: ApplicationProps) {
       await delay(500)
       await loadFiles()
       onFileSelect(undefined)
+      set({ fileEvent: undefined })
     },
     onFilePatch: async (path) => {
       const { onFileSelect } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
       onFileSelect(path)
+      await delay(500)
+      set({ fileEvent: undefined })
     },
     onFileSelect: async (newPath) => {
       const { path, client, loadFiles } = get()
