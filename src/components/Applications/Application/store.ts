@@ -28,14 +28,12 @@ export interface State {
   indexing?: boolean
   updateState: (patch: Partial<State>) => void
 
-  // Lifecycle
+  // Events
 
   onStart: () => Promise<void>
   onFileCreate: (paths: string[]) => Promise<void>
   onFileDelete: (path: string) => Promise<void>
   onFilePatch: (path: string) => Promise<void>
-  onFileOpen: (path?: string) => Promise<void>
-  onFileFind: (path: string) => Promise<void>
 
   // File
 
@@ -45,6 +43,9 @@ export interface State {
   deleteFile: () => Promise<void>
   moveFile: (folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
+  locateFile: (path: string) => Promise<void>
+  selectFile: (path?: string) => Promise<void>
+  openFile: (path: string) => Promise<void>
 
   // Folder
 
@@ -65,7 +66,7 @@ export function makeStore(props: ApplicationProps) {
     client: props.client,
     updateState: (patch) => set(patch),
 
-    // Lifecycle
+    // Events
 
     onStart: async () => {
       const { loadFiles, updateState } = get()
@@ -74,47 +75,25 @@ export function makeStore(props: ApplicationProps) {
       updateState({ loading: false })
     },
     onFileCreate: async (paths) => {
-      const { loadFiles, onFileOpen } = get()
+      const { loadFiles, selectFile } = get()
       await loadFiles()
       set({ fileEvent: { type: 'create', paths } })
-      if (paths.length === 1) onFileOpen(paths[0])
+      if (paths.length === 1) selectFile(paths[0])
       await delay(500)
       set({ fileEvent: undefined })
     },
     onFileDelete: async (path) => {
-      const { loadFiles, onFileOpen } = get()
+      const { loadFiles, selectFile } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
       await delay(500)
       await loadFiles()
-      onFileOpen(undefined)
+      selectFile(undefined)
       set({ fileEvent: undefined })
     },
     onFilePatch: async (path) => {
-      const { onFileOpen } = get()
+      const { selectFile } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
-      onFileOpen(path)
-      await delay(500)
-      set({ fileEvent: undefined })
-    },
-    onFileOpen: async (newPath) => {
-      const { path, client, loadFiles, fileEvent } = get()
-      if (path === newPath) return
-      set({ path: newPath })
-      if (selectors.isFolder(get())) return
-      if (get().record?.path === newPath) return
-      set({ record: undefined, measure: undefined })
-      if (!newPath) return
-      set({ indexing: true })
-      const { record, measure } = await client.fileIndex({ path: newPath })
-      await loadFiles()
-      set({ indexing: false, record, measure })
-      if (!fileEvent) set({ fileEvent: { type: 'open', paths: [newPath] } })
-      await delay(500)
-      set({ fileEvent: undefined })
-    },
-    onFileFind: async (path) => {
-      set({ path })
-      set({ fileEvent: { type: 'find', paths: [path] } })
+      selectFile(path)
       await delay(500)
       set({ fileEvent: undefined })
     },
@@ -159,6 +138,32 @@ export function makeStore(props: ApplicationProps) {
       if (!path) return
       const result = await client.fileMove({ path, newName: name })
       onFileCreate([result.path])
+    },
+    locateFile: async (path) => {
+      set({ path })
+      set({ fileEvent: { type: 'locate', paths: [path] } })
+      await delay(500)
+      set({ fileEvent: undefined })
+    },
+    selectFile: async (newPath) => {
+      const { path, record, openFile } = get()
+      if (path === newPath) return
+      set({ path: newPath })
+      if (!newPath) return
+      if (record?.path === newPath) return
+      if (selectors.isFolder(get())) return
+      await openFile(newPath)
+    },
+    openFile: async (path) => {
+      const { client, loadFiles, fileEvent } = get()
+      set({ record: undefined, measure: undefined })
+      set({ indexing: true })
+      const { record, measure } = await client.fileIndex({ path })
+      await loadFiles()
+      set({ indexing: false, record, measure })
+      if (!fileEvent) set({ fileEvent: { type: 'open', paths: [path] } })
+      await delay(500)
+      set({ fileEvent: undefined })
     },
 
     // Folder
