@@ -13,7 +13,7 @@ export default function Status() {
   const measure = useStore((state) => state.measure)
   const createView = useStore((state) => state.createView)
   const createChart = useStore((state) => state.createChart)
-  const updateState = useStore((state) => state.updateState)
+  const onFileFind = useStore((state) => state.onFileFind)
   return (
     <Container>
       <Prefix>
@@ -22,12 +22,12 @@ export default function Status() {
       <LightTooltip
         title={
           record
-            ? 'Select this file in the browser'
+            ? 'Find this file in the browser'
             : 'Select a file in the browser to explore'
         }
         placement="bottom-start"
       >
-        <Contents onClick={() => updateState({ path: record?.path })}>
+        <Contents onClick={record ? () => onFileFind(record?.path) : undefined}>
           {record ? record.path : 'Data management for humans'}
         </Contents>
       </LightTooltip>

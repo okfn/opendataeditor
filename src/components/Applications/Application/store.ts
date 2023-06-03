@@ -34,7 +34,8 @@ export interface State {
   onFileCreate: (paths: string[]) => Promise<void>
   onFileDelete: (path: string) => Promise<void>
   onFilePatch: (path: string) => Promise<void>
-  onFileSelect: (path?: string) => Promise<void>
+  onFileOpen: (path?: string) => Promise<void>
+  onFileFind: (path: string) => Promise<void>
 
   // File
 
@@ -73,30 +74,30 @@ export function makeStore(props: ApplicationProps) {
       updateState({ loading: false })
     },
     onFileCreate: async (paths) => {
-      const { loadFiles, onFileSelect } = get()
+      const { loadFiles, onFileOpen } = get()
       await loadFiles()
       set({ fileEvent: { type: 'create', paths } })
-      if (paths.length === 1) onFileSelect(paths[0])
+      if (paths.length === 1) onFileOpen(paths[0])
       await delay(500)
       set({ fileEvent: undefined })
     },
     onFileDelete: async (path) => {
-      const { loadFiles, onFileSelect } = get()
+      const { loadFiles, onFileOpen } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
       await delay(500)
       await loadFiles()
-      onFileSelect(undefined)
+      onFileOpen(undefined)
       set({ fileEvent: undefined })
     },
     onFilePatch: async (path) => {
-      const { onFileSelect } = get()
+      const { onFileOpen } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
-      onFileSelect(path)
+      onFileOpen(path)
       await delay(500)
       set({ fileEvent: undefined })
     },
-    onFileSelect: async (newPath) => {
-      const { path, client, loadFiles } = get()
+    onFileOpen: async (newPath) => {
+      const { path, client, loadFiles, fileEvent } = get()
       if (path === newPath) return
       set({ path: newPath })
       if (selectors.isFolder(get())) return
@@ -107,6 +108,15 @@ export function makeStore(props: ApplicationProps) {
       const { record, measure } = await client.fileIndex({ path: newPath })
       await loadFiles()
       set({ indexing: false, record, measure })
+      if (!fileEvent) set({ fileEvent: { type: 'open', paths: [newPath] } })
+      await delay(500)
+      set({ fileEvent: undefined })
+    },
+    onFileFind: async (path) => {
+      set({ path })
+      set({ fileEvent: { type: 'find', paths: [path] } })
+      await delay(500)
+      set({ fileEvent: undefined })
     },
 
     // File

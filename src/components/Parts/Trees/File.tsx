@@ -92,10 +92,12 @@ const StyledTreeItem = styled(
   ) => {
     const { type, indexed, errorCount, ...others } = props
     const { event } = React.useContext(Context)
-    let animation
-    if (event && event.paths.includes(props.nodeId)) {
-      animation = `${fileEventKeyframe} 1s`
-    }
+    const animation =
+      event &&
+      event.paths.includes(props.nodeId) &&
+      ['create', 'delete', 'update'].includes(event.type)
+        ? `${fileEventKeyframe} 1s`
+        : undefined
     return (
       <TreeItem
         {...others}
