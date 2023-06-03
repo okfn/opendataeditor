@@ -15,11 +15,11 @@ import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../ScrollBox'
+import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 export interface FileTreeProps {
-  // TODO: accept IFile[] as prop?
-  tree: types.IFileTreeItem[]
+  files: types.IFile[]
   event?: types.IFileEvent
   selected?: string
   onSelect?: (path: string) => void
@@ -31,6 +31,7 @@ const Context = React.createContext<{
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
+  const fileTree = React.useMemo(() => helpers.createFileTree(props.files), [props.files])
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
@@ -45,7 +46,7 @@ export default function FileTree(props: FileTreeProps) {
           aria-label="customized"
           sx={{ height: '100%' }}
         >
-          {props.tree.map((item) => (
+          {fileTree.map((item) => (
             <TreeNode item={item} key={item.path} />
           ))}
         </TreeView>

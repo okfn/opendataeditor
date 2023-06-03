@@ -2,7 +2,7 @@ import * as React from 'react'
 import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import FileTree from '../../Parts/Trees/File'
-import { useStore, selectors } from './store'
+import { useStore } from './store'
 
 export default function Files() {
   const files = useStore((state) => state.files)
@@ -12,17 +12,12 @@ export default function Files() {
 
 function PresentFiles() {
   const path = useStore((state) => state.path)
-  const fileTree = useStore(selectors.fileTree)
+  const files = useStore((state) => state.files)
   const fileEvent = useStore((state) => state.fileEvent)
   const onFileSelect = useStore((state) => state.onFileSelect)
   return (
     <React.Fragment>
-      <FileTree
-        tree={fileTree}
-        event={fileEvent}
-        selected={path}
-        onSelect={onFileSelect}
-      />
+      <FileTree files={files} event={fileEvent} selected={path} onSelect={onFileSelect} />
     </React.Fragment>
   )
 }

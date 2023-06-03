@@ -7,7 +7,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as types from '../../../types'
 
 interface ColumnTreeProps {
-  // TODO: accept IColumn[] as prop?
   tree: types.IColumnTreeItem[]
   selected?: string
   expanded?: string[]

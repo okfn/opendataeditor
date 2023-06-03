@@ -257,15 +257,13 @@ export const selectors = {
     if (isFolder) return state.path
     return helpers.getFolderPath(state.path)
   },
-  fileTree: (state: State) => {
-    return helpers.createFileTree(state.files)
-  },
-  targetTree: (state: State) => {
-    const fileTree = helpers.createFileTree(state.files, ['folder'])
-    const targetTree: types.IFileTreeItem[] = [
-      { name: 'Project', path: '/', type: 'folder', children: fileTree },
-    ]
-    return targetTree
+  targetFolders: (state: State) => {
+    const folders: types.IFile[] = [{ type: 'folder', path: 'project' }]
+    for (const file of state.files) {
+      if (file.type !== 'folder') continue
+      folders.push({ type: 'folder', path: `project/${file.path}` })
+    }
+    return folders
   },
 }
 

@@ -14,8 +14,8 @@ import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {
-  const targetTree = useStore(selectors.targetTree)
   const dialog = useStore((state) => state.dialog)
+  const targetFolders = useStore(selectors.targetFolders)
   const updateState = useStore((state) => state.updateState)
   const copyFile = useStore((state) => state.copyFile)
   const moveFile = useStore((state) => state.moveFile)
@@ -55,9 +55,9 @@ export default function FolderDialog() {
         }}
       >
         <FileTree
-          tree={targetTree}
+          files={targetFolders}
           selected={target}
-          defaultExpanded={[targetTree[0].path]}
+          defaultExpanded={[targetFolders[0].path]}
           onSelect={setTarget}
         />
       </DialogContent>
