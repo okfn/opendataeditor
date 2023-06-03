@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
+import LightTooltip from '../../Parts/Tooltips/Light'
 import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
 import ViewChip from '../../Parts/Chips/View'
@@ -18,16 +19,18 @@ export default function Status() {
       <Prefix>
         <InputIcon />
       </Prefix>
-      {record ? (
-        <Contents
-          title="Find in file browser"
-          onClick={() => updateState({ path: record?.path })}
-        >
-          {record.path}
+      <LightTooltip
+        title={
+          record
+            ? 'Select this file in the browser'
+            : 'Select a file in the browser to explore'
+        }
+        placement="bottom-start"
+      >
+        <Contents onClick={() => updateState({ path: record?.path })}>
+          {record ? record.path : 'Data management for humans'}
         </Contents>
-      ) : (
-        <Contents>Data management for humans</Contents>
-      )}
+      </LightTooltip>
       <Suffix>
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
