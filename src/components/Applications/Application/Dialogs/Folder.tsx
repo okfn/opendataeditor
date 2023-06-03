@@ -14,6 +14,7 @@ import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore, selectors } from '../store'
 
 export default function FolderDialog() {
+  const path = useStore((state) => state.path)
   const dialog = useStore((state) => state.dialog)
   const targetFolders = useStore(selectors.targetFolders)
   const updateState = useStore((state) => state.updateState)
@@ -21,11 +22,12 @@ export default function FolderDialog() {
   const moveFile = useStore((state) => state.moveFile)
   const isFolder = useStore(selectors.isFolder)
   const folderPath = useStore(selectors.folderPath)
-  const [target, setTarget] = React.useState<string | undefined>(folderPath || 'project')
+  const [folder, setFolder] = React.useState(folderPath)
   const handleClose = () => updateState({ dialog: undefined })
   const handleSelect = () => {
+    if (!path) return
     const action = dialog === 'folder/copy' ? copyFile : moveFile
-    action(target !== '/' ? target : undefined)
+    action(path, folder)
     handleClose()
   }
   return (
@@ -54,12 +56,7 @@ export default function FolderDialog() {
           marginRight: 3,
         }}
       >
-        <FileTree
-          files={targetFolders}
-          selected={target}
-          defaultExpanded={[targetFolders[0].path]}
-          onSelect={setTarget}
-        />
+        <FileTree files={targetFolders} selected={folder} onSelect={setFolder} />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>

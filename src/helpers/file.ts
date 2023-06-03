@@ -19,7 +19,7 @@ export function createFileTree(
     const name = parts[level - 1]
     maxLevel = Math.max(maxLevel, level)
     tree.push({
-      name,
+      name: file.name || name,
       type: file.type,
       path: file.path,
       indexed: file.indexed,

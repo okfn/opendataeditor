@@ -39,9 +39,9 @@ export interface State {
 
   loadFiles: () => Promise<void>
   createFiles: (files: FileList) => Promise<void>
-  copyFile: (folder?: string) => Promise<void>
-  deleteFile: () => Promise<void>
-  moveFile: (folder?: string) => Promise<void>
+  copyFile: (path: string, folder?: string) => Promise<void>
+  deleteFile: (path: string) => Promise<void>
+  moveFile: (path: string, folder?: string) => Promise<void>
   renameFile: (name: string) => Promise<void>
   locateFile: (path: string) => Promise<void>
   selectFile: (path?: string) => Promise<void>
@@ -115,21 +115,18 @@ export function makeStore(props: ApplicationProps) {
       }
       onFileCreate(paths)
     },
-    copyFile: async (folder) => {
-      const { client, path, onFileCreate } = get()
-      if (!path) return
+    copyFile: async (path, folder) => {
+      const { client, onFileCreate } = get()
       const result = await client.fileCopy({ path, toPath: folder })
       onFileCreate([result.path])
     },
-    deleteFile: async () => {
-      const { client, path, onFileDelete } = get()
-      if (!path) return
+    deleteFile: async (path) => {
+      const { client, onFileDelete } = get()
       await client.fileDelete({ path })
       onFileDelete(path)
     },
-    moveFile: async (folder) => {
-      const { client, path, onFileCreate } = get()
-      if (!path) return
+    moveFile: async (path, folder) => {
+      const { client, onFileCreate } = get()
       const result = await client.fileMove({ path, toPath: folder })
       onFileCreate([result.path])
     },
@@ -273,10 +270,10 @@ export const selectors = {
     return helpers.getFolderPath(state.path)
   },
   targetFolders: (state: State) => {
-    const folders: types.IFile[] = [{ type: 'folder', path: 'project' }]
+    const folders: types.IFile[] = [{ name: 'project', type: 'folder', path: '' }]
     for (const file of state.files) {
       if (file.type !== 'folder') continue
-      folders.push({ type: 'folder', path: `project/${file.path}` })
+      folders.push({ type: 'folder', path: file.path })
     }
     return folders
   },

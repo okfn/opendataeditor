@@ -18,6 +18,7 @@ export default function DeleteButton() {
       variant="text"
       color="warning"
       onClick={() => {
+        if (!path) return
         confirm({
           title: `Delete ${type}`,
           confirmationText: 'Delete',
@@ -33,7 +34,7 @@ export default function DeleteButton() {
             sx: { width: '50%' },
           },
         }).then(() => {
-          deleteFile()
+          deleteFile(path)
         })
       }}
     />
