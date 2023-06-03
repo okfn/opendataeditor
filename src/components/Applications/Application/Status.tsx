@@ -12,12 +12,22 @@ export default function Status() {
   const measure = useStore((state) => state.measure)
   const createView = useStore((state) => state.createView)
   const createChart = useStore((state) => state.createChart)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Container>
       <Prefix>
         <InputIcon />
       </Prefix>
-      <Contents>{record ? record.path : 'Data management for humans'}</Contents>
+      {record ? (
+        <Contents
+          title="Find in file browser"
+          onClick={() => updateState({ path: record?.path })}
+        >
+          {record.path}
+        </Contents>
+      ) : (
+        <Contents>Data management for humans</Contents>
+      )}
       <Suffix>
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
@@ -51,6 +61,7 @@ const Contents = styled('div')(({ theme }) => ({
   // vertical padding + font size from searchIcon
   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   transition: theme.transitions.create('width'),
+  cursor: 'pointer',
 }))
 
 const Prefix = styled('div')(({ theme }) => ({
