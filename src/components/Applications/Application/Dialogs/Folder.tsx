@@ -21,7 +21,7 @@ export default function FolderDialog() {
   const moveFile = useStore((state) => state.moveFile)
   const isFolder = useStore(selectors.isFolder)
   const folderPath = useStore(selectors.folderPath)
-  const [target, setTarget] = React.useState(folderPath || '/')
+  const [target, setTarget] = React.useState<string | undefined>(folderPath || 'project')
   const handleClose = () => updateState({ dialog: undefined })
   const handleSelect = () => {
     const action = dialog === 'folder/copy' ? copyFile : moveFile

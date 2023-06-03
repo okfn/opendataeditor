@@ -4,6 +4,7 @@ import { alpha, styled } from '@mui/material/styles'
 import { keyframes } from '@mui/system'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -22,7 +23,7 @@ export interface FileTreeProps {
   files: types.IFile[]
   event?: types.IFileEvent
   selected?: string
-  onSelect?: (path: string) => void
+  onSelect: (path?: string) => void
   defaultExpanded?: string[]
 }
 
@@ -42,24 +43,29 @@ export default function FileTree(props: FileTreeProps) {
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
-        <TreeView
-          selected={props.selected || ''}
-          expanded={expanded}
-          onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-            if (props.onSelect) props.onSelect(nodeId)
-          }}
-          onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
-            setExpanded(nodeIds)
-          }}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          aria-label="customized"
-          sx={{ height: '100%' }}
-        >
-          {fileTree.map((item) => (
-            <TreeNode item={item} key={item.path} />
-          ))}
-        </TreeView>
+        <Stack alignItems="stretch" height="100%">
+          <TreeView
+            selected={props.selected || ''}
+            expanded={expanded}
+            onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
+              props.onSelect(nodeId)
+            }}
+            onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+              setExpanded(nodeIds)
+            }}
+            defaultCollapseIcon={<MinusSquare />}
+            defaultExpandIcon={<PlusSquare />}
+            aria-label="customized"
+          >
+            {fileTree.map((item) => (
+              <TreeNode item={item} key={item.path} />
+            ))}
+          </TreeView>
+          <Box
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={() => props.onSelect()}
+          ></Box>
+        </Stack>
       </ScrollBox>
     </Context.Provider>
   )
