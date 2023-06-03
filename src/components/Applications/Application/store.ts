@@ -88,7 +88,7 @@ export function makeStore(props: ApplicationProps) {
       await delay(500)
       await loadFiles()
       selectFile(undefined)
-      set({ fileEvent: undefined })
+      set({ fileEvent: undefined, record: undefined, measure: undefined })
     },
     onFilePatch: async (path) => {
       const { selectFile } = get()
