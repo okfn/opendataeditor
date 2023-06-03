@@ -12,8 +12,8 @@ export interface IFileEvent {
 
 export interface IFileTreeItem {
   name: string
-  path: string
   type: string
+  path: string
   indexed?: boolean
   errorCount?: number
   children: IFileTreeItem[]

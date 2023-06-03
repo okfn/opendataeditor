@@ -4,10 +4,11 @@ import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 interface ColumnTreeProps {
-  tree: types.IColumnTreeItem[]
+  columns: types.IColumn[]
   selected?: string
   expanded?: string[]
   onPathChange?: (path: string) => void
@@ -19,6 +20,10 @@ const Context = React.createContext<{
 }>({})
 
 export default function ColumnTree(props: ColumnTreeProps) {
+  const columnTree = React.useMemo(
+    () => helpers.createColumnTree(props.columns),
+    [props.columns]
+  )
   return (
     <Context.Provider value={{ onPathDoubleClick: props.onPathDoubleClick }}>
       <Box sx={{ padding: 2 }}>
@@ -34,7 +39,7 @@ export default function ColumnTree(props: ColumnTreeProps) {
           defaultExpandIcon={<ChevronRightIcon />}
           aria-label="customized"
         >
-          {props.tree.map((item) => (
+          {columnTree.map((item) => (
             <TreeNode item={item} key={item.path} />
           ))}
         </TreeView>

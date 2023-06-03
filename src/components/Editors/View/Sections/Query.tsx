@@ -46,11 +46,11 @@ function QueryColumns() {
   const theme = useTheme()
   // TODO: currently, we make it controlled just because it fixes field selection background color
   const [selected, setSelected] = React.useState<string>()
-  const columnTree = useStore(selectors.columnTree)
+  const foundColumns = useStore(selectors.foundColumns)
   const editorRef = useStore((state) => state.editorRef)
   const searchTerm = useStore((state) => state.searchTerm)
   const updateState = useStore((state) => state.updateState)
-  if (!columnTree) return null
+  if (!foundColumns.length) return null
   return (
     <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <Box sx={{ padding: 2, borderBottom: 'solid 1px #ddd' }}>
@@ -64,7 +64,7 @@ function QueryColumns() {
       </Box>
       <ScrollBox height={theme.spacing(34)}>
         <ColumnTree
-          tree={columnTree}
+          columns={foundColumns}
           selected={selected}
           onPathChange={setSelected}
           onPathDoubleClick={(path) => {

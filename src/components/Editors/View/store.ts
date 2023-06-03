@@ -52,7 +52,7 @@ export function makeStore(props: ViewProps, editorRef: React.RefObject<ITextEdit
 
 export const select = createSelector
 export const selectors = {
-  columnTree: (state: State) => {
+  foundColumns: (state: State) => {
     const columns: types.IColumn[] = []
     const search = state.searchTerm?.toLowerCase()
     for (const column of state.columns || []) {
@@ -62,7 +62,7 @@ export const selectors = {
       }
       columns.push(column)
     }
-    return helpers.createColumnTree(columns)
+    return columns
   },
 }
 
