@@ -31,15 +31,25 @@ const Context = React.createContext<{
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
+  const [expanded, setExpanded] = React.useState<string[]>([])
   const fileTree = React.useMemo(() => helpers.createFileTree(props.files), [props.files])
+  React.useEffect(() => {
+    const defaultExpanded = props.event
+      ? helpers.listParentFolders(props.event.paths)
+      : props.defaultExpanded || []
+    setExpanded([...new Set([...expanded, ...defaultExpanded])])
+  }, [props.event, props.defaultExpanded])
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <TreeView
           selected={props.selected || ''}
-          defaultExpanded={props.defaultExpanded}
+          expanded={expanded}
           onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
             if (props.onSelect) props.onSelect(nodeId)
+          }}
+          onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+            setExpanded(nodeIds)
           }}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
