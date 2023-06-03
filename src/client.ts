@@ -280,6 +280,6 @@ async function makeRequest(
   const result = props.isBytes
     ? { bytes: await response.arrayBuffer() }
     : await response.json()
-  console.log({ path, props, result })
+  // console.log({ path, props, result })
   return result
 }

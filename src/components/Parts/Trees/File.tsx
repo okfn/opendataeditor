@@ -80,6 +80,7 @@ const StyledTreeItem = styled(
       errorCount?: number
     }
   ) => {
+    const { type, indexed, errorCount, ...others } = props
     const { event } = React.useContext(Context)
     let animation
     if (event && event.paths.includes(props.nodeId)) {
@@ -87,15 +88,15 @@ const StyledTreeItem = styled(
     }
     return (
       <TreeItem
-        {...props}
+        {...others}
         sx={{ animation }}
         label={
           <TreeItemIcon
             nodeId={props.nodeId}
             label={props.label}
-            type={props.type}
-            indexed={props.indexed}
-            errorCount={props.errorCount}
+            type={type}
+            indexed={indexed}
+            errorCount={errorCount}
           />
         }
       />

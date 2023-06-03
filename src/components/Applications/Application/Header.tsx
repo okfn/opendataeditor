@@ -48,9 +48,11 @@ export default function Header() {
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
                 <LightTooltip title="Open settings">
-                  <Button disabled color="inherit">
-                    <SettingsIcon />
-                  </Button>
+                  <Box>
+                    <Button disabled color="inherit">
+                      <SettingsIcon />
+                    </Button>
+                  </Box>
                 </LightTooltip>
                 <LightTooltip title="Report an issue">
                   <Button

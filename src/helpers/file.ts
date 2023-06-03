@@ -7,7 +7,6 @@ export function createFileTree(
   types?: string[]
 ): types.IFileTreeItem[] {
   let maxLevel = 0
-  console.log('createFileTree')
 
   // Create tree
   const tree: types.IFileTreeItem[] = []
