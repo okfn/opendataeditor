@@ -5,16 +5,9 @@ import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ApplicationProps } from './index'
+import { IDialog } from './types'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-
-type IDialog =
-  | 'folder/copy'
-  | 'folder/move'
-  | 'name/create'
-  | 'name/rename'
-  | 'link/create'
-  | 'create/dialog'
 
 export interface State {
   path?: string
@@ -39,10 +32,9 @@ export interface State {
 
   loadFiles: () => Promise<void>
   createFiles: (files: FileList) => Promise<void>
-  copyFile: (path: string, folder?: string) => Promise<void>
+  copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
-  moveFile: (path: string, folder?: string) => Promise<void>
-  renameFile: (name: string) => Promise<void>
+  moveFile: (path: string, toPath: string) => Promise<void>
   locateFile: (path: string) => Promise<void>
   selectFile: (path?: string) => Promise<void>
   openFile: (path: string) => Promise<void>
@@ -115,9 +107,9 @@ export function makeStore(props: ApplicationProps) {
       }
       onFileCreate(paths)
     },
-    copyFile: async (path, folder) => {
+    copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
-      const result = await client.fileCopy({ path, toPath: folder })
+      const result = await client.fileCopy({ path, toPath, deduplicate: true })
       onFileCreate([result.path])
     },
     deleteFile: async (path) => {
@@ -125,15 +117,9 @@ export function makeStore(props: ApplicationProps) {
       await client.fileDelete({ path })
       onFileDelete(path)
     },
-    moveFile: async (path, folder) => {
+    moveFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
-      const result = await client.fileMove({ path, toPath: folder })
-      onFileCreate([result.path])
-    },
-    renameFile: async (name) => {
-      const { client, path, onFileCreate } = get()
-      if (!path) return
-      const result = await client.fileMove({ path, newName: name })
+      const result = await client.fileMove({ path, toPath, deduplicate: true })
       onFileCreate([result.path])
     },
     locateFile: async (path) => {
@@ -165,11 +151,11 @@ export function makeStore(props: ApplicationProps) {
 
     // Folder
 
-    createFolder: async (name) => {
+    createFolder: async (path) => {
       const { client, onFileCreate } = get()
-      const folder = selectors.folderPath(get())
-      const { path } = await client.folderCreate({ path: name, folder })
-      onFileCreate([path])
+      // TODO: support deduplicate
+      const result = await client.folderCreate({ path })
+      onFileCreate([result.path])
     },
     uploadFolder: async (files) => {
       const { path, client, onFileCreate } = get()
@@ -268,14 +254,6 @@ export const selectors = {
     const isFolder = selectors.isFolder(state)
     if (isFolder) return state.path
     return helpers.getFolderPath(state.path)
-  },
-  targetFolders: (state: State) => {
-    const folders: types.IFile[] = [{ name: 'project', type: 'folder', path: '' }]
-    for (const file of state.files) {
-      if (file.type !== 'folder') continue
-      folders.push({ type: 'folder', path: file.path })
-    }
-    return folders
   },
 }
 

@@ -27,6 +27,7 @@ export default function FolderDialog() {
   const handleSelect = () => {
     if (!path) return
     const action = dialog === 'folder/copy' ? copyFile : moveFile
+    // @ts-ignore
     action(path, folder)
     handleClose()
   }

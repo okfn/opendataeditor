@@ -97,7 +97,7 @@ function CreateFolder() {
       variant="text"
       label="Create Folder"
       Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'name/create' })}
+      onClick={() => updateState({ dialog: 'name/create/folder' })}
     />
   )
 }

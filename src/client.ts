@@ -74,12 +74,7 @@ export class Client {
     return result as { files: types.IFile[] }
   }
 
-  async fileMove(props: {
-    path: string
-    toPath?: string
-    newName?: string
-    deduplicate?: boolean
-  }) {
+  async fileMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/move', props)
     return result as { path: string }
   }

@@ -2,6 +2,7 @@ import * as React from 'react'
 import noop from 'lodash/noop'
 import TextField from '@mui/material/TextField'
 
+// TODO: rework all the fields wrappign props (see buttons)
 // TODO: fix it loosing focus
 // TODO: handle different value types properly (string/number/etc)
 
