@@ -25,7 +25,7 @@ interface SelectFieldProps {
 export default function SelectField(props: SelectFieldProps) {
   const onFocus = props.onFocus || noop
   const options = props.options.map((option) =>
-    typeof option === 'string' ? { label: option, value: option } : option
+    typeof option === 'string' ? { label: option || 'select', value: option } : option
   )
   return (
     <TextField

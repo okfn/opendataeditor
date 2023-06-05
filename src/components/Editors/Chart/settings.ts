@@ -106,3 +106,39 @@ export const CHANNEL_AGGREGATES = [
   'variance',
   'variancep',
 ]
+
+// Transform
+
+export const TRANSFORM_TYPES = [
+  'aggregate',
+  'calculate',
+  'filter',
+  'bin',
+  'stack',
+  'fold',
+]
+export const FILTER_TYPES = ['fieldpredicate', 'parampredicate', 'vegaexpression']
+export const TIME_UNITS = [
+  'year',
+  'month',
+  'date',
+  'week',
+  'day',
+  'quarter',
+  'dayofyear',
+  'hours',
+  'minutes',
+  'seconds',
+  'milliseconds',
+]
+export const FIELD_PREDICATES = ['gt', 'gte', 'lt', 'lte', 'equal', 'oneOf']
+export const STACK_OFFSETS = ['center', 'zero', 'normalize']
+
+// General
+
+export const DEFAULT_BIN = false
+export const DEFAULT_BINNED = false
+export const DEFAULT_TOOLTIP = false
+
+export const SORT_TYPES = ['ascending', 'descending']
+export const FIELD_TYPES = ['', 'quantitative', 'nominal', 'temporal', 'ordinal']
