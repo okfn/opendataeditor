@@ -1,9 +1,15 @@
 import * as React from 'react'
+import ControllerProps from '../../Parts/Controller/Props'
 import File from '../../Controllers/File'
+import Package from '../../Controllers/Package'
+import Metadata from '../../Controllers/Metadata'
+import Chart from '../../Controllers/Chart'
+import Table from '../../Controllers/Table'
+import Text from '../../Controllers/Text'
+import View from '../../Controllers/View'
 import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import { useStore } from './store'
-import * as settings from './settings'
 
 export default function Controller() {
   const record = useStore((state) => state.record)
@@ -23,7 +29,7 @@ function FileController() {
   const onFileCreate = useStore((state) => state.onFileCreate)
   const onFilePatch = useStore((state) => state.onFilePatch)
   if (!record) return null
-  const Controller = settings.CONTROLLERS[record.type] || File
+  const Controller = CONTROLLERS[record.type] || File
   const handleUpdate = React.useMemo(() => () => onFilePatch(record.path), [record.path])
   return (
     <Controller
@@ -41,4 +47,19 @@ function EmptyController() {
 
 function LoadingController() {
   return <Spinner message="Indexing" />
+}
+
+export const CONTROLLERS: {
+  [type: string]: React.ElementType<ControllerProps>
+} = {
+  chart: Chart,
+  dialect: Metadata,
+  file: File,
+  json: Text,
+  package: Package,
+  resource: Metadata,
+  schema: Metadata,
+  table: Table,
+  text: Text,
+  view: View,
 }

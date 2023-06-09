@@ -5,7 +5,7 @@ import InputField from '../../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../../store'
 import SelectField from '../../../../../Parts/Fields/Select'
 import * as settings from '../../../settings'
-import { IFieldPredicate } from '../../../../../../interfaces'
+import * as types from '../../../../../../types'
 
 export default function FieldPredicate() {
   return (
@@ -23,7 +23,7 @@ export default function FieldPredicate() {
 }
 
 function TimeUnit() {
-  const transform = useStore(selectors.transform!) as IFieldPredicate
+  const transform = useStore(selectors.transform!) as types.IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -41,7 +41,7 @@ function TimeUnit() {
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!) as IFieldPredicate
+  const transform = useStore(selectors.transform!) as types.IFieldPredicate
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
@@ -60,7 +60,7 @@ function Field() {
 }
 
 function Predicate() {
-  const transform = useStore(selectors.transform!) as IFieldPredicate
+  const transform = useStore(selectors.transform!) as types.IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const predicate = useStore(selectors.filterPredicate)
@@ -80,7 +80,7 @@ function Predicate() {
 }
 
 function PredicateValue() {
-  const transform = useStore(selectors.transform!) as IFieldPredicate
+  const transform = useStore(selectors.transform!) as types.IFieldPredicate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const predicate = useStore(selectors.filterPredicate)

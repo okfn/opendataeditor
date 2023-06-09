@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../../../Parts/Columns'
 import InputField from '../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../store'
-import { ICalculate } from '../../../../../interfaces'
+import * as types from '../../../../../types'
 
 export default function Calculate() {
   return (
@@ -19,7 +19,7 @@ export default function Calculate() {
 }
 
 function Expression() {
-  const transform = useStore(selectors.transform!) as ICalculate
+  const transform = useStore(selectors.transform!) as types.ICalculate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -35,7 +35,7 @@ function Expression() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!) as ICalculate
+  const transform = useStore(selectors.transform!) as types.ICalculate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const customFields = useStore((state) => state.customFields)

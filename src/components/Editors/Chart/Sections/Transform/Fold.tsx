@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import { useStore, selectors } from '../../store'
 import Columns from '../../../../Parts/Columns'
 import InputField from '../../../../Parts/Fields/Input'
-import { IFold } from '../../../../../interfaces'
+import * as types from '../../../../../types'
 
 export default function Fold() {
   return (
@@ -18,7 +18,7 @@ export default function Fold() {
 }
 
 function FoldField() {
-  const transform = useStore(selectors.transform!) as IFold
+  const transform = useStore(selectors.transform!) as types.IFold
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (

@@ -5,16 +5,15 @@ import { useStore, selectors } from '../store'
 
 export default function NameDialog() {
   const folderPath = useStore(selectors.folderPath)
-  const dialog = useStore((state) => state.dialog)
   const createFolder = useStore((state) => state.createFolder)
   const updateState = useStore((state) => state.updateState)
   return (
     <InputDialog
+      open={true}
       value={folderPath}
       title="Create Folder"
       label="Create"
       Icon={CreateNewFolderIcon}
-      open={!!dialog && dialog.startsWith('name/')}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
         await createFolder(path)

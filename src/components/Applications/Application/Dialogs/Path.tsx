@@ -15,20 +15,20 @@ export default function PathDialog() {
   if (!path) return null
   return (
     <InputDialog
+      open={true}
       value={path}
       title={dialogInfo?.title}
       label={dialogInfo?.label}
       Icon={dialogInfo?.Icon}
-      open={!!dialog && dialog.startsWith('path/')}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (toPath) => {
-        if (dialog === 'path/copy/file') {
+        if (dialog === 'copyFile') {
           await copyFile(path, toPath)
-        } else if (dialog === 'path/copy/folder') {
+        } else if (dialog === 'copyFolder') {
           await copyFile(path, toPath)
-        } else if (dialog === 'path/move/file') {
+        } else if (dialog === 'moveFile') {
           await moveFile(path, toPath)
-        } else if (dialog === 'path/move/folder') {
+        } else if (dialog === 'moveFolder') {
           await moveFile(path, toPath)
         }
         updateState({ dialog: undefined })
@@ -39,25 +39,25 @@ export default function PathDialog() {
 
 function getDialogInfo(dialog?: types.IDialog): types.IDialogProps | undefined {
   switch (dialog) {
-    case 'path/copy/file':
+    case 'copyFile':
       return {
         title: 'Copy File',
         label: 'Copy',
         Icon: ContentCopyIcon,
       }
-    case 'path/copy/folder':
+    case 'copyFolder':
       return {
         title: 'Copy Folder',
         label: 'Copy',
         Icon: ContentCopyIcon,
       }
-    case 'path/move/file':
+    case 'moveFile':
       return {
         title: 'Move File',
         label: 'Move',
         Icon: CopyAllIcon,
       }
-    case 'path/move/folder':
+    case 'moveFolder':
       return {
         title: 'Move Folder',
         label: 'Move',

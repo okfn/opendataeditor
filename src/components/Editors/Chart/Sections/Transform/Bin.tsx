@@ -5,7 +5,7 @@ import Columns from '../../../../Parts/Columns'
 import YesNoField from '../../../../Parts/Fields/YesNo'
 import InputField from '../../../../Parts/Fields/Input'
 import SelectField from '../../../../Parts/Fields/Select'
-import { ITbin } from '../../../../../interfaces'
+import * as types from '../../../../../types'
 
 export default function Bin() {
   return (
@@ -24,7 +24,7 @@ export default function Bin() {
 }
 
 function IsBin() {
-  const transform = useStore(selectors.transform!) as ITbin
+  const transform = useStore(selectors.transform!) as types.ITbin
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -40,7 +40,7 @@ function IsBin() {
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!) as ITbin
+  const transform = useStore(selectors.transform!) as types.ITbin
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
@@ -58,7 +58,7 @@ function Field() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!) as ITbin
+  const transform = useStore(selectors.transform!) as types.ITbin
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (

@@ -59,7 +59,7 @@ function UploadLink() {
       variant="text"
       label="Upload Link"
       Icon={AddLink}
-      onClick={() => updateState({ dialog: 'link/create' })}
+      onClick={() => updateState({ dialog: 'uploadLink' })}
     />
   )
 }
@@ -97,7 +97,7 @@ function CreateFolder() {
       variant="text"
       label="Create Folder"
       Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'name/create/folder' })}
+      onClick={() => updateState({ dialog: 'createFolder' })}
     />
   )
 }

@@ -11,7 +11,6 @@ import Columns from '../../../Parts/Columns'
 import IconButton from '../../../Parts/Buttons/Icon'
 
 export default function LinkDialog() {
-  const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
   const fetchLink = useStore((state) => state.fetchLink)
   const folderPath = useStore(selectors.folderPath)
@@ -27,7 +26,7 @@ export default function LinkDialog() {
     <Dialog
       fullWidth
       maxWidth="sm"
-      open={!!dialog && dialog.startsWith('link/')}
+      open={true}
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
