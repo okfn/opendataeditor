@@ -101,6 +101,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async folderDelete(props: { path: string }) {
+    const result = await this.request('/folder/delete', props)
+    return result as { path: string }
+  }
+
   // Json
 
   async jsonCreate(props: { path: string; data: types.IData }) {

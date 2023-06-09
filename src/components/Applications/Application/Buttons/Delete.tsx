@@ -8,6 +8,7 @@ export default function DeleteButton() {
   const confirm = useConfirm()
   const path = useStore((state) => state.path)
   const deleteFile = useStore((state) => state.deleteFile)
+  const deleteFolder = useStore((state) => state.deleteFolder)
   const isFolder = useStore(selectors.isFolder)
   const type = isFolder ? 'Folder' : 'File'
   return (
@@ -34,7 +35,7 @@ export default function DeleteButton() {
             sx: { width: '50%' },
           },
         }).then(() => {
-          deleteFile(path)
+          isFolder ? deleteFolder(path) : deleteFile(path)
         })
       }}
     />

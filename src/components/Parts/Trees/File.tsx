@@ -40,17 +40,20 @@ export default function FileTree(props: FileTreeProps) {
       : props.defaultExpanded || []
     setExpanded([...new Set([...expanded, ...defaultExpanded])])
   }, [props.event, props.defaultExpanded])
+  const selected = props.selected || ''
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <Stack alignItems="stretch" height="100%">
           <TreeView
-            selected={props.selected || ''}
+            selected={selected}
             expanded={expanded}
             onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
               props.onSelect(nodeId)
             }}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+              // On collapsing we don't collapse a folder if it's not yet selected
+              if (nodeIds.length < expanded.length && !expanded.includes(selected)) return
               setExpanded(nodeIds)
             }}
             defaultCollapseIcon={<MinusSquare />}

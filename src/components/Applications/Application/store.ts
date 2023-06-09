@@ -42,6 +42,7 @@ export interface State {
   // Folder
 
   createFolder: (name: string) => Promise<void>
+  deleteFolder: (path: string) => Promise<void>
 
   // Others
 
@@ -155,6 +156,11 @@ export function makeStore(props: ApplicationProps) {
       const { client, onFileCreate } = get()
       const result = await client.folderCreate({ path, deduplicate: true })
       onFileCreate([result.path])
+    },
+    deleteFolder: async (path) => {
+      const { client, onFileDelete } = get()
+      await client.folderDelete({ path })
+      onFileDelete(path)
     },
 
     // Others
