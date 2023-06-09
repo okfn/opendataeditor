@@ -12,6 +12,7 @@ export default function LinkDialog() {
       title="Upload Link"
       label="Upload"
       Icon={UploadIcon}
+      placholder="Type or paste a URL"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (url) => {
         await fetchLink(url)

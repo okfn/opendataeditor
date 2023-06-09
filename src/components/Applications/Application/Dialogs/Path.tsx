@@ -22,6 +22,7 @@ export default function PathDialog() {
       title={dialogInfo?.title}
       label={dialogInfo?.label}
       Icon={dialogInfo?.Icon}
+      placholder="Type a path"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (toPath) => {
         if (dialog === 'copyFile') {

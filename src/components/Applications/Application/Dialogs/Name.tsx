@@ -13,6 +13,7 @@ export default function NameDialog() {
       value={folderPath}
       title="Create Folder"
       label="Create"
+      placholder="Type a folder path"
       Icon={CreateNewFolderIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {

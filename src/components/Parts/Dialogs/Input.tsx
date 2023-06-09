@@ -15,6 +15,7 @@ export interface InputDialogProps {
   title?: string
   value?: string
   prefix?: string
+  placholder?: string
   Icon?: React.ElementType
   label?: string
   disabled?: boolean
@@ -42,6 +43,7 @@ export default function InputDialog(props: InputDialogProps) {
           fullWidth
           size="small"
           value={value}
+          placeholder={props.placholder}
           onChange={(ev) => setValue(ev.target.value)}
           onKeyPress={(event) => {
             if (event.key === 'Enter') handleConfirm()
