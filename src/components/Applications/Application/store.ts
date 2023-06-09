@@ -41,6 +41,7 @@ export interface State {
 
   // Folder
 
+  copyFolder: (path: string, toPath: string) => Promise<void>
   createFolder: (name: string) => Promise<void>
   deleteFolder: (path: string) => Promise<void>
 
@@ -152,6 +153,11 @@ export function makeStore(props: ApplicationProps) {
 
     // Folder
 
+    copyFolder: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.folderCopy({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
+    },
     createFolder: async (path) => {
       const { client, onFileCreate } = get()
       const result = await client.folderCreate({ path, deduplicate: true })
