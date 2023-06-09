@@ -47,7 +47,7 @@ export class Client {
 
   async fileCreate(props: {
     file: File
-    name?: string
+    path?: string
     folder?: string
     deduplicate?: boolean
   }) {

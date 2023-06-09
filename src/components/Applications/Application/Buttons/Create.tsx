@@ -67,7 +67,7 @@ function UploadLink() {
 function UploadFolder() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
-  const uploadFolder = useStore((state) => state.uploadFolder)
+  const createFiles = useStore((state) => state.createFiles)
   return (
     <React.Fragment>
       <Button
@@ -80,7 +80,7 @@ function UploadFolder() {
           type="file"
           hidden
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFolder(ev.target.files)
+            if (ev.target.files) createFiles(ev.target.files)
           }}
           // @ts-expect-error
           webkitdirectory=""

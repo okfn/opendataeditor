@@ -42,7 +42,6 @@ export interface State {
   // Folder
 
   createFolder: (name: string) => Promise<void>
-  uploadFolder: (files: FileList) => Promise<void>
 
   // Others
 
@@ -98,12 +97,13 @@ export function makeStore(props: ApplicationProps) {
       updateState({ files })
     },
     createFiles: async (files) => {
-      const paths: string[] = []
       const { client, onFileCreate } = get()
+      const folder = selectors.folderPath(get())
+      const paths: string[] = []
       for (const file of files) {
-        const folder = selectors.folderPath(get())
-        const { path } = await client.fileCreate({ file, folder, deduplicate: true })
-        paths.push(path)
+        const path = file.webkitRelativePath || undefined
+        const result = await client.fileCreate({ file, path, folder, deduplicate: true })
+        paths.push(result.path)
       }
       onFileCreate(paths)
     },
@@ -155,38 +155,6 @@ export function makeStore(props: ApplicationProps) {
       const { client, onFileCreate } = get()
       const result = await client.folderCreate({ path, deduplicate: true })
       onFileCreate([result.path])
-    },
-    uploadFolder: async (files) => {
-      const { path, client, onFileCreate } = get()
-      let filesList: { [key: string]: any }[] = []
-      let basePath
-      const fileParts = files[0].webkitRelativePath.split('/')
-      if (fileParts.length > 1) {
-        basePath = await client.folderCreate({ path: fileParts[0], folder: path })
-      }
-      for (const file of files) {
-        let folders = helpers.getFolderList(file)
-        // remove duplicate
-        folders = folders.filter(
-          (item) =>
-            !filesList.find(
-              (file) => file.name === item.name && file.folder === item.folder
-            )
-        )
-        filesList = filesList.concat(folders)
-      }
-      for (const file of filesList) {
-        // handle duplicate folder upload
-        const folderParts = file.folder.split('/')
-        folderParts[0] = basePath?.path
-        const folder = folderParts.join('/')
-        if (file.type === 'folder') {
-          await client.folderCreate({ path: file.name, folder: folder })
-          continue
-        }
-        await client.fileCreate({ file: file.file, folder: folder })
-      }
-      if (path) onFileCreate([path])
     },
 
     // Others
