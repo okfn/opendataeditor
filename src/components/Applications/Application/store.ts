@@ -44,6 +44,7 @@ export interface State {
   copyFolder: (path: string, toPath: string) => Promise<void>
   createFolder: (name: string) => Promise<void>
   deleteFolder: (path: string) => Promise<void>
+  moveFolder: (path: string, toPath: string) => Promise<void>
 
   // Others
 
@@ -167,6 +168,11 @@ export function makeStore(props: ApplicationProps) {
       const { client, onFileDelete } = get()
       await client.folderDelete({ path })
       onFileDelete(path)
+    },
+    moveFolder: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.folderMove({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
     },
 
     // Others

@@ -111,6 +111,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async folderMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
+    const result = await this.request('/folder/move', props)
+    return result as { path: string }
+  }
+
   // Json
 
   async jsonCreate(props: { path: string; data: types.IData }) {

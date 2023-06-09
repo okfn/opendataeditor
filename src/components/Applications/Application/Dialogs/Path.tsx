@@ -11,6 +11,7 @@ export default function PathDialog() {
   const copyFile = useStore((state) => state.copyFile)
   const moveFile = useStore((state) => state.moveFile)
   const copyFolder = useStore((state) => state.copyFolder)
+  const moveFolder = useStore((state) => state.moveFolder)
   const updateState = useStore((state) => state.updateState)
   const dialogInfo = React.useMemo(() => getDialogInfo(dialog), [dialog])
   if (!path) return null
@@ -30,7 +31,7 @@ export default function PathDialog() {
         } else if (dialog === 'moveFile') {
           await moveFile(path, toPath)
         } else if (dialog === 'moveFolder') {
-          await moveFile(path, toPath)
+          await moveFolder(path, toPath)
         }
         updateState({ dialog: undefined })
       }}
