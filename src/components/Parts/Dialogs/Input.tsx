@@ -13,6 +13,7 @@ import Columns from '../Columns'
 export interface InputDialogProps {
   open?: boolean
   title?: string
+  description?: string
   value?: string
   prefix?: string
   placholder?: string
@@ -38,6 +39,9 @@ export default function InputDialog(props: InputDialogProps) {
     >
       <DialogTitle id="dialog-title">{props.title || 'Dialog'}</DialogTitle>
       <DialogContent sx={{ py: 0 }}>
+        {props.description && (
+          <Box sx={{ marginBottom: 1, opacity: 0.6 }}>{props.description}</Box>
+        )}
         <TextField
           autoFocus
           fullWidth
@@ -53,6 +57,7 @@ export default function InputDialog(props: InputDialogProps) {
               <InputAdornment position="start">{props.prefix}</InputAdornment>
             ) : undefined,
           }}
+          sx={{ marginBottom: 1 }}
         />
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>

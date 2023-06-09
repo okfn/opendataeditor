@@ -22,7 +22,8 @@ export default function PathDialog() {
       title={dialogInfo?.title}
       label={dialogInfo?.label}
       Icon={dialogInfo?.Icon}
-      placholder="Type a path"
+      placholder="Enter a path"
+      description={`You are ${dialogInfo?.verb} "${path}". Enter destination:`}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (toPath) => {
         if (dialog === 'copyFile') {
@@ -40,31 +41,35 @@ export default function PathDialog() {
   )
 }
 
-function getDialogInfo(dialog?: types.IDialog): types.IDialogProps | undefined {
+function getDialogInfo(dialog?: types.IDialog) {
   switch (dialog) {
     case 'copyFile':
       return {
         title: 'Copy File',
         label: 'Copy',
         Icon: ContentCopyIcon,
+        verb: 'copying',
       }
     case 'copyFolder':
       return {
         title: 'Copy Folder',
         label: 'Copy',
         Icon: ContentCopyIcon,
+        verb: 'copying',
       }
     case 'moveFile':
       return {
         title: 'Move File',
         label: 'Move',
         Icon: CopyAllIcon,
+        verb: 'moving',
       }
     case 'moveFolder':
       return {
         title: 'Move Folder',
         label: 'Move',
         Icon: CopyAllIcon,
+        verb: 'moving',
       }
     default:
       return undefined

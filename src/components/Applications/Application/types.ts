@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 export type IDialog =
   | 'uploadLink'
   | 'createFolder'
@@ -7,9 +5,3 @@ export type IDialog =
   | 'copyFolder'
   | 'moveFile'
   | 'moveFolder'
-
-export interface IDialogProps {
-  title: string
-  label: string
-  Icon: React.ElementType
-}
