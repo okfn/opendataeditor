@@ -96,7 +96,7 @@ export class Client {
 
   // Folder
 
-  async folderCreate(props: { path: string; folder?: string }) {
+  async folderCreate(props: { path: string; folder?: string; deduplicate?: boolean }) {
     const result = await this.request('/folder/create', props)
     return result as { path: string }
   }

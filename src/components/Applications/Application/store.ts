@@ -153,8 +153,7 @@ export function makeStore(props: ApplicationProps) {
 
     createFolder: async (path) => {
       const { client, onFileCreate } = get()
-      // TODO: support deduplicate
-      const result = await client.folderCreate({ path })
+      const result = await client.folderCreate({ path, deduplicate: true })
       onFileCreate([result.path])
     },
     uploadFolder: async (files) => {
