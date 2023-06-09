@@ -69,8 +69,8 @@ export class Client {
     }
   }
 
-  async fileList() {
-    const result = await this.request('/file/list')
+  async fileList(props: { folder?: string } = {}) {
+    const result = await this.request('/file/list', props)
     return result as { files: types.IFile[] }
   }
 
