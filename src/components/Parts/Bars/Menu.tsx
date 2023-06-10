@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import RuleIcon from '@mui/icons-material/Rule'
@@ -12,7 +13,8 @@ import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import EditRoadIcon from '@mui/icons-material/EditRoad'
-import IconButton from '../../Parts/Buttons/Icon'
+import LightTooltip from '../Tooltips/Light'
+import IconButton from '../Buttons/Icon'
 
 export type MenuBarItem =
   | 'editor'
@@ -51,20 +53,24 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   const Editor = () => {
     if (!props.items?.includes('editor')) return null
     return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.editor || 'Editor'}
-        Icon={EditRoadIcon}
-        color={props.colors?.editor}
-        disabled={!props.onEditor}
-        onClick={() => props.onEditor!()}
-        sx={{
-          '&.Mui-disabled': {
-            color: props.colors?.editor ? '#9c27b0' : undefined,
-          },
-        }}
-      />
+      <LightTooltip title={props.onEditor ? 'Toggle an editor' : 'Editor is enabled'}>
+        <Box>
+          <IconButton
+            small
+            variant="text"
+            label={props.labels?.editor || 'Editor'}
+            Icon={EditRoadIcon}
+            color={props.colors?.editor}
+            disabled={!props.onEditor}
+            onClick={() => props.onEditor!()}
+            sx={{
+              '&.Mui-disabled': {
+                color: props.colors?.editor ? '#9c27b0' : undefined,
+              },
+            }}
+          />
+        </Box>
+      </LightTooltip>
     )
   }
 
