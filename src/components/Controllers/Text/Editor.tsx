@@ -4,6 +4,7 @@ import Columns from '../../Parts/Columns'
 import Spinner from '../../Parts/Spinner'
 import TextEditor from '../../Parts/TextEditor'
 import { useStore, selectors } from './store'
+import * as helpers from './helpers'
 
 export default function Editor() {
   const language = useStore(selectors.language)
@@ -22,6 +23,7 @@ function Source() {
   const editorRef = useStore((state) => state.editorRef)
   const language = useStore(selectors.language)
   const updateState = useStore((state) => state.updateState)
+  const maximalVersion = useStore((state) => state.maximalVersion)
   if (modified === undefined) return null
   return (
     <React.Fragment>
@@ -30,10 +32,17 @@ function Source() {
         <TextEditor
           value={modified}
           language={language}
-          onChange={(text) => updateState({ modified: text })}
-          onMount={(ref) => {
+          onChange={(text) => {
+            const version = helpers.getVersion(editorRef.current)
+            updateState({
+              modified: text,
+              currentVersion: version,
+              maximalVersion: Math.max(version, maximalVersion),
+            })
+          }}
+          onMount={(editor) => {
             // @ts-ignore
-            editorRef.current = ref
+            editorRef.current = editor
             setVisibility('visible')
           }}
         />

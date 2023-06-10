@@ -29,6 +29,9 @@ export interface State {
   original?: string
   modified?: string
   rendered?: string
+  minimalVersion: number
+  currentVersion: number
+  maximalVersion: number
   editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
@@ -56,6 +59,9 @@ export function makeStore(props: TextProps) {
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
     editorRef: React.createRef<ITextEditor>(),
+    minimalVersion: 1,
+    currentVersion: 1,
+    maximalVersion: 1,
     updateState: (patch) => {
       const { render } = get()
       set(patch)
@@ -79,7 +85,10 @@ export function makeStore(props: TextProps) {
     revert: () => {
       const { record, original, updateState } = get()
       if (!record) return
-      updateState({ resource: cloneDeep(record.resource), modified: original })
+      updateState({
+        resource: cloneDeep(record.resource),
+        modified: original,
+      })
     },
     // TODO: needs to udpate file object as well
     save: async () => {
@@ -115,8 +124,8 @@ export function makeStore(props: TextProps) {
     // Text
 
     clear: () => {
-      const { editorRef } = get()
-      editorRef.current?.setValue('')
+      const { updateState } = get()
+      updateState({ modified: '' })
     },
     undo: () => {
       const { editorRef } = get()

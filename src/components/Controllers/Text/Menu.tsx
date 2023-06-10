@@ -14,6 +14,9 @@ export default function Menu() {
   const minify = useStore((state) => state.minify)
   const prettify = useStore((state) => state.prettify)
   const updateState = useStore((state) => state.updateState)
+  const minimalVersion = useStore((state) => state.minimalVersion)
+  const currentVersion = useStore((state) => state.currentVersion)
+  const maximalVersion = useStore((state) => state.maximalVersion)
   const items: MenuBarItem[] = [
     'editor',
     'metadata',
@@ -38,8 +41,8 @@ export default function Menu() {
       }
       onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       onClear={clear}
-      onUndo={undo}
-      onRedo={redo}
+      onUndo={currentVersion > minimalVersion ? undo : undefined}
+      onRedo={currentVersion < maximalVersion ? redo : undefined}
       onFix={fix}
       onMinify={minify}
       onPrettify={prettify}
