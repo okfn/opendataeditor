@@ -17,6 +17,7 @@ export interface InputDialogProps {
   value?: string
   prefix?: string
   placholder?: string
+  spellcheck?: boolean
   Icon?: React.ElementType
   label?: string
   disabled?: boolean
@@ -53,6 +54,7 @@ export default function InputDialog(props: InputDialogProps) {
             if (event.key === 'Enter') handleConfirm()
           }}
           InputProps={{
+            inputProps: { spellCheck: props.spellcheck || false },
             startAdornment: props.prefix ? (
               <InputAdornment position="start">{props.prefix}</InputAdornment>
             ) : undefined,
