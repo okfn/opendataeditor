@@ -18,7 +18,6 @@ import IconButton from '../Buttons/Icon'
 
 // TODO: don't use hard-coded color (info=#9c27b0)
 // TODO: add spacing between buttons
-// TODO: improve performance/animation (less re-renders)
 
 export type MenuBarItem =
   | 'editor'
@@ -34,23 +33,10 @@ export type MenuBarItem =
   | 'prettify'
 
 export interface MenuBarProps {
-  items?: MenuBarItem[]
-  labels?: { [key in MenuBarItem]?: string | undefined }
-  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | 'info' | undefined }
-  onEditor?: () => void
-  onMetadata?: () => void
-  onReport?: () => void
-  onSource?: () => void
-  onErrors?: () => void
-  onClear?: () => void
-  onUndo?: () => void
-  onRedo?: () => void
-  onFix?: () => void
-  onMinify?: () => void
-  onPrettify?: () => void
+  fullWidth?: boolean
 }
 
-export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
+export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
@@ -62,43 +48,35 @@ export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
 }
 
 function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
-  if (!props.items) return <React.Fragment>{props.children}</React.Fragment>
+  if (!props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
   return (
     <Stack direction="row" spacing={1}>
-      <Editor {...props} />
-      <Metadata {...props} />
-      <Report {...props} />
-      <Source {...props} />
-      <Errors {...props} />
-      <Clear {...props} />
-      <Undo {...props} />
-      <Redo {...props} />
-      <Fix {...props} />
-      <Minify {...props} />
-      <Prettify {...props} />
       {props.children}
     </Stack>
   )
 }
 
-function Editor(props: MenuBarProps) {
-  if (!props.items?.includes('editor')) return null
+export interface ButtonProps {
+  label?: string
+  color?: 'success' | 'warning' | 'error' | 'info'
+  onClick?: () => void
+}
+
+export function EditorButton(props: ButtonProps) {
   return (
-    <LightTooltip
-      title={props.onEditor ? 'Toggle the editor panel' : 'Editor is enabled'}
-    >
+    <LightTooltip title={props.onClick ? 'Toggle the editor panel' : 'Editor is enabled'}>
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.editor || 'Editor'}
+          label={props.label || 'Editor'}
           Icon={EditRoadIcon}
-          color={props.colors?.editor}
-          disabled={!props.onEditor}
-          onClick={() => props.onEditor!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
           sx={{
             '&.Mui-disabled': {
-              color: props.colors?.editor ? '#9c27b0' : undefined,
+              color: props.color ? '#9c27b0' : undefined,
             },
           }}
         />
@@ -107,24 +85,23 @@ function Editor(props: MenuBarProps) {
   )
 }
 
-function Metadata(props: MenuBarProps) {
-  if (!props.items?.includes('metadata')) return null
+export function MetadataButton(props: ButtonProps) {
   return (
     <LightTooltip
-      title={props.onMetadata ? 'Toggle the metadata panel' : 'Metadata is enabled'}
+      title={props.onClick ? 'Toggle the metadata panel' : 'Metadata is enabled'}
     >
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.metadata || 'Metadata'}
+          label={props.label || 'Metadata'}
           Icon={TuneIcon}
-          color={props.colors?.metadata}
-          disabled={!props.onMetadata}
-          onClick={() => props.onMetadata!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
           sx={{
             '&.Mui-disabled': {
-              color: props.colors?.editor ? '#9c27b0' : undefined,
+              color: props.color ? '#9c27b0' : undefined,
             },
           }}
         />
@@ -133,24 +110,23 @@ function Metadata(props: MenuBarProps) {
   )
 }
 
-function Report(props: MenuBarProps) {
-  if (!props.items?.includes('report')) return null
+export function ReportButton(props: ButtonProps) {
   return (
     <LightTooltip
-      title={props.onReport ? 'Toggle the report panel' : 'Report is not available'}
+      title={props.onClick ? 'Toggle the report panel' : 'Report is not available'}
     >
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.report || 'Report'}
+          label={props.label || 'Report'}
           Icon={RuleIcon}
-          color={props.colors?.report}
-          disabled={!props.onReport}
-          onClick={() => props.onReport!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
           sx={{
             '&.Mui-disabled': {
-              color: props.colors?.editor ? '#9c27b0' : undefined,
+              color: props.color ? '#9c27b0' : undefined,
             },
           }}
         />
@@ -159,24 +135,21 @@ function Report(props: MenuBarProps) {
   )
 }
 
-function Source(props: MenuBarProps) {
-  if (!props.items?.includes('source')) return null
+export function SourceButton(props: ButtonProps) {
   return (
-    <LightTooltip
-      title={props.onSource ? 'Toggle the source panel' : 'Source is enabled'}
-    >
+    <LightTooltip title={props.onClick ? 'Toggle the source panel' : 'Source is enabled'}>
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.source || 'Source'}
+          label={props.label || 'Source'}
           Icon={CodeIcon}
-          color={props.colors?.source}
-          disabled={!props.onSource}
-          onClick={() => props.onSource!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
           sx={{
             '&.Mui-disabled': {
-              color: props.colors?.editor ? '#9c27b0' : undefined,
+              color: props.color ? '#9c27b0' : undefined,
             },
           }}
         />
@@ -185,135 +158,128 @@ function Source(props: MenuBarProps) {
   )
 }
 
-function Errors(props: MenuBarProps) {
-  if (!props.items?.includes('errors')) return null
+export function ErrorsButton(props: ButtonProps) {
   return (
     <LightTooltip
-      title={props.onErrors ? 'Toggle showing only errors' : 'No errors to show'}
+      title={props.onClick ? 'Toggle showing only errors' : 'No errors to show'}
     >
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.errors || 'Errors'}
+          label={props.label || 'Errors'}
           Icon={ReportGmailerrorredIcon}
-          color={props.colors?.errors}
-          disabled={!props.onErrors}
-          onClick={() => props.onErrors!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Clear(props: MenuBarProps) {
-  if (!props.items?.includes('clear')) return null
+export function ClearButton(props: ButtonProps) {
   return (
     <LightTooltip title="Clear the contents">
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.clear || 'Clear'}
+          label={props.label || 'Clear'}
           Icon={FormatClearIcon}
-          color={props.colors?.clear}
-          disabled={!props.onClear}
-          onClick={() => props.onClear!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Undo(props: MenuBarProps) {
-  if (!props.items?.includes('undo')) return null
+export function UndoButton(props: ButtonProps) {
   return (
-    <LightTooltip title={props.onUndo ? 'Undo last change' : 'Nothing to undo'}>
+    <LightTooltip title={props.onClick ? 'Undo last change' : 'Nothing to undo'}>
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.undo || 'Undo'}
+          label={props.label || 'Undo'}
           Icon={UndoIcon}
-          color={props.colors?.undo}
-          disabled={!props.onUndo}
-          onClick={() => props.onUndo!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Redo(props: MenuBarProps) {
-  if (!props.items?.includes('redo')) return null
+export function RedoButton(props: ButtonProps) {
   return (
-    <LightTooltip title={props.onRedo ? 'Redo last change' : 'Nothing to redo'}>
+    <LightTooltip title={props.onClick ? 'Redo last change' : 'Nothing to redo'}>
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.redo || 'Redo'}
+          label={props.label || 'Redo'}
           Icon={RedoIcon}
-          color={props.colors?.redo}
-          disabled={!props.onRedo}
-          onClick={() => props.onRedo!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Fix(props: MenuBarProps) {
-  if (!props.items?.includes('fix')) return null
+export function FixButton(props: ButtonProps) {
   return (
     <LightTooltip title="Fix formatting">
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.fix || 'Fix'}
+          label={props.label || 'Fix'}
           Icon={HandymanIcon}
-          color={props.colors?.fix}
-          disabled={!props.onFix}
-          onClick={() => props.onFix!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Minify(props: MenuBarProps) {
-  if (!props.items?.includes('minify')) return null
+export function MinifyButton(props: ButtonProps) {
   return (
     <LightTooltip title="Minify formatting">
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.minify || 'Minify'}
+          label={props.label || 'Minify'}
           Icon={CompressIcon}
-          color={props.colors?.minify}
-          disabled={!props.onMinify}
-          onClick={() => props.onMinify!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>
   )
 }
 
-function Prettify(props: MenuBarProps) {
-  if (!props.items?.includes('prettify')) return null
+export function PrettifyButton(props: ButtonProps) {
   return (
     <LightTooltip title="Prettify formatting">
       <Box>
         <IconButton
           small
           variant="text"
-          label={props.labels?.prettify || 'Prettify'}
+          label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
-          color={props.colors?.prettify}
-          disabled={!props.onPrettify}
-          onClick={() => props.onPrettify!()}
+          color={props.color}
+          disabled={!props.onClick}
+          onClick={() => props.onClick!()}
         />
       </Box>
     </LightTooltip>

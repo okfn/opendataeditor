@@ -1,8 +1,6 @@
 import * as React from 'react'
-import MenuBar, { MenuBarItem } from '../../Parts/Bars/Menu'
 import { useStore, selectors } from './store'
-
-// TODO: find a way to figure out that undo/redo is available in editor
+import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
   const language = useStore(selectors.language)
@@ -17,35 +15,30 @@ export default function Menu() {
   const minimalVersion = useStore((state) => state.minimalVersion)
   const currentVersion = useStore((state) => state.currentVersion)
   const maximalVersion = useStore((state) => state.maximalVersion)
-  const items: MenuBarItem[] = [
-    'editor',
-    'metadata',
-    'report',
-    'source',
-    'clear',
-    'undo',
-    'redo',
-  ]
-  if (language === 'json') items.push('fix', 'minify', 'prettify')
   return (
-    <MenuBar
-      items={items}
-      colors={{
-        editor: 'info',
-        metadata: panel === 'metadata' ? 'warning' : undefined,
-        report: panel === 'report' ? 'warning' : undefined,
-        source: 'info',
-      }}
-      onMetadata={() =>
-        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
-      }
-      onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
-      onClear={clear}
-      onUndo={currentVersion > minimalVersion ? undo : undefined}
-      onRedo={currentVersion < maximalVersion ? redo : undefined}
-      onFix={fix}
-      onMinify={minify}
-      onPrettify={prettify}
-    />
+    <menu.MenuBar>
+      <menu.EditorButton color="info" />
+      <menu.MetadataButton
+        color={panel === 'metadata' ? 'warning' : undefined}
+        onClick={() =>
+          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+        }
+      />
+      <menu.ReportButton
+        color={panel === 'report' ? 'warning' : undefined}
+        onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+      />
+      <menu.SourceButton color="info" />
+      <menu.ClearButton onClick={clear} />
+      <menu.UndoButton onClick={currentVersion > minimalVersion ? undo : undefined} />
+      <menu.RedoButton onClick={currentVersion < maximalVersion ? redo : undefined} />
+      {language === 'json' && (
+        <React.Fragment>
+          <menu.FixButton onClick={fix} />
+          <menu.MinifyButton onClick={minify} />
+          <menu.PrettifyButton onClick={prettify} />
+        </React.Fragment>
+      )}
+    </menu.MenuBar>
   )
 }
