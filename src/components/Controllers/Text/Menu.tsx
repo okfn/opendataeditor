@@ -2,6 +2,8 @@ import * as React from 'react'
 import MenuBar, { MenuBarItem } from '../../Parts/Bars/Menu'
 import { useStore, selectors } from './store'
 
+// TODO: find a way to figure out that undo/redo is available in editor
+
 export default function Menu() {
   const language = useStore(selectors.language)
   const panel = useStore((state) => state.panel)

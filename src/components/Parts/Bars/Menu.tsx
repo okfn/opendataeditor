@@ -228,7 +228,7 @@ function Clear(props: MenuBarProps) {
 function Undo(props: MenuBarProps) {
   if (!props.items?.includes('undo')) return null
   return (
-    <LightTooltip title={props.onUndo ? 'Undo the changes' : 'Nothing to undo'}>
+    <LightTooltip title={props.onUndo ? 'Undo last change' : 'Nothing to undo'}>
       <Box>
         <IconButton
           small
@@ -247,7 +247,7 @@ function Undo(props: MenuBarProps) {
 function Redo(props: MenuBarProps) {
   if (!props.items?.includes('redo')) return null
   return (
-    <LightTooltip title={props.onRedo ? 'Redo the changes' : 'Nothing to redo'}>
+    <LightTooltip title={props.onRedo ? 'Redo last change' : 'Nothing to redo'}>
       <Box>
         <IconButton
           small
