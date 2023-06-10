@@ -84,7 +84,9 @@ function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
 function Editor(props: MenuBarProps) {
   if (!props.items?.includes('editor')) return null
   return (
-    <LightTooltip title={props.onEditor ? 'Toggle an editor' : 'Editor is enabled'}>
+    <LightTooltip
+      title={props.onEditor ? 'Toggle the editor panel' : 'Editor is enabled'}
+    >
       <Box>
         <IconButton
           small
@@ -108,164 +110,212 @@ function Editor(props: MenuBarProps) {
 function Metadata(props: MenuBarProps) {
   if (!props.items?.includes('metadata')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.metadata || 'Metadata'}
-      Icon={TuneIcon}
-      color={props.colors?.metadata}
-      disabled={!props.onMetadata}
-      onClick={() => props.onMetadata!()}
-      sx={{
-        '&.Mui-disabled': {
-          color: props.colors?.editor ? '#9c27b0' : undefined,
-        },
-      }}
-    />
+    <LightTooltip
+      title={props.onMetadata ? 'Toggle the metadata panel' : 'Metadata is enabled'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.metadata || 'Metadata'}
+          Icon={TuneIcon}
+          color={props.colors?.metadata}
+          disabled={!props.onMetadata}
+          onClick={() => props.onMetadata!()}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.colors?.editor ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Report(props: MenuBarProps) {
   if (!props.items?.includes('report')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.report || 'Report'}
-      Icon={RuleIcon}
-      color={props.colors?.report}
-      disabled={!props.onReport}
-      onClick={() => props.onReport!()}
-      sx={{
-        '&.Mui-disabled': {
-          color: props.colors?.editor ? '#9c27b0' : undefined,
-        },
-      }}
-    />
+    <LightTooltip
+      title={props.onReport ? 'Toggle the report panel' : 'Report is not available'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.report || 'Report'}
+          Icon={RuleIcon}
+          color={props.colors?.report}
+          disabled={!props.onReport}
+          onClick={() => props.onReport!()}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.colors?.editor ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Source(props: MenuBarProps) {
   if (!props.items?.includes('source')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.source || 'Source'}
-      Icon={CodeIcon}
-      color={props.colors?.source}
-      disabled={!props.onSource}
-      onClick={() => props.onSource!()}
-      sx={{
-        '&.Mui-disabled': {
-          color: props.colors?.editor ? '#9c27b0' : undefined,
-        },
-      }}
-    />
+    <LightTooltip
+      title={props.onSource ? 'Toggle the source panel' : 'Source is enabled'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.source || 'Source'}
+          Icon={CodeIcon}
+          color={props.colors?.source}
+          disabled={!props.onSource}
+          onClick={() => props.onSource!()}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.colors?.editor ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Errors(props: MenuBarProps) {
   if (!props.items?.includes('errors')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.errors || 'Errors'}
-      Icon={ReportGmailerrorredIcon}
-      color={props.colors?.errors}
-      disabled={!props.onErrors}
-      onClick={() => props.onErrors!()}
-    />
+    <LightTooltip
+      title={props.onErrors ? 'Toggle showing only errors' : 'No errors to show'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.errors || 'Errors'}
+          Icon={ReportGmailerrorredIcon}
+          color={props.colors?.errors}
+          disabled={!props.onErrors}
+          onClick={() => props.onErrors!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Clear(props: MenuBarProps) {
   if (!props.items?.includes('clear')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.clear || 'Clear'}
-      Icon={FormatClearIcon}
-      color={props.colors?.clear}
-      disabled={!props.onClear}
-      onClick={() => props.onClear!()}
-    />
+    <LightTooltip title="Clear the contents">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.clear || 'Clear'}
+          Icon={FormatClearIcon}
+          color={props.colors?.clear}
+          disabled={!props.onClear}
+          onClick={() => props.onClear!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Undo(props: MenuBarProps) {
   if (!props.items?.includes('undo')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.undo || 'Undo'}
-      Icon={UndoIcon}
-      color={props.colors?.undo}
-      disabled={!props.onUndo}
-      onClick={() => props.onUndo!()}
-    />
+    <LightTooltip title={props.onUndo ? 'Undo the changes' : 'Nothing to undo'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.undo || 'Undo'}
+          Icon={UndoIcon}
+          color={props.colors?.undo}
+          disabled={!props.onUndo}
+          onClick={() => props.onUndo!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Redo(props: MenuBarProps) {
   if (!props.items?.includes('redo')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.redo || 'Redo'}
-      Icon={RedoIcon}
-      color={props.colors?.redo}
-      disabled={!props.onRedo}
-      onClick={() => props.onRedo!()}
-    />
+    <LightTooltip title={props.onRedo ? 'Redo the changes' : 'Nothing to redo'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.redo || 'Redo'}
+          Icon={RedoIcon}
+          color={props.colors?.redo}
+          disabled={!props.onRedo}
+          onClick={() => props.onRedo!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Fix(props: MenuBarProps) {
   if (!props.items?.includes('fix')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.fix || 'Fix'}
-      Icon={HandymanIcon}
-      color={props.colors?.fix}
-      disabled={!props.onFix}
-      onClick={() => props.onFix!()}
-    />
+    <LightTooltip title="Fix formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.fix || 'Fix'}
+          Icon={HandymanIcon}
+          color={props.colors?.fix}
+          disabled={!props.onFix}
+          onClick={() => props.onFix!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Minify(props: MenuBarProps) {
   if (!props.items?.includes('minify')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.minify || 'Minify'}
-      Icon={CompressIcon}
-      color={props.colors?.minify}
-      disabled={!props.onMinify}
-      onClick={() => props.onMinify!()}
-    />
+    <LightTooltip title="Minify formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.minify || 'Minify'}
+          Icon={CompressIcon}
+          color={props.colors?.minify}
+          disabled={!props.onMinify}
+          onClick={() => props.onMinify!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 function Prettify(props: MenuBarProps) {
   if (!props.items?.includes('prettify')) return null
   return (
-    <IconButton
-      small
-      variant="text"
-      label={props.labels?.prettify || 'Prettify'}
-      Icon={DataObjectIcon}
-      color={props.colors?.prettify}
-      disabled={!props.onPrettify}
-      onClick={() => props.onPrettify!()}
-    />
+    <LightTooltip title="Prettify formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.labels?.prettify || 'Prettify'}
+          Icon={DataObjectIcon}
+          color={props.colors?.prettify}
+          disabled={!props.onPrettify}
+          onClick={() => props.onPrettify!()}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
