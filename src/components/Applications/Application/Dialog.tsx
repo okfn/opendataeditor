@@ -1,7 +1,10 @@
 import * as React from 'react'
-import LinkDialog from './Dialogs/Link'
-import NameDialog from './Dialogs/Name'
-import PathDialog from './Dialogs/Path'
+import CopyFileDialog from './Dialogs/CopyFile'
+import CopyFolderDialog from './Dialogs/CopyFolder'
+import CreateFolderDialog from './Dialogs/CreateFolder'
+import MoveFileDialog from './Dialogs/MoveFile'
+import MoveFolderDialog from './Dialogs/MoveFolder'
+import UploadLinkDialog from './Dialogs/UploadLink'
 import { useStore } from './store'
 
 export default function Dialog() {
@@ -12,10 +15,10 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
-  uploadLink: LinkDialog,
-  createFolder: NameDialog,
-  copyFile: PathDialog,
-  copyFolder: PathDialog,
-  moveFile: PathDialog,
-  moveFolder: PathDialog,
+  copyFile: CopyFileDialog,
+  copyFolder: CopyFolderDialog,
+  createFolder: CreateFolderDialog,
+  moveFile: MoveFileDialog,
+  moveFolder: MoveFolderDialog,
+  uploadLink: UploadLinkDialog,
 }

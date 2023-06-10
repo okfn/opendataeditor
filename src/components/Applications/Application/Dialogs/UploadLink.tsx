@@ -3,7 +3,7 @@ import UploadIcon from '@mui/icons-material/Upload'
 import InputDialog from '../../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
-export default function LinkDialog() {
+export default function UploadLinkDialog() {
   const fetchLink = useStore((state) => state.fetchLink)
   const updateState = useStore((state) => state.updateState)
   return (
