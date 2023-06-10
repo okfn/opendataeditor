@@ -6,6 +6,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
@@ -49,7 +50,7 @@ export interface State {
   // Others
 
   fetchLink: (url: string) => Promise<void>
-  createPackage: () => Promise<void>
+  createPackage: (path: string) => Promise<void>
   createChart: () => Promise<void>
   createView: () => Promise<void>
 }
@@ -183,10 +184,10 @@ export function makeStore(props: ApplicationProps) {
       const { path } = await client.linkFetch({ url, folder, deduplicate: true })
       onFileCreate([path])
     },
-    createPackage: async () => {
-      // const { client, onFileCreate } = get()
-      // const { path } = await client.packageCreate()
-      // onFileCreate(path)
+    createPackage: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.jsonCreate({ path, data: settings.INITIAL_PACKAGE })
+      onFileCreate([result.path])
     },
     // TODO: rewrite this method
     createChart: async () => {

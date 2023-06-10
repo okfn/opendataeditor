@@ -3,7 +3,7 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import InputDialog from '../../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 
-export default function NameDialog() {
+export default function CreateFolderDialog() {
   const folderPath = useStore(selectors.folderPath)
   const createFolder = useStore((state) => state.createFolder)
   const updateState = useStore((state) => state.updateState)

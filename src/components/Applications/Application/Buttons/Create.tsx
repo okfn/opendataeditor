@@ -103,13 +103,13 @@ function CreateFolder() {
 }
 
 function CreatePackage() {
-  const createPackage = useStore((state) => state.createPackage)
+  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
       label="Create Package"
       Icon={SourceIcon}
-      onClick={createPackage}
+      onClick={() => updateState({ dialog: 'createPackage' })}
     />
   )
 }
