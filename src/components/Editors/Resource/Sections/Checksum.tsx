@@ -40,7 +40,6 @@ function Bytes() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
-      disabled
       label="Bytes"
       value={bytes || ''}
       onChange={(value) => updateDescriptor({ bytes: value || undefined })}
@@ -49,11 +48,13 @@ function Bytes() {
 }
 
 function Fields() {
+  const type = useStore((state) => state.descriptor.type)
   const fields = useStore((state) => state.descriptor.fields)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  // Until standards@2 we use a safer check
+  if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      disabled
       label="Fields"
       value={fields || ''}
       onChange={(value) => updateDescriptor({ fields: value || undefined })}
@@ -62,11 +63,13 @@ function Fields() {
 }
 
 function Rows() {
+  const type = useStore((state) => state.descriptor.type)
   const rows = useStore((state) => state.descriptor.rows)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  // Until standards@2 we use a safer check
+  if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      disabled
       label="Rows"
       value={rows || ''}
       onChange={(value) => updateDescriptor({ fields: value || undefined })}
