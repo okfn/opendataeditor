@@ -195,6 +195,10 @@ export const selectors = {
     switch (resource.format) {
       case 'json':
         return 'json'
+      case 'geojson':
+        return 'json'
+      case 'topojson':
+        return 'json'
       case 'yaml':
         return 'yaml'
       case 'md':
@@ -203,6 +207,8 @@ export const selectors = {
         return 'python'
       case 'js':
         return 'javascript'
+      case 'r':
+        return 'r'
       default:
         return 'plaintext'
     }

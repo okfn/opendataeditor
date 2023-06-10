@@ -57,6 +57,8 @@ export const CONTROLLERS: {
   dialect: Metadata,
   file: File,
   json: Text,
+  jsonschema: Text,
+  map: Text,
   package: Package,
   resource: Metadata,
   schema: Metadata,
