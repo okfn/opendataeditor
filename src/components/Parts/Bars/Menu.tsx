@@ -59,6 +59,7 @@ function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
 export interface ButtonProps {
   label?: string
   color?: 'success' | 'warning' | 'error' | 'info'
+  disabled?: boolean
   onClick?: () => void
 }
 
@@ -72,8 +73,8 @@ export function EditorButton(props: ButtonProps) {
           label={props.label || 'Editor'}
           Icon={EditRoadIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
               color: props.color ? '#9c27b0' : undefined,
@@ -97,8 +98,8 @@ export function MetadataButton(props: ButtonProps) {
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
               color: props.color ? '#9c27b0' : undefined,
@@ -122,8 +123,8 @@ export function ReportButton(props: ButtonProps) {
           label={props.label || 'Report'}
           Icon={RuleIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
               color: props.color ? '#9c27b0' : undefined,
@@ -145,8 +146,8 @@ export function SourceButton(props: ButtonProps) {
           label={props.label || 'Source'}
           Icon={CodeIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
               color: props.color ? '#9c27b0' : undefined,
@@ -170,8 +171,8 @@ export function ErrorsButton(props: ButtonProps) {
           label={props.label || 'Errors'}
           Icon={ReportGmailerrorredIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -188,8 +189,8 @@ export function ClearButton(props: ButtonProps) {
           label={props.label || 'Clear'}
           Icon={FormatClearIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -206,8 +207,8 @@ export function UndoButton(props: ButtonProps) {
           label={props.label || 'Undo'}
           Icon={UndoIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -224,8 +225,8 @@ export function RedoButton(props: ButtonProps) {
           label={props.label || 'Redo'}
           Icon={RedoIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -242,8 +243,8 @@ export function FixButton(props: ButtonProps) {
           label={props.label || 'Fix'}
           Icon={HandymanIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -260,8 +261,8 @@ export function MinifyButton(props: ButtonProps) {
           label={props.label || 'Minify'}
           Icon={CompressIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>
@@ -278,8 +279,8 @@ export function PrettifyButton(props: ButtonProps) {
           label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
           color={props.color}
-          disabled={!props.onClick}
-          onClick={() => props.onClick!()}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
         />
       </Box>
     </LightTooltip>

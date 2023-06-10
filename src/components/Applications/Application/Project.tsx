@@ -1,11 +1,11 @@
 import * as React from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import SelectField from '../../Parts/Fields/Select'
-import MenuBar from '../../Parts/Bars/Menu'
+import * as menu from '../../Parts/Bars/Menu'
 
 export default function Project() {
   return (
-    <MenuBar>
+    <menu.MenuBar fullWidth>
       <SelectField
         disabled
         margin="none"
@@ -19,6 +19,6 @@ export default function Project() {
           ),
         }}
       />
-    </MenuBar>
+    </menu.MenuBar>
   )
 }

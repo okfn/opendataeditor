@@ -30,8 +30,8 @@ export default function Menu() {
       />
       <menu.SourceButton color="info" />
       <menu.ClearButton onClick={clear} />
-      <menu.UndoButton onClick={currentVersion > minimalVersion ? undo : undefined} />
-      <menu.RedoButton onClick={currentVersion < maximalVersion ? redo : undefined} />
+      <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
+      <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />
       {language === 'json' && (
         <React.Fragment>
           <menu.FixButton onClick={fix} />
