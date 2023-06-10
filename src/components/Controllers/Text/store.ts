@@ -12,28 +12,39 @@ import { ITextEditor } from '../../Parts/TextEditor'
 import { TextProps } from './index'
 import * as helpers from './helpers'
 import * as types from '../../../types'
-// @ts-ignore
 import dirtyJson from 'dirty-json'
 
 export interface State {
   path: string
   client: Client
-  onSave: () => void
-  onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report'
   dialog?: 'saveAs'
+  editorRef: React.RefObject<ITextEditor>
+  updateState: (patch: Partial<State>) => void
+
+  // Data
+
+  originalText?: string
+  modifiedText?: string
+  renderedText?: string
+  minimalVersion: number
+  currentVersion: number
+  maximalVersion: number
+
+  // Metadata
+
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
   resource?: types.IResource
-  original?: string
-  modified?: string
-  rendered?: string
-  minimalVersion: number
-  currentVersion: number
-  maximalVersion: number
-  editorRef: React.RefObject<ITextEditor>
-  updateState: (patch: Partial<State>) => void
+
+  // Events
+
+  onSave: () => void
+  onSaveAs: (path: string) => void
+
+  // General
+
   load: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
@@ -56,18 +67,22 @@ export interface State {
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    onSave: props.onSave || noop,
-    onSaveAs: props.onSaveAs || noop,
     editorRef: React.createRef<ITextEditor>(),
+    updateState: (patch) => set(patch),
+
+    // Data
+
     minimalVersion: 1,
     currentVersion: 1,
     maximalVersion: 1,
-    updateState: (patch) => {
-      const { render } = get()
-      set(patch)
-      // TODO: stop using this pattern in favour of proper updateDescriptor/etc methods
-      if ('modified' in patch) render()
-    },
+
+    // Events
+
+    onSave: props.onSave || noop,
+    onSaveAs: props.onSaveAs || noop,
+
+    // General
+
     load: async () => {
       const { path, client, render } = get()
       const { record, report, measure } = await client.fileIndex({ path })
@@ -77,47 +92,46 @@ export function makeStore(props: TextProps) {
         report,
         measure,
         resource: cloneDeep(record.resource),
-        modified: text,
-        original: text,
+        modifiedText: text,
+        originalText: text,
       })
       render()
     },
     revert: () => {
-      const { record, original, updateState } = get()
+      const { record, originalText, updateState } = get()
       if (!record) return
       updateState({
         resource: cloneDeep(record.resource),
-        modified: original,
+        modifiedText: originalText,
       })
     },
-    // TODO: needs to udpate file object as well
     save: async () => {
-      const { path, client, modified, resource, onSave, load } = get()
+      const { path, client, modifiedText, resource, onSave, load } = get()
       await client.textPatch({
         path,
-        text: selectors.isDataUpdated(get()) ? modified : undefined,
+        text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSave()
       load()
     },
     saveAs: async (toPath) => {
-      const { path, client, modified, resource, onSaveAs } = get()
+      const { path, client, modifiedText, resource, onSaveAs } = get()
       await client.textPatch({
         path,
         toPath,
-        text: selectors.isDataUpdated(get()) ? modified : undefined,
+        text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSaveAs(toPath)
     },
     render: throttle(async () => {
-      const { record, client, modified } = get()
+      const { record, client, modifiedText } = get()
       if (!record) return
-      if (!modified) return
+      if (!modifiedText) return
       if (record.type === 'article') {
-        const { text } = await client.articleRender({ text: modified })
-        set({ rendered: text })
+        const { text } = await client.articleRender({ text: modifiedText })
+        set({ renderedText: text })
       }
     }, 1000),
 
@@ -125,7 +139,7 @@ export function makeStore(props: TextProps) {
 
     clear: () => {
       const { updateState } = get()
-      updateState({ modified: '' })
+      updateState({ modifiedText: '' })
     },
     undo: () => {
       const { editorRef } = get()
@@ -171,7 +185,7 @@ export const selectors = {
     return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
   },
   isDataUpdated: (state: State) => {
-    return !isEqual(state.original, state.modified)
+    return !isEqual(state.originalText, state.modifiedText)
   },
   isMetadataUpdated: (state: State) => {
     return !isEqual(state.resource, state.record?.resource)

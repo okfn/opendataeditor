@@ -52,6 +52,7 @@ function LoadingController() {
 export const CONTROLLERS: {
   [type: string]: React.ElementType<ControllerProps>
 } = {
+  article: Text,
   chart: Chart,
   dialect: Metadata,
   file: File,
@@ -59,6 +60,7 @@ export const CONTROLLERS: {
   package: Package,
   resource: Metadata,
   schema: Metadata,
+  script: Text,
   table: Table,
   text: Text,
   view: View,
