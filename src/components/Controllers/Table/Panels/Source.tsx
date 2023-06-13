@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import MonacoEditor from '../../../Parts/Monaco/Editor'
+import TextEditor from '../../../Parts/TextEditor'
 import { useStore } from '../store'
 
 export default function SourcePanel() {
   const theme = useTheme()
-  const file = useStore((state) => state.file)
+  const record = useStore((state) => state.record)
   const source = useStore((state) => state.source)
   const loadSource = useStore((state) => state.loadSource)
   React.useEffect(() => {
     loadSource().catch(console.error)
-  }, [file])
+  }, [record])
   if (!source) return null
   return (
     <Box>
-      <MonacoEditor
+      <TextEditor
         value={source}
         language="json"
         height={theme.spacing(47)}

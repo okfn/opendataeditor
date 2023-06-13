@@ -1,10 +1,6 @@
 import omit from 'lodash/omit'
-import { ICkanControl } from './interfaces'
-import { IFile, IFileItem } from './interfaces'
-import { ITable, IQueryData } from './interfaces'
-import { IFieldItem, IChart } from './interfaces'
-import { IPackage, IResource, IDialect, ISchema, IView } from './interfaces'
 import * as settings from './settings'
+import * as types from './types'
 
 export class Client {
   basepath: string
@@ -21,41 +17,42 @@ export class Client {
     return makeRequest(path, props)
   }
 
+  // Article
+
+  async articleRender(props: { text: string; rich?: boolean }) {
+    const result = await this.request('/article/render', props)
+    return result as { text: string }
+  }
+
   // Chart
 
-  // TODO: provide proper type for chart
-  async chartCreate(props: { path?: string; chart?: any } = {}) {
-    const result = await this.request('/chart/create', props)
-    return result as { path: string }
-  }
-
-  async chartRender(props: { chart: IChart }) {
+  async chartRender(props: { chart: types.IChart }) {
     const result = await this.request('/chart/render', props)
-    return result as { chart: IChart }
+    return result as { chart: types.IChart }
   }
 
-  // Field
+  // Column
 
-  async fieldList() {
-    const result = await this.request('/field/list')
-    return result as { items: IFieldItem[] }
+  async columnList() {
+    const result = await this.request('/column/list')
+    return result as { columns: types.IColumn[] }
   }
 
   // File
 
-  async fileCopy(props: { path: string; folder?: string; newPath?: string }) {
+  async fileCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/copy', props)
     return result as { path: string }
   }
 
-  async fileCount() {
-    const result = await this.request('/file/count')
-    return result as { count: number }
-  }
-
-  async fileCreate(props: { path: string; folder?: string }) {
+  async fileCreate(props: {
+    file: File
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
     const result = await this.request('/file/create', props)
-    return result as { path: string; status: string; message: string }
+    return result as { path: string }
   }
 
   async fileDelete(props: { path: string }) {
@@ -65,16 +62,30 @@ export class Client {
 
   async fileIndex(props: { path: string }) {
     const result = await this.request('/file/index', props)
-    return result as { file?: IFile }
+    return result as {
+      record: types.IRecord
+      report: types.IReport
+      measure: types.IMeasure
+    }
   }
 
-  async fileList() {
-    const result = await this.request('/file/list')
-    return result as { items: IFileItem[] }
+  async fileList(props: { folder?: string } = {}) {
+    const result = await this.request('/file/list', props)
+    return result as { files: types.IFile[] }
   }
 
-  async fileMove(props: { path: string; folder?: string }) {
+  async fileMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     const result = await this.request('/file/move', props)
+    return result as { path: string }
+  }
+
+  async filePatch(props: {
+    path: string
+    file?: File
+    toPath?: string
+    resource?: types.IResource
+  }) {
+    const result = await this.request('/file/patch', props)
     return result as { path: string }
   }
 
@@ -83,84 +94,93 @@ export class Client {
     return result as { bytes: ArrayBuffer }
   }
 
-  async fileRename(props: { path: string; name: string }) {
-    const result = await this.request('/file/rename', props)
-    return result as { path: string }
-  }
-
-  async fileSelect(props: { path: string }) {
-    const result = await this.request('/file/select', props)
-    return result as { file?: IFile }
-  }
-
-  async fileUpdate(props: { path: string; resource: IResource; reindex?: boolean }) {
-    const result = await this.request('/file/update', props)
-    return result as { path: string }
-  }
-
-  async fileUpload(props: { file: File; folder?: string }) {
-    const result = await this.request('/file/upload', props)
-    return result as { path: string }
-  }
-
-  async fileWrite(props: { file: File; path: string }) {
-    const result = await this.request('/file/write', props)
-    return result as { path: string }
-  }
-
   // Folder
 
-  async folderCreate(props: { name: string; folder?: string }) {
+  async folderCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
+    const result = await this.request('/folder/copy', props)
+    return result as { path: string }
+  }
+
+  async folderCreate(props: { path: string; folder?: string; deduplicate?: boolean }) {
     const result = await this.request('/folder/create', props)
     return result as { path: string }
   }
 
+  async folderDelete(props: { path: string }) {
+    const result = await this.request('/folder/delete', props)
+    return result as { path: string }
+  }
+
+  async folderMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
+    const result = await this.request('/folder/move', props)
+    return result as { path: string }
+  }
+
   // Json
+
+  async jsonCreate(props: { path: string; data: types.IData }) {
+    const result = await this.request('/json/create', props)
+    return result as { path: string }
+  }
+
+  async jsonPatch(props: {
+    path: string
+    data?: types.IData
+    toPath?: string
+    resource?: types.IResource
+  }) {
+    const result = await this.request('/json/patch', props)
+    return result as { path: string }
+  }
 
   async jsonRead(props: { path: string }) {
     const result = await this.request('/json/read', props)
     return result as { data: any }
   }
 
-  async jsonWrite(props: { path: string; data: any }) {
-    const result = await this.request('/json/write', props)
-    return result as { path: string }
-  }
+  // Link
 
-  // Metadata
-
-  async metadataWrite(props: { path: string; data: IResource | IDialect | ISchema }) {
-    const result = await this.request('/metadata/write', props)
+  async linkFetch(props: {
+    url: string
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
+    const result = await this.request('/link/fetch', props)
     return result as { path: string }
   }
 
   // Package
 
-  async packageCreate(props: { path?: string } = {}) {
-    const result = await this.request('/package/create', props)
+  async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
+    const result = await this.request('/package/patch', props)
     return result as { path: string }
   }
 
-  async packagePublish(props: { path: string; control: ICkanControl }) {
+  async packagePublish(props: { path: string; control: types.ICkanControl }) {
     const result = await this.request('/package/publish', props)
-    return result as { path: string }
-  }
-
-  async packageWrite(props: { path: string; data: IPackage }) {
-    const result = await this.request('/package/write', props)
     return result as { path: string }
   }
 
   // Project
 
-  async projectIndex() {
-    const result = await this.request('/project/index')
+  async projectSync(props: {}) {
+    const result = await this.request('/project/sync', props)
     return result as {}
   }
 
-  async projectQuery(props: { query: string }) {
-    const result = await this.request('/project/query', props)
-    return result as { data: IQueryData }
+  // Resource
+
+  async resourcePatch(props: { path: string; data?: any; toPath?: string }) {
+    const result = await this.request('/resource/patch', props)
+    return result as { path: string }
+  }
+
+  // Script
+
+  async scriptExecute(props: {}) {
+    const result = await this.request('/script/execute', props)
+    return result as {}
   }
 
   // Table
@@ -170,14 +190,28 @@ export class Client {
     return result as { count: number }
   }
 
-  async tableExport(props: { source: string; target: string }) {
-    const result = await this.request('/table/export', props)
+  async tableCreate(props: {
+    path: string
+    rows: types.IRow[]
+    tableSchema: types.ISchema
+  }) {
+    const result = await this.request('/table/create', props)
+    return result as { path: string }
+  }
+
+  async tablePatch(props: {
+    path: string
+    toPath?: string
+    history?: types.IHistory
+    resource?: types.IResource
+  }) {
+    const result = await this.request('/table/patch', props)
     return result as { path: string }
   }
 
   async tableQuery(props: { query: string }) {
     const result = await this.request('/table/query', props)
-    return result as { table: ITable }
+    return result as { table: types.ITable }
   }
 
   async tableRead(props: {
@@ -189,40 +223,45 @@ export class Client {
     desc?: boolean
   }) {
     const result = await this.request('/table/read', props)
-    return result as { table: ITable }
-  }
-
-  async tableWrite(props: { path: string; tablePatch: {}; folder?: string }) {
-    const result = await this.request('/table/write', props)
-    return result as { path: string; status: string; message: string }
+    return result as { rows: types.IRow[] }
   }
 
   // Text
+
+  async textCreate(props: { path: string; text: string }) {
+    const result = await this.request('/text/create', props)
+    return result as { path: string }
+  }
+
+  async textPatch(props: {
+    path: string
+    text?: string
+    toPath?: string
+    resource?: types.IResource
+  }) {
+    const result = await this.request('/text/patch', props)
+    return result as { path: string }
+  }
 
   async textRead(props: { path: string }) {
     const result = await this.request('/text/read', props)
     return result as { text: string }
   }
 
-  async textRender(props: { text: string }) {
-    const result = await this.request('/text/render', props)
-    return result as { text: string }
-  }
-
-  async textWrite(props: { path: string; text: string }) {
-    const result = await this.request('/text/write', props)
-    return result as { path: string }
-  }
-
   // View
 
-  async viewCreate(props: { path?: string } = {}) {
+  async viewCreate(props: { path: string; data: types.IView }) {
     const result = await this.request('/view/create', props)
     return result as { path: string }
   }
 
-  async viewWrite(props: { path: string; view: IView }) {
-    const result = await this.request('/view/write', props)
+  async viewPatch(props: {
+    path: string
+    data?: types.IView
+    toPath?: string
+    resource?: types.IResource
+  }) {
+    const result = await this.request('/view/patch', props)
     return result as { path: string }
   }
 }
@@ -251,6 +290,6 @@ async function makeRequest(
   const result = props.isBytes
     ? { bytes: await response.arrayBuffer() }
     : await response.json()
-  console.log({ path, props, result })
+  // console.log({ path, props, result })
   return result
 }

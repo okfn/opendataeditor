@@ -4,25 +4,26 @@ import { alpha, styled } from '@mui/material/styles'
 import { keyframes } from '@mui/system'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import TreeView from '@mui/lab/TreeView'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
-import { ITreeItem, IFileEvent } from '../../../interfaces'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import LayersIcon from '@mui/icons-material/Layers'
+import TroubleshootIcon from '@mui/icons-material/Troubleshoot'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../ScrollBox'
+import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface FileTreeProps {
-  // TODO: accept fileItems as prop?
-  tree: ITreeItem[]
-  event?: IFileEvent
+  files: types.IFile[]
+  event?: types.IFileEvent
   selected?: string
-  onSelect?: (path: string) => void
+  onSelect: (path?: string) => void
   defaultExpanded?: string[]
 }
 
@@ -31,37 +32,57 @@ const Context = React.createContext<{
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
+  const [expanded, setExpanded] = React.useState<string[]>([])
+  const fileTree = React.useMemo(() => helpers.createFileTree(props.files), [props.files])
+  React.useEffect(() => {
+    const defaultExpanded = props.event
+      ? helpers.listParentFolders(props.event.paths)
+      : props.defaultExpanded || []
+    setExpanded([...new Set([...expanded, ...defaultExpanded])])
+  }, [props.event, props.defaultExpanded])
+  const selected = props.selected || ''
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
-        <TreeView
-          selected={props.selected || ''}
-          defaultExpanded={props.defaultExpanded}
-          onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-            if (props.onSelect) props.onSelect(nodeId)
-          }}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          aria-label="customized"
-          sx={{ height: '100%' }}
-        >
-          {props.tree.map((item) => (
-            <TreeNode item={item} key={item.path} />
-          ))}
-        </TreeView>
+        <Stack alignItems="stretch" height="100%">
+          <TreeView
+            selected={selected}
+            expanded={expanded}
+            onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
+              props.onSelect(nodeId)
+            }}
+            onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+              // On collapsing we don't collapse a folder if it's not yet selected
+              if (nodeIds.length < expanded.length && !expanded.includes(selected)) return
+              setExpanded(nodeIds)
+            }}
+            defaultCollapseIcon={<MinusSquare />}
+            defaultExpandIcon={<PlusSquare />}
+            aria-label="customized"
+          >
+            {fileTree.map((item) => (
+              <TreeNode item={item} key={item.path} />
+            ))}
+          </TreeView>
+          <Box
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={() => props.onSelect()}
+          ></Box>
+        </Stack>
       </ScrollBox>
     </Context.Provider>
   )
 }
 
-function TreeNode(props: { item: ITreeItem }) {
+function TreeNode(props: { item: types.IFileTreeItem }) {
   return (
     <StyledTreeItem
       key={props.item.path}
       nodeId={props.item.path}
       label={props.item.name}
       type={props.item.type}
-      errors={props.item.errors}
+      indexed={props.item.indexed}
+      errorCount={props.item.errorCount}
     >
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
@@ -74,36 +95,29 @@ const StyledTreeItem = styled(
   (
     props: TreeItemProps & {
       type: string
-      errors?: number
+      indexed?: boolean
+      errorCount?: number
     }
   ) => {
-    // We bump revision for every new event to trigger animation re-render
-    const [revision, setRevision] = React.useState(0)
+    const { type, indexed, errorCount, ...others } = props
     const { event } = React.useContext(Context)
-    React.useEffect(() => setRevision(revision + 1), [event])
-    let animation
-    let backgroundColor
-    if (event && event.paths.includes(props.nodeId)) {
-      if (event.type === 'draft') {
-        backgroundColor = 'yellow'
-      } else {
-        animation = `${fileEventKeyframe} 1s`
-      }
-    }
+    const animation =
+      event &&
+      event.paths.includes(props.nodeId) &&
+      ['create', 'delete', 'update'].includes(event.type)
+        ? `${fileEventKeyframe} 1s`
+        : undefined
     return (
       <TreeItem
-        {...props}
-        key={revision}
-        sx={{
-          animation,
-          backgroundColor,
-        }}
+        {...others}
+        sx={{ animation }}
         label={
           <TreeItemIcon
             nodeId={props.nodeId}
             label={props.label}
-            type={props.type}
-            errors={props.errors}
+            type={type}
+            indexed={indexed}
+            errorCount={errorCount}
           />
         }
       />
@@ -130,12 +144,13 @@ function TreeItemIcon(props: {
   nodeId: string
   label: React.ReactNode
   type: string
-  errors?: number
+  indexed?: boolean
+  errorCount?: number
 }) {
   const Icon = getIcon(props.type)
   let color = 'disabled'
   if (props.type === 'folder') color = 'primary'
-  if (props.errors !== undefined) color = props.errors > 0 ? 'error' : 'success'
+  if (props.indexed) color = props.errorCount ? 'error' : 'success'
   return (
     <Box
       sx={{
@@ -185,7 +200,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   checklist: CheckCircleOutline,
   pipeline: AccountTree,
   schema: DescriptionIcon,
-  view: LayersIcon,
+  view: TroubleshootIcon,
 }
 
 // TODO: use color from theme

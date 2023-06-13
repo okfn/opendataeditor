@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import MonacoEditor from '../../../Parts/Monaco/Editor'
+import TextEditor from '../../../Parts/TextEditor'
 import { useStore } from '../store'
 
 export default function SourcePanel() {
@@ -11,7 +11,7 @@ export default function SourcePanel() {
   if (!modified) return null
   return (
     <Box>
-      <MonacoEditor
+      <TextEditor
         value={JSON.stringify(modified, null, 2)}
         language="json"
         onChange={(text) => {

@@ -1,15 +1,26 @@
 import * as React from 'react'
-import FolderDialog from './Dialogs/Folder'
-import LinkDialog from './Dialogs/Link'
-import NameDialog from './Dialogs/Name'
+import CopyFileDialog from './Dialogs/CopyFile'
+import CopyFolderDialog from './Dialogs/CopyFolder'
+import CreateFolderDialog from './Dialogs/CreateFolder'
+import CreatePackageDialog from './Dialogs/CreatePackage'
+import MoveFileDialog from './Dialogs/MoveFile'
+import MoveFolderDialog from './Dialogs/MoveFolder'
+import UploadLinkDialog from './Dialogs/UploadLink'
 import { useStore } from './store'
 
 export default function Dialog() {
   const dialog = useStore((state) => state.dialog)
-  if (dialog) {
-    if (dialog.startsWith('folder/')) return <FolderDialog />
-    if (dialog.startsWith('name/')) return <NameDialog />
-    if (dialog.startsWith('link/')) return <LinkDialog />
-  }
-  return null
+  if (!dialog) return null
+  const Dialog = DIALOGS[dialog]
+  return <Dialog />
+}
+
+const DIALOGS = {
+  copyFile: CopyFileDialog,
+  copyFolder: CopyFolderDialog,
+  createFolder: CreateFolderDialog,
+  createPackage: CreatePackageDialog,
+  moveFile: MoveFileDialog,
+  moveFolder: MoveFolderDialog,
+  uploadLink: UploadLinkDialog,
 }

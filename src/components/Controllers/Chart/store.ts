@@ -8,24 +8,24 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFieldItem, IChart, IResource } from '../../../interfaces'
-import { ChartProps } from './Chart'
+import { ChartProps } from './index'
+import * as types from '../../../types'
 
 export interface State {
   path: string
   client: Client
-  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
-  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
-  fields?: IFieldItem[]
-  file?: IFile
-  resource?: IResource
-  original?: IChart
-  modified?: IChart
-  rendered?: IChart
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
+  columns?: types.IColumn[]
+  resource?: types.IResource
+  original?: types.IChart
+  modified?: types.IChart
+  rendered?: types.IChart
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -40,7 +40,6 @@ export function makeStore(props: ChartProps) {
     ...props,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
-    panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
       const { render } = get()
       set(patch)
@@ -49,13 +48,18 @@ export function makeStore(props: ChartProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      const { items } = await client.fieldList()
-      const { data } = await client.jsonRead({ path: file.path })
-      set({ modified: cloneDeep(data), original: data, fields: items })
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { columns } = await client.columnList()
+      const { data } = await client.jsonRead({ path: record.path })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modified: cloneDeep(data),
+        original: data,
+        columns,
+      })
       render()
     },
     clear: () => {
@@ -63,24 +67,28 @@ export function makeStore(props: ChartProps) {
       updateState({ modified: {} })
     },
     revert: () => {
-      const { original, onRevert, updateState } = get()
+      const { original, updateState } = get()
       updateState({ modified: cloneDeep(original) })
-      onRevert && onRevert()
     },
     save: async () => {
-      const { file, client, resource, modified, onSave, load } = get()
-      if (!file || !resource || !modified) return
-      await client.fileUpdate({ path: file.path, resource })
-      await client.jsonWrite({ path: file.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, resource, onSave, load } = get()
+      await client.jsonPatch({
+        path,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      // TODO: write resource as well?
-      await client.jsonWrite({ path, data: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modified, resource, onSaveAs } = get()
+      await client.jsonPatch({
+        path,
+        toPath,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
     render: throttle(async () => {
       const { client, modified } = get()
@@ -94,11 +102,13 @@ export function makeStore(props: ChartProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.isDraft ||
-      !isEqual(state.original, state.modified) ||
-      !isEqual(state.resource, state.file?.record!.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.original, state.modified)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

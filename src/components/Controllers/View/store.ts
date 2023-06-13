@@ -6,27 +6,26 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { IFile } from '../../../interfaces'
 import { Client } from '../../../client'
-import { IResource, IView, ITable, IFieldItem } from '../../../interfaces'
-import { SqlProps } from './View'
+import { ViewProps } from './index'
 import * as settings from '../../../settings'
+import * as types from '../../../types'
 
 export interface State {
   path: string
   client: Client
-  isDraft?: boolean
   onSave: () => void
   onSaveAs: (path: string) => void
-  onRevert?: () => void
   dialog?: 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
-  fields?: IFieldItem[]
-  file?: IFile
-  resource?: IResource
-  original?: IView
-  modified?: IView
-  table?: ITable
+  columns?: types.IColumn[]
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
+  resource?: types.IResource
+  original?: types.IView
+  modified?: types.IView
+  table?: types.ITable
   error?: string
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
@@ -40,27 +39,31 @@ export interface ExceptionError {
   message: string
 }
 
-export function makeStore(props: SqlProps) {
+export function makeStore(props: ViewProps) {
   return createStore<State>((set, get) => ({
     ...props,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
-    panel: props.isDraft ? 'editor' : undefined,
     updateState: (patch) => {
       set(patch)
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      const { items } = await client.fieldList()
-      const { data } = await client.jsonRead({ path: file.path })
-      set({ modified: cloneDeep(data), original: data, fields: items })
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { data } = await client.jsonRead({ path: record.path })
+      const { columns } = await client.columnList()
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modified: cloneDeep(data),
+        original: data,
+        columns,
+      })
       // TODO: move to autoupdating on change (throttle)
-      if (file.record?.tableName) {
-        const query = `select * from "${file.record?.tableName}"`
+      if (record.name) {
+        const query = `select * from "${record.name}"`
         const { table } = await client.tableQuery({ query })
         set({ table })
       }
@@ -70,29 +73,32 @@ export function makeStore(props: SqlProps) {
       updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
     },
     revert: () => {
-      const { file, original, onRevert } = get()
-      if (!file) return
+      const { record, original } = get()
+      if (!record) return
       set({
-        resource: cloneDeep(file.record!.resource),
+        resource: cloneDeep(record.resource),
         modified: cloneDeep(original),
       })
-      onRevert && onRevert()
     },
     save: async () => {
-      const { file, client, resource, modified, onSave, load } = get()
-      if (!file || !resource || !modified) return
-      await client.fileUpdate({ path: file.path, resource })
-      await client.viewWrite({ path: file.path, view: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, resource, modified, onSave, load } = get()
+      await client.viewPatch({
+        path,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.viewWrite({ path, view: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, resource, modified, onSaveAs } = get()
+      await client.viewPatch({
+        path,
+        toPath,
+        data: selectors.isDataUpdated(get()) ? modified : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
   }))
 }
@@ -100,11 +106,13 @@ export function makeStore(props: SqlProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.isDraft ||
-      !isEqual(state.original, state.modified) ||
-      !isEqual(state.resource, state.file?.record!.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.original, state.modified)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

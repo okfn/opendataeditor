@@ -5,13 +5,11 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IResource, ILicense, IHelpItem } from '../../../interfaces'
-import { ResourceProps } from './Resource'
+import { ResourceProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 import help from './help.yaml'
-import { ISource } from '../../../interfaces/source'
-import { IContributor } from '../../../interfaces/contributor'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'resource')!
 const MEDIA_TYPES: { [key: string]: string } = {
@@ -28,20 +26,20 @@ interface ISectionState {
 }
 
 interface State {
-  descriptor: IResource
+  descriptor: types.IResource
   shallow?: boolean
-  onChange: (resource: IResource) => void
+  onChange: (resource: types.IResource) => void
   onBackClick?: () => void
   onFieldSelected?: (name?: string) => void
-  helpItem: IHelpItem
+  helpItem: types.IHelpItem
   updateHelp: (path: string) => void
-  updateDescriptor: (patch: Partial<IResource>) => void
+  updateDescriptor: (patch: Partial<types.IResource>) => void
 
   // Licenses
 
   licenseState: ISectionState
   updateLicenseState: (patch: Partial<ISectionState>) => void
-  updateLicense: (patch: Partial<ILicense>) => void
+  updateLicense: (patch: Partial<types.ILicense>) => void
   removeLicense: (index: number) => void
   addLicense: () => void
 
@@ -49,7 +47,7 @@ interface State {
 
   sourceState: ISectionState
   updateSourceState: (patch: Partial<ISectionState>) => void
-  updateSource: (patch: Partial<ISource>) => void
+  updateSource: (patch: Partial<types.ISource>) => void
   removeSource: (index: number) => void
   addSource: () => void
 
@@ -57,7 +55,7 @@ interface State {
 
   contributorState: ISectionState
   updateContributorState: (patch: Partial<ISectionState>) => void
-  updateContributor: (patch: Partial<IContributor>) => void
+  updateContributor: (patch: Partial<types.IContributor>) => void
   removeContributor: (index: number) => void
   addContributor: () => void
 }

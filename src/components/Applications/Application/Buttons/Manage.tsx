@@ -1,7 +1,6 @@
 import * as React from 'react'
 import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
-import RenameIcon from '@mui/icons-material/Edit'
 import ManageIcon from '@mui/icons-material/FileCopy'
 import IconButton from '../../../Parts/Buttons/Icon'
 import DropdownButton from '../../../Parts/Buttons/Dropdown'
@@ -18,46 +17,34 @@ export default function ManageButton() {
     >
       <CopyButton />
       <MoveButton />
-      <RenameButton />
     </DropdownButton>
   )
 }
 
 function CopyButton() {
-  const isFolder = useStore(selectors.isFolder)
   const updateState = useStore((state) => state.updateState)
+  const isFolder = useStore(selectors.isFolder)
+  const type = isFolder ? 'Folder' : 'File'
   return (
     <IconButton
-      label={`Copy ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      Icon={MoveIcon}
-      onClick={() => updateState({ dialog: 'folder/copy' })}
+      Icon={CopyIcon}
+      label={`Copy ${type}`}
+      onClick={() => updateState({ dialog: `copy${type}` })}
     />
   )
 }
 
 function MoveButton() {
-  const isFolder = useStore(selectors.isFolder)
   const updateState = useStore((state) => state.updateState)
+  const isFolder = useStore(selectors.isFolder)
+  const type = isFolder ? 'Folder' : 'File'
   return (
     <IconButton
-      label={`Move ${isFolder ? 'Folder' : 'File'}`}
       variant="text"
-      Icon={CopyIcon}
-      onClick={() => updateState({ dialog: 'folder/move' })}
-    />
-  )
-}
-
-function RenameButton() {
-  const isFolder = useStore(selectors.isFolder)
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      label={`Rename ${isFolder ? 'Folder' : 'File'}`}
-      variant="text"
-      Icon={RenameIcon}
-      onClick={() => updateState({ dialog: 'name/rename' })}
+      Icon={MoveIcon}
+      label={`Move ${type}`}
+      onClick={() => updateState({ dialog: `move${type}` })}
     />
   )
 }

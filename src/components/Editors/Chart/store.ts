@@ -5,10 +5,10 @@ import noop from 'lodash/noop'
 import uniq from 'lodash/uniq'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { IHelpItem, IFieldItem, IChart, ITransform, IFilter } from '../../../interfaces'
-import { ChartProps } from './Chart'
+import { ChartProps } from './index'
 import * as helpers from '../../../helpers'
 import * as settings from './settings'
+import * as types from '../../../types'
 import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
@@ -30,18 +30,18 @@ interface ISectionState {
 }
 
 interface State {
-  fields: IFieldItem[]
+  fields: types.IColumn[]
+  descriptor: Partial<types.IChart>
   customFields: string[]
-  descriptor: Partial<IChart>
   shallow: boolean
   tabIndex: number
   tabNames: string[]
   vtabIndex: number
   onChange: (chart: object) => void
-  helpItem: IHelpItem
+  helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
-  updateDescriptor: (patch: Partial<IChart>) => void
+  updateDescriptor: (patch: Partial<types.IChart>) => void
   updateCustomFields: (field: string) => void
 
   // Layer
@@ -64,7 +64,7 @@ interface State {
   transformStates: ISectionState[]
   updateTransformState: (patch: Partial<ISectionState>) => void
   updateTransformType: (type: string) => void
-  updateTransform: (patch: Partial<ITransform>) => void
+  updateTransform: (patch: Partial<types.ITransform>) => void
   removeTransform: (index: number) => void
   addTransform: () => void
 
@@ -371,7 +371,7 @@ export const selectors = {
     const items = []
     const query = state.transformStates[state.tabIndex]?.query
     for (const [index, transform] of (state.descriptor.transform || []).entries()) {
-      if (query && !transform[query.toLowerCase() as keyof ITransform]) {
+      if (query && !transform[query.toLowerCase() as keyof types.ITransform]) {
         continue
       }
       items.push({ index, transform })
@@ -383,7 +383,7 @@ export const selectors = {
 
   filterPredicate: (state: State) => {
     const allKeys = ['timeUnit', 'field']
-    const transform = selectors.transform(state) as IFilter
+    const transform = selectors.transform(state) as types.IFilter
     if (!transform.filter) return ''
     const predicate = Object.keys(transform?.filter).filter(
       (x) => allKeys.indexOf(x) === -1

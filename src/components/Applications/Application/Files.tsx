@@ -2,22 +2,22 @@ import * as React from 'react'
 import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import FileTree from '../../Parts/Trees/File'
-import { useStore, selectors } from './store'
+import { useStore } from './store'
 
 export default function Files() {
-  const fileItems = useStore((state) => state.fileItems)
+  const files = useStore((state) => state.files)
   const loading = useStore((state) => state.loading)
-  return loading ? <LoadingFiles /> : fileItems.length ? <PresentFiles /> : <EmptyFiles />
+  return loading ? <LoadingFiles /> : files.length ? <PresentFiles /> : <EmptyFiles />
 }
 
 function PresentFiles() {
   const path = useStore((state) => state.path)
-  const fileTree = useStore(selectors.fileTree)
+  const files = useStore((state) => state.files)
   const fileEvent = useStore((state) => state.fileEvent)
-  const select = useStore((state) => state.select)
+  const selectFile = useStore((state) => state.selectFile)
   return (
     <React.Fragment>
-      <FileTree tree={fileTree} event={fileEvent} selected={path} onSelect={select} />
+      <FileTree files={files} event={fileEvent} selected={path} onSelect={selectFile} />
     </React.Fragment>
   )
 }
@@ -27,5 +27,5 @@ function EmptyFiles() {
 }
 
 function LoadingFiles() {
-  return <Spinner message="Loading files" />
+  return <Spinner message="Loading" />
 }

@@ -1,26 +1,41 @@
 import * as React from 'react'
 import { alpha, styled } from '@mui/material/styles'
 import InputIcon from '@mui/icons-material/Input'
-import ValidationChip from '../../Parts/Chips/Validation'
+import LightTooltip from '../../Parts/Tooltips/Light'
+import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
 import ViewChip from '../../Parts/Chips/View'
-import { useStore, selectors } from './store'
+import ScriptChip from '../../Parts/Chips/Script'
+import { useStore } from './store'
 
 export default function Status() {
-  const file = useStore((state) => state.file)
-  const createChart = useStore((state) => state.createChart)
+  const record = useStore((state) => state.record)
+  const measure = useStore((state) => state.measure)
   const createView = useStore((state) => state.createView)
-  const errorCount = useStore(selectors.errorCount)
+  const createChart = useStore((state) => state.createChart)
+  const locateFile = useStore((state) => state.locateFile)
   return (
     <Container>
       <Prefix>
         <InputIcon />
       </Prefix>
-      <Contents>{file ? file.path : 'Data management for humans'}</Contents>
+      <LightTooltip
+        title={
+          record
+            ? 'Locate this file in the browser'
+            : 'Select a file in the browser to explore'
+        }
+        placement="bottom-start"
+      >
+        <Contents onClick={record ? () => locateFile(record.path) : undefined}>
+          {record ? record.path : 'Data management for humans'}
+        </Contents>
+      </LightTooltip>
       <Suffix>
+        <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
-        <ValidationChip errorCount={errorCount} />
+        <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>
   )
@@ -49,6 +64,7 @@ const Contents = styled('div')(({ theme }) => ({
   // vertical padding + font size from searchIcon
   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   transition: theme.transitions.create('width'),
+  cursor: 'pointer',
 }))
 
 const Prefix = styled('div')(({ theme }) => ({

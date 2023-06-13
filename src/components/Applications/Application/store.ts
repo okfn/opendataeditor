@@ -1,270 +1,238 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
+import delay from 'delay'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IFileItem, ITreeItem, IFileEvent } from '../../../interfaces'
-import { ApplicationProps } from './Application'
+import { ApplicationProps } from './index'
+import { IDialog } from './types'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
-
-type IDialog =
-  | 'folder/copy'
-  | 'folder/move'
-  | 'name/create'
-  | 'name/rename'
-  | 'link/create'
-  | 'create/dialog'
+import * as types from '../../../types'
 
 export interface State {
-  client: Client
   path?: string
-  file?: IFile
-  fileItems: IFileItem[]
-  fileEvent?: IFileEvent
+  client: Client
+  record?: types.IRecord
+  measure?: types.IMeasure
+  files: types.IFile[]
+  fileEvent?: types.IFileEvent
   dialog?: IDialog
-  // TODO: do we need it as we already have fileItems?
   loading?: boolean
   indexing?: boolean
   updateState: (patch: Partial<State>) => void
-  onCreate: (path: string) => Promise<void>
-  onDelete: (path: string) => Promise<void>
-  onDraft: (path: string) => Promise<void>
-  onUpdate: (path: string) => Promise<void>
-  select: (path?: string) => Promise<void>
-  revert: () => Promise<void>
+
+  // Events
+
+  onStart: () => Promise<void>
+  onFileCreate: (paths: string[]) => Promise<void>
+  onFileDelete: (path: string) => Promise<void>
+  onFilePatch: (path: string) => Promise<void>
 
   // File
 
-  copyFile: (folder?: string) => Promise<void>
-  deleteFile: () => Promise<void>
-  listFiles: () => Promise<void>
-  moveFile: (folder?: string) => Promise<void>
-  renameFile: (name: string) => Promise<void>
-  uploadFiles: (files: FileList) => Promise<void>
-  createFile: (url: string) => Promise<void>
-  countFiles: () => Promise<number>
+  loadFiles: () => Promise<void>
+  createFiles: (files: FileList) => Promise<void>
+  copyFile: (path: string, toPath: string) => Promise<void>
+  deleteFile: (path: string) => Promise<void>
+  moveFile: (path: string, toPath: string) => Promise<void>
+  locateFile: (path: string) => Promise<void>
+  selectFile: (path?: string) => Promise<void>
+  openFile: (path: string) => Promise<void>
 
   // Folder
 
+  copyFolder: (path: string, toPath: string) => Promise<void>
   createFolder: (name: string) => Promise<void>
-  uploadFolder: (files: FileList) => Promise<void>
+  deleteFolder: (path: string) => Promise<void>
+  moveFolder: (path: string, toPath: string) => Promise<void>
 
   // Others
 
-  createPackage: () => Promise<void>
+  fetchLink: (url: string) => Promise<void>
+  createPackage: (path: string) => Promise<void>
   createChart: () => Promise<void>
   createView: () => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
   return createStore<State>((set, get) => ({
+    files: [],
     client: props.client,
-    fileItems: [],
-    loading: true,
-    updateState: (patch) => {
-      set(patch)
+    updateState: (patch) => set(patch),
+
+    // Events
+
+    onStart: async () => {
+      const { loadFiles, updateState } = get()
+      updateState({ loading: true })
+      await loadFiles()
+      updateState({ loading: false })
     },
-    onCreate: async (path) => {
-      const { select } = get()
-      set({ fileEvent: { type: 'create', paths: [path] } })
-      select(path)
+    onFileCreate: async (paths) => {
+      const { loadFiles, selectFile } = get()
+      await loadFiles()
+      set({ fileEvent: { type: 'create', paths } })
+      if (paths.length === 1) selectFile(paths[0])
+      await delay(500)
+      set({ fileEvent: undefined })
     },
-    onDelete: async (path) => {
-      const { select } = get()
+    onFileDelete: async (path) => {
+      const { loadFiles, selectFile } = get()
       set({ fileEvent: { type: 'delete', paths: [path] } })
-      setTimeout(() => select(undefined), 500)
+      await delay(500)
+      await loadFiles()
+      selectFile(undefined)
+      set({ fileEvent: undefined, record: undefined, measure: undefined })
     },
-    onDraft: async (path) => {
-      const { select } = get()
-      set({ fileEvent: { type: 'draft', paths: [path] } })
-      select(path)
-    },
-    onUpdate: async (path) => {
-      const { select } = get()
+    onFilePatch: async (path) => {
+      const { selectFile } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
-      select(path)
-    },
-    select: async (path) => {
-      const { client, listFiles } = get()
-      set({ path })
-      if (!selectors.isFolder(get())) {
-        set({ file: undefined, indexing: true })
-        const { file } = path ? await client.fileIndex({ path }) : { file: undefined }
-        await listFiles()
-        set({ file, indexing: false })
-      }
-    },
-    revert: async () => {
-      const { path, client, fileEvent, onDelete } = get()
-      if (fileEvent?.type !== 'draft') return
-      if (!path) return
-      await client.fileDelete({ path })
-      onDelete(path)
+      selectFile(path)
+      await delay(500)
+      set({ fileEvent: undefined })
     },
 
     // File
 
-    countFiles: async () => {
-      const { client } = get()
-      const { count } = await client.fileCount()
-      return count
+    loadFiles: async () => {
+      const { client, updateState } = get()
+      const { files } = await client.fileList()
+      updateState({ files })
     },
-    listFiles: async () => {
-      const { client } = get()
-      const { items } = await client.fileList()
-      set({ fileItems: items })
-      set({ loading: false })
-    },
-    createFile: async (path) => {
-      const { client, onCreate } = get()
+    createFiles: async (files) => {
+      const { client, onFileCreate } = get()
       const folder = selectors.folderPath(get())
-      const result = await client.fileCreate({ path, folder })
-      // TODO: review
-      if (!result.path) return
-      onCreate(result.path)
-    },
-    copyFile: async (folder) => {
-      const { client, path, onCreate } = get()
-      if (!path) return
-      const result = await client.fileCopy({ path, folder })
-      onCreate(result.path)
-    },
-    deleteFile: async () => {
-      const { client, path, onDelete } = get()
-      if (!path) return
-      const result = await client.fileDelete({ path })
-      onDelete(result.path)
-    },
-    moveFile: async (folder) => {
-      const { client, path, onCreate } = get()
-      if (!path) return
-      const result = await client.fileMove({ path, folder })
-      onCreate(result.path)
-    },
-    renameFile: async (name) => {
-      const { client, path, onCreate } = get()
-      if (!path) return
-      const result = await client.fileRename({ path, name })
-      onCreate(result.path)
-    },
-    // TODO: upload in parallel?
-    uploadFiles: async (files) => {
       const paths: string[] = []
-      const { client, listFiles, select } = get()
       for (const file of files) {
-        const folder = selectors.folderPath(get())
-        const result = await client.fileUpload({ file, folder })
+        const path = file.webkitRelativePath || undefined
+        const result = await client.fileCreate({ file, path, folder, deduplicate: true })
         paths.push(result.path)
       }
-      if (!paths.length) return
-      await listFiles()
-      if (paths.length === 1) select(paths[0])
-      set({ fileEvent: { type: 'create', paths } })
+      onFileCreate(paths)
+    },
+    copyFile: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.fileCopy({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
+    },
+    deleteFile: async (path) => {
+      const { client, onFileDelete } = get()
+      await client.fileDelete({ path })
+      onFileDelete(path)
+    },
+    moveFile: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.fileMove({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
+    },
+    locateFile: async (path) => {
+      set({ path })
+      set({ fileEvent: { type: 'locate', paths: [path] } })
+      await delay(500)
+      set({ fileEvent: undefined })
+    },
+    selectFile: async (newPath) => {
+      const { path, record, openFile } = get()
+      if (path === newPath) return
+      set({ path: newPath })
+      if (!newPath) return
+      if (record?.path === newPath) return
+      if (selectors.isFolder(get())) return
+      await openFile(newPath)
+    },
+    openFile: async (path) => {
+      const { client, loadFiles, fileEvent } = get()
+      set({ record: undefined, measure: undefined })
+      set({ indexing: true })
+      const { record, measure } = await client.fileIndex({ path })
+      await loadFiles()
+      set({ indexing: false, record, measure })
+      if (!fileEvent) set({ fileEvent: { type: 'open', paths: [path] } })
+      await delay(500)
+      set({ fileEvent: undefined })
     },
 
     // Folder
 
-    createFolder: async (name) => {
-      const { client, onCreate } = get()
-      const folder = selectors.folderPath(get())
-      const { path } = await client.folderCreate({ name, folder })
-      onCreate(path)
+    copyFolder: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.folderCopy({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
     },
-    uploadFolder: async (files) => {
-      const { path, client, onCreate } = get()
-      let filesList: { [key: string]: any }[] = []
-      let basePath
-      const fileParts = files[0].webkitRelativePath.split('/')
-      if (fileParts.length > 1) {
-        basePath = await client.folderCreate({ name: fileParts[0], folder: path })
-      }
-      for (const file of files) {
-        let folders = helpers.getFolderList(file)
-        // remove duplicate
-        folders = folders.filter(
-          (item) =>
-            !filesList.find(
-              (file) => file.name === item.name && file.folder === item.folder
-            )
-        )
-        filesList = filesList.concat(folders)
-      }
-      for (const file of filesList) {
-        // handle duplicate folder upload
-        const folderParts = file.folder.split('/')
-        folderParts[0] = basePath?.path
-        const folder = folderParts.join('/')
-
-        if (file.type === 'folder') {
-          await client.folderCreate({ name: file.name, folder: folder })
-          continue
-        }
-        await client.fileUpload({ file: file.file, folder: folder })
-      }
-      // TODO: review
-      if (path) onCreate(path)
+    createFolder: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.folderCreate({ path, deduplicate: true })
+      onFileCreate([result.path])
+    },
+    deleteFolder: async (path) => {
+      const { client, onFileDelete } = get()
+      await client.folderDelete({ path })
+      onFileDelete(path)
+    },
+    moveFolder: async (path, toPath) => {
+      const { client, onFileCreate } = get()
+      const result = await client.folderMove({ path, toPath, deduplicate: true })
+      onFileCreate([result.path])
     },
 
     // Others
 
-    createPackage: async () => {
-      const { client, onCreate } = get()
-      const { path } = await client.packageCreate()
-      onCreate(path)
+    fetchLink: async (url) => {
+      const { client, onFileCreate } = get()
+      const folder = selectors.folderPath(get())
+      const { path } = await client.linkFetch({ url, folder, deduplicate: true })
+      onFileCreate([path])
+    },
+    createPackage: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.jsonCreate({ path, data: settings.INITIAL_PACKAGE })
+      onFileCreate([result.path])
     },
     // TODO: rewrite this method
     createChart: async () => {
-      const { file, client, onDraft } = get()
-      let path
-      let chart
-      if (file?.type === 'table') {
-        const resource = file.record!.resource
-        path = `${resource.name}.chart.json`
-        chart = {
-          data: { url: file.path },
-          mark: 'bar',
-          encoding: {},
-          width: 600,
-          height: 200,
-        }
-        const { items } = await client.fieldList()
-        for (const field of items) {
-          if (field.tablePath !== file.path) continue
-          if (field.type === 'string') {
-            // @ts-ignore
-            chart.encoding.x = { field: field.name, type: 'nominal' }
-          }
-          if (['integer', 'number'].includes(field.type)) {
-            // @ts-ignore
-            chart.encoding.y = { field: field.name, type: 'quantitative' }
-          }
-          // @ts-ignore
-          if (chart.encoding.x && chart.encoding.y) break
-        }
-      }
-      const result = await client.chartCreate({ path, chart })
-      onDraft(result.path)
+      // const { record, client, onDraft } = get()
+      // let path
+      // let chart
+      // if (record?.type === 'table') {
+      // path = `${record.resource.name}.chart.json`
+      // chart = {
+      // data: { url: record.path },
+      // mark: 'bar',
+      // encoding: {},
+      // width: 600,
+      // height: 200,
+      // }
+      // const { columns } = await client.columnList()
+      // for (const column of columns) {
+      // if (column.tablePath !== record.path) continue
+      // if (column.type === 'string') {
+      // // @ts-ignore
+      // chart.encoding.x = { column: column.name, type: 'nominal' }
+      // }
+      // if (['integer', 'number'].includes(column.type)) {
+      // // @ts-ignore
+      // chart.encoding.y = { column: column.name, type: 'quantitative' }
+      // }
+      // // @ts-ignore
+      // if (chart.encoding.x && chart.encoding.y) break
+      // }
+      // }
+      // const result = await client.chartCreate({ path, chart })
+      // onDraft(result.path)
     },
     createView: async () => {
-      const { client, onDraft } = get()
-      const { path } = await client.viewCreate()
-      onDraft(path)
+      // const { client, onDraft } = get()
+      // const { path } = await client.viewCreate()
+      // onDraft(path)
     },
   }))
 }
 
 export const selectors = {
-  fileItem: (state: State) => {
-    return state.fileItems.find((item) => item.path === state.path)
-  },
-  filePaths: (state: State) => {
-    return state.fileItems
-      .filter((item) => item.type === 'folder')
-      .map((item) => item.path)
-  },
   isFolder: (state: State) => {
-    return !!state.fileItems.find(
-      (item) => item.path === state.path && item.type === 'folder'
+    return !!state.files.find(
+      (file) => file.path === state.path && file.type === 'folder'
     )
   },
   folderPath: (state: State) => {
@@ -272,28 +240,6 @@ export const selectors = {
     const isFolder = selectors.isFolder(state)
     if (isFolder) return state.path
     return helpers.getFolderPath(state.path)
-  },
-  fileTree: (state: State) => {
-    return helpers.createFileTree(state.fileItems)
-  },
-  targetTree: (state: State) => {
-    const fileTree = helpers.createFileTree(state.fileItems, ['folder'])
-    const targetTree: ITreeItem[] = [
-      { name: 'Project', path: '/', type: 'folder', children: fileTree },
-    ]
-    return targetTree
-  },
-  errorCount: (state: State) => {
-    return state.file?.record?.report?.stats?.errors
-    // For now we don't show integrated project status (probably we don't need to)
-    // if (state.file) {
-    // return state.file?.record?.report?.stats?.errors
-    // } else {
-    // const indexed = state.fileItems.filter((item) => item.errorCount !== undefined)
-    // return indexed.length
-    // ? indexed.reduce((count, item) => count + (item.errorCount || 0), 0)
-    // : undefined
-    // }
   },
 }
 

@@ -10,8 +10,8 @@ export default function Actions() {
   return (
     <ActionsBar
       isUpdated={isUpdated}
-      onSaveAs={() => updateState({ dialog: 'saveAs' })}
-      onPublish={() => updateState({ dialog: 'publish' })}
+      onSaveAs={!isUpdated ? () => updateState({ dialog: 'saveAs' }) : undefined}
+      onPublish={!isUpdated ? () => updateState({ dialog: 'publish' }) : undefined}
       onRevert={revert}
       onSave={save}
     />

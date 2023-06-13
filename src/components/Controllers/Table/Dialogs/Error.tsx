@@ -8,8 +8,6 @@ import IconButton from '../../../Parts/Buttons/Icon'
 import { useStore } from '../store'
 
 export default function ErrorDialog() {
-  const file = useStore((state) => state.file)
-  if (!file) return null
   const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
   const error = useStore((state) => state.error)

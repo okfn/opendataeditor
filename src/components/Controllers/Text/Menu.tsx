@@ -1,35 +1,44 @@
 import * as React from 'react'
-import MenuBar, { MenuBarItem } from '../../Parts/Bars/Menu'
 import { useStore, selectors } from './store'
+import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
   const language = useStore(selectors.language)
   const panel = useStore((state) => state.panel)
   const clear = useStore((state) => state.clear)
+  const undo = useStore((state) => state.undo)
+  const redo = useStore((state) => state.redo)
   const fix = useStore((state) => state.fix)
   const minify = useStore((state) => state.minify)
   const prettify = useStore((state) => state.prettify)
   const updateState = useStore((state) => state.updateState)
-  const items: MenuBarItem[] = ['editor', 'metadata', 'report', 'source', 'clear']
-  if (language === 'json') items.push('fix', 'minify', 'prettify')
+  const minimalVersion = useStore((state) => state.minimalVersion)
+  const currentVersion = useStore((state) => state.currentVersion)
+  const maximalVersion = useStore((state) => state.maximalVersion)
   return (
-    <MenuBar
-      items={items}
-      colors={{
-        editor: 'info',
-        metadata: panel === 'metadata' ? 'warning' : undefined,
-        report: panel === 'report' ? 'warning' : undefined,
-        source: panel === 'source' ? 'warning' : undefined,
-      }}
-      onEditor={() => {}}
-      onMetadata={() =>
-        updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
-      }
-      onReport={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
-      onClear={clear}
-      onFix={fix}
-      onMinify={minify}
-      onPrettify={prettify}
-    />
+    <menu.MenuBar>
+      <menu.EditorButton color="info" />
+      <menu.MetadataButton
+        color={panel === 'metadata' ? 'warning' : undefined}
+        onClick={() =>
+          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+        }
+      />
+      <menu.ReportButton
+        color={panel === 'report' ? 'warning' : undefined}
+        onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+      />
+      <menu.SourceButton color="info" />
+      <menu.ClearButton onClick={clear} />
+      <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
+      <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />
+      {language === 'json' && (
+        <React.Fragment>
+          <menu.FixButton onClick={fix} />
+          <menu.MinifyButton onClick={minify} />
+          <menu.PrettifyButton onClick={prettify} />
+        </React.Fragment>
+      )}
+    </menu.MenuBar>
   )
 }

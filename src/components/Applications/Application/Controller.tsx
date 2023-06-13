@@ -1,16 +1,22 @@
 import * as React from 'react'
+import ControllerProps from '../../Parts/Controller/Props'
 import File from '../../Controllers/File'
+import Package from '../../Controllers/Package'
+import Metadata from '../../Controllers/Metadata'
+import Chart from '../../Controllers/Chart'
+import Table from '../../Controllers/Table'
+import Text from '../../Controllers/Text'
+import View from '../../Controllers/View'
 import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import { useStore } from './store'
-import * as settings from './settings'
 
 export default function Controller() {
-  const file = useStore((state) => state.file)
+  const record = useStore((state) => state.record)
   const indexing = useStore((state) => state.indexing)
   return indexing ? (
     <LoadingController />
-  ) : file ? (
+  ) : record ? (
     <FileController />
   ) : (
     <EmptyController />
@@ -18,23 +24,19 @@ export default function Controller() {
 }
 
 function FileController() {
-  const file = useStore((state) => state.file)
   const client = useStore((state) => state.client)
-  const revert = useStore((state) => state.revert)
-  const onCreate = useStore((state) => state.onCreate)
-  const onUpdate = useStore((state) => state.onUpdate)
-  const fileEvent = useStore((state) => state.fileEvent)
-  if (!file) return null
-  const Controller = settings.CONTROLLERS[file.type] || File
-  const handleUpdate = React.useMemo(() => () => onUpdate(file.path), [file.path])
+  const record = useStore((state) => state.record)
+  const onFileCreate = useStore((state) => state.onFileCreate)
+  const onFilePatch = useStore((state) => state.onFilePatch)
+  if (!record) return null
+  const Controller = CONTROLLERS[record.type] || File
+  const handleUpdate = React.useMemo(() => () => onFilePatch(record.path), [record.path])
   return (
     <Controller
-      path={file.path}
+      path={record.path}
       client={client}
-      isDraft={fileEvent?.type === 'draft'}
       onSave={handleUpdate}
-      onSaveAs={onCreate}
-      onRevert={revert}
+      onSaveAs={(path) => onFileCreate([path])}
     />
   )
 }
@@ -44,5 +46,24 @@ function EmptyController() {
 }
 
 function LoadingController() {
-  return <Spinner message="Indexing file" />
+  return <Spinner message="Indexing" />
+}
+
+export const CONTROLLERS: {
+  [type: string]: React.ElementType<ControllerProps>
+} = {
+  article: Text,
+  chart: Chart,
+  dialect: Metadata,
+  file: File,
+  json: Text,
+  jsonschema: Text,
+  map: Text,
+  package: Package,
+  resource: Metadata,
+  schema: Metadata,
+  script: Text,
+  table: Table,
+  text: Text,
+  view: View,
 }

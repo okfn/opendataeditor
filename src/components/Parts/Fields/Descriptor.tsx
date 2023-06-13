@@ -3,14 +3,14 @@ import yaml from 'js-yaml'
 import noop from 'lodash/noop'
 import isPlainObject from 'lodash/isPlainObject'
 import TextField from '@mui/material/TextField'
-import { IDict } from '../../../interfaces'
+import * as types from '../../../types'
 
 interface DescriptorFieldProps {
   type: 'json' | 'yaml'
   label: string
-  value?: IDict
+  value?: types.IDict
   size?: 'small' | 'medium'
-  onChange: (value: IDict) => void
+  onChange: (value: types.IDict) => void
   onFocus?: () => void
 }
 

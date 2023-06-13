@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -14,9 +13,7 @@ export default function Spinner(props: SpinnerProps) {
     <StyledCard>
       <StyledCardContent>
         <CircularProgress />
-        <Typography sx={{ fontWeight: 600 }}>
-          {props.message || 'Please wait'}...
-        </Typography>
+        {props.message || 'Please wait'}...
       </StyledCardContent>
     </StyledCard>
   )
@@ -31,6 +28,7 @@ const StyledCard = styled(Card)(() => ({
   square: 'true',
   display: 'flex',
   alignItems: 'center',
+  zIndex: 1000000,
 }))
 
 const StyledCardContent = styled(CardContent)(() => ({
@@ -38,4 +36,7 @@ const StyledCardContent = styled(CardContent)(() => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
+  fontSize: '16px',
+  color: '#777',
+  zIndex: 1000000,
 }))

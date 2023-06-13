@@ -4,7 +4,7 @@ import { useStore, selectors } from '../../store'
 import Columns from '../../../../Parts/Columns'
 import InputField from '../../../../Parts/Fields/Input'
 import SelectField from '../../../../Parts/Fields/Select'
-import { IStack } from '../../../../../interfaces'
+import * as types from '../../../../../types'
 import * as settings from '../../settings'
 
 export default function Stack() {
@@ -27,7 +27,7 @@ export default function Stack() {
 }
 
 function StackField() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
@@ -46,7 +46,7 @@ function StackField() {
 }
 
 function Offset() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -64,7 +64,7 @@ function Offset() {
 }
 
 function SortOrder() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const sort = transform.sort && transform.sort.length > 0 ? transform.sort[0] : undefined
@@ -86,7 +86,7 @@ function SortOrder() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -102,7 +102,7 @@ function As() {
 }
 
 function GroupBy() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (
@@ -118,7 +118,7 @@ function GroupBy() {
 }
 
 function SortField() {
-  const transform = useStore(selectors.transform!) as IStack
+  const transform = useStore(selectors.transform!) as types.IStack
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)

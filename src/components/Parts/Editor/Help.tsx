@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import HelpCard from '../HelpCard'
-import { IHelpItem } from '../../../interfaces'
+import * as types from '../../../types'
 
 interface EditorHelpProps {
-  helpItem: IHelpItem
+  helpItem: types.IHelpItem
 }
 
 export default function EditorHelp(props: EditorHelpProps) {

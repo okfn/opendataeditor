@@ -8,8 +8,8 @@ import Schema from '../../Editors/Schema'
 import DefaultPreview from '../../Parts/Preview'
 import Columns from '../../Parts/Columns'
 import ScrollBox from '../../Parts/ScrollBox'
-import { IPackage, IResource, IDialect, ISchema } from '../../../interfaces'
 import { useStore } from './store'
+import * as types from '../../../types'
 
 export default function Content() {
   const theme = useTheme()
@@ -51,28 +51,28 @@ function Editor() {
     case 'package':
       return (
         <Package
-          package={descriptor as IPackage}
+          package={descriptor as types.IPackage}
           onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'resource':
       return (
         <Resource
-          resource={descriptor as IResource}
+          resource={descriptor as types.IResource}
           onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'dialect':
       return (
         <Dialect
-          dialect={descriptor as IDialect}
+          dialect={descriptor as types.IDialect}
           onChange={(descriptor) => updateState({ descriptor })}
         />
       )
     case 'schema':
       return (
         <Schema
-          schema={descriptor as ISchema}
+          schema={descriptor as types.ISchema}
           onChange={(descriptor) => updateState({ descriptor })}
         />
       )

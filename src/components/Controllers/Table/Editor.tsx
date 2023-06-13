@@ -1,24 +1,29 @@
 import * as React from 'react'
-import Table from '../../Editors/Table'
+import DataGrid from '../../Parts/DataGrid'
 import { useStore } from './store'
 
 export default function Editor() {
-  const schema = useStore((state) => state.file?.record?.resource.schema)
-  const report = useStore((state) => state.file?.record?.report)
-  const tableLoader = useStore((state) => state.tableLoader)
-  const updatePatch = useStore((state) => state.updatePatch)
+  const schema = useStore((state) => state.record?.resource.schema)
+  const report = useStore((state) => state.report)
+  const loader = useStore((state) => state.loader)
+  const history = useStore((state) => state.history)
+  const startEditing = useStore((state) => state.startEditing)
+  const saveEditing = useStore((state) => state.saveEditing)
+  const stopEditing = useStore((state) => state.stopEditing)
   const updateState = useStore((state) => state.updateState)
-  const mode = useStore((state) => state.mode)
   if (!schema) return null
   if (!report) return null
   return (
-    <Table
-      loader={tableLoader}
+    <DataGrid
+      source={loader}
       schema={schema}
       report={report}
-      onChange={updatePatch}
-      onErrorClick={(error) => updateState({ error, dialog: 'error' })}
-      mode={mode}
+      history={history}
+      editable={true}
+      onEditStart={startEditing}
+      onEditComplete={saveEditing}
+      onEditStop={stopEditing}
+      handle={(gridRef) => updateState({ gridRef })}
     />
   )
 }

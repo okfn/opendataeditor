@@ -12,12 +12,12 @@ import { useStore } from '../store'
 
 // TODO: extract shared into Parts
 export default function SaveAsDialog() {
-  const file = useStore((state) => state.file)
-  if (!file) return null
+  const record = useStore((state) => state.record)
+  if (!record) return null
   const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
   const saveAs = useStore((state) => state.saveAs)
-  const [path, setPath] = React.useState(file.path)
+  const [path, setPath] = React.useState(record.path)
   const handleCancel = () => updateState({ dialog: undefined })
   const handleSave = () => {
     updateState({ dialog: undefined })

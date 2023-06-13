@@ -7,9 +7,9 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IPackage, ICkanControl } from '../../../interfaces'
-import { PackageProps } from './Package'
+import { PackageProps } from './index'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -18,9 +18,11 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs' | 'resource' | 'publish'
-  file?: IFile
-  original?: IPackage
-  modified?: IPackage
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
+  original?: types.IPackage
+  modified?: types.IPackage
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -35,10 +37,10 @@ export interface State {
   // Publish
 
   controlType: string
-  ckanControl?: Partial<ICkanControl>
+  ckanControl?: Partial<types.ICkanControl>
   isPublishing?: boolean
   publishedPath?: string
-  updateControl: (patch: Partial<ICkanControl>) => void
+  updateControl: (patch: Partial<types.ICkanControl>) => void
   publish: () => void
 }
 
@@ -52,15 +54,13 @@ export function makeStore(props: PackageProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      set({ file })
-      const { data } = await client.jsonRead({ path: file.path })
-      set({ modified: cloneDeep(data), original: data })
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { data } = await client.jsonRead({ path: record.path })
+      set({ record, report, measure, modified: cloneDeep(data), original: data })
     },
     clear: () => {
       const { updateState } = get()
-      const descriptor = helpers.getInitialDescriptor('package') as IPackage
+      const descriptor = helpers.getInitialDescriptor('package') as types.IPackage
       if (!descriptor) return
       updateState({ modified: cloneDeep(descriptor) })
     },
@@ -69,18 +69,14 @@ export function makeStore(props: PackageProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { file, client, modified, onSave, load } = get()
-      if (!file || !modified) return
-      await client.packageWrite({ path: file.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, onSave, load } = get()
+      await client.packagePatch({ path, data: modified })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.packageWrite({ path, data: modified })
+    saveAs: async (toPath) => {
+      const { path, client, modified, onSaveAs } = get()
+      await client.packagePatch({ path, toPath, data: modified })
       onSaveAs(path)
     },
 
@@ -91,10 +87,8 @@ export function makeStore(props: PackageProps) {
       if (!modified) return
       const resources = [...modified.resources]
       for (const path of paths) {
-        const { file } = await client.fileSelect({ path })
-        if (file?.record) {
-          resources.push(file.record.resource)
-        }
+        const { record } = await client.fileIndex({ path })
+        resources.push(record.resource)
       }
       updateState({ modified: { ...modified, resources } })
     },
@@ -107,12 +101,12 @@ export function makeStore(props: PackageProps) {
     },
     // TODO: handle errors
     publish: async () => {
-      const { file, client } = get()
-      if (!file) return
+      const { record, client } = get()
+      if (!record) return
       const control = selectors.control(get())
       if (!control) return
       set({ isPublishing: true })
-      const { path } = await client.packagePublish({ path: file.path, control })
+      const { path } = await client.packagePublish({ path: record.path, control })
       set({ isPublishing: false, publishedPath: path })
     },
   }))
@@ -133,7 +127,7 @@ export const selectors = {
       if (!control.baseurl) return
       if (!control.dataset) return
       if (!control.apikey) return
-      return control as ICkanControl
+      return control as types.ICkanControl
     }
     return undefined
   },

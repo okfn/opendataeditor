@@ -2,8 +2,8 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Alert from '@mui/material/Alert'
 // import Table from '../../Editors/Table'
-import { IReport } from '../../../interfaces'
 import { useStore } from './store'
+import * as types from '../../../types'
 
 export default function Viewer() {
   const error = useStore((state) => state.error)
@@ -11,7 +11,7 @@ export default function Viewer() {
 
   // TODO: it's a stub
   // @ts-ignore
-  const report: IReport = { valid: true, tasks: [], warnings: [], errors: [] }
+  const report: types.IReport = { valid: true, tasks: [], warnings: [], errors: [] }
   if (!table) {
     if (error) {
       return (

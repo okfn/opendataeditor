@@ -8,27 +8,43 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, IResource } from '../../../interfaces'
-import { IMonacoEditor } from '../../Parts/Monaco/Editor'
-import { TextProps } from './Text'
+import { ITextEditor } from '../../Parts/TextEditor'
+import { TextProps } from './index'
 import * as helpers from './helpers'
-// @ts-expect-error
+import * as types from '../../../types'
 import dirtyJson from 'dirty-json'
 
 export interface State {
   path: string
   client: Client
+  panel?: 'metadata' | 'report'
+  dialog?: 'saveAs'
+  editorRef: React.RefObject<ITextEditor>
+  updateState: (patch: Partial<State>) => void
+
+  // Data
+
+  originalText?: string
+  modifiedText?: string
+  renderedText?: string
+  minimalVersion: number
+  currentVersion: number
+  maximalVersion: number
+
+  // Metadata
+
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
+  resource?: types.IResource
+
+  // Events
+
   onSave: () => void
   onSaveAs: (path: string) => void
-  panel?: 'metadata' | 'report' | 'source'
-  dialog?: 'saveAs'
-  file?: IFile
-  resource?: IResource
-  original?: string
-  modified?: string
-  rendered?: string
-  editorRef: React.RefObject<IMonacoEditor>
-  updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
@@ -38,6 +54,8 @@ export interface State {
   // Text
 
   clear: () => void
+  undo: () => void
+  redo: () => void
 
   // Json
 
@@ -49,61 +67,86 @@ export interface State {
 export function makeStore(props: TextProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    editorRef: React.createRef<ITextEditor>(),
+    updateState: (patch) => set(patch),
+
+    // Data
+
+    minimalVersion: 1,
+    currentVersion: 1,
+    maximalVersion: 1,
+
+    // Events
+
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    editorRef: React.createRef<IMonacoEditor>(),
-    updateState: (patch) => {
-      const { render } = get()
-      set(patch)
-      // TODO: stop using this pattern in favour of proper updateDescriptor/etc methods
-      if ('modified' in patch) render()
-    },
+
+    // General
+
     load: async () => {
       const { path, client, render } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      set({ file, resource })
-      const { text } = await client.textRead({ path: file.path })
-      set({ modified: text, original: text })
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { text } = await client.textRead({ path: record.path })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        modifiedText: text,
+        originalText: text,
+      })
       render()
     },
     revert: () => {
-      const { file, original, updateState } = get()
-      if (!file) return
-      updateState({ resource: cloneDeep(file.record!.resource), modified: original })
+      const { record, originalText, updateState } = get()
+      if (!record) return
+      updateState({
+        resource: cloneDeep(record.resource),
+        modifiedText: originalText,
+      })
     },
-    // TODO: needs to udpate file object as well
     save: async () => {
-      const { file, client, modified, resource, onSave, load } = get()
-      if (!file || !resource) return
-      await client.fileUpdate({ path: file.path, resource })
-      await client.textWrite({ path: file.path, text: modified! })
-      set({ original: modified })
+      const { path, client, modifiedText, resource, onSave, load } = get()
+      await client.textPatch({
+        path,
+        text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      await client.textWrite({ path, text: modified! })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modifiedText, resource, onSaveAs } = get()
+      await client.textPatch({
+        path,
+        toPath,
+        text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
     render: throttle(async () => {
-      const { file, client, modified } = get()
-      if (!file) return
-      if (!modified) return
-      if (file.record?.resource.format === 'md') {
-        const { text } = await client.textRender({ text: modified })
-        set({ rendered: text })
+      const { record, client, modifiedText } = get()
+      if (!record) return
+      if (record.type === 'article') {
+        const { text } = await client.articleRender({ text: modifiedText || '' })
+        set({ renderedText: text })
       }
     }, 1000),
 
     // Text
 
     clear: () => {
+      const { updateState } = get()
+      updateState({ modifiedText: '' })
+    },
+    undo: () => {
       const { editorRef } = get()
-      if (!editorRef.current) return
-      editorRef.current.setValue('')
+      editorRef.current?.trigger(null, 'undo', null)
+    },
+    redo: () => {
+      const { editorRef } = get()
+      editorRef.current?.trigger(null, 'redo', null)
     },
 
     // Json
@@ -138,16 +181,23 @@ export function makeStore(props: TextProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return (
-      state.original !== state.modified ||
-      !isEqual(state.resource, state.file?.record!.resource)
-    )
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !isEqual(state.originalText, state.modifiedText)
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
   language: (state: State) => {
-    const resource = state.file?.record!.resource
+    const resource = state.record?.resource
     if (!resource) return undefined
     switch (resource.format) {
       case 'json':
+        return 'json'
+      case 'geojson':
+        return 'json'
+      case 'topojson':
         return 'json'
       case 'yaml':
         return 'yaml'
@@ -157,6 +207,8 @@ export const selectors = {
         return 'python'
       case 'js':
         return 'javascript'
+      case 'r':
+        return 'r'
       default:
         return 'plaintext'
     }

@@ -7,10 +7,9 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile } from '../../../interfaces'
-import { IResource, IDialect, ISchema } from '../../../interfaces'
-import { MetadataProps } from './Metadata'
+import { MetadataProps } from './index'
 import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -19,9 +18,11 @@ export interface State {
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
   dialog?: 'saveAs'
-  file?: IFile
-  original?: IResource | IDialect | ISchema
-  modified?: IResource | IDialect | ISchema
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
+  original?: types.IResource | types.IDialect | types.ISchema
+  modified?: types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
@@ -40,16 +41,14 @@ export function makeStore(props: MetadataProps) {
     },
     load: async () => {
       const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      set({ file })
-      const { data } = await client.jsonRead({ path: file.path })
-      set({ modified: cloneDeep(data), original: data })
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { data } = await client.jsonRead({ path: record.path })
+      set({ record, report, measure, modified: cloneDeep(data), original: data })
     },
     clear: () => {
-      const { file, updateState } = get()
-      if (!file) return
-      const descriptor = helpers.getInitialDescriptor(file.type)
+      const { record, updateState } = get()
+      if (!record) return
+      const descriptor = helpers.getInitialDescriptor(record.type)
       if (!descriptor) return
       updateState({ modified: cloneDeep(descriptor) })
     },
@@ -58,19 +57,15 @@ export function makeStore(props: MetadataProps) {
       set({ modified: cloneDeep(original) })
     },
     save: async () => {
-      const { file, client, modified, onSave, load } = get()
-      if (!file || !modified) return
-      await client.metadataWrite({ path: file.path, data: modified })
-      set({ modified: cloneDeep(modified), original: modified })
+      const { path, client, modified, onSave, load } = get()
+      await client.jsonPatch({ path, data: modified })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { client, modified, onSaveAs } = get()
-      if (!modified) return
-      // TODO: write resource as well?
-      await client.metadataWrite({ path, data: modified })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, modified, onSaveAs } = get()
+      await client.jsonPatch({ path, toPath, data: modified })
+      onSaveAs(toPath)
     },
   }))
 }

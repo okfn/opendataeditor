@@ -7,8 +7,11 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IFile, ITablePatch, IResource, ITableLoader, IError } from '../../../interfaces'
-import { TableProps } from './Table'
+import { IDataGrid } from '../../Parts/DataGrid'
+import { TableProps } from './index'
+import * as settings from '../../../settings'
+import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 export interface State {
   path: string
@@ -18,26 +21,37 @@ export interface State {
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   dialog?: 'saveAs' | 'error'
-  file?: IFile
+  record?: types.IRecord
+  report?: types.IReport
+  measure?: types.IMeasure
   source?: string
   rowCount?: number
-  resource?: IResource
+  resource?: types.IResource
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
   saveAs: (path: string) => Promise<void>
-  tableLoader: ITableLoader
+  loader: types.ITableLoader
+  history: types.IHistory
+  undoneHistory: types.IHistory
+  error?: types.IError
   toggleErrorMode: () => Promise<void>
-  error?: IError
   // TODO: Figure out how to highlight the column in datagrid without rerender
   selectedField?: string
+  gridRef?: React.MutableRefObject<IDataGrid>
+  clearHistory: () => void
 
-  // Legacy
+  // Editing
 
-  tablePatch: ITablePatch
-  updatePatch: (rowNumber: number, fieldName: string, value: any) => void
+  initialEditingValue?: any
+  // TODO: find proper context type
+  startEditing: (context: any) => void
+  saveEditing: (context: any) => void
+  stopEditing: (context: any) => void
+  undoChange: () => void
+  redoChange: () => void
 }
 
 export function makeStore(props: TableProps) {
@@ -45,17 +59,23 @@ export function makeStore(props: TableProps) {
     ...props,
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
-    tablePatch: {},
+    history: cloneDeep(settings.INITIAL_HISTORY),
+    undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
     updateState: (patch) => {
       set(patch)
     },
     load: async () => {
-      const { path, client } = get()
-      const { file } = await client.fileIndex({ path })
-      if (!file) return
-      const resource = cloneDeep(file.record!.resource)
-      const { count } = await client.tableCount({ path: file.path })
-      set({ file, resource, rowCount: count })
+      const { path, client, clearHistory } = get()
+      const { record, report, measure } = await client.fileIndex({ path })
+      const { count } = await client.tableCount({ path })
+      set({
+        record,
+        report,
+        measure,
+        resource: cloneDeep(record.resource),
+        rowCount: count,
+      })
+      clearHistory()
     },
     loadSource: async () => {
       const { path, client } = get()
@@ -63,29 +83,39 @@ export function makeStore(props: TableProps) {
       set({ source: text })
     },
     revert: () => {
-      const { file } = get()
-      if (!file) return
-      set({ resource: cloneDeep(file.record!.resource) })
+      const { record, gridRef, clearHistory } = get()
+      if (!record) return
+      if (selectors.isDataUpdated(get())) {
+        clearHistory()
+        gridRef?.current?.reload()
+      }
+      if (selectors.isMetadataUpdated(get())) {
+        set({ resource: cloneDeep(record.resource) })
+      }
     },
     save: async () => {
-      const { file, client, resource, onSave, load } = get()
-      if (!file || !resource) return
-      let reindex = false
-      if (!isEqual(resource.dialect, file!.record!.resource.dialect)) reindex = true
-      if (!isEqual(resource.schema, file!.record!.resource.schema)) reindex = true
-      await client.fileUpdate({ path: file.path, resource, reindex })
+      const { path, client, history, load, resource, onSave } = get()
+      await client.tablePatch({
+        path,
+        history: selectors.isDataUpdated(get()) ? history : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
       onSave()
       load()
     },
-    saveAs: async (path) => {
-      const { file, client, onSaveAs } = get()
-      if (!file) return
-      await client.fileCopy({ path: file.path, newPath: path })
-      onSaveAs(path)
+    saveAs: async (toPath) => {
+      const { path, client, history, resource, onSaveAs } = get()
+      await client.tablePatch({
+        path,
+        toPath,
+        history: selectors.isDataUpdated(get()) ? history : undefined,
+        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+      })
+      onSaveAs(toPath)
     },
-    tableLoader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount, mode } = get()
-      const { table } = await client.tableRead({
+    loader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount, mode, history } = get()
+      const { rows } = await client.tableRead({
         path,
         valid: mode === 'errors' ? false : undefined,
         limit,
@@ -93,29 +123,83 @@ export function makeStore(props: TableProps) {
         order: sortInfo?.name,
         desc: sortInfo?.dir === -1,
       })
-      return {
-        data: table!.rows,
-        count: rowCount || 0,
-      }
+
+      helpers.applyTableHistory(history, rows)
+      return { data: rows, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
-      const { client, mode, file } = get()
-      if (!file) return
+      const { path, client, mode, gridRef } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      // Update mode/rowCount
       if (mode === 'errors') {
-        const { count } = await client.tableCount({ path: file.path })
+        const { count } = await client.tableCount({ path })
         set({ mode: undefined, rowCount: count })
       } else {
-        const { count } = await client.tableCount({ path: file.path, valid: false })
+        const { count } = await client.tableCount({ path, valid: false })
         set({ mode: 'errors', rowCount: count })
       }
+
+      if (grid.setSkip) grid.setSkip(0)
+      grid.reload()
+    },
+    clearHistory: () => {
+      set({
+        history: cloneDeep(settings.INITIAL_HISTORY),
+        undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
+      })
     },
 
-    // Legacy
+    // Editing
 
-    updatePatch: (rowNumber, fieldName, value) => {
-      const { tablePatch } = get()
-      tablePatch[rowNumber] = { ...tablePatch[rowNumber], [fieldName]: value }
-      set({ tablePatch: { ...tablePatch } })
+    startEditing: (context) => {
+      const { updateState } = get()
+      updateState({ initialEditingValue: context.value })
+    },
+    saveEditing: (context) => {
+      const { gridRef, history, undoneHistory, initialEditingValue } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      // Don't save if not changed
+      let value = context.value
+      if (value === initialEditingValue) return
+
+      const rowNumber = context.rowId
+      const fieldName = context.columnId
+      if (context.cellProps.type === 'number') value = parseInt(value)
+      const change: types.IChange = {
+        type: 'cell-update',
+        rowNumber,
+        fieldName,
+        value,
+      }
+      helpers.applyTableHistory({ changes: [change] }, grid.data)
+      history.changes.push(change)
+      undoneHistory.changes = []
+      set({ history: { ...history } })
+    },
+    stopEditing: () => {
+      const { gridRef, updateState } = get()
+      requestAnimationFrame(() => {
+        updateState({ initialEditingValue: undefined })
+        gridRef?.current?.focus()
+      })
+    },
+    undoChange: () => {
+      const { history, undoneHistory, gridRef } = get()
+      const change = history.changes.pop()
+      if (change) undoneHistory.changes.push(change)
+      set({ history: { ...history } })
+      gridRef?.current?.reload()
+    },
+    redoChange: () => {
+      const { history, undoneHistory, gridRef } = get()
+      const change = undoneHistory.changes.pop()
+      if (change) history.changes.push(change)
+      set({ history: { ...history } })
+      gridRef?.current?.reload()
     },
   }))
 }
@@ -123,7 +207,13 @@ export function makeStore(props: TableProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
-    return !isEqual(state.resource, state.file?.record!.resource)
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return !!state.history.changes.length
+  },
+  isMetadataUpdated: (state: State) => {
+    return !isEqual(state.resource, state.record?.resource)
   },
 }
 

@@ -25,12 +25,18 @@ const TRANSFORMS: { [key: string]: any } = {
 }
 
 export default function Transform() {
+  // TODO: fix
+  // @ts-ignore
   const index = useStore((state) => state.transformStates[state.layer]?.index)
   return index === undefined ? <TransformList /> : <TransformItem />
 }
 
 function TransformList() {
+  // TODO: fix
+  // @ts-ignore
   const isGrid = useStore((state) => state.transformStates[state.layer]?.isGrid)
+  // TODO: fix
+  // @ts-ignore
   const query = useStore((state) => state.transformStates[state.layer]?.query)
   const transformItems = useStore(selectors.transformItems)
   const updateTransformState = useStore((state) => state.updateTransformState)
@@ -69,8 +75,12 @@ function TransformList() {
 
 function TransformItem() {
   const title = useStore(select(selectors.transform, (transform) => transform.title))
+  // TODO: fix
+  // @ts-ignore
   const isExtras = useStore((state) => state.transformStates[state.layer].isExtras)
   const updateTransformState = useStore((state) => state.updateTransformState)
+  // TODO: fix
+  // @ts-ignore
   const type = useStore((state) => state.transformStates[state.layer].type ?? 'aggregate')
   const ViewTransform = TRANSFORMS[type]
   return (
@@ -96,6 +106,8 @@ function TransformItem() {
 }
 
 function Type() {
+  // TODO: fix
+  // @ts-ignore
   const type = useStore((state) => state.transformStates[state.layer].type!)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransformType = useStore((state) => state.updateTransformType)

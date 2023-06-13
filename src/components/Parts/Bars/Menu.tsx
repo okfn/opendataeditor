@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import RuleIcon from '@mui/icons-material/Rule'
@@ -6,203 +7,282 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
+import UndoIcon from '@mui/icons-material/Undo'
+import RedoIcon from '@mui/icons-material/Redo'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import EditRoadIcon from '@mui/icons-material/EditRoad'
-import IconButton from '../../Parts/Buttons/Icon'
+import LightTooltip from '../Tooltips/Light'
+import IconButton from '../Buttons/Icon'
+
+// TODO: don't use hard-coded color (info=#9c27b0)
+// TODO: add spacing between buttons
 
 export type MenuBarItem =
+  | 'editor'
+  | 'metadata'
+  | 'report'
+  | 'source'
+  | 'errors'
   | 'clear'
+  | 'undo'
+  | 'redo'
   | 'fix'
   | 'minify'
   | 'prettify'
-  | 'metadata'
-  | 'source'
-  | 'report'
-  | 'editor'
-  | 'errors'
 
 export interface MenuBarProps {
-  items?: MenuBarItem[]
-  labels?: { [key in MenuBarItem]?: string | undefined }
-  colors?: { [key in MenuBarItem]?: 'success' | 'warning' | 'error' | 'info' | undefined }
-  onClear?: () => void
-  onFix?: () => void
-  onMinify?: () => void
-  onPrettify?: () => void
-  onMetadata?: () => void
-  onSource?: () => void
-  onReport?: () => void
-  onEditor?: () => void
-  onErrors?: () => void
+  fullWidth?: boolean
 }
 
-// TODO: add spacing between buttons
-// TODO: use React.useMemo for better performance/animation
-export default function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
-  const Metadata = () => {
-    if (!props.items?.includes('metadata')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.metadata || 'Metadata'}
-        Icon={TuneIcon}
-        color={props.colors?.metadata}
-        disabled={!props.onMetadata}
-        onClick={() => props.onMetadata!()}
-      />
-    )
-  }
-
-  const Report = () => {
-    if (!props.items?.includes('report')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.report || 'Report'}
-        Icon={RuleIcon}
-        color={props.colors?.report}
-        disabled={!props.onReport}
-        onClick={() => props.onReport!()}
-      />
-    )
-  }
-
-  const Source = () => {
-    if (!props.items?.includes('source')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.source || 'Source'}
-        Icon={CodeIcon}
-        color={props.colors?.source}
-        disabled={!props.onSource}
-        onClick={() => props.onSource!()}
-      />
-    )
-  }
-
-  const Errors = () => {
-    if (!props.items?.includes('errors')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.errors || 'Errors'}
-        Icon={ReportGmailerrorredIcon}
-        color={props.colors?.errors}
-        disabled={!props.onErrors}
-        onClick={() => props.onErrors!()}
-      />
-    )
-  }
-
-  const Editor = () => {
-    if (!props.items?.includes('editor')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.editor || 'Editor'}
-        Icon={EditRoadIcon}
-        color={props.colors?.editor}
-        disabled={!props.onEditor}
-        onClick={() => props.onEditor!()}
-      />
-    )
-  }
-
-  const Fix = () => {
-    if (!props.items?.includes('fix')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.fix || 'Fix'}
-        Icon={HandymanIcon}
-        color={props.colors?.fix}
-        disabled={!props.onFix}
-        onClick={() => props.onFix!()}
-      />
-    )
-  }
-
-  const Minify = () => {
-    if (!props.items?.includes('minify')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.minify || 'Minify'}
-        Icon={CompressIcon}
-        color={props.colors?.minify}
-        disabled={!props.onMinify}
-        onClick={() => props.onMinify!()}
-      />
-    )
-  }
-
-  const Prettify = () => {
-    if (!props.items?.includes('prettify')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.prettify || 'Prettify'}
-        Icon={DataObjectIcon}
-        color={props.colors?.prettify}
-        disabled={!props.onPrettify}
-        onClick={() => props.onPrettify!()}
-      />
-    )
-  }
-
-  const Clear = () => {
-    if (!props.items?.includes('clear')) return null
-    return (
-      <IconButton
-        small
-        variant="text"
-        label={props.labels?.clear || 'Clear'}
-        Icon={FormatClearIcon}
-        color={props.colors?.clear}
-        disabled={!props.onClear}
-        onClick={() => props.onClear!()}
-      />
-    )
-  }
-
-  const DefaultBar = () => {
-    return (
-      <Stack direction="row" spacing={1}>
-        <Editor />
-        <Metadata />
-        <Report />
-        <Source />
-        <Errors />
-        <Clear />
-        <Fix />
-        <Minify />
-        <Prettify />
-        {props.children}
-      </Stack>
-    )
-  }
-
-  const CustomBar = () => {
-    return <React.Fragment>{props.children}</React.Fragment>
-  }
-
+export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
       sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
     >
-      {props.items ? <DefaultBar /> : <CustomBar />}
+      <MenuBarItems {...props} />
     </Toolbar>
+  )
+}
+
+function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
+  if (!props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
+  return (
+    <Stack direction="row" spacing={1}>
+      {props.children}
+    </Stack>
+  )
+}
+
+export interface ButtonProps {
+  label?: string
+  color?: 'success' | 'warning' | 'error' | 'info'
+  disabled?: boolean
+  onClick?: () => void
+}
+
+export function EditorButton(props: ButtonProps) {
+  return (
+    <LightTooltip title={props.onClick ? 'Toggle the editor panel' : 'Editor is enabled'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Editor'}
+          Icon={EditRoadIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.color ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function MetadataButton(props: ButtonProps) {
+  return (
+    <LightTooltip
+      title={props.onClick ? 'Toggle the metadata panel' : 'Metadata is enabled'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Metadata'}
+          Icon={TuneIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.color ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function ReportButton(props: ButtonProps) {
+  return (
+    <LightTooltip
+      title={props.onClick ? 'Toggle the report panel' : 'Report is not available'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Report'}
+          Icon={RuleIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.color ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function SourceButton(props: ButtonProps) {
+  return (
+    <LightTooltip title={props.onClick ? 'Toggle the source panel' : 'Source is enabled'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Source'}
+          Icon={CodeIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{
+            '&.Mui-disabled': {
+              color: props.color ? '#9c27b0' : undefined,
+            },
+          }}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function ErrorsButton(props: ButtonProps) {
+  return (
+    <LightTooltip
+      title={props.onClick ? 'Toggle showing only errors' : 'No errors to show'}
+    >
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Errors'}
+          Icon={ReportGmailerrorredIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function ClearButton(props: ButtonProps) {
+  return (
+    <LightTooltip title="Clear the contents">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Clear'}
+          Icon={FormatClearIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function UndoButton(props: ButtonProps) {
+  return (
+    <LightTooltip title={props.onClick ? 'Undo last change' : 'Nothing to undo'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Undo'}
+          Icon={UndoIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function RedoButton(props: ButtonProps) {
+  return (
+    <LightTooltip title={props.onClick ? 'Redo last change' : 'Nothing to redo'}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Redo'}
+          Icon={RedoIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function FixButton(props: ButtonProps) {
+  return (
+    <LightTooltip title="Fix formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Fix'}
+          Icon={HandymanIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function MinifyButton(props: ButtonProps) {
+  return (
+    <LightTooltip title="Minify formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Minify'}
+          Icon={CompressIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function PrettifyButton(props: ButtonProps) {
+  return (
+    <LightTooltip title="Prettify formatting">
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Prettify'}
+          Icon={DataObjectIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+        />
+      </Box>
+    </LightTooltip>
   )
 }

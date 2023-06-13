@@ -1,10 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IReportTask } from '../../../interfaces'
 import ErrorGroup, { ErrorGroupProps } from './ErrorGroup'
+import * as types from '../../../types'
 
 export interface TaskProps {
-  task: IReportTask
+  task: types.IReportTask
   taskNumber: number
   tasksCount: number
 }
@@ -72,7 +72,7 @@ export function splitFilePath(path: string) {
   }
 }
 
-export function getErrorGroups(task: IReportTask) {
+export function getErrorGroups(task: types.IReportTask) {
   const errorGroups: { [code: string]: ErrorGroupProps } = {}
   for (const error of task.errors) {
     // Prepare errorGroup

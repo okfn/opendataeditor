@@ -5,7 +5,7 @@ import InputField from '../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../store'
 import SelectField from '../../../../Parts/Fields/Select'
 import * as settings from '../../settings'
-import { IAggregate } from '../../../../../interfaces'
+import * as types from '../../../../../types'
 
 export default function Aggregate() {
   return (
@@ -23,7 +23,7 @@ export default function Aggregate() {
 }
 
 function Field() {
-  const transform = useStore(selectors.transform!) as IAggregate
+  const transform = useStore(selectors.transform!) as types.IAggregate
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
@@ -46,7 +46,7 @@ function Field() {
 }
 
 function Operation() {
-  const transform = useStore(selectors.transform!) as IAggregate
+  const transform = useStore(selectors.transform!) as types.IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const aggregate =
@@ -69,7 +69,7 @@ function Operation() {
 }
 
 function As() {
-  const transform = useStore(selectors.transform!) as IAggregate
+  const transform = useStore(selectors.transform!) as types.IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   const customFields = useStore((state) => state.customFields)
@@ -102,7 +102,7 @@ function As() {
 }
 
 function GroupBy() {
-  const transform = useStore(selectors.transform!) as IAggregate
+  const transform = useStore(selectors.transform!) as types.IAggregate
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransform = useStore((state) => state.updateTransform)
   return (

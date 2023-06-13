@@ -27,7 +27,7 @@ export default function CreateButton() {
 }
 
 function UploadFile() {
-  const uploadFiles = useStore((state) => state.uploadFiles)
+  const createFiles = useStore((state) => state.createFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
@@ -44,7 +44,7 @@ function UploadFile() {
           multiple
           ref={inputFileRef}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFiles(ev.target.files)
+            if (ev.target.files) createFiles(ev.target.files)
           }}
         />
       </Button>
@@ -59,7 +59,7 @@ function UploadLink() {
       variant="text"
       label="Upload Link"
       Icon={AddLink}
-      onClick={() => updateState({ dialog: 'link/create' })}
+      onClick={() => updateState({ dialog: 'uploadLink' })}
     />
   )
 }
@@ -67,7 +67,7 @@ function UploadLink() {
 function UploadFolder() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
-  const uploadFolder = useStore((state) => state.uploadFolder)
+  const createFiles = useStore((state) => state.createFiles)
   return (
     <React.Fragment>
       <Button
@@ -80,7 +80,7 @@ function UploadFolder() {
           type="file"
           hidden
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) uploadFolder(ev.target.files)
+            if (ev.target.files) createFiles(ev.target.files)
           }}
           // @ts-expect-error
           webkitdirectory=""
@@ -97,19 +97,19 @@ function CreateFolder() {
       variant="text"
       label="Create Folder"
       Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'name/create' })}
+      onClick={() => updateState({ dialog: 'createFolder' })}
     />
   )
 }
 
 function CreatePackage() {
-  const createPackage = useStore((state) => state.createPackage)
+  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
       label="Create Package"
       Icon={SourceIcon}
-      onClick={createPackage}
+      onClick={() => updateState({ dialog: 'createPackage' })}
     />
   )
 }
