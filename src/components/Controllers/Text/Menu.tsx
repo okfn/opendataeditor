@@ -17,18 +17,18 @@ export default function Menu() {
   const maximalVersion = useStore((state) => state.maximalVersion)
   return (
     <menu.MenuBar>
-      <menu.EditorButton color="info" />
+      <menu.EditorButton enabled />
       <menu.MetadataButton
-        color={panel === 'metadata' ? 'warning' : undefined}
+        active={panel === 'metadata'}
         onClick={() =>
           updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
         }
       />
       <menu.ReportButton
-        color={panel === 'report' ? 'warning' : undefined}
+        active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
-      <menu.SourceButton color="info" />
+      <menu.SourceButton enabled />
       <menu.ClearButton onClick={clear} />
       <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
       <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />

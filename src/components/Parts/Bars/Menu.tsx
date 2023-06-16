@@ -60,6 +60,7 @@ function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
 export interface ButtonProps {
   label?: string
   color?: 'success' | 'warning' | 'error' | 'info'
+  active?: boolean
   enabled?: boolean
   disabled?: boolean
   onClick?: () => void
@@ -78,7 +79,7 @@ export function EditorButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Editor'}
           Icon={EditRoadIcon}
-          color={props.color}
+          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
@@ -105,7 +106,7 @@ export function MetadataButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
-          color={props.color}
+          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
@@ -132,7 +133,7 @@ export function ReportButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Report'}
           Icon={RuleIcon}
-          color={props.color}
+          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
@@ -159,7 +160,7 @@ export function SourceButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Source'}
           Icon={CodeIcon}
-          color={props.color}
+          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
@@ -184,7 +185,7 @@ export function ErrorsButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Errors'}
           Icon={ReportGmailerrorredIcon}
-          color={props.color}
+          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
         />

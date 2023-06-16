@@ -13,19 +13,19 @@ export default function Menu() {
   const redoChange = useStore((state) => state.redoChange)
   return (
     <menu.MenuBar>
-      <menu.EditorButton color="info" />
+      <menu.EditorButton enabled />
       <menu.MetadataButton
-        color={panel === 'metadata' ? 'warning' : undefined}
+        active={panel === 'metadata'}
         onClick={() =>
           updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
         }
       />
       <menu.ReportButton
-        color={panel === 'report' ? 'warning' : undefined}
+        active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton
-        color={panel === 'source' ? 'warning' : undefined}
+        active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
       <menu.ErrorsButton onClick={toggleErrorMode} disabled={!measure?.errors} />

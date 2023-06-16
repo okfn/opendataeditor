@@ -7,18 +7,18 @@ export default function Menu() {
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
-      <menu.EditorButton disabled={true} />
+      <menu.EditorButton disabled />
       <menu.MetadataButton
-        color={panel === 'metadata' ? 'warning' : undefined}
+        active={panel === 'metadata'}
         onClick={() =>
           updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
         }
       />
       <menu.ReportButton
-        color={panel === 'report' ? 'warning' : undefined}
+        active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
-      <menu.SourceButton disabled={true} />
+      <menu.SourceButton disabled />
     </menu.MenuBar>
   )
 }
