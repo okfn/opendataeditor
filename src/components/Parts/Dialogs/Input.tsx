@@ -66,7 +66,7 @@ export default function InputDialog(props: InputDialogProps) {
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label="Cancel"
+            label="Cancel [esc]"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
@@ -76,7 +76,7 @@ export default function InputDialog(props: InputDialogProps) {
           />
           <IconButton
             fullWidth
-            label={props.label || 'Confirm'}
+            label={`${props.label || 'Confirm'} [enter]`}
             Icon={props.Icon || CheckCircleIcon}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
