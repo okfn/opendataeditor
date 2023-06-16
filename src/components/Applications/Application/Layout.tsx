@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
-import Actions from './Actions'
+import Action from './Action'
 import Controller from './Controller'
 import Dialog from './Dialog'
 import Header from './Header'
@@ -28,7 +28,7 @@ export default function Layout() {
           <Box sx={{ height: contentHeight }}>
             <Files />
           </Box>
-          <Actions />
+          <Action />
         </Box>
         <Controller />
       </Columns>

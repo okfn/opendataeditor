@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
-import Actions from './Actions'
+import Action from './Action'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
@@ -29,7 +29,7 @@ export default function Layout() {
           <Viewer />
         </ScrollBox>
         <Panel />
-        <Actions />
+        <Action />
       </Box>
     </React.Fragment>
   )

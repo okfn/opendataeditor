@@ -19,19 +19,6 @@ import { useTheme } from '@mui/material/styles'
 
 // TODO: add spacing between buttons
 
-export type MenuBarItem =
-  | 'editor'
-  | 'metadata'
-  | 'report'
-  | 'source'
-  | 'errors'
-  | 'clear'
-  | 'undo'
-  | 'redo'
-  | 'fix'
-  | 'minify'
-  | 'prettify'
-
 export interface MenuBarProps {
   fullWidth?: boolean
 }

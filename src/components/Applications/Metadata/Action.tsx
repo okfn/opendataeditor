@@ -4,20 +4,17 @@ import MenuIcon from '@mui/icons-material/Menu'
 import CodeIcon from '@mui/icons-material/Code'
 import IconButton from '../../Parts/Buttons/Icon'
 import ImportButton from '../../Parts/Buttons/Import'
-import ActionsBar from '../../Parts/Bars/Actions'
-import Columns from '../../Parts/Columns'
 import { useStore } from './store'
+import * as action from '../../Parts/Bars/Action'
 
 export default function Actions() {
   return (
-    <ActionsBar>
-      <Columns spacing={2}>
-        <Menu />
-        <Import />
-        <Export />
-        <Preview />
-      </Columns>
-    </ActionsBar>
+    <action.ActionBar>
+      <Menu />
+      <Import />
+      <Export />
+      <Preview />
+    </action.ActionBar>
   )
 }
 
