@@ -12,10 +12,6 @@ export interface ConfirmDialogProps {
   open?: boolean
   title?: string
   description?: string
-  value?: string
-  prefix?: string
-  placholder?: string
-  spellcheck?: boolean
   Icon?: React.ElementType
   label?: string
   disabled?: boolean
@@ -36,6 +32,9 @@ export default function ConfirmDialog(
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
+      onKeyPress={(event) => {
+        if (event.key === 'Enter') handleConfirm()
+      }}
     >
       <DialogTitle id="dialog-title">{props.title || 'Dialog'}</DialogTitle>
       <DialogContent sx={{ py: 0 }}>

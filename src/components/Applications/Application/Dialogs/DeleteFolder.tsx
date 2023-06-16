@@ -11,7 +11,6 @@ export default function DeleteFolderDialog() {
   return (
     <ConfirmDialog
       open={true}
-      value={path}
       title="Delete Folder"
       label="Delete"
       Icon={DeleteIcon}
