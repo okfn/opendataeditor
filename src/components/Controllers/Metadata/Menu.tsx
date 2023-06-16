@@ -8,7 +8,7 @@ export default function Menu() {
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
-      <menu.EditorButton color="info" disabled={true} />
+      <menu.EditorButton enabled />
       <menu.MetadataButton color="info" disabled={true} />
       <menu.ReportButton
         color={panel === 'report' ? 'warning' : undefined}

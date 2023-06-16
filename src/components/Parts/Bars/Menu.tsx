@@ -15,6 +15,7 @@ import TuneIcon from '@mui/icons-material/Tune'
 import EditRoadIcon from '@mui/icons-material/EditRoad'
 import LightTooltip from '../Tooltips/Light'
 import IconButton from '../Buttons/Icon'
+import { useTheme } from '@mui/material/styles'
 
 // TODO: don't use hard-coded color (info=#9c27b0)
 // TODO: add spacing between buttons
@@ -59,13 +60,18 @@ function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
 export interface ButtonProps {
   label?: string
   color?: 'success' | 'warning' | 'error' | 'info'
+  enabled?: boolean
   disabled?: boolean
   onClick?: () => void
 }
 
 export function EditorButton(props: ButtonProps) {
+  const theme = useTheme()
+  let title = 'Toggle the editor panel'
+  if (props.enabled) title = 'Editor is enabled'
+  if (props.disabled) title = 'Editor is not available'
   return (
-    <LightTooltip title={props.onClick ? 'Toggle the editor panel' : 'Editor is enabled'}>
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -73,11 +79,11 @@ export function EditorButton(props: ButtonProps) {
           label={props.label || 'Editor'}
           Icon={EditRoadIcon}
           color={props.color}
-          disabled={props.disabled}
+          disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
-              color: props.color ? '#9c27b0' : undefined,
+              color: props.enabled ? theme.palette.info.main : undefined,
             },
           }}
         />
@@ -87,10 +93,12 @@ export function EditorButton(props: ButtonProps) {
 }
 
 export function MetadataButton(props: ButtonProps) {
+  const theme = useTheme()
+  let title = 'Toggle the metadta panel'
+  if (props.enabled) title = 'Metadata is enabled'
+  if (props.disabled) title = 'Metadata is not available'
   return (
-    <LightTooltip
-      title={props.onClick ? 'Toggle the metadata panel' : 'Metadata is enabled'}
-    >
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -98,11 +106,11 @@ export function MetadataButton(props: ButtonProps) {
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
           color={props.color}
-          disabled={props.disabled}
+          disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
-              color: props.color ? '#9c27b0' : undefined,
+              color: props.enabled ? theme.palette.info.main : undefined,
             },
           }}
         />
@@ -112,10 +120,12 @@ export function MetadataButton(props: ButtonProps) {
 }
 
 export function ReportButton(props: ButtonProps) {
+  const theme = useTheme()
+  let title = 'Toggle the report panel'
+  if (props.enabled) title = 'Report is enabled'
+  if (props.disabled) title = 'Report is not available'
   return (
-    <LightTooltip
-      title={props.onClick ? 'Toggle the report panel' : 'Report is not available'}
-    >
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -123,11 +133,11 @@ export function ReportButton(props: ButtonProps) {
           label={props.label || 'Report'}
           Icon={RuleIcon}
           color={props.color}
-          disabled={props.disabled}
+          disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
-              color: props.color ? '#9c27b0' : undefined,
+              color: props.enabled ? theme.palette.info.main : undefined,
             },
           }}
         />
@@ -137,8 +147,12 @@ export function ReportButton(props: ButtonProps) {
 }
 
 export function SourceButton(props: ButtonProps) {
+  const theme = useTheme()
+  let title = 'Toggle the source panel'
+  if (props.enabled) title = 'Source is enabled'
+  if (props.disabled) title = 'Source is not available'
   return (
-    <LightTooltip title={props.onClick ? 'Toggle the source panel' : 'Source is enabled'}>
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -146,11 +160,11 @@ export function SourceButton(props: ButtonProps) {
           label={props.label || 'Source'}
           Icon={CodeIcon}
           color={props.color}
-          disabled={props.disabled}
+          disabled={props.disabled || props.enabled}
           onClick={() => (props.onClick ? props.onClick() : undefined)}
           sx={{
             '&.Mui-disabled': {
-              color: props.color ? '#9c27b0' : undefined,
+              color: props.enabled ? theme.palette.info.main : undefined,
             },
           }}
         />
