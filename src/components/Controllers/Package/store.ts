@@ -94,6 +94,7 @@ export function makeStore(props: PackageProps) {
     },
 
     // Publish
+
     controlType: 'ckan',
     updateControl: (patch) => {
       const { ckanControl } = get()

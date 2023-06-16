@@ -11,11 +11,11 @@ export default function Menu() {
       <menu.EditorButton enabled />
       <menu.MetadataButton enabled />
       <menu.ReportButton
-        color={panel === 'report' ? 'warning' : undefined}
+        active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton
-        color={panel === 'source' ? 'warning' : undefined}
+        active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
       <menu.ClearButton onClick={clear} />
