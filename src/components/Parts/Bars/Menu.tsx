@@ -17,7 +17,6 @@ import LightTooltip from '../Tooltips/Light'
 import IconButton from '../Buttons/Icon'
 import { useTheme } from '@mui/material/styles'
 
-// TODO: don't use hard-coded color (info=#9c27b0)
 // TODO: add spacing between buttons
 
 export type MenuBarItem =
