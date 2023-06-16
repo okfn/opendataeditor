@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import Selector from '../../../Parts/Selector'
 import { useStore } from '../store'
+import * as types from '../../../../types'
 
 // TODO: move logic to store
 // TODO: move Selector here and make it a proper dialog
@@ -12,7 +13,7 @@ export default function Resource() {
   const client = useStore((state) => state.client)
   const dialog = useStore((state) => state.dialog)
   const existentPaths = useStore((state) =>
-    state.modified!.resources.map((resource) => resource.path)
+    (state.modified as types.IPackage)!.resources.map((resource) => resource.path)
   )
   const updateState = useStore((state) => state.updateState)
   const addResources = useStore((state) => state.addResources)

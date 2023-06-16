@@ -1,7 +1,6 @@
 import * as React from 'react'
 import ControllerProps from '../../Parts/Controller/Props'
 import File from '../../Controllers/File'
-import Package from '../../Controllers/Package'
 import Metadata from '../../Controllers/Metadata'
 import Chart from '../../Controllers/Chart'
 import Table from '../../Controllers/Table'
@@ -59,7 +58,7 @@ export const CONTROLLERS: {
   json: Text,
   jsonschema: Text,
   map: Text,
-  package: Package,
+  package: Metadata,
   resource: Metadata,
   schema: Metadata,
   script: Text,
