@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
@@ -6,6 +7,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import HistoryIcon from '@mui/icons-material/History'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../../Parts/Columns'
+import LightTooltip from '../Tooltips/Light'
 
 export interface ActionBarProps {}
 
@@ -33,54 +35,78 @@ export interface ButtonProps {
 }
 
 export function SaveAsButton(props: ButtonProps) {
+  let title = 'Save to another location'
+  if (props.disabled) title = 'Saving to another locaion is not avialble'
   return (
-    <IconButton
-      label={props.label || 'Save As'}
-      Icon={SaveAltIcon}
-      variant="outlined"
-      disabled={props.disabled}
-      onClick={() => (props.onClick ? props.onClick() : undefined)}
-      sx={{ backgroundColor: 'white' }}
-    />
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          label={props.label || 'Save As'}
+          Icon={SaveAltIcon}
+          variant="outlined"
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{ backgroundColor: 'white' }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 export function PublishButton(props: ButtonProps) {
+  let title = 'Publish on the web'
+  if (props.disabled) title = 'Publishing on the web is not avialble'
   return (
-    <IconButton
-      label={props.label || 'Publish'}
-      Icon={IosShareIcon}
-      variant="outlined"
-      disabled={props.disabled}
-      onClick={() => (props.onClick ? props.onClick() : undefined)}
-      sx={{ backgroundColor: 'white' }}
-    />
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          label={props.label || 'Publish'}
+          Icon={IosShareIcon}
+          variant="outlined"
+          disabled={props.disabled}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{ backgroundColor: 'white' }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 export function RevertButton(props: ButtonProps) {
+  let title = 'Revert the changes'
+  if (!props.updated) title = 'No changes to revert'
   return (
-    <IconButton
-      label={props.label || 'Revert'}
-      Icon={HistoryIcon}
-      color={props.updated ? 'warning' : undefined}
-      variant={props.updated ? 'contained' : 'outlined'}
-      disabled={props.disabled || !props.updated}
-      onClick={() => (props.onClick ? props.onClick() : undefined)}
-      sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
-    />
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          label={props.label || 'Revert'}
+          Icon={HistoryIcon}
+          color={props.updated ? 'warning' : undefined}
+          variant={props.updated ? 'contained' : 'outlined'}
+          disabled={!props.updated}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }
 
 export function SaveButton(props: ButtonProps) {
+  let title = 'Save the changes'
+  if (!props.updated) title = 'No changes to save'
   return (
-    <IconButton
-      label={props.label || 'Save'}
-      Icon={CheckIcon}
-      variant={props.updated ? 'contained' : 'outlined'}
-      disabled={props.disabled || !props.updated}
-      onClick={() => (props.onClick ? props.onClick() : undefined)}
-      sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
-    />
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          label={props.label || 'Save'}
+          Icon={CheckIcon}
+          variant={props.updated ? 'contained' : 'outlined'}
+          disabled={!props.updated}
+          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
+        />
+      </Box>
+    </LightTooltip>
   )
 }

@@ -161,10 +161,10 @@ export function SourceButton(props: ButtonProps) {
 }
 
 export function ErrorsButton(props: ButtonProps) {
+  let title = 'Toggle showing only errors'
+  if (props.disabled) title = 'No errors to show'
   return (
-    <LightTooltip
-      title={props.onClick ? 'Toggle showing only errors' : 'No errors to show'}
-    >
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -199,8 +199,10 @@ export function ClearButton(props: ButtonProps) {
 }
 
 export function UndoButton(props: ButtonProps) {
+  let title = 'Undo last change'
+  if (props.disabled) title = 'No changes to undo'
   return (
-    <LightTooltip title={props.onClick ? 'Undo last change' : 'Nothing to undo'}>
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
@@ -217,8 +219,10 @@ export function UndoButton(props: ButtonProps) {
 }
 
 export function RedoButton(props: ButtonProps) {
+  let title = 'Redo last change'
+  if (props.disabled) title = 'No changes to redo'
   return (
-    <LightTooltip title={props.onClick ? 'Redo last change' : 'Nothing to redo'}>
+    <LightTooltip title={title}>
       <Box>
         <IconButton
           small
