@@ -3,11 +3,14 @@ import LightTooltip from '../Tooltips/Light'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
+// TODO: remove colors hard-coding
 // TODO: use proper InovuaDatagrid types
+
 export function createColumns(
   schema: types.ISchema,
   report?: types.IReport,
-  history?: types.IHistory
+  history?: types.IHistory,
+  selection?: types.ITableSelection
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
@@ -40,43 +43,50 @@ export function createColumns(
       headerProps:
         field.name in errorIndex.label
           ? { style: { color: 'white', background: 'red' } }
+          : field.name === selection?.columnName
+          ? { style: { color: '#ed6c02' } }
           : undefined,
       render: (context: any) => {
         const { cellProps, data } = context
         let { value } = context
-        const rowKey = `${data._rowNumber}`
-        const cellKey = `${data._rowNumber},${cellProps.id}`
+        const rowNumber = data._rowNumber
+        const columnName = cellProps.id
+        const rowKey = `${rowNumber}`
+        const cellKey = `${rowNumber},${columnName}`
 
-        // Find changes
+        // Selection
+        if (selection) {
+          if (rowNumber === selection.rowNumber || columnName === selection.columnName) {
+            cellProps.style.color = '#ed6c02'
+          }
+        }
+
+        // Changes
         let change: types.IChange | undefined
         if (rowKey in changeIndex.row) {
           change = changeIndex.row[rowKey]
         } else if (cellKey in changeIndex.cell) {
           change = changeIndex.cell[cellKey]
         }
-
-        // Render change
         if (change) {
+          cellProps.style.color = 'black'
           cellProps.style.background = 'yellow'
-          console.log(cellProps)
           return value
         }
 
-        // Find errors
+        // Errors
         let error: types.IError | undefined
         if (rowKey in errorIndex.row) {
           error = errorIndex.row[rowKey][0]
         } else if (cellKey in errorIndex.cell) {
           error = errorIndex.cell[cellKey][0]
         }
-
-        // Render error
         if (error) {
           value = error.cell || value
           cellProps.style.color = 'white'
           cellProps.style.cursor = 'pointer'
           cellProps.style.background = 'red'
-          return (
+          value = (
             <LightTooltip title={error.message}>
               <div>{value}</div>
             </LightTooltip>

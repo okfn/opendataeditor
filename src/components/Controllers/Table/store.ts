@@ -36,10 +36,9 @@ export interface State {
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory
+  selection?: types.ITableSelection
   error?: types.IError
   toggleErrorMode: () => Promise<void>
-  // TODO: Figure out how to highlight the column in datagrid without rerender
-  selectedField?: string
   gridRef?: React.MutableRefObject<IDataGrid>
   clearHistory: () => void
 
@@ -62,6 +61,7 @@ export function makeStore(props: TableProps) {
     history: cloneDeep(settings.INITIAL_HISTORY),
     undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
     updateState: (patch) => {
+      if ('panel' in patch) patch.selection = undefined
       set(patch)
     },
     load: async () => {
