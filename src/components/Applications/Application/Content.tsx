@@ -10,19 +10,13 @@ import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import { useStore } from './store'
 
-export default function Controller() {
+export default function Content() {
   const record = useStore((state) => state.record)
   const indexing = useStore((state) => state.indexing)
-  return indexing ? (
-    <LoadingController />
-  ) : record ? (
-    <FileController />
-  ) : (
-    <EmptyController />
-  )
+  return indexing ? <LoadingContent /> : record ? <FileContent /> : <EmptyContent />
 }
 
-function FileController() {
+function FileContent() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
   const onFileCreate = useStore((state) => state.onFileCreate)
@@ -40,11 +34,11 @@ function FileController() {
   )
 }
 
-function EmptyController() {
+function EmptyContent() {
   return <Empty title="No Files Selected" description="Select a file in the left menu" />
 }
 
-function LoadingController() {
+function LoadingContent() {
   return <Spinner message="Indexing" />
 }
 
