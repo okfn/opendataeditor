@@ -24,9 +24,6 @@ export default function InputDialog(props: InputDialogProps) {
         value={value}
         placeholder={placholder}
         onChange={(ev) => setValue(ev.target.value)}
-        onKeyPress={(event) => {
-          if (event.key === 'Enter') handleConfirm()
-        }}
         InputProps={{
           inputProps: { spellCheck: spellcheck || false },
           startAdornment: prefix ? (

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import noop from 'lodash/noop'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IosShareIcon from '@mui/icons-material/IosShare'
@@ -75,16 +76,26 @@ export function PublishButton(props: ButtonProps) {
 export function RevertButton(props: ButtonProps) {
   let title = 'Revert the changes'
   if (!props.updated) title = 'No changes to revert'
+  let label = props.label || 'Revert'
+  if (props.updated) label = `${label} [Ctrl+R]`
+  const onClick = props.onClick || noop
+  const handleKeyPress = (event: any) => {
+    if (event.ctrlKey && event.key === 'r') {
+      event.preventDefault()
+      onClick()
+    }
+  }
   return (
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={props.label || 'Revert'}
+          label={label}
           Icon={HistoryIcon}
           color={props.updated ? 'warning' : undefined}
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
-          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          onClick={() => onClick()}
+          onKeyPress={props.updated ? handleKeyPress : undefined}
           sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
         />
       </Box>
@@ -95,15 +106,25 @@ export function RevertButton(props: ButtonProps) {
 export function SaveButton(props: ButtonProps) {
   let title = 'Save the changes'
   if (!props.updated) title = 'No changes to save'
+  let label = props.label || 'Save'
+  if (props.updated) label = `${label} [Ctrl+S]`
+  const onClick = props.onClick || noop
+  const handleKeyPress = (event: any) => {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault()
+      onClick()
+    }
+  }
   return (
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={props.label || 'Save'}
+          label={label}
           Icon={CheckIcon}
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
-          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          onClick={() => onClick()}
+          onKeyPress={props.updated ? handleKeyPress : undefined}
           sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
         />
       </Box>
