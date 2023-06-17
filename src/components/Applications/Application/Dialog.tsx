@@ -5,9 +5,9 @@ import CreateFolderDialog from './Dialogs/CreateFolder'
 import CreatePackageDialog from './Dialogs/CreatePackage'
 import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
+import FetchLinkDialog from './Dialogs/FetchLink'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
-import UploadLinkDialog from './Dialogs/UploadLink'
 import { useStore } from './store'
 
 export default function Dialog() {
@@ -24,7 +24,7 @@ const DIALOGS = {
   createPackage: CreatePackageDialog,
   deleteFile: DeleteFileDialog,
   deleteFolder: DeleteFolderDialog,
+  fetchLink: FetchLinkDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
-  uploadLink: UploadLinkDialog,
 }

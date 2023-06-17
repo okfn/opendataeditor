@@ -17,16 +17,16 @@ export default function CreateButton() {
       variant="text"
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
-      <UploadFile />
-      <UploadLink />
-      <UploadFolder />
+      <AddFile />
+      <AddFolder />
+      <FetchLink />
       <CreateFolder />
       <CreatePackage />
     </DropdownButton>
   )
 }
 
-function UploadFile() {
+function AddFile() {
   const createFiles = useStore((state) => state.createFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
@@ -37,7 +37,7 @@ function UploadFile() {
         component="label"
         startIcon={<UploadFileRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Upload File
+        Add File
         <input
           type="file"
           hidden
@@ -52,19 +52,7 @@ function UploadFile() {
   )
 }
 
-function UploadLink() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Upload Link"
-      Icon={AddLink}
-      onClick={() => updateState({ dialog: 'uploadLink' })}
-    />
-  )
-}
-
-function UploadFolder() {
+function AddFolder() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
   const createFiles = useStore((state) => state.createFiles)
@@ -75,7 +63,7 @@ function UploadFolder() {
         component="label"
         startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Upload Folder
+        Add Folder
         <input
           type="file"
           hidden
@@ -87,6 +75,18 @@ function UploadFolder() {
         />
       </Button>
     </React.Fragment>
+  )
+}
+
+function FetchLink() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      variant="text"
+      label="Fetch Link"
+      Icon={AddLink}
+      onClick={() => updateState({ dialog: 'fetchLink' })}
+    />
   )
 }
 

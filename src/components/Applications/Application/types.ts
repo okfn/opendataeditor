@@ -5,6 +5,6 @@ export type IDialog =
   | 'createPackage'
   | 'deleteFile'
   | 'deleteFolder'
+  | 'fetchLink'
   | 'moveFile'
   | 'moveFolder'
-  | 'uploadLink'
