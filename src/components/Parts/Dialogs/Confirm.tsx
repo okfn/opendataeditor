@@ -36,8 +36,10 @@ export default function ConfirmDialog(
         if (event.key === 'Enter') handleConfirm()
       }}
     >
-      <DialogTitle id="dialog-title">{props.title || 'Dialog'}</DialogTitle>
-      <DialogContent sx={{ py: 0 }}>
+      <DialogTitle id="dialog-title" sx={{ marginBottom: 0, paddingBottom: 1 }}>
+        {props.title || 'Dialog'}
+      </DialogTitle>
+      <DialogContent sx={{ paddingTop: 0, paddingBottom: 0 }}>
         {props.description && (
           <Box sx={{ marginBottom: 1, opacity: 0.6 }}>{props.description}</Box>
         )}

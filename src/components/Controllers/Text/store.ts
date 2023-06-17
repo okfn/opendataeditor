@@ -48,7 +48,7 @@ export interface State {
   load: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
   render: () => void
 
   // Text
@@ -117,12 +117,7 @@ export function makeStore(props: TextProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
-      await client.textPatch({
-        path,
-        toPath,
-        text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
-        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
-      })
+      await client.textPatch({ path, toPath, text: modifiedText, resource })
       onSaveAs(toPath)
     },
     render: throttle(async () => {

@@ -26,7 +26,7 @@ export interface State {
   load: () => Promise<void>
   revert: () => void
   save: () => void
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
 }
 
 export function makeStore(props: FileProps) {

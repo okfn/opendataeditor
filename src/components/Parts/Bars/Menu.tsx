@@ -273,9 +273,9 @@ export function RedoButton(props: ButtonProps) {
 
 export function ClearButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Clear the contents [Ctrl+D]'
+  let title = 'Clear the contents [Ctrl+O]'
   if (props.disabled) title = 'Clearing is not available'
-  useKeyPress(['ctrl.d'], (event) => {
+  useKeyPress(['ctrl.o'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()

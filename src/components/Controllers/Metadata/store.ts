@@ -28,7 +28,7 @@ export interface State {
   clear: () => void
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
 
   // Package
 

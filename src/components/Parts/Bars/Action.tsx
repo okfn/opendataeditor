@@ -38,9 +38,9 @@ export interface ButtonProps {
 
 export function SaveAsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Save to another location [Ctrl+D]'
+  let title = 'Save to another location [Ctrl+J]'
   if (props.disabled) title = 'Saving to another locaion is not avialble'
-  useKeyPress(['ctrl.d'], (event) => {
+  useKeyPress(['ctrl.j'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -64,9 +64,9 @@ export function SaveAsButton(props: ButtonProps) {
 
 export function PublishButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Publish on the web [Ctrl+U]'
+  let title = 'Publish on the web [Ctrl+K]'
   if (props.disabled) title = 'Publishing on the web is not avialble'
-  useKeyPress(['ctrl.u'], (event) => {
+  useKeyPress(['ctrl.k'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()

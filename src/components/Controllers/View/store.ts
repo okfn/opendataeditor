@@ -32,7 +32,7 @@ export interface State {
   clear: () => void
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
 }
 
 export interface ExceptionError {
@@ -92,12 +92,7 @@ export function makeStore(props: ViewProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, resource, modified, onSaveAs } = get()
-      await client.viewPatch({
-        path,
-        toPath,
-        data: selectors.isDataUpdated(get()) ? modified : undefined,
-        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
-      })
+      await client.viewPatch({ path, toPath, data: modified, resource })
       onSaveAs(toPath)
     },
   }))

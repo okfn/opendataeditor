@@ -32,7 +32,7 @@ export interface State {
   loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory
@@ -105,12 +105,7 @@ export function makeStore(props: TableProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, history, resource, onSaveAs } = get()
-      await client.tablePatch({
-        path,
-        toPath,
-        history: selectors.isDataUpdated(get()) ? history : undefined,
-        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
-      })
+      await client.tablePatch({ path, toPath, history, resource })
       onSaveAs(toPath)
     },
     loader: async ({ skip, limit, sortInfo }) => {
