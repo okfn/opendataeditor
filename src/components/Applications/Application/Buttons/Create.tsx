@@ -18,10 +18,10 @@ export default function CreateButton() {
       icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <AddFile />
+      <FetchFile />
       <AddFolder />
-      <FetchLink />
       <CreateFolder />
-      <CreatePackage />
+      <CreateDataset />
     </DropdownButton>
   )
 }
@@ -78,14 +78,14 @@ function AddFolder() {
   )
 }
 
-function FetchLink() {
+function FetchFile() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
-      label="Fetch Link"
+      label="Fetch File"
       Icon={AddLink}
-      onClick={() => updateState({ dialog: 'fetchLink' })}
+      onClick={() => updateState({ dialog: 'fetchFile' })}
     />
   )
 }
@@ -102,14 +102,14 @@ function CreateFolder() {
   )
 }
 
-function CreatePackage() {
+function CreateDataset() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
-      label="Create Package"
+      label="Create Dataset"
       Icon={SourceIcon}
-      onClick={() => updateState({ dialog: 'createPackage' })}
+      onClick={() => updateState({ dialog: 'createDataset' })}
     />
   )
 }

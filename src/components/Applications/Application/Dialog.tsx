@@ -2,10 +2,10 @@ import * as React from 'react'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateFolderDialog from './Dialogs/CreateFolder'
-import CreatePackageDialog from './Dialogs/CreatePackage'
+import CreateDatasetDialog from './Dialogs/CreateDataset'
 import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
-import FetchLinkDialog from './Dialogs/FetchLink'
+import FetchFileDialog from './Dialogs/FetchFile'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
 import { useStore } from './store'
@@ -21,10 +21,10 @@ const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
   createFolder: CreateFolderDialog,
-  createPackage: CreatePackageDialog,
+  createDataset: CreateDatasetDialog,
   deleteFile: DeleteFileDialog,
   deleteFolder: DeleteFolderDialog,
-  fetchLink: FetchLinkDialog,
+  fetchFile: FetchFileDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
 }

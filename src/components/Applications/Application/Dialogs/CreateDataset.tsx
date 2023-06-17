@@ -4,7 +4,7 @@ import InputDialog from '../../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 import * as settings from '../../../../settings'
 
-export default function CreatePackageDialog() {
+export default function CreateDatasetDialog() {
   const folderPath = useStore(selectors.folderPath)
   const createPackage = useStore((state) => state.createPackage)
   const updateState = useStore((state) => state.updateState)
@@ -13,10 +13,10 @@ export default function CreatePackageDialog() {
     <InputDialog
       open={true}
       value={path}
-      title="Create Package"
+      title="Create Dataset"
       label="Create"
-      description="You are creating a package. Enter destination:"
-      placholder="Enter a package path"
+      description="You are creating a dataset descriptor. Enter destination:"
+      placholder="Enter a descriptor path"
       Icon={SourceIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {

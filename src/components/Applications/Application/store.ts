@@ -33,6 +33,7 @@ export interface State {
 
   loadFiles: () => Promise<void>
   createFiles: (files: FileList) => Promise<void>
+  fetchFile: (url: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
@@ -50,7 +51,6 @@ export interface State {
 
   // Others
 
-  fetchLink: (url: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createChart: () => Promise<void>
   createView: () => Promise<void>
@@ -111,6 +111,12 @@ export function makeStore(props: ApplicationProps) {
         paths.push(result.path)
       }
       onFileCreate(paths)
+    },
+    fetchFile: async (url) => {
+      const { client, onFileCreate } = get()
+      const folder = selectors.folderPath(get())
+      const { path } = await client.fileFetch({ url, folder, deduplicate: true })
+      onFileCreate([path])
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
@@ -182,15 +188,13 @@ export function makeStore(props: ApplicationProps) {
 
     // Others
 
-    fetchLink: async (url) => {
-      const { client, onFileCreate } = get()
-      const folder = selectors.folderPath(get())
-      const { path } = await client.linkFetch({ url, folder, deduplicate: true })
-      onFileCreate([path])
-    },
     createPackage: async (path) => {
       const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({ path, data: settings.INITIAL_PACKAGE })
+      const result = await client.jsonCreate({
+        path,
+        data: settings.INITIAL_PACKAGE,
+        deduplicate: true,
+      })
       onFileCreate([result.path])
     },
     // TODO: rewrite this method
