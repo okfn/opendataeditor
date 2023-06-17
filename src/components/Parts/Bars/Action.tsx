@@ -31,14 +31,21 @@ function ActionBarItems(props: React.PropsWithChildren<ActionBarProps>) {
 export interface ButtonProps {
   label?: string
   color?: 'success' | 'warning' | 'error' | 'info'
-  disabled?: boolean
   updated?: boolean
+  disabled?: boolean
   onClick?: () => void
 }
 
 export function SaveAsButton(props: ButtonProps) {
-  let title = 'Save to another location'
+  const onClick = props.onClick || noop
+  let title = 'Save to another location [Ctrl+D]'
   if (props.disabled) title = 'Saving to another locaion is not avialble'
+  useKeyPress(['ctrl.d'], (event) => {
+    event.preventDefault()
+    if (!props.disabled) {
+      onClick()
+    }
+  })
   return (
     <LightTooltip title={title}>
       <Box>
@@ -47,7 +54,7 @@ export function SaveAsButton(props: ButtonProps) {
           Icon={SaveAltIcon}
           variant="outlined"
           disabled={props.disabled}
-          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          onClick={() => onClick()}
           sx={{ backgroundColor: 'white' }}
         />
       </Box>
@@ -56,8 +63,15 @@ export function SaveAsButton(props: ButtonProps) {
 }
 
 export function PublishButton(props: ButtonProps) {
-  let title = 'Publish on the web'
+  const onClick = props.onClick || noop
+  let title = 'Publish on the web [Ctrl+U]'
   if (props.disabled) title = 'Publishing on the web is not avialble'
+  useKeyPress(['ctrl.u'], (event) => {
+    event.preventDefault()
+    if (!props.disabled) {
+      onClick()
+    }
+  })
   return (
     <LightTooltip title={title}>
       <Box>
@@ -66,7 +80,7 @@ export function PublishButton(props: ButtonProps) {
           Icon={IosShareIcon}
           variant="outlined"
           disabled={props.disabled}
-          onClick={() => (props.onClick ? props.onClick() : undefined)}
+          onClick={() => onClick()}
           sx={{ backgroundColor: 'white' }}
         />
       </Box>
@@ -75,14 +89,12 @@ export function PublishButton(props: ButtonProps) {
 }
 
 export function RevertButton(props: ButtonProps) {
-  let title = 'Revert the changes'
-  if (!props.updated) title = 'No changes to revert'
-  let label = props.label || 'Revert'
-  if (props.updated) label = `${label} [Ctrl+R]`
   const onClick = props.onClick || noop
+  let title = 'Revert the changes [Ctrl+R]'
+  if (!props.updated) title = 'No changes to revert'
   useKeyPress(['ctrl.r'], (event) => {
+    event.preventDefault()
     if (props.updated) {
-      event.preventDefault()
       onClick()
     }
   })
@@ -90,7 +102,7 @@ export function RevertButton(props: ButtonProps) {
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={label}
+          label={props.label || 'Revert'}
           Icon={HistoryIcon}
           color={props.updated ? 'warning' : undefined}
           variant={props.updated ? 'contained' : 'outlined'}
@@ -104,14 +116,12 @@ export function RevertButton(props: ButtonProps) {
 }
 
 export function SaveButton(props: ButtonProps) {
-  let title = 'Save the changes'
-  if (!props.updated) title = 'No changes to save'
-  let label = props.label || 'Save'
-  if (props.updated) label = `${label} [Ctrl+S]`
   const onClick = props.onClick || noop
+  let title = 'Save the changes [Ctrl+S]'
+  if (!props.updated) title = 'No changes to save'
   useKeyPress(['ctrl.s'], (event) => {
+    event.preventDefault()
     if (props.updated) {
-      event.preventDefault()
       onClick()
     }
   })
@@ -119,7 +129,7 @@ export function SaveButton(props: ButtonProps) {
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={label}
+          label={props.label || 'Save'}
           Icon={CheckIcon}
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
