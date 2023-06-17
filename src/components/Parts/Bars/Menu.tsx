@@ -57,10 +57,10 @@ export interface ButtonProps {
 export function EditorButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the editor panel [Shift+E]'
+  let title = 'Toggle the editor panel [Shift+C]'
   if (props.enabled) title = 'Editor is enabled'
   if (props.disabled) title = 'Editor is not available'
-  useKeyPress(['shift.e'], (event) => {
+  useKeyPress(['shift.c'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
@@ -192,9 +192,9 @@ export function SourceButton(props: ButtonProps) {
 
 export function ErrorsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Toggle showing only errors [Ctrl+E]'
+  let title = 'Toggle showing only errors [Shift+E]'
   if (props.disabled) title = 'No errors to show'
-  useKeyPress(['ctrl.e'], (event) => {
+  useKeyPress(['shift.e'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -273,9 +273,9 @@ export function RedoButton(props: ButtonProps) {
 
 export function ClearButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Clear the contents [Ctrl+O]'
+  let title = 'Clear the contents [Ctrl+E]'
   if (props.disabled) title = 'Clearing is not available'
-  useKeyPress(['ctrl.o'], (event) => {
+  useKeyPress(['ctrl.e'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
