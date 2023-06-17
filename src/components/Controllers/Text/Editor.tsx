@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
 import Spinner from '../../Parts/Spinner'
-import TextEditor from '../../Parts/TextEditor'
+import TextEditor from '../../Editors/Text'
 import { useStore, selectors } from './store'
 import * as helpers from './helpers'
 
