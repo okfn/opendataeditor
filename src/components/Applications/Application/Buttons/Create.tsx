@@ -2,6 +2,7 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/AddBox'
 import SourceIcon from '@mui/icons-material/Source'
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import DropdownButton from '../../../Parts/Buttons/Dropdown'
 import IconButton from '../../../Parts/Buttons/Icon'
@@ -21,6 +22,7 @@ export default function CreateButton() {
       <FetchFile />
       <AddFolder />
       <CreateFolder />
+      <FetchDataset />
       <CreateDataset />
     </DropdownButton>
   )
@@ -98,6 +100,19 @@ function CreateFolder() {
       label="Create Folder"
       Icon={CreateNewFolderIcon}
       onClick={() => updateState({ dialog: 'createFolder' })}
+    />
+  )
+}
+
+function FetchDataset() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      disabled
+      variant="text"
+      label="Fetch Dataset"
+      Icon={DatasetLinkedIcon}
+      onClick={() => updateState({ dialog: 'createDataset' })}
     />
   )
 }
