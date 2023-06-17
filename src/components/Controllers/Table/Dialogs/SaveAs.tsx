@@ -49,7 +49,7 @@ export default function SaveAsDialog() {
               size="small"
               value={name}
               onChange={handleChange}
-              onKeyPress={(event) => {
+              onKeyDown={(event) => {
                 if (event.key === 'Enter') handleSave()
               }}
             />

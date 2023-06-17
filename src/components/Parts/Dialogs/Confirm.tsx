@@ -32,7 +32,7 @@ export default function ConfirmDialog(
       onClose={handleCancel}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onKeyPress={(event) => {
+      onKeyDown={(event) => {
         if (event.key === 'Enter') handleConfirm()
       }}
     >
