@@ -39,6 +39,7 @@ export interface State {
   locateFile: (path: string) => Promise<void>
   selectFile: (path?: string) => Promise<void>
   openFile: (path: string) => Promise<void>
+  closeFile: () => void
 
   // Folder
 
@@ -151,6 +152,9 @@ export function makeStore(props: ApplicationProps) {
       if (!fileEvent) set({ fileEvent: { type: 'open', paths: [path] } })
       await delay(500)
       set({ fileEvent: undefined })
+    },
+    closeFile: () => {
+      set({ record: undefined, measure: undefined })
     },
 
     // Folder
