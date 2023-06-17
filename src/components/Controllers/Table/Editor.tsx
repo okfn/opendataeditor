@@ -1,5 +1,5 @@
 import * as React from 'react'
-import DataGrid from '../../Parts/DataGrid'
+import TableEditor from '../../Editors/Table'
 import { useStore } from './store'
 
 export default function Editor() {
@@ -15,7 +15,7 @@ export default function Editor() {
   if (!schema) return null
   if (!report) return null
   return (
-    <DataGrid
+    <TableEditor
       editable
       source={loader}
       schema={schema}

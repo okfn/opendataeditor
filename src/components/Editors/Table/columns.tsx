@@ -1,5 +1,5 @@
 import * as React from 'react'
-import LightTooltip from '../Tooltips/Light'
+import LightTooltip from '../../Parts/Tooltips/Light'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 

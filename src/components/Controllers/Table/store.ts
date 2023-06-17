@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IDataGrid } from '../../Parts/DataGrid'
+import { ITableEditor } from '../../Editors/Table'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -20,7 +20,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs'
+  dialog?: 'saveAs' | 'error'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -39,7 +39,7 @@ export interface State {
   selection?: types.ITableSelection
   error?: types.IError
   toggleErrorMode: () => Promise<void>
-  gridRef?: React.MutableRefObject<IDataGrid>
+  gridRef?: React.MutableRefObject<ITableEditor>
   clearHistory: () => void
 
   // Editing

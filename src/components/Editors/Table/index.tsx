@@ -10,8 +10,8 @@ import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
 
-export type IDataGrid = TypeComputedProps | null
-export interface DataGridProps extends Partial<TypeDataGridProps> {
+export type ITableEditor = TypeComputedProps | null
+export interface TableEditorProps extends Partial<TypeDataGridProps> {
   source: types.ITableLoader | types.IRow[]
   schema: types.ISchema
   report?: types.IReport
@@ -19,7 +19,7 @@ export interface DataGridProps extends Partial<TypeDataGridProps> {
   selection?: types.ITableSelection
 }
 
-export default function DataGrid(props: DataGridProps) {
+export default function TableEditor(props: TableEditorProps) {
   const { source, schema, report, history, selection, ...others } = props
   const columns = React.useMemo(
     () => createColumns(schema, report, history, selection),
