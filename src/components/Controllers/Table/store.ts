@@ -20,7 +20,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs' | 'error'
+  dialog?: 'saveAs'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
