@@ -60,7 +60,7 @@ export function makeStore(props: FileProps) {
     saveAs: async (toPath) => {
       const { path, client, resource, onSaveAs } = get()
       await client.filePatch({ path, toPath, resource })
-      onSaveAs(path)
+      onSaveAs(toPath)
     },
   }))
 }
