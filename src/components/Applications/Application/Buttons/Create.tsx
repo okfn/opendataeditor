@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/AddBox'
 import SourceIcon from '@mui/icons-material/Source'
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import DropdownButton from '../../../Parts/Buttons/Dropdown'
 import IconButton from '../../../Parts/Buttons/Icon'
 import AddLink from '@mui/icons-material/AddLink'
@@ -20,6 +21,7 @@ export default function CreateButton() {
     >
       <AddFile />
       <FetchFile />
+      <CreateFile />
       <AddFolder />
       <CreateFolder />
       <FetchDataset />
@@ -29,7 +31,7 @@ export default function CreateButton() {
 }
 
 function AddFile() {
-  const createFiles = useStore((state) => state.createFiles)
+  const addFiles = useStore((state) => state.addFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
@@ -46,34 +48,8 @@ function AddFile() {
           multiple
           ref={inputFileRef}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) createFiles(ev.target.files)
+            if (ev.target.files) addFiles(ev.target.files)
           }}
-        />
-      </Button>
-    </React.Fragment>
-  )
-}
-
-function AddFolder() {
-  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
-  if (!isWebkitDirectorySupported) return null
-  const createFiles = useStore((state) => state.createFiles)
-  return (
-    <React.Fragment>
-      <Button
-        variant="text"
-        component="label"
-        startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
-      >
-        Add Folder
-        <input
-          type="file"
-          hidden
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) createFiles(ev.target.files)
-          }}
-          // @ts-expect-error
-          webkitdirectory=""
         />
       </Button>
     </React.Fragment>
@@ -89,6 +65,44 @@ function FetchFile() {
       Icon={AddLink}
       onClick={() => updateState({ dialog: 'fetchFile' })}
     />
+  )
+}
+
+function CreateFile() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      variant="text"
+      label="Create File"
+      Icon={HistoryEduIcon}
+      onClick={() => updateState({ dialog: 'createFile' })}
+    />
+  )
+}
+
+function AddFolder() {
+  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
+  if (!isWebkitDirectorySupported) return null
+  const addFiles = useStore((state) => state.addFiles)
+  return (
+    <React.Fragment>
+      <Button
+        variant="text"
+        component="label"
+        startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
+      >
+        Add Folder
+        <input
+          type="file"
+          hidden
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            if (ev.target.files) addFiles(ev.target.files)
+          }}
+          // @ts-expect-error
+          webkitdirectory=""
+        />
+      </Button>
+    </React.Fragment>
   )
 }
 

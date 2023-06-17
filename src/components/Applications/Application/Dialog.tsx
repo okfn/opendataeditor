@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
+import CreateFileDialog from './Dialogs/CreateFile'
 import CreateFolderDialog from './Dialogs/CreateFolder'
 import CreateDatasetDialog from './Dialogs/CreateDataset'
 import DeleteFileDialog from './Dialogs/DeleteFile'
@@ -20,6 +21,7 @@ export default function Dialog() {
 const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
+  createFile: CreateFileDialog,
   createFolder: CreateFolderDialog,
   createDataset: CreateDatasetDialog,
   deleteFile: DeleteFileDialog,
