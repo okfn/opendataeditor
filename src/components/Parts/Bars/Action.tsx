@@ -9,6 +9,7 @@ import HistoryIcon from '@mui/icons-material/History'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../../Parts/Columns'
 import LightTooltip from '../Tooltips/Light'
+import { useKeyPress } from 'ahooks'
 
 export interface ActionBarProps {}
 
@@ -79,12 +80,12 @@ export function RevertButton(props: ButtonProps) {
   let label = props.label || 'Revert'
   if (props.updated) label = `${label} [Ctrl+R]`
   const onClick = props.onClick || noop
-  const handleKeyPress = (event: any) => {
-    if (event.ctrlKey && event.key === 'r') {
+  useKeyPress(['ctrl.r'], (event) => {
+    if (props.updated) {
       event.preventDefault()
       onClick()
     }
-  }
+  })
   return (
     <LightTooltip title={title}>
       <Box>
@@ -95,7 +96,6 @@ export function RevertButton(props: ButtonProps) {
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
           onClick={() => onClick()}
-          onKeyPress={props.updated ? handleKeyPress : undefined}
           sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
         />
       </Box>
@@ -109,12 +109,12 @@ export function SaveButton(props: ButtonProps) {
   let label = props.label || 'Save'
   if (props.updated) label = `${label} [Ctrl+S]`
   const onClick = props.onClick || noop
-  const handleKeyPress = (event: any) => {
-    if (event.ctrlKey && event.key === 's') {
+  useKeyPress(['ctrl.s'], (event) => {
+    if (props.updated) {
       event.preventDefault()
       onClick()
     }
-  }
+  })
   return (
     <LightTooltip title={title}>
       <Box>
@@ -124,7 +124,6 @@ export function SaveButton(props: ButtonProps) {
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
           onClick={() => onClick()}
-          onKeyPress={props.updated ? handleKeyPress : undefined}
           sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
         />
       </Box>
