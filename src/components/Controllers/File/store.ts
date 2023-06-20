@@ -26,7 +26,7 @@ export interface State {
   load: () => Promise<void>
   revert: () => void
   save: () => void
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
 }
 
 export function makeStore(props: FileProps) {
@@ -60,7 +60,7 @@ export function makeStore(props: FileProps) {
     saveAs: async (toPath) => {
       const { path, client, resource, onSaveAs } = get()
       await client.filePatch({ path, toPath, resource })
-      onSaveAs(path)
+      onSaveAs(toPath)
     },
   }))
 }

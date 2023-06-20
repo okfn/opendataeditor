@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Actions from './Actions'
+import Action from './Action'
 import Content from './Content'
 import Header from './Header'
 import Welcome from './Welcome'
@@ -14,7 +14,7 @@ export default function Layout() {
       {editor ? (
         <Box>
           <Content />
-          <Actions />
+          <Action />
         </Box>
       ) : (
         <Welcome />

@@ -1,11 +1,14 @@
 import * as React from 'react'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
+import CreateFileDialog from './Dialogs/CreateFile'
 import CreateFolderDialog from './Dialogs/CreateFolder'
-import CreatePackageDialog from './Dialogs/CreatePackage'
+import CreateDatasetDialog from './Dialogs/CreateDataset'
+import DeleteFileDialog from './Dialogs/DeleteFile'
+import DeleteFolderDialog from './Dialogs/DeleteFolder'
+import FetchFileDialog from './Dialogs/FetchFile'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
-import UploadLinkDialog from './Dialogs/UploadLink'
 import { useStore } from './store'
 
 export default function Dialog() {
@@ -18,9 +21,12 @@ export default function Dialog() {
 const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
+  createFile: CreateFileDialog,
   createFolder: CreateFolderDialog,
-  createPackage: CreatePackageDialog,
+  createDataset: CreateDatasetDialog,
+  deleteFile: DeleteFileDialog,
+  deleteFolder: DeleteFolderDialog,
+  fetchFile: FetchFileDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
-  uploadLink: UploadLinkDialog,
 }

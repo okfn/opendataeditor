@@ -17,18 +17,31 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
-  dialog?: 'saveAs'
+  dialog?: 'saveAs' | 'resource' | 'publish'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
-  original?: types.IResource | types.IDialect | types.ISchema
-  modified?: types.IResource | types.IDialect | types.ISchema
+  original?: types.IPackage | types.IResource | types.IDialect | types.ISchema
+  modified?: types.IPackage | types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
   load: () => Promise<void>
   clear: () => void
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
+
+  // Package
+
+  addResources: (paths: string[]) => Promise<void>
+
+  // Publish
+
+  controlType: string
+  ckanControl?: Partial<types.ICkanControl>
+  isPublishing?: boolean
+  publishedPath?: string
+  updateControl: (patch: Partial<types.ICkanControl>) => void
+  publish: () => void
 }
 
 export function makeStore(props: MetadataProps) {
@@ -67,6 +80,37 @@ export function makeStore(props: MetadataProps) {
       await client.jsonPatch({ path, toPath, data: modified })
       onSaveAs(toPath)
     },
+
+    // Package
+
+    addResources: async (paths) => {
+      const { client, record, modified, updateState } = get()
+      if (!modified || record?.type !== 'package') return
+      const dpackage = modified as types.IPackage
+      for (const path of paths) {
+        const { record } = await client.fileIndex({ path })
+        dpackage.resources.push(record.resource)
+      }
+      updateState({ modified: { ...dpackage } })
+    },
+
+    // Publish
+
+    controlType: 'ckan',
+    updateControl: (patch) => {
+      const { ckanControl } = get()
+      set({ ckanControl: { ...ckanControl, ...patch } })
+    },
+    // TODO: handle errors
+    publish: async () => {
+      const { record, client } = get()
+      if (!record) return
+      const control = selectors.control(get())
+      if (!control) return
+      set({ isPublishing: true })
+      const { path } = await client.packagePublish({ path: record.path, control })
+      set({ isPublishing: false, publishedPath: path })
+    },
   }))
 }
 
@@ -74,6 +118,20 @@ export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
     return !isEqual(state.original, state.modified)
+  },
+
+  // Publish
+
+  control: (state: State) => {
+    let control
+    if (state.controlType === 'ckan') {
+      control = { ...state.ckanControl, type: 'ckan' }
+      if (!control.baseurl) return
+      if (!control.dataset) return
+      if (!control.apikey) return
+      return control as types.ICkanControl
+    }
+    return undefined
   },
 }
 

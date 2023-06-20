@@ -7,7 +7,7 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
-import { IDataGrid } from '../../Parts/DataGrid'
+import { ITableEditor } from '../../Editors/Table'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -32,15 +32,14 @@ export interface State {
   loadSource: () => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory
+  selection?: types.ITableSelection
   error?: types.IError
   toggleErrorMode: () => Promise<void>
-  // TODO: Figure out how to highlight the column in datagrid without rerender
-  selectedField?: string
-  gridRef?: React.MutableRefObject<IDataGrid>
+  gridRef?: React.MutableRefObject<ITableEditor>
   clearHistory: () => void
 
   // Editing
@@ -62,6 +61,7 @@ export function makeStore(props: TableProps) {
     history: cloneDeep(settings.INITIAL_HISTORY),
     undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
     updateState: (patch) => {
+      if ('panel' in patch) patch.selection = undefined
       set(patch)
     },
     load: async () => {
@@ -105,12 +105,7 @@ export function makeStore(props: TableProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, history, resource, onSaveAs } = get()
-      await client.tablePatch({
-        path,
-        toPath,
-        history: selectors.isDataUpdated(get()) ? history : undefined,
-        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
-      })
+      await client.tablePatch({ path, toPath, history, resource })
       onSaveAs(toPath)
     },
     loader: async ({ skip, limit, sortInfo }) => {

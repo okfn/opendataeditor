@@ -1,8 +1,11 @@
 export type IDialog =
   | 'copyFile'
   | 'copyFolder'
+  | 'createFile'
   | 'createFolder'
-  | 'createPackage'
+  | 'createDataset'
+  | 'deleteFile'
+  | 'deleteFolder'
+  | 'fetchFile'
   | 'moveFile'
   | 'moveFolder'
-  | 'uploadLink'

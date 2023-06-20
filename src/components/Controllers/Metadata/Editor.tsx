@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Package from '../../Editors/Package'
 import Resource from '../../Editors/Resource'
 import Dialect from '../../Editors/Dialect'
 import Schema from '../../Editors/Schema'
@@ -13,6 +14,13 @@ export default function Content() {
   if (!modified) return null
   return (
     <React.Fragment>
+      {record.type === 'package' && (
+        <Package
+          package={modified as types.IPackage}
+          onChange={(descriptor) => updateState({ modified: descriptor })}
+          onAddResource={() => updateState({ dialog: 'resource' })}
+        />
+      )}
       {record.type === 'resource' && (
         <Resource
           resource={modified as types.IResource}

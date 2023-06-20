@@ -1,33 +1,37 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
-import AddIcon from '@mui/icons-material/AddBox'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 import SourceIcon from '@mui/icons-material/Source'
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
+import AddLinkIcon from '@mui/icons-material/AddLink'
 import DropdownButton from '../../../Parts/Buttons/Dropdown'
 import IconButton from '../../../Parts/Buttons/Icon'
-import { useStore } from '../store'
-import AddLink from '@mui/icons-material/AddLink'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
+import { useStore } from '../store'
 
 export default function CreateButton() {
   return (
     <DropdownButton
       label="Create"
       variant="text"
-      icon={<AddIcon fontSize="small" sx={{ mr: 1 }} />}
+      icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
     >
-      <UploadFile />
-      <UploadLink />
-      <UploadFolder />
+      <AddFile />
+      <FetchFile />
+      <CreateFile />
+      <AddFolder />
       <CreateFolder />
-      <CreatePackage />
+      <FetchDataset />
+      <CreateDataset />
     </DropdownButton>
   )
 }
 
-function UploadFile() {
-  const createFiles = useStore((state) => state.createFiles)
+function AddFile() {
+  const addFiles = useStore((state) => state.addFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
     <React.Fragment>
@@ -37,14 +41,14 @@ function UploadFile() {
         component="label"
         startIcon={<UploadFileRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Upload File
+        Add File
         <input
           type="file"
           hidden
           multiple
           ref={inputFileRef}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) createFiles(ev.target.files)
+            if (ev.target.files) addFiles(ev.target.files)
           }}
         />
       </Button>
@@ -52,22 +56,34 @@ function UploadFile() {
   )
 }
 
-function UploadLink() {
+function FetchFile() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
-      label="Upload Link"
-      Icon={AddLink}
-      onClick={() => updateState({ dialog: 'uploadLink' })}
+      label="Fetch File"
+      Icon={AddLinkIcon}
+      onClick={() => updateState({ dialog: 'fetchFile' })}
     />
   )
 }
 
-function UploadFolder() {
+function CreateFile() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      variant="text"
+      label="Create File"
+      Icon={HistoryEduIcon}
+      onClick={() => updateState({ dialog: 'createFile' })}
+    />
+  )
+}
+
+function AddFolder() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
-  const createFiles = useStore((state) => state.createFiles)
+  const addFiles = useStore((state) => state.addFiles)
   return (
     <React.Fragment>
       <Button
@@ -75,12 +91,12 @@ function UploadFolder() {
         component="label"
         startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Upload Folder
+        Add Folder
         <input
           type="file"
           hidden
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) createFiles(ev.target.files)
+            if (ev.target.files) addFiles(ev.target.files)
           }}
           // @ts-expect-error
           webkitdirectory=""
@@ -102,14 +118,27 @@ function CreateFolder() {
   )
 }
 
-function CreatePackage() {
+function FetchDataset() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      disabled
+      variant="text"
+      label="Fetch Dataset"
+      Icon={DatasetLinkedIcon}
+      onClick={() => updateState({ dialog: 'createDataset' })}
+    />
+  )
+}
+
+function CreateDataset() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
-      label="Create Package"
+      label="Create Dataset"
       Icon={SourceIcon}
-      onClick={() => updateState({ dialog: 'createPackage' })}
+      onClick={() => updateState({ dialog: 'createDataset' })}
     />
   )
 }

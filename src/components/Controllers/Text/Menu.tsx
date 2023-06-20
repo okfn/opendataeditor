@@ -29,9 +29,9 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton enabled />
-      <menu.ClearButton onClick={clear} />
       <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
       <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />
+      <menu.ClearButton onClick={clear} />
       {language === 'json' && (
         <React.Fragment>
           <menu.FixButton onClick={fix} />

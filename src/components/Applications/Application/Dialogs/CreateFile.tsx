@@ -1,26 +1,25 @@
 import * as React from 'react'
-import SourceIcon from '@mui/icons-material/Source'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import InputDialog from '../../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
-import * as settings from '../../../../settings'
 
-export default function CreatePackageDialog() {
+export default function CreateFileDialog() {
   const folderPath = useStore(selectors.folderPath)
-  const createPackage = useStore((state) => state.createPackage)
+  const createFile = useStore((state) => state.createFile)
   const updateState = useStore((state) => state.updateState)
-  const path = [folderPath, settings.PACKAGE_PATH].filter((v) => v).join('/')
+  const path = folderPath ? `${folderPath}/` : ''
   return (
     <InputDialog
       open={true}
       value={path}
-      title="Create Package"
+      title="Create File"
       label="Create"
-      description="You are creating a package. Enter destination:"
-      placholder="Enter a package path"
-      Icon={SourceIcon}
+      description="You are creating an empty file. Enter destination:"
+      placholder="Enter a file path"
+      Icon={HistoryEduIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
-        await createPackage(path)
+        await createFile(path)
         updateState({ dialog: undefined })
       }}
     />

@@ -2,11 +2,11 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
-import Actions from './Actions'
-import Controller from './Controller'
+import Action from './Action'
+import Content from './Content'
 import Dialog from './Dialog'
 import Header from './Header'
-import Files from './Files'
+import Browser from './Browser'
 import Project from './Project'
 import { useStore } from './store'
 
@@ -26,11 +26,11 @@ export default function Layout() {
         <Box sx={{ height, borderRight: 'solid 1px #ddd' }}>
           <Project />
           <Box sx={{ height: contentHeight }}>
-            <Files />
+            <Browser />
           </Box>
-          <Actions />
+          <Action />
         </Box>
-        <Controller />
+        <Content />
       </Columns>
     </React.Fragment>
   )

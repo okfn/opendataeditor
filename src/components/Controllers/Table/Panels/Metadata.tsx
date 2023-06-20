@@ -11,7 +11,7 @@ export default function MetadataPanel() {
       shallow={resource.type !== 'table'}
       resource={resource}
       onChange={(resource) => updateState({ resource })}
-      onFieldSelected={(name) => updateState({ selectedField: name })}
+      onFieldSelected={(name) => updateState({ selection: { columnName: name } })}
     />
   )
 }

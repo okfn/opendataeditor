@@ -31,7 +31,7 @@ export interface State {
   clear: () => void
   revert: () => void
   save: () => Promise<void>
-  saveAs: (path: string) => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
   render: () => void
 }
 
@@ -82,12 +82,7 @@ export function makeStore(props: ChartProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, modified, resource, onSaveAs } = get()
-      await client.jsonPatch({
-        path,
-        toPath,
-        data: selectors.isDataUpdated(get()) ? modified : undefined,
-        resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
-      })
+      await client.jsonPatch({ path, toPath, data: modified, resource })
       onSaveAs(toPath)
     },
     render: throttle(async () => {

@@ -16,3 +16,8 @@ export type ITableLoader = (props: {
   data: object[]
   count: number
 }>
+
+export interface ITableSelection {
+  rowNumber?: number
+  columnName?: string
+}

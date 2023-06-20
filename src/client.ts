@@ -60,6 +60,16 @@ export class Client {
     return result as { path: string }
   }
 
+  async fileFetch(props: {
+    url: string
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
+    const result = await this.request('/file/fetch', props)
+    return result as { path: string }
+  }
+
   async fileIndex(props: { path: string }) {
     const result = await this.request('/file/index', props)
     return result as {
@@ -79,12 +89,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async filePatch(props: {
-    path: string
-    file?: File
-    toPath?: string
-    resource?: types.IResource
-  }) {
+  async filePatch(props: { path: string; toPath?: string; resource?: types.IResource }) {
     const result = await this.request('/file/patch', props)
     return result as { path: string }
   }
@@ -118,7 +123,7 @@ export class Client {
 
   // Json
 
-  async jsonCreate(props: { path: string; data: types.IData }) {
+  async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {
     const result = await this.request('/json/create', props)
     return result as { path: string }
   }
@@ -136,18 +141,6 @@ export class Client {
   async jsonRead(props: { path: string }) {
     const result = await this.request('/json/read', props)
     return result as { data: any }
-  }
-
-  // Link
-
-  async linkFetch(props: {
-    url: string
-    path?: string
-    folder?: string
-    deduplicate?: boolean
-  }) {
-    const result = await this.request('/link/fetch', props)
-    return result as { path: string }
   }
 
   // Package
@@ -194,6 +187,7 @@ export class Client {
     path: string
     rows: types.IRow[]
     tableSchema: types.ISchema
+    deduplicate?: boolean
   }) {
     const result = await this.request('/table/create', props)
     return result as { path: string }
@@ -228,7 +222,7 @@ export class Client {
 
   // Text
 
-  async textCreate(props: { path: string; text: string }) {
+  async textCreate(props: { path: string; text: string; deduplicate?: boolean }) {
     const result = await this.request('/text/create', props)
     return result as { path: string }
   }

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import ControllerProps from '../../Parts/Controller/Props'
 import File from '../../Controllers/File'
-import Package from '../../Controllers/Package'
 import Metadata from '../../Controllers/Metadata'
 import Chart from '../../Controllers/Chart'
 import Table from '../../Controllers/Table'
@@ -11,19 +10,13 @@ import Empty from '../../Parts/Empty'
 import Spinner from '../../Parts/Spinner'
 import { useStore } from './store'
 
-export default function Controller() {
+export default function Content() {
   const record = useStore((state) => state.record)
   const indexing = useStore((state) => state.indexing)
-  return indexing ? (
-    <LoadingController />
-  ) : record ? (
-    <FileController />
-  ) : (
-    <EmptyController />
-  )
+  return indexing ? <LoadingContent /> : record ? <FileContent /> : <EmptyContent />
 }
 
-function FileController() {
+function FileContent() {
   const client = useStore((state) => state.client)
   const record = useStore((state) => state.record)
   const onFileCreate = useStore((state) => state.onFileCreate)
@@ -41,11 +34,11 @@ function FileController() {
   )
 }
 
-function EmptyController() {
+function EmptyContent() {
   return <Empty title="No Files Selected" description="Select a file in the left menu" />
 }
 
-function LoadingController() {
+function LoadingContent() {
   return <Spinner message="Indexing" />
 }
 
@@ -59,7 +52,7 @@ export const CONTROLLERS: {
   json: Text,
   jsonschema: Text,
   map: Text,
-  package: Package,
+  package: Metadata,
   resource: Metadata,
   schema: Metadata,
   script: Text,
