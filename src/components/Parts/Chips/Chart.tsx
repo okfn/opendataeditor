@@ -3,6 +3,8 @@ import Chip from '@mui/material/Chip'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import LightTooltip from '../Tooltips/Light'
 
+// TODO: create BaseChip
+
 export interface ChartChipProps {
   onClick: () => void
 }

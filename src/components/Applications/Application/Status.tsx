@@ -28,7 +28,15 @@ export default function Status() {
         placement="bottom-start"
       >
         <Contents onClick={record ? () => locateFile(record.path) : undefined}>
-          {record ? record.path : 'Data management for humans'}
+          {record ? (
+            <span>
+              {record.path}
+              <span style={{ marginLeft: '0.4em', opacity: 0.7 }}>@{record.name}</span>
+              <span style={{ marginLeft: '0.4em', opacity: 0.7 }}>#{record.type}</span>
+            </span>
+          ) : (
+            'Data management for humans'
+          )}
         </Contents>
       </LightTooltip>
       <Suffix>
