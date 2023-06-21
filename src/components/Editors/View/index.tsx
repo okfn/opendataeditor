@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as themes from '../../../themes'
-import { ITextEditor } from '../Text'
+import { ITextEditor } from '../../Parts/Text'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import Layout from './Layout'

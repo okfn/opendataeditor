@@ -1,6 +1,6 @@
 import * as React from 'react'
 import EditorSection from '../../../Parts/Editor/Section'
-import TextEditor from '../../Text'
+import TextEditor from '../../../Parts/Text'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import ColumnTree from '../../../Parts/Trees/Column'
