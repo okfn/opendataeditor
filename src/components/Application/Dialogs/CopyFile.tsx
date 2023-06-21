@@ -1,25 +1,25 @@
 import * as React from 'react'
-import CopyAllIcon from '@mui/icons-material/CopyAll'
-import InputDialog from '../../../Parts/Dialogs/Input'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
-export default function MoveFileDialog() {
+export default function CopyFileDialog() {
   const path = useStore((state) => state.path)
-  const moveFile = useStore((state) => state.moveFile)
+  const copyFile = useStore((state) => state.copyFile)
   const updateState = useStore((state) => state.updateState)
   if (!path) return null
   return (
     <InputDialog
       open={true}
       value={path}
-      title="Move File"
-      label="Move"
-      Icon={CopyAllIcon}
+      title="Copy File"
+      label="Copy"
+      Icon={ContentCopyIcon}
       placholder="Enter a path"
-      description={`You are moving "${path}". Enter destination:`}
+      description={`You are copying "${path}". Enter destination:`}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (toPath) => {
-        await moveFile(path, toPath)
+        await copyFile(path, toPath)
         updateState({ dialog: undefined })
       }}
     />

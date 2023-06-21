@@ -1,6 +1,6 @@
 import * as React from 'react'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import InputDialog from '../../../Parts/Dialogs/Input'
+import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 
 export default function CreateFileDialog() {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import InputDialog from '../../../Parts/Dialogs/Input'
+import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
 export default function CopyFolderDialog() {

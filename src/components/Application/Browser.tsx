@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Empty from '../../Parts/Empty'
-import Spinner from '../../Parts/Spinner'
-import FileTree from '../../Parts/Trees/File'
+import Empty from '../Parts/Empty'
+import Spinner from '../Parts/Spinner'
+import FileTree from '../Parts/Trees/File'
 import { useStore } from './store'
 
 export default function Browser() {

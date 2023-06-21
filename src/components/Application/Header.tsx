@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 import SettingsIcon from '@mui/icons-material/Settings'
 import GithubIcon from '@mui/icons-material/GitHub'
 import HelpIcon from '@mui/icons-material/Help'
-import LightTooltip from '../../Parts/Tooltips/Light'
+import LightTooltip from '../Parts/Tooltips/Light'
 import Status from './Status'
 import { useStore } from './store'
 

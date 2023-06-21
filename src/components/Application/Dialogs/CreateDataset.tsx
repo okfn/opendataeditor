@@ -1,8 +1,8 @@
 import * as React from 'react'
 import SourceIcon from '@mui/icons-material/Source'
-import InputDialog from '../../../Parts/Dialogs/Input'
+import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
-import * as settings from '../../../../settings'
+import * as settings from '../../../settings'
 
 export default function CreateDatasetDialog() {
   const folderPath = useStore(selectors.folderPath)

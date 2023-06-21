@@ -3,12 +3,12 @@ import * as zustand from 'zustand'
 import delay from 'delay'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client } from '../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
-import * as settings from '../../../settings'
-import * as helpers from '../../../helpers'
-import * as types from '../../../types'
+import * as settings from '../../settings'
+import * as helpers from '../../helpers'
+import * as types from '../../types'
 
 export interface State {
   path?: string

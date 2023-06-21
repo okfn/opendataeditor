@@ -1,6 +1,6 @@
 import * as React from 'react'
 import UploadIcon from '@mui/icons-material/Upload'
-import InputDialog from '../../../Parts/Dialogs/Input'
+import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
 export default function FetchFileDialog() {
