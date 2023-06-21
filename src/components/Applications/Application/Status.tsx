@@ -1,11 +1,12 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
-import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../../Parts/Tooltips/Light'
 import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
 import ViewChip from '../../Parts/Chips/View'
 import ScriptChip from '../../Parts/Chips/Script'
+import TypeChip from '../../Parts/Chips/Type'
 import { useStore } from './store'
 
 export default function Status() {
@@ -17,28 +18,33 @@ export default function Status() {
   return (
     <Container>
       <Prefix>
-        <InputIcon />
+        <TypeChip type={record?.type} onClick={() => alert('under development')} />
       </Prefix>
-      <LightTooltip
-        title={
-          record
-            ? 'Locate this file in the browser'
-            : 'Select a file in the browser to explore'
-        }
-        placement="bottom-start"
-      >
-        <Contents onClick={record ? () => locateFile(record.path) : undefined}>
-          {record ? (
-            <span>
-              {record.path}
-              <span style={{ marginLeft: '0.4em', opacity: 0.7 }}>@{record.name}</span>
-              <span style={{ marginLeft: '0.4em', opacity: 0.7 }}>#{record.type}</span>
-            </span>
-          ) : (
-            'Data management for humans'
-          )}
-        </Contents>
-      </LightTooltip>
+      <Contents onClick={record ? () => locateFile(record.path) : undefined}>
+        <Box>
+          <LightTooltip
+            title={
+              record
+                ? 'Locate this file in the browser'
+                : 'Select a file in the browser to explore'
+            }
+            placement="bottom-start"
+          >
+            <Box>
+              {record ? (
+                <span>
+                  {record.path}
+                  <span style={{ marginLeft: '0.5em', opacity: 0.7 }}>
+                    @{record.name}
+                  </span>
+                </span>
+              ) : (
+                'Data management for humans'
+              )}
+            </Box>
+          </LightTooltip>
+        </Box>
+      </Contents>
       <Suffix>
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
@@ -68,18 +74,16 @@ const Container = styled('div')(({ theme }) => ({
 const Contents = styled('div')(({ theme }) => ({
   color: 'inherit',
   width: '100%',
-  padding: theme.spacing(1, 1, 1, 0),
-  // vertical padding + font size from searchIcon
-  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  padding: theme.spacing(1, 1, 1, 0.5),
+  marginLeft: '6vw',
   transition: theme.transitions.create('width'),
   cursor: 'pointer',
 }))
 
 const Prefix = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0, 0),
   height: '100%',
   position: 'absolute',
-  pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

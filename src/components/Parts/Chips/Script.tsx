@@ -12,7 +12,7 @@ export default function PythonChip(props: PythonChipProps) {
     <LightTooltip title="Create a Python script">
       <Chip
         onClick={props.onClick}
-        label="Python"
+        label="SCRIPT"
         color="primary"
         icon={<TerminalIcon />}
         size="medium"

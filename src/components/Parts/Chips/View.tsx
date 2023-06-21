@@ -12,7 +12,7 @@ export default function ViewChip(props: ViewChipProps) {
     <LightTooltip title="Create a SQL query">
       <Chip
         onClick={props.onClick}
-        label="SQL"
+        label="VIEW"
         color="primary"
         icon={<TroubleshootIcon />}
         size="medium"

@@ -24,7 +24,7 @@ export default function Header() {
         <Toolbar disableGutters>
           <Grid container>
             <Grid item xs={4} lg={3}>
-              <LightTooltip title="Show the welcome screen">
+              <LightTooltip title="Show the project page">
                 <Typography
                   variant="h5"
                   sx={{ ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
