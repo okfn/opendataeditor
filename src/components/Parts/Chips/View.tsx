@@ -9,7 +9,7 @@ export interface ViewChipProps {
 
 export default function ViewChip(props: ViewChipProps) {
   return (
-    <LightTooltip title="Create a SQL query">
+    <LightTooltip title="Create a SQL view">
       <Chip
         onClick={props.onClick}
         label="VIEW"

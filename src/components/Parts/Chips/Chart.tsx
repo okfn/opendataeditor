@@ -11,7 +11,7 @@ export interface ChartChipProps {
 
 export default function ChartChip(props: ChartChipProps) {
   return (
-    <LightTooltip title="Create a chart">
+    <LightTooltip title="Create a Vega chart">
       <Chip
         onClick={props.onClick}
         label="CHART"
