@@ -1,4 +1,4 @@
-import { ITextEditor } from '../../Parts/Text'
+import { ITextEditor } from '../../Editors/Text'
 
 export function getVersion(editor: ITextEditor | null) {
   return editor?.getModel()?.getAlternativeVersionId() || 1

@@ -1,8 +1,8 @@
 import * as React from 'react'
-import Report from '../../../Parts/Panels/Report'
+import ReportPanel from '../../../Parts/Panels/Report'
 import { useStore } from '../store'
 
-export default function ReportPanel() {
+export default function Report() {
   const report = useStore((state) => state.report)
-  return <Report report={report} />
+  return <ReportPanel report={report} />
 }
