@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ControllerProps from '../../Parts/Controller/Props'
+import { ControllerProps } from '../../Controllers/Base'
 import File from '../../Controllers/File'
 import Metadata from '../../Controllers/Metadata'
 import Chart from '../../Controllers/Chart'

@@ -1,6 +1,6 @@
 import { Client } from '../../../client'
 
-export default interface ControllerProps {
+export interface ControllerProps {
   path: string
   client: Client
   onSave?: () => void

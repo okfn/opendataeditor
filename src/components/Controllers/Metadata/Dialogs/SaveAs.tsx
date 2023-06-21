@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SaveAsDialog from '../../../Parts/Dialogs/SaveAs'
+import SaveAsDialog from '../../Base/Dialogs/SaveAs'
 import { useStore } from '../store'
 
 export default function SaveAs() {

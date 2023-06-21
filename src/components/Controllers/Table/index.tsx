@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StoreProvider, makeStore } from './store'
 import { ThemeProvider } from '@mui/material/styles'
 import * as themes from '../../../themes'
-import ControllerProps from '../../Parts/Controller/Props'
+import { ControllerProps } from '../../Controllers/Base'
 import Layout from './Layout'
 
 export interface TableProps extends ControllerProps {}

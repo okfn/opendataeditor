@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SourcePanel from '../../../Parts/Panels/Source'
+import SourcePanel from '../../Base/Panels/Source'
 import { useStore } from '../store'
 
 export default function Source() {

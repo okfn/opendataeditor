@@ -1,6 +1,6 @@
 import * as React from 'react'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import InputDialog from './Input'
+import InputDialog from '../../../Parts/Dialogs/Input'
 
 export interface SaveAsDialogProps {
   path?: string
