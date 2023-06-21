@@ -19,8 +19,6 @@ import IconButton from '../Buttons/Icon'
 import { useTheme } from '@mui/material/styles'
 import { useKeyPress } from 'ahooks'
 
-// TODO: add spacing between buttons
-
 export interface MenuBarProps {
   fullWidth?: boolean
 }
@@ -37,7 +35,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
 }
 
 function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
-  if (!props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
+  if (props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
   return (
     <Stack direction="row" spacing={1}>
       {props.children}

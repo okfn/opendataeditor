@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import SelectField from '../../Parts/Fields/Select'
 import * as menu from '../../Parts/Bars/Menu'
 
-export default function Project() {
+export default function Menu() {
   return (
     <menu.MenuBar fullWidth>
       <SelectField

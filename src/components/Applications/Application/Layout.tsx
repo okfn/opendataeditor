@@ -7,7 +7,7 @@ import Content from './Content'
 import Dialog from './Dialog'
 import Header from './Header'
 import Browser from './Browser'
-import Project from './Project'
+import Menu from './Menu'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -24,7 +24,7 @@ export default function Layout() {
       <Header />
       <Columns layout={[3, 9]}>
         <Box sx={{ height, borderRight: 'solid 1px #ddd' }}>
-          <Project />
+          <Menu />
           <Box sx={{ height: contentHeight }}>
             <Browser />
           </Box>

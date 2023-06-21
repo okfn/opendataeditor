@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
+// import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../../Parts/Tooltips/Light'
 import ReportChip from '../../Parts/Chips/Report'
 import ChartChip from '../../Parts/Chips/Chart'
@@ -74,7 +75,7 @@ const Container = styled('div')(({ theme }) => ({
 const Contents = styled('div')(({ theme }) => ({
   color: 'inherit',
   width: '100%',
-  padding: theme.spacing(1, 1, 1, 0.5),
+  padding: theme.spacing(1, 1, 1, '0.5em'),
   marginLeft: '6vw',
   transition: theme.transitions.create('width'),
   cursor: 'pointer',
