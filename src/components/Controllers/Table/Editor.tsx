@@ -1,5 +1,5 @@
 import * as React from 'react'
-import TableEditor from '../../Editors/Table'
+import TableEditor from '../../Parts/Table'
 import { useStore } from './store'
 
 export default function Editor() {
