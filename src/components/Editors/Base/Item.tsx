@@ -16,7 +16,6 @@ export interface EditorItemProps {
   onBackClick: () => void
 }
 
-// TODO: rebase Link on component="button" so it doesn't add "#" to the url
 export default function EditorItem(props: React.PropsWithChildren<EditorItemProps>) {
   const ExtrasButton = () => {
     if (!props.extrasName) return null
@@ -43,7 +42,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
         <Columns spacing={1} layout={[6, 6]}>
           <Box>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
-              <Link href="#" onClick={props.onBackClick}>
+              <Link onClick={props.onBackClick} sx={{ cursor: 'pointer' }}>
                 {startCase(props.kind)}s
               </Link>{' '}
               <small>/</small>

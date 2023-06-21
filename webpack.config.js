@@ -103,11 +103,7 @@ if (ENTRY === 'metadata') {
   webpackConfig.output.filename = 'metadata.js'
   webpackConfig.output.library = 'frictionlessMetadata'
   webpackConfig.output.path = path.resolve(__dirname, 'dist/metadata')
-  webpackConfig.plugins[1] = new HtmlWebpackPlugin({
-    favicon: 'assets/favicon.png',
-    template: 'src/metadata.html',
-    templateParameters: { version },
-  })
+  delete webpackConfig.plugins[1]
 }
 
 module.exports = webpackConfig
