@@ -35,7 +35,7 @@ export default function Status() {
               {record ? (
                 <span>
                   {record.path}
-                  <span style={{ marginLeft: '0.5em', opacity: 0.7 }}>
+                  <span style={{ marginLeft: '0.7em', opacity: 0.7 }}>
                     @{record.name}
                   </span>
                 </span>
@@ -75,7 +75,7 @@ const Container = styled('div')(({ theme }) => ({
 const Contents = styled('div')(({ theme }) => ({
   color: 'inherit',
   width: '100%',
-  padding: theme.spacing(1, 1, 1, '0.5em'),
+  padding: theme.spacing(1, 1, 1, '0.7em'),
   marginLeft: '6vw',
   transition: theme.transitions.create('width'),
   cursor: 'pointer',
