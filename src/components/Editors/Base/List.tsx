@@ -2,9 +2,9 @@ import * as React from 'react'
 import startCase from 'lodash/startCase'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Columns from '../Columns'
+import Columns from '../../Parts/Columns'
 import EditorListItem from './ListItem'
-import HeadingBox from './Internals/HeadingBox'
+import HeadingBox from './Heading/Box'
 
 export interface EditorListProps {
   kind: string

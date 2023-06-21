@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import HelpCard from '../HelpCard'
+import HelpCard from '../../Parts/HelpCard'
 import * as types from '../../../types'
 
 interface EditorHelpProps {

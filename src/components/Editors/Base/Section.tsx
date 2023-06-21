@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Columns from '../Columns'
-import HeadingBox from './Internals/HeadingBox'
+import Columns from '../../Parts/Columns'
+import HeadingBox from './Heading/Box'
 
 export interface EditorItemProps {
   name: string

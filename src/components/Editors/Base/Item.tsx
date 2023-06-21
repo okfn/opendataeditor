@@ -4,8 +4,8 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Columns from '../Columns'
-import HeadingBox from './Internals/HeadingBox'
+import Columns from '../../Parts/Columns'
+import HeadingBox from './Heading/Box'
 
 export interface EditorItemProps {
   kind: string

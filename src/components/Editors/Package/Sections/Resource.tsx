@@ -1,7 +1,7 @@
 import * as React from 'react'
-import EditorList from '../../../Parts/Editor/List'
-import EditorListItem from '../../../Parts/Editor/ListItem'
-import EditorSearch from '../../../Parts/Editor/Search'
+import EditorList from '../../Base/List'
+import EditorListItem from '../../Base/ListItem'
+import EditorSearch from '../../Base/Search'
 import { useStore, selectors } from '../store'
 
 export default function Resource() {
