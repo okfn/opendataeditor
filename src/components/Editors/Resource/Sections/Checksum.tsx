@@ -42,7 +42,7 @@ function Bytes() {
     <InputField
       label="Bytes"
       value={bytes || ''}
-      onChange={(value) => updateDescriptor({ bytes: value || undefined })}
+      onChange={(value) => updateDescriptor({ bytes: parseInt(value) || undefined })}
     />
   )
 }
@@ -57,7 +57,7 @@ function Fields() {
     <InputField
       label="Fields"
       value={fields || ''}
-      onChange={(value) => updateDescriptor({ fields: value || undefined })}
+      onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
 }
@@ -72,7 +72,7 @@ function Rows() {
     <InputField
       label="Rows"
       value={rows || ''}
-      onChange={(value) => updateDescriptor({ fields: value || undefined })}
+      onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
 }

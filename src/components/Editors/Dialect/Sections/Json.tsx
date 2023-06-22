@@ -33,7 +33,7 @@ function Keys() {
       label="Keys"
       value={keys}
       onFocus={() => updateHelp('json/keys')}
-      onChange={(value) => updateJson({ keys: value || undefined })}
+      onChange={(value) => updateJson({ keys: value ? value.split(',') : undefined })}
     />
   )
 }

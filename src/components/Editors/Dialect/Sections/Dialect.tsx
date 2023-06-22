@@ -92,7 +92,9 @@ function CommentRows() {
       value={(commentRows || []).join(',')}
       onFocus={() => updateHelp('dialect/commentRows')}
       onChange={(value) =>
-        updateDescriptor({ commentRows: value ? value.split(',') : undefined })
+        updateDescriptor({
+          commentRows: value ? value.split(',').map(parseInt) : undefined,
+        })
       }
     />
   )
@@ -122,7 +124,9 @@ function HeaderRows() {
       value={headerRows}
       onFocus={() => updateHelp('dialect/headerRows')}
       onChange={(headerRows) =>
-        updateDescriptor({ headerRows: headerRows ? headerRows.split(',') : undefined })
+        updateDescriptor({
+          headerRows: headerRows ? headerRows.split(',').map(parseInt) : undefined,
+        })
       }
     />
   )

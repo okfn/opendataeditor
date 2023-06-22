@@ -8,6 +8,7 @@ export interface IDialect {
   headerCase?: boolean
   commentChar?: string
   commentRows?: number[]
+  // TODO: fix; make plain
   csv?: ICsvControl
   excel?: IExcelControl
   json?: IJsonControl

@@ -1,4 +1,6 @@
-export type ICkanControl = {
+export type IControl = ICkanControl
+
+export interface ICkanControl {
   type: 'ckan'
   baseurl: string
   dataset: string
