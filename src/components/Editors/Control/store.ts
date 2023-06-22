@@ -16,7 +16,7 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'control')!
 interface State {
   format?: string
   descriptor: Partial<types.IControl>
-  onChange: (control?: types.IControl) => void
+  onChange: (control?: Partial<types.IControl>) => void
   helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IControl>) => void
@@ -34,24 +34,14 @@ export function makeStore(props: ControlProps) {
     updateDescriptor: (patch) => {
       const { descriptor, onChange } = get()
       Object.assign(descriptor, patch)
-      onChange(selectors.isValid(get()) ? (descriptor as types.IControl) : undefined)
+      onChange({ ...descriptor })
       set({ descriptor })
     },
   }))
 }
 
 export const select = createSelector
-export const selectors = {
-  isValid: (state: State) => {
-    const descriptor = state.descriptor
-    if (descriptor.type === 'ckan') {
-      if (!descriptor.dataset) return false
-      if (!descriptor.baseurl) return false
-      if (!descriptor.apikey) return false
-    }
-    return true
-  },
-}
+export const selectors = {}
 
 export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)

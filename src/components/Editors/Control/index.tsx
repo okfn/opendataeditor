@@ -6,8 +6,8 @@ import Layout from './Layout'
 import * as types from '../../../types'
 
 export interface ControlProps {
-  control?: types.IControl
-  onChange?: (view: types.IControl) => void
+  control?: Partial<types.IControl>
+  onChange?: (control: Partial<types.IControl>) => void
 }
 
 export default function Control(props: ControlProps) {
