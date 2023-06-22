@@ -266,24 +266,23 @@ async function makeRequest(
   path: string,
   props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
 ) {
+  const { isBytes, ...options } = props
   const method = 'POST'
   let headers = {}
   let body
-  if (props.file) {
+  if (options.file) {
     body = new FormData()
-    body.append('file', new Blob([await props.file.arrayBuffer()]), props.file.name)
-    for (const [name, value] of Object.entries(omit(props, 'file'))) {
+    body.append('file', new Blob([await options.file.arrayBuffer()]), options.file.name)
+    for (const [name, value] of Object.entries(omit(options, 'file'))) {
       if (value === undefined) continue
       body.append(name, typeof value === 'string' ? value : JSON.stringify(value))
     }
   } else {
     headers = { 'Content-Type': 'application/json;charset=utf-8' }
-    body = JSON.stringify(props)
+    body = JSON.stringify(options)
   }
   const response = await fetch(path, { method, headers, body })
-  const result = props.isBytes
-    ? { bytes: await response.arrayBuffer() }
-    : await response.json()
-  // console.log({ path, props, result })
+  const result = isBytes ? { bytes: await response.arrayBuffer() } : await response.json()
+  // console.log({ path, options, result })
   return result
 }
