@@ -11,7 +11,7 @@ export interface TypeChipProps {
 
 export default function TypeChip(props: TypeChipProps) {
   const label = props.type || 'project'
-  const title = props.type ? 'Change file name or file type' : 'Change the project'
+  const title = props.type ? 'Change file name/type (coming soon)' : 'Change the project'
   return (
     <LightTooltip title={title}>
       <Chip
