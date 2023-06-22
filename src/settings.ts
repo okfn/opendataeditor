@@ -11,6 +11,7 @@ export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
 export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
+export const MAX_TABLE_SOURCE_SIZE = 1000000
 
 // Defaults
 

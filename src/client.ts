@@ -94,7 +94,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async fileRead(props: { path: string }) {
+  async fileRead(props: { path: string; size?: number }) {
     const result = await this.request('/file/read', { ...props, isBytes: true })
     return result as { bytes: ArrayBuffer }
   }
@@ -237,7 +237,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async textRead(props: { path: string }) {
+  async textRead(props: { path: string; size?: number }) {
     const result = await this.request('/text/read', props)
     return result as { text: string }
   }

@@ -79,7 +79,10 @@ export function makeStore(props: TableProps) {
     },
     loadSource: async () => {
       const { path, client } = get()
-      const { text } = await client.textRead({ path })
+      const { text } = await client.textRead({
+        path,
+        size: settings.MAX_TABLE_SOURCE_SIZE,
+      })
       set({ source: text })
     },
     revert: () => {
