@@ -16,15 +16,15 @@ export interface PublishDialogProps {
 export default function PublishDialog(props: PublishDialogProps) {
   const [control, setControl] = React.useState<Partial<types.IControl> | undefined>()
   const [isPublishing, setIsPublishing] = React.useState(false)
-  const [publishedPath, setPublishedPath] = React.useState<string | undefined>()
+  const [publishedUrl, setPublishedUrl] = React.useState<string | undefined>()
   const ensuredControl = helpers.ensureControl(control)
   const handleClose = () => props.onClose()
   const handlePublish = async () => {
     if (!ensuredControl) return
     setIsPublishing(true)
-    const path = await props.onPublish(ensuredControl)
+    const url = await props.onPublish(ensuredControl)
     setIsPublishing(false)
-    setPublishedPath(path)
+    setPublishedUrl(url)
   }
   return (
     <ConfirmDialog
@@ -32,10 +32,10 @@ export default function PublishDialog(props: PublishDialogProps) {
       disabled={!ensuredControl}
       maxWidth="md"
       title="Publish Dataset"
-      label={publishedPath ? 'OK' : 'Publish'}
+      label={publishedUrl ? 'OK' : 'Publish'}
       Icon={CheckIcon}
       onCancel={handleClose}
-      onConfirm={publishedPath ? handleClose : handlePublish}
+      onConfirm={publishedUrl ? handleClose : handlePublish}
     >
       <ControlEditor control={control} onChange={setControl} />
       {isPublishing && (
@@ -44,11 +44,11 @@ export default function PublishDialog(props: PublishDialogProps) {
           <LinearProgress />
         </Box>
       )}
-      {!!publishedPath && (
+      {!!publishedUrl && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Published:{' '}
-          <Link href={publishedPath} target="_blank">
-            {publishedPath}
+          <Link href={publishedUrl} target="_blank">
+            {publishedUrl}
           </Link>
         </Box>
       )}

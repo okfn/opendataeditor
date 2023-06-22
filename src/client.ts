@@ -94,6 +94,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async filePublish(props: { path: string; control: types.IControl }) {
+    const result = await this.request('/file/publish', props)
+    return result as { url: string }
+  }
+
   async fileRead(props: { path: string; size?: number }) {
     const result = await this.request('/file/read', { ...props, isBytes: true })
     return result as { bytes: ArrayBuffer }
@@ -150,9 +155,9 @@ export class Client {
     return result as { path: string }
   }
 
-  async packagePublish(props: { path: string; control: types.ICkanControl }) {
+  async packagePublish(props: { path: string; control: types.IControl }) {
     const result = await this.request('/package/publish', props)
-    return result as { path: string }
+    return result as { url: string }
   }
 
   // Project

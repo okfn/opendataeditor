@@ -24,12 +24,15 @@ export interface State {
   original?: types.IPackage | types.IResource | types.IDialect | types.ISchema
   modified?: types.IPackage | types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
-  clear: () => void
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
   revert: () => void
   save: () => Promise<void>
+  clear: () => void
 
   // Package
 
@@ -44,6 +47,9 @@ export function makeStore(props: MetadataProps) {
     updateState: (patch) => {
       set(patch)
     },
+
+    // General
+
     load: async () => {
       const { path, client } = get()
       const { record, report, measure } = await client.fileIndex({ path })
@@ -64,8 +70,8 @@ export function makeStore(props: MetadataProps) {
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { path } = await client.packagePublish({ path: record!.path, control })
-      return path
+      const { url } = await client.packagePublish({ path: record!.path, control })
+      return url
     },
     revert: () => {
       const { original } = get()
