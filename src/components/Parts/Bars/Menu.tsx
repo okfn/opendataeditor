@@ -55,10 +55,10 @@ export interface ButtonProps {
 export function EditorButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the editor panel [Shift+C]'
+  let title = 'Toggle the editor panel [Alt+C]'
   if (props.enabled) title = 'Editor is enabled'
   if (props.disabled) title = 'Editor is not available'
-  useKeyPress(['shift.c'], (event) => {
+  useKeyPress(['Alt.c'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
@@ -89,10 +89,10 @@ export function EditorButton(props: ButtonProps) {
 export function MetadataButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the metadta panel [Shift+M]'
+  let title = 'Toggle the metadta panel [Alt+M]'
   if (props.enabled) title = 'Metadata is enabled'
   if (props.disabled) title = 'Metadata is not available'
-  useKeyPress(['shift.m'], (event) => {
+  useKeyPress(['alt.m'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
@@ -123,10 +123,10 @@ export function MetadataButton(props: ButtonProps) {
 export function ReportButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the report panel [Shift+R]'
+  let title = 'Toggle the report panel [Alt+R]'
   if (props.enabled) title = 'Report is enabled'
   if (props.disabled) title = 'Report is not available'
-  useKeyPress(['shift.r'], (event) => {
+  useKeyPress(['alt.r'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
@@ -157,10 +157,10 @@ export function ReportButton(props: ButtonProps) {
 export function SourceButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the source panel [Shift+S]'
+  let title = 'Toggle the source panel [Alt+S]'
   if (props.enabled) title = 'Source is enabled'
   if (props.disabled) title = 'Source is not available'
-  useKeyPress(['shift.s'], (event) => {
+  useKeyPress(['alt.s'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
@@ -190,9 +190,9 @@ export function SourceButton(props: ButtonProps) {
 
 export function ErrorsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Toggle showing only errors [Shift+E]'
+  let title = 'Toggle showing only errors [Alt+E]'
   if (props.disabled) title = 'No errors to show'
-  useKeyPress(['shift.e'], (event) => {
+  useKeyPress(['alt.e'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
