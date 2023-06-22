@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'saveAs'
+  dialog?: 'publish' | 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   record?: types.IRecord
   report?: types.IReport
@@ -27,11 +27,15 @@ export interface State {
   modified?: types.IChart
   rendered?: types.IChart
   updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
   clear: () => void
+  saveAs: (toPath: string) => Promise<void>
+  publish: (control: types.IControl) => Promise<string>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (toPath: string) => Promise<void>
   render: () => void
 }
 
@@ -66,6 +70,16 @@ export function makeStore(props: ChartProps) {
       const { updateState } = get()
       updateState({ modified: {} })
     },
+    saveAs: async (toPath) => {
+      const { path, client, modified, resource, onSaveAs } = get()
+      await client.jsonPatch({ path, toPath, data: modified, resource })
+      onSaveAs(toPath)
+    },
+    publish: async (control) => {
+      const { record, client } = get()
+      const { url } = await client.filePublish({ path: record!.path, control })
+      return url
+    },
     revert: () => {
       const { original, updateState } = get()
       updateState({ modified: cloneDeep(original) })
@@ -79,11 +93,6 @@ export function makeStore(props: ChartProps) {
       })
       onSave()
       load()
-    },
-    saveAs: async (toPath) => {
-      const { path, client, modified, resource, onSaveAs } = get()
-      await client.jsonPatch({ path, toPath, data: modified, resource })
-      onSaveAs(toPath)
     },
     render: throttle(async () => {
       const { client, modified } = get()
