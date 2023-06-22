@@ -7,7 +7,7 @@ import { useStore } from '../store'
 export default function CkanSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Csv" onHeadingClick={() => updateHelp('ckan')}>
+    <EditorSection name="Ckan" onHeadingClick={() => updateHelp('ckan')}>
       <Baseurl />
       <Dataset />
       <Apikey />
