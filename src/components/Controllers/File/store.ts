@@ -16,17 +16,21 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report'
-  dialog?: 'saveAs'
+  dialog?: 'publish' | 'saveAs'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
   resource?: types.IResource
   source?: ArrayBuffer
   updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
+  publish: (control: types.IControl) => Promise<string>
   revert: () => void
   save: () => void
-  saveAs: (toPath: string) => Promise<void>
 }
 
 export function makeStore(props: FileProps) {
@@ -37,6 +41,9 @@ export function makeStore(props: FileProps) {
     updateState: (patch) => {
       set(patch)
     },
+
+    // General
+
     load: async () => {
       const { path, client } = get()
       const { record, report, measure } = await client.fileIndex({ path })
@@ -45,6 +52,16 @@ export function makeStore(props: FileProps) {
         const { bytes } = await client.fileRead({ path: record.path })
         set({ source: bytes })
       }
+    },
+    saveAs: async (toPath) => {
+      const { path, client, resource, onSaveAs } = get()
+      await client.filePatch({ path, toPath, resource })
+      onSaveAs(toPath)
+    },
+    publish: async (control) => {
+      const { record, client } = get()
+      const { url } = await client.filePublish({ path: record!.path, control })
+      return url
     },
     revert: () => {
       const { record } = get()
@@ -56,11 +73,6 @@ export function makeStore(props: FileProps) {
       await client.filePatch({ path, resource })
       onSave()
       load()
-    },
-    saveAs: async (toPath) => {
-      const { path, client, resource, onSaveAs } = get()
-      await client.filePatch({ path, toPath, resource })
-      onSaveAs(toPath)
     },
   }))
 }
