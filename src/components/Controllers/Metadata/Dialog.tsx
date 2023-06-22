@@ -9,10 +9,10 @@ export default function Dialog() {
   switch (dialog) {
     case 'publish':
       return <PublishDialog />
-    case 'resource':
-      return <ResourceDialog />
     case 'saveAs':
       return <SaveAsDialog />
+    case 'resource':
+      return <ResourceDialog />
     default:
       return null
   }

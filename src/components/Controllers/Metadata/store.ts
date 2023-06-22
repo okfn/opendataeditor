@@ -17,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
-  dialog?: 'saveAs' | 'resource' | 'publish'
+  dialog?: 'publish' | 'saveAs' | 'resource'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -70,8 +70,13 @@ export function makeStore(props: MetadataProps) {
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.packagePublish({ path: record!.path, control })
-      return url
+      if (record!.type === 'package') {
+        const { url } = await client.packagePublish({ path: record!.path, control })
+        return url
+      } else {
+        const { url } = await client.filePublish({ path: record!.path, control })
+        return url
+      }
     },
     revert: () => {
       const { original } = get()
