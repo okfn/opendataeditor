@@ -7,20 +7,27 @@ export default function Viewer() {
   const type = useStore((state) => state.record?.type)
   if (!type) return null
   if (type === 'image') return <ImageViewer />
+  if (type === 'map') return <MapViewer />
   return <NonSupportedViewer />
 }
 
 function ImageViewer() {
   const format = useStore((state) => state.record?.resource.format)
-  const source = useStore((state) => state.source)
+  const byteSource = useStore((state) => state.byteSource)
   if (!format) return null
-  if (!source) return null
-  const text = helpers.bytesToBase64(source)
+  if (!byteSource) return null
+  const text = helpers.bytesToBase64(byteSource)
   return (
     <Box sx={{ padding: 2 }}>
       <img src={`data:image/${format};base64,${text}`} />
     </Box>
   )
+}
+
+function MapViewer() {
+  const textSource = useStore((state) => state.textSource)
+  if (!textSource) return null
+  return <Box sx={{ padding: 2 }}>{textSource}</Box>
 }
 
 function NonSupportedViewer() {

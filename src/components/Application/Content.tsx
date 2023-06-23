@@ -52,7 +52,7 @@ export const CONTROLLERS: {
   image: File,
   json: Text,
   jsonschema: Text,
-  map: Text,
+  map: File,
   package: Metadata,
   resource: Metadata,
   schema: Metadata,

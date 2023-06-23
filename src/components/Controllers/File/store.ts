@@ -15,13 +15,14 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  panel?: 'metadata' | 'report'
+  panel?: 'metadata' | 'report' | 'source'
   dialog?: 'publish' | 'saveAs'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
   resource?: types.IResource
-  source?: ArrayBuffer
+  byteSource?: ArrayBuffer
+  textSource?: string
   updateState: (patch: Partial<State>) => void
 
   // General
@@ -50,7 +51,10 @@ export function makeStore(props: FileProps) {
       set({ record, report, measure, resource: cloneDeep(record.resource) })
       if (record.type === 'image') {
         const { bytes } = await client.fileRead({ path: record.path })
-        set({ source: bytes })
+        set({ byteSource: bytes })
+      } else if (record.type === 'map') {
+        const { text } = await client.textRead({ path: record.path })
+        set({ textSource: text })
       }
     },
     saveAs: async (toPath) => {
