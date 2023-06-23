@@ -10,6 +10,7 @@ import DropdownButton from '../../Parts/Buttons/Dropdown'
 import IconButton from '../../Parts/Buttons/Icon'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import { useStore } from '../store'
 
 export default function CreateButton() {
@@ -26,6 +27,7 @@ export default function CreateButton() {
       <CreateFolder />
       <FetchDataset />
       <CreateDataset />
+      <CreateCatalog />
     </DropdownButton>
   )
 }
@@ -138,6 +140,19 @@ function CreateDataset() {
       variant="text"
       label="Create Dataset"
       Icon={SourceIcon}
+      onClick={() => updateState({ dialog: 'createDataset' })}
+    />
+  )
+}
+
+function CreateCatalog() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      disabled
+      variant="text"
+      label="Create Catalog"
+      Icon={LibraryBooksIcon}
       onClick={() => updateState({ dialog: 'createDataset' })}
     />
   )
