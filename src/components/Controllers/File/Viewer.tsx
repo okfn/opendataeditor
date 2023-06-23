@@ -4,9 +4,9 @@ import { useStore } from './store'
 import * as helpers from '../../../helpers'
 
 export default function Viewer() {
-  const format = useStore((state) => state.record?.resource.format)
-  if (!format) return null
-  if (['png', 'jpg'].includes(format || '')) return <ImageViewer />
+  const type = useStore((state) => state.record?.type)
+  if (!type) return null
+  if (type === 'image') return <ImageViewer />
   return <NonSupportedViewer />
 }
 

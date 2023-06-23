@@ -48,7 +48,7 @@ export function makeStore(props: FileProps) {
       const { path, client } = get()
       const { record, report, measure } = await client.fileIndex({ path })
       set({ record, report, measure, resource: cloneDeep(record.resource) })
-      if (['jpg', 'png'].includes(record.resource.format || '')) {
+      if (record.type === 'image') {
         const { bytes } = await client.fileRead({ path: record.path })
         set({ source: bytes })
       }

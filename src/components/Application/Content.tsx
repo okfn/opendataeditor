@@ -49,6 +49,7 @@ export const CONTROLLERS: {
   chart: Chart,
   dialect: Metadata,
   file: File,
+  image: File,
   json: Text,
   jsonschema: Text,
   map: Text,
