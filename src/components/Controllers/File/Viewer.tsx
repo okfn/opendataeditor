@@ -1,6 +1,8 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
 import { useStore } from './store'
+import * as topojson from 'topojson-client'
 import * as helpers from '../../../helpers'
 
 export default function Viewer() {
@@ -27,7 +29,21 @@ function ImageViewer() {
 function MapViewer() {
   const textSource = useStore((state) => state.textSource)
   if (!textSource) return null
-  return <Box sx={{ padding: 2 }}>{textSource}</Box>
+  let data = JSON.parse(textSource)
+  if (data?.type === 'Topology') {
+    data = topojson.feature(data, Object.keys(data.objects)[0] as any)
+  }
+  return (
+    <Box sx={{ padding: 2, width: '100%', height: '100%' }}>
+      <MapContainer center={[51.505, -0.09]} zoom={3} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <GeoJSON data={data} />
+      </MapContainer>
+    </Box>
+  )
 }
 
 function NonSupportedViewer() {
