@@ -17,6 +17,7 @@ interface DropdownButtonProps {
   children?: React.ReactNode
   open?: boolean
   complete?: boolean
+  color?: 'primary' | 'secondary' | 'info'
 }
 
 export default function DropdownButton(props: DropdownButtonProps) {
@@ -40,6 +41,7 @@ export default function DropdownButton(props: DropdownButtonProps) {
         fullWidth
         sx={{ height: '100%' }}
         variant={props.variant}
+        color={props.color}
         ref={anchorRef}
         aria-label="split button"
       >
