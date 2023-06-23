@@ -1,20 +1,22 @@
 import * as React from 'react'
 import Chip from '@mui/material/Chip'
-import TerminalIcon from '@mui/icons-material/Terminal'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LightTooltip from '../Tooltips/Light'
 
-export interface PythonChipProps {
+// TODO: create BaseChip
+
+export interface ArticleChipProps {
   onClick: () => void
 }
 
-export default function PythonChip(props: PythonChipProps) {
+export default function ArticleChip(props: ArticleChipProps) {
   return (
-    <LightTooltip title="Create a Python script">
+    <LightTooltip title="Create a Markdown article">
       <Chip
         onClick={props.onClick}
         color="primary"
-        label="Script"
-        icon={<TerminalIcon />}
+        label="Article"
+        icon={<HistoryEduIcon />}
         size="medium"
         sx={{
           height: '100%',

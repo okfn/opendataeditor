@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
 // import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../Parts/Tooltips/Light'
+import ArticleChip from '../Parts/Chips/Article'
 import ReportChip from '../Parts/Chips/Report'
 import ChartChip from '../Parts/Chips/Chart'
 import ViewChip from '../Parts/Chips/View'
@@ -50,6 +51,7 @@ export default function Status() {
         <ScriptChip onClick={() => alert('under development')} />
         <ViewChip onClick={() => createView()} />
         <ChartChip onClick={() => createChart()} />
+        <ArticleChip onClick={() => alert('under development')} />
         <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>
