@@ -17,7 +17,7 @@ interface InputFieldProps {
   error?: boolean
   helperText?: string
   required?: boolean
-  onChange?: (value: any) => void
+  onChange?: (value: string) => void
   onBlur?: () => void
   onFocus?: () => void
   onKeyDown?: () => void
@@ -41,7 +41,7 @@ export default function InputField(props: InputFieldProps) {
       size={props.size || 'small'}
       disabled={props.disabled}
       inputProps={props.inputProps}
-      onChange={(ev) => onChange(ev.target.value as any)}
+      onChange={(ev) => onChange(ev.target.value)}
       error={props.error}
       required={props.required}
       helperText={props.helperText}

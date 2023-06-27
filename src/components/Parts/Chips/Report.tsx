@@ -16,13 +16,9 @@ export default function ValidationChip(props: ValidationChipProps) {
   return (
     <LightTooltip title={title}>
       <Chip
-        label={props.errorCount ? 'ERRORS' : 'VALID'}
+        label={props.errorCount ? 'ERROR' : 'VALID'}
         color={
-          props.errorCount
-            ? 'error'
-            : props.errorCount !== undefined
-            ? 'success'
-            : 'primary'
+          props.errorCount ? 'error' : props.errorCount !== undefined ? 'success' : 'info'
         }
         icon={
           props.errorCount ? (

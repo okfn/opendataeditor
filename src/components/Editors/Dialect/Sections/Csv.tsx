@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../../Parts/Columns'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
-import EditorSection from '../../../Parts/Editor/Section'
+import EditorSection from '../../Base/Section'
 import * as settings from '../../../../settings'
 import { useStore, selectors, select } from '../store'
 

@@ -15,6 +15,7 @@ export interface ConfirmDialogProps {
   Icon?: React.ElementType
   label?: string
   disabled?: boolean
+  maxWidth?: 'md' | 'xl'
   onCancel?: () => void
   onConfirm?: () => void
 }
@@ -27,7 +28,7 @@ export default function ConfirmDialog(
   return (
     <Dialog
       fullWidth
-      maxWidth="sm"
+      maxWidth={props.maxWidth}
       open={!!props.open}
       onClose={handleCancel}
       aria-labelledby="dialog-title"

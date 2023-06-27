@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import SelectField from '../../../../Parts/Fields/Select'
-import EditorSection from '../../../../Parts/Editor/Section'
+import EditorSection from '../../../Base/Section'
 import Columns from '../../../../Parts/Columns'
 import { useStore } from '../../store'
 import * as settings from '../../settings'

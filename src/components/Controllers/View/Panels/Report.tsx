@@ -1,14 +1,8 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import Report from '../../../Parts/Report'
+import ReportPanel from '../../Base/Panels/Report'
 import { useStore } from '../store'
 
-export default function ReportPanel() {
+export default function Report() {
   const report = useStore((state) => state.report)
-  if (!report) return null
-  return (
-    <Box sx={{ paddingX: 2 }}>
-      <Report report={report} />
-    </Box>
-  )
+  return <ReportPanel report={report} />
 }

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
 import MultilineField from '../../../Parts/Fields/Multiline'
-import EditorSection from '../../../Parts/Editor/Section'
+import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Columns'
 import * as settings from '../../../../settings'
 import { useStore } from '../store'
@@ -92,7 +92,9 @@ function CommentRows() {
       value={(commentRows || []).join(',')}
       onFocus={() => updateHelp('dialect/commentRows')}
       onChange={(value) =>
-        updateDescriptor({ commentRows: value ? value.split(',') : undefined })
+        updateDescriptor({
+          commentRows: value ? value.split(',').map(parseInt) : undefined,
+        })
       }
     />
   )
@@ -122,7 +124,9 @@ function HeaderRows() {
       value={headerRows}
       onFocus={() => updateHelp('dialect/headerRows')}
       onChange={(headerRows) =>
-        updateDescriptor({ headerRows: headerRows ? headerRows.split(',') : undefined })
+        updateDescriptor({
+          headerRows: headerRows ? headerRows.split(',').map(parseInt) : undefined,
+        })
       }
     />
   )

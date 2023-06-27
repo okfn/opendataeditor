@@ -10,7 +10,10 @@ export default function Action() {
   return (
     <action.ActionBar>
       <action.SaveAsButton onClick={() => updateState({ dialog: 'saveAs' })} />
-      <action.PublishButton disabled />
+      <action.PublishButton
+        disabled={isUpdated}
+        onClick={() => updateState({ dialog: 'publish' })}
+      />
       <action.RevertButton updated={isUpdated} onClick={revert} />
       <action.SaveButton updated={isUpdated} onClick={save} />
     </action.ActionBar>

@@ -11,6 +11,7 @@ export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
 export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
+export const MAX_TABLE_SOURCE_SIZE = 1000000
 
 // Defaults
 
@@ -49,6 +50,7 @@ export const DEFUALT_TIME_FORMAT = 'HH:mm:ss'
 
 export const INITIAL_SCHEMA: types.ISchema = { fields: [] }
 export const INITIAL_DIALECT: types.IDialect = {}
+export const INITIAL_CONTROL: Partial<types.IControl> = { type: 'ckan' }
 export const INITIAL_PACKAGE: types.IPackage = { resources: [] }
 export const INITIAL_VIEW: types.IView = { query: '' }
 export const INITIAL_HISTORY: types.IHistory = { changes: [] }

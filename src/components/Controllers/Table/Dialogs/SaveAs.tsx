@@ -1,13 +1,13 @@
 import * as React from 'react'
-import SaveAs from '../../../Parts/Dialogs/SaveAs'
+import SaveAsDialog from '../../Base/Dialogs/SaveAs'
 import { useStore } from '../store'
 
-export default function SaveAsDialog() {
+export default function SaveAs() {
   const path = useStore((state) => state.path)
   const saveAs = useStore((state) => state.saveAs)
   const updateState = useStore((state) => state.updateState)
   return (
-    <SaveAs
+    <SaveAsDialog
       path={path}
       onSave={saveAs}
       onClose={() => updateState({ dialog: undefined })}

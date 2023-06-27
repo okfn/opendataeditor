@@ -20,7 +20,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'saveAs' | 'error'
+  dialog?: 'publish' | 'saveAs'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -28,11 +28,15 @@ export interface State {
   rowCount?: number
   resource?: types.IResource
   updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
   loadSource: () => Promise<void>
+  saveAs: (toPath: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (toPath: string) => Promise<void>
+  publish: (control: types.IControl) => Promise<string>
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory
@@ -64,6 +68,9 @@ export function makeStore(props: TableProps) {
       if ('panel' in patch) patch.selection = undefined
       set(patch)
     },
+
+    // General
+
     load: async () => {
       const { path, client, clearHistory } = get()
       const { record, report, measure } = await client.fileIndex({ path })
@@ -79,8 +86,21 @@ export function makeStore(props: TableProps) {
     },
     loadSource: async () => {
       const { path, client } = get()
-      const { text } = await client.textRead({ path })
+      const { text } = await client.textRead({
+        path,
+        size: settings.MAX_TABLE_SOURCE_SIZE,
+      })
       set({ source: text })
+    },
+    saveAs: async (toPath) => {
+      const { path, client, history, resource, onSaveAs } = get()
+      await client.tablePatch({ path, toPath, history, resource })
+      onSaveAs(toPath)
+    },
+    publish: async (control) => {
+      const { record, client } = get()
+      const { url } = await client.filePublish({ path: record!.path, control })
+      return url
     },
     revert: () => {
       const { record, gridRef, clearHistory } = get()
@@ -102,11 +122,6 @@ export function makeStore(props: TableProps) {
       })
       onSave()
       load()
-    },
-    saveAs: async (toPath) => {
-      const { path, client, history, resource, onSaveAs } = get()
-      await client.tablePatch({ path, toPath, history, resource })
-      onSaveAs(toPath)
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount, mode, history } = get()

@@ -11,7 +11,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import TroubleshootIcon from '@mui/icons-material/Troubleshoot'
+import TableRowsIcon from '@mui/icons-material/TableRows'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
@@ -200,7 +200,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   checklist: CheckCircleOutline,
   pipeline: AccountTree,
   schema: DescriptionIcon,
-  view: TroubleshootIcon,
+  view: TableRowsIcon,
 }
 
 // TODO: use color from theme

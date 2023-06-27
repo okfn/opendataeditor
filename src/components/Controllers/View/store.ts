@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'saveAs'
+  dialog?: 'publish' | 'saveAs'
   panel?: 'metadata' | 'report' | 'source' | 'editor'
   columns?: types.IColumn[]
   record?: types.IRecord
@@ -28,15 +28,15 @@ export interface State {
   table?: types.ITable
   error?: string
   updateState: (patch: Partial<State>) => void
+
+  // General
+
   load: () => Promise<void>
   clear: () => void
+  saveAs: (toPath: string) => Promise<void>
+  publish: (control: types.IControl) => Promise<string>
   revert: () => void
   save: () => Promise<void>
-  saveAs: (toPath: string) => Promise<void>
-}
-
-export interface ExceptionError {
-  message: string
 }
 
 export function makeStore(props: ViewProps) {
@@ -47,6 +47,9 @@ export function makeStore(props: ViewProps) {
     updateState: (patch) => {
       set(patch)
     },
+
+    // General
+
     load: async () => {
       const { path, client } = get()
       const { record, report, measure } = await client.fileIndex({ path })
@@ -68,9 +71,15 @@ export function makeStore(props: ViewProps) {
         set({ table })
       }
     },
-    clear: () => {
-      const { updateState } = get()
-      updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
+    saveAs: async (toPath) => {
+      const { path, client, resource, modified, onSaveAs } = get()
+      await client.viewPatch({ path, toPath, data: modified, resource })
+      onSaveAs(toPath)
+    },
+    publish: async (control) => {
+      const { record, client } = get()
+      const { url } = await client.filePublish({ path: record!.path, control })
+      return url
     },
     revert: () => {
       const { record, original } = get()
@@ -90,10 +99,9 @@ export function makeStore(props: ViewProps) {
       onSave()
       load()
     },
-    saveAs: async (toPath) => {
-      const { path, client, resource, modified, onSaveAs } = get()
-      await client.viewPatch({ path, toPath, data: modified, resource })
-      onSaveAs(toPath)
+    clear: () => {
+      const { updateState } = get()
+      updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
     },
   }))
 }

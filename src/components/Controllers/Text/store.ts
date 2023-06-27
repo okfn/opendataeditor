@@ -18,7 +18,7 @@ export interface State {
   path: string
   client: Client
   panel?: 'metadata' | 'report'
-  dialog?: 'saveAs'
+  dialog?: 'publish' | 'saveAs'
   editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
 
@@ -46,10 +46,11 @@ export interface State {
   // General
 
   load: () => Promise<void>
-  revert: () => void
-  save: () => Promise<void>
-  saveAs: (toPath: string) => Promise<void>
   render: () => void
+  saveAs: (toPath: string) => Promise<void>
+  publish: (control: types.IControl) => Promise<string>
+  save: () => Promise<void>
+  revert: () => void
 
   // Text
 
@@ -97,6 +98,24 @@ export function makeStore(props: TextProps) {
       })
       render()
     },
+    render: throttle(async () => {
+      const { record, client, modifiedText } = get()
+      if (!record) return
+      if (record.type === 'article') {
+        const { text } = await client.articleRender({ text: modifiedText || '' })
+        set({ renderedText: text })
+      }
+    }, 1000),
+    saveAs: async (toPath) => {
+      const { path, client, modifiedText, resource, onSaveAs } = get()
+      await client.textPatch({ path, toPath, text: modifiedText, resource })
+      onSaveAs(toPath)
+    },
+    publish: async (control) => {
+      const { record, client } = get()
+      const { url } = await client.filePublish({ path: record!.path, control })
+      return url
+    },
     revert: () => {
       const { record, originalText, updateState } = get()
       if (!record) return
@@ -115,19 +134,6 @@ export function makeStore(props: TextProps) {
       onSave()
       load()
     },
-    saveAs: async (toPath) => {
-      const { path, client, modifiedText, resource, onSaveAs } = get()
-      await client.textPatch({ path, toPath, text: modifiedText, resource })
-      onSaveAs(toPath)
-    },
-    render: throttle(async () => {
-      const { record, client, modifiedText } = get()
-      if (!record) return
-      if (record.type === 'article') {
-        const { text } = await client.articleRender({ text: modifiedText || '' })
-        set({ renderedText: text })
-      }
-    }, 1000),
 
     // Text
 

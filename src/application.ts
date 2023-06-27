@@ -5,7 +5,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { render } from './render'
 import { Client } from './client'
-import Application from './components/Applications/Application'
+import Application from './components/Application'
 
 const client = new Client()
 const application = document.createElement('div')
