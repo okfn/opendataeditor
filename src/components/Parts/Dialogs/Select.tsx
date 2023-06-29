@@ -6,15 +6,20 @@ import CardHeader from '@mui/material/CardHeader'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Columns from './Columns'
+import Columns from '../Columns'
+
+// TODO: rebase on native dialog extending
 
 interface SelectorProps {
+  title: string
   items: string[]
-  onSelect: (items: string[]) => void
   onCancel: (items: string[]) => void
+  onConfirm: (items: string[]) => void
 }
 
 export default function Selector(props: SelectorProps) {
@@ -109,43 +114,53 @@ export default function Selector(props: SelectorProps) {
   )
 
   return (
-    <Box>
-      {customList('Items', available)}
-      <Box sx={{ paddingX: 3, paddingY: 1 }}>
-        <Columns spacing={2}>
-          <Button
-            fullWidth
-            sx={{ my: 0.5 }}
-            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
-            size="small"
-            onClick={() =>
-              props.onCancel(
-                props.items.filter((_, index) => leftChecked.includes(index))
-              )
-            }
-            aria-label="move selected right"
-            color={leftChecked.length === 0 ? 'primary' : 'warning'}
-          >
-            Cancel
-          </Button>
-          <Button
-            fullWidth
-            sx={{ my: 0.5 }}
-            variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
-            size="small"
-            onClick={() =>
-              props.onSelect(
-                props.items.filter((_, index) => leftChecked.includes(index))
-              )
-            }
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-          >
-            Select
-          </Button>
-        </Columns>
+    <Dialog
+      fullWidth
+      maxWidth="sm"
+      open={true}
+      onClose={props.onCancel}
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-description"
+    >
+      <DialogTitle id="dialog-title">{props.title}</DialogTitle>
+      <Box>
+        {customList('Items', available)}
+        <Box sx={{ paddingX: 3, paddingY: 1 }}>
+          <Columns spacing={2}>
+            <Button
+              fullWidth
+              sx={{ my: 0.5 }}
+              variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+              size="small"
+              onClick={() =>
+                props.onCancel(
+                  props.items.filter((_, index) => leftChecked.includes(index))
+                )
+              }
+              aria-label="move selected right"
+              color={leftChecked.length === 0 ? 'primary' : 'warning'}
+            >
+              Cancel
+            </Button>
+            <Button
+              fullWidth
+              sx={{ my: 0.5 }}
+              variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+              size="small"
+              onClick={() =>
+                props.onConfirm(
+                  props.items.filter((_, index) => leftChecked.includes(index))
+                )
+              }
+              disabled={leftChecked.length === 0}
+              aria-label="move selected right"
+            >
+              Select
+            </Button>
+          </Columns>
+        </Box>
       </Box>
-    </Box>
+    </Dialog>
   )
 }
 
