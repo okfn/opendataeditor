@@ -8,8 +8,8 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import EditorSearch from '../../Base/Search'
+import ScrollBox from '../../../Parts/Boxes/Scroll'
 import { useStore, selectors, select } from '../store'
-import ScrollBox from '../../../Parts/ScrollBox'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)

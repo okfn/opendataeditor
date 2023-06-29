@@ -17,7 +17,7 @@ import { useStore, selectors, select } from '../store'
 import DatePickerField from '../../../Parts/Fields/DatePicker'
 import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import TimePickerField from '../../../Parts/Fields/TimePicker'
-import ScrollBox from '../../../Parts/ScrollBox'
+import ScrollBox from '../../../Parts/Boxes/Scroll'
 import validator from 'validator'
 import dayjs from 'dayjs'
 

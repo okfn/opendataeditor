@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ScrollBox from '../../Parts/ScrollBox'
+import ScrollBox from '../../Parts/Boxes/Scroll'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
 import { useTheme } from '@mui/material/styles'

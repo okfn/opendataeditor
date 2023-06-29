@@ -6,7 +6,7 @@ import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
 import Viewer from './Viewer'
-import ScrollBox from '../../Parts/ScrollBox'
+import ScrollBox from '../../Parts/Boxes/Scroll'
 import { useStore } from './store'
 
 export default function Layout() {
