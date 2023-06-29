@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import InputField from '../../../Parts/Fields/Input'
 import EditorSection from '../../Base/Section'
-import Columns from '../../../Parts/Columns'
+import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 
 export default function Resource() {

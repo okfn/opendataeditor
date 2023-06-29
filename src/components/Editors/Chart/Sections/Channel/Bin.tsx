@@ -4,7 +4,7 @@ import YesNoField from '../../../../Parts/Fields/YesNo'
 import { useStore, selectors } from '../../store'
 import * as settings from '../../settings'
 import InputField from '../../../../Parts/Fields/Input'
-import Columns from '../../../../Parts/Columns'
+import Columns from '../../../../Parts/Grids/Columns'
 
 export default function Bin() {
   return (

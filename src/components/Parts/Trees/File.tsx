@@ -15,7 +15,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows'
 import Source from '@mui/icons-material/Source'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
-import ScrollBox from '../ScrollBox'
+import ScrollBox from '../Boxes/Scroll'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 

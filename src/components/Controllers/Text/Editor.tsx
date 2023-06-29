@@ -1,14 +1,14 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../Parts/Columns'
-import Spinner from '../../Parts/Spinner'
+import Columns from '../../Parts/Grids/Columns'
+import SpinnerCard from '../../Parts/Cards/Spinner'
 import TextEditor from '../../Editors/Text'
 import { useStore, selectors } from './store'
 import * as helpers from './helpers'
 
 export default function Editor() {
-  const language = useStore(selectors.language)
-  if (language !== 'markdown') return <Source />
+  const type = useStore((state) => state.record?.type)
+  if (type !== 'article' && type !== 'script') return <Source />
   return (
     <Columns spacing={2} height="100%">
       <Source />
@@ -28,7 +28,7 @@ function Source() {
   if (modifiedText === undefined) return null
   return (
     <React.Fragment>
-      {visibility === 'hidden' && <Spinner message="Loading" />}
+      {visibility === 'hidden' && <SpinnerCard message="Loading" />}
       <Box sx={{ paddingY: 2, height: '100%', visibility }}>
         <TextEditor
           value={modifiedText}
@@ -54,15 +54,14 @@ function Source() {
 }
 
 function Target() {
-  const renderedText = useStore((state) => state.renderedText)
-  if (!renderedText) return null
+  const outputedText = useStore((state) => state.outputedText)
   return (
     <Box sx={{ paddingX: 2, borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <iframe
         height="98%"
         width="100%"
         style={{ border: 0, margin: 0, padding: 0 }}
-        srcDoc={renderedText}
+        srcDoc={outputedText || ''}
       ></iframe>
     </Box>
   )

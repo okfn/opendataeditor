@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../../Parts/Columns'
+import Columns from '../../../../Parts/Grids/Columns'
 import EditorItem from '../../../Base/Item'
 import EditorList from '../../../Base/List'
 import EditorListItem from '../../../Base/ListItem'

@@ -19,7 +19,7 @@ export class Client {
 
   // Article
 
-  async articleRender(props: { text: string; rich?: boolean }) {
+  async articleRender(props: { path: string; text: string; rich?: boolean }) {
     const result = await this.request('/article/render', props)
     return result as { text: string }
   }
@@ -176,9 +176,9 @@ export class Client {
 
   // Script
 
-  async scriptExecute(props: {}) {
+  async scriptExecute(props: { path: string; text: string }) {
     const result = await this.request('/script/execute', props)
-    return result as {}
+    return result as { text: string }
   }
 
   // Table

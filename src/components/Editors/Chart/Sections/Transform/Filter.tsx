@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../../Parts/Columns'
+import Columns from '../../../../Parts/Grids/Columns'
 import { useStore } from '../../store'
 import FieldPredicate from './Filter/FieldPredicate'
 import ParamPredicate from './Filter/ParamPredicate'

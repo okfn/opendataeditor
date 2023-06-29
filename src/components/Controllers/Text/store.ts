@@ -26,7 +26,7 @@ export interface State {
 
   originalText?: string
   modifiedText?: string
-  renderedText?: string
+  outputedText?: string
   minimalVersion: number
   currentVersion: number
   maximalVersion: number
@@ -46,7 +46,6 @@ export interface State {
   // General
 
   load: () => Promise<void>
-  render: () => void
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
   save: () => Promise<void>
@@ -63,6 +62,14 @@ export interface State {
   fix: () => void
   minify: () => void
   prettify: () => void
+
+  // Article
+
+  render: () => void
+
+  // Script
+
+  execute: () => Promise<void>
 }
 
 export function makeStore(props: TextProps) {
@@ -98,14 +105,6 @@ export function makeStore(props: TextProps) {
       })
       render()
     },
-    render: throttle(async () => {
-      const { record, client, modifiedText } = get()
-      if (!record) return
-      if (record.type === 'article') {
-        const { text } = await client.articleRender({ text: modifiedText || '' })
-        set({ renderedText: text })
-      }
-    }, 1000),
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
       await client.textPatch({ path, toPath, text: modifiedText, resource })
@@ -175,6 +174,34 @@ export function makeStore(props: TextProps) {
       const action = editorRef.current.getAction('editor.action.formatDocument')
       if (!action) return
       action.run()
+    },
+
+    // Article
+
+    render: throttle(async () => {
+      const { record, client, modifiedText } = get()
+      if (!record) return
+      if (!modifiedText) return
+      if (record.type === 'article') {
+        const { text } = await client.articleRender({
+          path: record.path,
+          text: modifiedText,
+        })
+        set({ outputedText: text })
+      }
+    }, 1000),
+
+    // Script
+
+    execute: async () => {
+      const { record, client, modifiedText } = get()
+      if (!record) return
+      if (!modifiedText) return
+      const { text } = await client.scriptExecute({
+        path: record.path,
+        text: modifiedText,
+      })
+      set({ outputedText: text })
     },
   }))
 }

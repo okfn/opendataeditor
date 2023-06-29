@@ -1,7 +1,5 @@
 import * as React from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import Selector from '../../../Parts/Selector'
+import SelectDialog from '../../../Parts/Dialogs/Select'
 import { useStore } from '../store'
 import * as types from '../../../../types'
 
@@ -11,7 +9,6 @@ export default function Resource() {
   const [paths, setPaths] = React.useState<string[]>([])
   const record = useStore((state) => state.record)
   const client = useStore((state) => state.client)
-  const dialog = useStore((state) => state.dialog)
   const existentPaths = useStore((state) =>
     (state.modified as types.IPackage)!.resources.map((resource) => resource.path)
   )
@@ -34,16 +31,11 @@ export default function Resource() {
     })
   }, [record])
   return (
-    <Dialog
-      fullWidth
-      maxWidth="sm"
-      open={dialog === 'resource'}
-      onClose={handleCancel}
-      aria-labelledby="dialog-title"
-      aria-describedby="dialog-description"
-    >
-      <DialogTitle id="dialog-title">Select Resources</DialogTitle>
-      <Selector items={paths} onCancel={handleCancel} onSelect={handleSave} />
-    </Dialog>
+    <SelectDialog
+      title="Select Resources"
+      items={paths}
+      onCancel={handleCancel}
+      onConfirm={handleSave}
+    />
   )
 }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import ScrollBox from '../../Parts/ScrollBox'
+import ScrollBox from '../../Parts/Boxes/Scroll'
 import { useTheme } from '@mui/material/styles'
 import Action from './Action'
 import Editor from './Editor'
