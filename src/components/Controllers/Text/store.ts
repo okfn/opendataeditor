@@ -181,8 +181,12 @@ export function makeStore(props: TextProps) {
     render: throttle(async () => {
       const { record, client, modifiedText } = get()
       if (!record) return
+      if (!modifiedText) return
       if (record.type === 'article') {
-        const { text } = await client.articleRender({ text: modifiedText || '' })
+        const { text } = await client.articleRender({
+          path: record.path,
+          text: modifiedText,
+        })
         set({ outputedText: text })
       }
     }, 1000),
