@@ -4,6 +4,7 @@ import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
   const language = useStore(selectors.language)
+  const type = useStore((state) => state.record?.type)
   const panel = useStore((state) => state.panel)
   const clear = useStore((state) => state.clear)
   const undo = useStore((state) => state.undo)
@@ -29,6 +30,7 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton enabled />
+      {type === 'script' && <menu.RunButton onClick={() => alert('run')} />}
       <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
       <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />
       <menu.ClearButton onClick={clear} />
