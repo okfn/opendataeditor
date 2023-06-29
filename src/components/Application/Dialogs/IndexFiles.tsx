@@ -1,6 +1,7 @@
 import * as React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import LinearIndicator from '../../Parts/Indicators/Linear'
 import { useStore, selectors } from '../store'
 
 export default function IndexFilesDialog() {
@@ -17,6 +18,8 @@ export default function IndexFilesDialog() {
       onConfirm={async () => {
         updateState({ dialog: undefined })
       }}
-    />
+    >
+      <LinearIndicator value={0} labeled />
+    </ConfirmDialog>
   )
 }
