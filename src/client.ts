@@ -176,9 +176,9 @@ export class Client {
 
   // Script
 
-  async scriptExecute(props: {}) {
+  async scriptExecute(props: { path: string; text: string }) {
     const result = await this.request('/script/execute', props)
-    return result as {}
+    return result as { text: string }
   }
 
   // Table
