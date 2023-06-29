@@ -7,8 +7,8 @@ import { useStore, selectors } from './store'
 import * as helpers from './helpers'
 
 export default function Editor() {
-  const language = useStore(selectors.language)
-  if (language !== 'markdown') return <Source />
+  const type = useStore((state) => state.record?.type)
+  if (type !== 'article' && type !== 'script') return <Source />
   return (
     <Columns spacing={2} height="100%">
       <Source />
@@ -54,15 +54,14 @@ function Source() {
 }
 
 function Target() {
-  const renderedText = useStore((state) => state.renderedText)
-  if (!renderedText) return null
+  const outputedText = useStore((state) => state.outputedText)
   return (
     <Box sx={{ paddingX: 2, borderLeft: 'solid 1px #ddd', height: '100%' }}>
       <iframe
         height="98%"
         width="100%"
         style={{ border: 0, margin: 0, padding: 0 }}
-        srcDoc={renderedText}
+        srcDoc={outputedText || ''}
       ></iframe>
     </Box>
   )

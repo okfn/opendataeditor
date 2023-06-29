@@ -26,7 +26,7 @@ export interface State {
 
   originalText?: string
   modifiedText?: string
-  renderedText?: string
+  outputedText?: string
   minimalVersion: number
   currentVersion: number
   maximalVersion: number
@@ -103,7 +103,7 @@ export function makeStore(props: TextProps) {
       if (!record) return
       if (record.type === 'article') {
         const { text } = await client.articleRender({ text: modifiedText || '' })
-        set({ renderedText: text })
+        set({ outputedText: text })
       }
     }, 1000),
     saveAs: async (toPath) => {
