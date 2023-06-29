@@ -256,6 +256,9 @@ export const selectors = {
     if (isFolder) return state.path
     return helpers.getFolderPath(state.path)
   },
+  notIndexedFiles: (state: State) => {
+    return state.files.filter((file) => !file.indexed)
+  },
 }
 
 export function useStore<R>(selector: (state: State) => R): R {

@@ -51,13 +51,14 @@ function MoveButton() {
 
 function IndexButton() {
   const updateState = useStore((state) => state.updateState)
+  const notIndexedFiles = useStore(selectors.notIndexedFiles)
   return (
     <IconButton
-      disabled
+      disabled={!notIndexedFiles.length}
       variant="text"
       label="Index Files"
       Icon={RuleIcon}
-      onClick={() => updateState({ dialog: 'fetchFile' })}
+      onClick={() => updateState({ dialog: 'indexFiles' })}
     />
   )
 }
