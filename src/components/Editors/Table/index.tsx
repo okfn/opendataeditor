@@ -1,6 +1,6 @@
 import '@inovua/reactdatagrid-community/index.css'
 import * as React from 'react'
-import Spinner from '../../Parts/Spinner'
+import SpinnerCard from '../../Parts/Cards/Spinner'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import InovuaDatagrid from '@inovua/reactdatagrid-community'
@@ -52,7 +52,7 @@ function LoadMask(props: { visible: boolean; zIndex: number }) {
         zIndex: props.zIndex,
       }}
     >
-      <Spinner message="Loading" />
+      <SpinnerCard message="Loading" />
     </Box>
   )
 }

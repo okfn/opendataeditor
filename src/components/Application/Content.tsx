@@ -6,8 +6,8 @@ import Chart from '../Controllers/Chart'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
 import View from '../Controllers/View'
-import Empty from '../Parts/Empty'
-import Spinner from '../Parts/Spinner'
+import EmptyCard from '../Parts/Cards/Empty'
+import SpinnerCard from '../Parts/Cards/Spinner'
 import { useStore } from './store'
 
 export default function Content() {
@@ -35,11 +35,13 @@ function FileContent() {
 }
 
 function EmptyContent() {
-  return <Empty title="No Files Selected" description="Select a file in the left menu" />
+  return (
+    <EmptyCard title="No Files Selected" description="Select a file in the left menu" />
+  )
 }
 
 function LoadingContent() {
-  return <Spinner message="Indexing" />
+  return <SpinnerCard message="Indexing" />
 }
 
 export const CONTROLLERS: {

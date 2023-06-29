@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Columns'
-import Spinner from '../../Parts/Spinner'
+import SpinnerCard from '../../Parts/Cards/Spinner'
 import TextEditor from '../../Editors/Text'
 import { useStore, selectors } from './store'
 import * as helpers from './helpers'
@@ -28,7 +28,7 @@ function Source() {
   if (modifiedText === undefined) return null
   return (
     <React.Fragment>
-      {visibility === 'hidden' && <Spinner message="Loading" />}
+      {visibility === 'hidden' && <SpinnerCard message="Loading" />}
       <Box sx={{ paddingY: 2, height: '100%', visibility }}>
         <TextEditor
           value={modifiedText}
