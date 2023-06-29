@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import { useStore, selectors } from '../../store'
 import InputField from '../../../../Parts/Fields/Input'
-import Columns from '../../../../Parts/Columns'
+import Columns from '../../../../Parts/Grids/Columns'
 import SelectField from '../../../../Parts/Fields/Select'
 import * as settings from '../../settings'
 

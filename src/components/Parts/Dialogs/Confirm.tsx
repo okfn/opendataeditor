@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import Cancel from '@mui/icons-material/Cancel'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import IconButton from '..//Buttons/Icon'
-import Columns from '../Columns'
+import Columns from '../Grids/Columns'
 
 export interface ConfirmDialogProps {
   open?: boolean

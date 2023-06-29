@@ -6,7 +6,7 @@ import ColumnTree from '../../../Parts/Trees/Column'
 import EditorSection from '../../Base/Section'
 import EditorSearch from '../../Base/Search'
 import ScrollBox from '../../../Parts/Boxes/Scroll'
-import Columns from '../../../Parts/Columns'
+import Columns from '../../../Parts/Grids/Columns'
 import { useTheme } from '@mui/material/styles'
 import { useStore, selectors } from '../store'
 

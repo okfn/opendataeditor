@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../../Parts/Columns'
+import Columns from '../../../../Parts/Grids/Columns'
 import InputField from '../../../../Parts/Fields/Input'
 import { useStore, selectors } from '../../store'
 import * as types from '../../../../../types'

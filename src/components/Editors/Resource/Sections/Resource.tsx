@@ -4,7 +4,7 @@ import InputField from '../../../Parts/Fields/Input'
 import SelectField from '../../../Parts/Fields/Select'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../Base/Section'
-import Columns from '../../../Parts/Columns'
+import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
 import validator from 'validator'
 

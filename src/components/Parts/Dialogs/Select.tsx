@@ -11,7 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Columns from '../Columns'
+import Columns from '../Grids/Columns'
 
 // TODO: rebase on native dialog extending
 

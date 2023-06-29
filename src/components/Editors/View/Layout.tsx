@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Columns from '../../Parts/Columns'
+import Columns from '../../Parts/Grids/Columns'
 import Query from './Sections/Query'
 import EditorHelp from '../Base/Help'
 import { useStore } from './store'
