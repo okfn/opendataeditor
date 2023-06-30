@@ -17,7 +17,10 @@ export default function Viewer() {
         '& .vega-embed': { width: '100%', height: '100%' },
       }}
     >
-      <VegaLite spec={{ ...rendered, width: 'container', height: 'container' } as any} />
+      <VegaLite
+        renderer="svg"
+        spec={{ ...rendered, width: 'container', height: 'container' } as any}
+      />
     </Box>
   )
 }
