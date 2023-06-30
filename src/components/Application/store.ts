@@ -53,9 +53,9 @@ export interface State {
   // Others
 
   createArticle: (path: string) => Promise<void>
+  createChart: (path: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createScript: (path: string) => Promise<void>
-  createChart: () => Promise<void>
   createView: () => Promise<void>
 }
 
@@ -206,6 +206,15 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
+    createChart: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.jsonCreate({
+        path,
+        data: { mark: 'bar' },
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
     createPackage: async (path) => {
       const { client, onFileCreate } = get()
       const result = await client.jsonCreate({
@@ -223,38 +232,6 @@ export function makeStore(props: ApplicationProps) {
         deduplicate: true,
       })
       onFileCreate([result.path])
-    },
-    // TODO: rewrite this method
-    createChart: async () => {
-      // const { record, client, onDraft } = get()
-      // let path
-      // let chart
-      // if (record?.type === 'table') {
-      // path = `${record.resource.name}.chart.json`
-      // chart = {
-      // data: { url: record.path },
-      // mark: 'bar',
-      // encoding: {},
-      // width: 600,
-      // height: 200,
-      // }
-      // const { columns } = await client.columnList()
-      // for (const column of columns) {
-      // if (column.tablePath !== record.path) continue
-      // if (column.type === 'string') {
-      // // @ts-ignore
-      // chart.encoding.x = { column: column.name, type: 'nominal' }
-      // }
-      // if (['integer', 'number'].includes(column.type)) {
-      // // @ts-ignore
-      // chart.encoding.y = { column: column.name, type: 'quantitative' }
-      // }
-      // // @ts-ignore
-      // if (chart.encoding.x && chart.encoding.y) break
-      // }
-      // }
-      // const result = await client.chartCreate({ path, chart })
-      // onDraft(result.path)
     },
     createView: async () => {
       // const { client, onDraft } = get()
