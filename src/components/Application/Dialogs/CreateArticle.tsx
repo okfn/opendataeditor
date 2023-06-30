@@ -5,21 +5,21 @@ import { useStore, selectors } from '../store'
 
 export default function CreateArticleDialog() {
   const folderPath = useStore(selectors.folderPath)
-  const createFile = useStore((state) => state.createFile)
+  const createArticle = useStore((state) => state.createArticle)
   const updateState = useStore((state) => state.updateState)
-  const path = folderPath ? `${folderPath}/` : ''
+  const path = folderPath ? `${folderPath}/article.md` : 'article.md'
   return (
     <InputDialog
       open={true}
       value={path}
-      title="Create File"
+      title="Create Article"
       label="Create"
-      description="You are creating an empty file. Enter destination:"
-      placholder="Enter a file path"
+      description="You are creating a Markdown article. Enter destination:"
+      placholder="Enter an article path"
       Icon={HistoryEduIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
-        await createFile(path)
+        await createArticle(path)
         updateState({ dialog: undefined })
       }}
     />

@@ -1,25 +1,25 @@
 import * as React from 'react'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
+import TerminalIcon from '@mui/icons-material/Terminal'
 import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 
 export default function CreateScriptDialog() {
   const folderPath = useStore(selectors.folderPath)
-  const createFile = useStore((state) => state.createFile)
+  const createScript = useStore((state) => state.createScript)
   const updateState = useStore((state) => state.updateState)
-  const path = folderPath ? `${folderPath}/` : ''
+  const path = folderPath ? `${folderPath}/script.py` : 'script.py'
   return (
     <InputDialog
       open={true}
       value={path}
-      title="Create File"
+      title="Create Script"
       label="Create"
-      description="You are creating an empty file. Enter destination:"
-      placholder="Enter a file path"
-      Icon={HistoryEduIcon}
+      description="You are creating a Python script. Enter destination:"
+      placholder="Enter a script path"
+      Icon={TerminalIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
-        await createFile(path)
+        await createScript(path)
         updateState({ dialog: undefined })
       }}
     />

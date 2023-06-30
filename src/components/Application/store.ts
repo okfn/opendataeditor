@@ -52,7 +52,9 @@ export interface State {
 
   // Others
 
+  createArticle: (path: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
+  createScript: (path: string) => Promise<void>
   createChart: () => Promise<void>
   createView: () => Promise<void>
 }
@@ -195,11 +197,29 @@ export function makeStore(props: ApplicationProps) {
 
     // Others
 
+    createArticle: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.textCreate({
+        path,
+        text: '',
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
     createPackage: async (path) => {
       const { client, onFileCreate } = get()
       const result = await client.jsonCreate({
         path,
         data: settings.INITIAL_PACKAGE,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createScript: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.textCreate({
+        path,
+        text: '',
         deduplicate: true,
       })
       onFileCreate([result.path])
