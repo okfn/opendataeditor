@@ -14,9 +14,8 @@ import { useStore } from './store'
 export default function Status() {
   const record = useStore((state) => state.record)
   const measure = useStore((state) => state.measure)
-  const createView = useStore((state) => state.createView)
-  const createChart = useStore((state) => state.createChart)
   const locateFile = useStore((state) => state.locateFile)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Container>
       <Prefix>
@@ -48,10 +47,10 @@ export default function Status() {
         </Box>
       </Contents>
       <Suffix>
-        <ScriptChip onClick={() => alert('under development')} />
-        <ViewChip onClick={() => createView()} />
-        <ChartChip onClick={() => createChart()} />
-        <ArticleChip onClick={() => alert('under development')} />
+        <ScriptChip onClick={() => updateState({ dialog: 'createScript' })} />
+        <ViewChip onClick={() => updateState({ dialog: 'createView' })} />
+        <ChartChip onClick={() => updateState({ dialog: 'createChart' })} />
+        <ArticleChip onClick={() => updateState({ dialog: 'createArticle' })} />
         <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>

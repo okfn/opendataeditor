@@ -1,9 +1,13 @@
 import * as React from 'react'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
+import CreateArticleDialog from './Dialogs/CreateArticle'
+import CreateChartDialog from './Dialogs/CreateChart'
 import CreateFileDialog from './Dialogs/CreateFile'
 import CreateFolderDialog from './Dialogs/CreateFolder'
 import CreateDatasetDialog from './Dialogs/CreateDataset'
+import CreateScriptDialog from './Dialogs/CreateScript'
+import CreateViewDialog from './Dialogs/CreateView'
 import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
 import FetchFileDialog from './Dialogs/FetchFile'
@@ -22,9 +26,13 @@ export default function Dialog() {
 const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
+  createArticle: CreateArticleDialog,
+  createChart: CreateChartDialog,
   createFile: CreateFileDialog,
   createFolder: CreateFolderDialog,
   createDataset: CreateDatasetDialog,
+  createScript: CreateScriptDialog,
+  createView: CreateViewDialog,
   deleteFile: DeleteFileDialog,
   deleteFolder: DeleteFolderDialog,
   fetchFile: FetchFileDialog,
