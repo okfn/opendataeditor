@@ -1,8 +1,7 @@
 import * as React from 'react'
 import * as menu from '../../Parts/Bars/Menu'
 import { useStore } from './store'
-
-const DEFAULT_PANEL = 'editor'
+import { DEFAULT_PANEL } from './settings'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
@@ -13,7 +12,9 @@ export default function Menu() {
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
-          updateState({ panel: panel !== 'metadata' ? 'metadata' : DEFAULT_PANEL })
+          updateState({
+            panel: panel !== 'metadata' ? 'metadata' : DEFAULT_PANEL,
+          })
         }
       />
       <menu.ReportButton

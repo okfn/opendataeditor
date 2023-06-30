@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as menu from '../../Parts/Bars/Menu'
+import { DEFAULT_PANEL } from './settings'
 import { useStore } from './store'
 
 export default function Menu() {
@@ -7,23 +8,24 @@ export default function Menu() {
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
-      <menu.EditorButton
-        active={panel === 'editor'}
-        onClick={() => updateState({ panel: panel !== 'editor' ? 'editor' : undefined })}
-      />
+      <menu.EditorButton enabled />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
-          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+          updateState({ panel: panel !== 'metadata' ? 'metadata' : DEFAULT_PANEL })
         }
       />
       <menu.ReportButton
         active={panel === 'report'}
-        onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+        onClick={() =>
+          updateState({ panel: panel !== 'report' ? 'report' : DEFAULT_PANEL })
+        }
       />
       <menu.SourceButton
         active={panel === 'source'}
-        onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+        onClick={() =>
+          updateState({ panel: panel !== 'source' ? 'source' : DEFAULT_PANEL })
+        }
       />
     </menu.MenuBar>
   )

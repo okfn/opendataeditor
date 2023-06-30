@@ -10,6 +10,7 @@ import { Client } from '../../../client'
 import { ViewProps } from './index'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
+import { DEFAULT_PANEL } from './settings'
 
 export interface State {
   path: string
@@ -42,7 +43,7 @@ export interface State {
 export function makeStore(props: ViewProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    panel: 'editor',
+    panel: DEFAULT_PANEL,
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
     updateState: (patch) => {

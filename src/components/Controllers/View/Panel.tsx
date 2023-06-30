@@ -16,7 +16,6 @@ export default function Layout() {
       height={theme.spacing(48)}
       sx={{ borderTop: 'solid 1px #ddd' }}
     >
-      {!panel && <EditorPanel />}
       {panel === 'editor' && <EditorPanel />}
       {panel === 'metadata' && <MetadataPanel />}
       {panel === 'report' && <ReportPanel />}
