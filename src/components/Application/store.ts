@@ -56,7 +56,7 @@ export interface State {
   createChart: (path: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createScript: (path: string) => Promise<void>
-  createView: () => Promise<void>
+  createView: (path: string) => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -233,10 +233,14 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
-    createView: async () => {
-      // const { client, onDraft } = get()
-      // const { path } = await client.viewCreate()
-      // onDraft(path)
+    createView: async (path) => {
+      const { client, onFileCreate } = get()
+      const result = await client.jsonCreate({
+        path,
+        data: { query: '' },
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
     },
   }))
 }

@@ -1,25 +1,25 @@
 import * as React from 'react'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
+import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 
 export default function CreateViewDialog() {
   const folderPath = useStore(selectors.folderPath)
-  const createFile = useStore((state) => state.createFile)
+  const createView = useStore((state) => state.createView)
   const updateState = useStore((state) => state.updateState)
-  const path = folderPath ? `${folderPath}/` : ''
+  const path = folderPath ? `${folderPath}/view.json` : 'view.json'
   return (
     <InputDialog
       open={true}
       value={path}
-      title="Create File"
+      title="Create View"
       label="Create"
-      description="You are creating an empty file. Enter destination:"
-      placholder="Enter a file path"
-      Icon={HistoryEduIcon}
+      description="You are creating a SQL view. Enter destination:"
+      placholder="Enter a view path"
+      Icon={LeaderboardIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
-        await createFile(path)
+        await createView(path)
         updateState({ dialog: undefined })
       }}
     />
