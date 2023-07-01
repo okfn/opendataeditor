@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Schema from '../../src/components/Editors/Schema'
+import Schema from '../../src/client/components/Editors/Schema'
 
 export default {
   title: 'Editors/Schema',

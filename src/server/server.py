@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from fastapi import Request
+import uvicorn
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from .. import settings
-from ..platform import platform
 from .config import Config
 from .project import Project
 from .router import router
@@ -14,14 +13,13 @@ from .router import router
 # TODO: review endpoints to use proper imports (use platform)
 
 
-class Server(platform.fastapi.FastAPI):
+class Server(FastAPI):
     config: Config
 
     @staticmethod
     def create(config: Config):
         server = Server(
             title="Frictionless Server",
-            version=settings.VERSION,
             debug=config.debug,
         )
 
@@ -40,7 +38,7 @@ class Server(platform.fastapi.FastAPI):
 
     def run(self):
         log_level = "debug" if self.config.debug else None
-        platform.uvicorn.run(  # type: ignore
+        uvicorn.run(  # type: ignore
             self,
             workers=1,
             port=self.config.port,

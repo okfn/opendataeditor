@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Dialect from '../../src/components/Editors/Dialect'
+import Dialect from '../../src/client/components/Editors/Dialect'
 
 export default {
   title: 'Editors/Dialect',

@@ -2,9 +2,12 @@
 name = "frictionless-application"
 version = '0.0.0'
 dependencies = [
+    "typer>=0.9",
     "tinydb>=4.7",
+    "pydantic>=1.9",
     "fastapi>=0.78",
     "uvicorn>=0.17",
+    "typing-extensions>=4.3",
     "python-multipart>=0.0",
     "frictionless[ckan,csv,excel,json,sql]>=5.14",
 ]

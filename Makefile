@@ -11,7 +11,7 @@ list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 install:
-	pip install -r requirements.txt
+	pip install --upgrade -e .[dev]
 	npm install
 
 release:

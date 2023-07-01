@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 
-from .. import helpers
+from frictionless.resources import FileResource
+
 from .stores import Database, Filesystem, Metadata
 
 
@@ -24,7 +25,8 @@ class Project:
         # Ensure gitignore
         text = "database.db"
         path = str(self.private / ".gitignore")
-        helpers.write_file(path, text)
+        resource = FileResource(data=text)
+        resource.write_file(path)
 
         # Create drivers
         self.filesystem = Filesystem(self)

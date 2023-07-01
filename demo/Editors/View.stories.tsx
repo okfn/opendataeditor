@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import View from '../../src/components/Editors/View'
+import View from '../../src/client/components/Editors/View'
 
 export default {
   title: 'Editors/View',
