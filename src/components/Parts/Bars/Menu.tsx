@@ -59,7 +59,7 @@ export function EditorButton(props: ButtonProps) {
   let title = 'Toggle the editor panel [Alt+C]'
   if (props.enabled) title = 'Editor is enabled'
   if (props.disabled) title = 'Editor is not available'
-  useKeyPress(['Alt.c'], (event) => {
+  useKeyPress(['alt.c'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()

@@ -9,7 +9,6 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ChartProps } from './index'
-import { DEFAULT_PANEL } from './settings'
 import * as types from '../../../types'
 
 export interface State {
@@ -18,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   dialog?: 'publish' | 'saveAs'
-  panel: 'editor' | 'metadata' | 'report' | 'source'
+  panel?: 'editor' | 'metadata' | 'report' | 'source'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -43,7 +42,7 @@ export interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    panel: DEFAULT_PANEL,
+    panel: 'editor',
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
     updateState: (patch) => {

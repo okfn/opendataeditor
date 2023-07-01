@@ -7,7 +7,13 @@ import { useStore } from './store'
 // https://github.com/vega/react-vega/issues/85
 
 export default function Viewer() {
+  const panel = useStore((state) => state.panel)
   const rendered = useStore((state) => state.rendered)
+  React.useEffect(() => {
+    // To update the size of the chart:
+    // https://vega.github.io/vega-lite/docs/size.html#specifying-responsive-width-and-height
+    window.dispatchEvent(new Event('resize'))
+  }, [panel])
   if (!rendered) return null
   return (
     <Box

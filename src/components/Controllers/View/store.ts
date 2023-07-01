@@ -10,7 +10,6 @@ import { Client } from '../../../client'
 import { ViewProps } from './index'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
-import { DEFAULT_PANEL } from './settings'
 
 export interface State {
   path: string
@@ -18,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   dialog?: 'publish' | 'saveAs'
-  panel: 'editor' | 'metadata' | 'report' | 'source'
+  panel?: 'editor' | 'metadata' | 'report' | 'source'
   columns?: types.IColumn[]
   record?: types.IRecord
   report?: types.IReport
@@ -43,7 +42,7 @@ export interface State {
 export function makeStore(props: ViewProps) {
   return createStore<State>((set, get) => ({
     ...props,
-    panel: DEFAULT_PANEL,
+    panel: 'editor',
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
     updateState: (patch) => {
