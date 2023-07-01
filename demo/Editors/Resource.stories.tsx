@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Resource from '../../src/components/Editors/Resource'
+import Resource from '../../src/client/components/Editors/Resource'
 
 export default {
   title: 'Editors/Resource',

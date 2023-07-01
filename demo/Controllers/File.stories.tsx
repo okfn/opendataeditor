@@ -1,7 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import File from '../../src/components/Controllers/File'
+import File from '../../src/client/components/Controllers/File'
 
 const Template: Story<Parameters<typeof File>[0]> = (args) => <File {...args} />
 export default {

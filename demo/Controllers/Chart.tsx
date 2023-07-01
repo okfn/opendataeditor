@@ -2,7 +2,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Chart from '../../src/components/Controllers/Chart'
+import Chart from '../../src/client/components/Controllers/Chart'
 
 export default {
   title: 'Controllers/Chart',

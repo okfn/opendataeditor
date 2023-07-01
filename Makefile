@@ -1,4 +1,4 @@
-.PHONY: all list release version
+.PHONY: all list install format lint test release version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
@@ -11,8 +11,24 @@ list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 install:
-	pip install -r requirements.txt
+	pip3 install --upgrade hatch
+	hatch config set 'dirs.env.virtual' '.python'
 	npm install
+
+format:
+	hatch run format
+	npm run format
+
+lint:
+	hatch run lint
+	npm run lint
+
+start:
+	npx concurrently 'hatch run start' 'npm run start'
+
+test:
+	hatch run test
+	npm run test
 
 release:
 	git checkout main && git pull origin && git fetch -p

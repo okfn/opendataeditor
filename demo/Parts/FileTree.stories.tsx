@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import FileTree from '../../src/components/Parts/Trees/File'
+import FileTree from '../../src/client/components/Parts/Trees/File'
 
 export default {
   title: 'Parts/FileTree',

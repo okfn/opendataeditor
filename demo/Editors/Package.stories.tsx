@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Package from '../../src/components/Editors/Package'
+import Package from '../../src/client/components/Editors/Package'
 
 export default {
   title: 'Editors/Package',

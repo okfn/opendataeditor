@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Selector from '../../src/components/Parts/Selector'
+import Selector from '../../src/client/components/Parts/Dialogs/Select'
 
 export default {
   title: 'Parts/Selector',

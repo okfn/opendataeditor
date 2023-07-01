@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Chart from '../../src/components/Editors/Chart'
+import Chart from '../../src/client/components/Editors/Chart'
 
 export default {
   title: 'Editors/Chart',
