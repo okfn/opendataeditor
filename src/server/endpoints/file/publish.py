@@ -3,11 +3,9 @@ from __future__ import annotations
 from typing import Any, Dict
 
 from fastapi import Request
+from frictionless import Control, Package, Resource
 from pydantic import BaseModel
 
-from ....dialect import Control
-from ....package import Package
-from ....resource import Resource
 from ... import helpers
 from ...project import Project
 from ...router import router

@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import Request
+from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
 from ...project import Project
 from ...router import router
 

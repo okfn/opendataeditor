@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import Optional
 
 from fastapi import Request, Response
+from frictionless import FrictionlessException
+from frictionless.resources import FileResource
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
-from ....resources import FileResource
 from ...project import Project
 from ...router import router
 

@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import Optional
 
 from fastapi import File, Form, Request, UploadFile
+from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
 from ... import helpers
 from ...project import Project
 from ...router import router

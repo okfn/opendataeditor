@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from fastapi import Request
+from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
 from ... import helpers, types
 from ...project import Project
 from ...router import router

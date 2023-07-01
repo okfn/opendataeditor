@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from typing import Optional
 
+import sqlalchemy as sa
 from fastapi import Request
+from frictionless import FrictionlessException
+from frictionless.formats.sql import SqlControl
+from frictionless.resources import TableResource
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
-from ....formats.sql import SqlControl
-from ....platform import platform
-from ....resources import TableResource
 from ... import helpers, models, types
 from ...project import Project
 from ...router import router
@@ -33,7 +33,6 @@ def endpoint(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     fs = project.filesystem
     db = project.database
-    sa = platform.sqlalchemy
 
     # Forbid overwriting
     if props.toPath and helpers.test_file(project, path=props.toPath):

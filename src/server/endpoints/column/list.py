@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import List
 
 from fastapi import Request
+from frictionless import Schema
 from pydantic import BaseModel
 
-from ....schema import Schema
 from ... import models
 from ...project import Project
 from ...router import router

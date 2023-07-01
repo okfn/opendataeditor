@@ -11,13 +11,14 @@ dependencies = [
     "sqlalchemy>=2.0",
     "typing-extensions>=4.3",
     "python-multipart>=0.0",
-    "frictionless[ckan,csv,excel,json,sql]>=5.14",
+    "frictionless[ckan,csv,excel,json,sql]>=5.14.2",
 ]
 
 [tool.hatch.envs.default]
 python = "3.10"
 dependencies = [
     "ruff",
+    "httpx",
     "isort",
     "black",
     "pytest",

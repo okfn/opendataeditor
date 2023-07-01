@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Optional
 
+import sqlalchemy as sa
 from fastapi import Request
 from pydantic import BaseModel
 
-from ....platform import platform
 from ... import helpers
 from ...project import Project
 from ...router import router
@@ -27,7 +27,6 @@ def endpoint(request: Request, props: Props) -> Result:
 
 def action(project: Project, props: Props) -> Result:
     db = project.database
-    sa = platform.sqlalchemy
 
     record = helpers.read_record_or_raise(project, path=props.path)
     table = db.metadata.tables[record.name]

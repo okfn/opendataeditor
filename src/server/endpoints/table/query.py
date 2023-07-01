@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import sqlalchemy as sa
 from fastapi import Request
+from frictionless import Schema
 from pydantic import BaseModel
 
-from ....platform import platform
-from ....schema import Schema
 from ... import models
 from ...project import Project
 from ...router import router
@@ -25,7 +25,6 @@ def endpoint(request: Request, props: Props) -> Result:
 
 def action(project: Project, props: Props) -> Result:
     db = project.database
-    sa = platform.sqlalchemy
 
     with db.engine.begin() as conn:
         result = conn.execute(sa.text(props.query))

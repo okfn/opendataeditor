@@ -5,9 +5,9 @@ from typing import Optional
 from urllib.parse import urlparse
 
 from fastapi import Request
+from frictionless.resources import FileResource
 from pydantic import BaseModel
 
-from ....resources import FileResource
 from ...project import Project
 from ...router import router
 

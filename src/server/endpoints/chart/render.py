@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from copy import deepcopy
 
+import sqlalchemy as sa
 from fastapi import Request
 from pydantic import BaseModel
 
-from ....platform import platform
 from ... import types
 from ...project import Project
 from ...router import router
@@ -28,7 +28,6 @@ def action(project: Project, props: Props) -> Result:
     from ... import endpoints
 
     db = project.database
-    sa = platform.sqlalchemy
     chart = deepcopy(props.chart)
 
     # Return if no path

@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from fastapi import Request
+from frictionless import FrictionlessException, Resource
 from pydantic import BaseModel
 
-from ....exception import FrictionlessException
-from ....resource import Resource
 from ... import helpers, models, types
 from ...project import Project
 from ...router import router
