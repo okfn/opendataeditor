@@ -4,8 +4,6 @@ about:
   text: Data management for humans
 site:
   favicon: assets/logo.png
-  styles:
-    - style.css
 github:
   user: frictionlessdata
   repo: application

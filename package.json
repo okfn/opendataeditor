@@ -140,5 +140,68 @@
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 90
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "displayName": "node",
+    "testMatch": ["**/test/**/*.ts"],
+    "testPathIgnorePatterns": ["/node_modules/", "setup.ts"],
+    "testEnvironment": "node",
+    "testTimeout": 10000,
+    "collectCoverage": false,
+    "coverageReporters": ["text-summary", "html", "lcov"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 40,
+        "functions": 40,
+        "statements": 40,
+        "lines": 40
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": { "jsx": true }
+    },
+    "plugins": [
+      "@typescript-eslint/eslint-plugin"
+    ],
+    "extends": [
+      "standard",
+      "plugin:react/recommended"
+    ],
+    "settings": {
+      "react": { "version": "detect" }
+    },
+    "env": {
+      "browser": true,
+      "jest": true
+    },
+    "rules": {
+      "indent": "off",
+      "no-unused-vars": "off",
+      "multiline-ternary": "off",
+      "import/no-duplicates": "off",
+      "no-use-before-define": "off",
+      "no-useless-constructor": "off",
+      "space-before-function-paren": "off",
+      "no-dupe-class-members": "off",
+      "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline"
+      }],
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }]
+    }
   }
 }
