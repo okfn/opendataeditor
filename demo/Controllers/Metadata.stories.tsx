@@ -1,7 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Metadata from '../../src/components/Controllers/Metadata'
+import Metadata from '../../src/client/components/Controllers/Metadata'
 
 const Template: Story<Parameters<typeof Metadata>[0]> = (args) => <Metadata {...args} />
 export default {

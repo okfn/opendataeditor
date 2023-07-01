@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Report from '../../src/components/Parts/Report'
+import Report from '../../src/client/components/Editors/Report'
 import reportInvalid from '../../data/report-invalid.json'
 import reportValid from '../../data/report-valid.json'
 

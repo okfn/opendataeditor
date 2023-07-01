@@ -4,18 +4,16 @@ const version = require('./package.json').version
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
-const ENTRY = process.env.ENTRY || 'application'
+const ENTRY = process.env.ENTRY || 'browser'
 const DEBUG = process.env.DEBUG || false
 
 // Base
 
 const webpackConfig = {
-  entry: ['./src/application.ts'],
+  entry: ['./src/client/entries/browser.ts'],
   output: {
-    path: path.resolve(__dirname, 'dist/application'),
-    filename: 'application.js',
-    library: 'frictionlessApplication',
-    libraryTarget: 'umd',
+    path: path.resolve(__dirname, 'dist/browser'),
+    filename: 'browser.js',
     clean: true,
   },
   resolve: {
@@ -55,7 +53,7 @@ const webpackConfig = {
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
       favicon: 'assets/favicon.png',
-      template: 'src/application.html',
+      template: 'src/client/entries/browser.html',
       templateParameters: { version },
     }),
   ],
@@ -74,7 +72,7 @@ if (NODE_ENV === 'development') {
         pathRewrite: { '^/api': '' },
       },
     },
-    static: './dist/application',
+    static: './dist/browser',
   }
 }
 
@@ -96,13 +94,14 @@ if (NODE_ENV === 'production') {
   })
 }
 
-// Metadata
+// Library
 
-if (ENTRY === 'metadata') {
-  webpackConfig.entry = ['./src/metadata.ts']
-  webpackConfig.output.filename = 'metadata.js'
-  webpackConfig.output.library = 'frictionlessMetadata'
-  webpackConfig.output.path = path.resolve(__dirname, 'dist/metadata')
+if (ENTRY === 'library') {
+  webpackConfig.entry = ['./src/client/entries/library.ts']
+  webpackConfig.output.filename = 'library.js'
+  webpackConfig.output.library = 'frictionless'
+  webpackConfig.output.libraryTarget = 'umd'
+  webpackConfig.output.path = path.resolve(__dirname, 'dist/library')
   delete webpackConfig.plugins[1]
 }
 

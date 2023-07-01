@@ -1,7 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import Table from '../../src/components/Controllers/Table'
+import Table from '../../src/client/components/Controllers/Table'
 import reportValid from '../../data/report-valid.json'
 
 const Template: Story<Parameters<typeof Table>[0]> = (args) => <Table {...args} />

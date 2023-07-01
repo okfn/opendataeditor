@@ -5,7 +5,7 @@
   "description": "Data management for humans",
   "author": "Frictionless Data",
   "homepage": "https://frictionlessdata.io",
-  "main": "lib/application.js",
+  "main": "lib/index.js",
   "engines": {
     "node": "^16.0.0"
   },
@@ -28,7 +28,6 @@
   },
   "scripts": {
     "analyze": "NODE_ENV=production webpack --profile --json | webpack-bundle-size-analyzer",
-    "application": "concurrently npm:server npm:client",
     "build": "npm run compile && npm run bundle",
     "bundle": "NODE_ENV=production webpack",
     "client": "webpack serve --open",
@@ -38,10 +37,10 @@
     "debug": "ndb node -r ts-node/register/transpile-only",
     "format": "prettier --write '{src,test}/**/*.ts*' && eslint --fix '{src,test}/**/*.ts*'",
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
-    "metadata": "NODE_ENV=production ENTRY=metadata webpack",
+    "library": "NODE_ENV=production ENTRY=library webpack",
     "pretest": "npm run lint",
     "server": "frictionless server",
-    "start": "node lib/application.js",
+    "start": "concurrently npm:server npm:client",
     "test": "jest --coverage",
     "update": "ncu -u"
   },

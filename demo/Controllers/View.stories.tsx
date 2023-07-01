@@ -1,7 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { Client } from '../../src/client'
-import View from '../../src/components/Controllers/View'
+import View from '../../src/client/components/Controllers/View'
 
 export default {
   title: 'Controllers/View',
