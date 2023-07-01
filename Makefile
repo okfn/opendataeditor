@@ -23,6 +23,9 @@ lint:
 	hatch run lint
 	npm run lint
 
+start:
+	npx concurrently 'hatch run start' 'npm run start'
+
 test:
 	hatch run test
 	npm run test

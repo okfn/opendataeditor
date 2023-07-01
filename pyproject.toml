@@ -1,5 +1,6 @@
 [project]
 name = "server"
+version = "0.1.7"
 dependencies = [
     "typer>=0.9",
     "tinydb>=4.7",
@@ -32,6 +33,9 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
+start = [
+  "python -m src/server"
+]
 format = [
   "ruff src/server test/server --fix",
   "isort src/server test/server",
@@ -71,5 +75,3 @@ markers = ["ci: integrational tests (select with '--ci')"]
 strict = ["**/*.*"]
 include = ["src/server", "test/server"]
 ignore = ["**/__init__.py"]
-venvPath = '.python'
-venv = 'server'

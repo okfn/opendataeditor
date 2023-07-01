@@ -1,11 +1,6 @@
 {
-  "name": "@frictionlessdata/application",
+  "name": "client",
   "version": "0.1.7",
-  "license": "MIT",
-  "description": "Data management for humans",
-  "author": "Frictionless Data",
-  "homepage": "https://frictionlessdata.io",
-  "main": "lib/index.js",
   "engines": {
     "node": "^16.0.0"
   },
@@ -30,7 +25,6 @@
     "analyze": "NODE_ENV=production webpack --profile --json | webpack-bundle-size-analyzer",
     "build": "npm run compile && npm run bundle",
     "bundle": "NODE_ENV=production webpack",
-    "client": "webpack serve --open",
     "compile": "rimraf lib && tsc",
     "components": "start-storybook -p 6060",
     "coverage": "sensible-browser coverage/index.html",
@@ -39,8 +33,7 @@
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*'",
     "library": "NODE_ENV=production ENTRY=library webpack",
     "pretest": "npm run lint",
-    "server": "frictionless server",
-    "start": "concurrently npm:server npm:client",
+    "start": "webpack serve --open",
     "test": "npm run lint && jest --coverage",
     "update": "ncu -u"
   },
