@@ -1,0 +1,4 @@
+# General
+
+ARTIFACTS_IDENTIFIER = "_artifacts"
+BUFFER_SIZE = 1000

@@ -10,7 +10,7 @@ const DEBUG = process.env.DEBUG || false
 // Base
 
 const webpackConfig = {
-  entry: ['./src/client/entries/browser.ts'],
+  entry: ['./src/client/targets/browser.ts'],
   output: {
     path: path.resolve(__dirname, 'dist/browser'),
     filename: 'browser.js',
@@ -53,7 +53,7 @@ const webpackConfig = {
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
       favicon: 'assets/favicon.png',
-      template: 'src/client/entries/browser.html',
+      template: 'src/client/targets/browser.html',
       templateParameters: { version },
     }),
   ],
@@ -97,7 +97,7 @@ if (NODE_ENV === 'production') {
 // Library
 
 if (ENTRY === 'library') {
-  webpackConfig.entry = ['./src/client/entries/library.ts']
+  webpackConfig.entry = ['./src/client/targets/library.ts']
   webpackConfig.output.filename = 'library.js'
   webpackConfig.output.library = 'frictionless'
   webpackConfig.output.libraryTarget = 'umd'
