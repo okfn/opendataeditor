@@ -41,7 +41,7 @@
     "pretest": "npm run lint",
     "server": "frictionless server",
     "start": "concurrently npm:server npm:client",
-    "test": "jest --coverage",
+    "test": "npm run lint && jest --coverage",
     "update": "ncu -u"
   },
   "dependencies": {

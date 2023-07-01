@@ -12,12 +12,14 @@ dependencies = [
     "frictionless[ckan,csv,excel,json,sql]>=5.14",
 ]
 
-[project.optional-dependencies]
-dev = [
+[tool.hatch.envs.default]
+python = "3.10"
+dependencies = [
     "ruff",
     "isort",
     "black",
     "pytest",
+    "neovim",
     "pyright",
     "ipython",
     "livemark",
@@ -28,6 +30,23 @@ dev = [
     "pytest-dotenv",
     "pytest-timeout",
     "pytest-lazy-fixture",
+]
+
+[tool.hatch.envs.default.scripts]
+format = [
+  "ruff src/server test/server --fix",
+  "isort src/server test/server",
+  "black src/server test/server",
+]
+lint = [
+  "ruff src/server test/server",
+  "isort src/server test/server --check",
+  "black src/server test/server --check",
+  "pyright src/server test/server",
+]
+test = [
+  "hatch run lint",
+  "pytest --cov src/server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
 ]
 
 [tool.black]

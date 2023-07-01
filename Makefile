@@ -11,8 +11,20 @@ list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 install:
-	pip install --upgrade -e .[dev]
+	pip3 install hatch
 	npm install
+
+format:
+	hatch run format
+	npm run format
+
+lint:
+	hatch run lint
+	npm run lint
+
+test:
+	hatch run test
+	npm run test
 
 release:
 	git checkout main && git pull origin && git fetch -p
