@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 16
       - name: Install dependencies
-        run: npm install
+        run: make install
       - name: Test software
         run: make test
       - name: Report coverage
