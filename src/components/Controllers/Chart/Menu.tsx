@@ -5,11 +5,18 @@ import { useStore } from './store'
 export default function Menu() {
   const panel = useStore((state) => state.panel)
   const updateState = useStore((state) => state.updateState)
+  React.useEffect(() => {
+    // To update the size of the chart:
+    // https://vega.github.io/vega-lite/docs/size.html#specifying-responsive-width-and-height
+    window.dispatchEvent(new Event('resize'))
+  }, [panel])
   return (
     <menu.MenuBar>
       <menu.EditorButton
         active={panel === 'editor'}
-        onClick={() => updateState({ panel: panel !== 'editor' ? 'editor' : undefined })}
+        onClick={() => {
+          updateState({ panel: panel !== 'editor' ? 'editor' : undefined })
+        }}
       />
       <menu.MetadataButton
         active={panel === 'metadata'}

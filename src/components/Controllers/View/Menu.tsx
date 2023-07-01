@@ -9,12 +9,18 @@ export default function Menu() {
     <menu.MenuBar>
       <menu.EditorButton
         active={panel === 'editor'}
-        onClick={() => updateState({ panel: panel !== 'editor' ? 'editor' : undefined })}
+        onClick={() =>
+          updateState({
+            panel: panel !== 'editor' ? 'editor' : undefined,
+          })
+        }
       />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
-          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
+          updateState({
+            panel: panel !== 'metadata' ? 'metadata' : undefined,
+          })
         }
       />
       <menu.ReportButton

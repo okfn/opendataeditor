@@ -17,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   dialog?: 'publish' | 'saveAs'
-  panel?: 'metadata' | 'report' | 'source' | 'editor'
+  panel?: 'editor' | 'metadata' | 'report' | 'source'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -42,6 +42,7 @@ export interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     ...props,
+    panel: 'editor',
     onSaveAs: props.onSaveAs || noop,
     onSave: props.onSave || noop,
     updateState: (patch) => {

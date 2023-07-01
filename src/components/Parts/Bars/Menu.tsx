@@ -56,10 +56,10 @@ export interface ButtonProps {
 export function EditorButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  let title = 'Toggle the editor panel [Alt+C]'
+  let title = 'Toggle the editor panel [Alt+D]'
   if (props.enabled) title = 'Editor is enabled'
   if (props.disabled) title = 'Editor is not available'
-  useKeyPress(['Alt.c'], (event) => {
+  useKeyPress(['alt.d'], (event) => {
     event.preventDefault()
     if (!props.enabled && !props.disabled) {
       onClick()
