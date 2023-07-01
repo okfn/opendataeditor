@@ -37,7 +37,7 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 start = [
-  "python -m src/server"
+  "python -m src.server"
 ]
 format = [
   "ruff src/server test/server --fix",
