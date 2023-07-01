@@ -20,8 +20,8 @@ function ImageViewer() {
   if (!byteSource) return null
   const text = helpers.bytesToBase64(byteSource)
   return (
-    <Box sx={{ padding: 2 }}>
-      <img src={`data:image/${format};base64,${text}`} />
+    <Box sx={{ padding: 2, height: '100%' }}>
+      <img src={`data:image/${format};base64,${text}`} style={{ maxHeight: '100%' }} />
     </Box>
   )
 }
