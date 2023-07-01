@@ -6,8 +6,7 @@ from tinydb import TinyDB
 from tinydb.queries import QueryInstance
 from tinydb.table import Document
 
-from ... import types
-from .. import helpers
+from .. import helpers, types
 
 if TYPE_CHECKING:
     from ..project import Project

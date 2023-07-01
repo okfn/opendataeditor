@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from frictionless.server import Client, Config, Server
+from src.server import Client, Config, Server
 
 
 @pytest.fixture

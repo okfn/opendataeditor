@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ...indexer import Indexer
-from ...resources import TableResource
+from frictionless import Indexer
+from frictionless.resources import TableResource
 
 if TYPE_CHECKING:
-    from ...resource import Resource
+    from frictionless import Resource
+
     from ..project import Project
 
 

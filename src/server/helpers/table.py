@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional
 
-from ...exception import FrictionlessException
-from ...resources import TableResource
-from ...schema import Schema
+from frictionless import FrictionlessException, Schema
+from frictionless.resources import TableResource
+
 from .. import types
 
 if TYPE_CHECKING:

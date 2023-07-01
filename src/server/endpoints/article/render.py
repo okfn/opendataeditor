@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from typing import Optional
 
+import marko
 from fastapi import Request
+from marko.ext.gfm import GFM
 from pydantic import BaseModel
 
-from ....platform import platform
 from ...project import Project
 from ...router import router
 
@@ -29,8 +30,8 @@ def action(project: Project, props: Props) -> Result:
     #  fs = project.filesystem
 
     #  fullpath = fs.get_fullpath(props.path)
-    markdown = platform.marko.Markdown()
-    markdown.use(platform.marko_ext_gfm.GFM)
+    markdown = marko.Markdown()
+    markdown.use(GFM)
     text = markdown.convert(props.text)
 
     return Result(text=text)

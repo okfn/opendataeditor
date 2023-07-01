@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-from ...exception import FrictionlessException
-from ...resources import FileResource
+from frictionless import FrictionlessException
+from frictionless.resources import FileResource
 
 if TYPE_CHECKING:
     from ..project import Project

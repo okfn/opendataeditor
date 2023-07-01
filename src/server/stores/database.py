@@ -3,15 +3,15 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Iterator, Optional, Tuple
 
-from ... import helpers, types
-from ...platform import platform
-from .. import settings
+import sqlalchemy as sa
+from frictionless.formats.sql import SqlMapper
+
+from .. import helpers, settings, types
 
 if TYPE_CHECKING:
     from sqlalchemy import MetaData, Table
     from sqlalchemy.engine import Engine
 
-    from ...formats.sql import SqlMapper
     from ..project import Project
 
 
@@ -23,11 +23,9 @@ class Database:
     artifacts: Table
 
     def __init__(self, project: Project):
-        sa = platform.sqlalchemy
-        sql = platform.frictionless_formats.sql
         self.database_url = f"sqlite:///{project.private / 'database.db'}"
         self.engine = sa.create_engine(self.database_url)
-        self.mapper = sql.SqlMapper(self.engine.dialect.name)
+        self.mapper = SqlMapper(self.engine.dialect.name)
         with self.engine.begin() as conn:
             self.metadata = sa.MetaData()
             self.metadata.reflect(conn, views=True)
@@ -48,7 +46,6 @@ class Database:
     # Artifacts
 
     def iter_artifacts(self, *, type: str) -> Iterator[Tuple[str, types.IDescriptor]]:
-        sa = platform.sqlalchemy
         with self.engine.begin() as conn:
             query = sa.select(self.artifacts.c.name, self.artifacts.c.descriptor).where(
                 self.artifacts.c.type == type,
@@ -57,7 +54,6 @@ class Database:
                 yield item.name, json.loads(item.descriptor)
 
     def delete_artifact(self, *, name: str, type: str):
-        sa = platform.sqlalchemy
         with self.engine.begin() as conn:
             query = sa.delete(self.artifacts).where(
                 self.artifacts.c.name == name,
@@ -66,7 +62,6 @@ class Database:
             conn.execute(query)
 
     def read_artifact(self, *, name: str, type: str) -> Optional[types.IDescriptor]:
-        sa = platform.sqlalchemy
         with self.engine.begin() as conn:
             text = conn.execute(
                 sa.select(self.artifacts.c.descriptor).where(
@@ -80,7 +75,6 @@ class Database:
         return descriptor
 
     def write_artifact(self, *, name: str, type: str, descriptor: types.IDescriptor):
-        sa = platform.sqlalchemy
         with self.engine.begin() as conn:
             self.delete_artifact(name=name, type=type)
             conn.execute(

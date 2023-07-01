@@ -3,10 +3,12 @@ name = "server"
 version = "0.1.7"
 dependencies = [
     "typer>=0.9",
+    "marko>=1.0",
     "tinydb>=4.7",
     "pydantic>=1.9",
     "fastapi>=0.78",
     "uvicorn>=0.17",
+    "sqlalchemy>=2.0",
     "typing-extensions>=4.3",
     "python-multipart>=0.0",
     "frictionless[ckan,csv,excel,json,sql]>=5.14",
@@ -72,6 +74,6 @@ env_files = [".env"]
 markers = ["ci: integrational tests (select with '--ci')"]
 
 [tool.pyright]
-strict = ["**/*.*"]
+strict = ["src/server"]
 include = ["src/server", "test/server"]
 ignore = ["**/__init__.py"]

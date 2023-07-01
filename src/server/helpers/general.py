@@ -1,8 +1,9 @@
 import contextlib
 import io
+import json
 import os
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 from tinydb.table import Table
 
@@ -26,3 +27,12 @@ class StringIndexedTable(Table):
 
     def _get_next_id(self):
         raise RuntimeError("id must be provided")
+
+
+def to_json(obj: Any, *, encoder_class: Optional[Any] = None) -> str:
+    return json.dumps(
+        obj,
+        indent=2,
+        ensure_ascii=False,
+        cls=encoder_class,
+    )

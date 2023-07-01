@@ -4,11 +4,10 @@ import re
 from typing import TYPE_CHECKING, List, Optional, cast
 
 import stringcase  # type: ignore
+from frictionless import FrictionlessException, Resource
 from slugify.slugify import slugify
 from tinydb import Query
 
-from ...exception import FrictionlessException
-from ...resource import Resource
 from .. import models, types
 
 if TYPE_CHECKING:

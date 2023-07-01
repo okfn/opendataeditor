@@ -1,6 +1,6 @@
 import pytest
 
-from frictionless.server import models
+from src.server import models
 
 from ...fixtures import folder1, not_secure
 

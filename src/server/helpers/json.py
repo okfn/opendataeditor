@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Optional
 
-from ...exception import FrictionlessException
-from ...resources import JsonResource
+from frictionless import FrictionlessException
+from frictionless.resources import JsonResource
 
 if TYPE_CHECKING:
     from ..project import Project
