@@ -4,7 +4,7 @@ const version = require('./package.json').version
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const NODE_ENV = process.env.NODE_ENV || 'development'
-// const ENTRY = process.env.ENTRY || 'browser'
+const ENTRY = process.env.ENTRY || 'browser'
 const DEBUG = process.env.DEBUG || false
 
 // Base
@@ -92,6 +92,16 @@ if (NODE_ENV === 'production') {
     threshold: 10240,
     minRatio: 0.8,
   })
+}
+
+// Metadata
+
+if (ENTRY === 'library') {
+  webpackConfig.entry = ['./src/client/targets/library.ts']
+  webpackConfig.output.filename = 'library.js'
+  webpackConfig.output.library = 'fdapp'
+  webpackConfig.output.path = path.resolve(__dirname, 'dist/library')
+  delete webpackConfig.plugins[1]
 }
 
 module.exports = webpackConfig

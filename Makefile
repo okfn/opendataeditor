@@ -11,8 +11,7 @@ list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 install:
-	pip3 install --upgrade hatch
-	hatch config set 'dirs.env.virtual' '.python'
+	pip3 install hatch
 	npm install
 
 format:
