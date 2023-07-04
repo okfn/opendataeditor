@@ -53,11 +53,12 @@ jobs:
       - name: Build docs
         run: make docs
       - name: Publush to Github Pages
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.4.2
         with:
-          branch: site
-          create_branch: true
-          push_options: '--force'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: site
+          FOLDER: site
+          CLEAN: true
 
   # Release
 
