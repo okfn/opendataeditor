@@ -52,8 +52,6 @@ jobs:
           python-version: '3.10'
       - name: Prepare environment
         run: pip3 install hatch
-      - name: Install dependencies
-        run: make install
       - name: Build docs
         run: make docs
       - name: Publush to Github Pages
