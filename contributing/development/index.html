@@ -542,13 +542,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#enviroment" class="md-nav__link">
     Enviroment
   </a>
@@ -562,6 +555,19 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#javascript" class="md-nav__link">
@@ -759,13 +765,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#enviroment" class="md-nav__link">
     Enviroment
   </a>
@@ -779,6 +778,19 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#javascript" class="md-nav__link">
@@ -879,15 +891,14 @@
 <li>Python 3.10+</li>
 <li>Node 16+</li>
 </ul>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h2 id="enviroment">Enviroment<a class="headerlink" href="#enviroment" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For development orchestration we use <a href="https://github.com/pypa/hatch">Hatch</a> for Python (defined in <code>pyproject.toml</code>) and <a href="https://docs.npmjs.com/cli/">NPM</a> for JavaScript (defined in <code>package.json</code>). We use <code>make</code> to run joint commands (defined in <code>Makefile</code>)</p>
 </div>
-<p>To start working on the project install the dependencies:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make<span class="w"> </span>install
+<p>NPM is included into the Node distribution so we just need to install <code>hatch</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip3<span class="w"> </span>install<span class="w"> </span>hatch
 </span></code></pre></div>
-<h2 id="enviroment">Enviroment<a class="headerlink" href="#enviroment" title="Permanent link">&para;</a></h2>
 <h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <p>Before starting with the project we recommend configuring <code>hatch</code>. The following line will ensure that all the virtual environments will be stored in the <code>.python</code> directory in project root:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hatch<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s1">&#39;dirs.env.virtual&#39;</span><span class="w"> </span><span class="s1">&#39;.python&#39;</span>
@@ -896,34 +907,38 @@
 <p>Now you can setup you IDE to use a proper Python path:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.python/fdapp/bin/python
 </span></code></pre></div>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>To start working on the project install the dependencies:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>install
+</span></code></pre></div>
 <h3 id="javascript">JavaScript<a class="headerlink" href="#javascript" title="Permanent link">&para;</a></h3>
 <p>We highly recommend enabling TypeScript checks for your IDE.</p>
 <h2 id="codebase">Codebase<a class="headerlink" href="#codebase" title="Permanent link">&para;</a></h2>
 <h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
 <p>To work on the whole application:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>start
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make<span class="w"> </span>start
 </span></code></pre></div>
 <p>Note that there are few CSV files in the <code>data</code> folder to test the app. You can find more in the internet (it's good to test it using different files).</p>
 <h3 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h3>
 <p>Running the server in isolation:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make<span class="w"> </span>server<span class="w"> </span><span class="c1"># default folder</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># OR</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>python<span class="w"> </span>-m<span class="w"> </span>src.server<span class="w"> </span>&lt;data-folder&gt;<span class="w"> </span><span class="c1"># select project folder</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>make<span class="w"> </span>server<span class="w"> </span><span class="c1"># default folder</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># OR</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>python<span class="w"> </span>-m<span class="w"> </span>src.server<span class="w"> </span>&lt;data-folder&gt;<span class="w"> </span><span class="c1"># select project folder</span>
 </span></code></pre></div>
 <h3 id="client">Client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h3>
 <p>Running the client in isolation:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>make<span class="w"> </span>client
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>client
 </span></code></pre></div>
 <h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
 <p>To work on individual components (StoryBook):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>components
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>make<span class="w"> </span>components
 </span></code></pre></div>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <p>Documentation is written with Mkdocs (defined in <code>mkdocs.yaml</code>). The source articles are in the <code>docs</code> directory. To start a live-reload server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>make<span class="w"> </span>write
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>make<span class="w"> </span>write
 </span></code></pre></div>
 <p>Building the docs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>make<span class="w"> </span>docs
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>make<span class="w"> </span>docs
 </span></code></pre></div>
 
 
