@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 16
       - name: Prepare environment
-        run: pip install hatch
+        run: pip3 install hatch
       - name: Install dependencies
         run: make install
       - name: Test software
@@ -51,7 +51,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Prepare environment
-        run: pip install hatch
+        run: pip3 install hatch
       - name: Install dependencies
         run: make install
       - name: Build docs
