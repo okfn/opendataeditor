@@ -1,4 +1,3 @@
-import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import SelectDialog from '../../../src/client/components/Parts/Dialogs/Select'
 
@@ -9,19 +8,16 @@ const meta: Meta<typeof SelectDialog> = {
 
 export default meta
 
-// Props
+// Data
 
 const items = ['path1.csv', 'path2.csv', 'path3.csv']
 
 // Stories
 
 export const Default: Story = {
-  render: () => (
-    <SelectDialog
-      title="Title"
-      items={items}
-      onConfirm={console.log}
-      onCancel={console.log}
-    />
-  ),
+  args: {
+    items,
+    onConfirm: console.log,
+    onCancel: console.log,
+  },
 }
