@@ -10,6 +10,12 @@ all: list
 list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
+docs:
+	hatch run docs
+
+write:
+	hatch run write
+
 install:
 	pip3 install hatch
 	npm install

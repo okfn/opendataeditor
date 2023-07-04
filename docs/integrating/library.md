@@ -1,4 +1,4 @@
-# Metadata
+# Library
 
 Within the Frictionless Application project we publish set of metadata components for working with Frictionless Standards. You can test it here: https://metadata.frictionlessdata.io/
 
