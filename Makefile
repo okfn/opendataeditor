@@ -1,4 +1,4 @@
-.PHONY: all list install format lint test release version
+.PHONY: all list docs write install format lint server client start test components release version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
