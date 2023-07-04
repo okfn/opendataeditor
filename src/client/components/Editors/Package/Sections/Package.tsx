@@ -7,6 +7,7 @@ import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 import validator from 'validator'
+import dayjs from 'dayjs'
 
 export default function Package() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -118,14 +119,16 @@ function Version() {
   )
 }
 function Created() {
+  const created = useStore((state) => dayjs(state.descriptor.created))
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <DatePickerField
       label="Created"
+      value={created}
       onFocus={() => updateHelp('package/created')}
       onChange={(value) => {
-        updateDescriptor({ created: value?.format('MM/DD/YYYY') })
+        updateDescriptor({ created: value?.format('YYYY-MM-DDTHH:mm:ss') })
       }}
       errorMessage={'Date is not valid'}
     />
