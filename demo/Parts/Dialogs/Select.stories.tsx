@@ -9,7 +9,7 @@ const meta: Meta<typeof SelectDialog> = {
 
 export default meta
 
-// Props
+// Data
 
 const items = ['path1.csv', 'path2.csv', 'path3.csv']
 

@@ -13,5 +13,12 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  webpackFinal: async (config, { configType }) => {
+    config.module!.rules!.push({
+      test: /\.yaml$/,
+      loader: 'yaml-loader',
+    })
+    return config
+  },
 }
 export default config
