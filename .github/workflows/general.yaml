@@ -55,10 +55,9 @@ jobs:
       - name: Publush to Github Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: site
-          FOLDER: site
-          CLEAN: true
+          branch: site
+          folder: site
+          clean: true
 
   # Release
 
