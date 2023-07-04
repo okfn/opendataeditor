@@ -1,6 +1,6 @@
-const { createProxyMiddleware } = require('http-proxy-middleware')
+import { createProxyMiddleware } from 'http-proxy-middleware'
 
-module.exports = function expressMiddleware(router) {
+const middleware = function expressMiddleware(router: any) {
   router.use(
     '/api',
     createProxyMiddleware({
@@ -10,3 +10,4 @@ module.exports = function expressMiddleware(router) {
     })
   )
 }
+export default middleware

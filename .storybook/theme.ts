@@ -1,7 +1,8 @@
 import { create } from '@storybook/theming'
 
-export default create({
+const theme = create({
   base: 'light',
-  brandTitle: 'Frictionless Components',
+  brandTitle: 'FDAPP',
   brandImage: 'https://i.imgur.com/tS7gG1h.png',
 })
+export default theme
