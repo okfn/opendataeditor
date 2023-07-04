@@ -38,6 +38,7 @@ dependencies = [
     "pytest-dotenv",
     "pytest-timeout",
     "pytest-lazy-fixture",
+    "mkdocs-material",
 ]
 
 [tool.hatch.envs.default.scripts]
