@@ -2,7 +2,6 @@
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
-LEAD := $(shell head -n 1 LEAD.md)
 
 
 all: list
