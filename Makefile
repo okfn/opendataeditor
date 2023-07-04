@@ -28,12 +28,21 @@ lint:
 	hatch run lint
 	npm run lint
 
+server:
+	hatch run start
+
+client:
+	npm run start
+
 start:
 	npx concurrently 'hatch run start' 'npm run start'
 
 test:
 	hatch run test
 	npm run test
+
+components:
+	npm run component
 
 release:
 	git checkout main && git pull origin && git fetch -p
