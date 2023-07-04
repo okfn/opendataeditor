@@ -16,7 +16,6 @@ write:
 	hatch run write
 
 install:
-	pip3 install hatch
 	npm install
 
 format:

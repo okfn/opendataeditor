@@ -9,19 +9,17 @@ To start working on the project:
 - Python 3.10+
 - Node 16+
 
-## Installation
+## Enviroment
 
 !!! note
 
     For development orchestration we use [Hatch](https://github.com/pypa/hatch) for Python (defined in `pyproject.toml`) and [NPM](https://docs.npmjs.com/cli/) for JavaScript (defined in `package.json`). We use `make` to run joint commands (defined in `Makefile`)
 
-To start working on the project install the dependencies:
+NPM is included into the Node distribution so we just need to install `hatch`:
 
 ```bash
-make install
+pip3 install hatch
 ```
-
-## Enviroment
 
 ### Python
 
@@ -36,6 +34,14 @@ Now you can setup you IDE to use a proper Python path:
 
 ```bash
 .python/fdapp/bin/python
+```
+
+## Installation
+
+To start working on the project install the dependencies:
+
+```bash
+make install
 ```
 
 ### JavaScript
