@@ -76,12 +76,12 @@
     "zustand": "^4.1.1"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.5.10",
-    "@storybook/addon-essentials": "^6.5.10",
-    "@storybook/addon-links": "^6.5.10",
-    "@storybook/addons": "^6.5.10",
-    "@storybook/react": "^6.5.10",
-    "@storybook/theming": "^6.5.10",
+    "@storybook/addon-actions": "^7.0.25",
+    "@storybook/addon-essentials": "^7.0.25",
+    "@storybook/addon-links": "^7.0.25",
+    "@storybook/addons": "^7.0.25",
+    "@storybook/react": "^7.0.25",
+    "@storybook/theming": "^7.0.25",
     "@types/express": "^4.17.13",
     "@types/file-saver": "^2.0.4",
     "@types/jest": "^27.0.2",
