@@ -1,17 +1,18 @@
-import React from 'react'
-import { Story, Meta } from '@storybook/react'
-import View from '../../src/client/components/Editors/View'
+import { Meta, StoryObj } from '@storybook/react'
+import ViewEditort from '../../src/client/components/Editors/View'
+import * as types from '../../src/client/types'
 
-export default {
-  title: 'Editors/View',
-  component: View,
-} as Meta
+type Story = StoryObj<typeof ViewEditort>
+const meta: Meta<typeof ViewEditort> = {
+  component: ViewEditort,
+}
 
-const Template: Story<Parameters<typeof View>[0]> = (args) => <View {...args} />
+export default meta
 
-// Props
+// Data
 
-const fields = [
+const view: types.IView = { query: '' }
+const columns: types.IColumn[] = [
   { name: 'field1', type: 'integer', tableName: 'table1', tablePath: 'table1.csv' },
   { name: 'field2', type: 'string', tableName: 'table1', tablePath: 'table1.csv' },
   { name: 'field1', type: 'integer', tableName: 'table2', tablePath: 'table2.csv' },
@@ -20,8 +21,10 @@ const fields = [
 
 // Stories
 
-export const Default = Template.bind({})
-Default.args = {
-  fields,
-  onViewChange: console.log,
+export const Default: Story = {
+  args: {
+    view,
+    columns,
+    onChange: console.log,
+  },
 }

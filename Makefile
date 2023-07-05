@@ -1,8 +1,7 @@
-.PHONY: all list install format lint test release version
+.PHONY: all list docs write install format lint server client start test components release version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
-LEAD := $(shell head -n 1 LEAD.md)
 
 
 all: list
@@ -10,8 +9,13 @@ all: list
 list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
+docs:
+	hatch run docs
+
+write:
+	hatch run write
+
 install:
-	pip3 install hatch
 	npm install
 
 format:
@@ -22,12 +26,21 @@ lint:
 	hatch run lint
 	npm run lint
 
+server:
+	hatch run start
+
+client:
+	npm run start
+
 start:
 	npx concurrently 'hatch run start' 'npm run start'
 
 test:
 	hatch run test
 	npm run test
+
+components:
+	npm run component
 
 release:
 	git checkout main && git pull origin && git fetch -p

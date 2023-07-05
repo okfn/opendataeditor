@@ -1,17 +1,17 @@
-import React from 'react'
-import { Story, Meta } from '@storybook/react'
-import Schema from '../../src/client/components/Editors/Schema'
+import { Meta, StoryObj } from '@storybook/react'
+import SchemaEditort from '../../src/client/components/Editors/Schema'
+import * as types from '../../src/client/types'
 
-export default {
-  title: 'Editors/Schema',
-  component: Schema,
-} as Meta
+type Story = StoryObj<typeof SchemaEditort>
+const meta: Meta<typeof SchemaEditort> = {
+  component: SchemaEditort,
+}
 
-const Template: Story<Parameters<typeof Schema>[0]> = (args) => <Schema {...args} />
+export default meta
 
-// Props
+// Data
 
-const schema = {
+const schema: types.ISchema = {
   fields: [
     { name: 'id', type: 'integer', format: 'default' },
     { name: 'name', type: 'string', format: 'default' },
@@ -21,9 +21,12 @@ const schema = {
 
 // Stories
 
-export const Default = Template.bind({})
-Default.args = {
-  schema,
-  onChange: console.log,
-  onFieldSelected: console.log,
+// Stories
+
+export const Default: Story = {
+  args: {
+    schema,
+    onChange: console.log,
+    onFieldSelected: console.log,
+  },
 }

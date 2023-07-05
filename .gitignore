@@ -149,6 +149,7 @@ package-lock.json
 .env
 static/
 dist/
+site/
 lib/
 tmp/
 .vim

@@ -1,4 +1,4 @@
-# Metadata
+# Library
 
 Within the Frictionless Application project we publish set of metadata components for working with Frictionless Standards. You can test it here: https://metadata.frictionlessdata.io/
 
@@ -7,14 +7,14 @@ Within the Frictionless Application project we publish set of metadata component
 Install the library as you usually do with NPM:
 
 ```bash
-$ npm install @frictionlessdata/application
+$ npm install fdapp
 ```
 
 The package provides a set of components and a render function to render it to the DOM:
 
 ```javascript
-import {render} from '@frictionlessdata/application/render'
-import Report from '@frictionlessdata/application/components/Editors/Report'
+import {render} from 'fdapp/render'
+import Report from 'fdapp/components/Editors/Report'
 
 const props = {report}
 const element = document.getElementById('app')
@@ -23,10 +23,10 @@ render(Report, props, element)
 
 ## CDN
 
-Alternatively, it might be linked directly from the CDN ([available distributions](https://unpkg.com/browse/@frictionlessdata/application/)):
+Alternatively, it might be linked directly from the CDN ([available distributions](https://unpkg.com/browse/fdapp/)):
 
 ```html
-<script src="//unpkg.com/@frictionlessdata/application/dist/metadata/metadata.js"></script>
+<script src="//unpkg.com/fdapp/dist/metadata/metadata.js"></script>
 <div id="schema"></div>
 <script>
 if (document.readyState === 'loading') window.addEventListener("load", () => {

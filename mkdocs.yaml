@@ -1,0 +1,125 @@
+# General
+
+site_name: Frictionless Application
+site_url: https://application.frictionlessdata.io
+site_author: Open Knowledge Foundation
+site_description: Data management for humans
+repo_name: frictionlessdata/application
+repo_url: https://github.com/frictionlessdata/application
+copyright: Copyright &copy; 2022 <a href="https://okfn.org">Open Knowledge Foundation</a>
+
+# Theme
+
+theme:
+  name: material
+  custom_dir: docs/.theme
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    # - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+
+# Plugins
+
+# TODO: enable when it's released to general public
+# https://squidfunk.github.io/mkdocs-material/insiders/#12000-piri-piri
+# plugins:
+  # - blog:
+      # post_date_format: full
+
+# Extras
+
+extra:
+  annotate:
+    json: [.s2]
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/frictionlessdata
+      name: Code on Github
+    - icon: fontawesome/brands/slack
+      link: https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg
+      name: Join our Slack
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/frictionlessd8a
+      name: Follow us on Twitter
+
+# Extensions
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      title: Page contents
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.extra
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets:
+      check_paths: true
+
+# Navigation
+
+nav:
+  - Home:
+      Welcome: index.md
+      Installation: installation.md
+      Usage: usage.md
+  - Integrating:
+      Library: integrating/library.md
+  - Contributing:
+      Development: contributing/development.md
+  - Blog:
+    - 2023:
+      - blog/2023/04/17/csv-conf-7.md
+

@@ -30,7 +30,6 @@ dependencies = [
     "neovim",
     "pyright",
     "ipython",
-    "livemark",
     "pytest-cov",
     "pytest-vcr",
     "pytest-mock",
@@ -38,11 +37,18 @@ dependencies = [
     "pytest-dotenv",
     "pytest-timeout",
     "pytest-lazy-fixture",
+    "mkdocs-material",
 ]
 
 [tool.hatch.envs.default.scripts]
 start = [
-  "python -m src.server"
+  "python -m src.server",
+]
+docs = [
+  "mkdocs build",
+]
+write = [
+  "mkdocs serve",
 ]
 format = [
   "ruff src/server test/server --fix",
