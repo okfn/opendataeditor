@@ -125,7 +125,7 @@ function Created() {
   return (
     <DatePickerField
       label="Created"
-      value={dayjs(created)}
+      value={created ? dayjs(created) : null}
       onFocus={() => updateHelp('package/created')}
       onChange={(value) => {
         updateDescriptor({ created: value?.format('YYYY-MM-DDTHH:mm:ss') })
