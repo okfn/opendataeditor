@@ -39,8 +39,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/roboto": "^4.5.8",
-    "@fontsource/roboto-mono": "^4.5.10",
+    "@fontsource/roboto": "^5.0.4",
+    "@fontsource/roboto-mono": "^5.0.4",
     "@inovua/reactdatagrid-community": "^5.9.5",
     "@monaco-editor/react": "^4.5.1",
     "@mui/icons-material": "^5.13.7",
