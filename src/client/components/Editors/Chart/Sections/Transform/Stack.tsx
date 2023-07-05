@@ -78,7 +78,7 @@ function SortOrder() {
         const field = sort ? sort.field : ''
         updateTransform({
           ...transform,
-          sort: [{ field: field, order: value }],
+          sort: [{ field, order: value }],
         })
       }}
     />
@@ -133,7 +133,7 @@ function SortField() {
         const order = sort ? sort.order : ''
         updateTransform({
           ...transform,
-          sort: [{ field: value, order: order }],
+          sort: [{ field: value, order }],
         })
       }}
     />
