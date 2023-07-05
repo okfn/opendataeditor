@@ -13,7 +13,7 @@ dependencies = [
     "platformdirs>=3.8",
     "typing-extensions>=4.3",
     "python-multipart>=0.0",
-    "frictionless[ckan,csv,excel,json,sql]>=5.14.5",
+    "frictionless[ckan,csv,excel,json,pandas,sql]>=5.14.5",
 ]
 
 [tool.hatch.version]

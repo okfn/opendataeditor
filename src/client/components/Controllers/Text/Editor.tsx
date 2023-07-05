@@ -54,15 +54,17 @@ function Source() {
 }
 
 function Target() {
+  const type = useStore((state) => state.record?.type)
   const outputedText = useStore((state) => state.outputedText)
   return (
     <Box sx={{ paddingX: 2, borderLeft: 'solid 1px #ddd', height: '100%' }}>
-      <iframe
-        height="98%"
-        width="100%"
-        style={{ border: 0, margin: 0, padding: 0 }}
-        srcDoc={outputedText || ''}
-      ></iframe>
+      {type === 'script' ? (
+        <pre>
+          <code>{outputedText}</code>
+        </pre>
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: outputedText || '' }}></div>
+      )}
     </Box>
   )
 }
