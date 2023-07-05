@@ -5,12 +5,14 @@ import TextField from '@mui/material/TextField'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
+import * as settings from '../../../settings'
 import noop from 'lodash/noop'
 
 interface DatePickerProps {
   label: string
   name?: string
   value?: Dayjs | null
+  inputFormat?: string
   errorMessage?: string
   onChange: (value: any) => void
   onFocus?: (event: any) => void
@@ -27,6 +29,7 @@ const DatePicker: React.FC<DatePickerProps> = (props: DatePickerProps) => {
       <MuiDatePicker
         label={props.label}
         value={value}
+        inputFormat={props.inputFormat || settings.DEFUALT_DATETIME_FORMAT}
         onChange={(newValue) => {
           setValue(newValue)
           props.onChange(newValue)
