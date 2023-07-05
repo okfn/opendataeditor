@@ -28,7 +28,7 @@ class Project:
         self.private.mkdir(parents=True, exist_ok=True)
 
         # Ensure gitignore
-        text = "database.db"
+        text = "config.json\ndatabase.db\n"
         path = str(self.private / ".gitignore")
         resource = TextResource(data=text)
         resource.write_text(path=path)

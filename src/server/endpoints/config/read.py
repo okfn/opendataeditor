@@ -9,14 +9,14 @@ from ...router import router
 
 
 class Props(BaseModel, extra="forbid"):
-    config: models.Config | None
+    pass
 
 
 class Result(BaseModel, extra="forbid"):
     config: models.Config
 
 
-@router.post("/system/config")
+@router.post("/config/read")
 def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -24,7 +24,5 @@ def endpoint(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     cf = project.config
 
-    config = cf.read_system()
-    if props.config:
-        config = cf.write_system(props.config)
+    config = cf.read()
     return Result(config=config)

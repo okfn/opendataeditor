@@ -13,18 +13,22 @@ if TYPE_CHECKING:
 class Config:
     def __init__(self, project: Project):
         self.system = project.system / "config.json"
-        if not self.system.exists():
-            resource = JsonResource(data={})
-            resource.write_json(path=str(self.system))
+        self.project = project.private / "config.json"
+        for fullpath in [self.system, self.project]:
+            if not fullpath.exists():
+                JsonResource(data={}).write_json(path=str(fullpath))
 
     # System
 
-    def read_system(self):
-        resource = JsonResource(path=str(self.system))
-        config = models.Config(**resource.read_json())
+    def read(self):
+        system = JsonResource(path=str(self.system)).read_json()
+        project = JsonResource(path=str(self.project)).read_json()
+        config = models.Config(system=system, project=project)
         return config
 
-    def write_system(self, config: models.Config):
-        resource = JsonResource(data=config.dict())
-        resource.write_json(path=str(self.system))
+    def write(self, config: models.Config):
+        system = config.system.dict()
+        project = config.project.dict()
+        JsonResource(data=system).write_json(path=str(self.system))
+        JsonResource(data=project).write_json(path=str(self.project))
         return config
