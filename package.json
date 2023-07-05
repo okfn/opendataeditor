@@ -99,7 +99,7 @@
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "compression-webpack-plugin": "^10.0.0",
-    "concurrently": "^6.5.1",
+    "concurrently": "^8.2.0",
     "css-loader": "^6.8.1",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
