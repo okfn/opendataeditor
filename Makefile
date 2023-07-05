@@ -1,4 +1,4 @@
-.PHONY: all list build docs write install format lint server client start test components release version
+.PHONY: all build client components docs format install lint list release server start test version write
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
@@ -6,44 +6,31 @@ VERSION := $(shell node -p -e "require('./package.json').version")
 
 all: list
 
-list:
-	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
-
 build:
 	npm run build
 
+client:
+	npm run start
+
+components:
+	npm run component
+
 docs:
 	hatch run docs
-
-write:
-	hatch run write
-
-install:
-	npm install
 
 format:
 	hatch run format
 	npm run format
 
+install:
+	npm install
+
 lint:
 	hatch run lint
 	npm run lint
 
-server:
-	hatch run start
-
-client:
-	npm run start
-
-start:
-	npx concurrently 'hatch run start' 'npm run start'
-
-test:
-	hatch run test
-	npm run test
-
-components:
-	npm run component
+list:
+	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 release:
 	git checkout main && git pull origin && git fetch -p
@@ -52,5 +39,18 @@ release:
 	npm test && git commit -a -m 'v$(VERSION)' && git tag -a v$(VERSION) -m 'v$(VERSION)'
 	git push --follow-tags
 
+server:
+	hatch run start
+
+start:
+	npx concurrently 'hatch run start' 'npm run start'
+
+test:
+	hatch run test
+	npm run test
+
 version:
 	@echo $(VERSION)
+
+write:
+	hatch run write
