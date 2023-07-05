@@ -1,4 +1,3 @@
-import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import ColumnTree from '../../../src/client/components/Parts/Trees/Column'
 import * as types from '../../../src/client/types'
@@ -21,11 +20,9 @@ const columns: types.IColumn[] = [
 // Stories
 
 export const Default: Story = {
-  render: () => (
-    <ColumnTree
-      columns={columns}
-      onPathChange={console.log}
-      onPathDoubleClick={console.log}
-    />
-  ),
+  args: {
+    columns,
+    onPathChange: console.log,
+    onPathDoubleClick: console.log,
+  },
 }

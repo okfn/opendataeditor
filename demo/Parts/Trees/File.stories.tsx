@@ -1,4 +1,3 @@
-import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import FileTree from '../../../src/client/components/Parts/Trees/File'
 import * as types from '../../../src/client/types'
@@ -20,16 +19,16 @@ const files: types.IFile[] = [
 // Stories
 
 export const Default: Story = {
-  render: () => <FileTree files={files} onSelect={console.log} />,
+  args: {
+    files,
+    onSelect: console.log,
+  },
 }
 
 export const Added: Story = {
-  render: () => (
-    <FileTree
-      files={files}
-      defaultExpanded={['folder1']}
-      event={{ type: 'create', paths: ['folder/table2.csv'] }}
-      onSelect={console.log}
-    />
-  ),
+  args: {
+    ...Default.args,
+    defaultExpanded: ['folder1'],
+    event: { type: 'create', paths: ['folder/table2.csv'] },
+  },
 }

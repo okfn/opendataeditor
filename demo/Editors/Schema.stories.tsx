@@ -21,8 +21,6 @@ const schema: types.ISchema = {
 
 // Stories
 
-// Stories
-
 export const Default: Story = {
   args: {
     schema,
