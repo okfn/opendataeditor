@@ -10,6 +10,7 @@ dependencies = [
     "fastapi>=0.78",
     "uvicorn>=0.17",
     "sqlalchemy>=2.0",
+    "platformdirs>=3.8",
     "typing-extensions>=4.3",
     "python-multipart>=0.0",
     "frictionless[ckan,csv,excel,json,sql]>=5.14.5",

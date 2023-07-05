@@ -10,4 +10,5 @@ const middleware = (router) => {
     })
   )
 }
+
 export default middleware
