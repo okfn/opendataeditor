@@ -1,6 +1,6 @@
 import { createProxyMiddleware } from 'http-proxy-middleware'
 
-const middleware = function expressMiddleware(router: any) {
+const middleware = (router) => {
   router.use(
     '/api',
     createProxyMiddleware({
