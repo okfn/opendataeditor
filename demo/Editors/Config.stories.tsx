@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ConfigEditort from '../../src/client/components/Editors/Config'
+import ConfigEditor from '../../src/client/components/Editors/Config'
 import * as types from '../../src/client/types'
 
-type Story = StoryObj<typeof ConfigEditort>
-const meta: Meta<typeof ConfigEditort> = {
-  component: ConfigEditort,
+type Story = StoryObj<typeof ConfigEditor>
+const meta: Meta<typeof ConfigEditor> = {
+  component: ConfigEditor,
 }
 
 export default meta

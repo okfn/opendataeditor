@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ControlEditort from '../../src/client/components/Editors/Control'
+import ControlEditor from '../../src/client/components/Editors/Control'
 import * as types from '../../src/client/types'
 
-type Story = StoryObj<typeof ControlEditort>
-const meta: Meta<typeof ControlEditort> = {
-  component: ControlEditort,
+type Story = StoryObj<typeof ControlEditor>
+const meta: Meta<typeof ControlEditor> = {
+  component: ControlEditor,
 }
 
 export default meta

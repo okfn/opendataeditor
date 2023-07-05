@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ReportEditort from '../../src/client/components/Editors/Report'
+import ReportEditor from '../../src/client/components/Editors/Report'
 import reportInvalid from '../../data/report-invalid.json'
 import reportValid from '../../data/report-valid.json'
 
-type Story = StoryObj<typeof ReportEditort>
-const meta: Meta<typeof ReportEditort> = {
-  component: ReportEditort,
+type Story = StoryObj<typeof ReportEditor>
+const meta: Meta<typeof ReportEditor> = {
+  component: ReportEditor,
 }
 
 export default meta
