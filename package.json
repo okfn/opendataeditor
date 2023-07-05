@@ -150,7 +150,7 @@
       "/node_modules/",
       "setup.ts"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testTimeout": 10000,
     "collectCoverage": false,
     "coverageReporters": [
