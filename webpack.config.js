@@ -52,7 +52,7 @@ const webpackConfig = {
   plugins: [
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
-      favicon: 'assets/favicon.png',
+      favicon: 'src/client/targets/assets/favicon.png',
       template: 'src/client/targets/browser.html',
       templateParameters: { version },
     }),
