@@ -28,10 +28,11 @@ class Project:
         self.private.mkdir(parents=True, exist_ok=True)
 
         # Ensure gitignore
-        text = "config.json\ndatabase.db\n"
-        path = str(self.private / ".gitignore")
-        resource = TextResource(data=text)
-        resource.write_text(path=path)
+        fullpath = self.private / ".gitignore"
+        contents = "config.json\ndatabase.db\n"
+        if not fullpath.exists():
+            resource = TextResource(data=contents)
+            resource.write_text(path=str(fullpath))
 
         # Create drivers
         self.config = Config(self)
