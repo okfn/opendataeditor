@@ -13,7 +13,7 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Columns from '../Grids/Columns'
 
-// TODO: rebase on native dialog extending
+// TODO: rebase on ConfirmDialog
 
 interface SelectorProps {
   title: string
@@ -130,7 +130,7 @@ export default function Selector(props: SelectorProps) {
             <Button
               fullWidth
               sx={{ my: 0.5 }}
-              variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
+              variant="contained"
               size="small"
               onClick={() =>
                 props.onCancel(
@@ -138,7 +138,7 @@ export default function Selector(props: SelectorProps) {
                 )
               }
               aria-label="move selected right"
-              color={leftChecked.length === 0 ? 'primary' : 'warning'}
+              color="warning"
             >
               Cancel
             </Button>
