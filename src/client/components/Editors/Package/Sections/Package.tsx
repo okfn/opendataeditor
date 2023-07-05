@@ -119,13 +119,13 @@ function Version() {
   )
 }
 function Created() {
-  const created = useStore((state) => dayjs(state.descriptor.created))
+  const created = useStore((state) => state.descriptor.created)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <DatePickerField
       label="Created"
-      value={created}
+      value={dayjs(created)}
       onFocus={() => updateHelp('package/created')}
       onChange={(value) => {
         updateDescriptor({ created: value?.format('YYYY-MM-DDTHH:mm:ss') })
