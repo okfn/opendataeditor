@@ -9,7 +9,7 @@ export default function Editor() {
   return (
     <ChartEditor
       chart={modified}
-      fields={columns}
+      columns={columns}
       onChange={(chart) => updateState({ modified: chart })}
     />
   )

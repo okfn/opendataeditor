@@ -7,8 +7,7 @@ import Layout from './Layout'
 
 export interface ChartProps {
   chart?: types.IChart
-  // TODO: rename to column everywhere in the editor
-  fields?: types.IColumn[]
+  columns?: types.IColumn[]
   onChange?: (chart: types.IChart) => void
 }
 

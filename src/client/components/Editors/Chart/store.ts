@@ -30,7 +30,7 @@ interface ISectionState {
 }
 
 interface State {
-  fields: types.IColumn[]
+  columns: types.IColumn[]
   descriptor: Partial<types.IChart>
   customFields: string[]
   shallow: boolean
@@ -78,7 +78,7 @@ interface State {
 export function makeStore(props: ChartProps) {
   return createStore<State>((set, get) => ({
     options: {},
-    fields: props.fields || [],
+    columns: props.columns || [],
     customFields: [],
     descriptor: props.chart || {},
     shallow: false,
@@ -172,10 +172,10 @@ export function makeStore(props: ChartProps) {
       updateState({ descriptor })
     },
     updateChannel: (patch) => {
-      const { fields, descriptor, updateState } = get()
+      const { columns, descriptor, updateState } = get()
       const channel = selectors.channel(get())
       if ('field' in patch) {
-        for (const item of fields || []) {
+        for (const item of columns || []) {
           if (patch.field === item.name) {
             switch (item.type) {
               case 'number':
@@ -303,12 +303,12 @@ export function makeStore(props: ChartProps) {
 export const select = createSelector
 export const selectors = {
   tablePaths: (state: State) => {
-    const paths = uniq(state.fields.map((field) => field.tablePath))
+    const paths = uniq(state.columns.map((field) => field.tablePath))
     if (state.descriptor.data?.values) paths.unshift('(inline)')
     return paths
   },
   fieldNames: (state: State) => {
-    const names = state.fields
+    const names = state.columns
       .filter((item) => item.tablePath === state.descriptor.data?.url)
       .map((item) => item.name)
     if (state.descriptor.data?.values) {
