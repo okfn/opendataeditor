@@ -13,6 +13,7 @@ import * as types from '../../types'
 export interface State {
   path?: string
   client: Client
+  config?: types.IConfig
   record?: types.IRecord
   measure?: types.IMeasure
   files: types.IFile[]
@@ -28,6 +29,11 @@ export interface State {
   onFileCreate: (paths: string[]) => Promise<void>
   onFileDelete: (path: string) => Promise<void>
   onFilePatch: (path: string) => Promise<void>
+
+  // Config
+
+  loadConfig: () => Promise<void>
+  saveConfig: (config: types.IConfig) => Promise<void>
 
   // File
 
@@ -68,8 +74,9 @@ export function makeStore(props: ApplicationProps) {
     // Events
 
     onStart: async () => {
-      const { loadFiles, updateState } = get()
+      const { loadConfig, loadFiles, updateState } = get()
       updateState({ loading: true })
+      await loadConfig()
       await loadFiles()
       updateState({ loading: false })
     },
@@ -95,6 +102,20 @@ export function makeStore(props: ApplicationProps) {
       selectFile(path)
       await delay(500)
       set({ fileEvent: undefined })
+    },
+
+    // Config
+
+    loadConfig: async () => {
+      const { client, updateState } = get()
+      const { config } = await client.configRead()
+      updateState({ config })
+    },
+
+    saveConfig: async (config) => {
+      const { client, loadConfig } = get()
+      await client.configWrite({ config })
+      await loadConfig()
     },
 
     // File
