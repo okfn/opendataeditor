@@ -31,21 +31,23 @@ const DateTimePicker: React.FC<DateTimePickerProps> = (props: DateTimePickerProp
           setValue(newValue)
           props.onChange(newValue)
         }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            error={!isValid}
-            name={props.name || props.label}
-            margin="normal"
-            size="small"
-            onFocus={onFocus}
-            onBlur={() => {
-              setIsValid(isValidDateTime())
-            }}
-            fullWidth
-            helperText={!isValid ? props?.errorMessage : undefined}
-          />
-        )}
+        slots={{
+          textField: (params) => (
+            <TextField
+              {...params}
+              error={!isValid}
+              name={props.name || props.label}
+              margin="normal"
+              size="small"
+              onFocus={onFocus}
+              onBlur={() => {
+                setIsValid(isValidDateTime())
+              }}
+              fullWidth
+              helperText={!isValid ? props?.errorMessage : undefined}
+            />
+          ),
+        }}
       />
     </LocalizationProvider>
   )

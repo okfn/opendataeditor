@@ -12,7 +12,7 @@ export function getFolderList(file: File) {
         if (item.length > 1) {
           const name = item.slice(-1).join()
           filtered.push({
-            name: name,
+            name,
             folder: item.slice(0, -1).join('/'),
             type: name === file.name ? 'file' : 'folder',
             file: name === file.name ? file : '',
