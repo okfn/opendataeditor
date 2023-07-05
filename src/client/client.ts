@@ -38,6 +38,18 @@ export class Client {
     return result as { columns: types.IColumn[] }
   }
 
+  // Config
+
+  async configRead(props: {} = {}) {
+    const result = await this.request('/config/read', props)
+    return result as { config: types.IConfig }
+  }
+
+  async configWrite(props: { config: types.IConfig }) {
+    const result = await this.request('/config/write', props)
+    return result as { config: types.IConfig }
+  }
+
   // File
 
   async fileCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {

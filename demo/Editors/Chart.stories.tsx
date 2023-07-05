@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ChartEditort from '../../src/client/components/Editors/Chart'
+import ChartEditor from '../../src/client/components/Editors/Chart'
 import * as types from '../../src/client/types'
 
-type Story = StoryObj<typeof ChartEditort>
-const meta: Meta<typeof ChartEditort> = {
-  component: ChartEditort,
+type Story = StoryObj<typeof ChartEditor>
+const meta: Meta<typeof ChartEditor> = {
+  component: ChartEditor,
 }
 
 export default meta

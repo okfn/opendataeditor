@@ -1,6 +1,7 @@
 export * from './chart'
 export * from './checklist'
 export * from './column'
+export * from './config'
 export * from './contributor'
 export * from './control'
 export * from './error'

@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import DialectEditort from '../../src/client/components/Editors/Dialect'
+import DialectEditor from '../../src/client/components/Editors/Dialect'
 import * as types from '../../src/client/types'
 
-type Story = StoryObj<typeof DialectEditort>
-const meta: Meta<typeof DialectEditort> = {
-  component: DialectEditort,
+type Story = StoryObj<typeof DialectEditor>
+const meta: Meta<typeof DialectEditor> = {
+  component: DialectEditor,
 }
 
 export default meta

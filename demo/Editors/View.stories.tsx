@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ViewEditort from '../../src/client/components/Editors/View'
+import ViewEditor from '../../src/client/components/Editors/View'
 import * as types from '../../src/client/types'
 
-type Story = StoryObj<typeof ViewEditort>
-const meta: Meta<typeof ViewEditort> = {
-  component: ViewEditort,
+type Story = StoryObj<typeof ViewEditor>
+const meta: Meta<typeof ViewEditor> = {
+  component: ViewEditor,
 }
 
 export default meta

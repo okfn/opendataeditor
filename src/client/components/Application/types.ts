@@ -1,4 +1,5 @@
 export type IDialog =
+  | 'config'
   | 'copyFile'
   | 'copyFolder'
   | 'createFile'
