@@ -29,7 +29,7 @@ const DatePicker: React.FC<DatePickerProps> = (props: DatePickerProps) => {
       <MuiDatePicker
         label={props.label}
         value={value}
-        inputFormat={props.inputFormat || settings.DEFUALT_DATETIME_FORMAT}
+        format={props.inputFormat || settings.DEFUALT_DATETIME_FORMAT}
         onChange={(newValue) => {
           setValue(newValue)
           props.onChange(newValue)
