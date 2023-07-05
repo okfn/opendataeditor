@@ -48,6 +48,7 @@ export const DEFUALT_TIME_FORMAT = 'HH:mm:ss'
 
 // Initials
 
+export const INITIAL_CONFIG: types.IConfig = { system: {}, project: {} }
 export const INITIAL_SCHEMA: types.ISchema = { fields: [] }
 export const INITIAL_DIALECT: types.IDialect = {}
 export const INITIAL_CONTROL: Partial<types.IControl> = { type: 'ckan' }
