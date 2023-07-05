@@ -18,6 +18,7 @@ export default function Header() {
   const theme = useTheme()
   const height = theme.spacing(8)
   const closeFile = useStore((state) => state.closeFile)
+  const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height, flexGrow: 1 }}>
       <AppBar position="static" color="secondary" elevation={0}>
@@ -47,9 +48,12 @@ export default function Header() {
             </Grid>
             <Grid item xs={3} lg={2}>
               <Grid container justifyContent="flex-end">
-                <LightTooltip title="Open settings">
+                <LightTooltip title="Open config">
                   <Box>
-                    <Button disabled color="inherit">
+                    <Button
+                      color="inherit"
+                      onClick={() => updateState({ dialog: 'config' })}
+                    >
                       <SettingsIcon />
                     </Button>
                   </Box>
