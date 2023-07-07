@@ -3,11 +3,7 @@ import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
 // import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../Parts/Tooltips/Light'
-import ArticleChip from '../Parts/Chips/Article'
 import ReportChip from '../Parts/Chips/Report'
-import ChartChip from '../Parts/Chips/Chart'
-import ViewChip from '../Parts/Chips/View'
-import ScriptChip from '../Parts/Chips/Script'
 import CreateChip from '../Parts/Chips/Create'
 import TypeChip from '../Parts/Chips/Type'
 import { useStore } from './store'
@@ -49,10 +45,6 @@ export default function Status() {
       </Contents>
       <Suffix>
         <CreateChip onClick={() => updateState({ dialog: 'create' })} />
-        <ScriptChip onClick={() => updateState({ dialog: 'createScript' })} />
-        <ViewChip onClick={() => updateState({ dialog: 'createView' })} />
-        <ChartChip onClick={() => updateState({ dialog: 'createChart' })} />
-        <ArticleChip onClick={() => updateState({ dialog: 'createArticle' })} />
         <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>
@@ -79,7 +71,7 @@ const Contents = styled('div')(({ theme }) => ({
   color: 'inherit',
   width: '100%',
   padding: theme.spacing(1, 1, 1, '0.7em'),
-  marginLeft: '6vw',
+  marginLeft: '8vw',
   transition: theme.transitions.create('width'),
   cursor: 'pointer',
 }))

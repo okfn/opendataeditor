@@ -20,7 +20,7 @@ export default function TypeChip(props: TypeChipProps) {
         color="primary"
         size="medium"
         sx={{
-          width: '6vw',
+          width: '8vw',
           height: '100%',
           borderRight: 'solid 1px #ddd',
           borderRadius: '3px',
