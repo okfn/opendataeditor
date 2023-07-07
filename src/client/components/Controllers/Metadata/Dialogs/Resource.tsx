@@ -32,7 +32,10 @@ export default function Resource() {
   }, [record])
   return (
     <SelectDialog
+      open={true}
       title="Select Resources"
+      maxWidth="md"
+      label="Select"
       items={paths}
       onCancel={handleCancel}
       onConfirm={handleSave}
