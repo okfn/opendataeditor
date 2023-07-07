@@ -1,33 +1,25 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import SourceIcon from '@mui/icons-material/Source'
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import DropdownButton from '../../Parts/Buttons/Dropdown'
 import IconButton from '../../Parts/Buttons/Icon'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import { useStore } from '../store'
 
 export default function CreateButton() {
   return (
     <DropdownButton
-      label="Create"
+      label="Upload"
       variant="text"
       icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <AddFile />
-      <FetchFile />
-      <CreateFile />
       <AddFolder />
-      <CreateFolder />
+      <FetchFile />
       <FetchDataset />
-      <CreateDataset />
-      <CreateCatalog />
     </DropdownButton>
   )
 }
@@ -43,7 +35,7 @@ function AddFile() {
         component="label"
         startIcon={<UploadFileRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Add File
+        Local File
         <input
           type="file"
           hidden
@@ -63,21 +55,9 @@ function FetchFile() {
   return (
     <IconButton
       variant="text"
-      label="Fetch File"
+      label="Remote File"
       Icon={AddLinkIcon}
       onClick={() => updateState({ dialog: 'fetchFile' })}
-    />
-  )
-}
-
-function CreateFile() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Create File"
-      Icon={HistoryEduIcon}
-      onClick={() => updateState({ dialog: 'createFile' })}
     />
   )
 }
@@ -93,7 +73,7 @@ function AddFolder() {
         component="label"
         startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Add Folder
+        Local Folder
         <input
           type="file"
           hidden
@@ -108,51 +88,14 @@ function AddFolder() {
   )
 }
 
-function CreateFolder() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Create Folder"
-      Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'createFolder' })}
-    />
-  )
-}
-
 function FetchDataset() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       disabled
       variant="text"
-      label="Fetch Dataset"
+      label="Remote Dataset"
       Icon={DatasetLinkedIcon}
-      onClick={() => updateState({ dialog: 'createDataset' })}
-    />
-  )
-}
-
-function CreateDataset() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Create Dataset"
-      Icon={SourceIcon}
-      onClick={() => updateState({ dialog: 'createDataset' })}
-    />
-  )
-}
-
-function CreateCatalog() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      disabled
-      variant="text"
-      label="Create Catalog"
-      Icon={LibraryBooksIcon}
       onClick={() => updateState({ dialog: 'createDataset' })}
     />
   )

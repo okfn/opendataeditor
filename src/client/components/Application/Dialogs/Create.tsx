@@ -31,7 +31,7 @@ export default function CreateDialog() {
                   onClick={() => updateState({ dialog: item.dialog as any })}
                   color="primary"
                   label={item.label}
-                  icon={<item.Icon sx={{ fontSize: '2em' }} />}
+                  icon={<item.Icon sx={{ fontSize: '1.8em' }} />}
                   size="medium"
                   sx={{
                     width: '100%',
@@ -39,7 +39,7 @@ export default function CreateDialog() {
                     borderRadius: '0px',
                     borderRight: 'solid 1px #fff',
                     borderBottom: 'solid 1px #fff',
-                    fontSize: '2em',
+                    fontSize: '1.8em',
                   }}
                 />
               </LightTooltip>
