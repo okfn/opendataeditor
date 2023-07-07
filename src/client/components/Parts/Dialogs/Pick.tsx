@@ -9,12 +9,12 @@ import Checkbox from '@mui/material/Checkbox'
 import Divider from '@mui/material/Divider'
 import ConfirmDialog, { ConfirmDialogProps } from './Confirm'
 
-interface SelectDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
+interface PickDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
   items: string[]
   onConfirm: (items: string[]) => void
 }
 
-export default function SelectDialog(props: SelectDialogProps) {
+export default function PickDialog(props: PickDialogProps) {
   const { items: propsItems, onConfirm, ...rest } = props
   const [checked, setChecked] = React.useState<readonly number[]>([])
   const available = Array.from(propsItems.keys())
