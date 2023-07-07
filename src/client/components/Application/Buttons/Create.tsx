@@ -12,7 +12,7 @@ import { useStore } from '../store'
 export default function CreateButton() {
   return (
     <DropdownButton
-      label="Upload"
+      label="Import"
       variant="text"
       icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
     >
