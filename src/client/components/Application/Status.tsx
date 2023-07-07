@@ -8,6 +8,7 @@ import ReportChip from '../Parts/Chips/Report'
 import ChartChip from '../Parts/Chips/Chart'
 import ViewChip from '../Parts/Chips/View'
 import ScriptChip from '../Parts/Chips/Script'
+import CreateChip from '../Parts/Chips/Create'
 import TypeChip from '../Parts/Chips/Type'
 import { useStore } from './store'
 
@@ -47,6 +48,7 @@ export default function Status() {
         </Box>
       </Contents>
       <Suffix>
+        <CreateChip onClick={() => updateState({ dialog: 'create' })} />
         <ScriptChip onClick={() => updateState({ dialog: 'createScript' })} />
         <ViewChip onClick={() => updateState({ dialog: 'createView' })} />
         <ChartChip onClick={() => updateState({ dialog: 'createChart' })} />

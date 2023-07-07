@@ -1,4 +1,5 @@
 import * as React from 'react'
+import CreateDialog from './Dialogs/Create'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
@@ -25,6 +26,7 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
+  create: CreateDialog,
   config: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,

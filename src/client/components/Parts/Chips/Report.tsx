@@ -5,6 +5,8 @@ import CheckCircle from '@mui/icons-material/CheckCircle'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import LightTooltip from '../Tooltips/Light'
 
+// TODO: create BaseChip / move concrete to appliction?
+
 export interface ValidationChipProps {
   errorCount?: number
 }
