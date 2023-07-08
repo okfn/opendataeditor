@@ -31,6 +31,11 @@ export class Client {
 
   // Chart
 
+  async chartCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/chart/create', props)
+    return result as { path: string }
+  }
+
   async chartRender(props: { chart: types.IChart }) {
     const result = await this.request('/chart/render', props)
     return result as { chart: types.IChart }

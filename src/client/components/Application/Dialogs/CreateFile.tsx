@@ -63,7 +63,8 @@ export default function CreateFileDialog() {
       fileName: 'chart.json',
       description: 'Creating a Vega chart. Enter destination:',
       placeholder: 'Enter a chart path',
-      promptPlaceholder: '',
+      promptPlaceholder:
+        'A bar chart for table.csv with key column as x and value column as y',
       Icon: LeaderboardIcon,
       create: createChart,
     },
@@ -171,14 +172,18 @@ export default function CreateFileDialog() {
             onChange={setPath}
             placeholder={menuItem.placeholder}
           />
-          Provide a Chat AI prompt (optional):
-          <MultilineField
-            rows={4}
-            label="Promtp"
-            value={prompt}
-            onChange={setPrompt}
-            placeholder={menuItem.promptPlaceholder}
-          />
+          {menuItem.promptPlaceholder && (
+            <Box>
+              Provide a Chat AI prompt (optional):
+              <MultilineField
+                rows={4}
+                label="Promtp"
+                value={prompt}
+                onChange={setPrompt}
+                placeholder={menuItem.promptPlaceholder}
+              />
+            </Box>
+          )}
           {loading && (
             <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, maringTop: 2 }}>
               Creating

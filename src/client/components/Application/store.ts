@@ -59,7 +59,7 @@ export interface State {
   // Others
 
   createArticle: (path: string, prompt?: string) => Promise<void>
-  createChart: (path: string) => Promise<void>
+  createChart: (path: string, prompt?: string) => Promise<void>
   createImage: (path: string, prompt?: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createScript: (path: string) => Promise<void>
@@ -228,11 +228,11 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
-    createChart: async (path) => {
+    createChart: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
+      const result = await client.chartCreate({
         path,
-        data: { mark: 'bar' },
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])

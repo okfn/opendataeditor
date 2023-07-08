@@ -10,16 +10,23 @@ def ask_dalle(*, prompt: str, api_key: str) -> bytes:
     return bytes
 
 
-def ask_chatgtp(*, type: str, prompt: str, api_key: str) -> str:
+def ask_chatgtp(
+    *, type: str, prompt: str, api_key: str, instructions: list[str] = []
+) -> str:
+    # Prepare messages
+    messages = [{"role": "system", "content": INSTRUCTIONS.get(type, "")}]
+    for instruction in instructions:
+        messages.append({"role": "system", "content": instruction})
+    messages.append({"role": "user", "content": prompt})
+
+    # Get response
     response = openai.ChatCompletion.create(
         api_key=api_key,
         model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": INSTRUCTIONS.get(type, "")},
-            {"role": "user", "content": prompt},
-        ],
+        messages=messages,
     )
 
+    # Get text
     text = ""
     for choice in response.choices:
         text += choice.message.content
@@ -31,6 +38,11 @@ INSTRUCTIONS = {
     "article": """
         You are a Markdown document generation assistant.
         You will be given a text description on what needs to be written.
-        Respond with only the document without explanation
+        Respond with only the document without explanation.
+    """,
+    "chart": """
+        You are a Vega Lite chart generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only the JSON chart without explanation.
     """,
 }
