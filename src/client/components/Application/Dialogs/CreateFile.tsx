@@ -9,6 +9,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
 import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
@@ -19,6 +20,7 @@ interface IMenuItem extends types.IMenuItem {
   fileName: string
   description: string
   placeholder: string
+  promptPlaceholder: string
   Icon: React.ElementType
   create: (path: string) => Promise<void>
 }
@@ -38,6 +40,7 @@ export default function CreateFileDialog() {
       fileName: 'article.md',
       description: 'Creating a Markdown article. Enter destination:',
       placeholder: 'Enter an article path',
+      promptPlaceholder: '',
       Icon: HistoryEduIcon,
       create: createArticle,
     },
@@ -47,6 +50,7 @@ export default function CreateFileDialog() {
       fileName: 'catalog.json',
       description: 'Creating a data catalog. Enter destination:',
       placeholder: 'Enter a catalog path',
+      promptPlaceholder: '',
       Icon: LibraryBooksIcon,
       // @ts-ignore
       create: () => alert('Under Development'),
@@ -57,6 +61,7 @@ export default function CreateFileDialog() {
       fileName: 'chart.json',
       description: 'Creating a Vega chart. Enter destination:',
       placeholder: 'Enter a chart path',
+      promptPlaceholder: '',
       Icon: LeaderboardIcon,
       create: createChart,
     },
@@ -66,6 +71,7 @@ export default function CreateFileDialog() {
       fileName: 'datapackage.json',
       description: 'Creating a data package. Enter destination:',
       placeholder: 'Enter a package path',
+      promptPlaceholder: '',
       Icon: SourceIcon,
       create: createPackage,
     },
@@ -75,6 +81,7 @@ export default function CreateFileDialog() {
       fileName: '',
       description: 'Creating an arbitrary file. Enter destination:',
       placeholder: 'Enter a file path',
+      promptPlaceholder: '',
       Icon: PostAddIcon,
       create: createFile,
     },
@@ -84,6 +91,7 @@ export default function CreateFileDialog() {
       fileName: 'image.png',
       description: 'Creating an image. Enter destination:',
       placeholder: 'Enter an image path',
+      promptPlaceholder: '',
       Icon: ImageIcon,
       // @ts-ignore
       create: () => alert('Under Development'),
@@ -94,6 +102,7 @@ export default function CreateFileDialog() {
       fileName: 'script.py',
       description: 'Creating a Python script. Enter destination:',
       placeholder: 'Enter a script path',
+      promptPlaceholder: '',
       Icon: TerminalIcon,
       create: createScript,
     },
@@ -103,6 +112,7 @@ export default function CreateFileDialog() {
       fileName: 'view.json',
       description: 'Creating a SQL view. Enter destination:',
       placeholder: 'Enter a view path',
+      promptPlaceholder: '',
       Icon: TableRowsIcon,
       create: createView,
     },
@@ -110,6 +120,7 @@ export default function CreateFileDialog() {
 
   const folderPath = useStore(selectors.folderPath)
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
+  const [promtp, setPrompt] = React.useState('')
   const [section, setSection] = React.useState('file')
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
   if (!menuItem) return null
@@ -119,6 +130,7 @@ export default function CreateFileDialog() {
     const menuItem = MENU_ITEMS.find((item) => item.section === newSection)
     if (!menuItem) return
     setPath(folderPath ? `${folderPath}/${menuItem.fileName}` : menuItem.fileName)
+    setPrompt('')
     setSection(newSection)
   }
 
@@ -152,6 +164,14 @@ export default function CreateFileDialog() {
             value={path}
             onChange={setPath}
             placeholder={menuItem.placeholder}
+          />
+          Provide a Chat AI prompt (optional):
+          <MultilineField
+            rows={4}
+            label="Promtp"
+            value={promtp}
+            onChange={setPrompt}
+            placeholder={menuItem.promptPlaceholder}
           />
         </Box>
       </Columns>
