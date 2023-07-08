@@ -138,6 +138,7 @@ export default function CreateFileDialog() {
 
   return (
     <ConfirmDialog
+      ctrlEnter
       open={true}
       maxWidth="md"
       title="Create File"
