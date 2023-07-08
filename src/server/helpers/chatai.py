@@ -45,4 +45,10 @@ INSTRUCTIONS = {
         You will be given a text description on what needs to be written.
         Respond with only the JSON chart without explanation.
     """,
+    "script": """
+        You are a Python code generation assistant.
+        You will be given a text description on what needs to be written.
+        You can use pandas and frictionless libraries.
+        Respond with only the Python code without explanation.
+    """,
 }

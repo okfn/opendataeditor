@@ -205,6 +205,11 @@ export class Client {
 
   // Script
 
+  async scriptCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/script/create', props)
+    return result as { path: string }
+  }
+
   async scriptExecute(props: { path: string; text: string }) {
     const result = await this.request('/script/execute', props)
     return result as { text: string }
