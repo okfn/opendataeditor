@@ -34,7 +34,7 @@ export default function ConfirmDialog(
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onKeyDown={(event) => {
-        if (event.key === 'Enter') handleConfirm()
+        if (event.ctrlKey && event.key === 'Enter') handleConfirm()
       }}
     >
       <DialogTitle
@@ -58,7 +58,7 @@ export default function ConfirmDialog(
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label="Cancel [esc]"
+            label="Cancel [Esc]"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
@@ -68,7 +68,7 @@ export default function ConfirmDialog(
           />
           <IconButton
             fullWidth
-            label={`${props.label || 'Confirm'} [enter]`}
+            label={`${props.label || 'Confirm'} [Ctrl+Enter]`}
             Icon={props.Icon || CheckCircleIcon}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
