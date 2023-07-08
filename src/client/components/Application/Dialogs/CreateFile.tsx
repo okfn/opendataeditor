@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
 import TableRowsIcon from '@mui/icons-material/TableRows'
 import ImageIcon from '@mui/icons-material/Image'
 import PostAddIcon from '@mui/icons-material/PostAdd'
@@ -122,6 +123,7 @@ export default function CreateFileDialog() {
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
   const [prompt, setPrompt] = React.useState('')
   const [section, setSection] = React.useState('file')
+  const [loading, setLoading] = React.useState(false)
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
   if (!menuItem) return null
 
@@ -141,10 +143,13 @@ export default function CreateFileDialog() {
       title="Create File"
       label="Create"
       Icon={menuItem.Icon}
+      disabled={loading}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
         if (!menuItem) return
+        setLoading(true)
         await menuItem.create(path, prompt)
+        setLoading(false)
         updateState({ dialog: undefined })
       }}
     >
@@ -173,6 +178,12 @@ export default function CreateFileDialog() {
             onChange={setPrompt}
             placeholder={menuItem.promptPlaceholder}
           />
+          {loading && (
+            <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, maringTop: 2 }}>
+              Creating
+              <LinearProgress />
+            </Box>
+          )}
         </Box>
       </Columns>
     </ConfirmDialog>
