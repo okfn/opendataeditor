@@ -15,8 +15,15 @@ import MenuTree from '../../Parts/Trees/Menu'
 import * as types from '../../../types'
 import { useStore, selectors } from '../store'
 
+interface IMenuItem extends types.IMenuItem {
+  fileName: string
+  description: string
+  placeholder: string
+  Icon: React.ElementType
+  create: (path: string) => Promise<void>
+}
+
 export default function CreateFileDialog() {
-  const folderPath = useStore(selectors.folderPath)
   const updateState = useStore((state) => state.updateState)
   const createArticle = useStore((state) => state.createArticle)
   const createChart = useStore((state) => state.createChart)
@@ -24,6 +31,84 @@ export default function CreateFileDialog() {
   const createFile = useStore((state) => state.createFile)
   const createScript = useStore((state) => state.createScript)
   const createView = useStore((state) => state.createView)
+  const MENU_ITEMS: IMenuItem[] = [
+    {
+      name: 'Article',
+      section: 'article',
+      fileName: 'article.md',
+      description: 'Creating a Markdown article. Enter destination:',
+      placeholder: 'Enter an article path',
+      Icon: HistoryEduIcon,
+      create: createArticle,
+    },
+    {
+      name: 'Catalog',
+      section: 'catalog',
+      fileName: 'catalog.json',
+      description: 'Creating a data catalog. Enter destination:',
+      placeholder: 'Enter a catalog path',
+      Icon: LibraryBooksIcon,
+      // @ts-ignore
+      create: () => alert('Under Development'),
+    },
+    {
+      name: 'Chart',
+      section: 'chart',
+      fileName: 'chart.json',
+      description: 'Creating a Vega chart. Enter destination:',
+      placeholder: 'Enter a chart path',
+      Icon: LeaderboardIcon,
+      create: createChart,
+    },
+    {
+      name: 'Dataset',
+      section: 'dataset',
+      fileName: 'datapackage.json',
+      description: 'Creating a data package. Enter destination:',
+      placeholder: 'Enter a package path',
+      Icon: SourceIcon,
+      create: createPackage,
+    },
+    {
+      name: 'File',
+      section: 'file',
+      fileName: '',
+      description: 'Creating an arbitrary file. Enter destination:',
+      placeholder: 'Enter a file path',
+      Icon: PostAddIcon,
+      create: createFile,
+    },
+    {
+      name: 'Image',
+      section: 'image',
+      fileName: 'image.png',
+      description: 'Creating an image. Enter destination:',
+      placeholder: 'Enter an image path',
+      Icon: ImageIcon,
+      // @ts-ignore
+      create: () => alert('Under Development'),
+    },
+    {
+      name: 'Script',
+      section: 'script',
+      fileName: 'script.py',
+      description: 'Creating a Python script. Enter destination:',
+      placeholder: 'Enter a script path',
+      Icon: TerminalIcon,
+      create: createScript,
+    },
+    {
+      name: 'View',
+      section: 'view',
+      fileName: 'view.json',
+      description: 'Creating a SQL view. Enter destination:',
+      placeholder: 'Enter a view path',
+      Icon: TableRowsIcon,
+      create: createView,
+    },
+  ]
+
+  const folderPath = useStore(selectors.folderPath)
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
   const [section, setSection] = React.useState('file')
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
@@ -46,19 +131,8 @@ export default function CreateFileDialog() {
       Icon={menuItem.Icon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
-        if (menuItem.section === 'article') {
-          await createArticle(path)
-        } else if (menuItem.section === 'chart') {
-          await createChart(path)
-        } else if (menuItem.section === 'dataset') {
-          await createPackage(path)
-        } else if (menuItem.section === 'file') {
-          await createFile(path)
-        } else if (menuItem.section === 'script') {
-          await createScript(path)
-        } else if (menuItem.section === 'view') {
-          await createView(path)
-        }
+        if (!menuItem) return
+        await menuItem.create(path)
         updateState({ dialog: undefined })
       }}
     >
@@ -84,77 +158,3 @@ export default function CreateFileDialog() {
     </ConfirmDialog>
   )
 }
-
-interface IMenuItem extends types.IMenuItem {
-  fileName: string
-  description: string
-  placeholder: string
-  Icon: any
-}
-
-const MENU_ITEMS: IMenuItem[] = [
-  {
-    name: 'Article',
-    section: 'article',
-    fileName: 'article.md',
-    description: 'Creating a Markdown article. Enter destination:',
-    placeholder: 'Enter an article path',
-    Icon: HistoryEduIcon,
-  },
-  {
-    name: 'Catalog',
-    section: 'catalog',
-    fileName: 'catalog.json',
-    description: 'Creating a data catalog. Enter destination:',
-    placeholder: 'Enter a catalog path',
-    Icon: LibraryBooksIcon,
-  },
-  {
-    name: 'Chart',
-    section: 'chart',
-    fileName: 'chart.json',
-    description: 'Creating a Vega chart. Enter destination:',
-    placeholder: 'Enter a chart path',
-    Icon: LeaderboardIcon,
-  },
-  {
-    name: 'Dataset',
-    section: 'dataset',
-    fileName: 'datapackage.json',
-    description: 'Creating a data package. Enter destination:',
-    placeholder: 'Enter a package path',
-    Icon: SourceIcon,
-  },
-  {
-    name: 'File',
-    section: 'file',
-    fileName: '',
-    description: 'Creating an arbitrary file. Enter destination:',
-    placeholder: 'Enter a file path',
-    Icon: PostAddIcon,
-  },
-  {
-    name: 'Image',
-    section: 'image',
-    fileName: 'image.png',
-    description: 'Creating an image. Enter destination:',
-    placeholder: 'Enter an image path',
-    Icon: ImageIcon,
-  },
-  {
-    name: 'Script',
-    section: 'script',
-    fileName: 'script.py',
-    description: 'Creating a Python script. Enter destination:',
-    placeholder: 'Enter a script path',
-    Icon: TerminalIcon,
-  },
-  {
-    name: 'View',
-    section: 'view',
-    fileName: 'view.json',
-    description: 'Creating a SQL view. Enter destination:',
-    placeholder: 'Enter a view path',
-    Icon: TableRowsIcon,
-  },
-]
