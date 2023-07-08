@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import AddIcon from '@mui/icons-material/Add'
 import TableRowsIcon from '@mui/icons-material/TableRows'
 import ImageIcon from '@mui/icons-material/Image'
 import PostAddIcon from '@mui/icons-material/PostAdd'
@@ -19,6 +18,7 @@ import { useStore, selectors } from '../store'
 export default function CreateDialog() {
   const folderPath = useStore(selectors.folderPath)
   const updateState = useStore((state) => state.updateState)
+  const createArticle = useStore((state) => state.createArticle)
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
   const [section, setSection] = React.useState('file')
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
@@ -38,9 +38,12 @@ export default function CreateDialog() {
       maxWidth="md"
       title="Create New File"
       label="Create"
-      Icon={AddIcon}
+      Icon={menuItem.Icon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
+        if (menuItem.section === 'article') {
+          await createArticle(path)
+        }
         updateState({ dialog: undefined })
       }}
     >
