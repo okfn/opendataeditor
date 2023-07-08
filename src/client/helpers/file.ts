@@ -35,7 +35,7 @@ export function createFileTree(
       const level = parts.length
       if (level === maxLevel) {
         const folder = parts.slice(0, level - 1).join('/')
-        const folderItem = tree.find((item: any) => item.path === folder)
+        const folderItem = tree.find((item) => item.path === folder)
         if (folderItem) {
           folderItem.children.push(item)
           tree.splice(tree.indexOf(item), 1)

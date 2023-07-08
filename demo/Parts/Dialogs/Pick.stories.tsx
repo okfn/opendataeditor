@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react'
-import SelectDialog from '../../../src/client/components/Parts/Dialogs/Select'
+import PickDialog from '../../../src/client/components/Parts/Dialogs/Pick'
 
-type Story = StoryObj<typeof SelectDialog>
-const meta: Meta<typeof SelectDialog> = {
-  component: SelectDialog,
+type Story = StoryObj<typeof PickDialog>
+const meta: Meta<typeof PickDialog> = {
+  component: PickDialog,
 }
 
 export default meta
