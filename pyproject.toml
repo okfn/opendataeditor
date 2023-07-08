@@ -43,6 +43,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
+# TODO: support autoreloading and providing a custom folder/port
 start = [
   "python -m src.server",
 ]

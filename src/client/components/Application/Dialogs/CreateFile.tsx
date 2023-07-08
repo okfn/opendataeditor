@@ -22,7 +22,7 @@ interface IMenuItem extends types.IMenuItem {
   placeholder: string
   promptPlaceholder: string
   Icon: React.ElementType
-  create: (path: string) => Promise<void>
+  create: (path: string, prompt?: string) => Promise<void>
 }
 
 export default function CreateFileDialog() {
@@ -120,7 +120,7 @@ export default function CreateFileDialog() {
 
   const folderPath = useStore(selectors.folderPath)
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
-  const [promtp, setPrompt] = React.useState('')
+  const [prompt, setPrompt] = React.useState('')
   const [section, setSection] = React.useState('file')
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
   if (!menuItem) return null
@@ -144,7 +144,7 @@ export default function CreateFileDialog() {
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
         if (!menuItem) return
-        await menuItem.create(path)
+        await menuItem.create(path, prompt)
         updateState({ dialog: undefined })
       }}
     >
@@ -169,7 +169,7 @@ export default function CreateFileDialog() {
           <MultilineField
             rows={4}
             label="Promtp"
-            value={promtp}
+            value={prompt}
             onChange={setPrompt}
             placeholder={menuItem.promptPlaceholder}
           />

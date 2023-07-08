@@ -19,6 +19,11 @@ export class Client {
 
   // Article
 
+  async articleCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/article/create', props)
+    return result as { path: string }
+  }
+
   async articleRender(props: { path: string; text: string; rich?: boolean }) {
     const result = await this.request('/article/render', props)
     return result as { text: string }

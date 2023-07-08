@@ -58,7 +58,7 @@ export interface State {
 
   // Others
 
-  createArticle: (path: string) => Promise<void>
+  createArticle: (path: string, prompt?: string) => Promise<void>
   createChart: (path: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createScript: (path: string) => Promise<void>
@@ -218,11 +218,11 @@ export function makeStore(props: ApplicationProps) {
 
     // Others
 
-    createArticle: async (path) => {
+    createArticle: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const result = await client.textCreate({
+      const result = await client.articleCreate({
         path,
-        text: '',
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])
