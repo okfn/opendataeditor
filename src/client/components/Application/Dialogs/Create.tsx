@@ -10,16 +10,28 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import InputField from '../../Parts/Fields/Input'
 import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
 import * as types from '../../../types'
-import { useStore } from '../store'
+import { useStore, selectors } from '../store'
 
 export default function CreateDialog() {
+  const folderPath = useStore(selectors.folderPath)
   const updateState = useStore((state) => state.updateState)
+  const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
   const [section, setSection] = React.useState('file')
   const menuItem = MENU_ITEMS.find((item) => item.section === section)
   if (!menuItem) return null
+
+  const handleSectionChange = (newSection: string) => {
+    if (section === newSection) return
+    const menuItem = MENU_ITEMS.find((item) => item.section === newSection)
+    if (!menuItem) return
+    setPath(folderPath ? `${folderPath}/${menuItem.fileName}` : menuItem.fileName)
+    setSection(newSection)
+  }
+
   return (
     <ConfirmDialog
       open={true}
@@ -34,9 +46,22 @@ export default function CreateDialog() {
     >
       <Columns layout={[3, 9]} spacing={2}>
         <Box sx={{ paddingRight: 2, borderRight: 'solid 1px #ddd' }}>
-          <MenuTree menuItems={MENU_ITEMS} selected={section} onSelect={setSection} />
+          <MenuTree
+            menuItems={MENU_ITEMS}
+            selected={section}
+            onSelect={handleSectionChange}
+          />
         </Box>
-        <Box>{menuItem.description}</Box>
+        <Box>
+          {menuItem.description}
+          <InputField
+            autoFocus
+            label="Path"
+            value={path}
+            onChange={setPath}
+            placeholder={menuItem.placeholder}
+          />
+        </Box>
       </Columns>
     </ConfirmDialog>
   )
@@ -54,7 +79,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Article',
     section: 'article',
     fileName: 'article.md',
-    description: 'Create a Markdown article. Enter destination:',
+    description: 'Creating a Markdown article. Enter destination:',
     placeholder: 'Enter an article path',
     Icon: HistoryEduIcon,
   },
@@ -62,7 +87,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Catalog',
     section: 'catalog',
     fileName: 'catalog.json',
-    description: 'Create a data catalog. Enter destination:',
+    description: 'Creating a data catalog. Enter destination:',
     placeholder: 'Enter a catalog path',
     Icon: LibraryBooksIcon,
   },
@@ -70,7 +95,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Chart',
     section: 'chart',
     fileName: 'chart.json',
-    description: 'Create a Vega chart. Enter destination:',
+    description: 'Creating a Vega chart. Enter destination:',
     placeholder: 'Enter a chart path',
     Icon: LeaderboardIcon,
   },
@@ -78,7 +103,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Dataset',
     section: 'dataset',
     fileName: 'datapackage.json',
-    description: 'Create a data package. Enter destination:',
+    description: 'Creating a data package. Enter destination:',
     placeholder: 'Enter a package path',
     Icon: SourceIcon,
   },
@@ -86,7 +111,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'File',
     section: 'file',
     fileName: '',
-    description: 'Create an arbitrary file. Enter destination:',
+    description: 'Creating an arbitrary file. Enter destination:',
     placeholder: 'Enter a file path',
     Icon: PostAddIcon,
   },
@@ -94,7 +119,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Image',
     section: 'image',
     fileName: 'image.png',
-    description: 'Create an image. Enter destination:',
+    description: 'Creating an image. Enter destination:',
     placeholder: 'Enter an image path',
     Icon: ImageIcon,
   },
@@ -102,7 +127,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'Script',
     section: 'script',
     fileName: 'script.py',
-    description: 'Create a Python script. Enter destination:',
+    description: 'Creating a Python script. Enter destination:',
     placeholder: 'Enter a script path',
     Icon: TerminalIcon,
   },
@@ -110,7 +135,7 @@ const MENU_ITEMS: IMenuItem[] = [
     name: 'View',
     section: 'view',
     fileName: 'view.json',
-    description: 'Create a SQL view. Enter destination:',
+    description: 'Creating a SQL view. Enter destination:',
     placeholder: 'Enter a view path',
     Icon: TableRowsIcon,
   },

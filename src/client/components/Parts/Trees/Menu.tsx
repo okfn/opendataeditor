@@ -6,6 +6,8 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
+// TODO: add section search
+
 interface MenuTreeProps {
   menuItems: types.IMenuItem[]
   selected?: string
