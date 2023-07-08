@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Chip from '@mui/material/Chip'
+import AddIcon from '@mui/icons-material/Add'
 import TableRowsIcon from '@mui/icons-material/TableRows'
 import ImageIcon from '@mui/icons-material/Image'
 import PostAddIcon from '@mui/icons-material/PostAdd'
@@ -10,94 +9,106 @@ import TerminalIcon from '@mui/icons-material/Terminal'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
-import LightTooltip from '../../Parts/Tooltips/Light'
-import BaseDialog from '../../Parts/Dialogs/Base'
+import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import Columns from '../../Parts/Grids/Columns'
+import MenuTree from '../../Parts/Trees/Menu'
+import * as types from '../../../types'
 import { useStore } from '../store'
 
 export default function CreateDialog() {
   const updateState = useStore((state) => state.updateState)
+  const [section, setSection] = React.useState('file')
+  const menuItem = MENU_ITEMS.find((item) => item.section === section)
+  if (!menuItem) return null
   return (
-    <BaseDialog
+    <ConfirmDialog
       open={true}
-      maxWidth="md"
+      title="Create New File"
+      label="Create"
+      Icon={AddIcon}
       onCancel={() => updateState({ dialog: undefined })}
+      onConfirm={async () => {
+        updateState({ dialog: undefined })
+      }}
     >
-      <Grid container sx={{ border: 'solid 1px #fff' }}>
-        {ITEMS.map((item) => (
-          <Grid key={item.label} item md={3}>
-            <Box sx={{ height: '200px' }}>
-              <LightTooltip title={item.tooltip}>
-                <Chip
-                  onClick={() => updateState({ dialog: item.dialog as any })}
-                  color="primary"
-                  label={item.label}
-                  icon={<item.Icon sx={{ fontSize: '1.8em' }} />}
-                  size="medium"
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '0px',
-                    borderRight: 'solid 1px #fff',
-                    borderBottom: 'solid 1px #fff',
-                    fontSize: '1.8em',
-                  }}
-                />
-              </LightTooltip>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-    </BaseDialog>
+      <Columns>
+        <MenuTree menuItems={MENU_ITEMS} selected={section} onSelect={setSection} />
+        <Box>{menuItem.description}</Box>
+      </Columns>
+    </ConfirmDialog>
   )
 }
 
-const ITEMS = [
+interface IMenuItem extends types.IMenuItem {
+  fileName: string
+  description: string
+  placeholder: string
+  Icon: any
+}
+
+const MENU_ITEMS: IMenuItem[] = [
   {
-    label: 'Article',
-    dialog: 'createArticle',
+    name: 'Article',
+    section: 'article',
+    fileName: 'article.md',
+    description: 'Create a Markdown article. Enter destination:',
+    placeholder: 'Enter an article path',
     Icon: HistoryEduIcon,
-    tooltip: 'Create a Markdown article',
   },
   {
-    label: 'Catalog',
-    dialog: 'createCatalog',
+    name: 'Catalog',
+    section: 'catalog',
+    fileName: 'catalog.json',
+    description: 'Create a data catalog. Enter destination:',
+    placeholder: 'Enter a catalog path',
     Icon: LibraryBooksIcon,
-    tooltip: 'Create a data catalog',
   },
   {
-    label: 'Chart',
-    dialog: 'createChart',
+    name: 'Chart',
+    section: 'chart',
+    fileName: 'chart.json',
+    description: 'Create a Vega chart. Enter destination:',
+    placeholder: 'Enter a chart path',
     Icon: LeaderboardIcon,
-    tooltip: 'Create a Vega chart',
   },
   {
-    label: 'Dataset',
-    dialog: 'createDataset',
+    name: 'Dataset',
+    section: 'dataset',
+    fileName: 'datapackage.json',
+    description: 'Create a data package. Enter destination:',
+    placeholder: 'Enter a package path',
     Icon: SourceIcon,
-    tooltip: 'Create a data package',
   },
   {
-    label: 'File',
-    dialog: 'createFile',
+    name: 'File',
+    section: 'file',
+    fileName: '',
+    description: 'Create an arbitrary file. Enter destination:',
+    placeholder: 'Enter a file path',
     Icon: PostAddIcon,
-    tooltip: 'Create an arbitrary file',
   },
   {
-    label: 'Image',
-    dialog: 'createImage',
+    name: 'Image',
+    section: 'image',
+    fileName: 'image.png',
+    description: 'Create an image. Enter destination:',
+    placeholder: 'Enter an image path',
     Icon: ImageIcon,
-    tooltip: 'Create an image',
   },
   {
-    label: 'Script',
-    dialog: 'createScript',
+    name: 'Script',
+    section: 'script',
+    fileName: 'script.py',
+    description: 'Create a Python script. Enter destination:',
+    placeholder: 'Enter a script path',
     Icon: TerminalIcon,
-    tooltip: 'Create a Python script',
   },
   {
-    label: 'View',
-    dialog: 'createView',
+    name: 'View',
+    section: 'view',
+    fileName: 'view.json',
+    description: 'Create a SQL view. Enter destination:',
+    placeholder: 'Enter a view path',
     Icon: TableRowsIcon,
-    tooltip: 'Create a SQL view',
   },
 ]
