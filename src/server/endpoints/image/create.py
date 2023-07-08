@@ -20,7 +20,7 @@ class Result(BaseModel, extra="forbid"):
     path: str
 
 
-@router.post("/article/create")
+@router.post("/image/create")
 def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -28,16 +28,16 @@ def endpoint(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     cf = project.config
 
-    # Create text
-    text = ""
+    # Create image
+    bytes = b""
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        text = helpers.ask_chatgtp(type="article", prompt=props.prompt, api_key=api_key)
+        bytes = helpers.ask_dalle(prompt=props.prompt, api_key=api_key)
 
-    # Write text
-    path = helpers.write_text(
-        project, path=props.path, text=text, deduplicate=props.deduplicate
+    # Write file
+    path = helpers.write_file(
+        project, path=props.path, bytes=bytes, deduplicate=props.deduplicate
     )
 
     return Result(path=path)

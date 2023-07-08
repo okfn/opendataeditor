@@ -143,6 +143,13 @@ export class Client {
     return result as { path: string }
   }
 
+  // Image
+
+  async imageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/image/create', props)
+    return result as { path: string }
+  }
+
   // Json
 
   async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {

@@ -30,6 +30,7 @@ export default function CreateFileDialog() {
   const updateState = useStore((state) => state.updateState)
   const createArticle = useStore((state) => state.createArticle)
   const createChart = useStore((state) => state.createChart)
+  const createImage = useStore((state) => state.createImage)
   const createPackage = useStore((state) => state.createPackage)
   const createFile = useStore((state) => state.createFile)
   const createScript = useStore((state) => state.createScript)
@@ -41,7 +42,7 @@ export default function CreateFileDialog() {
       fileName: 'article.md',
       description: 'Creating a Markdown article. Enter destination:',
       placeholder: 'Enter an article path',
-      promptPlaceholder: '',
+      promptPlaceholder: 'A story about dogs',
       Icon: HistoryEduIcon,
       create: createArticle,
     },
@@ -92,10 +93,9 @@ export default function CreateFileDialog() {
       fileName: 'image.png',
       description: 'Creating an image. Enter destination:',
       placeholder: 'Enter an image path',
-      promptPlaceholder: '',
+      promptPlaceholder: 'A cute dog as in cartoons',
       Icon: ImageIcon,
-      // @ts-ignore
-      create: () => alert('Under Development'),
+      create: createImage,
     },
     {
       name: 'Script',

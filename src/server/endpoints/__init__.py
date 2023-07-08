@@ -1,3 +1,3 @@
 # Register modules
-from . import article, chart, column, config, file, folder, json, package, project
-from . import resource, script, table, text, view
+from . import article, chart, column, config, file, folder, image, json, package
+from . import project, resource, script, table, text, view
