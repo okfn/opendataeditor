@@ -15,10 +15,11 @@ export default function CreateChip(props: CreateChipProps) {
       <Chip
         onClick={props.onClick}
         color="primary"
-        label="CREATE"
+        label="CREATE FILE"
         icon={<AutoFixHighIcon />}
         size="medium"
         sx={{
+          paddingX: 2,
           height: '100%',
           borderLeft: 'solid 1px #ddd',
           borderRadius: '3px',
