@@ -1,6 +1,6 @@
 import * as React from 'react'
-import TreeItem from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
+import TreeItem from '@mui/lab/TreeItem'
 import TreeView from '@mui/lab/TreeView'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import * as helpers from '../../../helpers'
@@ -19,23 +19,21 @@ export default function MenuTree(props: MenuTreeProps) {
     [props.menuItems]
   )
   return (
-    <Box sx={{ padding: 2 }}>
-      <TreeView
-        selected={props.selected || ''}
-        defaultExpanded={props.expanded}
-        onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-          props.onSelect(nodeId)
-        }}
-        sx={{ height: '100%' }}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-        aria-label="customized"
-      >
-        {sectionTree.map((item) => (
-          <TreeNode item={item} key={item.section} />
-        ))}
-      </TreeView>
-    </Box>
+    <TreeView
+      selected={props.selected || ''}
+      defaultExpanded={props.expanded}
+      onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
+        props.onSelect(nodeId)
+      }}
+      sx={{ height: '100%' }}
+      defaultCollapseIcon={<MinusSquare />}
+      defaultExpandIcon={<PlusSquare />}
+      aria-label="customized"
+    >
+      {sectionTree.map((item) => (
+        <TreeNode item={item} key={item.section} />
+      ))}
+    </TreeView>
   )
 }
 

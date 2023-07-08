@@ -37,7 +37,15 @@ export default function ConfirmDialog(
         if (event.key === 'Enter') handleConfirm()
       }}
     >
-      <DialogTitle id="dialog-title" sx={{ marginBottom: 0, paddingBottom: 1 }}>
+      <DialogTitle
+        id="dialog-title"
+        sx={{
+          paddingBottom: 1,
+          marginBottom: 2,
+          borderBottom: 'solid 1px #ddd',
+          backgroundColor: '#fafafa',
+        }}
+      >
         {props.title || 'Dialog'}
       </DialogTitle>
       <DialogContent sx={{ paddingTop: 0, paddingBottom: 0 }}>

@@ -23,6 +23,7 @@ export default function CreateDialog() {
   return (
     <ConfirmDialog
       open={true}
+      maxWidth="md"
       title="Create New File"
       label="Create"
       Icon={AddIcon}
@@ -31,8 +32,10 @@ export default function CreateDialog() {
         updateState({ dialog: undefined })
       }}
     >
-      <Columns>
-        <MenuTree menuItems={MENU_ITEMS} selected={section} onSelect={setSection} />
+      <Columns layout={[3, 9]} spacing={2}>
+        <Box sx={{ paddingRight: 2, borderRight: 'solid 1px #ddd' }}>
+          <MenuTree menuItems={MENU_ITEMS} selected={section} onSelect={setSection} />
+        </Box>
         <Box>{menuItem.description}</Box>
       </Columns>
     </ConfirmDialog>
