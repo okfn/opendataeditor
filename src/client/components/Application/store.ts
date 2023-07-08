@@ -63,7 +63,7 @@ export interface State {
   createImage: (path: string, prompt?: string) => Promise<void>
   createPackage: (path: string) => Promise<void>
   createScript: (path: string, prompt?: string) => Promise<void>
-  createView: (path: string) => Promise<void>
+  createView: (path: string, prompt?: string) => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -264,11 +264,11 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
-    createView: async (path) => {
+    createView: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
+      const result = await client.viewCreate({
         path,
-        data: { query: '' },
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])

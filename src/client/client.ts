@@ -283,7 +283,7 @@ export class Client {
 
   // View
 
-  async viewCreate(props: { path: string; data: types.IView }) {
+  async viewCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
     const result = await this.request('/view/create', props)
     return result as { path: string }
   }

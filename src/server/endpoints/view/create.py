@@ -1,16 +1,20 @@
 from __future__ import annotations
 
+import json
+from typing import Optional
+
 from fastapi import Request
 from pydantic import BaseModel
 
-from ... import types
+from ... import helpers
 from ...project import Project
 from ...router import router
 
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    view: types.IView
+    prompt: str | None
+    deduplicate: Optional[bool] = None
 
 
 class Result(BaseModel, extra="forbid"):
@@ -23,67 +27,28 @@ def endpoint(request: Request, props: Props) -> Result:
 
 
 def action(project: Project, props: Props) -> Result:
-    from ... import endpoints
+    cf = project.config
 
-    # Base create
-    result = endpoints.json.create.action(
-        project,
-        endpoints.json.create.Props(
-            path=props.path,
-            data=props.view,
-        ),
+    # Create query
+    query = ""
+    config = cf.read()
+    api_key = config.system.openaiApiKey
+    if props.prompt and api_key:
+        schemas = helpers.extract_schemas(project, prompt=props.prompt)
+        instructions: list[str] = []
+        for path, schema in schemas.items():
+            instruction = f'The "{path}" table has Table Schema "{json.dumps(schema)}"'
+            instructions.append(instruction)
+        query = helpers.ask_chatgtp(
+            type="view",
+            api_key=api_key,
+            prompt=props.prompt,
+            instructions=instructions,
+        )
+
+    # Write text
+    path = helpers.write_json(
+        project, path=props.path, data={"query": query}, deduplicate=props.deduplicate
     )
 
-    # Update database
-    # TODO: create view in the database
-
-    return Result(path=result.path)
-
-
-# TODO: rewrite
-# TODO: fix not safe
-# TODO: remove duplication
-#  def view_logic(project: Project, props: Props) -> Result:
-#  sa = platform.sqlalchemy
-#  fs = project.filesystem
-#  db = project.database
-
-#  query = props.view["query"]
-#  fullpath = fs.get_fullpath(props.path)
-#  # TODO: use ViewResource?
-#  resource = JsonResource(data=props.view)
-#  resource.write_json(path=fullpath)
-#  resource = FileResource(path=fullpath)
-#  db.create_record(resource=resource)
-
-#  # Get table name
-#  found = False
-#  table_names = []
-#  table_name = resource.name
-#  template = f"{table_name}%s"
-#  items = db.list_records()
-#  for item in items:
-#  name = item.get("tableName")
-#  if not name:
-#  continue
-#  table_names.append(name)
-#  if item["path"] == resource.path:
-#  table_name = name
-#  found = True
-#  if not found:
-#  suffix = 1
-#  while table_name in table_names:
-#  table_name = template % suffix
-#  suffix += 1
-
-#  # Create view
-#  with db.engine.begin() as conn:
-#  conn.execute(sa.text(f'DROP VIEW IF EXISTS "{table_name}"'))
-#  conn.execute(sa.text(f'CREATE VIEW "{table_name}" AS {query}'))
-#  conn.execute(
-#  sa.update(db.records)
-#  .where(db.records.c.path == props.path)
-#  .values(tableName=table_name)
-#  )
-
-#  return Result(path=props.path)
+    return Result(path=path)
