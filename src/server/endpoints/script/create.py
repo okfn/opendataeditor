@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from typing import Optional
 
 from fastapi import Request
@@ -34,16 +33,8 @@ def action(project: Project, props: Props) -> Result:
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        schemas = helpers.extract_schemas(project, prompt=props.prompt)
-        instructions: list[str] = []
-        for path, schema in schemas.items():
-            instruction = f'The "{path}" table has Table Schema "{json.dumps(schema)}"'
-            instructions.append(instruction)
         script = helpers.ask_chatgtp(
-            type="script",
-            api_key=api_key,
-            prompt=props.prompt,
-            instructions=instructions,
+            project, type="script", api_key=api_key, prompt=props.prompt
         )
 
     # Write text

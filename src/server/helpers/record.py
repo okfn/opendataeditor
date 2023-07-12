@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import re
+from pathlib import Path
 from typing import TYPE_CHECKING, List, Optional
 
 from frictionless import FrictionlessException
+from slugify.slugify import slugify
 from tinydb import Query
 
-from .. import helpers, models, types
+from .. import models, types
 
 if TYPE_CHECKING:
     from ..project import Project
@@ -72,7 +75,7 @@ def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False
 def read_record_or_raise(project: Project, *, path: str):
     record = read_record(project, path=path)
     if not record:
-        raise FrictionlessException("record not found")
+        raise FrictionlessException(f"record not found: {path}")
     return record
 
 
@@ -89,7 +92,7 @@ def name_record(project: Project, *, path: str) -> str:
     md = project.metadata
 
     # Make slugified
-    name = helpers.convert_path_to_name(path)
+    name = convert_path_to_record_name(path)
 
     # Make unique
     names: List[str] = []
@@ -108,3 +111,29 @@ def name_record(project: Project, *, path: str) -> str:
             suffix += 1
 
     return name  # type: ignore
+
+
+def convert_path_to_record_name(path: str):
+    name = Path(path).stem
+    name = slugify(name, separator="_")
+    name = re.sub(r"[^a-zA-Z0-9_]+", "", name)
+    return name
+
+
+def extract_records(project: Project, *, prompt: str):
+    md = project.metadata
+
+    records: list[models.Record] = []
+    names = extract_record_names(prompt=prompt)
+    for name in names:
+        descriptor = md.read_document(type="record", name=name)
+        if not descriptor:
+            raise FrictionlessException(f"record not found: @{name}")
+        record = models.Record.parse_obj(descriptor)
+        records.append(record)
+
+    return records
+
+
+def extract_record_names(*, prompt: str):
+    return re.findall(r"\@([a-zA-Z0-9_]+)", prompt)

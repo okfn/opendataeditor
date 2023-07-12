@@ -33,7 +33,9 @@ def action(project: Project, props: Props) -> Result:
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        text = helpers.ask_chatgtp(type="article", prompt=props.prompt, api_key=api_key)
+        text = helpers.ask_chatgtp(
+            project, type="article", prompt=props.prompt, api_key=api_key
+        )
 
     # Write text
     path = helpers.write_text(

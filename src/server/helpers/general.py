@@ -2,12 +2,9 @@ import contextlib
 import io
 import json
 import os
-import re
 import sys
-from pathlib import Path
 from typing import Any, Optional
 
-from slugify.slugify import slugify
 from tinydb.table import Table
 
 
@@ -39,10 +36,3 @@ def to_json(obj: Any, *, encoder_class: Optional[Any] = None) -> str:
         ensure_ascii=False,
         cls=encoder_class,
     )
-
-
-def convert_path_to_name(path: str):
-    name = Path(path).stem
-    name = slugify(name, separator="_")
-    name = re.sub(r"[^a-zA-Z0-9_]+", "", name)
-    return name

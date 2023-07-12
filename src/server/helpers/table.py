@@ -33,6 +33,7 @@ def write_table(
     return path
 
 
+# TODO: remove if not used
 def extract_schemas(project: Project, *, prompt: str):
     md = project.metadata
 

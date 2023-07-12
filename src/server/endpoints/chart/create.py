@@ -34,16 +34,8 @@ def action(project: Project, props: Props) -> Result:
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        schemas = helpers.extract_schemas(project, prompt=props.prompt)
-        instructions: list[str] = []
-        for path, schema in schemas.items():
-            instruction = f'The "{path}" table has Table Schema "{json.dumps(schema)}"'
-            instructions.append(instruction)
         text = helpers.ask_chatgtp(
-            type="chart",
-            api_key=api_key,
-            prompt=props.prompt,
-            instructions=instructions,
+            project, type="chart", api_key=api_key, prompt=props.prompt
         )
         chart = json.loads(text)
 

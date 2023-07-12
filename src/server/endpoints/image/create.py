@@ -33,7 +33,7 @@ def action(project: Project, props: Props) -> Result:
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        bytes = helpers.ask_dalle(prompt=props.prompt, api_key=api_key)
+        bytes = helpers.ask_dalle(project, prompt=props.prompt, api_key=api_key)
 
     # Write file
     path = helpers.write_file(
