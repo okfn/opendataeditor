@@ -1,9 +1,9 @@
+// If file is indexed it will have name, refined type, and errors
 export interface IFile {
   name?: string
   type: string
   path: string
-  indexed?: boolean
-  errorCount?: number
+  errors?: number
 }
 
 export interface IFileEvent {
@@ -12,10 +12,10 @@ export interface IFileEvent {
 }
 
 export interface IFileTreeItem {
-  name: string
+  name?: string
   type: string
   path: string
-  indexed?: boolean
-  errorCount?: number
+  errors?: number
+  label: string
   children: IFileTreeItem[]
 }

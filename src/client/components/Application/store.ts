@@ -289,7 +289,7 @@ export const selectors = {
     return helpers.getFolderPath(state.path)
   },
   notIndexedFiles: (state: State) => {
-    return state.files.filter((file) => !file.indexed)
+    return state.files.filter((file) => !file.name)
   },
 }
 

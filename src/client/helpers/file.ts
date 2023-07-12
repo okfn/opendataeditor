@@ -16,14 +16,14 @@ export function createFileTree(
     if (types && !types.includes(file.type)) continue
     const parts = file.path.split('/')
     const level = parts.length
-    const name = parts[level - 1]
+    const label = parts[level - 1]
     maxLevel = Math.max(maxLevel, level)
     tree.push({
-      name: file.name || name,
+      name: file.name,
       type: file.type,
       path: file.path,
-      indexed: file.indexed,
-      errorCount: file.errorCount,
+      label,
+      errors: file.errors,
       children: [],
     })
   }

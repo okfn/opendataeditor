@@ -3,8 +3,9 @@ from typing import Optional
 from pydantic import BaseModel
 
 
+# If file is indexed it will have name, refined type, and errors
 class File(BaseModel):
+    name: Optional[str] = None
     type: str
     path: str
-    indexed: Optional[bool] = None
-    errorCount: Optional[int] = None
+    errors: Optional[int] = None
