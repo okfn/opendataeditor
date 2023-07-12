@@ -1,14 +1,11 @@
 from __future__ import annotations
 
-import re
-from typing import TYPE_CHECKING, List, Optional, cast
+from typing import TYPE_CHECKING, List, Optional
 
-import stringcase  # type: ignore
-from frictionless import FrictionlessException, Resource
-from slugify.slugify import slugify
+from frictionless import FrictionlessException
 from tinydb import Query
 
-from .. import models, types
+from .. import helpers, models, types
 
 if TYPE_CHECKING:
     from ..project import Project
@@ -92,11 +89,7 @@ def name_record(project: Project, *, path: str) -> str:
     md = project.metadata
 
     # Make slugified
-    name = Resource(path=path).name
-    name = slugify(name)
-    name = re.sub(r"[^a-zA-Z0-9]+", "_", name)
-    name = cast(str, stringcase.camelcase(name))  # type: ignore
-    name = name.replace("_", "")  # if something not replaced by camelcase
+    name = helpers.convert_path_to_name(path)
 
     # Make unique
     names: List[str] = []
