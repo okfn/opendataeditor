@@ -6,7 +6,6 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
-import * as settings from '../../settings'
 import * as helpers from '../../helpers'
 import * as types from '../../types'
 
@@ -61,7 +60,7 @@ export interface State {
   createArticle: (path: string, prompt?: string) => Promise<void>
   createChart: (path: string, prompt?: string) => Promise<void>
   createImage: (path: string, prompt?: string) => Promise<void>
-  createPackage: (path: string) => Promise<void>
+  createPackage: (path: string, prompt?: string) => Promise<void>
   createScript: (path: string, prompt?: string) => Promise<void>
   createView: (path: string, prompt?: string) => Promise<void>
 }
@@ -252,11 +251,11 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
-    createPackage: async (path) => {
+    createPackage: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
+      const result = await client.packageCreate({
         path,
-        data: settings.INITIAL_PACKAGE,
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])

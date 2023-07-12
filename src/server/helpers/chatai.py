@@ -22,8 +22,15 @@ def ask_dalle(project: Project, *, prompt: str, api_key: str) -> bytes:
 
 
 def ask_chatgtp(
-    project: Project, *, type: str, path: str, prompt: str, api_key: str
+    project: Project,
+    *,
+    type: str,
+    path: str,
+    prompt: str,
+    api_key: str,
 ) -> str:
+    md = project.metadata
+
     # Default system messages
     messages = [
         {"role": "system", "content": INSTRUCTIONS.get(type, "")},
@@ -38,6 +45,13 @@ def ask_chatgtp(
             schema = json.dumps(record.resource.get("schema", {}))
             instruction = f"The {path} table has Table Schema {schema}"
             messages.append({"role": "system", "content": instruction})
+
+    # Type-based messages
+    if type == "package":
+        paths = [descriptor["path"] for descriptor in md.iter_documents(type="record")]
+        messages.append(
+            {"role": "system", "content": f"Filter this file list: {json.dumps(paths)}"},
+        )
 
     # User messages
     messages.append(
@@ -69,6 +83,11 @@ INSTRUCTIONS = {
         You are a Vega Lite chart generation assistant.
         You will be given a text description on what needs to be written.
         Respond with only the JSON chart without explanation.
+    """,
+    "package": """
+        You are a JSON generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only the JSON list without explanation.
     """,
     "script": """
         You are a Python code generation assistant.

@@ -179,6 +179,11 @@ export class Client {
 
   // Package
 
+  async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/package/create', props)
+    return result as { path: string }
+  }
+
   async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
     const result = await this.request('/package/patch', props)
     return result as { path: string }
