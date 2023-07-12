@@ -11,7 +11,7 @@ export interface CreateChipProps {
 
 export default function CreateChip(props: CreateChipProps) {
   return (
-    <LightTooltip title="Create a New File (chart/sql/etc)">
+    <LightTooltip title="Create chart, dataset, and more">
       <Chip
         onClick={props.onClick}
         color="primary"
