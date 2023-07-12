@@ -76,6 +76,11 @@ INSTRUCTIONS = {
         You can use pandas and frictionless libraries.
         Respond with only the Python code without explanation.
     """,
+    "text": """
+        You are a text file generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only valid file content for this file type without explanation.
+    """,
     "view": """
         You are a SQL code generation assistant.
         You will be given a text description on what needs to be written.

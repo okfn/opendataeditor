@@ -261,7 +261,12 @@ export class Client {
 
   // Text
 
-  async textCreate(props: { path: string; text: string; deduplicate?: boolean }) {
+  async textCreate(props: {
+    path: string
+    text: string
+    prompt?: string
+    deduplicate?: boolean
+  }) {
     const result = await this.request('/text/create', props)
     return result as { path: string }
   }

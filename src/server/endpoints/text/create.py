@@ -13,6 +13,7 @@ from ...router import router
 class Props(BaseModel, extra="forbid"):
     path: str
     text: str
+    prompt: str | None
     deduplicate: Optional[bool] = None
 
 
@@ -26,7 +27,19 @@ def server_text_write(request: Request, props: Props) -> Result:
 
 
 def action(project: Project, props: Props) -> Result:
+    cf = project.config
+
+    # Create text
+    text = props.text
+    config = cf.read()
+    api_key = config.system.openaiApiKey
+    if props.prompt and api_key:
+        text = helpers.ask_chatgtp(
+            project, type="text", path=props.path, prompt=props.prompt, api_key=api_key
+        )
+
+    # Write text
     path = helpers.write_text(
-        project, path=props.path, text=props.text, deduplicate=props.deduplicate
+        project, path=props.path, text=text, deduplicate=props.deduplicate
     )
     return Result(path=path)

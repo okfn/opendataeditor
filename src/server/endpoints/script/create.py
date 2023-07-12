@@ -28,7 +28,7 @@ def endpoint(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     cf = project.config
 
-    # Create chart
+    # Create script
     script = ""
     config = cf.read()
     api_key = config.system.openaiApiKey

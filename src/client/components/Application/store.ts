@@ -40,7 +40,7 @@ export interface State {
   loadFiles: () => Promise<void>
   addFiles: (files: FileList) => Promise<void>
   fetchFile: (url: string) => Promise<void>
-  createFile: (path: string) => Promise<void>
+  createFile: (path: string, prompt?: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
@@ -143,11 +143,17 @@ export function makeStore(props: ApplicationProps) {
       const { path } = await client.fileFetch({ url, folder, deduplicate: true })
       onFileCreate([path])
     },
-    createFile: async (path) => {
+    createFile: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const file = new File([new Blob()], path)
-      const result = await client.fileCreate({ path, file, deduplicate: true })
-      onFileCreate([result.path])
+      if (prompt) {
+        const text = ''
+        const result = await client.textCreate({ path, text, prompt, deduplicate: true })
+        onFileCreate([result.path])
+      } else {
+        const file = new File([new Blob()], path)
+        const result = await client.fileCreate({ path, file, deduplicate: true })
+        onFileCreate([result.path])
+      }
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()

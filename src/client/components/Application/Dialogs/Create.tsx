@@ -83,7 +83,7 @@ export default function CreateDialog() {
       fileName: '',
       description: 'Creating an arbitrary file. Enter destination:',
       placeholder: 'Enter a file path',
-      promptPlaceholder: '',
+      promptPlaceholder: 'dummy data in json with name and age',
       Icon: PostAddIcon,
       create: createFile,
     },
