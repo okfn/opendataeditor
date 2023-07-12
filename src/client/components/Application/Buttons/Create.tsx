@@ -96,7 +96,7 @@ function FetchDataset() {
       variant="text"
       label="Remote Dataset"
       Icon={DatasetLinkedIcon}
-      onClick={() => updateState({ dialog: 'createFile' })}
+      onClick={() => updateState({ dialog: 'create' })}
     />
   )
 }

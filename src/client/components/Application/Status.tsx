@@ -44,7 +44,7 @@ export default function Status() {
         </Box>
       </Contents>
       <Suffix>
-        <CreateChip onClick={() => updateState({ dialog: 'createFile' })} />
+        <CreateChip onClick={() => updateState({ dialog: 'create' })} />
         <ReportChip errorCount={measure ? measure.errors : undefined} />
       </Suffix>
     </Container>

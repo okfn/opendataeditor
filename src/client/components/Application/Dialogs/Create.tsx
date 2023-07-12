@@ -26,7 +26,7 @@ interface IMenuItem extends types.IMenuItem {
   create: (path: string, prompt?: string) => Promise<void>
 }
 
-export default function CreateFileDialog() {
+export default function CreateDialog() {
   const updateState = useStore((state) => state.updateState)
   const createArticle = useStore((state) => state.createArticle)
   const createChart = useStore((state) => state.createChart)
@@ -141,7 +141,7 @@ export default function CreateFileDialog() {
       ctrlEnter
       open={true}
       maxWidth="md"
-      title="Create File"
+      title={`Create ${menuItem.name}`}
       label="Create"
       Icon={menuItem.Icon}
       disabled={loading}

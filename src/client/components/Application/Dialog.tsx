@@ -2,7 +2,7 @@ import * as React from 'react'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
-import CreateFileDialog from './Dialogs/CreateFile'
+import CreateDialog from './Dialogs/Create'
 import CreateFolderDialog from './Dialogs/CreateFolder'
 import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
@@ -23,7 +23,7 @@ const DIALOGS = {
   config: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
-  createFile: CreateFileDialog,
+  create: CreateDialog,
   createFolder: CreateFolderDialog,
   deleteFile: DeleteFileDialog,
   deleteFolder: DeleteFolderDialog,

@@ -2,7 +2,7 @@ export type IDialog =
   | 'config'
   | 'copyFile'
   | 'copyFolder'
-  | 'createFile'
+  | 'create'
   | 'createFolder'
   | 'deleteFile'
   | 'deleteFolder'
