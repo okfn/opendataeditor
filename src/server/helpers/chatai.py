@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 from typing import TYPE_CHECKING
 
 import openai
@@ -20,7 +21,9 @@ def ask_dalle(project: Project, *, prompt: str, api_key: str) -> bytes:
     return bytes
 
 
-def ask_chatgtp(project: Project, *, type: str, prompt: str, api_key: str) -> str:
+def ask_chatgtp(
+    project: Project, *, type: str, path: str, prompt: str, api_key: str
+) -> str:
     # Default system messages
     messages = [
         {"role": "system", "content": INSTRUCTIONS.get(type, "")},
@@ -29,10 +32,11 @@ def ask_chatgtp(project: Project, *, type: str, prompt: str, api_key: str) -> st
     # Mention-based system messages
     records = extract_records(project, prompt=prompt)
     for record in records:
-        prompt = prompt.replace(f"@{record.name}", record.path)
+        path = str(os.path.relpath(record.path, os.path.dirname(path)))
+        prompt = prompt.replace(f"@{record.name}", path)
         if record.type == "table":
             schema = json.dumps(record.resource.get("schema", {}))
-            instruction = f"The {record.path} table has Table Schema {schema}"
+            instruction = f"The {path} table has Table Schema {schema}"
             messages.append({"role": "system", "content": instruction})
 
     # User messages

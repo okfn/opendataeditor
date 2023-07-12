@@ -35,7 +35,7 @@ def action(project: Project, props: Props) -> Result:
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
         text = helpers.ask_chatgtp(
-            project, type="chart", api_key=api_key, prompt=props.prompt
+            project, type="chart", path=props.path, prompt=props.prompt, api_key=api_key
         )
         chart = json.loads(text)
 

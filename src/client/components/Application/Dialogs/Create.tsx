@@ -176,7 +176,7 @@ export default function CreateDialog() {
               Provide a Chat AI prompt (optional):
               <MultilineField
                 rows={4}
-                label="Promtp"
+                label="Prompt"
                 value={prompt}
                 onChange={setPrompt}
                 placeholder={menuItem.promptPlaceholder}

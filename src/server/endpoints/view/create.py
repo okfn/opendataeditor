@@ -34,7 +34,7 @@ def action(project: Project, props: Props) -> Result:
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
         query = helpers.ask_chatgtp(
-            project, type="view", api_key=api_key, prompt=props.prompt
+            project, type="view", path=props.path, prompt=props.prompt, api_key=api_key
         )
 
     # Write text
