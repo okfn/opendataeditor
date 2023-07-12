@@ -36,7 +36,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async chartRender(props: { chart: types.IChart }) {
+  async chartRender(props: { path: string; chart: types.IChart }) {
     const result = await this.request('/chart/render', props)
     return result as { chart: types.IChart }
   }

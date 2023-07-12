@@ -96,9 +96,9 @@ export function makeStore(props: ChartProps) {
       load()
     },
     render: throttle(async () => {
-      const { client, modified } = get()
+      const { path, client, modified } = get()
       if (!modified) return
-      const { chart } = await client.chartRender({ chart: modified })
+      const { chart } = await client.chartRender({ path, chart: modified })
       set({ rendered: chart })
     }, 1000),
   }))
