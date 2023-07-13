@@ -19,9 +19,10 @@ def patch_record(
     project: Project,
     *,
     path: str,
-    toPath: Optional[str] = None,
-    toType: Optional[str] = None,
+    name: Optional[str] = None,
+    type: Optional[str] = None,
     resource: Optional[types.IDescriptor] = None,
+    toPath: Optional[str] = None,
     isDataChanged: bool = False,
 ):
     md = project.metadata
@@ -29,17 +30,20 @@ def patch_record(
     # Update record
     updated = False
     record = read_record_or_raise(project, path=path)
+    if name:
+        updated = True
+        record.name = name
+    if type:
+        updated = True
+        record.type = type
+    if resource:
+        updated = True
+        record.resource = resource
     if toPath:
         updated = True
         record.name = name_record(project, path=toPath)
         record.path = toPath
         record.resource["path"] = toPath
-    if toType:
-        updated = True
-        record.type = toType
-    if resource:
-        updated = True
-        record.resource = resource
 
     # Write record
     if updated:
