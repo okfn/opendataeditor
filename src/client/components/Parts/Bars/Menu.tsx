@@ -8,6 +8,7 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import UndoIcon from '@mui/icons-material/Undo'
 import RedoIcon from '@mui/icons-material/Redo'
@@ -396,6 +397,33 @@ export function PrettifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => onClick()}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
+export function ChataiButton(props: ButtonProps) {
+  const onClick = props.onClick || noop
+  let title = 'Edit with Chat AI [Alt+A]'
+  if (props.disabled) title = 'Chatting is not available'
+  useKeyPress(['atl.a'], (event) => {
+    event.preventDefault()
+    if (!props.disabled) {
+      onClick()
+    }
+  })
+  return (
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Chat AI'}
+          Icon={ChatBubbleOutlineIcon}
           color={props.color}
           disabled={props.disabled}
           onClick={() => onClick()}
