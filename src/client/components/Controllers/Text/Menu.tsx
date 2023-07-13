@@ -42,6 +42,7 @@ export default function Menu() {
           <menu.PrettifyButton onClick={prettify} />
         </React.Fragment>
       )}
+      <menu.ChataiButton onClick={() => alert('under development')} />
     </menu.MenuBar>
   )
 }

@@ -8,7 +8,7 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
+import VoiceChatIcon from '@mui/icons-material/VoiceChat'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import UndoIcon from '@mui/icons-material/Undo'
 import RedoIcon from '@mui/icons-material/Redo'
@@ -423,7 +423,7 @@ export function ChataiButton(props: ButtonProps) {
           small
           variant="text"
           label={props.label || 'Chat AI'}
-          Icon={ChatBubbleOutlineIcon}
+          Icon={VoiceChatIcon}
           color={props.color}
           disabled={props.disabled}
           onClick={() => onClick()}
