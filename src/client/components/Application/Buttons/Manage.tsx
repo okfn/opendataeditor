@@ -17,7 +17,7 @@ export default function ManageButton() {
     >
       <CopyButton />
       <MoveButton />
-      <ModifyButton />
+      <AdjustButton />
       <IndexButton />
     </DropdownButton>
   )
@@ -55,7 +55,7 @@ function MoveButton() {
   )
 }
 
-function ModifyButton() {
+function AdjustButton() {
   const path = useStore((state) => state.path)
   const updateState = useStore((state) => state.updateState)
   return (
@@ -64,7 +64,7 @@ function ModifyButton() {
       variant="text"
       label="Adjust File"
       Icon={DisplaySettingsIcon}
-      onClick={() => updateState({ dialog: 'modifyFile' })}
+      onClick={() => updateState({ dialog: 'adjustFile' })}
     />
   )
 }

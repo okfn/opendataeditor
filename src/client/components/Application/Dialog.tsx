@@ -1,4 +1,5 @@
 import * as React from 'react'
+import AdjustFileDialog from './Dialogs/AdjustFile'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
@@ -8,7 +9,6 @@ import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
 import FetchFileDialog from './Dialogs/FetchFile'
 import IndexFilesDialog from './Dialogs/IndexFiles'
-import ModifyFileDialog from './Dialogs/ModifyFile'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
 import { useStore } from './store'
@@ -21,6 +21,7 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
+  adjustFile: AdjustFileDialog,
   config: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
@@ -30,7 +31,6 @@ const DIALOGS = {
   deleteFolder: DeleteFolderDialog,
   fetchFile: FetchFileDialog,
   indexFiles: IndexFilesDialog,
-  modifyFile: ModifyFileDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
 }

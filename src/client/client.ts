@@ -111,7 +111,13 @@ export class Client {
     return result as { path: string }
   }
 
-  async filePatch(props: { path: string; toPath?: string; resource?: types.IResource }) {
+  async filePatch(props: {
+    path: string
+    name?: string
+    type?: string
+    resource?: types.IResource
+    toPath?: string
+  }) {
     const result = await this.request('/file/patch', props)
     return result as { path: string }
   }

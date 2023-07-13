@@ -40,6 +40,7 @@ export interface State {
   addFiles: (files: FileList) => Promise<void>
   fetchFile: (url: string) => Promise<void>
   createFile: (path: string, prompt?: string) => Promise<void>
+  adjustFile: (name: string, type: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
@@ -153,6 +154,12 @@ export function makeStore(props: ApplicationProps) {
         const result = await client.fileCreate({ path, file, deduplicate: true })
         onFileCreate([result.path])
       }
+    },
+    adjustFile: async (name, type) => {
+      const { path, client, onFilePatch } = get()
+      if (!path) return
+      await client.filePatch({ path, name, type })
+      onFilePatch(path)
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()

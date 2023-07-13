@@ -1,4 +1,5 @@
 export type IDialog =
+  | 'adjustFile'
   | 'config'
   | 'copyFile'
   | 'copyFolder'
@@ -8,6 +9,5 @@ export type IDialog =
   | 'deleteFolder'
   | 'fetchFile'
   | 'indexFiles'
-  | 'modifyFile'
   | 'moveFile'
   | 'moveFolder'
