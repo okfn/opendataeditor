@@ -9,8 +9,11 @@ import DropdownButton from '../../Parts/Buttons/Dropdown'
 import { useStore, selectors } from '../store'
 
 export default function ManageButton() {
+  const path = useStore((state) => state.path)
+  const notIndexedFiles = useStore(selectors.notIndexedFiles)
   return (
     <DropdownButton
+      disabled={!path && !notIndexedFiles.length}
       label="Manage"
       variant="text"
       icon={<ManageIcon fontSize="small" sx={{ mr: 1 }} />}
