@@ -29,9 +29,11 @@ def patch_record(
 
     # Update record
     updated = False
+    fromName = None
     record = read_record_or_raise(project, path=path)
     if name:
         updated = True
+        fromName = record.name
         record.name = name
     if type:
         updated = True
@@ -47,6 +49,8 @@ def patch_record(
 
     # Write record
     if updated:
+        if fromName:
+            md.delete_document(name=fromName, type="record")
         md.write_document(name=record.name, type="record", descriptor=record.dict())
 
     # Clear database
