@@ -6,6 +6,7 @@ export default function Menu() {
   const language = useStore(selectors.language)
   const type = useStore((state) => state.record?.type)
   const panel = useStore((state) => state.panel)
+  const dialog = useStore((state) => state.dialog)
   const execute = useStore((state) => state.execute)
   const clear = useStore((state) => state.clear)
   const undo = useStore((state) => state.undo)
@@ -42,7 +43,9 @@ export default function Menu() {
           <menu.PrettifyButton onClick={prettify} />
         </React.Fragment>
       )}
-      <menu.ChataiButton onClick={() => alert('under development')} />
+      <menu.ChatButton
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
+      />
     </menu.MenuBar>
   )
 }

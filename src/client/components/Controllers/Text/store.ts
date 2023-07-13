@@ -18,7 +18,7 @@ export interface State {
   path: string
   client: Client
   panel?: 'metadata' | 'report'
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
 
@@ -46,6 +46,7 @@ export interface State {
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
   save: () => Promise<void>
@@ -104,6 +105,9 @@ export function makeStore(props: TextProps) {
         originalText: text,
       })
       render()
+    },
+    edit: async (prompt) => {
+      alert(prompt)
     },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()

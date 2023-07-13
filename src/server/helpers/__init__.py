@@ -1,4 +1,4 @@
-from .chatai import *
+from .chat import *
 from .file import *
 from .general import *
 from .json import *

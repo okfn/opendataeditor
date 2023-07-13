@@ -406,7 +406,7 @@ export function PrettifyButton(props: ButtonProps) {
   )
 }
 
-export function ChataiButton(props: ButtonProps) {
+export function ChatButton(props: ButtonProps) {
   const onClick = props.onClick || noop
   let title = 'Edit with Chat AI [Alt+A]'
   if (props.disabled) title = 'Chatting is not available'
