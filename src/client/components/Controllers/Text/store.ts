@@ -107,10 +107,10 @@ export function makeStore(props: TextProps) {
       render()
     },
     edit: async (prompt) => {
-      const { path, client, modifiedText, onSave, load } = get()
-      await client.textPatch({ path, text: modifiedText, prompt })
-      onSave()
-      load()
+      const { path, client, modifiedText, editorRef } = get()
+      const { text } = await client.textEdit({ path, text: modifiedText || '', prompt })
+      if (!editorRef.current) return
+      editorRef.current.setValue(text)
     },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
@@ -123,12 +123,11 @@ export function makeStore(props: TextProps) {
       return url
     },
     revert: () => {
-      const { record, originalText, updateState } = get()
+      const { record, originalText, updateState, editorRef } = get()
       if (!record) return
-      updateState({
-        resource: cloneDeep(record.resource),
-        modifiedText: originalText,
-      })
+      if (!editorRef.current) return
+      editorRef.current.setValue(originalText || '')
+      updateState({ resource: cloneDeep(record.resource) })
     },
     save: async () => {
       const { path, client, modifiedText, resource, onSave, load } = get()

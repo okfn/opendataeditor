@@ -282,10 +282,14 @@ export class Client {
     return result as { path: string }
   }
 
+  async textEdit(props: { path: string; text: string; prompt: string }) {
+    const result = await this.request('/text/edit', props)
+    return result as { text: string }
+  }
+
   async textPatch(props: {
     path: string
     text?: string
-    prompt?: string
     resource?: types.IResource
     toPath?: string
   }) {
