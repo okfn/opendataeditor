@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import openai
@@ -46,11 +47,18 @@ def ask_chatgtp(
             instruction = f"The {path} table has Table Schema {schema}"
             messages.append({"role": "system", "content": instruction})
 
-    # Type-based messages
+    # Package type system messages
     if type == "package":
         paths = [descriptor["path"] for descriptor in md.iter_documents(type="record")]
         messages.append(
             {"role": "system", "content": f"Filter this file list: {json.dumps(paths)}"},
+        )
+
+    # Text type system messages
+    if type == "text":
+        format = Path(path).suffix
+        messages.append(
+            {"role": "system", "content": f"Use this file format: {format}"},
         )
 
     # User messages
@@ -98,7 +106,7 @@ INSTRUCTIONS = {
     "text": """
         You are a text file generation assistant.
         You will be given a text description on what needs to be written.
-        Respond with only valid file content for this file type without explanation.
+        Respond with only valid file content for this file format without explanation.
     """,
     "view": """
         You are a SQL code generation assistant.

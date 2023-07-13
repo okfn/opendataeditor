@@ -218,9 +218,9 @@ export function ErrorsButton(props: ButtonProps) {
 
 export function RunButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Execute the script [Ctrl+E]'
+  let title = 'Execute the script [Alt+J]'
   if (props.disabled) title = 'Not possible to execute'
-  useKeyPress(['ctrl.e'], (event) => {
+  useKeyPress(['alt.j'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
