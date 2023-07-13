@@ -156,10 +156,13 @@ export function makeStore(props: ApplicationProps) {
       }
     },
     adjustFile: async (name, type) => {
-      const { path, client, onFilePatch } = get()
+      const { path, client, closeFile, loadFiles, selectFile } = get()
       if (!path) return
       await client.filePatch({ path, name, type })
-      onFilePatch(path)
+      set({ path: undefined })
+      closeFile()
+      await loadFiles()
+      await selectFile(path)
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
