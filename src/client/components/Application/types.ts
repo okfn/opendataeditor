@@ -8,5 +8,6 @@ export type IDialog =
   | 'deleteFolder'
   | 'fetchFile'
   | 'indexFiles'
+  | 'modifyFile'
   | 'moveFile'
   | 'moveFolder'

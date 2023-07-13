@@ -8,6 +8,7 @@ import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
 import FetchFileDialog from './Dialogs/FetchFile'
 import IndexFilesDialog from './Dialogs/IndexFiles'
+import ModifyFileDialog from './Dialogs/ModifyFile'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
 import { useStore } from './store'
@@ -29,6 +30,7 @@ const DIALOGS = {
   deleteFolder: DeleteFolderDialog,
   fetchFile: FetchFileDialog,
   indexFiles: IndexFilesDialog,
+  modifyFile: ModifyFileDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
 }
