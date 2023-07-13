@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from fastapi import Request
 from pydantic import BaseModel
 
@@ -10,15 +12,15 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    text: str
+    data: Any
     prompt: str
 
 
 class Result(BaseModel, extra="forbid"):
-    text: str
+    data: Any
 
 
-@router.post("/text/edit")
+@router.post("/view/edit")
 def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -27,16 +29,17 @@ def action(project: Project, props: Props) -> Result:
     cf = project.config
 
     # Edit contents
-    text = props.text
+    data = props.data
     config = cf.read()
     api_key = config.system.openaiApiKey
     if api_key:
-        text = helpers.ask_chatgpt(
+        query = helpers.ask_chatgpt(
             project,
-            type="text",
+            type="view",
             path=props.path,
-            prompt=f"{props.prompt} for the following contents: {props.text}",
+            prompt=f"{props.prompt} for the following SQL: {data['query']}",
             api_key=api_key,
         )
+        data["query"] = query
 
-    return Result(text=text)
+    return Result(data=data)

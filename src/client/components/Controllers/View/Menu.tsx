@@ -4,6 +4,7 @@ import { useStore } from './store'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
+  const dialog = useStore((state) => state.dialog)
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
@@ -30,6 +31,9 @@ export default function Menu() {
       <menu.SourceButton
         active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+      />
+      <menu.ChatButton
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
       />
     </menu.MenuBar>
   )

@@ -309,6 +309,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async viewEdit(props: { path: string; data: types.IView; prompt: string }) {
+    const result = await this.request('/view/edit', props)
+    return result as { data: types.IView }
+  }
+
   async viewPatch(props: {
     path: string
     data?: types.IView
