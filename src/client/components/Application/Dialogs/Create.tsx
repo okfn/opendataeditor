@@ -8,7 +8,6 @@ import SourceIcon from '@mui/icons-material/Source'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
@@ -45,17 +44,6 @@ export default function CreateDialog() {
       promptPlaceholder: 'story about dogs',
       Icon: HistoryEduIcon,
       create: createArticle,
-    },
-    {
-      name: 'Catalog',
-      section: 'catalog',
-      fileName: 'catalog.json',
-      description: 'Creating a data catalog. Enter destination:',
-      placeholder: 'Enter a catalog path',
-      promptPlaceholder: '',
-      Icon: LibraryBooksIcon,
-      // @ts-ignore
-      create: () => alert('Under Development'),
     },
     {
       name: 'Chart',
@@ -155,7 +143,7 @@ export default function CreateDialog() {
       }}
     >
       <Columns layout={[3, 9]} spacing={2}>
-        <Box sx={{ paddingRight: 2, borderRight: 'solid 1px #ddd' }}>
+        <Box sx={{ paddingRight: 2, marginBottom: 1, borderRight: 'solid 1px #ddd' }}>
           <MenuTree
             menuItems={MENU_ITEMS}
             selected={section}
@@ -175,7 +163,7 @@ export default function CreateDialog() {
             <Box>
               Provide a Chat AI prompt (optional):
               <MultilineField
-                rows={4}
+                rows={3}
                 label="Prompt"
                 value={prompt}
                 onChange={setPrompt}
