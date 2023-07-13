@@ -173,6 +173,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async jsonEdit(props: { path: string; data: types.IData; prompt: string }) {
+    const result = await this.request('/json/edit', props)
+    return result as { data: types.IData }
+  }
+
   async jsonPatch(props: {
     path: string
     data?: types.IData

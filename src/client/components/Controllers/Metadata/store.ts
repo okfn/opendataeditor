@@ -17,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
-  dialog?: 'publish' | 'saveAs' | 'resource'
+  dialog?: 'publish' | 'saveAs' | 'resource' | 'chat'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -28,6 +28,7 @@ export interface State {
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
   revert: () => void
@@ -55,6 +56,12 @@ export function makeStore(props: MetadataProps) {
       const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
       set({ record, report, measure, modified: cloneDeep(data), original: data })
+    },
+    edit: async (prompt) => {
+      const { path, client, modified, updateState } = get()
+      if (!modified) return
+      const { data } = await client.jsonEdit({ path, data: modified, prompt })
+      updateState({ modified: data })
     },
     clear: () => {
       const { record, updateState } = get()

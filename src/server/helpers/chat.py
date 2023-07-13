@@ -92,6 +92,11 @@ INSTRUCTIONS = {
         You will be given a text description on what needs to be written.
         Respond with only the JSON chart without explanation.
     """,
+    "json": """
+        You are a JSON file generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only JSON content without explanation.
+    """,
     "package": """
         You are a JSON generation assistant.
         You will be given a text description on what needs to be written.
