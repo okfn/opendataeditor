@@ -410,7 +410,7 @@ export function ChatButton(props: ButtonProps) {
   const onClick = props.onClick || noop
   let title = 'Edit with Chat AI [Alt+A]'
   if (props.disabled) title = 'Chatting is not available'
-  useKeyPress(['atl.a'], (event) => {
+  useKeyPress(['alt.a'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
