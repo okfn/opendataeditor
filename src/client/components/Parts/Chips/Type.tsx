@@ -6,16 +6,16 @@ import LightTooltip from '../Tooltips/Light'
 
 export interface TypeChipProps {
   type?: string
-  onClick: () => void
 }
 
 export default function TypeChip(props: TypeChipProps) {
   const label = props.type || 'project'
-  const title = props.type ? 'Change file name/type (coming soon)' : 'Change the project'
+  const title = props.type
+    ? `Selected file type: ${props.type}`
+    : 'Selected project: current'
   return (
     <LightTooltip title={title}>
       <Chip
-        onClick={props.onClick}
         label={<strong>{label.toUpperCase()}</strong>}
         color="primary"
         size="medium"
@@ -24,6 +24,7 @@ export default function TypeChip(props: TypeChipProps) {
           height: '100%',
           borderRight: 'solid 1px #ddd',
           borderRadius: '3px',
+          cursor: 'pointer',
         }}
       />
     </LightTooltip>

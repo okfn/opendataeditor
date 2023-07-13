@@ -16,7 +16,7 @@ export default function Status() {
   return (
     <Container>
       <Prefix>
-        <TypeChip type={record?.type} onClick={() => {}} />
+        <TypeChip type={record?.type} />
       </Prefix>
       <Contents onClick={record ? () => locateFile(record.path) : undefined}>
         <Box>
