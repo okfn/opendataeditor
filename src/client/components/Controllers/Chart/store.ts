@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   record?: types.IRecord
   report?: types.IReport
@@ -31,6 +31,7 @@ export interface State {
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   clear: () => void
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
@@ -66,6 +67,12 @@ export function makeStore(props: ChartProps) {
         columns,
       })
       render()
+    },
+    edit: async (prompt) => {
+      const { path, client, modified, updateState } = get()
+      if (!modified) return
+      const { chart } = await client.chartEdit({ path, chart: modified, prompt })
+      updateState({ modified: chart })
     },
     clear: () => {
       const { updateState } = get()

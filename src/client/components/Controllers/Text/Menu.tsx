@@ -32,6 +32,9 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton enabled />
+      <menu.ChatButton
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
+      />
       {type === 'script' && <menu.RunButton onClick={execute} />}
       <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
       <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />
@@ -43,9 +46,6 @@ export default function Menu() {
           <menu.PrettifyButton onClick={prettify} />
         </React.Fragment>
       )}
-      <menu.ChatButton
-        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
-      />
     </menu.MenuBar>
   )
 }
