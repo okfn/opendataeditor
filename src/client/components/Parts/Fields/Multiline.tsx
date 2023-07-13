@@ -14,6 +14,7 @@ interface MultilineFieldProps {
   onChange: (value: any) => void
   onFocus?: () => void
   placeholder?: string
+  autoFocus?: boolean
 }
 
 export default function MultilineField(props: MultilineFieldProps) {
@@ -32,6 +33,7 @@ export default function MultilineField(props: MultilineFieldProps) {
       size={props.size || 'small'}
       onChange={(ev) => props.onChange(ev.target.value as any)}
       onFocus={onFocus}
+      autoFocus={props.autoFocus}
     />
   )
 }

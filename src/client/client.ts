@@ -285,8 +285,9 @@ export class Client {
   async textPatch(props: {
     path: string
     text?: string
-    toPath?: string
+    prompt?: string
     resource?: types.IResource
+    toPath?: string
   }) {
     const result = await this.request('/text/patch', props)
     return result as { path: string }

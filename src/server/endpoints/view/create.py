@@ -33,7 +33,7 @@ def action(project: Project, props: Props) -> Result:
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
-        query = helpers.ask_chatgtp(
+        query = helpers.ask_chatgpt(
             project, type="view", path=props.path, prompt=props.prompt, api_key=api_key
         )
 

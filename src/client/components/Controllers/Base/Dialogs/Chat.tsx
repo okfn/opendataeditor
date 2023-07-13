@@ -33,6 +33,7 @@ export default function ChatDialog(props: ChatDialogProps) {
     >
       You are editing the {props.type}. Enter Chat AI prompt:
       <MultilineField
+        autoFocus
         rows={3}
         label="Prompt"
         value={prompt}
@@ -41,7 +42,7 @@ export default function ChatDialog(props: ChatDialogProps) {
       />
       {loading && (
         <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, maringTop: 2 }}>
-          Chatting
+          Editing
           <LinearProgress />
         </Box>
       )}

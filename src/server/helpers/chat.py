@@ -22,7 +22,7 @@ def ask_dalle(project: Project, *, prompt: str, api_key: str) -> bytes:
     return bytes
 
 
-def ask_chatgtp(
+def ask_chatgpt(
     project: Project,
     *,
     type: str,

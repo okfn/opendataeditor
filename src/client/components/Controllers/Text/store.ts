@@ -107,7 +107,10 @@ export function makeStore(props: TextProps) {
       render()
     },
     edit: async (prompt) => {
-      alert(prompt)
+      const { path, client, modifiedText, onSave, load } = get()
+      await client.textPatch({ path, text: modifiedText, prompt })
+      onSave()
+      load()
     },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
