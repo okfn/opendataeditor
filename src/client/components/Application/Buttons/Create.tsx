@@ -5,6 +5,7 @@ import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import DropdownButton from '../../Parts/Buttons/Dropdown'
 import IconButton from '../../Parts/Buttons/Icon'
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
 import { useStore } from '../store'
@@ -12,13 +13,14 @@ import { useStore } from '../store'
 export default function CreateButton() {
   return (
     <DropdownButton
-      label="Import"
+      label="Add"
       variant="text"
       icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
     >
       <AddFile />
-      <AddFolder />
       <FetchFile />
+      <AddFolder />
+      <CreateFolder />
       <FetchDataset />
     </DropdownButton>
   )
@@ -97,6 +99,18 @@ function FetchDataset() {
       label="Remote Dataset"
       Icon={DatasetLinkedIcon}
       onClick={() => updateState({ dialog: 'create' })}
+    />
+  )
+}
+
+function CreateFolder() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      variant="text"
+      label="Empty Folder"
+      Icon={CreateNewFolderIcon}
+      onClick={() => updateState({ dialog: 'createFolder' })}
     />
   )
 }

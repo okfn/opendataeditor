@@ -4,7 +4,6 @@ import MoveIcon from '@mui/icons-material/CopyAll'
 import RuleIcon from '@mui/icons-material/Rule'
 import ManageIcon from '@mui/icons-material/FileCopy'
 import IconButton from '../../Parts/Buttons/Icon'
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import DropdownButton from '../../Parts/Buttons/Dropdown'
 import { useStore, selectors } from '../store'
 
@@ -18,7 +17,6 @@ export default function ManageButton() {
       <CopyButton />
       <MoveButton />
       <IndexButton />
-      <CreateFolder />
     </DropdownButton>
   )
 }
@@ -65,18 +63,6 @@ function IndexButton() {
       label="Index Files"
       Icon={RuleIcon}
       onClick={() => updateState({ dialog: 'indexFiles' })}
-    />
-  )
-}
-
-function CreateFolder() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Create Folder"
-      Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'createFolder' })}
     />
   )
 }
