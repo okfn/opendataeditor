@@ -2,6 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
 import FolderOpenIcon from '@mui/icons-material/FolderOpen'
+import FolderIcon from '@mui/icons-material/Folder'
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import { alpha, styled } from '@mui/material/styles'
 // import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
@@ -25,13 +26,13 @@ export default function MenuTree(props: MenuTreeProps) {
   return (
     <TreeView
       selected={props.selected || ''}
-      expanded={props.expanded}
+      defaultExpanded={props.expanded}
       onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
         props.onSelect(nodeId)
       }}
       sx={{ height: '100%' }}
       defaultCollapseIcon={<FolderOpenIcon />}
-      defaultExpandIcon={<FolderOpenIcon />}
+      defaultExpandIcon={<FolderIcon />}
       aria-label="customized"
     >
       {sectionTree.map((item) => (
