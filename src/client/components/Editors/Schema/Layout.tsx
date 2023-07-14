@@ -26,9 +26,9 @@ export default function Layout() {
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
         <MenuPanel
-          expanded={['schema']}
           menuItems={MENU_ITEMS}
           selected={section}
+          defaultExpanded={['schema']}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })

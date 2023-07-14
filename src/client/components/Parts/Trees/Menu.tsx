@@ -12,11 +12,12 @@ import * as types from '../../../types'
 export interface MenuTreeProps {
   menuItems: types.IMenuItem[]
   selected?: string
-  expanded?: string[]
+  defaultExpanded?: string[]
   onSelect: (section: string) => void
 }
 
 export default function MenuTree(props: MenuTreeProps) {
+  const [expanded, setExpanded] = React.useState(props.defaultExpanded || [])
   const sectionTree = React.useMemo(
     () => helpers.createMenuTree(props.menuItems),
     [props.menuItems]
@@ -24,9 +25,15 @@ export default function MenuTree(props: MenuTreeProps) {
   return (
     <TreeView
       selected={props.selected || ''}
-      defaultExpanded={props.expanded}
+      expanded={expanded}
       onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
         props.onSelect(nodeId)
+      }}
+      onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+        // On collapsing we don't collapse a folder if it's not yet selected
+        const isCollapsing = nodeIds.length < expanded.length
+        if (isCollapsing && !expanded.includes(props.selected || '')) return
+        setExpanded(nodeIds)
       }}
       sx={{ height: '100%' }}
       defaultCollapseIcon={<ExpandMoreIcon />}

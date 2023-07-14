@@ -32,8 +32,8 @@ const Context = React.createContext<{
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
-  const [expanded, setExpanded] = React.useState<string[]>([])
   const fileTree = React.useMemo(() => helpers.createFileTree(props.files), [props.files])
+  const [expanded, setExpanded] = React.useState<string[]>([])
   React.useEffect(() => {
     const defaultExpanded = props.event
       ? helpers.listParentFolders(props.event.paths)
@@ -53,7 +53,8 @@ export default function FileTree(props: FileTreeProps) {
             }}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
               // On collapsing we don't collapse a folder if it's not yet selected
-              if (nodeIds.length < expanded.length && !expanded.includes(selected)) return
+              const isCollapsing = nodeIds.length < expanded.length
+              if (isCollapsing && !expanded.includes(props.selected || '')) return
               setExpanded(nodeIds)
             }}
             defaultCollapseIcon={<MinusSquare />}
