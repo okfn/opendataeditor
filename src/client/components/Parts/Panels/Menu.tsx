@@ -8,7 +8,9 @@ export interface MenuPanelProps extends MenuTreeProps {
 }
 
 export default function MenuPanel(props: MenuPanelProps) {
-  const selectedIndex = props.menuItems.findIndex((item) => item.name === props.selected)
+  const selectedIndex = props.menuItems.findIndex(
+    (item) => item.section === props.selected
+  )
   return (
     <Columns spacing={3} layout={[3, 9]}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>

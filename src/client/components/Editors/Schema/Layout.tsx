@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
-import MenuTree from '../../Parts/Trees/Menu'
+import MenuPanel from '../../Parts/Panels/Menu'
 import EditorHelp from '../Base/Help'
 import Schema from './Sections/Schema'
 import Field from './Sections/Field'
@@ -25,29 +25,18 @@ export default function Layout() {
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
-        <Columns spacing={3} layout={[3, 9]}>
-          <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
-            <MenuTree
-              menuItems={MENU_ITEMS}
-              selected={section}
-              onSelect={(section) => {
-                updateHelp(section)
-                updateState({ section })
-              }}
-            />
-          </Box>
-          <Box>
-            <Box hidden={section !== 'schema'}>
-              <Schema />
-            </Box>
-            <Box hidden={section !== 'field'}>
-              <Field />
-            </Box>
-            <Box hidden={section !== 'foreignKey'}>
-              <ForeignKey />
-            </Box>
-          </Box>
-        </Columns>
+        <MenuPanel
+          menuItems={MENU_ITEMS}
+          selected={section}
+          onSelect={(section) => {
+            updateHelp(section)
+            updateState({ section })
+          }}
+        >
+          <Schema />
+          <Field />
+          <ForeignKey />
+        </MenuPanel>
         <EditorHelp helpItem={helpItem} />
       </Columns>
     </Box>
