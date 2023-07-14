@@ -17,6 +17,7 @@ export default function MenuPanel(props: MenuPanelProps) {
         <MenuTree
           menuItems={props.menuItems}
           selected={props.selected}
+          expanded={props.expanded}
           onSelect={props.onSelect}
         />
       </Box>

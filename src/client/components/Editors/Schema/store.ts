@@ -52,7 +52,7 @@ export function makeStore(props: SchemaProps) {
     descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    section: 'field',
+    section: 'schema/field',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })

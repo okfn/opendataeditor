@@ -12,8 +12,8 @@ import * as types from '../../../types'
 
 const MENU_ITEMS: types.IMenuItem[] = [
   { section: 'schema', name: 'Schema' },
-  { section: 'field', name: 'Fields' },
-  { section: 'foreignKey', name: 'Foreign Keys' },
+  { section: 'schema/field', name: 'Fields' },
+  { section: 'schema/foreignKey', name: 'Foreign Keys' },
 ]
 
 export default function Layout() {
@@ -26,6 +26,7 @@ export default function Layout() {
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
         <MenuPanel
+          expanded={['schema']}
           menuItems={MENU_ITEMS}
           selected={section}
           onSelect={(section) => {
