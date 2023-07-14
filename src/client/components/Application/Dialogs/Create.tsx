@@ -8,6 +8,7 @@ import SourceIcon from '@mui/icons-material/Source'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
+import TableViewIcon from '@mui/icons-material/TableView'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
@@ -33,6 +34,7 @@ export default function CreateDialog() {
   const createPackage = useStore((state) => state.createPackage)
   const createFile = useStore((state) => state.createFile)
   const createScript = useStore((state) => state.createScript)
+  const createTable = useStore((state) => state.createTable)
   const createView = useStore((state) => state.createView)
   const MENU_ITEMS: IMenuItem[] = [
     {
@@ -94,6 +96,16 @@ export default function CreateDialog() {
       promptPlaceholder: 'average price by brand for @cars',
       Icon: TerminalIcon,
       create: createScript,
+    },
+    {
+      name: 'Table',
+      section: 'table',
+      fileName: 'table.csv',
+      description: 'Creating a CSV table. Enter destination:',
+      placeholder: 'Enter a table path',
+      promptPlaceholder: 'continents with population',
+      Icon: TableViewIcon,
+      create: createTable,
     },
     {
       name: 'View',
@@ -163,7 +175,7 @@ export default function CreateDialog() {
             <Box>
               Provide a Chat AI prompt (optional):
               <MultilineField
-                rows={3}
+                rows={4}
                 label="Prompt"
                 value={prompt}
                 onChange={setPrompt}
@@ -172,7 +184,7 @@ export default function CreateDialog() {
             </Box>
           )}
           {loading && (
-            <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, maringTop: 2 }}>
+            <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, marginTop: 1 }}>
               Creating
               <LinearProgress />
             </Box>

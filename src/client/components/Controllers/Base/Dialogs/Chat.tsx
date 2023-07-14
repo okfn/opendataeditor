@@ -41,7 +41,7 @@ export default function ChatDialog(props: ChatDialogProps) {
         placeholder="please change something"
       />
       {loading && (
-        <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, maringTop: 2 }}>
+        <Box sx={{ borderTop: 'solid 1px #ddd', paddingY: 2, marginTop: 1 }}>
           Editing
           <LinearProgress />
         </Box>
