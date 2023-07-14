@@ -8,7 +8,7 @@ import * as types from '../../../types'
 
 // TODO: add section search
 
-interface MenuTreeProps {
+export interface MenuTreeProps {
   menuItems: types.IMenuItem[]
   selected?: string
   expanded?: string[]
