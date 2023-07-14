@@ -84,7 +84,7 @@ function TreeLabel(props: { label: string; type: string; path: string }) {
       sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}
     >
       {props.label}{' '}
-      <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
+      <Box sx={{ opacity: 0.5, marginLeft: '0.5em' }}>
         {props.type === 'table' ? props.path : props.type.toUpperCase()}
       </Box>
     </Box>
