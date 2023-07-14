@@ -113,7 +113,7 @@ function Name() {
     <InputField
       label="Name"
       value={name}
-      onFocus={() => updateHelp('fields/name')}
+      onFocus={() => updateHelp('field/name')}
       onChange={(value) => updateField({ name: value || undefined })}
     />
   )
@@ -128,7 +128,7 @@ function Type() {
       label="Type"
       value={type}
       options={Object.keys(settings.FIELDS)}
-      onFocus={() => updateHelp('fields/type')}
+      onFocus={() => updateHelp('field/type')}
       onChange={(value) => updateField({ type: value })}
     />
   )
@@ -146,7 +146,7 @@ function Format() {
     <InputField
       label="Format"
       value={format || ''}
-      onFocus={() => updateHelp('fields/format')}
+      onFocus={() => updateHelp('field/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   ) : (
@@ -168,7 +168,7 @@ function Title() {
     <InputField
       label="Title"
       value={title || ''}
-      onFocus={() => updateHelp('fields/title')}
+      onFocus={() => updateHelp('field/title')}
       onChange={(value) => updateField({ title: value || undefined })}
     />
   )
@@ -182,7 +182,7 @@ function Description() {
     <MultilineField
       label="Description"
       value={descriptor || ''}
-      onFocus={() => updateHelp('fields/description')}
+      onFocus={() => updateHelp('field/description')}
       onChange={(value) => updateField({ description: value || undefined })}
     />
   )
@@ -196,7 +196,7 @@ function MissingValues() {
     <InputField
       label="Missing Values"
       value={(missingValues || []).join(',')}
-      onFocus={() => updateHelp('fields/missingValues')}
+      onFocus={() => updateHelp('field/missingValues')}
       onChange={(value) =>
         updateField({ missingValues: value ? value.split(',') : undefined })
       }
@@ -212,7 +212,7 @@ function RdfType() {
     <InputField
       label="RDF Type"
       value={rdfType || ''}
-      onFocus={() => updateHelp('fields/rdfType')}
+      onFocus={() => updateHelp('field/rdfType')}
       onChange={(value) => updateField({ rdfType: value || undefined })}
     />
   )
@@ -283,7 +283,7 @@ function ArrayItem() {
       type="yaml"
       label="Array Item"
       value={arrayItem}
-      onFocus={() => updateHelp('fields/arrayItem')}
+      onFocus={() => updateHelp('field/arrayItem')}
       onChange={(value) => updateField({ arrayItem: value || undefined })}
     />
   )
@@ -297,7 +297,7 @@ function TrueValues() {
     <InputField
       label="True Values"
       value={(trueValues || []).join(',')}
-      onFocus={() => updateHelp('fields/trueValues')}
+      onFocus={() => updateHelp('field/trueValues')}
       onChange={(value) =>
         updateField({ trueValues: value ? value.split(',') : undefined })
       }
@@ -313,7 +313,7 @@ function FalseValues() {
     <InputField
       label="False Values"
       value={(falseValues || []).join(',')}
-      onFocus={() => updateHelp('fields/falseValues')}
+      onFocus={() => updateHelp('field/falseValues')}
       onChange={(value) =>
         updateField({ falseValues: value ? value.split(',') : undefined })
       }
@@ -329,7 +329,7 @@ function BareNumber() {
     <YesNoField
       label="Bare Number"
       value={bareNumber || settings.DEFAULT_BARE_NUMBER}
-      onFocus={() => updateHelp('fields/bareNumber')}
+      onFocus={() => updateHelp('field/bareNumber')}
       onChange={(value) =>
         updateField({ bareNumber: value === false ? value : undefined })
       }
@@ -345,7 +345,7 @@ function FloatNumber() {
     <YesNoField
       label="Float Number"
       value={floatNumber || false}
-      onFocus={() => updateHelp('fields/floatNumber')}
+      onFocus={() => updateHelp('field/floatNumber')}
       onChange={(value) => updateField({ floatNumber: value || undefined })}
     />
   )
@@ -358,7 +358,7 @@ function DecimalChar() {
   return (
     <InputField
       label="Decimal Char"
-      onFocus={() => updateHelp('fields/decimalChar')}
+      onFocus={() => updateHelp('field/decimalChar')}
       value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
       onChange={(value) => updateField({ decimalChar: value || undefined })}
     />
@@ -372,7 +372,7 @@ function GroupChar() {
   return (
     <InputField
       label="Group Char"
-      onFocus={() => updateHelp('fields/groupChar')}
+      onFocus={() => updateHelp('field/groupChar')}
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
       onChange={(value) => updateField({ groupChar: value || undefined })}
     />
@@ -429,7 +429,7 @@ function Required() {
   return (
     <YesNoField
       label="Required"
-      onFocus={() => updateHelp('fields/required')}
+      onFocus={() => updateHelp('field/required')}
       value={constraints?.required || false}
       onChange={(required) => updateField({ constraints: { ...constraints, required } })}
     />
@@ -475,7 +475,7 @@ function MinimumDate() {
     <DatePickerField
       label="Minimum"
       value={value}
-      onFocus={() => updateHelp('package/minimum')}
+      onFocus={() => updateHelp('field/minimum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, minimum: value.format(format) } })
@@ -496,7 +496,7 @@ function MaximumDate() {
     <DatePickerField
       label="Maximum"
       value={value}
-      onFocus={() => updateHelp('package/maximum')}
+      onFocus={() => updateHelp('field/maximum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, maximum: value.format(format) } })
@@ -517,7 +517,7 @@ function MinimumDateTime() {
     <DateTimePickerField
       label="Minimum"
       value={value}
-      onFocus={() => updateHelp('package/minimum')}
+      onFocus={() => updateHelp('field/minimum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, minimum: value.format(format) } })
@@ -538,7 +538,7 @@ function MaximumDateTime() {
     <DateTimePickerField
       label="Maximum"
       value={value}
-      onFocus={() => updateHelp('package/maximum')}
+      onFocus={() => updateHelp('field/maximum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, maximum: value.format(format) } })
@@ -559,7 +559,7 @@ function MinimumTime() {
     <TimePickerField
       label="Minimum"
       value={value}
-      onFocus={() => updateHelp('package/minimum')}
+      onFocus={() => updateHelp('field/minimum')}
       onChange={(value) => {
         if (!value) return
         updateField({
@@ -585,7 +585,7 @@ function MaximumTime() {
     <TimePickerField
       label="Maximum"
       value={value}
-      onFocus={() => updateHelp('package/maximum')}
+      onFocus={() => updateHelp('field/maximum')}
       onChange={(value) => {
         if (!value) return
         updateField({
@@ -617,7 +617,7 @@ function MinimumNumber() {
       type="number"
       label="Minimum"
       value={constraints?.minimum || ''}
-      onFocus={() => updateHelp('fields/minimum')}
+      onFocus={() => updateHelp('field/minimum')}
       onBlur={() => {
         setIsValid(isValidMinimumNumber())
       }}
@@ -646,7 +646,7 @@ function MaximumNumber() {
       type="number"
       label="Maximum"
       value={constraints?.maximum || ''}
-      onFocus={() => updateHelp('fields/maximum')}
+      onFocus={() => updateHelp('field/maximum')}
       onBlur={() => {
         setIsValid(isValidMaximumNumber())
       }}
@@ -667,7 +667,7 @@ function MinLength() {
       type="number"
       label="Min Length"
       value={constraints?.minLength || ''}
-      onFocus={() => updateHelp('fields/minLength')}
+      onFocus={() => updateHelp('field/minLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
       }
@@ -684,7 +684,7 @@ function MaxLength() {
       type="number"
       label="Max Length"
       value={constraints?.maxLength || ''}
-      onFocus={() => updateHelp('fields/maxLength')}
+      onFocus={() => updateHelp('field/maxLength')}
       onChange={(value) =>
         updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
       }
@@ -701,7 +701,7 @@ function Pattern() {
       type="string"
       label="Pattern"
       value={constraints?.pattern || ''}
-      onFocus={() => updateHelp('fields/pattern')}
+      onFocus={() => updateHelp('field/pattern')}
       onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
     />
   )
@@ -716,7 +716,7 @@ function Enum() {
       type="string"
       label="Enum"
       value={(constraints?.enum || []).join(',')}
-      onFocus={() => updateHelp('fields/enum')}
+      onFocus={() => updateHelp('field/enum')}
       onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
     />
   )

@@ -40,7 +40,7 @@ function Name() {
       error={!isValid}
       label="Name"
       value={name}
-      onFocus={() => updateHelp('package/name')}
+      onFocus={() => updateHelp('schema/name')}
       onBlur={() => {
         setIsValid(isValidName())
       }}

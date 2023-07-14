@@ -24,7 +24,7 @@ interface State {
   descriptor: types.ISchema
   onChange: (schema: types.ISchema) => void
   onFieldSelected: (name?: string) => void
-  vtabIndex: number
+  section: string
   helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
@@ -52,7 +52,7 @@ export function makeStore(props: SchemaProps) {
     descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    vtabIndex: 1,
+    section: 'field',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
