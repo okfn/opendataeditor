@@ -11,7 +11,7 @@ import { useStore, selectors, select } from '../../store'
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Excel" onHeadingClick={() => updateHelp('excel')}>
+    <EditorSection name="Excel" onHeadingClick={() => updateHelp('dialect/format')}>
       <Columns spacing={3}>
         <Box>
           <Sheet />

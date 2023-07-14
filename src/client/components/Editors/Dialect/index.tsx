@@ -6,6 +6,7 @@ import * as types from '../../../types'
 import Layout from './Layout'
 
 export interface DialectProps {
+  type?: string
   format?: string
   dialect?: types.IDialect
   onChange?: (dialect: types.IDialect) => void

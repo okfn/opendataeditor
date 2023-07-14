@@ -45,6 +45,13 @@ dialect/headerCase:
   - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case
   - It specifies case sensitivity mode. Header is case sensitive by default.
 
+# Type
+
+dialect/type:
+  - Type
+  - https://specs.frictionlessdata.io/csv-dialect/
+  - CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner.
+
 # Format
 
 dialect/format:

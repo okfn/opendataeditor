@@ -10,7 +10,7 @@ import YesNoField from '../../../../Parts/Fields/YesNo'
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Html" onHeadingClick={() => updateHelp('html')}>
+    <EditorSection name="Json" onHeadingClick={() => updateHelp('dialect/format')}>
       <Columns spacing={3}>
         <Box>
           <Keys />
