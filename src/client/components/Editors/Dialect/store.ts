@@ -15,9 +15,11 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
   format?: string
+  section: string
   descriptor: types.IDialect
   onChange: (dialect: types.IDialect) => void
   helpItem: types.IHelpItem
+  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IDialect>) => void
 
@@ -46,8 +48,12 @@ export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     format: props.format,
+    section: 'dialect',
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
+    updateState: (patch) => {
+      set({ ...patch })
+    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })

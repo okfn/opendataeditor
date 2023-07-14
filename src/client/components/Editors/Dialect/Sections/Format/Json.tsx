@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Parts/Grids/Columns'
-import InputField from '../../../Parts/Fields/Input'
-import EditorSection from '../../Base/Section'
-import * as settings from '../../../../settings'
-import { useStore, selectors, select } from '../store'
-import YesNoField from '../../../Parts/Fields/YesNo'
+import Columns from '../../../../Parts/Grids/Columns'
+import InputField from '../../../../Parts/Fields/Input'
+import EditorSection from '../../../Base/Section'
+import * as settings from '../../../../../settings'
+import { useStore, selectors, select } from '../../store'
+import YesNoField from '../../../../Parts/Fields/YesNo'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -32,7 +32,7 @@ function Keys() {
     <InputField
       label="Keys"
       value={keys}
-      onFocus={() => updateHelp('json/keys')}
+      onFocus={() => updateHelp('dialect/format/keys')}
       onChange={(value) => updateJson({ keys: value ? value.split(',') : undefined })}
     />
   )
@@ -46,7 +46,7 @@ function Keyed() {
     <YesNoField
       label="Keyed"
       value={keyed || settings.DEFAULT_KEYED}
-      onFocus={() => updateHelp('json/keyed')}
+      onFocus={() => updateHelp('dialect/format/keyed')}
       onChange={(keyed) => updateJson({ keyed })}
     />
   )
@@ -60,7 +60,7 @@ function Property() {
     <InputField
       label="Property"
       value={property}
-      onFocus={() => updateHelp('json/property')}
+      onFocus={() => updateHelp('dialect/format/property')}
       onChange={(value) => updateJson({ property: value || undefined })}
     />
   )

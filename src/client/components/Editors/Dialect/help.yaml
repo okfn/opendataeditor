@@ -45,123 +45,90 @@ dialect/headerCase:
   - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case
   - It specifies case sensitivity mode. Header is case sensitive by default.
 
-# Csv
+# Format
 
-csv:
-  - Csv
+dialect/format:
+  - Format
   - https://specs.frictionlessdata.io/csv-dialect/
   - CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner.
 
-csv/delimiter:
+# Format (Csv)
+
+dialect/format/delimiter:
   - Delimiter
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies the character sequence which should separate fields. (default ",")
 
-csv/lineTerminator:
+dialect/format/lineTerminator:
   - Line Terminator
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies the line terminator for the csv file while reading/writing. (default "\r\n")
 
-csv/quoteChar:
+dialect/format/quoteChar:
   - Quote Char
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies a one-character string to use as the quoting character. (default '"')
 
-csv/doubleQuote:
+dialect/format/doubleQuote:
   - Double Quote
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Controls the handling of quotes inside fields. (default true)
 
-csv/escapeChar:
+dialect/format/escapeChar:
   - Escape Char
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies a one-character string to use for escaping.
 
-csv/nullSequence:
+dialect/format/nullSequence:
   - Null Sequence
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies the null sequence.
 
-csv/skipInitialSpace:
+dialect/format/skipInitialSpace:
   - Skip Initial Space
   - https://specs.frictionlessdata.io/csv-dialect/#specification
   - Specifies how to interpret whitespace which immediately follows a delimiter. (default false)
 
-# Excel
+# Format (Excel)
 
-excel:
-  - Excel
-  - #
-  - Excel Dialect defines a simple format to describe the various dialects of Excel files in a language agnostic manner.
-
-excel/sheet:
+dialect/format/sheet:
   - Sheet
   - #
   - Specifies name of the sheet from where to read or write data. (default 1)
 
-excel/fillMergedCells:
+dialect/format/fillMergedCells:
   - Fill Merged Cells
   - #
   - Specifies to unmerge and fill all merged cells by the visible value. (default false)
 
-excel/preserveFormatting:
+dialect/format/preserveFormatting:
   - Preserve Formatting
   - #
   - Specifies to preserve text formatting for numeric and temporal cells. (default false)
 
-excel/adjustFloatingPointError:
+dialect/format/adjustFloatingPointError:
   - Adjust Floating Point Error
   - #
   - Specifies to ajust the Excel behavior regarding floating point numbers.
 
-excel/stringified:
+dialect/format/stringified:
   - Stringified
   - #
   - Specifies to stringify all cell values. (default false)
 
-# Json
+# Format (Json)
 
-json:
-  - Json
-  - #
-  - Json Dialect defines a simple format to describe the various dialects of Json files in a language agnostic manner.
-
-json/keys:
+dialect/format/keys:
   - keys
   - #
   - Specifies the keys/columns to read from the json resource.
 
-json/keyed:
+dialect/format/keyed:
   - Keyed
   - #
   - Specifies to return the data as "key:value" pair. (default false)
 
-json/property:
+dialect/format/property:
   - Property
   - #
   - Specifies the path to the attribute in a json file, if it has nested fields.
-
-# Ods
-
-ods:
-  - Ods
-  - #
-  - Ods Dialect defines a simple format to describe the various dialects of Ods files in a language agnostic manner.
-
-ods/sheet:
-  - sheet
-  - #
-  - Specifies name of the sheet from where to read or write data. (default 1)
-
-# Html
-
-html:
-  - Html
-  - #
-  - Html Dialect defines a simple format to describe the various dialects of Html files in a language agnostic manner.
-
-
-html/selector:
-  - Selector
-  - #
-  - Specifies the css selector to use. (default table)
