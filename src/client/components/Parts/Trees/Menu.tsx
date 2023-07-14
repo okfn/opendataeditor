@@ -52,6 +52,7 @@ function TreeNode(props: { item: types.IMenuTreeItem }) {
     <TreeItem
       key={props.item.section}
       nodeId={props.item.section}
+      disabled={props.item.disabled}
       label={<TreeLabel label={props.item.name} section={props.item.section} />}
     >
       {props.item.children.map((item) => (

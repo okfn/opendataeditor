@@ -15,6 +15,7 @@ export function createMenuTree(menuItems: types.IMenuItem[]): types.IMenuTreeIte
     tree.push({
       name: menuItem.name || name,
       section: menuItem.section,
+      disabled: menuItem.disabled,
       children: [],
     })
   }

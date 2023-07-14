@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Save'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import ConfigEditor from '../../Editors/Config'
@@ -23,7 +24,9 @@ export default function ConfigDialog() {
         updateState({ dialog: undefined })
       }}
     >
-      <ConfigEditor config={newConfig} onChange={setNewConfig} />
+      <Box sx={{ marginLeft: -2 }}>
+        <ConfigEditor config={newConfig} onChange={setNewConfig} />
+      </Box>
     </ConfirmDialog>
   )
 }
