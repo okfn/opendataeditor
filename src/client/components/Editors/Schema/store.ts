@@ -22,6 +22,7 @@ interface ISectionState {
 
 interface State {
   descriptor: types.ISchema
+  externalMenu?: { section: string }
   onChange: (schema: types.ISchema) => void
   onFieldSelected: (name?: string) => void
   section: string
@@ -50,6 +51,7 @@ interface State {
 export function makeStore(props: SchemaProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
+    externalMenu: props.externalMenu,
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
     section: 'schema',

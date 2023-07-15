@@ -18,28 +18,53 @@ const MENU_ITEMS: types.IMenuItem[] = [
 
 export default function Layout() {
   const theme = useTheme()
+  const externalMenu = useStore((state) => state.externalMenu)
   const helpItem = useStore((state) => state.helpItem)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const section = useStore((state) => state.section)
-  const updateState = useStore((state) => state.updateState)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
-        <MenuPanel
-          menuItems={MENU_ITEMS}
-          selected={section}
-          defaultExpanded={['schema']}
-          onSelect={(section) => {
-            updateHelp(section)
-            updateState({ section })
-          }}
-        >
-          <Schema />
-          <Field />
-          <ForeignKey />
-        </MenuPanel>
+        {!externalMenu ? <SectionsWithMenu /> : <SectionsWithoutMenu />}
         <EditorHelp helpItem={helpItem} />
       </Columns>
+    </Box>
+  )
+}
+
+function SectionsWithMenu() {
+  const section = useStore((state) => state.section)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <MenuPanel
+      menuItems={MENU_ITEMS}
+      selected={section}
+      defaultExpanded={['schema']}
+      onSelect={(section) => {
+        updateHelp(section)
+        updateState({ section })
+      }}
+    >
+      <Schema />
+      <Field />
+      <ForeignKey />
+    </MenuPanel>
+  )
+}
+
+function SectionsWithoutMenu() {
+  const section = useStore((state) => state.externalMenu?.section)
+  if (!section) return null
+  return (
+    <Box>
+      <Box hidden={section !== 'schema'}>
+        <Schema />
+      </Box>
+      <Box hidden={section !== 'schema/field'}>
+        <Field />
+      </Box>
+      <Box hidden={section !== 'schema/foreignKey'}>
+        <ForeignKey />
+      </Box>
     </Box>
   )
 }
