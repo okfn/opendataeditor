@@ -4,9 +4,9 @@ import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import MenuPanel from '../../Parts/Panels/Menu'
 import EditorHelp from '../Base/Help'
-import Schema from './Sections/Schema'
-import Field from './Sections/Field'
-import ForeignKey from './Sections/ForeignKey'
+import SchemaSection from './Sections/Schema'
+import FieldSection from './Sections/Field'
+import ForeignKeySection from './Sections/ForeignKey'
 import { useStore } from './store'
 import * as types from '../../../types'
 
@@ -18,8 +18,8 @@ const MENU_ITEMS: types.IMenuItem[] = [
 
 export default function Layout() {
   const theme = useTheme()
-  const externalMenu = useStore((state) => state.externalMenu)
   const helpItem = useStore((state) => state.helpItem)
+  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
       <Columns spacing={3} layout={[9, 3]}>
@@ -44,9 +44,9 @@ function SectionsWithMenu() {
         updateState({ section })
       }}
     >
-      <Schema />
-      <Field />
-      <ForeignKey />
+      <SchemaSection />
+      <FieldSection />
+      <ForeignKeySection />
     </MenuPanel>
   )
 }
@@ -57,13 +57,13 @@ function SectionsWithoutMenu() {
   return (
     <Box>
       <Box hidden={section !== 'schema'}>
-        <Schema />
+        <SchemaSection />
       </Box>
       <Box hidden={section !== 'schema/field'}>
-        <Field />
+        <FieldSection />
       </Box>
       <Box hidden={section !== 'schema/foreignKey'}>
-        <ForeignKey />
+        <ForeignKeySection />
       </Box>
     </Box>
   )

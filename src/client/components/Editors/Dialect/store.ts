@@ -18,6 +18,7 @@ interface State {
   format: string
   section: string
   descriptor: types.IDialect
+  externalMenu?: { section: string }
   onChange: (dialect: types.IDialect) => void
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -48,6 +49,7 @@ interface State {
 export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
+    externalMenu: props.externalMenu,
     type: props.type || 'table',
     format: props.format || 'csv',
     section: 'dialect',

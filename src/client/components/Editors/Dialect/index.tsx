@@ -9,6 +9,7 @@ export interface DialectProps {
   type?: string
   format?: string
   dialect?: types.IDialect
+  externalMenu?: { section: string }
   onChange?: (dialect: types.IDialect) => void
 }
 
