@@ -79,8 +79,12 @@ def action(project: Project, props: Props) -> Result:
 
         # Write document/artifacts
         if missing_record:
-            md.write_document(name=record.name, type="record", descriptor=record.dict())
+            md.write_document(
+                name=record.name, type="record", descriptor=record.model_dump()
+            )
         db.write_artifact(name=record.name, type="report", descriptor=report)
-        db.write_artifact(name=record.name, type="measure", descriptor=measure.dict())
+        db.write_artifact(
+            name=record.name, type="measure", descriptor=measure.model_dump()
+        )
 
     return Result(record=record, report=report, measure=measure)

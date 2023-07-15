@@ -7,14 +7,14 @@ dependencies = [
     "marko>=1.0",
     "tinydb>=4.7",
     "openai>=0.27",
-    "pydantic>=1.9",
+    "pydantic>=2.0",
     "fastapi>=0.78",
     "uvicorn>=0.17",
     "sqlalchemy>=2.0",
     "platformdirs>=3.8",
     "python-multipart>=0.0",
     "typing-extensions>=4.3",
-    "frictionless[ckan,csv,excel,json,pandas,sql]>=5.14.5",
+    "frictionless[ckan,csv,excel,json,pandas,sql]>=5.15.2",
 ]
 
 [tool.hatch.version]

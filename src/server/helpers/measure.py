@@ -15,4 +15,4 @@ def read_measure(project: Project, *, path: str):
 
     descriptor = md.find_document(type="measure", query=Query().path == path)
     if descriptor:
-        return models.Measure.parse_obj(descriptor)
+        return models.Measure(**descriptor)

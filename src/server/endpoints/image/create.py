@@ -12,7 +12,7 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    prompt: str | None
+    prompt: str | None = None
     deduplicate: Optional[bool] = None
 
 

@@ -16,9 +16,9 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    toPath: Optional[str]
-    history: Optional[models.History]
-    resource: Optional[types.IDescriptor]
+    toPath: Optional[str] = None
+    history: Optional[models.History] = None
+    resource: Optional[types.IDescriptor] = None
 
 
 class Result(BaseModel, extra="forbid"):

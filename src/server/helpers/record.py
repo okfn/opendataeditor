@@ -51,7 +51,7 @@ def patch_record(
     if updated:
         if fromName:
             md.delete_document(name=fromName, type="record")
-        md.write_document(name=record.name, type="record", descriptor=record.dict())
+        md.write_document(name=record.name, type="record", descriptor=record.model_dump())
 
     # Clear database
     # TODO: use smarter logic to delete only if needed
@@ -93,7 +93,7 @@ def read_record(project: Project, *, path: str):
     descriptor = md.find_document(type="record", query=Query().path == path)
     if not descriptor:
         return None
-    return models.Record.parse_obj(descriptor)
+    return models.Record(**descriptor)
 
 
 def name_record(project: Project, *, path: str) -> str:
@@ -137,7 +137,7 @@ def extract_records(project: Project, *, prompt: str):
         descriptor = md.read_document(type="record", name=name)
         if not descriptor:
             raise FrictionlessException(f"record not found: @{name}")
-        record = models.Record.parse_obj(descriptor)
+        record = models.Record(**descriptor)
         records.append(record)
 
     return records

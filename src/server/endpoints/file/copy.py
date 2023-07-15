@@ -56,6 +56,6 @@ def action(project: Project, props: Props) -> Result:
         record.name = helpers.name_record(project, path=toPath)
         record.path = toPath
         record.resource["path"] = toPath
-        md.write_document(name=record.name, type="record", descriptor=record.dict())
+        md.write_document(name=record.name, type="record", descriptor=record.model_dump())
 
     return Result(path=toPath)

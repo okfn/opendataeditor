@@ -14,7 +14,7 @@ from ...router import router
 
 
 class Props(BaseModel, extra="forbid"):
-    folder: Optional[str]
+    folder: Optional[str] = None
 
 
 class Result(BaseModel, extra="forbid"):

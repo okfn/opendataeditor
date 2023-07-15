@@ -13,7 +13,7 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    valid: Optional[bool]
+    valid: Optional[bool] = None
 
 
 class Result(BaseModel, extra="forbid"):

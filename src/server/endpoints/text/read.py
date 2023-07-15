@@ -14,7 +14,7 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    size: Optional[int]
+    size: Optional[int] = None
 
 
 class Result(BaseModel, extra="forbid"):

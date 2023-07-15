@@ -27,8 +27,8 @@ class Config:
         return config
 
     def write(self, config: models.Config):
-        system = config.system.dict()
-        project = config.project.dict()
+        system = config.system.model_dump()
+        project = config.project.model_dump()
         JsonResource(data=system).write_json(path=str(self.system))
         JsonResource(data=project).write_json(path=str(self.project))
         return config
