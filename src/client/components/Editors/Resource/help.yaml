@@ -24,7 +24,7 @@ resource/mediaType:
   - Media Type
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Specifies the media type/mime type of the resource e.g "text/csv", "application/vnd.ms-excel” etc.
-resource/path:
+"resource/path":
   - Path
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Specifies the path of this resource.
@@ -40,79 +40,102 @@ resource/encoding:
   - Encoding
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Specifies the character encoding of this resource data.
-resource/sources:
-  - Sources
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the raw sources for this resource data.
 
 
 # Checksum
 
-checksum:
+resource/checksum:
   - Checksum
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-checksum/hash:
+resource/checksum/hash:
   - Hash
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-checksum/bytes:
+resource/checksum/bytes:
   - Bytes
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-checksum/fields:
+resource/checksum/fields:
   - Fields
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-checksum/rows:
+resource/checksum/rows:
   - Rows
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
 # Licenses
 
-licenses:
+resource/licenses:
   - Licenses
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The license(s) under which the resource is provided.
 
-licenses/name:
+resource/licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The name MUST be an Open Definition license ID.
 
-licenses/path:
+resource/licenses/path:
   - Path
   - https://specs.frictionlessdata.io/data-package/#licenses
   - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path
 
-licenses/title:
+resource/licenses/title:
   - Title
   - https://specs.frictionlessdata.io/data-package/#licenses
   - A human-readable title.
 
+# Contributors
+
+resource/contributors:
+  - Contributors
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A name/title of the contributor (name for person, name/title of organization).
+
+resource/contributors/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - Title of the source (e.g. document or organization name).
+
+resource/contributors/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - An email address.
+
+resource/contributors/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A fully qualified http URL pointing to a relevant location online for the contributor.
+
+resource/contributors/role:
+  - Role
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A string describing the role of the contributor.
+
 # Sources
 
-sources:
+resource/sources:
   - Sources
   - https://specs.frictionlessdata.io/data-package/#sources
   - The license(s) under which the resource is provided.
 
-sources/title:
+resource/sources/title:
   - Title
   - https://specs.frictionlessdata.io/data-package/#sources
   - Title of the source (e.g. document or organization name)
 
-sources/path:
+resource/sources/path:
   - Path
   - https://specs.frictionlessdata.io/data-package/#sources
   - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path.
 
-sources/email:
+resource/sources/email:
   - Email
   - https://specs.frictionlessdata.io/data-package/#sources
   - An email address.

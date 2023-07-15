@@ -1,21 +1,19 @@
 import * as React from 'react'
-import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import EditorHelp from '../Base/Help'
 import HorizontalTabs from '../../Parts/Tabs/Horizontal'
-import VerticalTabs from '../../Parts/Tabs/Vertical'
+import MenuPanel from '../../Parts/Panels/Menu'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
-import Resource from './Sections/Resource'
-import Checksum from './Sections/Checksum'
-import License from './Sections/License'
+import ResourceSection from './Sections/Resource'
+import ChecksumSection from './Sections/Checksum'
+import LicenseSection from './Sections/License'
+import SourceSection from './Sections/Source'
+import ContributorSection from './Sections/Contributor'
 import { useStore } from './store'
-import Source from './Sections/Source'
-import Contributor from './Sections/Contributor'
-
-const LABELS = ['Resource', 'Checksum', 'Licenses', 'Sources', 'Contributors']
+import * as types from '../../../types'
 
 export default function Layout() {
   const theme = useTheme()
@@ -26,20 +24,34 @@ export default function Layout() {
 }
 
 function Sections() {
+  const section = useStore((state) => state.section)
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
+  const updateState = useStore((state) => state.updateState)
+  const MENU_ITEMS: types.IMenuItem[] = [
+    { section: 'resource', name: 'Resource' },
+    { section: 'resource/checksum', name: 'Checksum' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
+  ]
   return (
     <Columns spacing={3} layout={[9, 3]}>
-      <VerticalTabs
-        labels={LABELS}
-        onChange={(index) => updateHelp(camelCase(LABELS[index]))}
+      <MenuPanel
+        menuItems={MENU_ITEMS}
+        selected={section}
+        defaultExpanded={['resource']}
+        onSelect={(section) => {
+          updateHelp(section)
+          updateState({ section })
+        }}
       >
-        <Resource />
-        <Checksum />
-        <License />
-        <Source />
-        <Contributor />
-      </VerticalTabs>
+        <ResourceSection />
+        <ChecksumSection />
+        <LicenseSection />
+        <SourceSection />
+        <ContributorSection />
+      </MenuPanel>
       <EditorHelp helpItem={helpItem} />
     </Columns>
   )

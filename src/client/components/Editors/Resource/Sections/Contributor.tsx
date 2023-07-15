@@ -89,7 +89,7 @@ function Title() {
     <InputField
       label="Title"
       value={title || ''}
-      onFocus={() => updateHelp('contributors/title')}
+      onFocus={() => updateHelp('resource/contributors/title')}
       onChange={(value) => updateContributor({ title: value })}
     />
   )
@@ -105,7 +105,7 @@ function Email() {
     <InputField
       label="Email"
       value={email || ''}
-      onFocus={() => updateHelp('contributors/email')}
+      onFocus={() => updateHelp('resource/contributors/email')}
       onChange={(value) => updateContributor({ email: value || undefined })}
     />
   )
@@ -119,7 +119,7 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('contributors/path')}
+      onFocus={() => updateHelp('resource/contributors/path')}
       onChange={(value) => updateContributor({ path: value || undefined })}
     />
   )
@@ -133,7 +133,7 @@ function Role() {
     <InputField
       label="Role"
       value={role || ''}
-      onFocus={() => updateHelp('contributors/role')}
+      onFocus={() => updateHelp('resource/contributors/role')}
       onChange={(value) => updateContributor({ role: value || undefined })}
     />
   )

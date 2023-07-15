@@ -25,11 +25,13 @@ export default function Resource() {
 
 function Hash() {
   const hash = useStore((state) => state.descriptor.hash)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Hash"
       value={hash || ''}
+      onFocus={() => updateHelp('resource/checksum/hash')}
       onChange={(value) => updateDescriptor({ hash: value || undefined })}
     />
   )
@@ -37,11 +39,13 @@ function Hash() {
 
 function Bytes() {
   const bytes = useStore((state) => state.descriptor.bytes)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
       label="Bytes"
       value={bytes || ''}
+      onFocus={() => updateHelp('resource/checksum/bytes')}
       onChange={(value) => updateDescriptor({ bytes: parseInt(value) || undefined })}
     />
   )
@@ -50,6 +54,7 @@ function Bytes() {
 function Fields() {
   const type = useStore((state) => state.descriptor.type)
   const fields = useStore((state) => state.descriptor.fields)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
@@ -57,6 +62,7 @@ function Fields() {
     <InputField
       label="Fields"
       value={fields || ''}
+      onFocus={() => updateHelp('resource/checksum/fields')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
@@ -65,6 +71,7 @@ function Fields() {
 function Rows() {
   const type = useStore((state) => state.descriptor.type)
   const rows = useStore((state) => state.descriptor.rows)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
@@ -72,6 +79,7 @@ function Rows() {
     <InputField
       label="Rows"
       value={rows || ''}
+      onFocus={() => updateHelp('resource/checksum/rows')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
