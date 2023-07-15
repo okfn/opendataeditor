@@ -47,78 +47,78 @@ package/image:
 
 # Resources
 
-resources:
+package/resources:
   - Resources
   - https://specs.frictionlessdata.io/data-package/#resource-information
   - Packaged data resources are described in the resources property of the package descriptor.
 
 # Licenses
 
-licenses:
+package/licenses:
   - Licenses
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The license(s) under which the resource is provided.
 
-licenses/name:
+package/licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
   - The name MUST be an Open Definition license ID.
 
-licenses/path:
+package/licenses/path:
   - Path
   - https://specs.frictionlessdata.io/data-package/#licenses
   - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path
 
-licenses/title:
+package/licenses/title:
   - Title
   - https://specs.frictionlessdata.io/data-package/#licenses
   - A human-readable title.
 
-# Sources
-
-sources:
-  - Sources
-  - https://specs.frictionlessdata.io/data-package/#sources
-  - The license(s) under which the resource is provided.
-
-sources/title:
-  - Title
-  - https://specs.frictionlessdata.io/data-package/#sources
-  - Title of the source (e.g. document or organization name).
-
-sources/path:
-  - Path
-  - https://specs.frictionlessdata.io/data-package/#sources
-  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path.
-
-sources/email:
-  - Email
-  - https://specs.frictionlessdata.io/data-package/#sources
-  - An email address.
-
 # Contributors
 
-contributors:
+package/contributors:
   - Contributors
   - https://specs.frictionlessdata.io/data-package/#contributors
   - A name/title of the contributor (name for person, name/title of organization).
 
-contributors/title:
+package/contributors/title:
   - Title
   - https://specs.frictionlessdata.io/data-package/#contributors
   - Title of the source (e.g. document or organization name).
 
-contributors/email:
+package/contributors/email:
   - Email
   - https://specs.frictionlessdata.io/data-package/#contributors
   - An email address.
 
-contributors/path:
+package/contributors/path:
   - Path
   - https://specs.frictionlessdata.io/data-package/#contributors
   - A fully qualified http URL pointing to a relevant location online for the contributor.
 
-contributors/role:
+package/contributors/role:
   - Role
   - https://specs.frictionlessdata.io/data-package/#contributors
   - A string describing the role of the contributor.
+
+# Sources
+
+package/sources:
+  - Sources
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - The license(s) under which the resource is provided.
+
+package/sources/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - Title of the source (e.g. document or organization name).
+
+package/sources/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path.
+
+package/sources/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - An email address.

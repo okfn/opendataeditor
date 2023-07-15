@@ -49,8 +49,8 @@ function Sections() {
         <ResourceSection />
         <ChecksumSection />
         <LicenseSection />
-        <SourceSection />
         <ContributorSection />
+        <SourceSection />
       </MenuPanel>
       <EditorHelp helpItem={helpItem} />
     </Columns>

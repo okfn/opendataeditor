@@ -1,24 +1,22 @@
 import * as React from 'react'
-import camelCase from 'lodash/camelCase'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import InputAdornment from '@mui/material/InputAdornment'
 import HorizontalTabs from '../../Parts/Tabs/Horizontal'
-import VerticalTabs from '../../Parts/Tabs/Vertical'
+import MenuPanel from '../../Parts/Panels/Menu'
 import EditorHelp from '../Base/Help'
 import SelectField from '../../Parts/Fields/Select'
 import Columns from '../../Parts/Grids/Columns'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
-import Package from './Sections/Package'
-import License from './Sections/License'
-import Resources from './Sections/Resource'
+import PackageSection from './Sections/Package'
+import LicenseSection from './Sections/License'
+import ResourceSection from './Sections/Resource'
+import SourceSection from './Sections/Source'
+import ContributorSection from './Sections/Contributor'
 import { useStore, selectors } from './store'
-import Source from './Sections/Source'
-import Contributor from './Sections/Contributor'
-
-const LABELS = ['Package', 'Resources', 'Licenses', 'Sources', 'Contributors']
+import * as types from '../../../types'
 
 export default function Layout() {
   const theme = useTheme()
@@ -32,26 +30,34 @@ export default function Layout() {
 }
 
 function Sections() {
+  const section = useStore((state) => state.section)
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
-  const vtabIndex = useStore((state) => state.vtabIndex)
   const updateState = useStore((state) => state.updateState)
+  const MENU_ITEMS: types.IMenuItem[] = [
+    { section: 'package', name: 'Package' },
+    { section: 'package/resources', name: 'Resources' },
+    { section: 'package/licenses', name: 'Licenses' },
+    { section: 'package/contributors', name: 'Contributors' },
+    { section: 'package/sources', name: 'Sources' },
+  ]
   return (
     <Columns spacing={3} layout={[9, 3]}>
-      <VerticalTabs
-        index={vtabIndex}
-        labels={LABELS}
-        onChange={(index) => {
-          updateHelp(camelCase(LABELS[index]))
-          updateState({ vtabIndex: index })
+      <MenuPanel
+        menuItems={MENU_ITEMS}
+        selected={section}
+        defaultExpanded={['package']}
+        onSelect={(section) => {
+          updateHelp(section)
+          updateState({ section })
         }}
       >
-        <Package />
-        <Resources />
-        <License />
-        <Source />
-        <Contributor />
-      </VerticalTabs>
+        <PackageSection />
+        <ResourceSection />
+        <LicenseSection />
+        <ContributorSection />
+        <SourceSection />
+      </MenuPanel>
       <EditorHelp helpItem={helpItem} />
     </Columns>
   )
@@ -75,7 +81,7 @@ function Groups() {
           shallow
           resource={resource}
           onChange={(resource) => updateResource(resource)}
-          onBackClick={() => updateState({ tabIndex: 0, vtabIndex: 1 })}
+          onBackClick={() => updateState({ tabIndex: 0, section: 'package' })}
         />
       )}
       {resource && (

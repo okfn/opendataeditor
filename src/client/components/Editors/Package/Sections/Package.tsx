@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import InputField from '../../../Parts/Fields/Input'
-import DatePickerField from '../../../Parts/Fields/DatePicker'
+import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
@@ -123,7 +123,7 @@ function Created() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <DatePickerField
+    <DateTimePickerField
       label="Created"
       value={created ? dayjs(created) : null}
       onFocus={() => updateHelp('package/created')}

@@ -25,8 +25,8 @@ interface State {
   shallow?: boolean
   onChange: (pkg: types.IPackage) => void
   onAddResource?: () => void
+  section: string
   tabIndex: number
-  vtabIndex: number
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
@@ -71,8 +71,8 @@ export function makeStore(props: PackageProps) {
     shallow: props.shallow,
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
+    section: 'package',
     tabIndex: 0,
-    vtabIndex: 1,
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
