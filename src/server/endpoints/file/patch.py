@@ -12,8 +12,10 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    toPath: Optional[str] = None
+    name: str | None = None
+    type: str | None = None
     resource: Optional[types.IDescriptor] = None
+    toPath: Optional[str] = None
 
 
 class Result(BaseModel, extra="forbid"):
@@ -38,6 +40,8 @@ def action(project: Project, props: Props) -> Result:
     record = helpers.patch_record(
         project,
         path=props.path,
+        name=props.name,
+        type=props.type,
         toPath=props.toPath,
         resource=props.resource,
     )

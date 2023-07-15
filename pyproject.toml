@@ -6,13 +6,14 @@ dependencies = [
     "typer>=0.9",
     "marko>=1.0",
     "tinydb>=4.7",
+    "openai>=0.27",
     "pydantic>=1.9",
     "fastapi>=0.78",
     "uvicorn>=0.17",
     "sqlalchemy>=2.0",
     "platformdirs>=3.8",
-    "typing-extensions>=4.3",
     "python-multipart>=0.0",
+    "typing-extensions>=4.3",
     "frictionless[ckan,csv,excel,json,pandas,sql]>=5.14.5",
 ]
 
@@ -42,6 +43,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
+# TODO: support autoreloading and providing a custom folder/port
 start = [
   "python -m src.server",
 ]

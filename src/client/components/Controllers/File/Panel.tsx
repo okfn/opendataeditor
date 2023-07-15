@@ -12,7 +12,7 @@ export default function Layout() {
   return (
     <ScrollBox
       hidden={!panel}
-      height={theme.spacing(48)}
+      height={theme.spacing(42)}
       sx={{ borderTop: 'solid 1px #ddd' }}
     >
       {panel === 'metadata' && <MetadataPanel />}

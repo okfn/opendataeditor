@@ -1,2 +1,2 @@
 # Register modules
-from . import create, patch, read
+from . import create, edit, patch, read

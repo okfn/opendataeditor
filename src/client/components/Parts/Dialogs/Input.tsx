@@ -12,11 +12,11 @@ export interface InputDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> 
 }
 
 export default function InputDialog(props: InputDialogProps) {
-  const { value: initValue, prefix, placholder, spellcheck, onConfirm, ...others } = props
+  const { value: initValue, prefix, placholder, spellcheck, onConfirm, ...rest } = props
   const [value, setValue] = React.useState(initValue || '')
   const handleConfirm = () => onConfirm && onConfirm(value)
   return (
-    <ConfirmDialog {...others} onConfirm={handleConfirm}>
+    <ConfirmDialog {...rest} onConfirm={handleConfirm}>
       <TextField
         autoFocus
         fullWidth

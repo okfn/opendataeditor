@@ -28,23 +28,23 @@ export default function General() {
 }
 
 function Name() {
-  const name = useStore((state) => state.descriptor.name || 'name')
+  const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidName())
   function isValidName() {
-    return validator.isSlug(name)
+    return name ? validator.isSlug(name) : true
   }
   return (
     <InputField
       error={!isValid}
       label="Name"
-      value={name}
-      onFocus={() => updateHelp('package/name')}
+      value={name || ''}
+      onFocus={() => updateHelp('schema/name')}
       onBlur={() => {
         setIsValid(isValidName())
       }}
-      onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      onChange={(value) => updateDescriptor({ name: value || undefined })}
       helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )

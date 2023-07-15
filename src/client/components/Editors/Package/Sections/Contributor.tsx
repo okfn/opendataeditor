@@ -90,7 +90,7 @@ function Title() {
     <InputField
       label="Title"
       value={title || ''}
-      onFocus={() => updateHelp('contributors/title')}
+      onFocus={() => updateHelp('package/contributors/title')}
       onChange={(title) => updateContributor({ title })}
     />
   )
@@ -111,7 +111,7 @@ function Email() {
       error={!isValid}
       label="Email"
       value={email || ''}
-      onFocus={() => updateHelp('contributors/email')}
+      onFocus={() => updateHelp('package/contributors/email')}
       onBlur={() => {
         setIsValid(isValidEmail())
       }}
@@ -129,7 +129,7 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('contributors/path')}
+      onFocus={() => updateHelp('package/contributors/path')}
       onChange={(path) => updateContributor({ path })}
     />
   )
@@ -143,7 +143,7 @@ function Role() {
     <InputField
       label="Role"
       value={role || ''}
-      onFocus={() => updateHelp('contributors/role')}
+      onFocus={() => updateHelp('package/contributors/role')}
       onChange={(role) => updateContributor({ role })}
     />
   )

@@ -18,7 +18,7 @@ export interface State {
   path: string
   client: Client
   panel?: 'metadata' | 'report'
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
 
@@ -46,6 +46,7 @@ export interface State {
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
   save: () => Promise<void>
@@ -105,6 +106,12 @@ export function makeStore(props: TextProps) {
       })
       render()
     },
+    edit: async (prompt) => {
+      const { path, client, modifiedText, editorRef } = get()
+      const { text } = await client.textEdit({ path, text: modifiedText || '', prompt })
+      if (!editorRef.current) return
+      editorRef.current.setValue(text)
+    },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
       await client.textPatch({ path, toPath, text: modifiedText, resource })
@@ -116,12 +123,11 @@ export function makeStore(props: TextProps) {
       return url
     },
     revert: () => {
-      const { record, originalText, updateState } = get()
+      const { record, originalText, updateState, editorRef } = get()
       if (!record) return
-      updateState({
-        resource: cloneDeep(record.resource),
-        modifiedText: originalText,
-      })
+      if (!editorRef.current) return
+      editorRef.current.setValue(originalText || '')
+      updateState({ resource: cloneDeep(record.resource) })
     },
     save: async () => {
       const { path, client, modifiedText, resource, onSave, load } = get()

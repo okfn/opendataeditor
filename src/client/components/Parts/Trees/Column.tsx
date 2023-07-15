@@ -1,7 +1,7 @@
 import * as React from 'react'
-import TreeItem from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
 import TreeView from '@mui/lab/TreeView'
+import TreeItem from '@mui/lab/TreeItem'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as helpers from '../../../helpers'
@@ -10,7 +10,7 @@ import * as types from '../../../types'
 interface ColumnTreeProps {
   columns: types.IColumn[]
   selected?: string
-  expanded?: string[]
+  defaultExpanded?: string[]
   onPathChange?: (path: string) => void
   onPathDoubleClick?: (path: string) => void
 }
@@ -20,6 +20,7 @@ const Context = React.createContext<{
 }>({})
 
 export default function ColumnTree(props: ColumnTreeProps) {
+  const [expanded, setExpanded] = React.useState(props.defaultExpanded || [])
   const columnTree = React.useMemo(
     () => helpers.createColumnTree(props.columns),
     [props.columns]
@@ -29,10 +30,15 @@ export default function ColumnTree(props: ColumnTreeProps) {
       <Box sx={{ padding: 2 }}>
         <TreeView
           selected={props.selected || ''}
-          defaultExpanded={props.expanded}
-          onNodeFocus={(event: React.SyntheticEvent, nodeId: string) => {
+          expanded={expanded}
+          onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
             if (props.onPathChange) props.onPathChange(nodeId)
-            event.stopPropagation()
+          }}
+          onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+            // On collapsing we don't collapse a folder if it's not yet selected
+            const isCollapsing = nodeIds.length < expanded.length
+            if (isCollapsing && !expanded.includes(props.selected || '')) return
+            setExpanded(nodeIds)
           }}
           sx={{ height: '100%' }}
           defaultCollapseIcon={<ExpandMoreIcon />}
@@ -78,7 +84,7 @@ function TreeLabel(props: { label: string; type: string; path: string }) {
       sx={{ py: 1, display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}
     >
       {props.label}{' '}
-      <Box sx={{ color: '#4d4d4d', paddingLeft: '10px' }}>
+      <Box sx={{ opacity: 0.5, marginLeft: '0.5em' }}>
         {props.type === 'table' ? props.path : props.type.toUpperCase()}
       </Box>
     </Box>

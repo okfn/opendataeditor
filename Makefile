@@ -1,10 +1,11 @@
-.PHONY: all build client components docs format install lint list release server start test version write
+.PHONY: all build client components docs format install lint release server start test version write
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
 
 
-all: list
+all:
+	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 build:
 	npm run build
@@ -28,9 +29,6 @@ install:
 lint:
 	hatch run lint
 	npm run lint
-
-list:
-	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 release:
 	git checkout main && git pull origin && git fetch -p

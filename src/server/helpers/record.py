@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, List, Optional, cast
+from pathlib import Path
+from typing import TYPE_CHECKING, List, Optional
 
-import stringcase  # type: ignore
-from frictionless import FrictionlessException, Resource
+from frictionless import FrictionlessException
 from slugify.slugify import slugify
 from tinydb import Query
 
@@ -19,30 +19,38 @@ def patch_record(
     project: Project,
     *,
     path: str,
-    toPath: Optional[str] = None,
-    toType: Optional[str] = None,
+    name: Optional[str] = None,
+    type: Optional[str] = None,
     resource: Optional[types.IDescriptor] = None,
+    toPath: Optional[str] = None,
     isDataChanged: bool = False,
 ):
     md = project.metadata
 
     # Update record
     updated = False
+    fromName = None
     record = read_record_or_raise(project, path=path)
+    if name:
+        updated = True
+        fromName = record.name
+        record.name = name
+    if type:
+        updated = True
+        record.type = type
+    if resource:
+        updated = True
+        record.resource = resource
     if toPath:
         updated = True
         record.name = name_record(project, path=toPath)
         record.path = toPath
         record.resource["path"] = toPath
-    if toType:
-        updated = True
-        record.type = toType
-    if resource:
-        updated = True
-        record.resource = resource
 
     # Write record
     if updated:
+        if fromName:
+            md.delete_document(name=fromName, type="record")
         md.write_document(name=record.name, type="record", descriptor=record.dict())
 
     # Clear database
@@ -75,7 +83,7 @@ def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False
 def read_record_or_raise(project: Project, *, path: str):
     record = read_record(project, path=path)
     if not record:
-        raise FrictionlessException("record not found")
+        raise FrictionlessException(f"record not found: {path}")
     return record
 
 
@@ -92,11 +100,7 @@ def name_record(project: Project, *, path: str) -> str:
     md = project.metadata
 
     # Make slugified
-    name = Resource(path=path).name
-    name = slugify(name)
-    name = re.sub(r"[^a-zA-Z0-9]+", "_", name)
-    name = cast(str, stringcase.camelcase(name))  # type: ignore
-    name = name.replace("_", "")  # if something not replaced by camelcase
+    name = convert_path_to_record_name(path)
 
     # Make unique
     names: List[str] = []
@@ -115,3 +119,29 @@ def name_record(project: Project, *, path: str) -> str:
             suffix += 1
 
     return name  # type: ignore
+
+
+def convert_path_to_record_name(path: str):
+    name = Path(path).stem
+    name = slugify(name, separator="_")
+    name = re.sub(r"[^a-zA-Z0-9_]+", "", name)
+    return name
+
+
+def extract_records(project: Project, *, prompt: str):
+    md = project.metadata
+
+    records: list[models.Record] = []
+    names = extract_record_names(prompt=prompt)
+    for name in names:
+        descriptor = md.read_document(type="record", name=name)
+        if not descriptor:
+            raise FrictionlessException(f"record not found: @{name}")
+        record = models.Record.parse_obj(descriptor)
+        records.append(record)
+
+    return records
+
+
+def extract_record_names(*, prompt: str):
+    return re.findall(r"\@([a-zA-Z0-9_]+)", prompt)

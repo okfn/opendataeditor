@@ -6,6 +6,7 @@ export default function Menu() {
   const language = useStore(selectors.language)
   const type = useStore((state) => state.record?.type)
   const panel = useStore((state) => state.panel)
+  const dialog = useStore((state) => state.dialog)
   const execute = useStore((state) => state.execute)
   const clear = useStore((state) => state.clear)
   const undo = useStore((state) => state.undo)
@@ -31,6 +32,9 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton enabled />
+      <menu.ChatButton
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
+      />
       {type === 'script' && <menu.RunButton onClick={execute} />}
       <menu.UndoButton onClick={undo} disabled={currentVersion <= minimalVersion} />
       <menu.RedoButton onClick={redo} disabled={currentVersion >= maximalVersion} />

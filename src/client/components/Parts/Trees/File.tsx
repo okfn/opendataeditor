@@ -32,8 +32,8 @@ const Context = React.createContext<{
 }>({})
 
 export default function FileTree(props: FileTreeProps) {
-  const [expanded, setExpanded] = React.useState<string[]>([])
   const fileTree = React.useMemo(() => helpers.createFileTree(props.files), [props.files])
+  const [expanded, setExpanded] = React.useState<string[]>([])
   React.useEffect(() => {
     const defaultExpanded = props.event
       ? helpers.listParentFolders(props.event.paths)
@@ -53,7 +53,8 @@ export default function FileTree(props: FileTreeProps) {
             }}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
               // On collapsing we don't collapse a folder if it's not yet selected
-              if (nodeIds.length < expanded.length && !expanded.includes(selected)) return
+              const isCollapsing = nodeIds.length < expanded.length
+              if (isCollapsing && !expanded.includes(props.selected || '')) return
               setExpanded(nodeIds)
             }}
             defaultCollapseIcon={<MinusSquare />}
@@ -76,14 +77,7 @@ export default function FileTree(props: FileTreeProps) {
 
 function TreeNode(props: { item: types.IFileTreeItem }) {
   return (
-    <StyledTreeItem
-      key={props.item.path}
-      nodeId={props.item.path}
-      label={props.item.name}
-      type={props.item.type}
-      indexed={props.item.indexed}
-      errorCount={props.item.errorCount}
-    >
+    <StyledTreeItem key={props.item.path} nodeId={props.item.path} item={props.item}>
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
       ))}
@@ -94,12 +88,10 @@ function TreeNode(props: { item: types.IFileTreeItem }) {
 const StyledTreeItem = styled(
   (
     props: TreeItemProps & {
-      type: string
-      indexed?: boolean
-      errorCount?: number
+      item: types.IFileTreeItem
     }
   ) => {
-    const { type, indexed, errorCount, ...others } = props
+    const { item, ...others } = props
     const { event } = React.useContext(Context)
     const animation =
       event &&
@@ -111,21 +103,13 @@ const StyledTreeItem = styled(
       <TreeItem
         {...others}
         sx={{ animation }}
-        label={
-          <TreeItemIcon
-            nodeId={props.nodeId}
-            label={props.label}
-            type={type}
-            indexed={indexed}
-            errorCount={errorCount}
-          />
-        }
+        label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
       />
     )
   }
-)(({ theme, type }) => ({
+)(({ theme, item }) => ({
   '& .MuiTreeItem-label': {
-    fontWeight: type === 'package' ? 'bold' : 'normal',
+    fontWeight: item.type === 'package' ? 'bold' : 'normal',
   },
   [`& .${treeItemClasses.iconContainer}`]: {
     '& .close': {
@@ -139,29 +123,28 @@ const StyledTreeItem = styled(
   },
 }))
 
-// TODO: Add Files action "Manage -> IndexAll/Selected"
-function TreeItemIcon(props: {
-  nodeId: string
-  label: React.ReactNode
-  type: string
-  indexed?: boolean
-  errorCount?: number
-}) {
-  const Icon = getIcon(props.type)
+function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
+  const Icon = getIcon(props.item.type)
   let color = 'disabled'
-  if (props.type === 'folder') color = 'primary'
-  if (props.indexed) color = props.errorCount ? 'error' : 'success'
+  if (props.item.type === 'folder') color = 'primary'
+  if (props.item.name) color = props.item.errors ? 'error' : 'success'
   return (
     <Box
       sx={{
         py: 1,
         display: 'flex',
         alignItems: 'center',
+        overflow: 'hidden',
         '& svg': { mr: 1 },
       }}
     >
       <Icon color={color} />
-      {props.label}
+      {props.item.label}
+      {props.item.name && (
+        <span style={{ marginLeft: '0.5em', opacity: 0.5, fontWeight: 'normal' }}>
+          @{props.item.name}
+        </span>
+      )}
     </Box>
   )
 }
@@ -187,6 +170,8 @@ function PlusSquare(props: SvgIconProps) {
 function getIcon(type: string): React.ElementType {
   return TYPE_ICONS[type] || DescriptionIcon
 }
+
+// const REFERENCED_TYPES = ['chart', 'image', 'map', 'table', 'view']
 
 const TYPE_ICONS: { [key: string]: React.ElementType } = {
   folder: FolderIcon,

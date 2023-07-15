@@ -21,7 +21,7 @@ class Result(BaseModel, extra="forbid"):
 
 
 @router.post("/json/create")
-def server_text_write(request: Request, props: Props) -> Result:
+def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
 

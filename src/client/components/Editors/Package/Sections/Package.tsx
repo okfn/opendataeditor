@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import InputField from '../../../Parts/Fields/Input'
-import DatePickerField from '../../../Parts/Fields/DatePicker'
+import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
@@ -32,23 +32,23 @@ export default function Package() {
 }
 
 function Name() {
-  const name = useStore((state) => state.descriptor.name || 'name')
+  const name = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidName())
   function isValidName() {
-    return name ? validator.isSlug(name) : false
+    return name ? validator.isSlug(name) : true
   }
   return (
     <InputField
       error={!isValid}
       label="Name"
-      value={name}
+      value={name || ''}
       onFocus={() => updateHelp('package/name')}
       onBlur={() => {
         setIsValid(isValidName())
       }}
-      onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      onChange={(value) => updateDescriptor({ name: value || undefined })}
       helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )
@@ -123,7 +123,7 @@ function Created() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <DatePickerField
+    <DateTimePickerField
       label="Created"
       value={created ? dayjs(created) : null}
       onFocus={() => updateHelp('package/created')}

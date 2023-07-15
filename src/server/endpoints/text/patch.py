@@ -14,8 +14,8 @@ from ...router import router
 class Props(BaseModel, extra="forbid"):
     path: str
     text: Optional[str]
-    toPath: Optional[str]
     resource: Optional[types.IDescriptor]
+    toPath: Optional[str]
 
 
 class Result(BaseModel, extra="forbid"):

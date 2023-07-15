@@ -83,7 +83,7 @@ function Name() {
     <InputField
       label="Name"
       value={name}
-      onFocus={() => updateHelp('licenses/name')}
+      onFocus={() => updateHelp('package/licenses/name')}
       onChange={(name) => updateLicense({ name })}
     />
   )
@@ -102,7 +102,7 @@ function Title() {
       error={!isValid}
       label="Title"
       value={title || ''}
-      onFocus={() => updateHelp('licenses/title')}
+      onFocus={() => updateHelp('package/licenses/title')}
       onBlur={() => {
         setIsValid(isValidTitle())
       }}
@@ -120,7 +120,7 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('licenses/path')}
+      onFocus={() => updateHelp('package/licenses/path')}
       onChange={(path) => updateLicense({ path })}
     />
   )

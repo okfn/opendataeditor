@@ -1,6 +1,5 @@
 import * as React from 'react'
 import camelCase from 'lodash/camelCase'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import VerticalTabs from '../../Parts/Tabs/Vertical'
@@ -15,13 +14,8 @@ import LayerChart from './Sections/Chart/LayerChart'
 const LABELS = ['Chart', 'Channels', 'Transforms']
 
 export default function Layout() {
-  const theme = useTheme()
   const shallow = useStore((state) => state.shallow)
-  return (
-    <Box sx={{ height: theme.spacing(42), position: 'relative' }}>
-      {shallow ? <Sections /> : <Groups />}
-    </Box>
-  )
+  return <Box sx={{ height: '100%' }}>{shallow ? <Sections /> : <Groups />}</Box>
 }
 
 function Sections() {

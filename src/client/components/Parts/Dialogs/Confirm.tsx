@@ -18,6 +18,7 @@ export interface ConfirmDialogProps {
   maxWidth?: 'md' | 'xl'
   onCancel?: () => void
   onConfirm?: () => void
+  ctrlEnter?: boolean
 }
 
 export default function ConfirmDialog(
@@ -34,10 +35,18 @@ export default function ConfirmDialog(
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onKeyDown={(event) => {
-        if (event.key === 'Enter') handleConfirm()
+        if ((!props.ctrlEnter || event.ctrlKey) && event.key === 'Enter') handleConfirm()
       }}
     >
-      <DialogTitle id="dialog-title" sx={{ marginBottom: 0, paddingBottom: 1 }}>
+      <DialogTitle
+        id="dialog-title"
+        sx={{
+          paddingBottom: 1,
+          marginBottom: 2,
+          borderBottom: 'solid 1px #ddd',
+          backgroundColor: '#fafafa',
+        }}
+      >
         {props.title || 'Dialog'}
       </DialogTitle>
       <DialogContent sx={{ paddingTop: 0, paddingBottom: 0 }}>
@@ -50,7 +59,7 @@ export default function ConfirmDialog(
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label="Cancel [esc]"
+            label="Cancel [Esc]"
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
@@ -60,7 +69,7 @@ export default function ConfirmDialog(
           />
           <IconButton
             fullWidth
-            label={`${props.label || 'Confirm'} [enter]`}
+            label={`${props.label || 'Confirm'} [${props.ctrlEnter ? 'Ctrl+' : ''}Enter]`}
             Icon={props.Icon || CheckCircleIcon}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}

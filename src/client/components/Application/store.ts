@@ -6,7 +6,6 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
-import * as settings from '../../settings'
 import * as helpers from '../../helpers'
 import * as types from '../../types'
 
@@ -40,7 +39,8 @@ export interface State {
   loadFiles: () => Promise<void>
   addFiles: (files: FileList) => Promise<void>
   fetchFile: (url: string) => Promise<void>
-  createFile: (path: string) => Promise<void>
+  createFile: (path: string, prompt?: string) => Promise<void>
+  adjustFile: (name: string, type: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
@@ -58,11 +58,13 @@ export interface State {
 
   // Others
 
-  createArticle: (path: string) => Promise<void>
-  createChart: (path: string) => Promise<void>
-  createPackage: (path: string) => Promise<void>
-  createScript: (path: string) => Promise<void>
-  createView: (path: string) => Promise<void>
+  createArticle: (path: string, prompt?: string) => Promise<void>
+  createChart: (path: string, prompt?: string) => Promise<void>
+  createImage: (path: string, prompt?: string) => Promise<void>
+  createPackage: (path: string, prompt?: string) => Promise<void>
+  createScript: (path: string, prompt?: string) => Promise<void>
+  createTable: (path: string, prompt?: string) => Promise<void>
+  createView: (path: string, prompt?: string) => Promise<void>
 }
 
 export function makeStore(props: ApplicationProps) {
@@ -142,11 +144,26 @@ export function makeStore(props: ApplicationProps) {
       const { path } = await client.fileFetch({ url, folder, deduplicate: true })
       onFileCreate([path])
     },
-    createFile: async (path) => {
+    createFile: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const file = new File([new Blob()], path)
-      const result = await client.fileCreate({ path, file, deduplicate: true })
-      onFileCreate([result.path])
+      if (prompt) {
+        const text = ''
+        const result = await client.textCreate({ path, text, prompt, deduplicate: true })
+        onFileCreate([result.path])
+      } else {
+        const file = new File([new Blob()], path)
+        const result = await client.fileCreate({ path, file, deduplicate: true })
+        onFileCreate([result.path])
+      }
+    },
+    adjustFile: async (name, type) => {
+      const { path, client, closeFile, loadFiles, selectFile } = get()
+      if (!path) return
+      await client.filePatch({ path, name, type })
+      set({ path: undefined })
+      closeFile()
+      await loadFiles()
+      await selectFile(path)
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
@@ -218,47 +235,66 @@ export function makeStore(props: ApplicationProps) {
 
     // Others
 
-    createArticle: async (path) => {
+    createArticle: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.articleCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createChart: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.chartCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createImage: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.imageCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createPackage: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.packageCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createScript: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.scriptCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createTable: async (path, prompt) => {
       const { client, onFileCreate } = get()
       const result = await client.textCreate({
         path,
         text: '',
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])
     },
-    createChart: async (path) => {
+    createView: async (path, prompt) => {
       const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
+      const result = await client.viewCreate({
         path,
-        data: { mark: 'bar' },
-        deduplicate: true,
-      })
-      onFileCreate([result.path])
-    },
-    createPackage: async (path) => {
-      const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
-        path,
-        data: settings.INITIAL_PACKAGE,
-        deduplicate: true,
-      })
-      onFileCreate([result.path])
-    },
-    createScript: async (path) => {
-      const { client, onFileCreate } = get()
-      const result = await client.textCreate({
-        path,
-        text: '',
-        deduplicate: true,
-      })
-      onFileCreate([result.path])
-    },
-    createView: async (path) => {
-      const { client, onFileCreate } = get()
-      const result = await client.jsonCreate({
-        path,
-        data: { query: '' },
+        prompt,
         deduplicate: true,
       })
       onFileCreate([result.path])
@@ -279,7 +315,7 @@ export const selectors = {
     return helpers.getFolderPath(state.path)
   },
   notIndexedFiles: (state: State) => {
-    return state.files.filter((file) => !file.indexed)
+    return state.files.filter((file) => !file.name)
   },
 }
 

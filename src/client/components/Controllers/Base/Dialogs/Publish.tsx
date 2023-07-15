@@ -37,7 +37,9 @@ export default function PublishDialog(props: PublishDialogProps) {
       onCancel={handleClose}
       onConfirm={publishedUrl ? handleClose : handlePublish}
     >
-      <ControlEditor control={control} onChange={setControl} />
+      <Box sx={{ marginLeft: -2 }}>
+        <ControlEditor control={control} onChange={setControl} />
+      </Box>
       {isPublishing && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Publishing

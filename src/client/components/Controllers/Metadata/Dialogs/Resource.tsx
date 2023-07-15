@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SelectDialog from '../../../Parts/Dialogs/Select'
+import PickDialog from '../../../Parts/Dialogs/Pick'
 import { useStore } from '../store'
 import * as types from '../../../../types'
 
@@ -31,8 +31,11 @@ export default function Resource() {
     })
   }, [record])
   return (
-    <SelectDialog
+    <PickDialog
+      open={true}
       title="Select Resources"
+      maxWidth="md"
+      label="Select"
       items={paths}
       onCancel={handleCancel}
       onConfirm={handleSave}

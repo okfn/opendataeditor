@@ -27,11 +27,14 @@ interface ISectionState {
 
 interface State {
   descriptor: types.IResource
+  externalMenu?: { section: string }
   shallow?: boolean
+  section: string
   onChange: (resource: types.IResource) => void
   onBackClick?: () => void
   onFieldSelected?: (name?: string) => void
   helpItem: types.IHelpItem
+  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IResource>) => void
 
@@ -63,11 +66,16 @@ interface State {
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
+    externalMenu: props.externalMenu,
     shallow: props.shallow,
+    section: 'resource',
     onChange: props.onChange || noop,
     onBackClick: props.onBackClick,
     onFieldSelected: props.onFieldSelected,
     helpItem: DEFAULT_HELP_ITEM,
+    updateState: (patch) => {
+      set({ ...patch })
+    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })

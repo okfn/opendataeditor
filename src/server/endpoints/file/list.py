@@ -38,10 +38,12 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
         errors_by_name[name] = descriptor["errors"]
 
     # Index by path
+    name_by_path: Dict[str, str] = {}
     type_by_path: Dict[str, str] = {}
     errors_by_path: Dict[str, int] = {}
     for descriptor in md.iter_documents(type="record"):
         path = descriptor["path"]
+        name_by_path[path] = descriptor["name"]
         type_by_path[path] = descriptor["type"]
         errors_by_path[path] = errors_by_name.get(descriptor["name"], 0)
 
@@ -61,10 +63,10 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
                 continue
             path = fs.get_path(root / file)
             item = models.File(path=path, type=type_by_path.get(path, "file"))
-            if path in type_by_path:
-                item.indexed = True
+            if path in name_by_path:
+                item.name = name_by_path[path]
             if path in errors_by_path:
-                item.errorCount = errors_by_path[path]
+                item.errors = errors_by_path[path]
             items.append(item)
         for folder in list(folders):
             if folder.startswith(".") or folder in IGNORED_FOLDERS:

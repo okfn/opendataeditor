@@ -85,7 +85,7 @@ function Title() {
     <InputField
       label="Title"
       value={title}
-      onFocus={() => updateHelp('sources/title')}
+      onFocus={() => updateHelp('resource/sources/title')}
       onChange={(title) => updateSource({ title })}
     />
   )
@@ -99,7 +99,7 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('sources/path')}
+      onFocus={() => updateHelp('resource/sources/path')}
       onChange={(value) => updateSource({ path: value || undefined })}
     />
   )
@@ -118,7 +118,7 @@ function Email() {
       error={!isValid}
       label="Email"
       value={email || ''}
-      onFocus={() => updateHelp('sources/email')}
+      onFocus={() => updateHelp('resource/sources/email')}
       onBlur={() => {
         setIsValid(isValidEmail())
       }}

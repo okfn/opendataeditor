@@ -10,6 +10,7 @@ export interface VtabsProps {
   disabledLabels?: string[]
   children?: React.ReactNode
   onChange?: (index: number) => void
+  virtual?: boolean
 }
 
 export default function Vtabs(props: VtabsProps) {
@@ -48,11 +49,17 @@ export default function Vtabs(props: VtabsProps) {
           />
         ))}
       </Tabs>
-      {React.Children.map(props.children, (child, index) => (
-        <TabPanel value={value} index={index}>
-          {child}
+      {props.virtual ? (
+        <TabPanel value={value} index={value}>
+          {props.children}
         </TabPanel>
-      ))}
+      ) : (
+        React.Children.map(props.children, (child, index) => (
+          <TabPanel value={value} index={index}>
+            {child}
+          </TabPanel>
+        ))
+      )}
     </Box>
   )
 }

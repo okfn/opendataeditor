@@ -11,13 +11,14 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 import help from './help.yaml'
 
-const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'control')!
+const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'ckan')!
 
 interface State {
-  format?: string
   descriptor: Partial<types.IControl>
   onChange: (control?: Partial<types.IControl>) => void
+  section: string
   helpItem: types.IHelpItem
+  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IControl>) => void
 }
@@ -26,7 +27,11 @@ export function makeStore(props: ControlProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.control || cloneDeep(settings.INITIAL_CONTROL),
     onChange: props.onChange || noop,
+    section: 'ckan',
     helpItem: DEFAULT_HELP_ITEM,
+    updateState: (patch) => {
+      set({ ...patch })
+    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })

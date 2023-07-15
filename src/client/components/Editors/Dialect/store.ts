@@ -14,10 +14,14 @@ import help from './help.yaml'
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
-  format?: string
+  type: string
+  format: string
+  section: string
   descriptor: types.IDialect
+  externalMenu?: { section: string }
   onChange: (dialect: types.IDialect) => void
   helpItem: types.IHelpItem
+  updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IDialect>) => void
 
@@ -43,11 +47,18 @@ interface State {
 }
 
 export function makeStore(props: DialectProps) {
+  console.log('dialog:makeStore')
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
-    format: props.format,
+    externalMenu: props.externalMenu,
+    type: props.type || 'table',
+    format: props.format || 'csv',
+    section: 'dialect',
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
+    updateState: (patch) => {
+      set({ ...patch })
+    },
     updateHelp: (path) => {
       const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
       set({ helpItem })

@@ -1,17 +1,17 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../../Parts/Grids/Columns'
-import InputField from '../../../Parts/Fields/Input'
-import YesNoField from '../../../Parts/Fields/YesNo'
-import EditorSection from '../../Base/Section'
-import * as settings from '../../../../settings'
-import { useStore, selectors, select } from '../store'
+import Columns from '../../../../Parts/Grids/Columns'
+import InputField from '../../../../Parts/Fields/Input'
+import YesNoField from '../../../../Parts/Fields/YesNo'
+import EditorSection from '../../../Base/Section'
+import * as settings from '../../../../../settings'
+import { useStore, selectors, select } from '../../store'
 // import validator from 'validator'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Excel" onHeadingClick={() => updateHelp('excel')}>
+    <EditorSection name="Excel" onHeadingClick={() => updateHelp('dialect/format')}>
       <Columns spacing={3}>
         <Box>
           <Sheet />
@@ -42,7 +42,7 @@ function Sheet() {
       error={!isValid}
       label="Sheet"
       value={sheet || settings.DEFAULT_SHEET}
-      onFocus={() => updateHelp('excel/sheet')}
+      onFocus={() => updateHelp('dialect/format/sheet')}
       onBlur={() => {
         setIsValid(isValidSheet())
       }}
@@ -62,7 +62,7 @@ function FillMergedCells() {
     <YesNoField
       label="Fill Merged Cells"
       value={fillMergedCells || settings.DEFAULT_FILLED_MERGED_CELLS}
-      onFocus={() => updateHelp('excel/fillMergedCells')}
+      onFocus={() => updateHelp('dialect/format/fillMergedCells')}
       onChange={(fillMergedCells) => updateExcel({ fillMergedCells })}
     />
   )
@@ -78,7 +78,7 @@ function PreserveFormatting() {
     <YesNoField
       label="Preserve Formatting"
       value={preserveFormatting || settings.DEFAULT_PRESERVE_FORMATTING}
-      onFocus={() => updateHelp('excel/preserveFormatting')}
+      onFocus={() => updateHelp('dialect/format/preserveFormatting')}
       onChange={(preserveFormatting) => updateExcel({ preserveFormatting })}
     />
   )
@@ -94,7 +94,7 @@ function AdjustFloatingPointError() {
     <YesNoField
       label="Adjust Floating Point Error"
       value={adjustFloatingPointError || false}
-      onFocus={() => updateHelp('excel/adjustFloatingPointError')}
+      onFocus={() => updateHelp('dialect/format/adjustFloatingPointError')}
       onChange={(adjustFloatingPointError) => updateExcel({ adjustFloatingPointError })}
     />
   )
@@ -108,7 +108,7 @@ function Stringified() {
     <YesNoField
       label="Stringified"
       value={stringified || settings.DEFAULT_STRINGIFIED}
-      onFocus={() => updateHelp('excel/stringified')}
+      onFocus={() => updateHelp('dialect/format/stringified')}
       onChange={(stringified) => updateExcel({ stringified })}
     />
   )

@@ -13,6 +13,8 @@ interface MultilineFieldProps {
   size?: 'small' | 'medium'
   onChange: (value: any) => void
   onFocus?: () => void
+  placeholder?: string
+  autoFocus?: boolean
 }
 
 export default function MultilineField(props: MultilineFieldProps) {
@@ -21,6 +23,7 @@ export default function MultilineField(props: MultilineFieldProps) {
     <TextField
       multiline
       fullWidth
+      placeholder={props.placeholder}
       name={props.name || props.label}
       rows={props.rows}
       type={props.type}
@@ -30,6 +33,7 @@ export default function MultilineField(props: MultilineFieldProps) {
       size={props.size || 'small'}
       onChange={(ev) => props.onChange(ev.target.value as any)}
       onFocus={onFocus}
+      autoFocus={props.autoFocus}
     />
   )
 }

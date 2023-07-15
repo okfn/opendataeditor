@@ -31,3 +31,18 @@ def write_table(
     path = fs.get_path(fullpath)
 
     return path
+
+
+# TODO: remove if not used
+def extract_schemas(project: Project, *, prompt: str):
+    md = project.metadata
+
+    schemas: dict[str, types.IDescriptor] = {}
+    for descriptor in md.iter_documents(type="record"):
+        path = descriptor["path"]
+        if path in prompt:
+            schema = descriptor["resource"].get("schema")
+            if schema:
+                schemas[path] = schema
+
+    return schemas

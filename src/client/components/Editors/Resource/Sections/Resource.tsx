@@ -50,12 +50,12 @@ function Name() {
     <InputField
       error={!isValid}
       label="Name"
-      value={name}
+      value={name || ''}
       onFocus={() => updateHelp('resource/name')}
       onBlur={() => {
         setIsValid(isValidName())
       }}
-      onChange={(value) => updateDescriptor({ name: value || 'name' })}
+      onChange={(value) => updateDescriptor({ name: value || undefined })}
       helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )

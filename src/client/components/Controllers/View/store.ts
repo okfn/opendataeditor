@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   columns?: types.IColumn[]
   record?: types.IRecord
@@ -32,6 +32,7 @@ export interface State {
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   clear: () => void
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string>
@@ -71,6 +72,12 @@ export function makeStore(props: ViewProps) {
         const { table } = await client.tableQuery({ query })
         set({ table })
       }
+    },
+    edit: async (prompt) => {
+      const { path, client, modified } = get()
+      if (!modified) return
+      const { data } = await client.viewEdit({ path, data: modified, prompt })
+      set({ modified: data })
     },
     saveAs: async (toPath) => {
       const { path, client, resource, modified, onSaveAs } = get()

@@ -12,6 +12,23 @@ export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
 export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
 export const MAX_TABLE_SOURCE_SIZE = 1000000
+export const FILE_TYPES = [
+  'article',
+  'chart',
+  'dialect',
+  'document',
+  'file',
+  'image',
+  'json',
+  'map',
+  'package',
+  'resource',
+  'schema',
+  'script',
+  'table',
+  'text',
+  'view',
+]
 
 // Defaults
 

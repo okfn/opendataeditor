@@ -22,9 +22,10 @@ interface ISectionState {
 
 interface State {
   descriptor: types.ISchema
+  externalMenu?: { section: string }
   onChange: (schema: types.ISchema) => void
   onFieldSelected: (name?: string) => void
-  vtabIndex: number
+  section: string
   helpItem: types.IHelpItem
   updateHelp: (path: string) => void
   updateState: (patch: Partial<State>) => void
@@ -50,9 +51,10 @@ interface State {
 export function makeStore(props: SchemaProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
+    externalMenu: props.externalMenu,
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    vtabIndex: 1,
+    section: 'schema',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })

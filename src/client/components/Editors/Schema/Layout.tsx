@@ -1,40 +1,68 @@
 import * as React from 'react'
-import camelCase from 'lodash/camelCase'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
-import VerticalTabs from '../../Parts/Tabs/Vertical'
+import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
-import Schema from './Sections/Schema'
-import Field from './Sections/Field'
-import ForeignKey from './Sections/ForeignKey'
+import SchemaSection from './Sections/Schema'
+import FieldSection from './Sections/Field'
+import ForeignKeySection from './Sections/ForeignKey'
 import { useStore } from './store'
-
-const LABELS = ['Schema', 'Fields', 'Foreign Keys']
+import * as types from '../../../types'
 
 export default function Layout() {
-  const theme = useTheme()
-  const helpItem = useStore((state) => state.helpItem)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const vtabIndex = useStore((state) => state.vtabIndex)
-  const updateState = useStore((state) => state.updateState)
+  const externalMenu = useStore((state) => state.externalMenu)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>
-      <Columns spacing={3} layout={[9, 3]}>
-        <VerticalTabs
-          index={vtabIndex}
-          labels={LABELS}
-          onChange={(index) => {
-            updateHelp(camelCase(LABELS[index]))
-            updateState({ vtabIndex: index })
-          }}
-        >
-          <Schema />
-          <Field />
-          <ForeignKey />
-        </VerticalTabs>
-        <EditorHelp helpItem={helpItem} />
-      </Columns>
+    <Box sx={{ height: '100%' }}>
+      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
     </Box>
+  )
+}
+
+function LayoutWithMenu() {
+  const section = useStore((state) => state.section)
+  const updateHelp = useStore((state) => state.updateHelp)
+  const updateState = useStore((state) => state.updateState)
+  const MENU_ITEMS: types.IMenuItem[] = [
+    { section: 'schema', name: 'Schema' },
+    { section: 'schema/field', name: 'Fields' },
+    { section: 'schema/foreignKey', name: 'Foreign Keys' },
+  ]
+  return (
+    <Columns spacing={3} layout={[2, 10]}>
+      <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+        <MenuTree
+          menuItems={MENU_ITEMS}
+          selected={section}
+          defaultExpanded={['schema']}
+          onSelect={(section) => {
+            updateHelp(section)
+            updateState({ section })
+          }}
+        />
+      </Box>
+      <LayoutWithoutMenu />
+    </Columns>
+  )
+}
+
+function LayoutWithoutMenu() {
+  const section = useStore((state) => state.externalMenu?.section || state.section)
+  const helpItem = useStore((state) => state.helpItem)
+  if (!section) return null
+  return (
+    <Columns spacing={3} layout={[7, 3]} columns={10}>
+      <Box>
+        <Box hidden={section !== 'schema'}>
+          <SchemaSection />
+        </Box>
+        <Box hidden={section !== 'schema/field'}>
+          <FieldSection />
+        </Box>
+        <Box hidden={section !== 'schema/foreignKey'}>
+          <ForeignKeySection />
+        </Box>
+      </Box>
+      <EditorHelp helpItem={helpItem} />
+    </Columns>
   )
 }

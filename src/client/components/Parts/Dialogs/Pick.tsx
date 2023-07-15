@@ -1,31 +1,23 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
 import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Columns from '../Grids/Columns'
+import ConfirmDialog, { ConfirmDialogProps } from './Confirm'
 
-// TODO: rebase on ConfirmDialog
-
-interface SelectorProps {
-  title: string
+interface PickDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
   items: string[]
-  onCancel: (items: string[]) => void
   onConfirm: (items: string[]) => void
 }
 
-export default function Selector(props: SelectorProps) {
+export default function PickDialog(props: PickDialogProps) {
+  const { items: propsItems, onConfirm, ...rest } = props
   const [checked, setChecked] = React.useState<readonly number[]>([])
-  const available = Array.from(props.items.keys())
-
+  const available = Array.from(propsItems.keys())
   const leftChecked = intersection(checked, available)
 
   const handleToggle = (value: number) => () => {
@@ -83,7 +75,7 @@ export default function Selector(props: SelectorProps) {
         component="div"
         role="list"
       >
-        {props.items.map((value, index) => {
+        {propsItems.map((value, index) => {
           const labelId = `transfer-list-all-item-${index}-label`
 
           return (
@@ -114,53 +106,14 @@ export default function Selector(props: SelectorProps) {
   )
 
   return (
-    <Dialog
-      fullWidth
-      maxWidth="sm"
-      open={true}
-      onClose={props.onCancel}
-      aria-labelledby="dialog-title"
-      aria-describedby="dialog-description"
+    <ConfirmDialog
+      {...rest}
+      onConfirm={() =>
+        onConfirm(propsItems.filter((_, index) => leftChecked.includes(index)))
+      }
     >
-      <DialogTitle id="dialog-title">{props.title}</DialogTitle>
-      <Box>
-        {customList('Items', available)}
-        <Box sx={{ paddingX: 3, paddingY: 1 }}>
-          <Columns spacing={2}>
-            <Button
-              fullWidth
-              sx={{ my: 0.5 }}
-              variant="contained"
-              size="small"
-              onClick={() =>
-                props.onCancel(
-                  props.items.filter((_, index) => leftChecked.includes(index))
-                )
-              }
-              aria-label="move selected right"
-              color="warning"
-            >
-              Cancel
-            </Button>
-            <Button
-              fullWidth
-              sx={{ my: 0.5 }}
-              variant={leftChecked.length === 0 ? 'outlined' : 'contained'}
-              size="small"
-              onClick={() =>
-                props.onConfirm(
-                  props.items.filter((_, index) => leftChecked.includes(index))
-                )
-              }
-              disabled={leftChecked.length === 0}
-              aria-label="move selected right"
-            >
-              Select
-            </Button>
-          </Columns>
-        </Box>
-      </Box>
-    </Dialog>
+      {customList('Items', available)}
+    </ConfirmDialog>
   )
 }
 

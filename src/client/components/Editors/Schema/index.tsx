@@ -7,6 +7,7 @@ import * as types from '../../../types'
 
 export interface SchemaProps {
   schema?: types.ISchema
+  externalMenu?: { section: string }
   onChange?: (schema: types.ISchema) => void
   onFieldSelected?: (name?: string) => void
 }

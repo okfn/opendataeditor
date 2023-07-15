@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from pathlib import Path
 
 import sqlalchemy as sa
 from fastapi import Request
@@ -12,6 +13,7 @@ from ...router import router
 
 
 class Props(BaseModel, extra="forbid"):
+    path: str
     chart: types.IChart
 
 
@@ -31,11 +33,12 @@ def action(project: Project, props: Props) -> Result:
     chart = deepcopy(props.chart)
 
     # Return if no path
-    path = chart.get("data", {}).pop("url", None)
-    if not path:
+    relpath = chart.get("data", {}).pop("url", None)
+    if not relpath:
         return Result(chart=chart)
 
     # Ensure record
+    path = str(Path(props.path).parent / Path(relpath))
     record = endpoints.file.index.action(
         project, endpoints.file.index.Props(path=path)
     ).record

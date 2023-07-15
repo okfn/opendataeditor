@@ -19,6 +19,11 @@ export class Client {
 
   // Article
 
+  async articleCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/article/create', props)
+    return result as { path: string }
+  }
+
   async articleRender(props: { path: string; text: string; rich?: boolean }) {
     const result = await this.request('/article/render', props)
     return result as { text: string }
@@ -26,7 +31,17 @@ export class Client {
 
   // Chart
 
-  async chartRender(props: { chart: types.IChart }) {
+  async chartCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/chart/create', props)
+    return result as { path: string }
+  }
+
+  async chartEdit(props: { path: string; chart: types.IChart; prompt: string }) {
+    const result = await this.request('/chart/edit', props)
+    return result as { chart: types.IChart }
+  }
+
+  async chartRender(props: { path: string; chart: types.IChart }) {
     const result = await this.request('/chart/render', props)
     return result as { chart: types.IChart }
   }
@@ -101,7 +116,13 @@ export class Client {
     return result as { path: string }
   }
 
-  async filePatch(props: { path: string; toPath?: string; resource?: types.IResource }) {
+  async filePatch(props: {
+    path: string
+    name?: string
+    type?: string
+    resource?: types.IResource
+    toPath?: string
+  }) {
     const result = await this.request('/file/patch', props)
     return result as { path: string }
   }
@@ -138,11 +159,23 @@ export class Client {
     return result as { path: string }
   }
 
+  // Image
+
+  async imageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/image/create', props)
+    return result as { path: string }
+  }
+
   // Json
 
   async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {
     const result = await this.request('/json/create', props)
     return result as { path: string }
+  }
+
+  async jsonEdit(props: { path: string; data: types.IData; prompt: string }) {
+    const result = await this.request('/json/edit', props)
+    return result as { data: types.IData }
   }
 
   async jsonPatch(props: {
@@ -161,6 +194,11 @@ export class Client {
   }
 
   // Package
+
+  async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/package/create', props)
+    return result as { path: string }
+  }
 
   async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
     const result = await this.request('/package/patch', props)
@@ -187,6 +225,11 @@ export class Client {
   }
 
   // Script
+
+  async scriptCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/script/create', props)
+    return result as { path: string }
+  }
 
   async scriptExecute(props: { path: string; text: string }) {
     const result = await this.request('/script/execute', props)
@@ -239,16 +282,26 @@ export class Client {
 
   // Text
 
-  async textCreate(props: { path: string; text: string; deduplicate?: boolean }) {
+  async textCreate(props: {
+    path: string
+    text: string
+    prompt?: string
+    deduplicate?: boolean
+  }) {
     const result = await this.request('/text/create', props)
     return result as { path: string }
+  }
+
+  async textEdit(props: { path: string; text: string; prompt: string }) {
+    const result = await this.request('/text/edit', props)
+    return result as { text: string }
   }
 
   async textPatch(props: {
     path: string
     text?: string
-    toPath?: string
     resource?: types.IResource
+    toPath?: string
   }) {
     const result = await this.request('/text/patch', props)
     return result as { path: string }
@@ -261,9 +314,14 @@ export class Client {
 
   // View
 
-  async viewCreate(props: { path: string; data: types.IView }) {
+  async viewCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
     const result = await this.request('/view/create', props)
     return result as { path: string }
+  }
+
+  async viewEdit(props: { path: string; data: types.IView; prompt: string }) {
+    const result = await this.request('/view/edit', props)
+    return result as { data: types.IView }
   }
 
   async viewPatch(props: {
