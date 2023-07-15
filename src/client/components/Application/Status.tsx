@@ -37,7 +37,7 @@ export default function Status() {
                   </span>
                 </span>
               ) : (
-                'Data management for humans'
+                'Data editor for humans'
               )}
             </Box>
           </LightTooltip>

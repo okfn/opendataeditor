@@ -3,7 +3,7 @@
 site_name: Frictionless Application
 site_url: https://application.frictionlessdata.io
 site_author: Open Knowledge Foundation
-site_description: Data management for humans
+site_description: Data editor for humans
 repo_name: frictionlessdata/application
 repo_url: https://github.com/frictionlessdata/application
 copyright: Copyright &copy; 2022 <a href="https://okfn.org">Open Knowledge Foundation</a>
