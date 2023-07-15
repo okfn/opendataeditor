@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import MenuPanel from '../../Parts/Panels/Menu'
@@ -15,13 +14,12 @@ const MENU_ITEMS: types.IMenuItem[] = [
 ]
 
 export default function Layout() {
-  const theme = useTheme()
   const section = useStore((state) => state.section)
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>
+    <Box sx={{ height: '100%' }}>
       <Columns spacing={3} layout={[9, 3]}>
         <MenuPanel
           menuItems={MENU_ITEMS}

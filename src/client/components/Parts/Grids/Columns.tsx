@@ -20,7 +20,7 @@ export default function Columns(props: React.PropsWithChildren<ColumnsProps>) {
       container
       columns={columns}
       columnSpacing={props.spacing}
-      sx={{ height: props.height || undefined }}
+      sx={{ height: props.height }}
     >
       {React.Children.map(props.children, (child, index) => (
         <Grid item key={index} md={props.layout ? props.layout[index] : defaultWidth}>

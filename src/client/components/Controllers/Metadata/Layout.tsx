@@ -13,7 +13,7 @@ export default function Content() {
   const theme = useTheme()
   const panel = useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
-  const panelHeight = panel ? 48 : 0
+  const panelHeight = panel ? 42 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const load = useStore((state) => state.load)
   const path = useStore((state) => state.path)

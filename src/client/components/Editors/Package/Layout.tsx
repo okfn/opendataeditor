@@ -14,14 +14,12 @@ import LicenseSection from './Sections/License'
 import ResourceSection from './Sections/Resource'
 import SourceSection from './Sections/Source'
 import ContributorSection from './Sections/Contributor'
-import { useTheme } from '@mui/material/styles'
 import { useStore, selectors, select } from './store'
 import * as types from '../../../types'
 
 export default function Layout() {
-  const theme = useTheme()
   return (
-    <Box sx={{ height: theme.spacing(42), position: 'relative' }}>
+    <Box sx={{ height: '100%' }}>
       <LayoutWithMenu />
     </Box>
   )

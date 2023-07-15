@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
@@ -11,10 +10,9 @@ import { useStore } from './store'
 import * as types from '../../../types'
 
 export default function Layout() {
-  const theme = useTheme()
   const externalMenu = useStore((state) => state.externalMenu)
   return (
-    <Box sx={{ height: theme.spacing(42) }}>
+    <Box sx={{ height: '100%' }}>
       {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
     </Box>
   )
