@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
 import Columns from '../../../Parts/Grids/Columns'
 import InputField from '../../../Parts/Fields/Input'
 import SelectField from '../../../Parts/Fields/Select'
@@ -8,7 +7,6 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import EditorSearch from '../../Base/Search'
-import ScrollBox from '../../../Parts/Boxes/Scroll'
 import { useStore, selectors, select } from '../store'
 
 export default function ForeignKey() {
@@ -17,8 +15,6 @@ export default function ForeignKey() {
 }
 
 function ForeignKeyList() {
-  const theme = useTheme()
-  const height = `calc(100vh - ${theme.spacing(8 + 8 + 15)})`
   const isGrid = useStore((state) => state.foreignKeyState.isGrid)
   const query = useStore((state) => state.foreignKeyState.query)
   const foreignKeyItems = useStore(selectors.foreignKeyItems)
@@ -39,19 +35,17 @@ function ForeignKeyList() {
         />
       }
     >
-      <ScrollBox sx={{ height }}>
-        {foreignKeyItems.map(({ index, foreignKey }) => (
-          <EditorListItem
-            key={index}
-            kind="foreign key"
-            name={foreignKey.fields.join(',')}
-            type="fk"
-            isGrid={isGrid}
-            onClick={() => updateForeignKeyState({ index })}
-            onRemoveClick={() => removeForeignKey(index)}
-          />
-        ))}
-      </ScrollBox>
+      {foreignKeyItems.map(({ index, foreignKey }) => (
+        <EditorListItem
+          key={index}
+          kind="foreign key"
+          name={foreignKey.fields.join(',')}
+          type="fk"
+          isGrid={isGrid}
+          onClick={() => updateForeignKeyState({ index })}
+          onRemoveClick={() => removeForeignKey(index)}
+        />
+      ))}
     </EditorList>
   )
 }
