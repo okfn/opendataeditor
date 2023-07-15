@@ -105,7 +105,7 @@ function SectionsWithoutMenu() {
   const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[9, 3]}>
+    <Columns spacing={3} layout={[7, 3]} columns={10}>
       <Box>
         <Box hidden={section !== 'resource'}>
           <ResourceSection />
