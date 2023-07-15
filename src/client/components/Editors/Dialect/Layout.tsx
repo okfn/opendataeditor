@@ -2,7 +2,7 @@ import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
-import MenuPanel from '../../Parts/Panels/Menu'
+import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import DialectSection from './Sections/Dialect'
 import FormatSection from './Sections/Format'
@@ -13,19 +13,15 @@ import * as types from '../../../types'
 
 export default function Layout() {
   const theme = useTheme()
-  const helpItem = useStore((state) => state.helpItem)
   const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
-      <Columns spacing={3} layout={[9, 3]}>
-        {!externalMenu ? <SectionsWithMenu /> : <SectionsWithoutMenu />}
-        <EditorHelp helpItem={helpItem} />
-      </Columns>
+      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
     </Box>
   )
 }
 
-function SectionsWithMenu() {
+function LayoutWithMenu() {
   const type = useStore((state) => state.type)
   const format = useStore((state) => state.format)
   const section = useStore((state) => state.section)
@@ -37,36 +33,41 @@ function SectionsWithMenu() {
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
   ]
   return (
-    <MenuPanel
-      menuItems={MENU_ITEMS}
-      selected={section}
-      defaultExpanded={['dialect']}
-      onSelect={(section) => {
-        updateHelp(section)
-        updateState({ section })
-      }}
-    >
-      <DialectSection />
-      <TypeSection />
-      <FormatSection />
-    </MenuPanel>
+    <Columns spacing={3} layout={[2, 10]}>
+      <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+        <MenuTree
+          menuItems={MENU_ITEMS}
+          selected={section}
+          defaultExpanded={['dialect']}
+          onSelect={(section) => {
+            updateHelp(section)
+            updateState({ section })
+          }}
+        />
+      </Box>
+      <LayoutWithoutMenu />
+    </Columns>
   )
 }
 
-function SectionsWithoutMenu() {
-  const section = useStore((state) => state.externalMenu?.section)
+function LayoutWithoutMenu() {
+  const section = useStore((state) => state.externalMenu?.section || state.section)
+  const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
   return (
-    <Box>
-      <Box hidden={section !== 'dialect'}>
-        <DialectSection />
+    <Columns spacing={3} layout={[7, 3]} columns={10}>
+      <Box>
+        <Box hidden={section !== 'dialect'}>
+          <DialectSection />
+        </Box>
+        <Box hidden={section !== 'dialect/type'}>
+          <TypeSection />
+        </Box>
+        <Box hidden={section !== 'dialect/format'}>
+          <FormatSection />
+        </Box>
       </Box>
-      <Box hidden={section !== 'dialect/type'}>
-        <TypeSection />
-      </Box>
-      <Box hidden={section !== 'dialect/format'}>
-        <FormatSection />
-      </Box>
-    </Box>
+      <EditorHelp helpItem={helpItem} />
+    </Columns>
   )
 }
