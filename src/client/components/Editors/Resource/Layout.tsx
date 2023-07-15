@@ -57,7 +57,6 @@ function LayoutWithMenu() {
     )
   }
 
-  // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
   const externalMenu = React.useMemo(() => {
     return { section }
