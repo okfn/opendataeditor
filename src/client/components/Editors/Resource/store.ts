@@ -27,6 +27,7 @@ interface ISectionState {
 
 interface State {
   descriptor: types.IResource
+  externalMenu?: { section: string }
   shallow?: boolean
   section: string
   onChange: (resource: types.IResource) => void
@@ -65,6 +66,7 @@ interface State {
 export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
+    externalMenu: props.externalMenu,
     shallow: props.shallow,
     section: 'resource',
     onChange: props.onChange || noop,

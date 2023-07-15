@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface ResourceProps {
   resource?: types.IResource
+  externalMenu?: { section: string }
   shallow?: boolean
   onChange?: (resource: types.IResource) => void
   onBackClick?: () => void

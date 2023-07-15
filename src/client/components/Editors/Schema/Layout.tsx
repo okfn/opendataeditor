@@ -10,12 +10,6 @@ import ForeignKeySection from './Sections/ForeignKey'
 import { useStore } from './store'
 import * as types from '../../../types'
 
-const MENU_ITEMS: types.IMenuItem[] = [
-  { section: 'schema', name: 'Schema' },
-  { section: 'schema/field', name: 'Fields' },
-  { section: 'schema/foreignKey', name: 'Foreign Keys' },
-]
-
 export default function Layout() {
   const theme = useTheme()
   const helpItem = useStore((state) => state.helpItem)
@@ -34,6 +28,11 @@ function SectionsWithMenu() {
   const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
+  const MENU_ITEMS: types.IMenuItem[] = [
+    { section: 'schema', name: 'Schema' },
+    { section: 'schema/field', name: 'Fields' },
+    { section: 'schema/foreignKey', name: 'Foreign Keys' },
+  ]
   return (
     <MenuPanel
       menuItems={MENU_ITEMS}
