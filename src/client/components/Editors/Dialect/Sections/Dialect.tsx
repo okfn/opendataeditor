@@ -67,10 +67,12 @@ function Type() {
   const type = useStore((state) => state.type)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
+  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <SelectField
       label="Type"
       value={type || ''}
+      disabled={!!externalMenu}
       options={['file', 'text', 'json', 'table']}
       onFocus={() => updateHelp('dialect/type')}
       onChange={(value) => updateState({ type: value || 'table' })}
@@ -82,10 +84,12 @@ function Format() {
   const format = useStore((state) => state.format)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
+  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <SelectField
       label="Format"
       value={format || ''}
+      disabled={!!externalMenu}
       options={['csv', 'excel', 'json']}
       onFocus={() => updateHelp('dialect/format')}
       onChange={(value) => updateState({ format: value || 'table' })}

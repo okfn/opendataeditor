@@ -10,40 +10,10 @@ dialect/title:
   - https://framework.frictionlessdata.io/docs/framework/dialect.html
   - A human-readable title.
 
-dialect/header:
-  - Header
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header
-  - It's a boolean flag which defaults to True indicating whether the data has a header row or not.
-
 dialect/description:
   - Description
   - #
   - A brief description of the dialect.
-
-dialect/headerRows:
-  - Header Rows
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-rows
-  - It specifies the header row or rows for multiline header.
-
-dialect/commentChar:
-  - Comment Char
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-char
-  - It specifies the char to use to comment the rows.
-
-dialect/headerJoin:
-  - Header Join
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-join
-  - It specifies the header rows to combine, if there are multiple header rows.
-
-dialect/commentRows:
-  - Comment Rows
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-rows
-  - It specifies list of rows to ignore.
-
-dialect/headerCase:
-  - Header Case
-  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case
-  - It specifies case sensitivity mode. Header is case sensitive by default.
 
 # Type
 
@@ -51,6 +21,38 @@ dialect/type:
   - Type
   - https://specs.frictionlessdata.io/csv-dialect/
   - CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner.
+
+# Type (Table)
+
+dialect/type/header:
+  - Header
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header
+  - It's a boolean flag which defaults to True indicating whether the data has a header row or not.
+
+dialect/type/headerRows:
+  - Header Rows
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-rows
+  - It specifies the header row or rows for multiline header.
+
+dialect/type/commentChar:
+  - Comment Char
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-char
+  - It specifies the char to use to comment the rows.
+
+dialect/type/headerJoin:
+  - Header Join
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-join
+  - It specifies the header rows to combine, if there are multiple header rows.
+
+dialect/type/commentRows:
+  - Comment Rows
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-rows
+  - It specifies list of rows to ignore.
+
+dialect/type/headerCase:
+  - Header Case
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case
+  - It specifies case sensitivity mode. Header is case sensitive by default.
 
 # Format
 

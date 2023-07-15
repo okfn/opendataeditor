@@ -35,7 +35,7 @@ function CommentChar() {
     <InputField
       label="Comment Char"
       value={commentChar || settings.DEFAULT_COMMENT_CHAR}
-      onFocus={() => updateHelp('dialect/commentChar')}
+      onFocus={() => updateHelp('dialect/type/commentChar')}
       onChange={(value) => updateDescriptor({ commentChar: value || undefined })}
     />
   )
@@ -49,7 +49,7 @@ function CommentRows() {
     <InputField
       label="Comment Rows"
       value={(commentRows || []).join(',')}
-      onFocus={() => updateHelp('dialect/commentRows')}
+      onFocus={() => updateHelp('dialect/type/commentRows')}
       onChange={(value) =>
         updateDescriptor({
           commentRows: value ? value.split(',').map(parseInt) : undefined,
@@ -67,8 +67,8 @@ function Header() {
     <YesNoField
       label="Header"
       value={header ?? settings.DEFAULT_HEADER}
-      onFocus={() => updateHelp('dialect/header')}
-      onChange={(value) => updateDescriptor({ header: value || undefined })}
+      onFocus={() => updateHelp('dialect/type/header')}
+      onChange={(value) => updateDescriptor({ header: value ?? undefined })}
     />
   )
 }
@@ -81,7 +81,7 @@ function HeaderRows() {
     <InputField
       label="Header Rows"
       value={headerRows}
-      onFocus={() => updateHelp('dialect/headerRows')}
+      onFocus={() => updateHelp('dialect/type/headerRows')}
       onChange={(headerRows) =>
         updateDescriptor({
           headerRows: headerRows ? headerRows.split(',').map(parseInt) : undefined,
@@ -99,7 +99,7 @@ function HeaderJoin() {
     <InputField
       label="Header Join"
       value={headerJoin}
-      onFocus={() => updateHelp('dialect/headerJoin')}
+      onFocus={() => updateHelp('dialect/type/headerJoin')}
       onChange={(value) => updateDescriptor({ headerJoin: value || undefined })}
     />
   )
@@ -113,8 +113,8 @@ function HeaderCase() {
     <YesNoField
       label="Header Case"
       value={headerCase ?? settings.DEFAULT_HEADER_CASE}
-      onFocus={() => updateHelp('dialect/headerCase')}
-      onChange={(value) => updateDescriptor({ headerCase: value || undefined })}
+      onFocus={() => updateHelp('dialect/type/headerCase')}
+      onChange={(value) => updateDescriptor({ headerCase: value ?? undefined })}
     />
   )
 }
