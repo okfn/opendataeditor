@@ -20,12 +20,12 @@ export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: theme.spacing(42) }}>
-      {!externalMenu ? <SectionsWithMenu /> : <SectionsWithoutMenu />}
+      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
     </Box>
   )
 }
 
-function SectionsWithMenu() {
+function LayoutWithMenu() {
   const shallow = useStore((state) => state.shallow)
   const section = useStore((state) => state.section)
   const type = useStore((state) => state.descriptor.type)
@@ -36,7 +36,7 @@ function SectionsWithMenu() {
   const updateState = useStore((state) => state.updateState)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
-  const [externalMenu] = React.useState({ section })
+
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
@@ -56,6 +56,19 @@ function SectionsWithMenu() {
       ]
     )
   }
+
+  // TODO: move to store?
+  // We use memo to avoid nested editors re-rerender
+  const externalMenu = React.useMemo(() => {
+    return { section }
+  }, [])
+  const handleDialectChange = React.useMemo(() => {
+    return (dialect: types.IDialect) => updateDescriptor({ dialect })
+  }, [])
+  const handleSchemaChange = React.useMemo(() => {
+    return (schema: types.ISchema) => updateDescriptor({ schema })
+  }, [])
+
   return (
     <Columns spacing={3} layout={[2, 10]}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
@@ -72,7 +85,7 @@ function SectionsWithMenu() {
       </Box>
       <Box>
         <Box hidden={!section.startsWith('resource')}>
-          <SectionsWithoutMenu />
+          <LayoutWithoutMenu />
         </Box>
         {!shallow && (
           <Box>
@@ -82,14 +95,14 @@ function SectionsWithMenu() {
                 format={format}
                 dialect={dialect}
                 externalMenu={externalMenu}
-                onChange={(dialect) => updateDescriptor({ dialect })}
+                onChange={handleDialectChange}
               />
             </Box>
             <Box hidden={!section.startsWith('schema')}>
               <Schema
                 schema={schema}
                 externalMenu={externalMenu}
-                onChange={(schema) => updateDescriptor({ schema })}
+                onChange={handleSchemaChange}
                 onFieldSelected={onFieldSelected}
               />
             </Box>
@@ -100,8 +113,8 @@ function SectionsWithMenu() {
   )
 }
 
-function SectionsWithoutMenu() {
-  const section = useStore((state) => state.section)
+function LayoutWithoutMenu() {
+  const section = useStore((state) => state.externalMenu?.section || state.section)
   const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
   return (

@@ -47,6 +47,7 @@ interface State {
 }
 
 export function makeStore(props: DialectProps) {
+  console.log('dialog:makeStore')
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     externalMenu: props.externalMenu,
