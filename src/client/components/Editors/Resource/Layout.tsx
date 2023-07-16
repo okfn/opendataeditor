@@ -23,6 +23,7 @@ export default function Layout() {
   )
 }
 
+// TODO: improve menu implementation (move some state to store / reduce re-renders)
 function LayoutWithMenu() {
   const section = useStore((state) => state.section)
   const type = useStore((state) => state.descriptor.type)
@@ -34,7 +35,6 @@ function LayoutWithMenu() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
 
-  // TODO: avoid re-render
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
@@ -48,7 +48,6 @@ function LayoutWithMenu() {
     { section: 'schema/foreignKey', name: 'Foreign Keys' },
   ]
 
-  // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
   const handleDialectChange = React.useMemo(() => {
     return (dialect: types.IDialect) => updateDescriptor({ dialect })
@@ -57,7 +56,6 @@ function LayoutWithMenu() {
     return (schema: types.ISchema) => updateDescriptor({ schema })
   }, [])
 
-  // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
   const externalMenu = React.useMemo(() => {
     return { section }

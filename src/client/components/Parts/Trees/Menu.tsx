@@ -16,12 +16,18 @@ export interface MenuTreeProps {
   onSelect: (section: string) => void
 }
 
+// TODO: improve expanded logic
 export default function MenuTree(props: MenuTreeProps) {
   const [expanded, setExpanded] = React.useState(props.defaultExpanded || [])
   const menuTree = React.useMemo(
     () => helpers.createMenuTree(props.menuItems),
     [props.menuItems]
   )
+  React.useEffect(() => {
+    if (props.selected && !props.selected.includes('/')) {
+      if (!expanded.includes(props.selected)) setExpanded([props.selected])
+    }
+  }, [props.selected])
   return (
     <TreeView
       selected={props.selected || ''}
