@@ -18,7 +18,7 @@ export interface MenuTreeProps {
 
 export default function MenuTree(props: MenuTreeProps) {
   const [expanded, setExpanded] = React.useState(props.defaultExpanded || [])
-  const sectionTree = React.useMemo(
+  const menuTree = React.useMemo(
     () => helpers.createMenuTree(props.menuItems),
     [props.menuItems]
   )
@@ -38,8 +38,8 @@ export default function MenuTree(props: MenuTreeProps) {
       defaultExpandIcon={<ChevronRightIcon />}
       aria-label="customized"
     >
-      {sectionTree.map((item) => (
-        <TreeNode item={item} key={item.section} />
+      {menuTree.map((item) => (
+        <TreeNode item={item} key={`${item.section}-${item.disabled}`} />
       ))}
     </TreeView>
   )
@@ -48,7 +48,6 @@ export default function MenuTree(props: MenuTreeProps) {
 function TreeNode(props: { item: types.IMenuTreeItem }) {
   return (
     <TreeItem
-      key={props.item.section}
       nodeId={props.item.section}
       disabled={props.item.disabled}
       label={<TreeLabel label={props.item.name} section={props.item.section} />}

@@ -34,24 +34,19 @@ function LayoutWithMenu() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
 
+  // TODO: avoid re-render
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
     { section: 'resource/license', name: 'Licenses' },
     { section: 'resource/contributor', name: 'Contributors' },
     { section: 'resource/source', name: 'Sources' },
+    { section: 'dialect', name: 'Dialect', disabled: type !== 'table' },
+    { section: 'dialect/format', name: capitalize(format) || 'Format' },
+    { section: 'schema', name: 'Schema', disabled: type !== 'table' },
+    { section: 'schema/field', name: 'Fields' },
+    { section: 'schema/foreignKey', name: 'Foreign Keys' },
   ]
-  if (type === 'table') {
-    MENU_ITEMS.push(
-      ...[
-        { section: 'dialect', name: 'Dialect' },
-        { section: 'dialect/format', name: capitalize(format) || 'Format' },
-        { section: 'schema', name: 'Schema' },
-        { section: 'schema/field', name: 'Fields' },
-        { section: 'schema/foreignKey', name: 'Foreign Keys' },
-      ]
-    )
-  }
 
   // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
