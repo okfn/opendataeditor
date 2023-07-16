@@ -74,7 +74,7 @@ function LayoutWithMenu() {
   }, [])
 
   return (
-    <Columns spacing={3} layout={[2, 10]}>
+    <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
         <Box
           sx={{
@@ -136,7 +136,7 @@ function LayoutWithoutMenu() {
   const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[7, 3]} columns={10}>
+    <Columns spacing={3} layout={[5, 3]} columns={8}>
       <Box>
         <Box hidden={section !== 'package'}>
           <PackageSection />
