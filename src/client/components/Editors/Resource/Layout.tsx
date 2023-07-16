@@ -71,7 +71,7 @@ function LayoutWithMenu() {
         <MenuTree
           menuItems={MENU_ITEMS}
           selected={section}
-          defaultExpanded={type === 'table' ? ['schema'] : ['resource']}
+          defaultExpanded={['resource']}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })

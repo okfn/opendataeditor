@@ -10,7 +10,6 @@ export default function Resource() {
   const resourceItems = useStore(selectors.resourceItems)
   const updateResourceState = useStore((state) => state.updateResourceState)
   const addResource = useStore((state) => state.addResource)
-  const updateState = useStore((state) => state.updateState)
   const removeResource = useStore((state) => state.removeResource)
   return (
     <EditorList
@@ -28,6 +27,7 @@ export default function Resource() {
     >
       {resourceItems.map(({ index, resource }) => (
         <EditorListItem
+          title="Select Resource"
           key={index}
           kind="resource"
           name={resource.name}
@@ -35,7 +35,6 @@ export default function Resource() {
           isGrid={isGrid}
           onClick={() => {
             updateResourceState({ index })
-            updateState({ section: 'resource' })
           }}
           onRemoveClick={() => removeResource(index)}
         />

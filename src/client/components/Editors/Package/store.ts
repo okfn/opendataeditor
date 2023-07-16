@@ -68,7 +68,7 @@ export function makeStore(props: PackageProps) {
     descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
-    section: 'package/resource',
+    section: 'package',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
