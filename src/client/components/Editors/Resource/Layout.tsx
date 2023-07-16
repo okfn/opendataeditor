@@ -50,14 +50,17 @@ function LayoutWithMenu() {
 
   // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
-  const externalMenu = React.useMemo(() => {
-    return { section }
-  }, [])
   const handleDialectChange = React.useMemo(() => {
     return (dialect: types.IDialect) => updateDescriptor({ dialect })
   }, [])
   const handleSchemaChange = React.useMemo(() => {
     return (schema: types.ISchema) => updateDescriptor({ schema })
+  }, [])
+
+  // TODO: move to store?
+  // We use memo to avoid nested editors re-rerender
+  const externalMenu = React.useMemo(() => {
+    return { section }
   }, [])
 
   return (

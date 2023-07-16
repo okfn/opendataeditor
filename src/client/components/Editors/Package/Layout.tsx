@@ -55,9 +55,6 @@ function LayoutWithMenu() {
 
   // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
-  const externalMenu = React.useMemo(() => {
-    return { section }
-  }, [])
   const handleResourceChange = React.useMemo(() => {
     return (resource: types.IResource) => updateResource(resource)
   }, [])
@@ -67,6 +64,20 @@ function LayoutWithMenu() {
   const handleSchemaChange = React.useMemo(() => {
     return (schema: types.ISchema) => updateResource({ schema })
   }, [])
+
+  // TODO: move to store?
+  // We use memo to avoid nested editors re-rerender
+  const externalMenu = React.useMemo(() => {
+    return { section }
+  }, [])
+  React.useEffect(() => {
+    const isTabular = section.startsWith('dialect') || section.startsWith('schema')
+    if (resource.type !== 'table' && isTabular) {
+      updateHelp('resource')
+      updateState({ section: 'resource' })
+      externalMenu.section = 'resource'
+    }
+  }, [resource])
 
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
