@@ -1,7 +1,6 @@
 import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
-import InputAdornment from '@mui/material/InputAdornment'
 import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import SelectField from '../../Parts/Fields/Select'
@@ -21,33 +20,6 @@ export default function Layout() {
   return (
     <Box sx={{ height: '100%' }}>
       <LayoutWithMenu />
-    </Box>
-  )
-}
-
-export function Selector() {
-  const resource = useStore(selectors.resource)
-  const updateResourceState = useStore((state) => state.updateResourceState)
-  const tabIndex = useStore((state) => state.tabIndex)
-  const resourceNames = useStore(selectors.resourceNames)
-  if (tabIndex === 0) return null
-  if (!resource) return null
-  return (
-    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
-      <SelectField
-        focused
-        margin="none"
-        value={resource.name}
-        options={resourceNames}
-        onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start" disableTypography>
-              Resource:
-            </InputAdornment>
-          ),
-        }}
-      />
     </Box>
   )
 }
@@ -116,10 +88,22 @@ function LayoutWithMenu() {
             externalMenu.section = section
           }}
         />
+        <Box
+          sx={{
+            borderTop: 'dashed 1px #ddd',
+            borderBottom: 'dashed 1px #ddd',
+            marginTop: 1,
+            paddingTop: 2,
+            paddingBottom: 2,
+            marginBottom: 1,
+          }}
+        >
+          <ResourceSelector />
+        </Box>
         <MenuTree
           menuItems={RESOURCE_MENU_ITEMS}
           selected={section}
-          defaultExpanded={[]}
+          defaultExpanded={resource.type !== 'table' ? ['resource'] : []}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
@@ -187,5 +171,21 @@ function LayoutWithoutMenu() {
       </Box>
       <EditorHelp helpItem={helpItem} />
     </Columns>
+  )
+}
+
+export function ResourceSelector() {
+  const resource = useStore(selectors.resource)
+  const updateResourceState = useStore((state) => state.updateResourceState)
+  const resourceNames = useStore(selectors.resourceNames)
+  if (!resource) return null
+  return (
+    <SelectField
+      margin="none"
+      label="Resource"
+      value={resource.name}
+      options={resourceNames}
+      onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
+    />
   )
 }

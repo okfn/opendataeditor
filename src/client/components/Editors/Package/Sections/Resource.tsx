@@ -35,7 +35,7 @@ export default function Resource() {
           isGrid={isGrid}
           onClick={() => {
             updateResourceState({ index })
-            updateState({ tabIndex: 1 })
+            updateState({ section: 'resource' })
           }}
           onRemoveClick={() => removeResource(index)}
         />

@@ -25,7 +25,6 @@ interface State {
   onChange: (pkg: types.IPackage) => void
   onAddResource?: () => void
   section: string
-  tabIndex: number
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
@@ -70,7 +69,6 @@ export function makeStore(props: PackageProps) {
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
     section: 'package/resource',
-    tabIndex: 0,
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
