@@ -14,7 +14,6 @@ import help from './help.yaml'
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
 
 interface State {
-  type: string
   format: string
   section: string
   descriptor: types.IDialect
@@ -51,7 +50,6 @@ export function makeStore(props: DialectProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     externalMenu: props.externalMenu,
-    type: props.type || 'table',
     format: props.format || 'csv',
     section: 'dialect',
     onChange: props.onChange || noop,

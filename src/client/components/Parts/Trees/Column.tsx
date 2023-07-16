@@ -40,7 +40,6 @@ export default function ColumnTree(props: ColumnTreeProps) {
             if (isCollapsing && !expanded.includes(props.selected || '')) return
             setExpanded(nodeIds)
           }}
-          sx={{ height: '100%' }}
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           aria-label="customized"

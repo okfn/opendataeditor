@@ -33,7 +33,6 @@ interface State {
   columns: types.IColumn[]
   descriptor: Partial<types.IChart>
   customFields: string[]
-  shallow: boolean
   tabIndex: number
   tabNames: string[]
   vtabIndex: number
@@ -81,7 +80,6 @@ export function makeStore(props: ChartProps) {
     columns: props.columns || [],
     customFields: [],
     descriptor: props.chart || {},
-    shallow: false,
     tabIndex: 0,
     vtabIndex: 1,
     tabNames: ['General'],

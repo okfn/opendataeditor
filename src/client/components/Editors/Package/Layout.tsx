@@ -1,7 +1,6 @@
 import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
-import InputAdornment from '@mui/material/InputAdornment'
 import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import SelectField from '../../Parts/Fields/Select'
@@ -25,38 +24,9 @@ export default function Layout() {
   )
 }
 
-export function Selector() {
-  const resource = useStore(selectors.resource)
-  const updateResourceState = useStore((state) => state.updateResourceState)
-  const tabIndex = useStore((state) => state.tabIndex)
-  const resourceNames = useStore(selectors.resourceNames)
-  if (tabIndex === 0) return null
-  if (!resource) return null
-  return (
-    <Box sx={{ position: 'absolute', top: 3, right: 3, width: '50%' }}>
-      <SelectField
-        focused
-        margin="none"
-        value={resource.name}
-        options={resourceNames}
-        onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start" disableTypography>
-              Resource:
-            </InputAdornment>
-          ),
-        }}
-      />
-    </Box>
-  )
-}
-
 function LayoutWithMenu() {
-  const shallow = useStore((state) => state.shallow)
   const section = useStore((state) => state.section)
   const resource = useStore(selectors.resource)
-  const type = useStore(select(selectors.resource, (resource) => resource.type))
   const format = useStore(select(selectors.resource, (resource) => resource.format))
   const dialect = useStore(select(selectors.resource, (resource) => resource.dialect))
   const schema = useStore(select(selectors.resource, (resource) => resource.schema))
@@ -70,17 +40,16 @@ function LayoutWithMenu() {
     { section: 'package/license', name: 'Licenses' },
     { section: 'package/contributor', name: 'Contributors' },
     { section: 'package/source', name: 'Sources' },
+    { section: 'resource', name: 'Resource' },
+    { section: 'resource/checksum', name: 'Checksum' },
+    { section: 'resource/license', name: 'Licenses' },
+    { section: 'resource/contributor', name: 'Contributors' },
+    { section: 'resource/source', name: 'Sources' },
   ]
-  if (!shallow) {
+  if (resource.type === 'table') {
     MENU_ITEMS.push(
       ...[
-        { section: 'resource', name: 'Resource' },
-        { section: 'resource/checksum', name: 'Checksum' },
-        { section: 'resource/license', name: 'Licenses' },
-        { section: 'resource/contributor', name: 'Contributors' },
-        { section: 'resource/source', name: 'Sources' },
         { section: 'dialect', name: 'Dialect' },
-        { section: 'dialect/type', name: capitalize(type) || 'Type' },
         { section: 'dialect/format', name: capitalize(format) || 'Format' },
         { section: 'schema', name: 'Schema' },
         { section: 'schema/field', name: 'Fields' },
@@ -107,10 +76,19 @@ function LayoutWithMenu() {
   return (
     <Columns spacing={3} layout={[2, 10]}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+        <Box
+          sx={{
+            borderBottom: 'dashed 1px #ddd',
+            paddingBottom: 1.5,
+            marginBottom: 1.5,
+          }}
+        >
+          <ResourceSelector />
+        </Box>
         <MenuTree
           menuItems={MENU_ITEMS}
           selected={section}
-          defaultExpanded={shallow ? ['package'] : []}
+          defaultExpanded={['package']}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
@@ -122,18 +100,17 @@ function LayoutWithMenu() {
         <Box hidden={!section.startsWith('package')}>
           <LayoutWithoutMenu />
         </Box>
-        {!shallow && (
+        <Box hidden={!section.startsWith('resource')}>
+          <Resource
+            resource={resource}
+            externalMenu={externalMenu}
+            onChange={handleResourceChange}
+          />
+        </Box>
+        {resource.type === 'table' && (
           <Box>
-            <Box hidden={!section.startsWith('resource')}>
-              <Resource
-                resource={resource}
-                externalMenu={externalMenu}
-                onChange={handleResourceChange}
-              />
-            </Box>
             <Box hidden={!section.startsWith('dialect')}>
               <Dialect
-                type={type}
                 format={format}
                 dialect={dialect}
                 externalMenu={externalMenu}
@@ -179,5 +156,21 @@ function LayoutWithoutMenu() {
       </Box>
       <EditorHelp helpItem={helpItem} />
     </Columns>
+  )
+}
+
+export function ResourceSelector() {
+  const resource = useStore(selectors.resource)
+  const updateResourceState = useStore((state) => state.updateResourceState)
+  const resourceNames = useStore(selectors.resourceNames)
+  if (!resource) return null
+  return (
+    <SelectField
+      margin="none"
+      label="Resource"
+      value={resource.name}
+      options={resourceNames}
+      onChange={(value) => updateResourceState({ index: resourceNames.indexOf(value) })}
+    />
   )
 }

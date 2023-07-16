@@ -24,7 +24,6 @@ export default function Layout() {
 }
 
 function LayoutWithMenu() {
-  const shallow = useStore((state) => state.shallow)
   const section = useStore((state) => state.section)
   const type = useStore((state) => state.descriptor.type)
   const format = useStore((state) => state.descriptor.format)
@@ -42,11 +41,10 @@ function LayoutWithMenu() {
     { section: 'resource/contributor', name: 'Contributors' },
     { section: 'resource/source', name: 'Sources' },
   ]
-  if (!shallow) {
+  if (type === 'table') {
     MENU_ITEMS.push(
       ...[
         { section: 'dialect', name: 'Dialect' },
-        { section: 'dialect/type', name: capitalize(type) || 'Type' },
         { section: 'dialect/format', name: capitalize(format) || 'Format' },
         { section: 'schema', name: 'Schema' },
         { section: 'schema/field', name: 'Fields' },
@@ -55,6 +53,7 @@ function LayoutWithMenu() {
     )
   }
 
+  // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
   const externalMenu = React.useMemo(() => {
     return { section }
@@ -72,7 +71,7 @@ function LayoutWithMenu() {
         <MenuTree
           menuItems={MENU_ITEMS}
           selected={section}
-          defaultExpanded={shallow ? ['resource'] : []}
+          defaultExpanded={['resource']}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
@@ -84,11 +83,10 @@ function LayoutWithMenu() {
         <Box hidden={!section.startsWith('resource')}>
           <LayoutWithoutMenu />
         </Box>
-        {!shallow && (
+        {type === 'table' && (
           <Box>
             <Box hidden={!section.startsWith('dialect')}>
               <Dialect
-                type={type}
                 format={format}
                 dialect={dialect}
                 externalMenu={externalMenu}

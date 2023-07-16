@@ -22,11 +22,9 @@ interface ISectionState {
 
 interface State {
   descriptor: types.IPackage
-  shallow?: boolean
   onChange: (pkg: types.IPackage) => void
   onAddResource?: () => void
   section: string
-  tabIndex: number
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
@@ -68,11 +66,9 @@ interface State {
 export function makeStore(props: PackageProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
-    shallow: props.shallow,
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
     section: 'package',
-    tabIndex: 0,
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
