@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class SystemConfig(BaseModel):
-    openaiApiKey: str | None
+    openaiApiKey: str | None = None
 
 
 class ProjectConfig(BaseModel):
