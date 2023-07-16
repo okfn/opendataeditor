@@ -34,14 +34,12 @@ function LayoutWithMenu() {
   const updateState = useStore((state) => state.updateState)
   const updateResource = useStore((state) => state.updateResource)
 
-  const PACKAGE_MENU_ITEMS: types.IMenuItem[] = [
+  const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'package', name: 'Package' },
     { section: 'package/resource', name: 'Resources' },
     { section: 'package/license', name: 'Licenses' },
     { section: 'package/contributor', name: 'Contributors' },
     { section: 'package/source', name: 'Sources' },
-  ]
-  const RESOURCE_MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
     { section: 'resource/license', name: 'Licenses' },
@@ -49,7 +47,7 @@ function LayoutWithMenu() {
     { section: 'resource/source', name: 'Sources' },
   ]
   if (resource.type === 'table') {
-    RESOURCE_MENU_ITEMS.push(
+    MENU_ITEMS.push(
       ...[
         { section: 'dialect', name: 'Dialect' },
         { section: 'dialect/format', name: capitalize(format) || 'Format' },
@@ -78,32 +76,19 @@ function LayoutWithMenu() {
   return (
     <Columns spacing={3} layout={[2, 10]}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
-        <MenuTree
-          menuItems={PACKAGE_MENU_ITEMS}
-          selected={section}
-          defaultExpanded={['package']}
-          onSelect={(section) => {
-            updateHelp(section)
-            updateState({ section })
-            externalMenu.section = section
-          }}
-        />
         <Box
           sx={{
-            borderTop: 'dashed 1px #ddd',
             borderBottom: 'dashed 1px #ddd',
-            marginTop: 1,
-            paddingTop: 2,
-            paddingBottom: 2,
-            marginBottom: 1,
+            paddingBottom: 1.5,
+            marginBottom: 1.5,
           }}
         >
           <ResourceSelector />
         </Box>
         <MenuTree
-          menuItems={RESOURCE_MENU_ITEMS}
+          menuItems={MENU_ITEMS}
           selected={section}
-          defaultExpanded={resource.type !== 'table' ? ['resource'] : []}
+          defaultExpanded={['package']}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
