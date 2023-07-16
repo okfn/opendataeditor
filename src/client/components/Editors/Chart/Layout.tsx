@@ -14,11 +14,38 @@ import LayerChart from './Sections/Chart/LayerChart'
 const LABELS = ['Chart', 'Channels', 'Transforms']
 
 export default function Layout() {
-  const shallow = useStore((state) => state.shallow)
-  return <Box sx={{ height: '100%' }}>{shallow ? <Sections /> : <Groups />}</Box>
+  return (
+    <Box sx={{ height: '100%' }}>
+      <LayoutWithMenu />
+    </Box>
+  )
 }
 
-function Sections() {
+function LayoutWithMenu() {
+  const tabIndex = useStore((state) => state.tabIndex)
+  const updateState = useStore((state) => state.updateState)
+  const labels = useStore((state) => state.tabNames)
+  const addTab = useStore((state) => state.addLayer)
+  const removeTab = useStore((state) => state.removeLayer)
+  return (
+    <HorizontalTabs
+      index={tabIndex}
+      labels={labels}
+      isDynamic={true}
+      onChange={(index) => {
+        updateState({ tabIndex: index })
+      }}
+      onAdd={addTab}
+      onRemove={removeTab}
+    >
+      {labels.map((_, index) => {
+        return <LayoutWithoutMenu key={index} />
+      })}
+    </HorizontalTabs>
+  )
+}
+
+function LayoutWithoutMenu() {
   const helpItem = useStore((state) => state.helpItem)
   const updateHelp = useStore((state) => state.updateHelp)
   const tabIndex = useStore((state) => state.tabIndex)
@@ -40,29 +67,5 @@ function Sections() {
       </VerticalTabs>
       <EditorHelp helpItem={helpItem} />
     </Columns>
-  )
-}
-
-function Groups() {
-  const tabIndex = useStore((state) => state.tabIndex)
-  const updateState = useStore((state) => state.updateState)
-  const labels = useStore((state) => state.tabNames)
-  const addTab = useStore((state) => state.addLayer)
-  const removeTab = useStore((state) => state.removeLayer)
-  return (
-    <HorizontalTabs
-      index={tabIndex}
-      labels={labels}
-      isDynamic={true}
-      onChange={(index) => {
-        updateState({ tabIndex: index })
-      }}
-      onAdd={addTab}
-      onRemove={removeTab}
-    >
-      {labels.map((_, index) => {
-        return <Sections key={index} />
-      })}
-    </HorizontalTabs>
   )
 }

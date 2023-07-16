@@ -12,7 +12,6 @@ export default function MetadataPanel(props: MetadataPanelProps) {
   if (!props.resource) return null
   return (
     <Resource
-      shallow={props.resource.type !== 'table'}
       resource={props.resource}
       onChange={props.onChange}
       onFieldSelected={props.onFieldSelected}

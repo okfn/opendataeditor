@@ -53,10 +53,8 @@ export function Selector() {
 }
 
 function LayoutWithMenu() {
-  const shallow = useStore((state) => state.shallow)
   const section = useStore((state) => state.section)
   const resource = useStore(selectors.resource)
-  const type = useStore(select(selectors.resource, (resource) => resource.type))
   const format = useStore(select(selectors.resource, (resource) => resource.format))
   const dialect = useStore(select(selectors.resource, (resource) => resource.dialect))
   const schema = useStore(select(selectors.resource, (resource) => resource.schema))
@@ -70,24 +68,17 @@ function LayoutWithMenu() {
     { section: 'package/license', name: 'Licenses' },
     { section: 'package/contributor', name: 'Contributors' },
     { section: 'package/source', name: 'Sources' },
+    { section: 'resource', name: 'Resource' },
+    { section: 'resource/checksum', name: 'Checksum' },
+    { section: 'resource/license', name: 'Licenses' },
+    { section: 'resource/contributor', name: 'Contributors' },
+    { section: 'resource/source', name: 'Sources' },
+    { section: 'dialect', name: 'Dialect' },
+    { section: 'dialect/format', name: capitalize(format) || 'Format' },
+    { section: 'schema', name: 'Schema' },
+    { section: 'schema/field', name: 'Fields' },
+    { section: 'schema/foreignKey', name: 'Foreign Keys' },
   ]
-  if (!shallow) {
-    MENU_ITEMS.push(
-      ...[
-        { section: 'resource', name: 'Resource' },
-        { section: 'resource/checksum', name: 'Checksum' },
-        { section: 'resource/license', name: 'Licenses' },
-        { section: 'resource/contributor', name: 'Contributors' },
-        { section: 'resource/source', name: 'Sources' },
-        { section: 'dialect', name: 'Dialect' },
-        { section: 'dialect/type', name: capitalize(type) || 'Type' },
-        { section: 'dialect/format', name: capitalize(format) || 'Format' },
-        { section: 'schema', name: 'Schema' },
-        { section: 'schema/field', name: 'Fields' },
-        { section: 'schema/foreignKey', name: 'Foreign Keys' },
-      ]
-    )
-  }
 
   // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
@@ -110,7 +101,7 @@ function LayoutWithMenu() {
         <MenuTree
           menuItems={MENU_ITEMS}
           selected={section}
-          defaultExpanded={shallow ? ['package'] : []}
+          defaultExpanded={[]}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
@@ -122,32 +113,30 @@ function LayoutWithMenu() {
         <Box hidden={!section.startsWith('package')}>
           <LayoutWithoutMenu />
         </Box>
-        {!shallow && (
-          <Box>
-            <Box hidden={!section.startsWith('resource')}>
-              <Resource
-                resource={resource}
-                externalMenu={externalMenu}
-                onChange={handleResourceChange}
-              />
-            </Box>
-            <Box hidden={!section.startsWith('dialect')}>
-              <Dialect
-                format={format}
-                dialect={dialect}
-                externalMenu={externalMenu}
-                onChange={handleDialectChange}
-              />
-            </Box>
-            <Box hidden={!section.startsWith('schema')}>
-              <Schema
-                schema={schema}
-                externalMenu={externalMenu}
-                onChange={handleSchemaChange}
-              />
-            </Box>
+        <Box>
+          <Box hidden={!section.startsWith('resource')}>
+            <Resource
+              resource={resource}
+              externalMenu={externalMenu}
+              onChange={handleResourceChange}
+            />
           </Box>
-        )}
+          <Box hidden={!section.startsWith('dialect')}>
+            <Dialect
+              format={format}
+              dialect={dialect}
+              externalMenu={externalMenu}
+              onChange={handleDialectChange}
+            />
+          </Box>
+          <Box hidden={!section.startsWith('schema')}>
+            <Schema
+              schema={schema}
+              externalMenu={externalMenu}
+              onChange={handleSchemaChange}
+            />
+          </Box>
+        </Box>
       </Box>
     </Columns>
   )
