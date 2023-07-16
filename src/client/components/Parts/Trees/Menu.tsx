@@ -30,10 +30,9 @@ export default function MenuTree(props: MenuTreeProps) {
         props.onSelect(nodeId)
       }}
       onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
-        // On collapsing we don't collapse a folder if it's not yet selected
-        const isCollapsing = nodeIds.length < expanded.length
-        if (isCollapsing && !expanded.includes(props.selected || '')) return
-        setExpanded(nodeIds)
+        // Here we implemet accordion logic: only one can be extended at time
+        const ids = nodeIds.filter((id) => !expanded.includes(id))
+        if (ids.length) setExpanded(ids)
       }}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
