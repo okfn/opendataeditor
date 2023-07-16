@@ -54,7 +54,7 @@ export function makeStore(props: SchemaProps) {
     externalMenu: props.externalMenu,
     onChange: props.onChange || noop,
     onFieldSelected: props.onFieldSelected || noop,
-    section: 'schema',
+    section: 'schema/field',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })

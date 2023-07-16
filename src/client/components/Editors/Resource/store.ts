@@ -66,7 +66,7 @@ export function makeStore(props: ResourceProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
     externalMenu: props.externalMenu,
-    section: 'resource',
+    section: props.resource?.type === 'table' ? 'schema/field' : 'resource',
     onChange: props.onChange || noop,
     onBackClick: props.onBackClick,
     onFieldSelected: props.onFieldSelected,
