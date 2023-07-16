@@ -73,12 +73,18 @@ function LayoutWithMenu() {
     { section: 'resource/license', name: 'Licenses' },
     { section: 'resource/contributor', name: 'Contributors' },
     { section: 'resource/source', name: 'Sources' },
-    { section: 'dialect', name: 'Dialect' },
-    { section: 'dialect/format', name: capitalize(format) || 'Format' },
-    { section: 'schema', name: 'Schema' },
-    { section: 'schema/field', name: 'Fields' },
-    { section: 'schema/foreignKey', name: 'Foreign Keys' },
   ]
+  if (resource.type === 'table') {
+    MENU_ITEMS.push(
+      ...[
+        { section: 'dialect', name: 'Dialect' },
+        { section: 'dialect/format', name: capitalize(format) || 'Format' },
+        { section: 'schema', name: 'Schema' },
+        { section: 'schema/field', name: 'Fields' },
+        { section: 'schema/foreignKey', name: 'Foreign Keys' },
+      ]
+    )
+  }
 
   // TODO: move to store?
   // We use memo to avoid nested editors re-rerender
@@ -113,30 +119,32 @@ function LayoutWithMenu() {
         <Box hidden={!section.startsWith('package')}>
           <LayoutWithoutMenu />
         </Box>
-        <Box>
-          <Box hidden={!section.startsWith('resource')}>
-            <Resource
-              resource={resource}
-              externalMenu={externalMenu}
-              onChange={handleResourceChange}
-            />
-          </Box>
-          <Box hidden={!section.startsWith('dialect')}>
-            <Dialect
-              format={format}
-              dialect={dialect}
-              externalMenu={externalMenu}
-              onChange={handleDialectChange}
-            />
-          </Box>
-          <Box hidden={!section.startsWith('schema')}>
-            <Schema
-              schema={schema}
-              externalMenu={externalMenu}
-              onChange={handleSchemaChange}
-            />
-          </Box>
+        <Box hidden={!section.startsWith('resource')}>
+          <Resource
+            resource={resource}
+            externalMenu={externalMenu}
+            onChange={handleResourceChange}
+          />
         </Box>
+        {resource.type === 'table' && (
+          <Box>
+            <Box hidden={!section.startsWith('dialect')}>
+              <Dialect
+                format={format}
+                dialect={dialect}
+                externalMenu={externalMenu}
+                onChange={handleDialectChange}
+              />
+            </Box>
+            <Box hidden={!section.startsWith('schema')}>
+              <Schema
+                schema={schema}
+                externalMenu={externalMenu}
+                onChange={handleSchemaChange}
+              />
+            </Box>
+          </Box>
+        )}
       </Box>
     </Columns>
   )
