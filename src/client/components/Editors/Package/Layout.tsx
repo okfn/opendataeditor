@@ -133,7 +133,6 @@ function LayoutWithMenu() {
             </Box>
             <Box hidden={!section.startsWith('dialect')}>
               <Dialect
-                type={type}
                 format={format}
                 dialect={dialect}
                 externalMenu={externalMenu}

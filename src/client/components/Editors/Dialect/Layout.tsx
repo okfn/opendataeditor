@@ -6,7 +6,6 @@ import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import DialectSection from './Sections/Dialect'
 import FormatSection from './Sections/Format'
-import TypeSection from './Sections/Type'
 import { useStore } from './store'
 import * as types from '../../../types'
 
@@ -20,14 +19,12 @@ export default function Layout() {
 }
 
 function LayoutWithMenu() {
-  const type = useStore((state) => state.type)
   const format = useStore((state) => state.format)
   const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'dialect', name: 'Dialect' },
-    { section: 'dialect/type', name: capitalize(type) || 'Type' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
   ]
   return (
@@ -57,9 +54,6 @@ function LayoutWithoutMenu() {
       <Box>
         <Box hidden={section !== 'dialect'}>
           <DialectSection />
-        </Box>
-        <Box hidden={section !== 'dialect/type'}>
-          <TypeSection />
         </Box>
         <Box hidden={section !== 'dialect/format'}>
           <FormatSection />
