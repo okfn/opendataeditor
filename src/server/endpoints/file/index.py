@@ -54,7 +54,11 @@ def action(project: Project, props: Props) -> Result:
         resource_obj = (
             Resource(path=path, basepath=basepath)
             if missing_record
-            else Resource.from_descriptor(record.resource, basepath=basepath)
+            else Resource.from_descriptor(
+                record.resource,
+                datatype=record.type,
+                basepath=basepath,
+            )
         )
         report_obj = helpers.index_resource(
             project, resource=resource_obj, table_name=name
