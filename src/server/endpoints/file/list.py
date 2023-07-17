@@ -8,7 +8,7 @@ from fastapi import Request
 from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ... import models
+from ... import helpers, models
 from ...project import Project
 from ...router import router
 
@@ -61,6 +61,8 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
         for file in files:
             if file.startswith("."):
                 continue
+            if helpers.filter_file_path(file):
+                continue
             path = fs.get_path(root / file)
             item = models.File(path=path, type=type_by_path.get(path, "file"))
             if path in name_by_path:
@@ -72,6 +74,8 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
             if folder.startswith(".") or folder in IGNORED_FOLDERS:
                 folders.remove(folder)
                 continue
+            if helpers.filter_file_path(folder):
+                continue
             path = fs.get_path(root / folder)
             item = models.File(path=path, type="folder")
             items.append(item)
@@ -82,4 +86,15 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
 IGNORED_FOLDERS = [
     "node_modules",
+    "src",
+    "test",
+    "types",
+    "helpers",
+    "components",
+    "targets",
+    "lcov-report",
+    "browser",
+    "blogs",
+    "docs",
+    "demo",
 ]

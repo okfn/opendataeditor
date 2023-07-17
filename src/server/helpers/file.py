@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Optional
 
 from frictionless import FrictionlessException
 from frictionless.resources import FileResource
+from gitignore_parser import parse_gitignore  # type: ignore
 
 if TYPE_CHECKING:
     from ..project import Project
@@ -45,3 +46,10 @@ def write_file(
     path = fs.get_path(fullpath)
 
     return path
+
+
+def filter_file_path(path: str):
+    matches = parse_gitignore(".gitignore")  # type: ignore
+    if matches(path):
+        return True
+    return False
