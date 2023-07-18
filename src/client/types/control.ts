@@ -7,3 +7,15 @@ export interface ICkanControl {
   apikey: string
   allowUpdate?: boolean
 }
+
+export interface IGithubControl {
+  type: 'github'
+  user: string
+  repo: string
+  apikey: string
+}
+
+export interface IZenodoControl {
+  type: 'zenodo'
+  apikey: string
+}
