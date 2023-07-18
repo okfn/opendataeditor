@@ -1,4 +1,4 @@
-export type IControl = ICkanControl
+export type IControl = ICkanControl | IGithubControl | IZenodoControl
 
 export interface ICkanControl {
   type: 'ckan'

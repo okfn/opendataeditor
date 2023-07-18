@@ -30,6 +30,14 @@ export function makeStore(props: ControlProps) {
     section: 'ckan',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
+      // TODO: remove this hack
+      if ('section' in patch) {
+        const { descriptor } = get()
+        // @ts-ignore
+        Object.keys(descriptor).forEach((key) => delete descriptor[key])
+        // @ts-ignore
+        descriptor.type = patch.section
+      }
       set({ ...patch })
     },
     updateHelp: (path) => {
@@ -39,14 +47,28 @@ export function makeStore(props: ControlProps) {
     updateDescriptor: (patch) => {
       const { descriptor, onChange } = get()
       Object.assign(descriptor, patch)
-      onChange({ ...descriptor })
+      console.log(descriptor)
+      onChange(descriptor)
       set({ descriptor })
     },
   }))
 }
 
 export const select = createSelector
-export const selectors = {}
+export const selectors = {
+  ckan: (state: State) => {
+    if (state.descriptor.type === 'ckan') return state.descriptor
+    return null
+  },
+  github: (state: State) => {
+    if (state.descriptor.type === 'github') return state.descriptor
+    return null
+  },
+  zenodo: (state: State) => {
+    if (state.descriptor.type === 'zenodo') return state.descriptor
+    return null
+  },
+}
 
 export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)
