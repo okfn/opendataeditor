@@ -1,23 +1,28 @@
 export interface IPortal {
   type: 'ckan' | 'github' | 'zenodo'
-  ckan?: Partial<ICkanConfig>
-  github?: Partial<IGithubConfig>
-  zenodo?: Partial<IZenodoConfig>
+  ckan?: Partial<ICkanControl>
+  github?: Partial<IGithubControl>
+  zenodo?: Partial<IZenodoControl>
 }
 
-export interface ICkanConfig {
-  baseurl?: string
-  dataset?: string
-  apikey?: string
-  allowUpdate?: boolean
+export type IControl = ICkanControl | IGithubControl | IZenodoControl
+
+export interface ICkanControl {
+  type: 'ckan'
+  baseurl: string
+  dataset: string
+  apikey: string
+  allowUpdate: boolean
 }
 
-export interface IGithubConfig {
-  user?: string
-  repo?: string
-  apikey?: string
+export interface IGithubControl {
+  type: 'github'
+  user: string
+  repo: string
+  apikey: string
 }
 
-export interface IZenodoConfig {
-  apikey?: string
+export interface IZenodoControl {
+  type: 'zenodo'
+  apikey: string
 }

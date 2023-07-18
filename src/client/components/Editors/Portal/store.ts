@@ -24,9 +24,9 @@ interface State {
 
   // Config
 
-  updateCkan: (patch: types.ICkanConfig) => void
-  updateGithub: (patch: types.IGithubConfig) => void
-  updateZenodo: (patch: types.IZenodoConfig) => void
+  updateCkan: (patch: Partial<types.ICkanControl>) => void
+  updateGithub: (patch: Partial<types.IGithubControl>) => void
+  updateZenodo: (patch: Partial<types.IZenodoControl>) => void
 }
 
 export function makeStore(props: PortalProps) {
