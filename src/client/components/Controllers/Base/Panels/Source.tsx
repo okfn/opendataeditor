@@ -32,7 +32,7 @@ export default function SourcePanel(props: SourcePanelProps) {
         }}
         language="json"
         options={{ readOnly: !props.onChange }}
-        height={theme.spacing(47)}
+        height={theme.spacing(41)}
       />
     </Box>
   )

@@ -20,6 +20,9 @@ export function makeControl(portal: types.IPortal) {
   if (portal.type === 'zenodo') {
     const control: Partial<types.IZenodoControl> = portal.zenodo || {}
     control.type = 'zenodo'
+    if (!control.title) return
+    if (!control.description) return
+    if (!control.author) return
     if (!control.apikey) return
     return control as types.IZenodoControl
   }

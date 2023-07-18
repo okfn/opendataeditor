@@ -37,7 +37,7 @@ export default function PublishDialog(props: PublishDialogProps) {
       onCancel={handleClose}
       onConfirm={publishedUrl ? handleClose : handlePublish}
     >
-      <Box sx={{ marginLeft: -2 }}>
+      <Box sx={{ marginLeft: -2, paddingBottom: 2 }}>
         <PortalEditor
           portal={portal}
           onChange={(portal) => {

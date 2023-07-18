@@ -24,5 +24,8 @@ export interface IGithubControl {
 
 export interface IZenodoControl {
   type: 'zenodo'
+  title: string
+  description: string
+  author: string
   apikey: string
 }
