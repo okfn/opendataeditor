@@ -5,39 +5,35 @@ import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
-import { DialectProps } from './index'
+import { PortalProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 import help from './help.yaml'
 
-const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
+const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'ckan')!
 
 interface State {
-  format: string
+  descriptor: types.IPortal
+  onChange: (descriptor?: types.IPortal) => void
   section: string
-  descriptor: types.IDialect
-  externalMenu?: { section: string }
-  onChange: (dialect: types.IDialect) => void
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
   updateHelp: (path: string) => void
-  updateDescriptor: (patch: Partial<types.IDialect>) => void
+  updateDescriptor: (patch: Partial<types.IPortal>) => void
 
-  // Format
+  // Config
 
-  updateCsv: (patch: Partial<types.ICsvControl>) => void
-  updateExcel: (patch: Partial<types.IExcelControl>) => void
-  updateJson: (patch: Partial<types.IJsonControl>) => void
+  updateCkan: (patch: types.ICkanConfig) => void
+  updateGithub: (patch: types.IGithubConfig) => void
+  updateZenodo: (patch: types.IZenodoConfig) => void
 }
 
-export function makeStore(props: DialectProps) {
+export function makeStore(props: PortalProps) {
   return createStore<State>((set, get) => ({
-    descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
-    externalMenu: props.externalMenu,
-    format: props.format || 'csv',
-    section: 'dialect',
+    descriptor: props.portal || cloneDeep(settings.INITIAL_PORTAL),
     onChange: props.onChange || noop,
+    section: 'ckan',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
@@ -53,42 +49,33 @@ export function makeStore(props: DialectProps) {
       set({ descriptor })
     },
 
-    // Format
+    // Config
 
-    updateCsv: (patch) => {
-      const { updateDescriptor } = get()
-      const csv = selectors.csv(get())
-      updateDescriptor({ csv: { ...csv, ...patch } })
+    updateCkan: (patch) => {
+      const { descriptor, updateDescriptor } = get()
+      descriptor.ckan = descriptor.ckan || {}
+      Object.assign(descriptor.ckan, patch)
+      updateDescriptor(descriptor)
     },
 
-    updateExcel: (patch) => {
-      const { updateDescriptor } = get()
-      const excel = selectors.excel(get())
-      updateDescriptor({ excel: { ...excel, ...patch } })
+    updateGithub: (patch) => {
+      const { descriptor, updateDescriptor } = get()
+      descriptor.github = descriptor.github || {}
+      Object.assign(descriptor.github, patch)
+      updateDescriptor(descriptor)
     },
 
-    updateJson: (patch) => {
-      const { updateDescriptor } = get()
-      const json = selectors.json(get())
-      updateDescriptor({ json: { ...json, ...patch } })
+    updateZenodo: (patch) => {
+      const { descriptor, updateDescriptor } = get()
+      descriptor.zenodo = descriptor.zenodo || {}
+      Object.assign(descriptor.zenodo, patch)
+      updateDescriptor(descriptor)
     },
   }))
 }
 
 export const select = createSelector
-export const selectors = {
-  // Format
-
-  csv: (state: State) => {
-    return state.descriptor.csv || {}
-  },
-  excel: (state: State) => {
-    return state.descriptor.excel || {}
-  },
-  json: (state: State) => {
-    return state.descriptor.json || {}
-  },
-}
+export const selectors = {}
 
 export function useStore<R>(selector: (state: State) => R): R {
   const store = React.useContext(StoreContext)
