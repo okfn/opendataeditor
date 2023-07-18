@@ -13,7 +13,7 @@ export default function ZenodoSection() {
 }
 
 function Apikey() {
-  const apikey = useStore((state) => state.descriptor.github?.apikey)
+  const apikey = useStore((state) => state.descriptor.zenodo?.apikey)
   const updateZenodo = useStore((state) => state.updateZenodo)
   return (
     <InputField
