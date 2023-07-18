@@ -42,29 +42,29 @@ resource/encoding:
   - Specifies the character encoding of this resource data.
 
 
-# Checksum
+# Integrity
 
-resource/checksum:
+resource/integrity:
   - Checksum
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-resource/checksum/hash:
+resource/integrity/hash:
   - Hash
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-resource/checksum/bytes:
+resource/integrity/bytes:
   - Bytes
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-resource/checksum/fields:
+resource/integrity/fields:
   - Fields
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
-resource/checksum/rows:
+resource/integrity/rows:
   - Rows
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum

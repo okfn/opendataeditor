@@ -42,7 +42,7 @@ function LayoutWithMenu() {
     { section: 'package/contributor', name: 'Contributors' },
     { section: 'package/source', name: 'Sources' },
     { section: 'resource', name: 'Resource' },
-    { section: 'resource/checksum', name: 'Checksum' },
+    { section: 'resource/integrity', name: 'Integrity' },
     { section: 'resource/license', name: 'Licenses' },
     { section: 'resource/contributor', name: 'Contributors' },
     { section: 'resource/source', name: 'Sources' },

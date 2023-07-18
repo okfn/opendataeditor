@@ -7,7 +7,7 @@ import MenuTree from '../../Parts/Trees/Menu'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import ResourceSection from './Sections/Resource'
-import ChecksumSection from './Sections/Checksum'
+import IntegritySection from './Sections/Integrity'
 import LicenseSection from './Sections/License'
 import SourceSection from './Sections/Source'
 import ContributorSection from './Sections/Contributor'
@@ -37,7 +37,7 @@ function LayoutWithMenu() {
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
-    { section: 'resource/checksum', name: 'Checksum' },
+    { section: 'resource/integrity', name: 'Integrity' },
     { section: 'resource/license', name: 'Licenses' },
     { section: 'resource/contributor', name: 'Contributors' },
     { section: 'resource/source', name: 'Sources' },
@@ -114,8 +114,8 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'resource'}>
           <ResourceSection />
         </Box>
-        <Box hidden={section !== 'resource/checksum'}>
-          <ChecksumSection />
+        <Box hidden={section !== 'resource/integrity'}>
+          <IntegritySection />
         </Box>
         <Box hidden={section !== 'resource/license'}>
           <LicenseSection />

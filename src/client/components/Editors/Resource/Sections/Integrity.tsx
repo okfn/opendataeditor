@@ -5,10 +5,13 @@ import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 
-export default function Resource() {
+export default function Integrity() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Checksum" onHeadingClick={() => updateHelp('resource/checksum')}>
+    <EditorSection
+      name="Integrity"
+      onHeadingClick={() => updateHelp('resource/integrity')}
+    >
       <Columns spacing={3}>
         <Box>
           <Hash />
@@ -31,7 +34,7 @@ function Hash() {
     <InputField
       label="Hash"
       value={hash || ''}
-      onFocus={() => updateHelp('resource/checksum/hash')}
+      onFocus={() => updateHelp('resource/integrity/hash')}
       onChange={(value) => updateDescriptor({ hash: value || undefined })}
     />
   )
@@ -45,7 +48,7 @@ function Bytes() {
     <InputField
       label="Bytes"
       value={bytes || ''}
-      onFocus={() => updateHelp('resource/checksum/bytes')}
+      onFocus={() => updateHelp('resource/integrity/bytes')}
       onChange={(value) => updateDescriptor({ bytes: parseInt(value) || undefined })}
     />
   )
@@ -62,7 +65,7 @@ function Fields() {
     <InputField
       label="Fields"
       value={fields || ''}
-      onFocus={() => updateHelp('resource/checksum/fields')}
+      onFocus={() => updateHelp('resource/integrity/fields')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
@@ -79,7 +82,7 @@ function Rows() {
     <InputField
       label="Rows"
       value={rows || ''}
-      onFocus={() => updateHelp('resource/checksum/rows')}
+      onFocus={() => updateHelp('resource/integrity/rows')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
     />
   )
