@@ -30,6 +30,7 @@ export default function Menu() {
         active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
+      <menu.ChatButton disabled />
       <menu.ErrorsButton onClick={toggleErrorMode} disabled={!measure?.errors} />
       <menu.UndoButton onClick={undoChange} disabled={!history?.changes.length} />
       <menu.RedoButton onClick={redoChange} disabled={!undoneHistory?.changes.length} />
