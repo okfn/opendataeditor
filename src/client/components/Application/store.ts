@@ -62,6 +62,7 @@ export interface State {
   createChart: (path: string, prompt?: string) => Promise<void>
   createImage: (path: string, prompt?: string) => Promise<void>
   createPackage: (path: string, prompt?: string) => Promise<void>
+  fetchPackage: (url: string) => Promise<void>
   createScript: (path: string, prompt?: string) => Promise<void>
   createTable: (path: string, prompt?: string) => Promise<void>
   createView: (path: string, prompt?: string) => Promise<void>
@@ -270,6 +271,12 @@ export function makeStore(props: ApplicationProps) {
         deduplicate: true,
       })
       onFileCreate([result.path])
+    },
+    fetchPackage: async (url) => {
+      const { client, onFileCreate } = get()
+      const folder = selectors.folderPath(get())
+      const { path } = await client.packageFetch({ url, folder, deduplicate: true })
+      onFileCreate([path])
     },
     createScript: async (path, prompt) => {
       const { client, onFileCreate } = get()

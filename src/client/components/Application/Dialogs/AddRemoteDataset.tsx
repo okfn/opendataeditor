@@ -4,7 +4,7 @@ import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
 export default function AddRemoteDatasetDialog() {
-  const fetchFile = useStore((state) => state.fetchFile)
+  const fetchPackage = useStore((state) => state.fetchPackage)
   const updateState = useStore((state) => state.updateState)
   return (
     <InputDialog
@@ -16,7 +16,7 @@ export default function AddRemoteDatasetDialog() {
       placholder="Enter or paste an URL"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (url) => {
-        await fetchFile(url)
+        await fetchPackage(url)
         updateState({ dialog: undefined })
       }}
     />
