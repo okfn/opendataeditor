@@ -10,23 +10,23 @@ import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRound
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
 import { useStore } from '../store'
 
-export default function CreateButton() {
+export default function AddButton() {
   return (
     <DropdownButton
       label="Add"
       variant="text"
       icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
     >
-      <AddFile />
-      <FetchFile />
-      <AddFolder />
-      <CreateFolder />
-      <FetchDataset />
+      <AddLocalFileButton />
+      <AddRemoteFileButton />
+      <AddLocalFolderButton />
+      <AddEmptyFolderButton />
+      <AddRemoteDatasetButton />
     </DropdownButton>
   )
 }
 
-function AddFile() {
+function AddLocalFileButton() {
   const addFiles = useStore((state) => state.addFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   return (
@@ -52,7 +52,7 @@ function AddFile() {
   )
 }
 
-function FetchFile() {
+function AddRemoteFileButton() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
@@ -64,7 +64,7 @@ function FetchFile() {
   )
 }
 
-function AddFolder() {
+function AddLocalFolderButton() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
   const addFiles = useStore((state) => state.addFiles)
@@ -90,20 +90,7 @@ function AddFolder() {
   )
 }
 
-function FetchDataset() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      disabled
-      variant="text"
-      label="Remote Dataset"
-      Icon={DatasetLinkedIcon}
-      onClick={() => updateState({ dialog: 'create' })}
-    />
-  )
-}
-
-function CreateFolder() {
+function AddEmptyFolderButton() {
   const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
@@ -111,6 +98,18 @@ function CreateFolder() {
       label="Empty Folder"
       Icon={CreateNewFolderIcon}
       onClick={() => updateState({ dialog: 'createFolder' })}
+    />
+  )
+}
+
+function AddRemoteDatasetButton() {
+  const updateState = useStore((state) => state.updateState)
+  return (
+    <IconButton
+      variant="text"
+      label="Remote Dataset"
+      Icon={DatasetLinkedIcon}
+      onClick={() => updateState({ dialog: 'addRemoteDataset' })}
     />
   )
 }

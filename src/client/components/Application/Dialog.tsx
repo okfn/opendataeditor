@@ -1,4 +1,5 @@
 import * as React from 'react'
+import AddRemoteDatasetDialog from './Dialogs/AddRemoteDataset'
 import AdjustFileDialog from './Dialogs/AdjustFile'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
@@ -21,6 +22,7 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
+  addRemoteDataset: AddRemoteDatasetDialog,
   adjustFile: AdjustFileDialog,
   config: ConfigDialog,
   copyFile: CopyFileDialog,

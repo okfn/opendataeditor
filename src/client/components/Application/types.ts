@@ -1,4 +1,5 @@
 export type IDialog =
+  | 'addRemoteDataset'
   | 'adjustFile'
   | 'config'
   | 'copyFile'
