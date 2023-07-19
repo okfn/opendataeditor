@@ -8,9 +8,9 @@ import Dialect from '../Dialect'
 import Schema from '../Schema'
 import ResourceSection from './Sections/Resource'
 import IntegritySection from './Sections/Integrity'
-import LicenseSection from './Sections/License'
-import SourceSection from './Sections/Source'
-import ContributorSection from './Sections/Contributor'
+import LicensesSection from './Sections/Licenses'
+import SourcesSection from './Sections/Sources'
+import ContributorsSection from './Sections/Contributors'
 import { useStore } from './store'
 import * as types from '../../../types'
 
@@ -38,14 +38,14 @@ function LayoutWithMenu() {
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/integrity', name: 'Integrity' },
-    { section: 'resource/license', name: 'Licenses' },
-    { section: 'resource/contributor', name: 'Contributors' },
-    { section: 'resource/source', name: 'Sources' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
     { section: 'dialect', name: 'Dialect', disabled: type !== 'table' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
     { section: 'schema', name: 'Schema', disabled: type !== 'table' },
-    { section: 'schema/field', name: 'Fields' },
-    { section: 'schema/foreignKey', name: 'Foreign Keys' },
+    { section: 'schema/fields', name: 'Fields' },
+    { section: 'schema/foreignKeys', name: 'Foreign Keys' },
   ]
 
   // We use memo to avoid nested editors re-rerender
@@ -117,14 +117,14 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'resource/integrity'}>
           <IntegritySection />
         </Box>
-        <Box hidden={section !== 'resource/license'}>
-          <LicenseSection />
+        <Box hidden={section !== 'resource/licenses'}>
+          <LicensesSection />
         </Box>
-        <Box hidden={section !== 'resource/contributor'}>
-          <ContributorSection />
+        <Box hidden={section !== 'resource/contributors'}>
+          <ContributorsSection />
         </Box>
-        <Box hidden={section !== 'resource/source'}>
-          <SourceSection />
+        <Box hidden={section !== 'resource/sources'}>
+          <SourcesSection />
         </Box>
       </Box>
       <EditorHelp helpItem={helpItem} />

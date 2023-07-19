@@ -7,9 +7,8 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
-import validator from 'validator'
 
-export default function Contributor() {
+export default function Contributors() {
   const index = useStore((state) => state.contributorState.index)
   return index === undefined ? <ContributorList /> : <ContributorItem />
 }
@@ -90,8 +89,8 @@ function Title() {
     <InputField
       label="Title"
       value={title || ''}
-      onFocus={() => updateHelp('package/contributors/title')}
-      onChange={(title) => updateContributor({ title })}
+      onFocus={() => updateHelp('resource/contributors/title')}
+      onChange={(value) => updateContributor({ title: value })}
     />
   )
 }
@@ -102,21 +101,12 @@ function Email() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
-  const [isValid, setIsValid] = React.useState(isValidEmail())
-  function isValidEmail() {
-    return email ? validator.isEmail(email) : true
-  }
   return (
     <InputField
-      error={!isValid}
       label="Email"
       value={email || ''}
-      onFocus={() => updateHelp('package/contributors/email')}
-      onBlur={() => {
-        setIsValid(isValidEmail())
-      }}
-      onChange={(value) => updateContributor({ email: value })}
-      helperText={!isValid ? 'Email is not valid.' : ''}
+      onFocus={() => updateHelp('resource/contributors/email')}
+      onChange={(value) => updateContributor({ email: value || undefined })}
     />
   )
 }
@@ -129,8 +119,8 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('package/contributors/path')}
-      onChange={(path) => updateContributor({ path })}
+      onFocus={() => updateHelp('resource/contributors/path')}
+      onChange={(value) => updateContributor({ path: value || undefined })}
     />
   )
 }
@@ -143,8 +133,8 @@ function Role() {
     <InputField
       label="Role"
       value={role || ''}
-      onFocus={() => updateHelp('package/contributors/role')}
-      onChange={(role) => updateContributor({ role })}
+      onFocus={() => updateHelp('resource/contributors/role')}
+      onChange={(value) => updateContributor({ role: value || undefined })}
     />
   )
 }

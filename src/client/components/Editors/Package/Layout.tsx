@@ -9,10 +9,10 @@ import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import PackageSection from './Sections/Package'
-import LicenseSection from './Sections/License'
-import ResourceSection from './Sections/Resource'
-import SourceSection from './Sections/Source'
-import ContributorSection from './Sections/Contributor'
+import LicensesSection from './Sections/Licenses'
+import ResourcesSection from './Sections/Resources'
+import SourcesSection from './Sections/Sources'
+import ContributorsSection from './Sections/Contributors'
 import { useStore, selectors, select } from './store'
 import * as types from '../../../types'
 
@@ -37,20 +37,20 @@ function LayoutWithMenu() {
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'package', name: 'Package' },
-    { section: 'package/resource', name: 'Resources' },
-    { section: 'package/license', name: 'Licenses' },
-    { section: 'package/contributor', name: 'Contributors' },
-    { section: 'package/source', name: 'Sources' },
+    { section: 'package/resources', name: 'Resources' },
+    { section: 'package/licenses', name: 'Licenses' },
+    { section: 'package/contributors', name: 'Contributors' },
+    { section: 'package/sources', name: 'Sources' },
     { section: 'resource', name: 'Resource' },
     { section: 'resource/integrity', name: 'Integrity' },
-    { section: 'resource/license', name: 'Licenses' },
-    { section: 'resource/contributor', name: 'Contributors' },
-    { section: 'resource/source', name: 'Sources' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
     { section: 'dialect', name: 'Dialect', disabled: resource.type !== 'table' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
     { section: 'schema', name: 'Schema', disabled: resource.type !== 'table' },
-    { section: 'schema/field', name: 'Fields' },
-    { section: 'schema/foreignKey', name: 'Foreign Keys' },
+    { section: 'schema/fields', name: 'Fields' },
+    { section: 'schema/foreignKeys', name: 'Foreign Keys' },
   ]
 
   // We use memo to avoid nested editors re-rerender
@@ -145,17 +145,17 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'package'}>
           <PackageSection />
         </Box>
-        <Box hidden={section !== 'package/resource'}>
-          <ResourceSection />
+        <Box hidden={section !== 'package/resources'}>
+          <ResourcesSection />
         </Box>
-        <Box hidden={section !== 'package/license'}>
-          <LicenseSection />
+        <Box hidden={section !== 'package/licenses'}>
+          <LicensesSection />
         </Box>
-        <Box hidden={section !== 'package/contributor'}>
-          <ContributorSection />
+        <Box hidden={section !== 'package/contributors'}>
+          <ContributorsSection />
         </Box>
-        <Box hidden={section !== 'package/source'}>
-          <SourceSection />
+        <Box hidden={section !== 'package/sources'}>
+          <SourcesSection />
         </Box>
       </Box>
       <EditorHelp helpItem={helpItem} />

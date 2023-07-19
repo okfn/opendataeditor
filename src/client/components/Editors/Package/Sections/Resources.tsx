@@ -4,7 +4,7 @@ import EditorListItem from '../../Base/ListItem'
 import EditorSearch from '../../Base/Search'
 import { useStore, selectors } from '../store'
 
-export default function Resource() {
+export default function Resources() {
   const isGrid = useStore((state) => state.resourceState.isGrid)
   const query = useStore((state) => state.resourceState.query)
   const resourceItems = useStore(selectors.resourceItems)

@@ -9,7 +9,7 @@ import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 
-export default function License() {
+export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
   return index === undefined ? <LicenseList /> : <LicenseItem />
 }

@@ -9,7 +9,7 @@ import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 
-export default function Source() {
+export default function Sources() {
   const index = useStore((state) => state.sourceState.index)
   return index === undefined ? <SourceList /> : <SourceItem />
 }
@@ -85,7 +85,7 @@ function Title() {
     <InputField
       label="Title"
       value={title}
-      onFocus={() => updateHelp('resource/sources/title')}
+      onFocus={() => updateHelp('package/sources/title')}
       onChange={(title) => updateSource({ title })}
     />
   )
@@ -99,8 +99,8 @@ function Path() {
     <InputField
       label="Path"
       value={path || ''}
-      onFocus={() => updateHelp('resource/sources/path')}
-      onChange={(value) => updateSource({ path: value || undefined })}
+      onFocus={() => updateHelp('package/sources/path')}
+      onChange={(path) => updateSource({ path })}
     />
   )
 }
@@ -118,7 +118,7 @@ function Email() {
       error={!isValid}
       label="Email"
       value={email || ''}
-      onFocus={() => updateHelp('resource/sources/email')}
+      onFocus={() => updateHelp('package/sources/email')}
       onBlur={() => {
         setIsValid(isValidEmail())
       }}
