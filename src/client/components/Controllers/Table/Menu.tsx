@@ -3,6 +3,7 @@ import { useStore } from './store'
 import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
+  const mode = useStore((state) => state.mode)
   const panel = useStore((state) => state.panel)
   const report = useStore((state) => state.report)
   const measure = useStore((state) => state.measure)
@@ -31,7 +32,11 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
       <menu.ChatButton disabled />
-      <menu.ErrorsButton onClick={toggleErrorMode} disabled={!measure?.errors} />
+      <menu.ErrorsButton
+        active={mode === 'errors'}
+        onClick={toggleErrorMode}
+        disabled={!measure?.errors}
+      />
       <menu.UndoButton onClick={undoChange} disabled={!history?.changes.length} />
       <menu.RedoButton onClick={redoChange} disabled={!undoneHistory?.changes.length} />
     </menu.MenuBar>
