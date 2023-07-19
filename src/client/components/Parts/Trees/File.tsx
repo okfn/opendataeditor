@@ -6,6 +6,7 @@ import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import TreeView from '@mui/lab/TreeView'
+import MapIcon from '@mui/icons-material/Map'
 import FolderIcon from '@mui/icons-material/Folder'
 import DescriptionIcon from '@mui/icons-material/Description'
 import ChartIcon from '@mui/icons-material/Leaderboard'
@@ -178,6 +179,7 @@ function getIcon(type: string): React.ElementType {
 const TYPE_ICONS: { [key: string]: React.ElementType } = {
   folder: FolderIcon,
   file: DescriptionIcon,
+  map: MapIcon,
   chart: ChartIcon,
   sql: Storage,
   table: TableView,

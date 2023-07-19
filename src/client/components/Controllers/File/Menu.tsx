@@ -3,7 +3,9 @@ import * as menu from '../../Parts/Bars/Menu'
 import { useStore } from './store'
 
 export default function Menu() {
+  const type = useStore((state) => state.record?.type)
   const panel = useStore((state) => state.panel)
+  const dialog = useStore((state) => state.dialog)
   const report = useStore((state) => state.report)
   const textSource = useStore((state) => state.textSource)
   const updateState = useStore((state) => state.updateState)
@@ -26,7 +28,10 @@ export default function Menu() {
         active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
-      <menu.ChatButton disabled />
+      <menu.ChatButton
+        disabled={type !== 'map'}
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
+      />
     </menu.MenuBar>
   )
 }

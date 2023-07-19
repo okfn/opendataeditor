@@ -16,18 +16,20 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
   resource?: types.IResource
   byteSource?: ArrayBuffer
   textSource?: string
+  textSourceOriginal?: string
   updateState: (patch: Partial<State>) => void
 
   // General
 
   load: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
   publish: (control: types.IControl) => Promise<string | undefined>
   revert: () => void
@@ -54,8 +56,14 @@ export function makeStore(props: FileProps) {
         set({ byteSource: bytes })
       } else if (record.type === 'map') {
         const { text } = await client.textRead({ path: record.path })
-        set({ textSource: text })
+        set({ textSource: text, textSourceOriginal: text })
       }
+    },
+    edit: async (prompt) => {
+      const { path, client, textSource } = get()
+      if (!textSource) return
+      const { text } = await client.textEdit({ path, text: textSource || '', prompt })
+      set({ textSource: text })
     },
     saveAs: async (toPath) => {
       const { path, client, resource, onSaveAs } = get()
@@ -68,13 +76,22 @@ export function makeStore(props: FileProps) {
       return url
     },
     revert: () => {
-      const { record } = get()
+      const { record, textSourceOriginal } = get()
       if (!record) return
       set({ resource: cloneDeep(record.resource) })
+      if (textSourceOriginal) set({ textSource: textSourceOriginal })
     },
     save: async () => {
-      const { path, client, resource, onSave, load } = get()
-      await client.filePatch({ path, resource })
+      const { path, client, resource, onSave, load, textSource } = get()
+      if (textSource) {
+        await client.jsonPatch({
+          path,
+          data: selectors.isDataUpdated(get()) ? JSON.parse(textSource) : undefined,
+          resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
+        })
+      } else {
+        await client.filePatch({ path, resource })
+      }
       onSave()
       load()
     },
@@ -84,6 +101,12 @@ export function makeStore(props: FileProps) {
 export const select = createSelector
 export const selectors = {
   isUpdated: (state: State) => {
+    return selectors.isDataUpdated(state) || selectors.isMetadataUpdated(state)
+  },
+  isDataUpdated: (state: State) => {
+    return state.textSource !== state.textSourceOriginal
+  },
+  isMetadataUpdated: (state: State) => {
     return !isEqual(state.resource, state.record?.resource)
   },
 }

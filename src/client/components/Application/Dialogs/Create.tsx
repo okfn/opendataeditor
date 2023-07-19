@@ -92,7 +92,7 @@ export default function CreateDialog() {
     {
       name: 'Map',
       section: 'map',
-      fileName: 'map.json',
+      fileName: 'map.geojson',
       description: 'Creating a map. Enter destination:',
       placeholder: 'Enter a map path',
       promptPlaceholder: 'london and paris',

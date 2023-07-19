@@ -34,9 +34,10 @@ export function MapViewer() {
   const [map, setMap] = React.useState<any>(null)
   React.useEffect(() => {
     if (map && layer) map.fitBounds(layer.getBounds())
-  }, [map, layer])
+  }, [map, layer, textSource])
   if (!textSource) return null
   let data = JSON.parse(textSource)
+  console.log(data)
   if (data?.type === 'Topology') {
     data = topojson.feature(data, Object.keys(data.objects)[0] as any)
   }
@@ -59,7 +60,7 @@ export function MapViewer() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON ref={setLayer as any} data={data} />
+        <GeoJSON key={textSource} ref={setLayer as any} data={data} />
       </MapContainer>
     </Box>
   )
