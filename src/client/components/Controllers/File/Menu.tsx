@@ -25,6 +25,7 @@ export default function Menu() {
         disabled={!textSource}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
+      <menu.ChatButton disabled />
     </menu.MenuBar>
   )
 }
