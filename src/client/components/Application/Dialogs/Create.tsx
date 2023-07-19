@@ -4,7 +4,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TableRowsIcon from '@mui/icons-material/TableRows'
 import ImageIcon from '@mui/icons-material/Image'
 import PostAddIcon from '@mui/icons-material/PostAdd'
-import SourceIcon from '@mui/icons-material/Source'
+import WidgetsIcon from '@mui/icons-material/Widgets'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
@@ -64,7 +64,7 @@ export default function CreateDialog() {
       description: 'Creating a dataset. Enter destination:',
       placeholder: 'Enter a package path',
       promptPlaceholder: 'all tables in data folder',
-      Icon: SourceIcon,
+      Icon: WidgetsIcon,
       create: createPackage,
     },
     {

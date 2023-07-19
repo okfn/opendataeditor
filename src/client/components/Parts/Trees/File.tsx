@@ -12,7 +12,7 @@ import ChartIcon from '@mui/icons-material/Leaderboard'
 import AccountTree from '@mui/icons-material/AccountTree'
 import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
 import TableRowsIcon from '@mui/icons-material/TableRows'
-import Source from '@mui/icons-material/Source'
+import WidgetsIcon from '@mui/icons-material/Widgets'
 import Storage from '@mui/icons-material/Storage'
 import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../Boxes/Scroll'
@@ -181,7 +181,7 @@ const TYPE_ICONS: { [key: string]: React.ElementType } = {
   chart: ChartIcon,
   sql: Storage,
   table: TableView,
-  package: Source,
+  package: WidgetsIcon,
   resource: DescriptionIcon,
   dialect: DescriptionIcon,
   checklist: CheckCircleOutline,
