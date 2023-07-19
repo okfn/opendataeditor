@@ -23,6 +23,7 @@ export default function Menu() {
       />
       <menu.SourceButton
         disabled={!textSource}
+        active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
       <menu.ChatButton disabled />

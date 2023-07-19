@@ -1,3 +1,4 @@
+import 'leaflet/dist/leaflet.css'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
@@ -10,7 +11,7 @@ export default function Viewer() {
   if (!type) return null
   if (type === 'image') return <ImageViewer />
   if (type === 'map') return <MapViewer />
-  return <NonSupportedViewer />
+  return <NotSupportedViewer />
 }
 
 function ImageViewer() {
@@ -26,27 +27,44 @@ function ImageViewer() {
   )
 }
 
-function MapViewer() {
+export function MapViewer() {
   const textSource = useStore((state) => state.textSource)
+  const [layer, setLayer] = React.useState<any>(null)
+  const [map, setMap] = React.useState<any>(null)
+  React.useEffect(() => {
+    if (map && layer) map.fitBounds(layer.getBounds())
+  }, [map, layer])
   if (!textSource) return null
   let data = JSON.parse(textSource)
   if (data?.type === 'Topology') {
     data = topojson.feature(data, Object.keys(data.objects)[0] as any)
   }
   return (
-    <Box sx={{ padding: 2, width: '100%', height: '100%' }}>
-      <MapContainer center={[51.505, -0.09]} zoom={3} scrollWheelZoom={false}>
+    <Box
+      sx={{
+        padding: 2,
+        width: '100%',
+        height: '100%',
+        '& > .leaflet-container': { height: '100%' },
+      }}
+    >
+      <MapContainer
+        center={[51.505, -0.09]}
+        zoom={3}
+        scrollWheelZoom={false}
+        ref={setMap as any}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON data={data} />
+        <GeoJSON ref={setLayer as any} data={data} />
       </MapContainer>
     </Box>
   )
 }
 
-function NonSupportedViewer() {
+function NotSupportedViewer() {
   const format = useStore((state) => state.record?.resource.format)
   if (!format) return null
   return (
