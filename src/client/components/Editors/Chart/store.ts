@@ -36,6 +36,8 @@ interface State {
   tabIndex: number
   tabNames: string[]
   vtabIndex: number
+  section: string
+  externalMenu?: { section: string }
   onChange: (chart: object) => void
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -82,7 +84,9 @@ export function makeStore(props: ChartProps) {
     descriptor: props.chart || {},
     tabIndex: 0,
     vtabIndex: 1,
-    tabNames: ['General'],
+    tabNames: ['Chart'],
+    section: 'channel',
+    // externalMenu: props.externalMenu,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
