@@ -36,7 +36,7 @@ export interface State {
   saveAs: (toPath: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  publish: (control: types.IControl) => Promise<string>
+  publish: (control: types.IControl) => Promise<string | undefined>
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory

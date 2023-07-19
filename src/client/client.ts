@@ -129,7 +129,7 @@ export class Client {
 
   async filePublish(props: { path: string; control: types.IControl }) {
     const result = await this.request('/file/publish', props)
-    return result as { url: string }
+    return result as { url?: string }
   }
 
   async fileRead(props: { path: string; size?: number }) {

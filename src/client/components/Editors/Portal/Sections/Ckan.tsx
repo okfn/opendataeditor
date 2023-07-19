@@ -10,8 +10,8 @@ export default function CkanSection() {
     <EditorSection name="Ckan" onHeadingClick={() => updateHelp('ckan')}>
       <Baseurl />
       <Dataset />
-      <Apikey />
       <AllowUpdate />
+      <Apikey />
     </EditorSection>
   )
 }
@@ -42,6 +42,18 @@ function Dataset() {
   )
 }
 
+function AllowUpdate() {
+  const allowUpdate = useStore((state) => state.descriptor.ckan?.allowUpdate)
+  const updateCkan = useStore((state) => state.updateCkan)
+  return (
+    <YesNoField
+      label="Allow Update"
+      value={allowUpdate || false}
+      onChange={(value) => updateCkan({ allowUpdate: value })}
+    />
+  )
+}
+
 function Apikey() {
   const apikey = useStore((state) => state.descriptor.ckan?.apikey)
   const updateCkan = useStore((state) => state.updateCkan)
@@ -51,18 +63,6 @@ function Apikey() {
       label="API Key"
       value={apikey || ''}
       onChange={(value) => updateCkan({ apikey: value || undefined })}
-    />
-  )
-}
-
-function AllowUpdate() {
-  const allowUpdate = useStore((state) => state.descriptor.ckan?.allowUpdate)
-  const updateCkan = useStore((state) => state.updateCkan)
-  return (
-    <YesNoField
-      label="Allow Update"
-      value={allowUpdate || false}
-      onChange={(value) => updateCkan({ allowUpdate: value })}
     />
   )
 }

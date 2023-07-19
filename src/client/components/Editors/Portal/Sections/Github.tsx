@@ -9,6 +9,7 @@ export default function GithubSection() {
     <EditorSection name="Github" onHeadingClick={() => updateHelp('github')}>
       <User />
       <Repo />
+      <Email />
       <Apikey />
     </EditorSection>
   )
@@ -36,6 +37,18 @@ function Repo() {
       label="Repo"
       value={repo || ''}
       onChange={(value) => updateGithub({ repo: value || undefined })}
+    />
+  )
+}
+
+function Email() {
+  const email = useStore((state) => state.descriptor.github?.email)
+  const updateGithub = useStore((state) => state.updateGithub)
+  return (
+    <InputField
+      label="Email"
+      value={email || ''}
+      onChange={(value) => updateGithub({ email: value || undefined })}
     />
   )
 }

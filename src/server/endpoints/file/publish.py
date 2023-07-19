@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from fastapi import Request
 from frictionless import Control, Package, Resource
@@ -18,7 +18,7 @@ class Props(BaseModel, extra="forbid"):
 
 
 class Result(BaseModel, extra="forbid"):
-    url: str
+    url: Optional[str]
 
 
 @router.post("/file/publish")
@@ -32,6 +32,6 @@ def action(project: Project, props: Props) -> Result:
     record = helpers.read_record_or_raise(project, path=props.path)
     resource = Resource.from_descriptor(record.resource)
     package = Package(resources=[resource], basepath=str(fs.basepath))
-    url = package.publish(control=Control.from_descriptor(props.control))
+    result = package.publish(control=Control.from_descriptor(props.control))
 
-    return Result(url=url)
+    return Result(url=result.url)

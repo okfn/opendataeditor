@@ -8,22 +8,24 @@ import PortalEditor from '../../../Editors/Portal'
 import * as helpers from '../../../../helpers'
 import * as types from '../../../../types'
 
+type IState = 'form' | 'load' | 'done' | 'fail'
+
 export interface PublishDialogProps {
-  onPublish: (control: types.IControl) => Promise<string>
+  onPublish: (control: types.IControl) => Promise<string | undefined>
   onClose: () => void
 }
 
 export default function PublishDialog(props: PublishDialogProps) {
   const [portal, setPortal] = React.useState<types.IPortal>({ type: 'ckan' })
   const [control, setControl] = React.useState<types.IControl>()
-  const [isPublishing, setIsPublishing] = React.useState(false)
+  const [state, setState] = React.useState<IState>('form')
   const [publishedUrl, setPublishedUrl] = React.useState<string | undefined>()
   const handleClose = () => props.onClose()
   const handlePublish = async () => {
     if (!control) return
-    setIsPublishing(true)
+    setState('load')
     const url = await props.onPublish(control)
-    setIsPublishing(false)
+    setState('done')
     setPublishedUrl(url)
   }
   return (
@@ -46,13 +48,13 @@ export default function PublishDialog(props: PublishDialogProps) {
           }}
         />
       </Box>
-      {isPublishing && (
+      {state === 'load' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Publishing
           <LinearProgress />
         </Box>
       )}
-      {!!publishedUrl && (
+      {state === 'done' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Published:{' '}
           <Link href={publishedUrl} target="_blank">

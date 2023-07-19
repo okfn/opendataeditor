@@ -34,7 +34,7 @@ export interface State {
   edit: (prompt: string) => Promise<void>
   clear: () => void
   saveAs: (toPath: string) => Promise<void>
-  publish: (control: types.IControl) => Promise<string>
+  publish: (control: types.IControl) => Promise<string | undefined>
   revert: () => void
   save: () => Promise<void>
   render: () => void

@@ -19,6 +19,7 @@ export interface IGithubControl {
   type: 'github'
   user: string
   repo: string
+  email?: string
   apikey: string
 }
 
