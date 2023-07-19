@@ -23,3 +23,10 @@ export const Invalid: Story = {
     report: reportInvalid,
   },
 }
+
+export const Shallow: Story = {
+  args: {
+    shallow: true,
+    report: reportInvalid,
+  },
+}

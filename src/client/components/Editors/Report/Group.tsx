@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import React, { useState } from 'react'
 import Table from './Table'
 
-export interface ErrorGroupProps {
+export interface ReportGroupProps {
   count: number
   type: string
   title: string
@@ -19,7 +19,7 @@ export interface ErrorGroupProps {
   }
 }
 
-export default function ErrorGroup(props: ErrorGroupProps) {
+export default function ReportGroup(props: ReportGroupProps) {
   const [isDetailsVisible, setIsDetailsVisible] = useState(false)
   const [visibleRowsCount, setVisibleRowsCount] = useState(10)
   const rowNumbers = getRowNumbers(props)
@@ -92,7 +92,7 @@ export default function ErrorGroup(props: ErrorGroupProps) {
 
 // Helpers
 
-function getRowNumbers(props: ErrorGroupProps) {
+function getRowNumbers(props: ReportGroupProps) {
   return Object.keys(props.data)
     .map((item) => parseInt(item, 10))
     .sort((a, b) => a - b)

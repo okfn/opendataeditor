@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export interface TableProps {
+export interface ReportTableProps {
   tags: string[]
   labels: string[]
   data: {
@@ -14,7 +14,7 @@ export interface TableProps {
   rowNumbers: number[]
 }
 
-export default function Table(props: TableProps) {
+export default function ReportTable(props: ReportTableProps) {
   const { visibleRowsCount, rowNumbers } = props
   const isHeaderVisible = props.tags.includes('#row')
   let afterFailRowNumber = 1

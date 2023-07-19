@@ -1,57 +1,57 @@
 import React from 'react'
 import classNames from 'classnames'
-import ErrorGroup, { ErrorGroupProps } from './ErrorGroup'
+import ReportGroup, { ReportGroupProps } from './Group'
 import * as types from '../../../types'
 
-export interface TaskProps {
+export interface ReportTaskProps {
   task: types.IReportTask
-  taskNumber: number
-  tasksCount: number
+  shallow?: boolean
+  taskNumber?: number
+  tasksCount?: number
 }
 
-export default function Task(props: TaskProps) {
+export default function ReportTask(props: ReportTaskProps) {
   const { task, taskNumber, tasksCount } = props
   const taskFile = removeBaseUrl(task.place || '')
   const splitTableFile = splitFilePath(taskFile)
-  const errorGroups = getErrorGroups(task)
+  const groups = getGroups(task)
   return (
     <div className={classNames({ file: true, valid: task.valid, invalid: !task.valid })}>
-      {/* Heading */}
-      <h4 className="file-heading">
-        <div className="inner">
-          <a className="file-name" href={task.place}>
-            {task.place ? (
-              <span>
-                <strong>{splitTableFile.base}</strong>
-                <strong>{splitTableFile.sep}</strong>
-                <strong>{splitTableFile.name}</strong>
-                <strong>&nbsp;({task.valid ? 'valid' : 'invalid'})</strong>
-              </span>
-            ) : (
-              <strong>
-                {task.name} ({task.valid ? 'valid' : 'invalid'})
-              </strong>
-            )}
-            {!task.valid && (
-              <span
-                className="badge"
-                data-toggle="tooltip"
-                data-placement="right"
-                title={`${task.stats.errors} errors found for this task`}
-              >
-                {task.stats.errors}
-              </span>
-            )}
-          </a>
-          <span className="file-count">
-            Task {taskNumber} of {tasksCount}
-          </span>
-        </div>
-      </h4>
-
-      {/* Error groups */}
-      {Object.values(errorGroups).map((errorGroup, type) => (
-        <ErrorGroup key={type} {...errorGroup} />
+      {!props.shallow && (
+        <h4 className="file-heading">
+          <div className="inner">
+            <a className="file-name" href={task.place}>
+              {task.place ? (
+                <span>
+                  <strong>{splitTableFile.base}</strong>
+                  <strong>{splitTableFile.sep}</strong>
+                  <strong>{splitTableFile.name}</strong>
+                  <strong>&nbsp;({task.valid ? 'valid' : 'invalid'})</strong>
+                </span>
+              ) : (
+                <strong>
+                  {task.name} ({task.valid ? 'valid' : 'invalid'})
+                </strong>
+              )}
+              {!task.valid && (
+                <span
+                  className="badge"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  title={`${task.stats.errors} errors found for this task`}
+                >
+                  {task.stats.errors}
+                </span>
+              )}
+            </a>
+            <span className="file-count">
+              Task {taskNumber} of {tasksCount}
+            </span>
+          </div>
+        </h4>
+      )}
+      {Object.values(groups).map((group, type) => (
+        <ReportGroup key={type} {...group} />
       ))}
     </div>
   )
@@ -72,13 +72,13 @@ export function splitFilePath(path: string) {
   }
 }
 
-export function getErrorGroups(task: types.IReportTask) {
-  const errorGroups: { [code: string]: ErrorGroupProps } = {}
+export function getGroups(task: types.IReportTask) {
+  const groups: { [code: string]: ReportGroupProps } = {}
   for (const error of task.errors) {
-    // Prepare errorGroup
-    let errorGroup = errorGroups[error.type]
-    if (!errorGroup) {
-      errorGroup = {
+    // Prepare group
+    let group = groups[error.type]
+    if (!group) {
+      group = {
         count: 0,
         type: error.type,
         title: error.title,
@@ -91,7 +91,7 @@ export function getErrorGroups(task: types.IReportTask) {
     }
 
     // Prepare cells
-    let data = errorGroup.data[error.rowNumber || 0]
+    let data = group.data[error.rowNumber || 0]
     if (!data) {
       const values = error.cells || error.labels || []
       data = { values, errors: new Set() }
@@ -115,12 +115,12 @@ export function getErrorGroups(task: types.IReportTask) {
       data.errors = new Set(data.values.map((_, index) => index + 1))
     }
 
-    // Save errorGroup
-    errorGroup.count += 1
-    errorGroup.messages.push(error.message)
-    errorGroup.data[error.rowNumber || 0] = data
-    errorGroups[error.type] = errorGroup
+    // Save group
+    group.count += 1
+    group.messages.push(error.message)
+    group.data[error.rowNumber || 0] = data
+    groups[error.type] = group
   }
 
-  return errorGroups
+  return groups
 }

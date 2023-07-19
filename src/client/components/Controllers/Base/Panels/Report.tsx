@@ -11,7 +11,7 @@ export default function ReportPanel(props: ReportPanelProps) {
   if (!props.report) return null
   return (
     <Box sx={{ paddingX: 2 }}>
-      <Report report={props.report} />
+      <Report report={props.report} shallow />
     </Box>
   )
 }
