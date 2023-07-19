@@ -139,7 +139,7 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
       }}
     >
       <Icon color={color} />
-      {props.item.label}
+      <span style={{ whiteSpace: 'nowrap' }}>{props.item.label}</span>
       {props.item.name && (
         <span style={{ marginLeft: '0.5em', opacity: 0.5, fontWeight: 'normal' }}>
           @{props.item.name}
