@@ -1,4 +1,5 @@
 import 'leaflet/dist/leaflet.css'
+import 'leaflet/dist/images/marker-shadow.png'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
