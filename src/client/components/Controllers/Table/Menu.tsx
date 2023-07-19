@@ -4,6 +4,7 @@ import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
+  const report = useStore((state) => state.report)
   const measure = useStore((state) => state.measure)
   const history = useStore((state) => state.history)
   const undoneHistory = useStore((state) => state.undoneHistory)
@@ -21,6 +22,7 @@ export default function Menu() {
         }
       />
       <menu.ReportButton
+        disabled={!report || report?.valid}
         active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />

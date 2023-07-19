@@ -4,6 +4,7 @@ import { useStore } from './store'
 
 export default function Menu() {
   const panel = useStore((state) => state.panel)
+  const report = useStore((state) => state.report)
   const textSource = useStore((state) => state.textSource)
   const updateState = useStore((state) => state.updateState)
   return (
@@ -16,6 +17,7 @@ export default function Menu() {
         }
       />
       <menu.ReportButton
+        disabled={!report || report?.valid}
         active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
