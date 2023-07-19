@@ -10,7 +10,7 @@ export default function AddRemoteDatasetDialog() {
     <InputDialog
       open={true}
       title="Add Remote Dataset"
-      label="Fetch"
+      label="Add"
       Icon={UploadIcon}
       description="You can add a Ckan, Github, or Zenodo dataset link:"
       placholder="Enter or paste an URL"

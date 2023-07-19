@@ -59,7 +59,7 @@ function AddRemoteFileButton() {
       variant="text"
       label="Remote File"
       Icon={AddLinkIcon}
-      onClick={() => updateState({ dialog: 'fetchFile' })}
+      onClick={() => updateState({ dialog: 'addRemoteFile' })}
     />
   )
 }
@@ -97,7 +97,7 @@ function AddEmptyFolderButton() {
       variant="text"
       label="Empty Folder"
       Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'createFolder' })}
+      onClick={() => updateState({ dialog: 'addEmptyFolder' })}
     />
   )
 }

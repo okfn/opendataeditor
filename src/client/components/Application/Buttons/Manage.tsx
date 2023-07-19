@@ -20,8 +20,8 @@ export default function ManageButton() {
     >
       <CopyButton />
       <MoveButton />
-      <AdjustButton />
-      <IndexButton />
+      <AdjustFileButton />
+      <IndexFilesButton />
     </DropdownButton>
   )
 }
@@ -58,7 +58,7 @@ function MoveButton() {
   )
 }
 
-function AdjustButton() {
+function AdjustFileButton() {
   const path = useStore((state) => state.path)
   const updateState = useStore((state) => state.updateState)
   return (
@@ -72,7 +72,7 @@ function AdjustButton() {
   )
 }
 
-function IndexButton() {
+function IndexFilesButton() {
   const updateState = useStore((state) => state.updateState)
   const notIndexedFiles = useStore(selectors.notIndexedFiles)
   return (
