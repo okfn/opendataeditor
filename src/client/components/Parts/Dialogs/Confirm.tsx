@@ -19,11 +19,10 @@ export interface ConfirmDialogProps {
   onCancel?: () => void
   onConfirm?: () => void
   ctrlEnter?: boolean
+  children?: React.ReactNode
 }
 
-export default function ConfirmDialog(
-  props: React.PropsWithChildren<ConfirmDialogProps>
-) {
+export default function ConfirmDialog(props: ConfirmDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
   return (

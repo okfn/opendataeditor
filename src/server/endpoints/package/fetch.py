@@ -36,6 +36,7 @@ def action(project: Project, props: Props) -> Result:
     if not adapter:
         raise FrictionlessException(f"Not supported remote dataset: {props.url}")
     package = adapter.read_package()
+    #  package.infer()
 
     # Process package
     for resource in package.resources:
@@ -45,11 +46,13 @@ def action(project: Project, props: Props) -> Result:
     # Save package
     # TODO: use here json/create or write_json when it supports folder
     parsed = urlparse(props.url)
-    path = props.path or Path(parsed.path).name or "dataset.json"
+    name = package.name or Path(parsed.path).stem or "dataset"
+    if name.isdigit():
+        name = "dataset"
     result = endpoints.file.create.action(
         project,
         endpoints.file.create.Props(
-            path=path,
+            path=props.path or f"{name}.json",
             bytes=package.to_json().encode("utf-8"),
             folder=props.folder,
             deduplicate=props.deduplicate,

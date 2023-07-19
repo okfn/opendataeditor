@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from frictionless import Indexer
-from frictionless.resources import TableResource
+from frictionless import FrictionlessException, Indexer, Report
+from frictionless.resources import PackageResource, ResourceResource, TableResource
 
 if TYPE_CHECKING:
     from frictionless import Resource
@@ -14,8 +14,7 @@ if TYPE_CHECKING:
 def index_resource(project: Project, resource: Resource, table_name: str):
     db = project.database
 
-    # Tabular resource
-    report = None
+    # Table resource
     if isinstance(resource, TableResource):
         indexer = Indexer(
             resource=resource,
@@ -25,8 +24,17 @@ def index_resource(project: Project, resource: Resource, table_name: str):
         )
         report = indexer.index()
 
+    # Container resource
+    elif isinstance(resource, (ResourceResource, PackageResource)):
+        try:
+            errors = []
+            resource.read_metadata()
+        except FrictionlessException as exception:
+            errors = exception.to_errors()
+        report = Report.from_validation(errors=errors)
+
     # General resource
-    if not report:
+    else:
         report = resource.validate()
 
     return report
