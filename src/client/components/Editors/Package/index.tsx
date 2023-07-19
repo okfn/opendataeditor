@@ -7,6 +7,7 @@ import Layout from './Layout'
 
 export interface PackageProps {
   package?: types.IPackage
+  shallow?: boolean
   onChange?: (pkg: types.IPackage) => void
   onAddResource?: () => void
   onResourceSelected?: (name?: string) => void

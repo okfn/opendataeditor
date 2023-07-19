@@ -26,6 +26,7 @@ export default function Layout() {
 
 // TODO: improve menu implementation (move some state to store / reduce re-renders)
 function LayoutWithMenu() {
+  const shallow = useStore((state) => state.shallow)
   const section = useStore((state) => state.section)
   const resource = useStore(selectors.resource)
   const format = useStore(select(selectors.resource, (resource) => resource.format))
@@ -41,17 +42,24 @@ function LayoutWithMenu() {
     { section: 'package/licenses', name: 'Licenses' },
     { section: 'package/contributors', name: 'Contributors' },
     { section: 'package/sources', name: 'Sources' },
-    { section: 'resource', name: 'Resource' },
-    { section: 'resource/integrity', name: 'Integrity' },
-    { section: 'resource/licenses', name: 'Licenses' },
-    { section: 'resource/contributors', name: 'Contributors' },
-    { section: 'resource/sources', name: 'Sources' },
-    { section: 'dialect', name: 'Dialect', disabled: resource.type !== 'table' },
-    { section: 'dialect/format', name: capitalize(format) || 'Format' },
-    { section: 'schema', name: 'Schema', disabled: resource.type !== 'table' },
-    { section: 'schema/fields', name: 'Fields' },
-    { section: 'schema/foreignKeys', name: 'Foreign Keys' },
   ]
+
+  if (!shallow) {
+    MENU_ITEMS.push(
+      ...[
+        { section: 'resource', name: 'Resource' },
+        { section: 'resource/integrity', name: 'Integrity' },
+        { section: 'resource/licenses', name: 'Licenses' },
+        { section: 'resource/contributors', name: 'Contributors' },
+        { section: 'resource/sources', name: 'Sources' },
+        { section: 'dialect', name: 'Dialect', disabled: resource.type !== 'table' },
+        { section: 'dialect/format', name: capitalize(format) || 'Format' },
+        { section: 'schema', name: 'Schema', disabled: resource.type !== 'table' },
+        { section: 'schema/fields', name: 'Fields' },
+        { section: 'schema/foreignKeys', name: 'Foreign Keys' },
+      ]
+    )
+  }
 
   // We use memo to avoid nested editors re-rerender
   const handleResourceChange = React.useMemo(() => {
@@ -80,15 +88,17 @@ function LayoutWithMenu() {
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
-        <Box
-          sx={{
-            borderBottom: 'dashed 1px #ddd',
-            paddingBottom: 1.5,
-            marginBottom: 1.5,
-          }}
-        >
-          <ResourceSelector />
-        </Box>
+        {!shallow && (
+          <Box
+            sx={{
+              borderBottom: 'dashed 1px #ddd',
+              paddingBottom: 1.5,
+              marginBottom: 1.5,
+            }}
+          >
+            <ResourceSelector />
+          </Box>
+        )}
         <MenuTree
           menuItems={MENU_ITEMS}
           selected={section}
@@ -104,30 +114,34 @@ function LayoutWithMenu() {
         <Box hidden={!section.startsWith('package')}>
           <LayoutWithoutMenu />
         </Box>
-        <Box hidden={!section.startsWith('resource')}>
-          <Resource
-            resource={resource}
-            externalMenu={externalMenu}
-            onChange={handleResourceChange}
-          />
-        </Box>
-        {resource.type === 'table' && (
+        {!shallow && (
           <Box>
-            <Box hidden={!section.startsWith('dialect')}>
-              <Dialect
-                format={format}
-                dialect={dialect}
+            <Box hidden={!section.startsWith('resource')}>
+              <Resource
+                resource={resource}
                 externalMenu={externalMenu}
-                onChange={handleDialectChange}
+                onChange={handleResourceChange}
               />
             </Box>
-            <Box hidden={!section.startsWith('schema')}>
-              <Schema
-                schema={schema}
-                externalMenu={externalMenu}
-                onChange={handleSchemaChange}
-              />
-            </Box>
+            {resource.type === 'table' && (
+              <Box>
+                <Box hidden={!section.startsWith('dialect')}>
+                  <Dialect
+                    format={format}
+                    dialect={dialect}
+                    externalMenu={externalMenu}
+                    onChange={handleDialectChange}
+                  />
+                </Box>
+                <Box hidden={!section.startsWith('schema')}>
+                  <Schema
+                    schema={schema}
+                    externalMenu={externalMenu}
+                    onChange={handleSchemaChange}
+                  />
+                </Box>
+              </Box>
+            )}
           </Box>
         )}
       </Box>
