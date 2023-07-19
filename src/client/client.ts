@@ -200,6 +200,16 @@ export class Client {
     return result as { path: string }
   }
 
+  async packageFetch(props: {
+    url: string
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
+    const result = await this.request('/package/fetch', props)
+    return result as { path: string }
+  }
+
   async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
     const result = await this.request('/package/patch', props)
     return result as { path: string }

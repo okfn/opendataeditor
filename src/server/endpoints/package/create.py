@@ -43,7 +43,7 @@ def action(project: Project, props: Props) -> Result:
             record = helpers.read_record_or_raise(project, path=path)
             package.add_resource(Resource.from_descriptor(record.resource))
 
-    # Write json
+    # Save package
     path = helpers.write_json(
         project,
         path=props.path,

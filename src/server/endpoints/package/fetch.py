@@ -5,7 +5,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 from fastapi import Request
-from frictionless.resources import FileResource
+from frictionless import FrictionlessException, system
 from pydantic import BaseModel
 
 from ...project import Project
@@ -23,7 +23,7 @@ class Result(BaseModel, extra="forbid"):
     path: str
 
 
-@router.post("/file/fetch")
+@router.post("/package/fetch")
 def server_file_read(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -31,18 +31,26 @@ def server_file_read(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     from ... import endpoints
 
-    # Load
-    resource = FileResource(path=props.url)
-    bytes = resource.read_file()
+    # Create package
+    adapter = system.create_adapter(props.url)
+    if not adapter:
+        raise FrictionlessException(f"Not supported remote dataset: {props.url}")
+    package = adapter.read_package()
 
-    # Save
+    # Process package
+    for resource in package.resources:
+        if resource.normpath:
+            resource.path = resource.normpath
+
+    # Save package
+    # TODO: use here json/create or write_json when it supports folder
     parsed = urlparse(props.url)
-    path = props.path or Path(parsed.path).name or "file"
+    path = props.path or Path(parsed.path).name or "dataset.json"
     result = endpoints.file.create.action(
         project,
         endpoints.file.create.Props(
             path=path,
-            bytes=bytes,
+            bytes=package.to_json().encode("utf-8"),
             folder=props.folder,
             deduplicate=props.deduplicate,
         ),
