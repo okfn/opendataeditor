@@ -61,6 +61,7 @@ export interface State {
   createArticle: (path: string, prompt?: string) => Promise<void>
   createChart: (path: string, prompt?: string) => Promise<void>
   createImage: (path: string, prompt?: string) => Promise<void>
+  createMap: (path: string, prompt?: string) => Promise<void>
   createPackage: (path: string, prompt?: string) => Promise<void>
   fetchPackage: (url: string) => Promise<void>
   createScript: (path: string, prompt?: string) => Promise<void>
@@ -257,6 +258,15 @@ export function makeStore(props: ApplicationProps) {
     createImage: async (path, prompt) => {
       const { client, onFileCreate } = get()
       const result = await client.imageCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
+    createMap: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.mapCreate({
         path,
         prompt,
         deduplicate: true,

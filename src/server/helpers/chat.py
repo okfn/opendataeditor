@@ -100,7 +100,7 @@ INSTRUCTIONS = {
     "map": """
         You are a GeoJSON document generation assistant.
         You will be given a text description on what needs to be written.
-        Respond with only the GeoJSON code without explanation.
+        Respond with only the GeoJSON code in valid JSON notation without explanation.
     """,
     "package": """
         You are a JSON generation assistant.

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
+import MapIcon from '@mui/icons-material/Map'
 import TableRowsIcon from '@mui/icons-material/TableRows'
 import ImageIcon from '@mui/icons-material/Image'
 import PostAddIcon from '@mui/icons-material/PostAdd'
@@ -31,6 +32,7 @@ export default function CreateDialog() {
   const createArticle = useStore((state) => state.createArticle)
   const createChart = useStore((state) => state.createChart)
   const createImage = useStore((state) => state.createImage)
+  const createMap = useStore((state) => state.createMap)
   const createPackage = useStore((state) => state.createPackage)
   const createFile = useStore((state) => state.createFile)
   const createScript = useStore((state) => state.createScript)
@@ -86,6 +88,16 @@ export default function CreateDialog() {
       promptPlaceholder: 'cute dog in cartoon style',
       Icon: ImageIcon,
       create: createImage,
+    },
+    {
+      name: 'Map',
+      section: 'map',
+      fileName: 'map.json',
+      description: 'Creating a map. Enter destination:',
+      placeholder: 'Enter a map path',
+      promptPlaceholder: 'london and paris',
+      Icon: MapIcon,
+      create: createMap,
     },
     {
       name: 'Script',
@@ -175,7 +187,7 @@ export default function CreateDialog() {
             <Box>
               Provide a Chat AI prompt (optional):
               <MultilineField
-                rows={4}
+                rows={6}
                 label="Prompt"
                 value={prompt}
                 onChange={setPrompt}
