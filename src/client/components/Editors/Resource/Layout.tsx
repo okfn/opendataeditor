@@ -106,7 +106,9 @@ function LayoutWithMenu() {
 
 function LayoutWithoutMenu() {
   const section = useStore((state) => state.externalMenu?.section || state.section)
+  const updateHelp = useStore((state) => state.updateHelp)
   const helpItem = useStore((state) => state.helpItem)
+  React.useEffect(() => updateHelp(section), [section])
   if (!section) return null
   return (
     <Columns spacing={3} layout={[5, 3]} columns={8}>

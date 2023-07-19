@@ -45,7 +45,7 @@ resource/encoding:
 # Integrity
 
 resource/integrity:
-  - Checksum
+  - Integrity
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum
 
