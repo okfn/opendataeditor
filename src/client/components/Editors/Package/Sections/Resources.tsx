@@ -11,6 +11,7 @@ export default function Resources() {
   const updateResourceState = useStore((state) => state.updateResourceState)
   const addResource = useStore((state) => state.addResource)
   const removeResource = useStore((state) => state.removeResource)
+  const onResourceSelected = useStore((state) => state.onResourceSelected)
   return (
     <EditorList
       kind="resource"
@@ -35,6 +36,7 @@ export default function Resources() {
           isGrid={isGrid}
           onClick={() => {
             updateResourceState({ index })
+            if (onResourceSelected) onResourceSelected(resource.name)
           }}
           onRemoveClick={() => removeResource(index)}
         />

@@ -24,6 +24,7 @@ interface State {
   descriptor: types.IPackage
   onChange: (pkg: types.IPackage) => void
   onAddResource?: () => void
+  onResourceSelected?: (name: string) => void
   section: string
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -68,6 +69,7 @@ export function makeStore(props: PackageProps) {
     descriptor: props.package || cloneDeep(settings.INITIAL_PACKAGE),
     onChange: props.onChange || noop,
     onAddResource: props.onAddResource,
+    onResourceSelected: props.onResourceSelected,
     section: 'package',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {

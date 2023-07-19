@@ -9,7 +9,7 @@ export interface PackageProps {
   package?: types.IPackage
   onChange?: (pkg: types.IPackage) => void
   onAddResource?: () => void
-  onFieldSelected?: (name?: string) => void
+  onResourceSelected?: (name?: string) => void
 }
 
 export default function Package(props: PackageProps) {
