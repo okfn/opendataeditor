@@ -107,10 +107,7 @@ const StyledTreeItem = styled(
       />
     )
   }
-)(({ theme, item }) => ({
-  '& .MuiTreeItem-label': {
-    fontWeight: item.type === 'package' ? 'bold' : 'normal',
-  },
+)(({ theme }) => ({
   [`& .${treeItemClasses.iconContainer}`]: {
     '& .close': {
       opacity: 0.3,
@@ -139,11 +136,16 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
       }}
     >
       <Icon color={color} />
-      <span style={{ whiteSpace: 'nowrap' }}>{props.item.label}</span>
+      <span
+        style={{
+          whiteSpace: 'nowrap',
+          fontWeight: props.item.type === 'package' ? 'bold' : 'normal',
+        }}
+      >
+        {props.item.label}
+      </span>
       {props.item.name && (
-        <span style={{ marginLeft: '0.5em', opacity: 0.5, fontWeight: 'normal' }}>
-          @{props.item.name}
-        </span>
+        <span style={{ marginLeft: '0.5em', opacity: 0.5 }}>@{props.item.name}</span>
       )}
     </Box>
   )

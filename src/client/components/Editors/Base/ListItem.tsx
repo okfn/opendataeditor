@@ -56,9 +56,20 @@ export default function EditorListItem(props: EditorListItemProps) {
         padding: [2, 2],
         marginTop: 2,
         marginBottom: 1,
+        whiteSpace: 'nowrap',
       }}
     >
-      {props.name}
+      <span
+        style={{
+          width: '70%',
+          textAlign: 'left',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        }}
+      >
+        {props.name}
+      </span>
     </Button>
   )
 }
