@@ -15,6 +15,7 @@ def index_resource(project: Project, resource: Resource, table_name: str):
     db = project.database
 
     # Table resource
+    report = None
     if isinstance(resource, TableResource):
         indexer = Indexer(
             resource=resource,
@@ -25,7 +26,7 @@ def index_resource(project: Project, resource: Resource, table_name: str):
         report = indexer.index()
 
     # Container resource
-    elif isinstance(resource, (ResourceResource, PackageResource)):
+    if isinstance(resource, (ResourceResource, PackageResource)):
         try:
             errors = []
             resource.read_metadata()
@@ -34,7 +35,7 @@ def index_resource(project: Project, resource: Resource, table_name: str):
         report = Report.from_validation(errors=errors)
 
     # General resource
-    else:
+    if not report:
         report = resource.validate()
 
     return report
