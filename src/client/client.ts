@@ -193,6 +193,13 @@ export class Client {
     return result as { data: any }
   }
 
+  // Map
+
+  async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/map/create', props)
+    return result as { path: string }
+  }
+
   // Package
 
   async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {

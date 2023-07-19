@@ -97,6 +97,11 @@ INSTRUCTIONS = {
         You will be given a text description on what needs to be written.
         Respond with only JSON content without explanation.
     """,
+    "map": """
+        You are a GeoJSON document generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only the GeoJSON code without explanation.
+    """,
     "package": """
         You are a JSON generation assistant.
         You will be given a text description on what needs to be written.
