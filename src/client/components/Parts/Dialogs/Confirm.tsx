@@ -14,6 +14,7 @@ export interface ConfirmDialogProps {
   description?: string
   Icon?: React.ElementType
   label?: string
+  cancelLabel?: string
   disabled?: boolean
   maxWidth?: 'md' | 'xl'
   onCancel?: () => void
@@ -58,7 +59,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label="Cancel [Esc]"
+            label={`${props.cancelLabel || 'Cancel'} [Esc]`}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"

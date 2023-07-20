@@ -16,12 +16,12 @@ export default function ConfigDialog() {
       open={true}
       title="Config"
       label="Save"
+      cancelLabel="Close"
       maxWidth="md"
       Icon={SaveIcon}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
         await saveConfig(newConfig)
-        updateState({ dialog: undefined })
       }}
     >
       <Box sx={{ marginLeft: -2 }}>

@@ -4,12 +4,13 @@ import Columns from '../../Parts/Grids/Columns'
 import MenuPanel from '../../Parts/Panels/Menu'
 import EditorHelp from '../Base/Help'
 import SystemSection from './Sections/System'
+import ProjectSection from './Sections/Project'
 import { useStore } from './store'
 import * as types from '../../../types'
 
 const MENU_ITEMS: types.IMenuItem[] = [
   { section: 'system', name: 'System' },
-  { section: 'project', name: 'Project', disabled: true },
+  { section: 'project', name: 'Project' },
 ]
 
 export default function Layout() {
@@ -29,6 +30,7 @@ export default function Layout() {
           }}
         >
           <SystemSection />
+          <ProjectSection />
         </MenuPanel>
         <EditorHelp helpItem={helpItem} />
       </Columns>

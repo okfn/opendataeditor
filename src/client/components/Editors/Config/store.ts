@@ -39,7 +39,7 @@ export function makeStore(props: ConfigProps) {
     updateDescriptor: (patch) => {
       const { descriptor, onChange } = get()
       Object.assign(descriptor, patch)
-      onChange({ ...descriptor })
+      onChange(descriptor)
       set({ descriptor })
     },
   }))
