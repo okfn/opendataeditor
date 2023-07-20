@@ -15,41 +15,49 @@ export default function Report(props: ReportProps) {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
       <div className="frictionless-components-report">
-        {props.shallow ? <ShallowLayout {...props} /> : <FullLayout {...props} />}
+        <TopLevelErrors {...props} />
+        {props.shallow ? <ShallowTasks {...props} /> : <ExpandedTasks {...props} />}
       </div>
     </ThemeProvider>
   )
 }
 
-function ShallowLayout(props: ReportProps) {
+function TopLevelErrors(props: ReportProps) {
+  if (!props.report.errors.length) return null
+  return (
+    <div className="file error">
+      {!props.shallow && (
+        <h4 className="file-heading">
+          <div className="inner">
+            <a className="file-name">
+              <strong>Errors</strong>
+            </a>
+          </div>
+        </h4>
+      )}
+      <Box sx={{ overflowX: 'hidden' }}>
+        <ul className="passed-tests result">
+          {props.report.errors.map((error, index) => (
+            <li key={index} style={{ display: 'block' }}>
+              <span className="badge badge-error">{error.message}</span>
+            </li>
+          ))}
+        </ul>
+      </Box>
+    </div>
+  )
+}
+
+function ShallowTasks(props: ReportProps) {
   const task = props.report.tasks[0]
   if (!task) return null
   return <ReportTask task={task} shallow />
 }
 
-function FullLayout(props: ReportProps) {
+function ExpandedTasks(props: ReportProps) {
   const tasks = getSortedTasks(props.report)
   return (
     <Box>
-      {!!props.report.errors.length && (
-        <div className="file error">
-          <h4 className="file-heading">
-            <div className="inner">
-              <a className="file-name">
-                <strong>Errors</strong>
-              </a>
-            </div>
-          </h4>
-          <ul className="passed-tests result">
-            {props.report.errors.map((error, index) => (
-              <li key={index}>
-                <span className="badge badge-error">{error.message}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       {tasks.map((task, index) => (
         <ReportTask
           key={index}
