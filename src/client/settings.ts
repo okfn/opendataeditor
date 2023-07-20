@@ -116,7 +116,7 @@ export const TYPE_ICONS: { [key: string]: React.ElementType } = {
   script: TerminalIcon,
   sql: StorageIcon,
   table: [TableViewIcon, GridOnIcon, GridViewIcon, CalendarViewMonthIcon][3],
-  view: TableRowsIcon,
+  view: [TableRowsIcon, TableViewIcon][0],
 }
 
 // Structures
