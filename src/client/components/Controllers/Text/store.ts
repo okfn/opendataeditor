@@ -243,6 +243,8 @@ export const selectors = {
         return 'javascript'
       case 'r':
         return 'r'
+      case 'html':
+        return 'html'
       default:
         return 'plaintext'
     }
