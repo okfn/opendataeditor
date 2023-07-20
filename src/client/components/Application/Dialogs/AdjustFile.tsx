@@ -26,7 +26,7 @@ export default function AdjustFileDialog() {
         updateState({ dialog: undefined })
       }}
     >
-      <Box sx={{ marginBottom: 1 }}>
+      <Box sx={{ marginTop: -1 }}>
         <InputField autoFocus label="Name" value={name} onChange={setName} />
         <SelectField
           label="Type"
