@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 def ask_dalle(project: Project, *, prompt: str, api_key: str) -> bytes:
-    response = openai.Image.create(prompt=prompt, n=1, size="512x512", api_key=api_key)
+    response = openai.Image.create(prompt=prompt, n=1, size="1024x1024", api_key=api_key)
     resource = FileResource(path=response.data[0].url)
     bytes = resource.read_file()
     return bytes

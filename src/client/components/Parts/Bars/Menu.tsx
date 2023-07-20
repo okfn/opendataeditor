@@ -192,9 +192,9 @@ export function SourceButton(props: ButtonProps) {
 
 export function ChatButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Edit with Chat AI [Ctrl+H]'
+  let title = 'Edit with Chat AI [Ctrl+M]'
   if (props.disabled) title = 'Chatting is not available'
-  useKeyPress(['ctrl.h'], (event) => {
+  useKeyPress(['ctrl.m'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -381,9 +381,9 @@ export function FixButton(props: ButtonProps) {
 
 export function MinifyButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Minify formatting [Ctrl+M]'
+  let title = 'Minify formatting [Ctrl+Y]'
   if (props.disabled) title = 'Minifying is not available'
-  useKeyPress(['ctrl.m'], (event) => {
+  useKeyPress(['ctrl.y'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
