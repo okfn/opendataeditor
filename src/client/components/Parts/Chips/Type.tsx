@@ -19,7 +19,7 @@ export default function TypeChip(props: TypeChipProps) {
       <Chip
         onClick={props.onClick}
         icon={<DisplaySettingsIcon />}
-        label={<strong>{label.toUpperCase()}</strong>}
+        label={label.toUpperCase()}
         color="primary"
         size="medium"
         sx={{
