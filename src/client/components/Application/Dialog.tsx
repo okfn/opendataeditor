@@ -27,6 +27,7 @@ const DIALOGS = {
   addRemoteDataset: AddRemoteDatasetDialog,
   adjustFile: AdjustFileDialog,
   config: ConfigDialog,
+  configProject: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
   create: CreateDialog,

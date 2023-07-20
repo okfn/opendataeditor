@@ -15,7 +15,10 @@ export default function Status() {
   return (
     <Container>
       <Prefix>
-        <TypeChip type={record?.type} />
+        <TypeChip
+          type={record?.type}
+          onClick={() => updateState({ dialog: 'configProject' })}
+        />
       </Prefix>
       <Contents onClick={record ? () => locateFile(record.path) : undefined}>
         <Box>

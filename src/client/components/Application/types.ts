@@ -4,6 +4,7 @@ export type IDialog =
   | 'addRemoteFile'
   | 'adjustFile'
   | 'config'
+  | 'configProject'
   | 'copyFile'
   | 'copyFolder'
   | 'create'

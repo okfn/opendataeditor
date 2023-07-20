@@ -7,16 +7,18 @@ import LightTooltip from '../Tooltips/Light'
 
 export interface TypeChipProps {
   type?: string
+  onClick?: () => void
 }
 
 export default function TypeChip(props: TypeChipProps) {
   const label = props.type || 'project'
   const title = props.type
     ? `Selected file type: ${props.type}`
-    : 'Selected project: current'
+    : 'Open project config dialog'
   return (
     <LightTooltip title={title}>
       <Chip
+        onClick={props.onClick}
         icon={<InputIcon />}
         label={<strong>{label.toUpperCase()}</strong>}
         color="primary"
