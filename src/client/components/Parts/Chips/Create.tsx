@@ -11,12 +11,12 @@ export interface CreateChipProps {
 }
 
 export default function CreateChip(props: CreateChipProps) {
-  useKeyPress(['alt.c'], (event) => {
+  useKeyPress(['ctrl.y'], (event) => {
     event.preventDefault()
     props.onClick()
   })
   return (
-    <LightTooltip title="Create chart, dataset, and more [Alt+C]">
+    <LightTooltip title="Create chart, dataset, and more [CTRL+Y]">
       <Chip
         onClick={props.onClick}
         color="primary"

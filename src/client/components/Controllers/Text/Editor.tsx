@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import TextEditor from '../../Editors/Text'
+import CodePanel from '../../Parts/Panels/Code'
 import { useStore, selectors } from './store'
 import * as helpers from './helpers'
 
@@ -57,13 +58,13 @@ function Target() {
   const type = useStore((state) => state.record?.type)
   const outputedText = useStore((state) => state.outputedText)
   return (
-    <Box sx={{ paddingX: 2, borderLeft: 'solid 1px #ddd', height: '100%' }}>
+    <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
       {type === 'script' ? (
-        <pre>
-          <code>{outputedText}</code>
-        </pre>
+        outputedText && <CodePanel>{outputedText}</CodePanel>
       ) : (
-        <div dangerouslySetInnerHTML={{ __html: outputedText || '' }}></div>
+        <Box sx={{ paddingX: 2 }}>
+          <div dangerouslySetInnerHTML={{ __html: outputedText || '' }}></div>
+        </Box>
       )}
     </Box>
   )
