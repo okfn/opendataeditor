@@ -28,6 +28,7 @@ export default function TypeChip(props: TypeChipProps) {
           borderRight: 'solid 1px #ddd',
           borderRadius: '3px',
           cursor: 'pointer',
+          fontWeight: 'bold',
         }}
       />
     </LightTooltip>

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import SelectField from '../../Parts/Fields/Select'
@@ -25,13 +26,15 @@ export default function AdjustFileDialog() {
         updateState({ dialog: undefined })
       }}
     >
-      <InputField autoFocus label="Name" value={name} onChange={setName} />
-      <SelectField
-        label="Type"
-        value={type}
-        options={settings.FILE_TYPES}
-        onChange={setType}
-      />
+      <Box sx={{ marginBottom: 1 }}>
+        <InputField autoFocus label="Name" value={name} onChange={setName} />
+        <SelectField
+          label="Type"
+          value={type}
+          options={settings.FILE_TYPES}
+          onChange={setType}
+        />
+      </Box>
     </ConfirmDialog>
   )
 }

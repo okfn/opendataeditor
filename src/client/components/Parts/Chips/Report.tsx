@@ -38,6 +38,7 @@ export default function ValidationChip(props: ValidationChipProps) {
           borderLeft: 'solid 1px #ddd',
           borderRadius: '3px',
           cursor: 'pointer',
+          fontWeight: 'bold',
         }}
       />
     </LightTooltip>
