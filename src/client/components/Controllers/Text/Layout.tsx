@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import ScrollBox from '../../Parts/Boxes/Scroll'
 import Action from './Action'
 import Editor from './Editor'
+import Viewer from './Viewer'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
+import Columns from '../../Parts/Grids/Columns'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -17,6 +18,8 @@ export default function Layout() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const load = useStore((state) => state.load)
   const path = useStore((state) => state.path)
+  const type = useStore((state) => state.record?.type)
+  const withViewer = type === 'article' || type === 'script'
   React.useEffect(() => {
     load().catch(console.error)
   }, [path])
@@ -25,9 +28,16 @@ export default function Layout() {
       <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
-        <ScrollBox height={contentHeight}>
-          <Editor />
-        </ScrollBox>
+        <Columns spacing={2}>
+          <Box sx={{ height: contentHeight }}>
+            <Editor />
+          </Box>
+          {withViewer && (
+            <Box sx={{ height: contentHeight }}>
+              <Viewer />
+            </Box>
+          )}
+        </Columns>
         <Panel />
         <Action />
       </Box>

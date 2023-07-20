@@ -1,24 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../Parts/Grids/Columns'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import TextEditor from '../../Editors/Text'
-import CodePanel from '../../Parts/Panels/Code'
 import { useStore, selectors } from './store'
 import * as helpers from './helpers'
 
 export default function Editor() {
-  const type = useStore((state) => state.record?.type)
-  if (type !== 'article' && type !== 'script') return <Source />
-  return (
-    <Columns spacing={2} height="100%">
-      <Source />
-      <Target />
-    </Columns>
-  )
-}
-
-function Source() {
   const [visibility, setVisibility] = React.useState('hidden')
   const modifiedText = useStore((state) => state.modifiedText)
   const editorRef = useStore((state) => state.editorRef)
@@ -51,21 +38,5 @@ function Source() {
         />
       </Box>
     </React.Fragment>
-  )
-}
-
-function Target() {
-  const type = useStore((state) => state.record?.type)
-  const outputedText = useStore((state) => state.outputedText)
-  return (
-    <Box sx={{ borderLeft: 'solid 1px #ddd', height: '100%' }}>
-      {type === 'script' ? (
-        outputedText && <CodePanel>{outputedText}</CodePanel>
-      ) : (
-        <Box sx={{ paddingX: 2 }}>
-          <div dangerouslySetInnerHTML={{ __html: outputedText || '' }}></div>
-        </Box>
-      )}
-    </Box>
   )
 }

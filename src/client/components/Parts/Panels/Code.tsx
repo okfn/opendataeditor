@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ScrollBox from '../Boxes/Scroll'
+import Box from '@mui/material/Box'
 
 export interface CodePanelProps {
   children: React.ReactNode
@@ -7,12 +7,10 @@ export interface CodePanelProps {
 
 export default function CodePanel(props: CodePanelProps) {
   return (
-    <ScrollBox
-      sx={{ padding: 2, fontSize: '14px', backgroundColor: '#333', color: '#eee' }}
-    >
+    <Box sx={{ fontSize: '14px', padding: 2 }}>
       <pre style={{ margin: 0 }}>
         <code>{props.children}</code>
       </pre>
-    </ScrollBox>
+    </Box>
   )
 }

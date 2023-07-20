@@ -16,6 +16,7 @@ export default function TextEditor(props: TextEditorProps) {
         formatOnPaste: true,
         formatOnType: true,
         scrollBeyondLastLine: false,
+        wordWrap: 'on',
         ...options,
       }}
       {...others}
