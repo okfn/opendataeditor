@@ -28,19 +28,35 @@ export default function Layout() {
       <Dialog />
       <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
         <Menu />
-        <Columns spacing={2}>
-          <Box sx={{ height: contentHeight }}>
-            <Editor />
-          </Box>
-          {withViewer && (
-            <Box sx={{ height: contentHeight }}>
-              <Viewer />
-            </Box>
-          )}
-        </Columns>
+        {withViewer ? (
+          <TwoColumns height={contentHeight} />
+        ) : (
+          <OneColumn height={contentHeight} />
+        )}
         <Panel />
         <Action />
       </Box>
     </React.Fragment>
+  )
+}
+
+function TwoColumns(props: { height: string }) {
+  const { height } = props
+  return (
+    <Columns spacing={2}>
+      <OneColumn height={height} />
+      <Box sx={{ height }}>
+        <Viewer />
+      </Box>
+    </Columns>
+  )
+}
+
+function OneColumn(props: { height: string }) {
+  const { height } = props
+  return (
+    <Box sx={{ height }}>
+      <Editor />
+    </Box>
   )
 }
