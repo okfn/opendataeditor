@@ -16,7 +16,7 @@ export default function CreateChip(props: CreateChipProps) {
     props.onClick()
   })
   return (
-    <LightTooltip title="Create chart, dataset, and more [CTRL+U]">
+    <LightTooltip title="Create chart, script, more [CTRL+U]">
       <Chip
         onClick={props.onClick}
         color="primary"

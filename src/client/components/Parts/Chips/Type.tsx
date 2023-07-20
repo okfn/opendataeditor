@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Chip from '@mui/material/Chip'
+import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../Tooltips/Light'
 
 // TODO: create BaseChip / move concrete to appliction?
@@ -16,6 +17,7 @@ export default function TypeChip(props: TypeChipProps) {
   return (
     <LightTooltip title={title}>
       <Chip
+        icon={<InputIcon />}
         label={<strong>{label.toUpperCase()}</strong>}
         color="primary"
         size="medium"
