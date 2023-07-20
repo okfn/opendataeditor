@@ -12,9 +12,7 @@ export interface TypeChipProps {
 
 export default function TypeChip(props: TypeChipProps) {
   const label = props.type || 'project'
-  const title = props.type
-    ? `Selected file type: ${props.type}`
-    : 'Open project config dialog'
+  const title = props.type ? 'Adjust file name and type' : 'Open project config dialog'
   return (
     <LightTooltip title={title}>
       <Chip

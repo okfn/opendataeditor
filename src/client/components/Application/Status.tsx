@@ -17,7 +17,11 @@ export default function Status() {
       <Prefix>
         <TypeChip
           type={record?.type}
-          onClick={() => updateState({ dialog: 'configProject' })}
+          onClick={() =>
+            record
+              ? updateState({ dialog: 'adjustFile' })
+              : updateState({ dialog: 'configProject' })
+          }
         />
       </Prefix>
       <Contents onClick={record ? () => locateFile(record.path) : undefined}>
