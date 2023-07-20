@@ -6,17 +6,8 @@ import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import TreeView from '@mui/lab/TreeView'
-import MapIcon from '@mui/icons-material/Map'
-import FolderIcon from '@mui/icons-material/Folder'
-import DescriptionIcon from '@mui/icons-material/Description'
-import ChartIcon from '@mui/icons-material/Leaderboard'
-import AccountTree from '@mui/icons-material/AccountTree'
-import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import TableRowsIcon from '@mui/icons-material/TableRows'
-import Source from '@mui/icons-material/Source'
-import Storage from '@mui/icons-material/Storage'
-import TableView from '@mui/icons-material/TableView'
 import ScrollBox from '../Boxes/Scroll'
+import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
@@ -171,25 +162,7 @@ function PlusSquare(props: SvgIconProps) {
 }
 
 function getIcon(type: string): React.ElementType {
-  return TYPE_ICONS[type] || DescriptionIcon
-}
-
-// const REFERENCED_TYPES = ['chart', 'image', 'map', 'table', 'view']
-
-const TYPE_ICONS: { [key: string]: React.ElementType } = {
-  folder: FolderIcon,
-  file: DescriptionIcon,
-  map: MapIcon,
-  chart: ChartIcon,
-  sql: Storage,
-  table: TableView,
-  package: Source,
-  resource: DescriptionIcon,
-  dialect: DescriptionIcon,
-  checklist: CheckCircleOutline,
-  pipeline: AccountTree,
-  schema: DescriptionIcon,
-  view: TableRowsIcon,
+  return settings.TYPE_ICONS[type] || settings.TYPE_ICONS.file
 }
 
 // TODO: use color from theme

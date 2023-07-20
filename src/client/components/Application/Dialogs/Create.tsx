@@ -1,20 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
-import MapIcon from '@mui/icons-material/Map'
-import TableRowsIcon from '@mui/icons-material/TableRows'
-import ImageIcon from '@mui/icons-material/Image'
-import PostAddIcon from '@mui/icons-material/PostAdd'
-import SourceIcon from '@mui/icons-material/Source'
-import TerminalIcon from '@mui/icons-material/Terminal'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import LeaderboardIcon from '@mui/icons-material/Leaderboard'
-import TableViewIcon from '@mui/icons-material/TableView'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
 import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
+import * as settings from '../../../settings'
 import * as types from '../../../types'
 import { useStore, selectors } from '../store'
 
@@ -23,7 +15,6 @@ interface IMenuItem extends types.IMenuItem {
   description: string
   placeholder: string
   promptPlaceholder: string
-  Icon: React.ElementType
   create: (path: string, prompt?: string) => Promise<void>
 }
 
@@ -46,7 +37,6 @@ export default function CreateDialog() {
       description: 'Creating a Markdown article. Enter destination:',
       placeholder: 'Enter an article path',
       promptPlaceholder: 'story about dogs',
-      Icon: HistoryEduIcon,
       create: createArticle,
     },
     {
@@ -56,7 +46,6 @@ export default function CreateDialog() {
       description: 'Creating a Vega chart. Enter destination:',
       placeholder: 'Enter a chart path',
       promptPlaceholder: 'bar chart for @cars with average price by brand',
-      Icon: LeaderboardIcon,
       create: createChart,
     },
     {
@@ -66,7 +55,6 @@ export default function CreateDialog() {
       description: 'Creating a dataset. Enter destination:',
       placeholder: 'Enter a package path',
       promptPlaceholder: 'all tables in data folder',
-      Icon: SourceIcon,
       create: createPackage,
     },
     {
@@ -76,7 +64,6 @@ export default function CreateDialog() {
       description: 'Creating an arbitrary file. Enter destination:',
       placeholder: 'Enter a file path',
       promptPlaceholder: 'dummy data in json with name and age',
-      Icon: PostAddIcon,
       create: createFile,
     },
     {
@@ -86,7 +73,6 @@ export default function CreateDialog() {
       description: 'Creating an image. Enter destination:',
       placeholder: 'Enter an image path',
       promptPlaceholder: 'cute dog in cartoon style',
-      Icon: ImageIcon,
       create: createImage,
     },
     {
@@ -96,7 +82,6 @@ export default function CreateDialog() {
       description: 'Creating a map. Enter destination:',
       placeholder: 'Enter a map path',
       promptPlaceholder: 'london and paris',
-      Icon: MapIcon,
       create: createMap,
     },
     {
@@ -106,7 +91,6 @@ export default function CreateDialog() {
       description: 'Creating a Python script. Enter destination:',
       placeholder: 'Enter a script path',
       promptPlaceholder: 'average price by brand for @cars',
-      Icon: TerminalIcon,
       create: createScript,
     },
     {
@@ -116,7 +100,6 @@ export default function CreateDialog() {
       description: 'Creating a CSV table. Enter destination:',
       placeholder: 'Enter a table path',
       promptPlaceholder: 'continents with population',
-      Icon: TableViewIcon,
       create: createTable,
     },
     {
@@ -126,7 +109,6 @@ export default function CreateDialog() {
       description: 'Creating a SQL view. Enter destination:',
       placeholder: 'Enter a view path',
       promptPlaceholder: 'average price by brand for @cars',
-      Icon: TableRowsIcon,
       create: createView,
     },
   ]
@@ -155,7 +137,7 @@ export default function CreateDialog() {
       maxWidth="md"
       title={`Create ${menuItem.name}`}
       label="Create"
-      Icon={menuItem.Icon}
+      Icon={settings.TYPE_ICONS[section]}
       disabled={loading}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
