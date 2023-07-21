@@ -33,9 +33,9 @@ interface State {
   columns: types.IColumn[]
   descriptor: Partial<types.IChart>
   customFields: string[]
-  tabIndex: number
-  tabNames: string[]
-  vtabIndex: number
+  layerItems: types.IMenuItem[]
+  layers: string[]
+  layerIndex: number
   section: string
   externalMenu?: { section: string }
   onChange: (chart: object) => void
@@ -82,11 +82,15 @@ export function makeStore(props: ChartProps) {
     columns: props.columns || [],
     customFields: [],
     descriptor: props.chart || {},
-    tabIndex: 0,
-    vtabIndex: 1,
-    tabNames: ['Chart'],
+    layers: ['general'],
+    layerItems: [
+      { section: 'general', name: 'General' },
+      { section: 'general/chart', name: 'Chart' },
+      { section: 'general/channel', name: 'Channel' },
+      { section: 'general/transform', name: 'Transform' },
+    ],
+    layerIndex: 0,
     section: 'channel',
-    // externalMenu: props.externalMenu,
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -118,26 +122,36 @@ export function makeStore(props: ChartProps) {
 
     // Layers
     addLayer: () => {
-      const { tabNames, updateDescriptor, descriptor } = get()
-      const length = tabNames.length
+      const { layerItems, layerIndex, layers, updateDescriptor, descriptor } = get()
+      const newIndex = layerIndex + 1
       const layer = descriptor.layer || []
-      tabNames.push(`Layer ${length}`)
-      if (!layer[length - 1]) {
-        layer[length - 1] = {}
+      const layerName = `Layer${newIndex}`
+      const prefix = layerName.toLowerCase()
+      const newLayer = [
+        { section: prefix, name: layerName },
+        { section: `${prefix}/chart`, name: 'Chart' },
+        { section: `${prefix}/channel`, name: 'Channel' },
+        { section: `${prefix}/transform`, name: 'Transform' },
+      ]
+      if (!layer[layerIndex]) {
+        layer[layerIndex] = {}
       }
+      layers.push(prefix)
       updateDescriptor({ layer })
-      set({ tabNames, tabIndex: length })
+      set({ layerItems: [...layerItems, ...newLayer], layerIndex: newIndex })
     },
     removeLayer: (index) => {
-      const { channelStates, descriptor, tabNames, tabIndex, updateState } = get()
+      const { channelStates, descriptor, layerItems, layerIndex, layers, updateState } =
+        get()
       const updatedChannelStates = channelStates.filter(
         (_, stateIndex) => stateIndex !== index
       )
       descriptor.layer = descriptor?.layer?.filter(
         (_, layerIndex) => layerIndex !== index - 1
       )
-      tabNames.splice(index, 1)
-      set({ channelStates: updatedChannelStates, tabNames, tabIndex: tabIndex - 1 })
+      layerItems.splice(index, 3)
+      layers.splice(index, 1)
+      set({ channelStates: updatedChannelStates, layerItems, layerIndex: layerIndex - 1 })
       updateState({ descriptor })
     },
 
@@ -145,19 +159,19 @@ export function makeStore(props: ChartProps) {
 
     channelStates: [],
     updateChannelState: (patch) => {
-      const { channelStates, tabIndex } = get()
-      channelStates[tabIndex] = { ...channelStates[tabIndex], ...patch }
+      const { channelStates, layerIndex } = get()
+      channelStates[layerIndex] = { ...channelStates[layerIndex], ...patch }
       set({ channelStates: { ...channelStates, ...patch } })
     },
     updateChannelType: (type) => {
-      const { descriptor, tabIndex, channelStates, updateState, updateChannelState } =
+      const { descriptor, layerIndex, channelStates, updateState, updateChannelState } =
         get()
-      const oldType = channelStates[tabIndex].type!
+      const oldType = channelStates[layerIndex].type!
       const channel = selectors.channel(get())
 
       // Layer
-      if (tabIndex > 0) {
-        const layer = tabIndex - 1
+      if (layerIndex > 0) {
+        const layer = layerIndex - 1
         if (!descriptor.layer) descriptor.layer = []
         const currentLayer = descriptor.layer[layer]
         currentLayer.encoding = { ...currentLayer.encoding, [type]: channel }
@@ -215,11 +229,11 @@ export function makeStore(props: ChartProps) {
     },
     // TODO: scroll to newly created channel
     addChannel: () => {
-      const { descriptor, updateState, tabIndex } = get()
+      const { descriptor, updateState, layerIndex } = get()
 
       // Layer
-      if (tabIndex > 0) {
-        const layer = tabIndex - 1
+      if (layerIndex > 0) {
+        const layer = layerIndex - 1
         descriptor.layer![layer].encoding = descriptor.layer![layer].encoding || {}
         for (const type of settings.CHANNEL_TYPES) {
           if (!descriptor.layer![layer].encoding?.[type]) {
@@ -246,26 +260,30 @@ export function makeStore(props: ChartProps) {
 
     transformStates: [],
     updateTransformState: (patch) => {
-      const { transformStates, tabIndex } = get()
-      transformStates[tabIndex] = { ...transformStates[tabIndex], ...patch }
+      const { transformStates, layerIndex } = get()
+      transformStates[layerIndex] = { ...transformStates[layerIndex], ...patch }
       set({ transformStates: { ...transformStates, ...patch } })
     },
     updateTransformType: (type) => {
-      const { descriptor, tabIndex, transformStates, updateState, updateTransformState } =
-        get()
-      const index = transformStates[tabIndex].index!
+      const {
+        descriptor,
+        layerIndex,
+        transformStates,
+        updateState,
+        updateTransformState,
+      } = get()
+      const index = transformStates[layerIndex].index!
       const title = descriptor.transform![index].title
       descriptor.transform![index] = { title }
       updateTransformState({ type })
       updateState({ descriptor })
     },
     updateTransform: (patch) => {
-      const { descriptor, tabIndex, transformStates, updateDescriptor } = get()
-      const index = transformStates[tabIndex].index!
+      const { descriptor, layerIndex, transformStates, updateDescriptor } = get()
+      const index = transformStates[layerIndex].index!
       const transform = selectors.transform(get())
       const transforms = descriptor.transform!
       transforms[index] = { ...transform, ...patch }
-      console.log('descriptor', descriptor)
       updateDescriptor({ transform: transforms })
     },
     removeTransform: (index) => {
@@ -292,9 +310,9 @@ export function makeStore(props: ChartProps) {
       set({ filterState: { ...filterState, ...patch } })
     },
     updateFilterType: (type) => {
-      const { descriptor, tabIndex, transformStates, updateState, updateFilterState } =
+      const { descriptor, layerIndex, transformStates, updateState, updateFilterState } =
         get()
-      const index = transformStates[tabIndex].index!
+      const index = transformStates[layerIndex].index!
       descriptor.transform![index] = {}
       updateFilterState({ type })
       updateState({ descriptor })
@@ -323,10 +341,10 @@ export const selectors = {
   // Channels
 
   channel: (state: State) => {
-    const type = state.channelStates[state.tabIndex]?.type!
+    const type = state.channelStates[state.layerIndex]?.type!
     let channel
-    if (state.tabIndex > 0 && state.descriptor.layer) {
-      channel = state.descriptor.layer[state.tabIndex - 1]?.encoding![type]!
+    if (state.layerIndex > 0 && state.descriptor.layer) {
+      channel = state.descriptor.layer[state.layerIndex - 1]?.encoding![type]!
     } else {
       channel = state.descriptor.encoding![type]!
     }
@@ -349,10 +367,10 @@ export const selectors = {
   },
   channelItems: (state: State) => {
     const items = []
-    const query = state.channelStates[state.tabIndex]?.query
+    const query = state.channelStates[state.layerIndex]?.query
     let encoding = state.descriptor.encoding
-    if (state.tabIndex > 0) {
-      encoding = state.descriptor.layer?.[state.tabIndex - 1]?.encoding || {}
+    if (state.layerIndex > 0) {
+      encoding = state.descriptor.layer?.[state.layerIndex - 1]?.encoding || {}
     }
     for (const [type, channel] of Object.entries(encoding || {})) {
       if (query && !type.toLowerCase().includes(query.toLowerCase())) continue
@@ -364,14 +382,14 @@ export const selectors = {
   // Transform
 
   transform: (state: State) => {
-    const index = state.transformStates[state.tabIndex].index!
+    const index = state.transformStates[state.layerIndex].index!
     const transforms = state.descriptor.transform!
     const transform = transforms[index]!
     return transform
   },
   transformItems: (state: State) => {
     const items = []
-    const query = state.transformStates[state.tabIndex]?.query
+    const query = state.transformStates[state.layerIndex]?.query
     for (const [index, transform] of (state.descriptor.transform || []).entries()) {
       if (query && !transform[query.toLowerCase() as keyof types.ITransform]) {
         continue

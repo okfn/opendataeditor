@@ -6,10 +6,8 @@ import Channel from './Sections/Channel/Channel'
 import Transform from './Sections/Transform/Transform'
 import { useStore } from './store'
 import MenuTree from '../../Parts/Trees/Menu'
-import * as types from '../../../types'
 import Chart from './Sections/Chart/Chart'
-
-// const LABELS = ['Chart', 'Channels', 'Transforms']
+import LayerChart from './Sections/Chart/LayerChart'
 
 export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
@@ -24,22 +22,22 @@ function LayoutWithMenu() {
   const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
-  const MENU_ITEMS: types.IMenuItem[] = [
-    { section: 'chart', name: 'Chart' },
-    { section: 'chart/general', name: 'General' },
-    { section: 'chart/channel', name: 'Channel' },
-    { section: 'chart/transform', name: 'Transform' },
-  ]
+  const layerItems = useStore((state) => state.layerItems)
+  const addLayer = useStore((state) => state.addLayer)
+  const layers = useStore((state) => state.layers)
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
         <MenuTree
-          menuItems={MENU_ITEMS}
+          menuItems={layerItems}
           selected={section}
           defaultExpanded={['chart']}
+          onAddNew={addLayer}
           onSelect={(section) => {
             updateHelp(section)
             updateState({ section })
+            const layerIndex = layers.findIndex((elem) => elem === section.split('/')[0])
+            updateState({ layerIndex })
           }}
         />
       </Box>
@@ -51,16 +49,18 @@ function LayoutWithMenu() {
 function LayoutWithoutMenu() {
   const section = useStore((state) => state.externalMenu?.section || state.section)
   const helpItem = useStore((state) => state.helpItem)
+  const layerName = section.split('/')[0]
+
   return (
     <Columns spacing={3} layout={[9, 3]}>
       <Box>
-        <Box hidden={section !== 'chart/general'}>
-          <Chart />
+        <Box hidden={section !== `${layerName}/chart`}>
+          {layerName === 'general' ? <Chart /> : <LayerChart />}
         </Box>
-        <Box hidden={section !== 'chart/channel'}>
+        <Box hidden={section !== `${layerName}/channel`}>
           <Channel />
         </Box>
-        <Box hidden={section !== 'chart/transform'}>
+        <Box hidden={section !== `${layerName}/transform`}>
           <Transform />
         </Box>
       </Box>

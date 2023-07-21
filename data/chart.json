@@ -1,3 +1,17 @@
 {
-  "mark": "bar"
+  "mark": "bar",
+  "layer": [
+    {
+      "mark": "area",
+      "encoding": {
+        "x": {
+          "title": "test"
+        }
+      }
+    },
+    {}
+  ],
+  "title": "test",
+  "width": 23,
+  "height": 44
 }
