@@ -227,6 +227,10 @@ export const selectors = {
     const resource = state.record?.resource
     if (!resource) return undefined
     switch (resource.format) {
+      case 'ndjson':
+        return 'json'
+      case 'jsonl':
+        return 'json'
       case 'json':
         return 'json'
       case 'geojson':
