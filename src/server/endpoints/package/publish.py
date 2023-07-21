@@ -32,4 +32,4 @@ def action(project: Project, props: Props) -> Result:
     package = Package.from_descriptor(str(fullpath))
     url = package.publish(control=Control.from_descriptor(props.control))
 
-    return Result(url=url)
+    return Result(url=url)  # type: ignore
