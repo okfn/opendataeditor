@@ -7,7 +7,7 @@ import { useStore } from './store'
 export default function Viewer() {
   const type = useStore((state) => state.record?.type)
   const outputedText = useStore((state) => state.outputedText)
-  const darkMode = type === 'script' && outputedText
+  const darkMode = type === 'script'
   return (
     <ScrollBox
       sx={{
