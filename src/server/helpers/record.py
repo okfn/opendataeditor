@@ -38,6 +38,9 @@ def patch_record(
     if type:
         updated = True
         record.type = type
+        record.resource.pop("type", None)
+        record.resource.pop("dialect", None)
+        record.resource.pop("schema", None)
     if resource:
         updated = True
         record.resource = resource

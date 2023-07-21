@@ -75,6 +75,7 @@ def action(project: Project, props: Props) -> Result:
                 type=resource_obj.datatype,
                 resource=resource_obj.to_descriptor(),
             )
+        record.resource = resource_obj.to_descriptor()
 
         # Create measure
         measure_obj = models.Measure(
@@ -83,10 +84,7 @@ def action(project: Project, props: Props) -> Result:
         measure = measure_obj.model_dump()
 
         # Write document/artifacts
-        if missing_record:
-            md.write_document(
-                name=record.name, type="record", descriptor=record.model_dump()
-            )
+        md.write_document(name=record.name, type="record", descriptor=record.model_dump())
         db.write_artifact(name=record.name, type="report", descriptor=report)
         db.write_artifact(name=record.name, type="measure", descriptor=measure)
 

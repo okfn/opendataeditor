@@ -40,7 +40,7 @@ export interface State {
   addFiles: (files: FileList) => Promise<void>
   fetchFile: (url: string) => Promise<void>
   createFile: (path: string, prompt?: string) => Promise<void>
-  adjustFile: (name: string, type: string) => Promise<void>
+  adjustFile: (name?: string, type?: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
