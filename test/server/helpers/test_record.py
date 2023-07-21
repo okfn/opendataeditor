@@ -2,7 +2,7 @@ from src.server import helpers
 
 
 def test_extract_records():
-    names = helpers.extract_record_names(prompt="here my @table1 and @table2")
+    names = helpers.extract_record_names(text="here my @table1 and @table2")
     assert names == ["table1", "table2"]
 
 

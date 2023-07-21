@@ -38,7 +38,7 @@ def ask_chatgpt(
     ]
 
     # Mention-based system messages
-    records = extract_records(project, prompt=prompt)
+    records = extract_records(project, text=prompt)
     for record in records:
         path = str(os.path.relpath(record.path, os.path.dirname(path)))
         prompt = prompt.replace(f"@{record.name}", path)
