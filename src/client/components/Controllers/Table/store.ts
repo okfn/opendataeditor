@@ -114,14 +114,18 @@ export function makeStore(props: TableProps) {
       }
     },
     save: async () => {
-      const { path, client, history, load, resource, onSave } = get()
+      const { path, client, history, load, gridRef, resource, onSave } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
       await client.tablePatch({
         path,
         history: selectors.isDataUpdated(get()) ? history : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSave()
-      load()
+      await load()
+      grid.reload()
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount, mode, history } = get()
