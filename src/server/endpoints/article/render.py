@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import base64
+from pathlib import Path
 
+import jinja2
 import marko
 from fastapi import Request
 from marko.ext.gfm import GFM
@@ -44,5 +46,16 @@ def action(project: Project, props: Props) -> Result:
     markdown = marko.Markdown()
     markdown.use(GFM)
     text = markdown.convert(text)
+
+    # Render text
+    record = helpers.read_record_or_raise(project, path=props.path)
+    environment = jinja2.Environment()
+    raw_template = Path(__file__).parent.joinpath("article.html").read_text()
+    template = environment.from_string(raw_template)
+    text = template.render(
+        title=record.resource.get("title"),
+        description=record.resource.get("description"),
+        article=text,
+    )
 
     return Result(text=text)
