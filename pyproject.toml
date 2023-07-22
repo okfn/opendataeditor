@@ -5,6 +5,7 @@ requires-python = ">=3.10"
 dependencies = [
     "typer>=0.9",
     "marko>=1.0",
+    "jinja2>=3.1",
     "tinydb>=4.7",
     "openai>=0.27",
     "pydantic>=2.0",
