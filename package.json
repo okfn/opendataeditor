@@ -48,6 +48,7 @@
     "@mui/x-date-pickers": "^6.9.1",
     "ahooks": "^3.7.8",
     "classnames": "^2.3.2",
+    "dangerously-set-html-content": "^1.0.13",
     "dayjs": "^1.11.9",
     "delay": "^6.0.0",
     "dirty-json": "^0.9.2",

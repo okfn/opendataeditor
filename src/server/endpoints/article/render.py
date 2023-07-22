@@ -75,15 +75,6 @@ def action(project: Project, props: Props) -> Result:
             )
             text = text.replace(f"@{record.name}", part)
 
-    # Wrap text
-    record = helpers.read_record_or_raise(project, path=props.path)
-    text = render_template(
-        "templates/article.html",
-        title=record.resource.get("title"),
-        description=record.resource.get("description"),
-        article=text,
-    )
-
     return Result(text=text)
 
 

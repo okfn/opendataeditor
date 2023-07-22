@@ -1,7 +1,8 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
+import InnerHtml from 'dangerously-set-html-content'
 import CodePanel from '../../Parts/Panels/Code'
 import ScrollBox from '../../Parts/Boxes/Scroll'
-import IframeBox from '../../Parts/Boxes/Iframe'
 import { useStore } from './store'
 
 export default function Viewer() {
@@ -9,20 +10,21 @@ export default function Viewer() {
   const outputedText = useStore((state) => state.outputedText)
   const darkMode = false
   return (
-    <React.Fragment>
+    <ScrollBox
+      sx={{
+        height: '100%',
+        borderLeft: 'solid 1px #ddd',
+        backgroundColor: darkMode ? '#333' : undefined,
+        color: darkMode ? '#eee' : undefined,
+      }}
+    >
       {type === 'script' ? (
-        <ScrollBox
-          sx={{
-            height: '100%',
-            backgroundColor: darkMode ? '#333' : undefined,
-            color: darkMode ? '#eee' : undefined,
-          }}
-        >
-          <CodePanel>{outputedText}</CodePanel>
-        </ScrollBox>
+        <CodePanel>{outputedText}</CodePanel>
       ) : (
-        <IframeBox html={outputedText || ''} height="100%" />
+        <Box sx={{ paddingX: 2 }}>
+          {outputedText && <InnerHtml key={outputedText} html={outputedText} />}
+        </Box>
       )}
-    </React.Fragment>
+    </ScrollBox>
   )
 }
