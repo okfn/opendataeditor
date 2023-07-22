@@ -5,11 +5,17 @@
   <title>{{ title }}</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{{ description }}">
+  <link href='https://unpkg.com/@fontsource/roboto@5.0.5/index.css' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/vega@5.20.2/build/vega.min.js"></script>
   <script src="https://unpkg.com/vega-lite@5.1.0/build/vega-lite.min.js"></script>
   <script src="https://unpkg.com/vega-embed@6.18.2/build/vega-embed.min.js"></script>
+  <style>
+    html {
+      font-family: Roboto, system-ui;
+    }
+  </style>
 </head>
 <body>
   {{ article | safe }}
