@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Action from './Action'
 import Editor from './Editor'
-import Viewer from './Viewer'
+import View from './View'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
@@ -46,7 +46,7 @@ function TwoColumns(props: { height: string }) {
     <Columns spacing={2}>
       <OneColumn height={height} />
       <Box sx={{ height, borderLeft: 'solid 1px #ddd' }}>
-        <Viewer />
+        <View />
       </Box>
     </Columns>
   )

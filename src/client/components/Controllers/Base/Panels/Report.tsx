@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Report from '../../../Modules/Report'
+import Report from '../../../Views/Report'
 import * as types from '../../../../types'
 
 export interface ReportPanelProps {
