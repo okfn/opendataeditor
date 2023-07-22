@@ -2,7 +2,13 @@
 <script>
 {
   const map = L.map('{{ id }}', {scrollWheelZoom: false})
-  const data = L.geoJSON(JSON.parse(`{{ data }}`))
+  const data = L.geoJSON(JSON.parse(`{{ data }}`), {
+    onEachFeature: (feature, layer) => {
+      const pairs = Object.entries(feature.properties)
+      const items = pairs.map((p) => `<div><strong>${p[0]}</strong>: ${p[1]}</div>`)
+      layer.bindPopup(items.join(''))
+    }
+  })
   const tile = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   })

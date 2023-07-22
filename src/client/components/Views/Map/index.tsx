@@ -35,7 +35,16 @@ export default function Map(props: MapProps) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON key={props.text} ref={setGeo as any} data={data} />
+        <GeoJSON
+          data={data}
+          key={props.text}
+          ref={setGeo as any}
+          onEachFeature={(feature, layer) => {
+            const pairs = Object.entries(feature.properties)
+            const items = pairs.map((p) => `<div><strong>${p[0]}</strong>: ${p[1]}</div>`)
+            layer.bindPopup(items.join(''))
+          }}
+        />
       </MapContainer>
     </Box>
   )
