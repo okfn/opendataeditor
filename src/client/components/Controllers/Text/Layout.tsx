@@ -45,7 +45,7 @@ function TwoColumns(props: { height: string }) {
   return (
     <Columns spacing={2}>
       <OneColumn height={height} />
-      <Box sx={{ height }}>
+      <Box sx={{ height, borderLeft: 'solid 1px #ddd' }}>
         <Viewer />
       </Box>
     </Columns>

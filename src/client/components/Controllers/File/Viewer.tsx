@@ -30,11 +30,11 @@ function ImageViewer() {
 
 export function MapViewer() {
   const textSource = useStore((state) => state.textSource)
-  const [layer, setLayer] = React.useState<any>(null)
+  const [geo, setGeo] = React.useState<any>(null)
   const [map, setMap] = React.useState<any>(null)
   React.useEffect(() => {
-    if (map && layer) map.fitBounds(layer.getBounds())
-  }, [map, layer, textSource])
+    if (map && geo) map.fitBounds(geo.getBounds())
+  }, [map, geo, textSource])
   if (!textSource) return null
   let data = JSON.parse(textSource)
   console.log(data)
@@ -50,12 +50,12 @@ export function MapViewer() {
         '& > .leaflet-container': { height: '100%' },
       }}
     >
-      <MapContainer center={[51.505, -0.09]} zoom={3} ref={setMap as any}>
+      <MapContainer center={[50, 0]} zoom={5} ref={setMap as any}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GeoJSON key={textSource} ref={setLayer as any} data={data} />
+        <GeoJSON key={textSource} ref={setGeo as any} data={data} />
       </MapContainer>
     </Box>
   )

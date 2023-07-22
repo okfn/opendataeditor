@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 from pathlib import Path
+from typing import Any
 
 import jinja2
 import marko
@@ -32,30 +33,47 @@ def action(project: Project, props: Props) -> Result:
     fs = project.filesystem
     text = props.text
 
-    # Process text
-    records = helpers.extract_records(project, text=text)
-    for record in records:
-        if record.type == "image":
-            format = record.resource.get("format", "png")
-            contents = base64.b64encode(fs.get_fullpath(record.path).read_bytes())
-            src = f"data:image/{format};base64,{contents.decode()}"
-            tag = f'<img src="{src}" style="max-width: 100%" />'
-            text = text.replace(f"@{record.name}", tag)
-
     # Convert text
     markdown = marko.Markdown()
     markdown.use(GFM)
     text = markdown.convert(text)
 
-    # Render text
+    # Process text
+    records = helpers.extract_records(project, text=text, ignore_missing=True)
+    for record in records:
+        if record.type == "image":
+            format = record.resource.get("format", "png")
+            data = base64.b64encode(fs.get_fullpath(record.path).read_bytes()).decode()
+            part = render_template(
+                "templates/image.html",
+                id=record.name,
+                format=format,
+                data=data,
+            )
+            text = text.replace(f"@{record.name}", part)
+        if record.type == "map":
+            data = fs.get_fullpath(record.path).read_text()
+            part = render_template(
+                "templates/map.html",
+                id=record.name,
+                data=data,
+            )
+            text = text.replace(f"@{record.name}", part)
+
+    # Wrap text
     record = helpers.read_record_or_raise(project, path=props.path)
-    environment = jinja2.Environment()
-    raw_template = Path(__file__).parent.joinpath("article.html").read_text()
-    template = environment.from_string(raw_template)
-    text = template.render(
+    text = render_template(
+        "templates/article.html",
         title=record.resource.get("title"),
         description=record.resource.get("description"),
         article=text,
     )
 
     return Result(text=text)
+
+
+def render_template(path: str, **context: Any):
+    environment = jinja2.Environment()
+    raw_template = Path(__file__).parent.joinpath(path).read_text()
+    template = environment.from_string(raw_template)
+    return template.render(**context)

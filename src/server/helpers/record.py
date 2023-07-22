@@ -131,7 +131,7 @@ def convert_path_to_record_name(path: str):
     return name
 
 
-def extract_records(project: Project, *, text: str, not_raise: bool = False):
+def extract_records(project: Project, *, text: str, ignore_missing: bool = False):
     md = project.metadata
 
     records: list[models.Record] = []
@@ -139,7 +139,7 @@ def extract_records(project: Project, *, text: str, not_raise: bool = False):
     for name in names:
         descriptor = md.read_document(type="record", name=name)
         if not descriptor:
-            if not_raise:
+            if ignore_missing:
                 continue
             raise FrictionlessException(f"record not found: @{name}")
         record = models.Record(**descriptor)

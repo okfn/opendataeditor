@@ -1,0 +1,15 @@
+iframe::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+iframe::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background: #f1f1f1;
+}
+iframe::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #ccc;
+}
+iframe::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
