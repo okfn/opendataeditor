@@ -9,7 +9,6 @@ export interface IframeBoxProps {
 export default function IframeBox(props: IframeBoxProps) {
   return (
     <iframe
-      scrolling="no"
       srcDoc={props.html}
       height={props.height}
       style={{
