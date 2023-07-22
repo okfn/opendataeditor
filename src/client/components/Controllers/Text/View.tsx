@@ -9,7 +9,7 @@ export default function View() {
   const outputedText = useStore((state) => state.outputedText)
   const View = type === 'script' ? Script : Article
   return (
-    <ScrollBox sx={{ height: '100%', borderLeft: 'solid 1px #ddd' }}>
+    <ScrollBox sx={{ height: '100%' }}>
       <View text={outputedText} />
     </ScrollBox>
   )
