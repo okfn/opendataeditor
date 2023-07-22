@@ -1,0 +1,15 @@
+<div style="overflow-x: auto">
+  <div id="{{ id }}" style="width: 100%; height: 33vh">
+  </div>
+</div>
+<style>
+.vega-embed {
+  width: 100%;
+  height: 100%;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    vegaEmbed('#{{ id }}', {...JSON.parse(`{{ data }}`), width: 'container', height: 'container'})
+})
+</script>

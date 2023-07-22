@@ -1,11 +1,11 @@
 <div id="{{ id }}" style="height: 33vh"></div>
 <script>
-{
-  const map = L.map('{{ id }}').setView([50, 0], 5)
+document.addEventListener("DOMContentLoaded", function() {
+  const map = L.map('{{ id }}', {scrollWheelZoom: false}).setView([50, 0], 5)
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map)
   const geo = L.geoJSON(JSON.parse(`{{ data }}`)).addTo(map)
   map.fitBounds(geo.getBounds())
-}
+})
 </script>

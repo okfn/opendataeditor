@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import json
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +31,8 @@ def endpoint(request: Request, props: Props) -> Result:
 
 
 def action(project: Project, props: Props) -> Result:
+    from ... import endpoints
+
     fs = project.filesystem
     text = props.text
 
@@ -55,6 +58,18 @@ def action(project: Project, props: Props) -> Result:
             data = fs.get_fullpath(record.path).read_text()
             part = render_template(
                 "templates/map.html",
+                id=record.name,
+                data=data,
+            )
+            text = text.replace(f"@{record.name}", part)
+        if record.type == "chart":
+            chart = helpers.read_json(project, path=record.path)
+            result = endpoints.chart.render.action(
+                project, endpoints.chart.render.Props(path=record.path, chart=chart)
+            )
+            data = json.dumps(result.chart)
+            part = render_template(
+                "templates/chart.html",
                 id=record.name,
                 data=data,
             )
