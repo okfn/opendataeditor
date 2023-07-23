@@ -1,13 +1,16 @@
 import * as React from 'react'
 import { useStore } from './store'
 import * as menu from '../../Parts/Bars/Menu'
+import * as settings from '../../../settings'
 
 export default function Menu() {
   const mode = useStore((state) => state.mode)
   const panel = useStore((state) => state.panel)
+  const dialog = useStore((state) => state.dialog)
   const report = useStore((state) => state.report)
   const measure = useStore((state) => state.measure)
   const history = useStore((state) => state.history)
+  const format = useStore((state) => state.record?.resource.format)
   const undoneHistory = useStore((state) => state.undoneHistory)
   const updateState = useStore((state) => state.updateState)
   const toggleErrorMode = useStore((state) => state.toggleErrorMode)
@@ -31,7 +34,10 @@ export default function Menu() {
         active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />
-      <menu.ChatButton disabled />
+      <menu.ChatButton
+        disabled={!settings.TEXT_TABLE_FORMATS.includes(format || '')}
+        onClick={() => updateState({ dialog: dialog !== 'chat' ? 'chat' : undefined })}
+      />
       <menu.ErrorsButton
         active={mode === 'errors'}
         onClick={toggleErrorMode}

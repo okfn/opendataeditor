@@ -270,6 +270,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async tableEdit(props: { path: string; text: string; prompt: string }) {
+    const result = await this.request('/table/edit', props)
+    return result as { data: types.IView }
+  }
+
   async tablePatch(props: {
     path: string
     toPath?: string
