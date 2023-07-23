@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -41,39 +42,56 @@ def action(project: Project, props: Props) -> Result:
     markdown.use(GFM)
     text = markdown.convert(text)
 
-    # Process text
+    # Process text (native images)
+    matches = re.finditer(r"<img.*?src=\"(.*?)\".*?/>", text)
+    for match in matches:
+        element = match.group(0)
+        relpath = match.group(1)
+        print(element)
+        print(relpath)
+        fullpath = fs.get_fullpath(props.path).parent / relpath
+        if fullpath.is_file():
+            data = base64.b64encode(fullpath.read_bytes()).decode()
+            markup = render_template(
+                "templates/image.html",
+                format=fullpath.suffix[1:],
+                data=data,
+            )
+            print(markup[:100])
+            text = text.replace(element, markup)
+
+    # Process text (mentions)
     records = helpers.extract_records(project, text=text, ignore_missing=True)
     for record in records:
         if record.type == "image":
             format = record.resource.get("format", "png")
             data = base64.b64encode(fs.get_fullpath(record.path).read_bytes()).decode()
-            part = render_template(
+            markup = render_template(
                 "templates/image.html",
-                id=record.name,
                 format=format,
                 data=data,
             )
-            text = text.replace(f"@{record.name}", part)
+            text = text.replace(f"@{record.name}", markup)
         if record.type == "map":
             data = fs.get_fullpath(record.path).read_text()
-            part = render_template(
+            markup = render_template(
                 "templates/map.html",
                 id=record.name,
                 data=data,
             )
-            text = text.replace(f"@{record.name}", part)
+            text = text.replace(f"@{record.name}", markup)
         if record.type == "chart":
             chart = helpers.read_json(project, path=record.path)
             result = endpoints.chart.render.action(
                 project, endpoints.chart.render.Props(path=record.path, chart=chart)
             )
             data = json.dumps(result.chart)
-            part = render_template(
+            markup = render_template(
                 "templates/chart.html",
                 id=record.name,
                 data=data,
             )
-            text = text.replace(f"@{record.name}", part)
+            text = text.replace(f"@{record.name}", markup)
 
     return Result(text=text)
 
