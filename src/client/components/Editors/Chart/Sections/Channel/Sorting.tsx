@@ -31,7 +31,7 @@ function SortOrder() {
       label="Sort Order"
       value={order}
       options={settings.SORT_TYPES}
-      onFocus={() => updateHelp('channel/aggregate')}
+      onFocus={() => updateHelp('channels/sortOrder')}
       onChange={(value) => updateChannel({ sort: value })}
     />
   )
@@ -48,7 +48,7 @@ function SortByEncoding() {
       label="Sort Order by Encoding"
       value={order}
       onFocus={() => {
-        updateHelp('channel/sortTitle')
+        updateHelp('channels/sortOrder')
         updateChannelState({ activeInput: 'sort' })
       }}
       onChange={(value) => updateChannel({ sort: value })}
@@ -67,7 +67,7 @@ function Operation() {
       label="Operation"
       value={operation ?? ''}
       onFocus={() => {
-        updateHelp('channel/sortOperation')
+        updateHelp('channels/sortingOperation')
         updateChannelState({ activeInput: 'sort' })
       }}
       onChange={(value) => {
@@ -88,7 +88,7 @@ function Field() {
       label="Field"
       value={field ?? ''}
       onFocus={() => {
-        updateHelp('channel/sortField')
+        updateHelp('channels/sortingField')
         updateChannelState({ activeInput: 'sort' })
       }}
       onChange={(value) => {

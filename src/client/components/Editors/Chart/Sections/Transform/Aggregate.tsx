@@ -57,7 +57,6 @@ function Operation() {
     <SelectField
       focused
       label="Operation"
-      margin="none"
       value={aggregate?.op ?? ''}
       options={settings.CHANNEL_AGGREGATES}
       onFocus={() => updateHelp('transforms/aggregateOperation')}
@@ -109,7 +108,7 @@ function GroupBy() {
     <InputField
       label="GroupBy"
       value={(transform?.groupby || []).join()}
-      onFocus={() => updateHelp('transforms/aggregateAs')}
+      onFocus={() => updateHelp('transforms/aggregateGroupBy')}
       onChange={(value) => {
         updateTransform({ groupby: value.split(',') })
       }}

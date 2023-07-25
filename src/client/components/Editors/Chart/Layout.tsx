@@ -34,10 +34,10 @@ function LayoutWithMenu() {
           defaultExpanded={['chart']}
           onAddNew={addLayer}
           onSelect={(section) => {
-            updateHelp(section)
-            updateState({ section })
+            const menuItem = section.split('/')[1] ?? 'chart'
+            updateHelp(menuItem)
             const layerIndex = layers.findIndex((elem) => elem === section.split('/')[0])
-            updateState({ layerIndex })
+            updateState({ layerIndex, section })
           }}
         />
       </Box>
@@ -49,18 +49,18 @@ function LayoutWithMenu() {
 function LayoutWithoutMenu() {
   const section = useStore((state) => state.externalMenu?.section || state.section)
   const helpItem = useStore((state) => state.helpItem)
-  const layerName = section.split('/')[0]
-
+  const layerIndex = useStore((state) => state.layerIndex)
+  const menuItem = section.split('/')[1] ?? 'chart'
   return (
     <Columns spacing={3} layout={[9, 3]}>
       <Box>
-        <Box hidden={section !== `${layerName}/chart`}>
-          {layerName === 'general' ? <Chart /> : <LayerChart />}
+        <Box hidden={menuItem !== 'chart'}>
+          {layerIndex === 0 ? <Chart /> : <LayerChart />}
         </Box>
-        <Box hidden={section !== `${layerName}/channel`}>
+        <Box hidden={menuItem !== 'channels'}>
           <Channel />
         </Box>
-        <Box hidden={section !== `${layerName}/transform`}>
+        <Box hidden={menuItem !== 'transforms'}>
           <Transform />
         </Box>
       </Box>

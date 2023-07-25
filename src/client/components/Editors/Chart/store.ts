@@ -86,8 +86,8 @@ export function makeStore(props: ChartProps) {
     layerItems: [
       { section: 'general', name: 'General' },
       { section: 'general/chart', name: 'Chart' },
-      { section: 'general/channel', name: 'Channel' },
-      { section: 'general/transform', name: 'Transform' },
+      { section: 'general/channels', name: 'Channels' },
+      { section: 'general/transforms', name: 'Transforms' },
     ],
     layerIndex: 0,
     section: 'channel',
@@ -130,8 +130,8 @@ export function makeStore(props: ChartProps) {
       const newLayer = [
         { section: prefix, name: layerName },
         { section: `${prefix}/chart`, name: 'Chart' },
-        { section: `${prefix}/channel`, name: 'Channel' },
-        { section: `${prefix}/transform`, name: 'Transform' },
+        { section: `${prefix}/channels`, name: 'Channels' },
+        { section: `${prefix}/transforms`, name: 'Transforms' },
       ]
       if (!layer[layerIndex]) {
         layer[layerIndex] = {}
@@ -220,6 +220,7 @@ export function makeStore(props: ChartProps) {
       }
       Object.assign(channel, patch)
       updateState({ descriptor })
+      console.log('descriptor', descriptor)
     },
     removeChannel: (type) => {
       const { descriptor, updateState, updateChannelState } = get()
