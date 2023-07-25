@@ -380,6 +380,6 @@ async function makeRequest(
   }
   const response = await fetch(path, { method, headers, body })
   const result = isBytes ? { bytes: await response.arrayBuffer() } : await response.json()
-  console.log({ path, options, result })
+  // console.log({ path, options, result })
   return result
 }
