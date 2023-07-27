@@ -56,12 +56,13 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
     # List files
     items: List[models.File] = []
+    is_gitignore = helpers.is_gitignore(project)
     for root, folders, files in os.walk(folder):
         root = Path(root)
         for file in files:
             if file.startswith("."):
                 continue
-            if helpers.filter_file_path(file):
+            if is_gitignore(file):
                 continue
             path = fs.get_path(root / file)
             item = models.File(path=path, type=type_by_path.get(path, "file"))
@@ -74,7 +75,7 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
             if folder.startswith(".") or folder in IGNORED_FOLDERS:
                 folders.remove(folder)
                 continue
-            if helpers.filter_file_path(folder):
+            if is_gitignore(folder):
                 continue
             path = fs.get_path(root / folder)
             item = models.File(path=path, type="folder")
@@ -86,15 +87,55 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
 IGNORED_FOLDERS = [
     "node_modules",
-    "src",
-    "test",
-    "types",
-    "helpers",
-    "components",
-    "targets",
-    "lcov-report",
-    "browser",
-    "blogs",
-    "docs",
-    "demo",
+    "logs" "*.logs",
+    ".pyc",
+    ".idea/",
+    ".vscode/",
+    "*.sublime*",
+    ".DS_STORE",
+    "npm-debug.log*",
+    "package-lock.json",
+    "/.cache",
+    "*.sqlite",
+    # Byte-compiled
+    ".pytest_cache/",
+    ".ruff_cache/",
+    "__pycache__/",
+    # Unit test / coverage
+    ".coverage",
+    ".coverage.*",
+    "coverage.xml",
+    "*.py[cod]",
+    ".pytest_cache/",
+    ".tox/",
+    ".nox/",
+    "cover/",
+    "*.whl",
+    # C
+    "*.so"
+    # Distribution
+    "bin/",
+    "build/",
+    "develop-eggs/",
+    "dist/",
+    "downloads/",
+    "eggs/",
+    ".eggs/",
+    "lib/",
+    "lib64/",
+    "parts",
+    "sdist/",
+    "var/",
+    "wheels/",
+    "share/python-wheels/",
+    "*.egg-info/",
+    ".installed.cfg",
+    "*.egg",
+    "MANIFEST"
+    # Jupyter
+    ".ipynb_checkpoints",
+    # mypy
+    ".mypy_cache/",
+    ".dmypy.json",
+    "dmypy.json",
 ]
