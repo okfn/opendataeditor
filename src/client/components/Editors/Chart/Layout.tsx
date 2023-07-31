@@ -22,14 +22,14 @@ function LayoutWithMenu() {
   const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
-  const layerItems = useStore((state) => state.layerItems)
+  const menuItems = useStore((state) => state.menuItems)
   const addLayer = useStore((state) => state.addLayer)
   const layers = useStore((state) => state.layers)
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
         <MenuTree
-          menuItems={layerItems}
+          menuItems={menuItems}
           selected={section}
           defaultExpanded={['chart']}
           onAddNew={addLayer}

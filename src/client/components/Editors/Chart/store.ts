@@ -33,7 +33,7 @@ interface State {
   columns: types.IColumn[]
   descriptor: Partial<types.IChart>
   customFields: string[]
-  layerItems: types.IMenuItem[]
+  menuItems: types.IMenuItem[]
   layers: string[]
   layerIndex: number
   section: string
@@ -83,7 +83,7 @@ export function makeStore(props: ChartProps) {
     customFields: [],
     descriptor: props.chart || {},
     layers: ['general'],
-    layerItems: [
+    menuItems: [
       { section: 'general', name: 'General' },
       { section: 'general/chart', name: 'Chart' },
       { section: 'general/channels', name: 'Channels' },
@@ -122,7 +122,7 @@ export function makeStore(props: ChartProps) {
 
     // Layers
     addLayer: () => {
-      const { layerItems, layerIndex, layers, updateDescriptor, descriptor } = get()
+      const { menuItems, layerIndex, layers, updateDescriptor, descriptor } = get()
       const newIndex = layerIndex + 1
       const layer = descriptor.layer || []
       const layerName = `Layer${newIndex}`
@@ -138,10 +138,10 @@ export function makeStore(props: ChartProps) {
       }
       layers.push(prefix)
       updateDescriptor({ layer })
-      set({ layerItems: [...layerItems, ...newLayer], layerIndex: newIndex })
+      set({ menuItems: [...menuItems, ...newLayer], layerIndex: newIndex })
     },
     removeLayer: (index) => {
-      const { channelStates, descriptor, layerItems, layerIndex, layers, updateState } =
+      const { channelStates, descriptor, menuItems, layerIndex, layers, updateState } =
         get()
       const updatedChannelStates = channelStates.filter(
         (_, stateIndex) => stateIndex !== index
@@ -149,9 +149,9 @@ export function makeStore(props: ChartProps) {
       descriptor.layer = descriptor?.layer?.filter(
         (_, layerIndex) => layerIndex !== index - 1
       )
-      layerItems.splice(index, 3)
+      menuItems.splice(index, 3)
       layers.splice(index, 1)
-      set({ channelStates: updatedChannelStates, layerItems, layerIndex: layerIndex - 1 })
+      set({ channelStates: updatedChannelStates, menuItems, layerIndex: layerIndex - 1 })
       updateState({ descriptor })
     },
 
