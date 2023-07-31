@@ -40,7 +40,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     <React.Fragment>
       <HeadingBox>
         <Columns spacing={1} layout={[6, 6]}>
-          <Box>
+          <Box sx={{ whiteSpace: 'nowrap' }}>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
               <Link onClick={props.onBackClick} sx={{ cursor: 'pointer' }}>
                 {startCase(props.kind)}s

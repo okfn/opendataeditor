@@ -41,7 +41,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
     <React.Fragment>
       <HeadingBox>
         <Columns spacing={1} layout={[4, 5, 3]}>
-          <Box>{startCase(props.kind)}s</Box>
+          <Box sx={{ whiteSpace: 'nowrap' }}>{startCase(props.kind)}s</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />
             <GridButton />
