@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import InputField from '../../../../Parts/Fields/Input'
-import SelectField from '../../../../Parts/Fields/Select'
-import EditorSection from '../../../Base/Section'
-import Columns from '../../../../Parts/Grids/Columns'
-import { useStore, selectors } from '../../store'
-import * as settings from '../../settings'
-import YesNoField from '../../../../Parts/Fields/YesNo'
+import InputField from '../../../Parts/Fields/Input'
+import SelectField from '../../../Parts/Fields/Select'
+import EditorSection from '../../Base/Section'
+import Columns from '../../../Parts/Grids/Columns'
+import { useStore, selectors } from '../store'
+import * as settings from '../settings'
+import YesNoField from '../../../Parts/Fields/YesNo'
 
 export default function Chart() {
   const updateHelp = useStore((state) => state.updateHelp)

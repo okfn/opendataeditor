@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import SelectField from '../../../../Parts/Fields/Select'
-import EditorSection from '../../../Base/Section'
-import Columns from '../../../../Parts/Grids/Columns'
-import { useStore } from '../../store'
-import * as settings from '../../settings'
+import SelectField from '../../../Parts/Fields/Select'
+import EditorSection from '../../Base/Section'
+import Columns from '../../../Parts/Grids/Columns'
+import { useStore } from '../store'
+import * as settings from '../settings'
 
 export default function LayerChart() {
   const updateHelp = useStore((state) => state.updateHelp)

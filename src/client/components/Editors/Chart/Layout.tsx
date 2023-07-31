@@ -2,12 +2,12 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import EditorHelp from '../Base/Help'
-import Channel from './Sections/Channel/Channel'
-import Transform from './Sections/Transform/Transform'
+import Channels from './Sections/Channels'
+import Transforms from './Sections/Transforms'
 import { useStore } from './store'
 import MenuTree from '../../Parts/Trees/Menu'
-import Chart from './Sections/Chart/Chart'
-import LayerChart from './Sections/Chart/LayerChart'
+import Chart from './Sections/Chart'
+import Layer from './Sections/Layer'
 
 export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
@@ -55,13 +55,13 @@ function LayoutWithoutMenu() {
     <Columns spacing={3} layout={[9, 3]}>
       <Box>
         <Box hidden={menuItem !== 'chart'}>
-          {layerIndex === 0 ? <Chart /> : <LayerChart />}
+          {layerIndex === 0 ? <Chart /> : <Layer />}
         </Box>
         <Box hidden={menuItem !== 'channels'}>
-          <Channel />
+          <Channels />
         </Box>
         <Box hidden={menuItem !== 'transforms'}>
-          <Transform />
+          <Transforms />
         </Box>
       </Box>
       <EditorHelp helpItem={helpItem} />
