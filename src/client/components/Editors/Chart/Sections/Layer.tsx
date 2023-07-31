@@ -6,10 +6,10 @@ import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 import * as settings from '../settings'
 
-export default function LayerChart() {
+export default function Layer() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Chart" onHeadingClick={() => updateHelp('chart')}>
+    <EditorSection name="Layer" onHeadingClick={() => updateHelp('layer')}>
       <Columns spacing={3}>
         <Box>
           <Mark />
@@ -31,7 +31,7 @@ function Mark() {
       label="Mark"
       value={type || ''}
       options={settings.MARKS}
-      onFocus={() => updateHelp('chart/mark')}
+      onFocus={() => updateHelp('layer/mark')}
       onChange={(value) => {
         if (!value) return
         descriptor.layer![layerIndex - 1].mark = value

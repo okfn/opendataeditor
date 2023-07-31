@@ -83,13 +83,12 @@ export function makeStore(props: ChartProps) {
     descriptor: props.chart || {},
     layers: ['general'],
     menuItems: [
-      { section: 'general', name: 'General' },
-      { section: 'general/chart', name: 'Chart' },
+      { section: 'general', name: 'Chart' },
       { section: 'general/channels', name: 'Channels' },
       { section: 'general/transforms', name: 'Transforms' },
     ],
     layerIndex: 0,
-    section: 'channel',
+    section: 'general',
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -128,7 +127,6 @@ export function makeStore(props: ChartProps) {
       const prefix = layerName.toLowerCase()
       const newLayer = [
         { section: prefix, name: layerName },
-        { section: `${prefix}/chart`, name: 'Chart' },
         { section: `${prefix}/channels`, name: 'Channels' },
         { section: `${prefix}/transforms`, name: 'Transforms' },
       ]

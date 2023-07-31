@@ -18,14 +18,14 @@ export default function Layout() {
   const layers = useStore((state) => state.layers)
   const helpItem = useStore((state) => state.helpItem)
   const layerIndex = useStore((state) => state.layerIndex)
-  const menuItem = section.split('/')[1] ?? 'chart'
+  const menuItem = section.split('/')[1]
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
         <MenuTree
           menuItems={menuItems}
           selected={section}
-          defaultExpanded={['chart']}
+          defaultExpanded={['general/chart']}
           onAddNew={addLayer}
           onSelect={(section) => {
             const menuItem = section.split('/')[1] ?? 'chart'
@@ -37,7 +37,7 @@ export default function Layout() {
       </Box>
       <Columns spacing={3} layout={[9, 3]}>
         <Box>
-          <Box hidden={menuItem !== 'chart'}>
+          <Box hidden={menuItem !== undefined}>
             {layerIndex === 0 ? <Chart /> : <Layer />}
           </Box>
           <Box hidden={menuItem !== 'channels'}>
