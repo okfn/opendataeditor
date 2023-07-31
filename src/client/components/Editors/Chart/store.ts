@@ -30,14 +30,13 @@ interface ISectionState {
 }
 
 interface State {
-  columns: types.IColumn[]
   descriptor: Partial<types.IChart>
+  columns: types.IColumn[]
   customFields: string[]
   menuItems: types.IMenuItem[]
   layers: string[]
   layerIndex: number
   section: string
-  externalMenu?: { section: string }
   onChange: (chart: object) => void
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void

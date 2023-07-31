@@ -10,21 +10,15 @@ import Chart from './Sections/Chart'
 import Layer from './Sections/Layer'
 
 export default function Layout() {
-  const externalMenu = useStore((state) => state.externalMenu)
-  return (
-    <Box sx={{ height: '100%' }}>
-      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
-    </Box>
-  )
-}
-
-function LayoutWithMenu() {
   const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const menuItems = useStore((state) => state.menuItems)
   const addLayer = useStore((state) => state.addLayer)
   const layers = useStore((state) => state.layers)
+  const helpItem = useStore((state) => state.helpItem)
+  const layerIndex = useStore((state) => state.layerIndex)
+  const menuItem = section.split('/')[1] ?? 'chart'
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
       <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
@@ -41,30 +35,20 @@ function LayoutWithMenu() {
           }}
         />
       </Box>
-      <LayoutWithoutMenu />
-    </Columns>
-  )
-}
-
-function LayoutWithoutMenu() {
-  const section = useStore((state) => state.externalMenu?.section || state.section)
-  const helpItem = useStore((state) => state.helpItem)
-  const layerIndex = useStore((state) => state.layerIndex)
-  const menuItem = section.split('/')[1] ?? 'chart'
-  return (
-    <Columns spacing={3} layout={[9, 3]}>
-      <Box>
-        <Box hidden={menuItem !== 'chart'}>
-          {layerIndex === 0 ? <Chart /> : <Layer />}
+      <Columns spacing={3} layout={[9, 3]}>
+        <Box>
+          <Box hidden={menuItem !== 'chart'}>
+            {layerIndex === 0 ? <Chart /> : <Layer />}
+          </Box>
+          <Box hidden={menuItem !== 'channels'}>
+            <Channels />
+          </Box>
+          <Box hidden={menuItem !== 'transforms'}>
+            <Transforms />
+          </Box>
         </Box>
-        <Box hidden={menuItem !== 'channels'}>
-          <Channels />
-        </Box>
-        <Box hidden={menuItem !== 'transforms'}>
-          <Transforms />
-        </Box>
-      </Box>
-      <EditorHelp helpItem={helpItem} />
+        <EditorHelp helpItem={helpItem} />
+      </Columns>
     </Columns>
   )
 }
