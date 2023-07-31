@@ -21,7 +21,7 @@ export default function Filter() {
     <React.Fragment>
       <Columns>
         <Box>
-          <Type />
+          <PredicateType />
         </Box>
       </Columns>
       <Columns>
@@ -33,16 +33,16 @@ export default function Filter() {
   )
 }
 
-function Type() {
+function PredicateType() {
   const type = useStore((state) => state.filterState.type!)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateFilterType = useStore((state) => state.updateFilterType)
   return (
     <SelectField
-      label="Type"
+      label="Predicate Type"
       value={type ?? 'fieldpredicate'}
       options={settings.FILTER_TYPES}
-      onFocus={() => updateHelp('transforms/filterType')}
+      onFocus={() => updateHelp('transforms/filterPredicateType')}
       onChange={(value) => (value ? updateFilterType(value) : undefined)}
     />
   )

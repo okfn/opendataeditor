@@ -20,12 +20,12 @@ export default function LayerChart() {
 }
 
 function Mark() {
-  const tabIndex = useStore((state) => state.tabIndex)
+  const layerIndex = useStore((state) => state.layerIndex)
   const descriptor = useStore((state) => state.descriptor)
-  const mark = useStore((state) => state.descriptor.mark)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
-  const type = typeof mark === 'object' ? mark.type : mark
+  const mark = descriptor.layer![layerIndex - 1].mark ?? ''
+  const type = typeof mark === 'object' ? mark!.type : mark
   return (
     <SelectField
       label="Mark"
@@ -34,7 +34,8 @@ function Mark() {
       onFocus={() => updateHelp('chart/mark')}
       onChange={(value) => {
         if (!value) return
-        descriptor.layer![tabIndex - 1].mark = value
+        descriptor.layer![layerIndex - 1].mark = value
+        console.log(descriptor)
         updateState({ descriptor })
       }}
     />

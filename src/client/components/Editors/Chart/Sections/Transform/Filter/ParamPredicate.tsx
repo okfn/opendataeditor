@@ -23,7 +23,7 @@ function Param() {
     <InputField
       label="Param"
       value={transform?.filter?.param ?? ''}
-      onFocus={() => updateHelp('transforms/filterParamParam')}
+      onFocus={() => updateHelp('transforms/filterVegaExpressionExpression')}
       onChange={(value) => {
         updateTransform({ filter: { ...transform.filter, param: value } })
       }}

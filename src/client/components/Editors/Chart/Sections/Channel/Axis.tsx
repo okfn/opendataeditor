@@ -28,7 +28,7 @@ function Title() {
       label="Axis Title"
       value={axis?.title ?? ''}
       onFocus={() => {
-        updateHelp('channel/axisTitle')
+        updateHelp('channels/axisTitle')
         updateChannelState({ activeInput: 'axis' })
       }}
       onChange={(value) => {
@@ -48,7 +48,7 @@ function LabelAngle() {
       label="Label Angle"
       value={axis?.labelAngle ?? ''}
       onFocus={() => {
-        updateHelp('channel/axisLabelAngle')
+        updateHelp('channels/axisLabelAngle')
         updateChannelState({ activeInput: 'axis' })
       }}
       onChange={(value) => {
@@ -68,7 +68,7 @@ function LabelAlign() {
       label="Label Align"
       value={axis?.labelAlign ?? ''}
       onFocus={() => {
-        updateHelp('channel/axisLabelAlign')
+        updateHelp('channels/axisLabelAlign')
         updateChannelState({ activeInput: 'axis' })
       }}
       onChange={(value) => {
@@ -88,7 +88,7 @@ function LabelExpr() {
       label="Label Expression"
       value={axis?.labelExpr ?? ''}
       onFocus={() => {
-        updateHelp('channel/axisLabelExpression')
+        updateHelp('channels/axisLabelExpression')
         updateChannelState({ activeInput: 'axis' })
       }}
       onChange={(value) => {
