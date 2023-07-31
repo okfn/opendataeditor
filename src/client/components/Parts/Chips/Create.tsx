@@ -28,7 +28,6 @@ export default function CreateChip(props: CreateChipProps) {
           height: '100%',
           borderLeft: 'solid 1px #ddd',
           borderRadius: '3px',
-          fontWeight: 'bold',
         }}
       />
     </LightTooltip>
