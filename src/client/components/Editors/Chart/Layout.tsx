@@ -1,70 +1,69 @@
 import * as React from 'react'
-import camelCase from 'lodash/camelCase'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
-import VerticalTabs from '../../Parts/Tabs/Vertical'
 import EditorHelp from '../Base/Help'
-import Chart from './Sections/Chart/Chart'
 import Channel from './Sections/Channel/Channel'
 import Transform from './Sections/Transform/Transform'
-import HorizontalTabs from '../../Parts/Tabs/DynamicHorizontal'
 import { useStore } from './store'
+import MenuTree from '../../Parts/Trees/Menu'
+import Chart from './Sections/Chart/Chart'
 import LayerChart from './Sections/Chart/LayerChart'
 
-const LABELS = ['Chart', 'Channels', 'Transforms']
-
 export default function Layout() {
+  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: '100%' }}>
-      <LayoutWithMenu />
+      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
     </Box>
   )
 }
 
 function LayoutWithMenu() {
-  const tabIndex = useStore((state) => state.tabIndex)
+  const section = useStore((state) => state.section)
+  const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
-  const labels = useStore((state) => state.tabNames)
-  const addTab = useStore((state) => state.addLayer)
-  const removeTab = useStore((state) => state.removeLayer)
+  const layerItems = useStore((state) => state.layerItems)
+  const addLayer = useStore((state) => state.addLayer)
+  const layers = useStore((state) => state.layers)
   return (
-    <HorizontalTabs
-      index={tabIndex}
-      labels={labels}
-      isDynamic={true}
-      onChange={(index) => {
-        updateState({ tabIndex: index })
-      }}
-      onAdd={addTab}
-      onRemove={removeTab}
-    >
-      {labels.map((_, index) => {
-        return <LayoutWithoutMenu key={index} />
-      })}
-    </HorizontalTabs>
+    <Columns spacing={3} layout={[2, 8]} columns={10}>
+      <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+        <MenuTree
+          menuItems={layerItems}
+          selected={section}
+          defaultExpanded={['chart']}
+          onAddNew={addLayer}
+          onSelect={(section) => {
+            const menuItem = section.split('/')[1] ?? 'chart'
+            updateHelp(menuItem)
+            const layerIndex = layers.findIndex((elem) => elem === section.split('/')[0])
+            updateState({ layerIndex, section })
+          }}
+        />
+      </Box>
+      <LayoutWithoutMenu />
+    </Columns>
   )
 }
 
 function LayoutWithoutMenu() {
+  const section = useStore((state) => state.externalMenu?.section || state.section)
   const helpItem = useStore((state) => state.helpItem)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const tabIndex = useStore((state) => state.tabIndex)
-  const vtabIndex = useStore((state) => state.vtabIndex)
-  const updateState = useStore((state) => state.updateState)
+  const layerIndex = useStore((state) => state.layerIndex)
+  const menuItem = section.split('/')[1] ?? 'chart'
   return (
     <Columns spacing={3} layout={[9, 3]}>
-      <VerticalTabs
-        index={vtabIndex}
-        labels={LABELS}
-        onChange={(index) => {
-          updateHelp(camelCase(LABELS[index]))
-          updateState({ vtabIndex: index })
-        }}
-      >
-        {tabIndex > 0 ? <LayerChart /> : <Chart />}
-        <Channel />
-        <Transform />
-      </VerticalTabs>
+      <Box>
+        <Box hidden={menuItem !== 'chart'}>
+          {layerIndex === 0 ? <Chart /> : <LayerChart />}
+        </Box>
+        <Box hidden={menuItem !== 'channels'}>
+          <Channel />
+        </Box>
+        <Box hidden={menuItem !== 'transforms'}>
+          <Transform />
+        </Box>
+      </Box>
       <EditorHelp helpItem={helpItem} />
     </Columns>
   )

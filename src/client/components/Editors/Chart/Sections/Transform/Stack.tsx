@@ -12,7 +12,7 @@ export default function Stack() {
     <React.Fragment>
       <Columns spacing={3}>
         <Box>
-          <StackField />
+          <Field />
           <Offset />
           <SortOrder />
         </Box>
@@ -26,7 +26,7 @@ export default function Stack() {
   )
 }
 
-function StackField() {
+function Field() {
   const transform = useStore(selectors.transform!) as types.IStack
   const fieldNames = useStore(selectors.fieldNames)
   const updateHelp = useStore((state) => state.updateHelp)
@@ -37,7 +37,7 @@ function StackField() {
       label="Stack"
       value={transform?.stack ?? ''}
       options={fieldNames}
-      onFocus={() => updateHelp('transforms/stackOffset')}
+      onFocus={() => updateHelp('transforms/stackField')}
       onChange={(value) => {
         updateTransform({ ...transform, stack: value })
       }}
@@ -73,7 +73,7 @@ function SortOrder() {
       label="Sort Order"
       value={sort?.order ?? ''}
       options={settings.SORT_TYPES}
-      onFocus={() => updateHelp('channels/aggregate')}
+      onFocus={() => updateHelp('channels/stackSortOrder')}
       onChange={(value) => {
         const field = sort ? sort.field : ''
         updateTransform({

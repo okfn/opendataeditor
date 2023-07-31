@@ -30,7 +30,7 @@ dependencies = [
     "black",
     "pytest",
     "neovim",
-    "pyright",
+    "pyright==1.1.317",
     "ipython",
     "pytest-cov",
     "pytest-vcr",

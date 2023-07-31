@@ -18,6 +18,8 @@ export const MARKS = [
   'trail',
 ]
 
+export const COLORS = ['red', 'green', 'blue']
+
 export const CHANNEL_TYPES = [
   // Position Channels
   'x',

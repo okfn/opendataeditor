@@ -19,13 +19,13 @@ const PROPERTIES: { [key: string]: any } = {
 }
 
 export default function Channel() {
-  const type = useStore((state) => state.channelStates[state.tabIndex]?.type)
+  const type = useStore((state) => state.channelStates[state.layerIndex]?.type)
   return type === undefined ? <ChannelList /> : <ChannelItem />
 }
 
 function ChannelList() {
-  const isGrid = useStore((state) => state.channelStates[state.tabIndex]?.isGrid)
-  const query = useStore((state) => state.channelStates[state.tabIndex]?.query)
+  const isGrid = useStore((state) => state.channelStates[state.layerIndex]?.isGrid)
+  const query = useStore((state) => state.channelStates[state.layerIndex]?.query)
   const channelItems = useStore(selectors.channelItems)
   const updateChannelState = useStore((state) => state.updateChannelState)
   const addChannel = useStore((state) => state.addChannel)
@@ -60,8 +60,8 @@ function ChannelList() {
 }
 
 function ChannelItem() {
-  const type = useStore((state) => state.channelStates[state.tabIndex]?.type!)
-  const isExtras = useStore((state) => state.channelStates[state.tabIndex]?.isExtras)
+  const type = useStore((state) => state.channelStates[state.layerIndex]?.type!)
+  const isExtras = useStore((state) => state.channelStates[state.layerIndex]?.isExtras)
   const updateChannelState = useStore((state) => state.updateChannelState)
   return (
     <EditorItem
@@ -93,7 +93,7 @@ function ChannelItem() {
 }
 
 function Type() {
-  const type = useStore((state) => state.channelStates[state.tabIndex]?.type!)
+  const type = useStore((state) => state.channelStates[state.layerIndex]?.type!)
   const updateChannelType = useStore((state) => state.updateChannelType)
   const updateHelp = useStore((state) => state.updateHelp)
   return (
@@ -101,7 +101,7 @@ function Type() {
       label="Type"
       value={type || ''}
       options={settings.CHANNEL_TYPES}
-      onFocus={() => updateHelp('channel/type')}
+      onFocus={() => updateHelp('channels/type')}
       onChange={(value) => (value ? updateChannelType(value) : undefined)}
     />
   )
@@ -119,7 +119,7 @@ function Field() {
       label="Field"
       value={field || ''}
       options={allFields}
-      onFocus={() => updateHelp('channel/field')}
+      onFocus={() => updateHelp('channels/field')}
       onChange={(value) => updateChannel({ field: value })}
     />
   )
@@ -135,7 +135,7 @@ function ChannelTitle() {
       label="Title"
       value={title || ''}
       onFocus={() => {
-        updateHelp('channel/title')
+        updateHelp('channels/title')
         updateChannelState({ activeInput: 'title' })
       }}
       onChange={(value) => updateChannel({ title: value || undefined })}
@@ -153,7 +153,7 @@ function Stack() {
       label="Stack"
       value={stack || ''}
       onFocus={() => {
-        updateHelp('channel/stack')
+        updateHelp('channels/stack')
         updateChannelState({ activeInput: 'stack' })
       }}
       onChange={(value) => updateChannel({ stack: value || undefined })}
@@ -170,7 +170,7 @@ function Aggregate() {
       label="Aggregate"
       value={aggregate || ''}
       options={settings.CHANNEL_AGGREGATES}
-      onFocus={() => updateHelp('channel/aggregate')}
+      onFocus={() => updateHelp('channels/aggregate')}
       onChange={(value) => updateChannel({ aggregate: value })}
     />
   )
@@ -184,7 +184,7 @@ function Value() {
     <InputField
       label="Value"
       value={value || ''}
-      onFocus={() => updateHelp('channel/value')}
+      onFocus={() => updateHelp('channels/value')}
       onChange={(value) => updateChannel({ value: value ? parseInt(value) : undefined })}
     />
   )
@@ -199,10 +199,11 @@ function FieldType() {
       label="Field Type"
       value={type || ''}
       options={settings.FIELD_TYPES}
-      onFocus={() => updateHelp('channel/type')}
+      onFocus={() => updateHelp('channels/fieldType')}
       onChange={(value) => {
         if (!value) value = undefined
         updateChannel({ customFieldType: value })
+        console.log({ customFieldType: value })
       }}
     />
   )
@@ -219,7 +220,7 @@ function TimeUnit() {
       value={timeUnit ?? ''}
       options={settings.TIME_UNITS}
       onFocus={() => {
-        updateHelp('channel/timeUnit')
+        updateHelp('channels/timeUnit')
         updateChannelState({ activeInput: 'timeUnit' })
       }}
       onChange={(value) => {
