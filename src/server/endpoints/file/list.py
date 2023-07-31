@@ -56,7 +56,7 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
     # List files
     items: List[models.File] = []
-    is_gitignore = helpers.is_gitignore(project)
+    is_gitignore = helpers.create_file_filter(project)
     for root, folders, files in os.walk(folder):
         root = Path(root)
         for file in files:

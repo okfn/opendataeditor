@@ -48,7 +48,7 @@ def write_file(
     return path
 
 
-def is_gitignore(project: Project) -> Callable[[str], bool]:
+def create_file_filter(project: Project) -> Callable[[str], bool]:
     fs = project.filesystem
     fullpath = fs.get_fullpath(".gitignore")
     matches = parse_gitignore(fullpath)  # type: ignore
