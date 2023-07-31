@@ -36,7 +36,7 @@ export default function Resources() {
           onClick={() => {
             // TODO: implement
           }}
-          onRemoveClick={() => removeLayer(index)}
+          onRemoveClick={() => removeLayer(index + 1)}
         />
       ))}
     </EditorList>

@@ -155,6 +155,7 @@ export function makeStore(props: ChartProps) {
       descriptor.layer = descriptor?.layer?.filter(
         (_, layerIndex) => layerIndex !== index - 1
       )
+      if ((descriptor.layer || []).length === 0) delete descriptor.layer
       menuItems.splice(index, 3)
       layers.splice(index, 1)
       set({ channelStates: updatedChannelStates, menuItems, layerIndex: layerIndex - 1 })

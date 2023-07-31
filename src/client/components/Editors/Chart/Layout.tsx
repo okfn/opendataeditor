@@ -15,7 +15,6 @@ export default function Layout() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const menuItems = useStore((state) => state.menuItems)
-  const addLayer = useStore((state) => state.addLayer)
   const layers = useStore((state) => state.layers)
   const helpItem = useStore((state) => state.helpItem)
   const layerIndex = useStore((state) => state.layerIndex)
@@ -27,7 +26,6 @@ export default function Layout() {
           menuItems={menuItems}
           selected={section}
           defaultExpanded={['general/chart']}
-          onAddNew={addLayer}
           onSelect={(section) => {
             const menuItem = section.split('/')[1] ?? 'chart'
             updateHelp(menuItem)
