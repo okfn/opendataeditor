@@ -125,7 +125,7 @@ function Tooltip() {
     <YesNoField
       label="Tooltip"
       value={tooltip}
-      onFocus={() => updateHelp('chart/markTooltip')}
+      onFocus={() => updateHelp('chart/tooltip')}
       onChange={(value) => {
         const type = typeof mark === 'string' ? mark : mark?.type
         if (value) {

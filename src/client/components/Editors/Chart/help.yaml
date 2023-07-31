@@ -5,6 +5,11 @@ chart:
   - https://vega.github.io/vega-lite/docs/spec.html
   - Set properties of the chart.
 
+chart/title:
+  - Title
+  - https://vega.github.io/vega/docs/data/
+  - Title of the chart.
+
 chart/table:
   - Table
   - https://vega.github.io/vega/docs/data/
@@ -25,6 +30,11 @@ chart/height:
   - https://vega.github.io/vega-lite/docs/size.html#default-width-and-height
   - A number representing a fixed pixel height.
 
+chart/tooltip:
+  - Tooltip
+  - https://vega.github.io/vega/docs/data/
+  - Specifies whether to show tooltip or not.
+
 # Channels
 
 channels:
@@ -37,20 +47,217 @@ channels/type:
   - https://vega.github.io/vega-lite/docs/encoding.html#channels
   - Specifies the type of the channel.
 
+channels/field:
+  - Channel Field
+  - https://vega.github.io/vega-lite/docs/encoding.html#field-def
+  - Specifies the field to apply aggregate function.
+
+channels/title:
+  - Channel Title
+  - https://vega.github.io/vega-lite/docs/encoding.html#field-def
+  - Title for the chart
+
+channels/stack:
+  - Channel Stack
+  - https://vega.github.io/vega-lite/docs/stack.html
+  - Types of stacking offset if the field should be stacked.
+
 channels/aggregate:
   - Channel Aggregate
   - https://vega.github.io/vega-lite/docs/aggregate.html
-  - Specifies aggregate operation for the channel.
-
-channels/field:
-  - Channel Field
-  - https://vega.github.io/vega-lite/docs/field.html
-  - Specifies the field to apply aggregate function.
+  - Specifies aggregate operation for the field.
 
 channels/value:
   - Channel Value
+  - https://vega.github.io/vega-lite/docs/encoding.html#value-def
+  - Specifies a constant visual value to a encoding channel.
+
+channels/fieldType:
+  - Channel Field Type
   - https://vega.github.io/vega-lite/docs/value.html
-  - Specify a constant value to a encoding channel.
+  - Specifies type of the field in channel.
+
+channels/timeUnit:
+  - Channel Time Unit
+  - https://vega.github.io/vega-lite/docs/encoding.html#field-def
+  - Specifies time unit for a tmeporal field.
+
+channels/axisTitle:
+  - Channel Axis Title
+  - https://vega.github.io/vega-lite/docs/value.html
+  - A title for the field.
+
+channels/axisLabelAngle:
+  - Channel Label Angle
+  - https://vega.github.io/vega-lite/docs/axis.html#labels
+  - The rotation angle of the axis labels.
+
+channels/axisLabelAlign:
+  - Channel Label Align
+  - https://vega.github.io/vega-lite/docs/axis.html#labels
+  - Horizontal text alignment of axis tick labels.
+
+channels/axisLabelExpression:
+  - Channel Label Expression
+  - https://vega.github.io/vega-lite/docs/axis.html#labels
+  - Vega expression for customizing labels.
+
+channels/bin:
+  - Channel Bin
+  - https://vega.github.io/vega-lite/docs/bin.html
+  - A flag or object for binning a quantitative field.
+
+channels/binStep:
+  - Channel Bin Step
+  - https://vega.github.io/vega-lite/docs/bin.html#bin-parameters
+  - An exact step size to use between bins.
+
+channels/sortOrder:
+  - Channel Sort Order
+  - https://vega.github.io/vega-lite/docs/sort.html#sort-by-a-different-field
+  - The sort order.
+
+channels/sortOrderByEncoding:
+  - Channel Sort Order by Encoding
+  - https://vega.github.io/vega-lite/docs/sort.html#sort-by-encoding
+  - Sort data by another encoding channel.
+
+channels/sortingOperation:
+  - Channel Sorting Operation
+  - https://vega.github.io/vega-lite/docs/sort.html#sort-by-a-different-field
+  - An aggregate operation to perform on the field before sorting.
+
+channels/sortingField:
+  - Channel SortBy Field
+  - https://vega.github.io/vega-lite/docs/sort.html#sort-by-a-different-field
+  - The field to sort by.
+
+# Transforms
+
+transforms:
+  - Transforms
+  - https://vega.github.io/vega-lite/docs/transform.html
+  - Set transform properties for the chart
+
+transforms/type:
+  - Transform Type
+  - https://vega.github.io/vega-lite/docs/transform.html
+  - Specifies the type of the transform.
+
+transforms/aggregateField:
+  - Aggregate Field
+  - https://vega.github.io/vega-lite/docs/aggregate.html#aggregate-op-def
+  - Specifies the data field for which to compute aggregate function.
+
+transforms/aggregateOperation:
+  - Aggregate Operation
+  - https://vega.github.io/vega-lite/docs/aggregate.html#aggregate-op-def
+  - Specifies the aggregate function.
+
+transforms/aggregateAs:
+  - Aggregate As
+  - https://vega.github.io/vega-lite/docs/aggregate.html#aggregate-op-def
+  - Specifies the output field name to use for aggregated field.
+
+transforms/aggregateGroupBy:
+  - Aggregate GroupBy
+  - https://vega.github.io/vega-lite/docs/aggregate.html#transform
+  - Specifies the fields to groupby.
+
+transforms/binBin:
+  - Bin
+  - https://vega.github.io/vega-lite/docs/bin.html#encoding
+  - Specifies a binning action using flag or an object.
+
+transforms/binField:
+  - Bin Field
+  - https://vega.github.io/vega-lite/docs/bin.html#transform
+  - Specifies the field to bin.
+
+transforms/binAs:
+  - Bin As
+  - https://vega.github.io/vega-lite/docs/bin.html#transform
+  - Specifies the name of the output field for binned field.
+
+transforms/calculateExpression:
+  - Calculate Expression
+  - https://vega.github.io/vega-lite/docs/calculate.html
+  - A calculate expression.
+
+transforms/calculateAs:
+  - Calculate As
+  - https://vega.github.io/vega-lite/docs/calculate.html
+  - Specifies field name to store computed formula value.
+
+transforms/filterPredicateType:
+  - Predicate Type
+  - https://vega.github.io/vega-lite/docs/predicate.html
+  - Specifies type of the predicate.
+
+transforms/filterFieldPredicateTimeUnit:
+  - Predicate TimeUnit
+  - https://vega.github.io/vega-lite/docs/predicate.html#field-predicate
+  - Specifies time unit for the field.
+
+transforms/filterFieldPredicateField:
+  - Predicate Field
+  - https://vega.github.io/vega-lite/docs/predicate.html#field-predicate
+  - Specifies the field.
+
+transforms/filterFieldPredicate:
+  - Predicate
+  - https://vega.github.io/vega-lite/docs/predicate.html#field-predicate
+  - Specifies a constant value to a encoding channel.
+
+transforms/filterFieldPredicateValue:
+  - Predicate Value
+  - https://vega.github.io/vega-lite/docs/value.html
+  - Specifies value to test for a predicate
+
+transforms/filterParamPredicateParam:
+  - Param Predicate
+  - https://vega.github.io/vega-lite/docs/predicate.html#selection-predicate
+  - Specifies param name.
+
+transforms/filterVegaExpressionExpression:
+  - Expression Predicate
+  - https://vega.github.io/vega-lite/docs/predicate.html
+  - A vega expression to test for a field.
+
+transforms/fold:
+  - Fold
+  - https://vega.github.io/vega-lite/docs/fold.html
+  - An array of data fields to fold.
+
+transforms/stackStack:
+  - Stack
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies the field to be stacked.
+
+transforms/stackOffset:
+  - Stack Offset
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies the mode for stacking marks.
+
+transforms/stackSortOrder:
+  - Stack Sort Order
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies sort order.
+
+transforms/stackAs:
+  - Stack As
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies a constant value to a encoding channel.
+
+transforms/stackGroupBy:
+  - Stack GroupBy
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies field by which to group by.
+
+transforms/stackSortByField:
+  - Stack SortBy
+  - https://vega.github.io/vega-lite/docs/stack.html#transform
+  - Specifies the field that determines the order.
 
 # Descriptor
 

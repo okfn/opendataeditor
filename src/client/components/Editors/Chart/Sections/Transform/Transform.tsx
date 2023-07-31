@@ -27,7 +27,7 @@ const TRANSFORMS: { [key: string]: any } = {
 export default function Transform() {
   // TODO: fix
   // @ts-ignore
-  const index = useStore((state) => state.transformStates[state.layer]?.index)
+  const index = useStore((state) => state.transformStates[state.layerIndex]?.index)
   return index === undefined ? <TransformList /> : <TransformItem />
 }
 
@@ -77,11 +77,13 @@ function TransformItem() {
   const title = useStore(select(selectors.transform, (transform) => transform.title))
   // TODO: fix
   // @ts-ignore
-  const isExtras = useStore((state) => state.transformStates[state.layer].isExtras)
+  const isExtras = useStore((state) => state.transformStates[state.layerIndex].isExtras)
   const updateTransformState = useStore((state) => state.updateTransformState)
   // TODO: fix
   // @ts-ignore
-  const type = useStore((state) => state.transformStates[state.layer].type ?? 'aggregate')
+  const type = useStore(
+    (state) => state.transformStates[state.layerIndex].type ?? 'aggregate'
+  )
   const ViewTransform = TRANSFORMS[type]
   return (
     <EditorItem
@@ -108,7 +110,7 @@ function TransformItem() {
 function Type() {
   // TODO: fix
   // @ts-ignore
-  const type = useStore((state) => state.transformStates[state.layer].type!)
+  const type = useStore((state) => state.transformStates[state.layerIndex].type!)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateTransformType = useStore((state) => state.updateTransformType)
   return (

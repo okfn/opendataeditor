@@ -31,7 +31,7 @@ def action(project: Project, props: Props) -> Result:
 
     record = helpers.read_record_or_raise(project, path=props.path)
     resource = Resource.from_descriptor(record.resource)
-    package = Package(resources=[resource], basepath=str(fs.basepath))
-    url = package.publish(control=Control.from_descriptor(props.control))
+    package = Package(resources=[resource], basepath=str(fs.basepath))  # type: ignore
+    url = package.publish(control=Control.from_descriptor(props.control))  # type: ignore
 
-    return Result(url=url)
+    return Result(url=url)  # type: ignore

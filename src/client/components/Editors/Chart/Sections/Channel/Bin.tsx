@@ -30,7 +30,7 @@ function IsBin() {
       label="Bin"
       value={isBin}
       onFocus={() => {
-        updateHelp('channel/bin')
+        updateHelp('channels/bin')
         updateChannelState({ activeInput: 'bin' })
       }}
       onChange={(value) => {
@@ -51,7 +51,7 @@ function Step() {
       label="Step"
       value={step}
       onFocus={() => {
-        updateHelp('channel/binStep')
+        updateHelp('channels/binStep')
         updateChannelState({ activeInput: 'bin' })
       }}
       onChange={(value) => {
