@@ -13,6 +13,11 @@ import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
+interface ILayerState {
+  query?: string
+  isGrid?: boolean
+}
+
 interface IChannelState {
   query?: string
   type?: string
@@ -34,8 +39,6 @@ interface State {
   columns: types.IColumn[]
   customFields: string[]
   menuItems: types.IMenuItem[]
-  layers: string[]
-  layerIndex: number
   section: string
   onChange: (chart: object) => void
   helpItem: types.IHelpItem
@@ -45,8 +48,12 @@ interface State {
   updateCustomFields: (field: string) => void
 
   // Layer
+  layers: string[]
+  layerIndex: number
+  layerState: ILayerState
   addLayer: () => void
   removeLayer: (index: number) => void
+  updateLayerState: (patch: Partial<ILayerState>) => void
 
   // Channels
 
@@ -81,13 +88,12 @@ export function makeStore(props: ChartProps) {
     columns: props.columns || [],
     customFields: [],
     descriptor: props.chart || {},
-    layers: ['general'],
     menuItems: [
       { section: 'general', name: 'Chart' },
       { section: 'general/channels', name: 'Channels' },
       { section: 'general/transforms', name: 'Transforms' },
+      { section: 'general/layers', name: 'Layers' },
     ],
-    layerIndex: 0,
     section: 'general',
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
@@ -119,6 +125,9 @@ export function makeStore(props: ChartProps) {
     },
 
     // Layers
+    layers: ['general'],
+    layerIndex: 0,
+    layerState: {},
     addLayer: () => {
       const { menuItems, layerIndex, layers, updateDescriptor, descriptor } = get()
       const newIndex = layerIndex + 1
@@ -150,6 +159,10 @@ export function makeStore(props: ChartProps) {
       layers.splice(index, 1)
       set({ channelStates: updatedChannelStates, menuItems, layerIndex: layerIndex - 1 })
       updateState({ descriptor })
+    },
+    updateLayerState: (patch) => {
+      const { layerState } = get()
+      set({ layerState: { ...layerState, ...patch } })
     },
 
     // Channels

@@ -2,12 +2,13 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import EditorHelp from '../Base/Help'
+import MenuTree from '../../Parts/Trees/Menu'
 import Channels from './Sections/Channels'
 import Transforms from './Sections/Transforms'
-import { useStore } from './store'
-import MenuTree from '../../Parts/Trees/Menu'
 import Chart from './Sections/Chart'
 import Layer from './Sections/Layer'
+import Layers from './Sections/Layers'
+import { useStore } from './store'
 
 export default function Layout() {
   const section = useStore((state) => state.section)
@@ -45,6 +46,9 @@ export default function Layout() {
           </Box>
           <Box hidden={menuItem !== 'transforms'}>
             <Transforms />
+          </Box>
+          <Box hidden={menuItem !== 'layers'}>
+            <Layers />
           </Box>
         </Box>
         <EditorHelp helpItem={helpItem} />
