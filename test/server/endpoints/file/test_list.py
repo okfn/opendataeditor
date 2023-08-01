@@ -29,3 +29,19 @@ def test_server_file_list_inside_folder(client):
     assert client("/file/list", folder=folder1).files == [
         models.File(path=path, type="file"),
     ]
+
+
+def test_server_ignored_file_in_gitignore(client):
+    client("/folder/create", path=folder1)
+    client("/file/create", path="abc.log", folder=folder1, bytes=bytes1).path
+    with open(".gitignore", "r") as file:
+        client("/file/create", path=".gitignore", bytes=file.read()).path
+    assert client("/file/list", folder=folder1).files == []
+
+
+def test_server_without_gitignore(client):
+    client("/folder/create", path=folder1)
+    path = client("/file/create", path="abc.log", folder=folder1, bytes=bytes1).path
+    assert client("/file/list", folder=folder1).files == [
+        models.File(path=path, type="file"),
+    ]
