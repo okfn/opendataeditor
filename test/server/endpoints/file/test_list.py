@@ -1,3 +1,5 @@
+import pathlib
+
 from src.server import models
 
 from ...fixtures import bytes1, bytes2, folder1, name1, name2
@@ -33,9 +35,10 @@ def test_server_file_list_inside_folder(client):
 
 def test_server_ignored_file_in_gitignore(client):
     client("/folder/create", path=folder1)
-    client("/file/create", path="abc.log", folder=folder1, bytes=bytes1).path
-    with open(".gitignore", "r") as file:
-        client("/file/create", path=".gitignore", bytes=file.read()).path
+    client("/file/create", path="abc.log", folder=folder1, bytes=bytes1)
+    client(
+        "/file/create", path=".gitignore", bytes=pathlib.Path(".gitignore").read_bytes()
+    )
     assert client("/file/list", folder=folder1).files == []
 
 

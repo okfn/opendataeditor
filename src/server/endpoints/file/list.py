@@ -8,7 +8,7 @@ from fastapi import Request
 from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ... import helpers, models
+from ... import helpers, models, settings
 from ...project import Project
 from ...router import router
 
@@ -60,11 +60,9 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
     for root, folders, files in os.walk(folder):
         root = Path(root)
         for file in files:
-            if file.startswith("."):
-                continue
-            if is_gitignore(file):
-                continue
             path = fs.get_path(root / file)
+            if is_gitignore(path):
+                continue
             item = models.File(path=path, type=type_by_path.get(path, "file"))
             if path in name_by_path:
                 item.name = name_by_path[path]
@@ -72,70 +70,14 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
                 item.errors = errors_by_path[path]
             items.append(item)
         for folder in list(folders):
-            if folder.startswith(".") or folder in IGNORED_FOLDERS:
+            if folder.startswith(".") or folder in settings.IGNORED_FOLDERS:
                 folders.remove(folder)
                 continue
-            if is_gitignore(folder):
-                continue
             path = fs.get_path(root / folder)
+            if is_gitignore(path):
+                continue
             item = models.File(path=path, type="folder")
             items.append(item)
 
     items = list(sorted(items, key=lambda item: item.path))
     return Result(files=items)
-
-
-IGNORED_FOLDERS = [
-    "node_modules",
-    "logs" "*.logs",
-    ".pyc",
-    ".idea/",
-    ".vscode/",
-    "*.sublime*",
-    ".DS_STORE",
-    "npm-debug.log*",
-    "package-lock.json",
-    "/.cache",
-    "*.sqlite",
-    # Byte-compiled
-    ".pytest_cache/",
-    ".ruff_cache/",
-    "__pycache__/",
-    # Unit test / coverage
-    ".coverage",
-    ".coverage.*",
-    "coverage.xml",
-    "*.py[cod]",
-    ".pytest_cache/",
-    ".tox/",
-    ".nox/",
-    "cover/",
-    "*.whl",
-    # C
-    "*.so"
-    # Distribution
-    "bin/",
-    "build/",
-    "develop-eggs/",
-    "dist/",
-    "downloads/",
-    "eggs/",
-    ".eggs/",
-    "lib/",
-    "lib64/",
-    "parts",
-    "sdist/",
-    "var/",
-    "wheels/",
-    "share/python-wheels/",
-    "*.egg-info/",
-    ".installed.cfg",
-    "*.egg",
-    "MANIFEST"
-    # Jupyter
-    ".ipynb_checkpoints",
-    # mypy
-    ".mypy_cache/",
-    ".dmypy.json",
-    "dmypy.json",
-]
