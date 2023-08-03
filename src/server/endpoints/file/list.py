@@ -8,7 +8,7 @@ from fastapi import Request
 from frictionless import FrictionlessException
 from pydantic import BaseModel
 
-from ... import models
+from ... import helpers, models, settings
 from ...project import Project
 from ...router import router
 
@@ -56,12 +56,13 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
     # List files
     items: List[models.File] = []
+    is_gitignore = helpers.create_file_filter(project)
     for root, folders, files in os.walk(folder):
         root = Path(root)
         for file in files:
-            if file.startswith("."):
-                continue
             path = fs.get_path(root / file)
+            if is_gitignore(path):
+                continue
             item = models.File(path=path, type=type_by_path.get(path, "file"))
             if path in name_by_path:
                 item.name = name_by_path[path]
@@ -69,17 +70,14 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
                 item.errors = errors_by_path[path]
             items.append(item)
         for folder in list(folders):
-            if folder.startswith(".") or folder in IGNORED_FOLDERS:
+            if folder.startswith(".") or folder in settings.IGNORED_FOLDERS:
                 folders.remove(folder)
                 continue
             path = fs.get_path(root / folder)
+            if is_gitignore(path):
+                continue
             item = models.File(path=path, type="folder")
             items.append(item)
 
     items = list(sorted(items, key=lambda item: item.path))
     return Result(files=items)
-
-
-IGNORED_FOLDERS = [
-    "node_modules",
-]

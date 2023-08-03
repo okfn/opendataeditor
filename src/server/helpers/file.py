@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from frictionless import FrictionlessException
 from frictionless.resources import FileResource
+from gitignore_parser import parse_gitignore  # type: ignore
 
 if TYPE_CHECKING:
     from ..project import Project
@@ -45,3 +46,18 @@ def write_file(
     path = fs.get_path(fullpath)
 
     return path
+
+
+def create_file_filter(project: Project) -> Callable[[str], bool]:
+    fs = project.filesystem
+    fullpath = fs.get_fullpath(".gitignore")
+    if not fullpath.exists():
+        return lambda _: False
+
+    matches = parse_gitignore(fullpath)  # type:ignore
+
+    def ignore_path(path: str) -> bool:
+        fullpath = fs.get_fullpath(path)
+        return True if matches(fullpath) else False
+
+    return ignore_path
