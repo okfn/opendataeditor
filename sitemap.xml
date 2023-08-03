@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://application.frictionlessdata.io/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/installation/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/usage/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/blog/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/blog/2023/04/17/csv-conf-7/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/contributing/development/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://application.frictionlessdata.io/integrating/library/</loc>
-         <lastmod>2023-07-31</lastmod>
+         <lastmod>2023-08-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
