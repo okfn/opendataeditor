@@ -1,5 +1,6 @@
 import pathlib
 
+from server import helpers
 from src.server import models
 
 from ...fixtures import bytes1, bytes2, folder1, name1, name2
@@ -48,3 +49,13 @@ def test_server_without_gitignore(client):
     assert client("/file/list", folder=folder1).files == [
         models.File(path=path, type="file"),
     ]
+
+
+def test_server_create_file_filter(client):
+    client("/folder/create", path=folder1)
+    client(
+        "/file/create", path=".gitignore", bytes=pathlib.Path(".gitignore").read_bytes()
+    )
+    is_gitignore = helpers.create_file_filter(client.project)
+    assert is_gitignore("folder1/test.csv") is False
+    assert is_gitignore("folder1/test.log") is True
