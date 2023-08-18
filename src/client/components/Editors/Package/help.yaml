@@ -43,7 +43,7 @@ package/created:
 package/image:
   - Image
   - https://specs.frictionlessdata.io/data-package/#image
-  - An image to use for this data package.
+  - An image path to use for this data package.
 
 # Resources
 
