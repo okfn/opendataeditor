@@ -44,11 +44,14 @@ def action(project: Project, props: Props) -> Result:
             package.add_resource(Resource.from_descriptor(record.resource))
 
     # Write json
+    if not package.resources:
+        package.resources = []
     path = helpers.write_json(
         project,
         path=props.path,
         data=package.to_descriptor(),
         deduplicate=props.deduplicate,
     )
+    print(path, package.to_descriptor())
 
     return Result(path=path)
