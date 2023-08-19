@@ -6,40 +6,40 @@ resource:
   - A simple format to describe and package a single data resource such as a individual table or file.
 resource/name:
   - Name
-  - https://framework.frictionlessdata.io/docs/resources/file.html
-  - Slugified the name of the resource.
+  - https://specs.frictionlessdata.io/data-resource/#name
+  - A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.
 resource/type:
   - Type
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the type of the resource
+  - Specifies the type of this resource.
 resource/title:
   - Title
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - A human-readable title.
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - A human-readable title or label for this resource e.g. "Sales Data".
 resource/description:
   - Description
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - A description of the resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
 resource/mediaType:
   - Media Type
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the media type/mime type of the resource e.g "text/csv", "application/vnd.ms-excel” etc.
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the media type/mime type of this resource e.g "text/csv", "application/vnd.ms-excel” etc.
 "resource/path":
   - Path
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the path of this resource.
+  - https://specs.frictionlessdata.io/data-resource/#path-data-in-files
+  - Specifies the path of this resource. It MUST either be a URL or a POSIX path.
 resource/scheme:
   - Scheme
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - https://specs.frictionlessdata.io/data-resource/#url-or-path
   - Specifies the scheme for loading the file (file, http, ...).
 resource/format:
   - Format
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the standard file extension for this resource.
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the standard file extension for this resource e.g. "csv", "xls", "json" etc
 resource/encoding:
   - Encoding
-  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Specifies the character encoding of this resource data.
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the character encoding of this resource e.g. "UTF-8". The values should be one of the “Preferred MIME Names” for a character encoding registered with IANA.
 
 
 # Checksum
