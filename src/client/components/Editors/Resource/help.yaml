@@ -47,27 +47,27 @@ resource/encoding:
 resource/checksum:
   - Checksum
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Checksum
+  - Checksum details  of this resource.
 
 resource/checksum/hash:
   - Hash
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Checksum
+  - The MD5 hash for this resource. 
 
 resource/checksum/bytes:
   - Bytes
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Checksum
+  - Size of the resource file in bytes.
 
 resource/checksum/fields:
   - Fields
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Checksum
+  - Total fiels in this resource.
 
 resource/checksum/rows:
   - Rows
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - Checksum
+  - Total rows in this resource.
 
 # Licenses
 
