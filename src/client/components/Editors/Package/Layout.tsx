@@ -43,9 +43,9 @@ function LayoutWithMenu() {
     { section: 'package/sources', name: 'Sources' },
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
-    { section: 'resource/license', name: 'Licenses' },
-    { section: 'resource/contributor', name: 'Contributors' },
-    { section: 'resource/source', name: 'Sources' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
     { section: 'dialect', name: 'Dialect', disabled: resource.type !== 'table' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
     { section: 'schema', name: 'Schema', disabled: resource.type !== 'table' },
@@ -94,7 +94,7 @@ function LayoutWithMenu() {
           selected={section}
           defaultExpanded={['package']}
           onSelect={(section) => {
-            console.log('Section', section)
+            console.log('Package Section', section)
             updateHelp(section)
             updateState({ section })
             externalMenu.section = section

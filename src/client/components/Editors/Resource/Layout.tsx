@@ -38,9 +38,9 @@ function LayoutWithMenu() {
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
-    { section: 'resource/license', name: 'Licenses' },
-    { section: 'resource/contributor', name: 'Contributors' },
-    { section: 'resource/source', name: 'Sources' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
     { section: 'dialect', name: 'Dialect', disabled: type !== 'table' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
     { section: 'schema', name: 'Schema', disabled: type !== 'table' },
@@ -69,6 +69,7 @@ function LayoutWithMenu() {
           selected={section}
           defaultExpanded={['resource']}
           onSelect={(section) => {
+            console.log('Resource Section', section)
             updateHelp(section)
             updateState({ section })
             externalMenu.section = section
@@ -117,13 +118,13 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'resource/checksum'}>
           <ChecksumSection />
         </Box>
-        <Box hidden={section !== 'resource/license'}>
+        <Box hidden={section !== 'resource/licenses'}>
           <LicenseSection />
         </Box>
-        <Box hidden={section !== 'resource/contributor'}>
+        <Box hidden={section !== 'resource/contributors'}>
           <ContributorSection />
         </Box>
-        <Box hidden={section !== 'resource/source'}>
+        <Box hidden={section !== 'resource/sources'}>
           <SourceSection />
         </Box>
       </Box>
