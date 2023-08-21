@@ -711,7 +711,9 @@ function Enum() {
       label="Enum"
       value={(constraints?.enum || []).join(',')}
       onFocus={() => updateHelp('schema/field/enum')}
-      onChange={(value) => updateField({ constraints: { ...constraints, enum: value } })}
+      onChange={(value) =>
+        updateField({ constraints: { ...constraints, enum: value.split(',') } })
+      }
     />
   )
 }
