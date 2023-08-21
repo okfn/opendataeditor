@@ -79,11 +79,13 @@ function SourceField() {
   const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const fieldNames = useStore(selectors.fieldNames)
   const updateForeignKey = useStore((state) => state.updateForeignKey)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
       label="Source Field"
       value={fields[0]}
       options={fieldNames}
+      onFocus={() => updateHelp('schema/foreignKey/sourceField')}
       onChange={(name) => updateForeignKey({ fields: [name] })}
     />
   )
@@ -94,11 +96,13 @@ function TargetField() {
     select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
+  const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
       label="Target Field"
       value={reference.fields[0]}
       options={reference.fields}
+      onFocus={() => updateHelp('schema/foreignKey/targetField')}
       onChange={(name) =>
         updateForeignKey({ reference: { ...reference, fields: [name] } })
       }
