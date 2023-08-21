@@ -79,7 +79,7 @@ resource/licenses:
 resource/licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0 .
+  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0 
 
 resource/licenses/path:
   - Path
@@ -123,7 +123,7 @@ resource/contributors/role:
 resource/sources:
   - Sources
   - https://specs.frictionlessdata.io/data-package/#sources
-  - The license(s) under which the resource is provided.
+  - Raw sources for the data resource.
 
 resource/sources/title:
   - Title

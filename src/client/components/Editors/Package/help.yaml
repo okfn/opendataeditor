@@ -62,17 +62,17 @@ package/licenses:
 package/licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - The name MUST be an Open Definition license ID.
+  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0 
 
 package/licenses/path:
   - Path
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path for this license.
 
 package/licenses/title:
   - Title
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - A human-readable title.
+  - A human-readable title or label for this license e.g. "Open Data Commons Public Domain Dedication and License v1.0".
 
 # Contributors
 
@@ -106,7 +106,7 @@ package/contributors/role:
 package/sources:
   - Sources
   - https://specs.frictionlessdata.io/data-package/#sources
-  - The license(s) under which the resource is provided.
+  - Raw sources for the data package.
 
 package/sources/title:
   - Title
