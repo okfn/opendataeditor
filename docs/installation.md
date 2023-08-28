@@ -10,5 +10,5 @@ To install a beta version of the Frictionless Application ensure that you have P
 === "Bash"
 
     ```bash
-    pip3 install frictionless[application]==5.13.0
+    pip3 install frictionless[application]==5.13.1
     ```
