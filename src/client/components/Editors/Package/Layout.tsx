@@ -37,15 +37,15 @@ function LayoutWithMenu() {
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'package', name: 'Package' },
-    { section: 'package/resource', name: 'Resources' },
-    { section: 'package/license', name: 'Licenses' },
-    { section: 'package/contributor', name: 'Contributors' },
-    { section: 'package/source', name: 'Sources' },
+    { section: 'package/resources', name: 'Resources' },
+    { section: 'package/licenses', name: 'Licenses' },
+    { section: 'package/contributors', name: 'Contributors' },
+    { section: 'package/sources', name: 'Sources' },
     { section: 'resource', name: 'Resource' },
     { section: 'resource/checksum', name: 'Checksum' },
-    { section: 'resource/license', name: 'Licenses' },
-    { section: 'resource/contributor', name: 'Contributors' },
-    { section: 'resource/source', name: 'Sources' },
+    { section: 'resource/licenses', name: 'Licenses' },
+    { section: 'resource/contributors', name: 'Contributors' },
+    { section: 'resource/sources', name: 'Sources' },
     { section: 'dialect', name: 'Dialect', disabled: resource.type !== 'table' },
     { section: 'dialect/format', name: capitalize(format) || 'Format' },
     { section: 'schema', name: 'Schema', disabled: resource.type !== 'table' },
@@ -94,6 +94,7 @@ function LayoutWithMenu() {
           selected={section}
           defaultExpanded={['package']}
           onSelect={(section) => {
+            console.log('Package Section', section)
             updateHelp(section)
             updateState({ section })
             externalMenu.section = section
@@ -145,16 +146,16 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'package'}>
           <PackageSection />
         </Box>
-        <Box hidden={section !== 'package/resource'}>
+        <Box hidden={section !== 'package/resources'}>
           <ResourceSection />
         </Box>
-        <Box hidden={section !== 'package/license'}>
+        <Box hidden={section !== 'package/licenses'}>
           <LicenseSection />
         </Box>
-        <Box hidden={section !== 'package/contributor'}>
+        <Box hidden={section !== 'package/contributors'}>
           <ContributorSection />
         </Box>
-        <Box hidden={section !== 'package/source'}>
+        <Box hidden={section !== 'package/sources'}>
           <SourceSection />
         </Box>
       </Box>

@@ -8,11 +8,11 @@ dialect:
 dialect/title:
   - Title
   - https://framework.frictionlessdata.io/docs/framework/dialect.html
-  - A human-readable title.
+  - A human-readable title for this dialect.
 
 dialect/description:
   - Description
-  - #
+  - https://framework.frictionlessdata.io/docs/framework/dialect.html
   - A brief description of the dialect.
 
 # Type
@@ -102,42 +102,42 @@ dialect/format/skipInitialSpace:
 
 dialect/format/sheet:
   - Sheet
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration
   - Specifies name of the sheet from where to read or write data. (default 1)
 
 dialect/format/fillMergedCells:
   - Fill Merged Cells
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration
   - Specifies to unmerge and fill all merged cells by the visible value. (default false)
 
 dialect/format/preserveFormatting:
   - Preserve Formatting
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration
   - Specifies to preserve text formatting for numeric and temporal cells. (default false)
 
 dialect/format/adjustFloatingPointError:
   - Adjust Floating Point Error
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration
   - Specifies to ajust the Excel behavior regarding floating point numbers.
 
 dialect/format/stringified:
   - Stringified
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration
   - Specifies to stringify all cell values. (default false)
 
 # Format (Json)
 
 dialect/format/keys:
   - keys
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration
   - Specifies the keys/columns to read from the json resource.
 
 dialect/format/keyed:
   - Keyed
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration
   - Specifies to return the data as "key:value" pair. (default false)
 
 dialect/format/property:
   - Property
-  - #
+  - https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration
   - Specifies the path to the attribute in a json file, if it has nested fields.
