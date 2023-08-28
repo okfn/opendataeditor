@@ -45,7 +45,7 @@ export default function PickDialog(props: PickDialogProps) {
   }
 
   const customList = (title: React.ReactNode, items: readonly number[]) => (
-    <Card>
+    <Card sx={{ width: 'fit-content', minWidth: '100%' }}>
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={

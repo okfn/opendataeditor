@@ -80,7 +80,7 @@ function Rows() {
       label="Rows"
       value={rows || ''}
       onFocus={() => updateHelp('resource/checksum/rows')}
-      onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
+      onChange={(value) => updateDescriptor({ rows: parseInt(value) || undefined })}
     />
   )
 }
