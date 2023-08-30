@@ -1,11 +1,11 @@
 # General
 
 site_name: Open Data Editor
-site_url: https://application.frictionlessdata.io
+site_url: https://open-data-editor.frictionlessdata.io
 site_author: Open Knowledge Foundation
 site_description: Data editor for humans
 repo_name: frictionlessdata/application
-repo_url: https://github.com/frictionlessdata/application
+repo_url: https://github.com/frictionlessdata/open-data-editor
 copyright: Copyright &copy; 2022 <a href="https://okfn.org">Open Knowledge Foundation</a>
 
 # Theme
