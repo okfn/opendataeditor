@@ -20,7 +20,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'publish' | 'saveAs'
+  dialog?: 'publish' | 'saveAs' | 'chat'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -33,10 +33,11 @@ export interface State {
 
   load: () => Promise<void>
   loadSource: () => Promise<void>
+  edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
   revert: () => void
   save: () => Promise<void>
-  publish: (control: types.IControl) => Promise<string>
+  publish: (control: types.IControl) => Promise<string | undefined>
   loader: types.ITableLoader
   history: types.IHistory
   undoneHistory: types.IHistory
@@ -85,12 +86,30 @@ export function makeStore(props: TableProps) {
       clearHistory()
     },
     loadSource: async () => {
-      const { path, client } = get()
+      const { path, record, client } = get()
+      if (!record) return
+      if (!settings.TEXT_TABLE_FORMATS.includes(record.resource.format || '')) return
       const { text } = await client.textRead({
         path,
         size: settings.MAX_TABLE_SOURCE_SIZE,
       })
       set({ source: text })
+    },
+    edit: async (prompt) => {
+      const { path, client, source, onSave, load, loadSource, gridRef } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      let text = source
+      if (text === undefined) {
+        await loadSource()
+        text = get().source || ''
+      }
+
+      await client.tableEdit({ path, text, prompt })
+      onSave()
+      await load()
+      grid.reload()
     },
     saveAs: async (toPath) => {
       const { path, client, history, resource, onSaveAs } = get()
@@ -114,14 +133,18 @@ export function makeStore(props: TableProps) {
       }
     },
     save: async () => {
-      const { path, client, history, load, resource, onSave } = get()
+      const { path, client, history, load, gridRef, resource, onSave } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
       await client.tablePatch({
         path,
         history: selectors.isDataUpdated(get()) ? history : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSave()
-      load()
+      await load()
+      grid.reload()
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount, mode, history } = get()

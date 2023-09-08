@@ -3,6 +3,7 @@ import { useStore, selectors } from './store'
 import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
+  const report = useStore((state) => state.report)
   const language = useStore(selectors.language)
   const type = useStore((state) => state.record?.type)
   const panel = useStore((state) => state.panel)
@@ -28,6 +29,7 @@ export default function Menu() {
         }
       />
       <menu.ReportButton
+        disabled={!report || report?.valid}
         active={panel === 'report'}
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />

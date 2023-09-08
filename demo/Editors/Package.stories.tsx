@@ -23,3 +23,11 @@ export const Default: Story = {
     onChange: console.log,
   },
 }
+
+export const Shallow: Story = {
+  args: {
+    shallow: true,
+    package: pkg,
+    onChange: console.log,
+  },
+}

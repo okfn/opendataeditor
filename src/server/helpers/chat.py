@@ -38,7 +38,7 @@ def ask_chatgpt(
     ]
 
     # Mention-based system messages
-    records = extract_records(project, prompt=prompt)
+    records = extract_records(project, text=prompt)
     for record in records:
         path = str(os.path.relpath(record.path, os.path.dirname(path)))
         prompt = prompt.replace(f"@{record.name}", path)
@@ -96,6 +96,11 @@ INSTRUCTIONS = {
         You are a JSON file generation assistant.
         You will be given a text description on what needs to be written.
         Respond with only JSON content without explanation.
+    """,
+    "map": """
+        You are a GeoJSON document generation assistant.
+        You will be given a text description on what needs to be written.
+        Respond with only the GeoJSON code in valid JSON notation without explanation.
     """,
     "package": """
         You are a JSON generation assistant.

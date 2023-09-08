@@ -7,6 +7,7 @@ import * as types from '../../../types'
 
 export interface ConfigProps {
   config?: types.IConfig
+  defaultSection?: string
   onChange?: (config: types.IConfig) => void
 }
 

@@ -48,7 +48,7 @@ export interface State {
   load: () => Promise<void>
   edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
-  publish: (control: types.IControl) => Promise<string>
+  publish: (control: types.IControl) => Promise<string | undefined>
   save: () => Promise<void>
   revert: () => void
 
@@ -227,6 +227,10 @@ export const selectors = {
     const resource = state.record?.resource
     if (!resource) return undefined
     switch (resource.format) {
+      case 'ndjson':
+        return 'json'
+      case 'jsonl':
+        return 'json'
       case 'json':
         return 'json'
       case 'geojson':
@@ -243,6 +247,8 @@ export const selectors = {
         return 'javascript'
       case 'r':
         return 'r'
+      case 'html':
+        return 'html'
       default:
         return 'plaintext'
     }

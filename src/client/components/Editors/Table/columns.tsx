@@ -36,9 +36,16 @@ export function createColumns(
     // TODO: fix this on ther server side -- schema should not have hidden fields
     // Otherwise the _rowNumber and _rowValid are displayed on the table
     if (field.name === '_rowNumber' || field.name === '_rowValid') continue
+    let header = field.title || field.name
+    const errors = errorIndex.label[field.name]
+    if (errors) {
+      const error = errors[0]
+      // @ts-ignore
+      if (error) header = error.label
+    }
     dataColumns.push({
       name: field.name,
-      header: field.title || field.name,
+      header,
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
       headerProps:
         field.name in errorIndex.label

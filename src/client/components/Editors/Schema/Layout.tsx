@@ -4,8 +4,8 @@ import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import SchemaSection from './Sections/Schema'
-import FieldSection from './Sections/Field'
-import ForeignKeySection from './Sections/ForeignKey'
+import FieldsSection from './Sections/Fields'
+import ForeignKeysSection from './Sections/ForeignKeys'
 import { useStore } from './store'
 import * as types from '../../../types'
 
@@ -24,8 +24,8 @@ function LayoutWithMenu() {
   const updateState = useStore((state) => state.updateState)
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'schema', name: 'Schema' },
-    { section: 'schema/field', name: 'Fields' },
-    { section: 'schema/foreignKey', name: 'Foreign Keys' },
+    { section: 'schema/fields', name: 'Fields' },
+    { section: 'schema/foreignKeys', name: 'Foreign Keys' },
   ]
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
@@ -47,7 +47,9 @@ function LayoutWithMenu() {
 
 function LayoutWithoutMenu() {
   const section = useStore((state) => state.externalMenu?.section || state.section)
+  const updateHelp = useStore((state) => state.updateHelp)
   const helpItem = useStore((state) => state.helpItem)
+  React.useEffect(() => updateHelp(section), [section])
   if (!section) return null
   return (
     <Columns spacing={3} layout={[5, 3]} columns={8}>
@@ -55,11 +57,11 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'schema'}>
           <SchemaSection />
         </Box>
-        <Box hidden={section !== 'schema/field'}>
-          <FieldSection />
+        <Box hidden={section !== 'schema/fields'}>
+          <FieldsSection />
         </Box>
-        <Box hidden={section !== 'schema/foreignKey'}>
-          <ForeignKeySection />
+        <Box hidden={section !== 'schema/foreignKeys'}>
+          <ForeignKeysSection />
         </Box>
       </Box>
       <EditorHelp helpItem={helpItem} />

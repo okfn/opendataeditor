@@ -24,25 +24,11 @@ interface State {
   updateHelp: (path: string) => void
   updateDescriptor: (patch: Partial<types.IDialect>) => void
 
-  // Csv
+  // Format
 
   updateCsv: (patch: Partial<types.ICsvControl>) => void
-
-  // Excel
-
   updateExcel: (patch: Partial<types.IExcelControl>) => void
-
-  // Html
-
-  updateHtml: (patch: Partial<types.IHtmlControl>) => void
-
-  // Json
-
   updateJson: (patch: Partial<types.IJsonControl>) => void
-
-  // Ods
-
-  updateOds: (patch: Partial<types.IOdsControl>) => void
 }
 
 export function makeStore(props: DialectProps) {
@@ -67,7 +53,7 @@ export function makeStore(props: DialectProps) {
       set({ descriptor })
     },
 
-    // Csv
+    // Format
 
     updateCsv: (patch) => {
       const { updateDescriptor } = get()
@@ -75,43 +61,23 @@ export function makeStore(props: DialectProps) {
       updateDescriptor({ csv: { ...csv, ...patch } })
     },
 
-    // Excel
-
     updateExcel: (patch) => {
       const { updateDescriptor } = get()
       const excel = selectors.excel(get())
       updateDescriptor({ excel: { ...excel, ...patch } })
     },
 
-    // Html
-
-    updateHtml: (patch) => {
-      const { updateDescriptor } = get()
-      const html = selectors.html(get())
-      updateDescriptor({ html: { ...html, ...patch } })
-    },
-
-    // Json
-
     updateJson: (patch) => {
       const { updateDescriptor } = get()
       const json = selectors.json(get())
       updateDescriptor({ json: { ...json, ...patch } })
-    },
-
-    // Ods
-
-    updateOds: (patch) => {
-      const { updateDescriptor } = get()
-      const ods = selectors.ods(get())
-      updateDescriptor({ ods: { ...ods, ...patch } })
     },
   }))
 }
 
 export const select = createSelector
 export const selectors = {
-  // Csv/Excel/Json/Html/Ods
+  // Format
 
   csv: (state: State) => {
     return state.descriptor.csv || {}
@@ -121,12 +87,6 @@ export const selectors = {
   },
   json: (state: State) => {
     return state.descriptor.json || {}
-  },
-  ods: (state: State) => {
-    return state.descriptor.ods || {}
-  },
-  html: (state: State) => {
-    return state.descriptor.html || {}
   },
 }
 

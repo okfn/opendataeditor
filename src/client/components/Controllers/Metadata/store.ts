@@ -30,7 +30,7 @@ export interface State {
   load: () => Promise<void>
   edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
-  publish: (control: types.IControl) => Promise<string>
+  publish: (control: types.IControl) => Promise<string | undefined>
   revert: () => void
   save: () => Promise<void>
   clear: () => void

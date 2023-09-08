@@ -37,7 +37,7 @@ def action(project: Project, props: Props) -> Result:
 
     # Save
     parsed = urlparse(props.url)
-    path = props.path or Path(parsed.path).name or "link"
+    path = props.path or Path(parsed.path).name or "file"
     result = endpoints.file.create.action(
         project,
         endpoints.file.create.Props(

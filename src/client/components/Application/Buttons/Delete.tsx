@@ -11,12 +11,12 @@ export default function DeleteButton() {
   const isFolder = useStore(selectors.isFolder)
   const updateState = useStore((state) => state.updateState)
   const type = isFolder ? 'Folder' : 'File'
-  useKeyPress(['alt.d'], (event) => {
+  useKeyPress(['ctrl.i'], (event) => {
     event.preventDefault()
     if (path) updateState({ dialog: `delete${type}` })
   })
   return (
-    <LightTooltip title="Delete file [Alt+D]">
+    <LightTooltip title="Delete file [Ctrl+I]">
       <Box>
         <IconButton
           label="Delete"

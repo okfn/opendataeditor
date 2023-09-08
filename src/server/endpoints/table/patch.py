@@ -4,7 +4,7 @@ from typing import Optional
 
 import sqlalchemy as sa
 from fastapi import Request
-from frictionless import FrictionlessException
+from frictionless import FrictionlessException, Schema
 from frictionless.formats.sql import SqlControl
 from frictionless.resources import TableResource
 from pydantic import BaseModel
@@ -58,15 +58,23 @@ def action(project: Project, props: Props) -> Result:
     # Patch table
     if props.history:
         table = db.metadata.tables[record.name]
+        schema = Schema.from_descriptor(record.resource.get("schema", {}))
 
         # Patch database table
         with db.engine.begin() as conn:
             for change in props.history.changes:
                 if change.type == "cell-update":
+                    # Prepare value
+                    value = change.value
+                    if schema.has_field(change.fieldName):
+                        field = schema.get_field(change.fieldName)
+                        value, _ = field.read_cell(value)
+
+                    # Write value
                     conn.execute(
                         sa.update(table)
                         .where(table.c._rowNumber == change.rowNumber)
-                        .values(**{change.fieldName: change.value})
+                        .values(**{change.fieldName: value})
                     )
 
         # Export database table

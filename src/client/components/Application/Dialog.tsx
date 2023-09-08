@@ -1,13 +1,14 @@
 import * as React from 'react'
+import AddRemoteFileDialog from './Dialogs/AddRemoteFile'
+import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
+import AddRemoteDatasetDialog from './Dialogs/AddRemoteDataset'
 import AdjustFileDialog from './Dialogs/AdjustFile'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateDialog from './Dialogs/Create'
-import CreateFolderDialog from './Dialogs/CreateFolder'
 import DeleteFileDialog from './Dialogs/DeleteFile'
 import DeleteFolderDialog from './Dialogs/DeleteFolder'
-import FetchFileDialog from './Dialogs/FetchFile'
 import IndexFilesDialog from './Dialogs/IndexFiles'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
@@ -21,15 +22,17 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
+  addEmptyFolder: AddEmptyFolderDialog,
+  addRemoteFile: AddRemoteFileDialog,
+  addRemoteDataset: AddRemoteDatasetDialog,
   adjustFile: AdjustFileDialog,
   config: ConfigDialog,
+  configProject: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
   create: CreateDialog,
-  createFolder: CreateFolderDialog,
   deleteFile: DeleteFileDialog,
   deleteFolder: DeleteFolderDialog,
-  fetchFile: FetchFileDialog,
   indexFiles: IndexFilesDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,

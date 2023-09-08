@@ -16,7 +16,7 @@ class Props(BaseModel, extra="forbid"):
 class Result(BaseModel, extra="forbid"):
     record: models.Record
     report: types.IDescriptor
-    measure: models.Measure
+    measure: types.IDescriptor
 
 
 @router.post("/file/index")
@@ -32,7 +32,7 @@ def action(project: Project, props: Props) -> Result:
     # Read current state
     record = helpers.read_record(project, path=props.path)
     report = db.read_artifact(name=record.name, type="report") if record else None
-    measure = helpers.read_measure(project, path=props.path) if record else None
+    measure = db.read_artifact(name=record.name, type="measure") if record else None
     table = db.get_table(name=record.name) if record else None
 
     # Identify missing
@@ -60,9 +60,12 @@ def action(project: Project, props: Props) -> Result:
                 basepath=basepath,
             )
         )
+
+        # Validate resource
         report_obj = helpers.index_resource(
             project, resource=resource_obj, table_name=name
         )
+        report = report_obj.to_descriptor()
 
         # Ensure record
         if missing_record:
@@ -72,23 +75,17 @@ def action(project: Project, props: Props) -> Result:
                 type=resource_obj.datatype,
                 resource=resource_obj.to_descriptor(),
             )
-
-        # Create report
-        report = report_obj.to_descriptor()
+        record.resource = resource_obj.to_descriptor()
 
         # Create measure
-        measure = models.Measure(
+        measure_obj = models.Measure(
             errors=report_obj.stats["errors"],
         )
+        measure = measure_obj.model_dump()
 
         # Write document/artifacts
-        if missing_record:
-            md.write_document(
-                name=record.name, type="record", descriptor=record.model_dump()
-            )
+        md.write_document(name=record.name, type="record", descriptor=record.model_dump())
         db.write_artifact(name=record.name, type="report", descriptor=report)
-        db.write_artifact(
-            name=record.name, type="measure", descriptor=measure.model_dump()
-        )
+        db.write_artifact(name=record.name, type="measure", descriptor=measure)
 
     return Result(record=record, report=report, measure=measure)

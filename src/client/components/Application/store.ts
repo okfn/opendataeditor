@@ -40,7 +40,7 @@ export interface State {
   addFiles: (files: FileList) => Promise<void>
   fetchFile: (url: string) => Promise<void>
   createFile: (path: string, prompt?: string) => Promise<void>
-  adjustFile: (name: string, type: string) => Promise<void>
+  adjustFile: (name?: string, type?: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
   deleteFile: (path: string) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
@@ -61,7 +61,9 @@ export interface State {
   createArticle: (path: string, prompt?: string) => Promise<void>
   createChart: (path: string, prompt?: string) => Promise<void>
   createImage: (path: string, prompt?: string) => Promise<void>
+  createMap: (path: string, prompt?: string) => Promise<void>
   createPackage: (path: string, prompt?: string) => Promise<void>
+  fetchPackage: (url: string) => Promise<void>
   createScript: (path: string, prompt?: string) => Promise<void>
   createTable: (path: string, prompt?: string) => Promise<void>
   createView: (path: string, prompt?: string) => Promise<void>
@@ -262,6 +264,15 @@ export function makeStore(props: ApplicationProps) {
       })
       onFileCreate([result.path])
     },
+    createMap: async (path, prompt) => {
+      const { client, onFileCreate } = get()
+      const result = await client.mapCreate({
+        path,
+        prompt,
+        deduplicate: true,
+      })
+      onFileCreate([result.path])
+    },
     createPackage: async (path, prompt) => {
       const { client, onFileCreate } = get()
       const result = await client.packageCreate({
@@ -270,6 +281,12 @@ export function makeStore(props: ApplicationProps) {
         deduplicate: true,
       })
       onFileCreate([result.path])
+    },
+    fetchPackage: async (url) => {
+      const { client, onFileCreate } = get()
+      const folder = selectors.folderPath(get())
+      const { path } = await client.packageFetch({ url, folder, deduplicate: true })
+      onFileCreate([path])
     },
     createScript: async (path, prompt) => {
       const { client, onFileCreate } = get()

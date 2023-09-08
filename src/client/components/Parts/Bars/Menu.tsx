@@ -8,7 +8,7 @@ import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
-import VoiceChatIcon from '@mui/icons-material/VoiceChat'
+import SupportAgentIcon from '@mui/icons-material/SupportAgent'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import UndoIcon from '@mui/icons-material/Undo'
 import RedoIcon from '@mui/icons-material/Redo'
@@ -190,11 +190,38 @@ export function SourceButton(props: ButtonProps) {
   )
 }
 
+export function ChatButton(props: ButtonProps) {
+  const onClick = props.onClick || noop
+  let title = 'Edit with Chat AI [Ctrl+M]'
+  if (props.disabled) title = 'Chatting is not available'
+  useKeyPress(['ctrl.m'], (event) => {
+    event.preventDefault()
+    if (!props.disabled) {
+      onClick()
+    }
+  })
+  return (
+    <LightTooltip title={title}>
+      <Box>
+        <IconButton
+          small
+          variant="text"
+          label={props.label || 'Chat AI'}
+          Icon={SupportAgentIcon}
+          color={props.color}
+          disabled={props.disabled}
+          onClick={() => onClick()}
+        />
+      </Box>
+    </LightTooltip>
+  )
+}
+
 export function ErrorsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Toggle showing only errors [Alt+J]'
+  let title = 'Toggle showing only errors [Ctrl+E]'
   if (props.disabled) title = 'No errors to show'
-  useKeyPress(['alt.j'], (event) => {
+  useKeyPress(['ctrl.e'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -219,9 +246,9 @@ export function ErrorsButton(props: ButtonProps) {
 
 export function RunButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Execute the script [Alt+J]'
+  let title = 'Execute the script [Ctrl+R]'
   if (props.disabled) title = 'Not possible to execute'
-  useKeyPress(['alt.j'], (event) => {
+  useKeyPress(['ctrl.r'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -300,9 +327,9 @@ export function RedoButton(props: ButtonProps) {
 
 export function ClearButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Clear the contents [Ctrl+L]'
+  let title = 'Clear the contents [Ctrl+P]'
   if (props.disabled) title = 'Clearing is not available'
-  useKeyPress(['ctrl.l'], (event) => {
+  useKeyPress(['ctrl.p'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -354,9 +381,9 @@ export function FixButton(props: ButtonProps) {
 
 export function MinifyButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Minify formatting [Ctrl+M]'
+  let title = 'Minify formatting [Ctrl+Y]'
   if (props.disabled) title = 'Minifying is not available'
-  useKeyPress(['ctrl.m'], (event) => {
+  useKeyPress(['ctrl.y'], (event) => {
     event.preventDefault()
     if (!props.disabled) {
       onClick()
@@ -397,33 +424,6 @@ export function PrettifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
-          color={props.color}
-          disabled={props.disabled}
-          onClick={() => onClick()}
-        />
-      </Box>
-    </LightTooltip>
-  )
-}
-
-export function ChatButton(props: ButtonProps) {
-  const onClick = props.onClick || noop
-  let title = 'Edit with Chat AI [Alt+A]'
-  if (props.disabled) title = 'Chatting is not available'
-  useKeyPress(['alt.a'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
-  return (
-    <LightTooltip title={title}>
-      <Box>
-        <IconButton
-          small
-          variant="text"
-          label={props.label || 'Chat AI'}
-          Icon={VoiceChatIcon}
           color={props.color}
           disabled={props.disabled}
           onClick={() => onClick()}

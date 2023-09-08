@@ -42,29 +42,29 @@ resource/encoding:
   - Specifies the character encoding of this resource e.g. "UTF-8". The values should be one of the “Preferred MIME Names” for a character encoding registered with IANA.
 
 
-# Checksum
+# Integrity
 
-resource/checksum:
-  - Checksum
+resource/integrity:
+  - Integrity
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Checksum details  of this resource.
 
-resource/checksum/hash:
+resource/integrity/hash:
   - Hash
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - The MD5 hash for this resource. 
 
-resource/checksum/bytes:
+resource/integrity/bytes:
   - Bytes
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Size of the resource file in bytes.
 
-resource/checksum/fields:
+resource/integrity/fields:
   - Fields
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Total fiels in this resource.
 
-resource/checksum/rows:
+resource/integrity/rows:
   - Rows
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
   - Total rows in this resource.

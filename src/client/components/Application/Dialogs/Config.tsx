@@ -7,6 +7,7 @@ import { useStore } from '../store'
 
 export default function ConfigDialog() {
   const config = useStore((state) => state.config)
+  const dialog = useStore((state) => state.dialog)
   const saveConfig = useStore((state) => state.saveConfig)
   const updateState = useStore((state) => state.updateState)
   const [newConfig, setNewConfig] = React.useState(config)
@@ -25,7 +26,11 @@ export default function ConfigDialog() {
       }}
     >
       <Box sx={{ marginLeft: -2 }}>
-        <ConfigEditor config={newConfig} onChange={setNewConfig} />
+        <ConfigEditor
+          config={newConfig}
+          onChange={setNewConfig}
+          defaultSection={dialog === 'configProject' ? 'project' : undefined}
+        />
       </Box>
     </ConfirmDialog>
   )

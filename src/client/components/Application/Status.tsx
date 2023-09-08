@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
-// import InputIcon from '@mui/icons-material/Input'
 import LightTooltip from '../Parts/Tooltips/Light'
 import ReportChip from '../Parts/Chips/Report'
 import CreateChip from '../Parts/Chips/Create'
@@ -16,7 +15,14 @@ export default function Status() {
   return (
     <Container>
       <Prefix>
-        <TypeChip type={record?.type} />
+        <TypeChip
+          type={record?.type}
+          onClick={() =>
+            record
+              ? updateState({ dialog: 'adjustFile' })
+              : updateState({ dialog: 'configProject' })
+          }
+        />
       </Prefix>
       <Contents onClick={record ? () => locateFile(record.path) : undefined}>
         <Box>

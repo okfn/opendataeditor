@@ -24,7 +24,7 @@ export class Client {
     return result as { path: string }
   }
 
-  async articleRender(props: { path: string; text: string; rich?: boolean }) {
+  async articleRender(props: { path: string; text: string }) {
     const result = await this.request('/article/render', props)
     return result as { text: string }
   }
@@ -129,7 +129,7 @@ export class Client {
 
   async filePublish(props: { path: string; control: types.IControl }) {
     const result = await this.request('/file/publish', props)
-    return result as { url: string }
+    return result as { url?: string }
   }
 
   async fileRead(props: { path: string; size?: number }) {
@@ -193,10 +193,27 @@ export class Client {
     return result as { data: any }
   }
 
+  // Map
+
+  async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
+    const result = await this.request('/map/create', props)
+    return result as { path: string }
+  }
+
   // Package
 
   async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
     const result = await this.request('/package/create', props)
+    return result as { path: string }
+  }
+
+  async packageFetch(props: {
+    url: string
+    path?: string
+    folder?: string
+    deduplicate?: boolean
+  }) {
+    const result = await this.request('/package/fetch', props)
     return result as { path: string }
   }
 
@@ -251,6 +268,11 @@ export class Client {
   }) {
     const result = await this.request('/table/create', props)
     return result as { path: string }
+  }
+
+  async tableEdit(props: { path: string; text: string; prompt: string }) {
+    const result = await this.request('/table/edit', props)
+    return result as { data: types.IView }
   }
 
   async tablePatch(props: {
@@ -358,6 +380,6 @@ async function makeRequest(
   }
   const response = await fetch(path, { method, headers, body })
   const result = isBytes ? { bytes: await response.arrayBuffer() } : await response.json()
-  console.log({ path, options, result })
+  // console.log({ path, options, result })
   return result
 }
