@@ -161,7 +161,6 @@ function LayoutWithoutMenu() {
           <PackageSection />
         </Box>
         <Box hidden={section !== 'package/resources'}>
-<<<<<<< HEAD
           <ResourcesSection />
         </Box>
         <Box hidden={section !== 'package/licenses'}>
@@ -172,18 +171,6 @@ function LayoutWithoutMenu() {
         </Box>
         <Box hidden={section !== 'package/sources'}>
           <SourcesSection />
-=======
-          <ResourceSection />
-        </Box>
-        <Box hidden={section !== 'package/licenses'}>
-          <LicenseSection />
-        </Box>
-        <Box hidden={section !== 'package/contributors'}>
-          <ContributorSection />
-        </Box>
-        <Box hidden={section !== 'package/sources'}>
-          <SourceSection />
->>>>>>> main
         </Box>
       </Box>
       <EditorHelp helpItem={helpItem} />
