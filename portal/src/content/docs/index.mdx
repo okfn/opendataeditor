@@ -1,0 +1,45 @@
+---
+title: Open Data Editor
+description: |
+    No-code application to explore and publish all kinds of data:
+    datasets, tables, charts, maps, stories, and more.
+    Forever free and open source project powered by open standards and generative AI.
+template: splash
+hero:
+  tagline: |
+    No-code <strong>application</strong> to explore and publish all kinds of <strong>data</strong>:
+    datasets, tables, charts, maps, stories, and more.
+    Forever <strong>free and open source</strong> project powered by <strong>open standards</strong>
+    and <strong>generative AI</strong>.
+  image:
+    file: ../../assets/main.png
+  actions:
+    - text: Get Started
+      link: /guides/example/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/frictionlessdata/open-data-editor
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Features
+
+<CardGrid stagger>
+	<Card title="Update content" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+	<Card title="Add new content" icon="add-document">
+		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	</Card>
+	<Card title="Configure your site" icon="setting">
+		Edit your `sidebar` and other config in `astro.config.mjs`.
+	</Card>
+	<Card title="Read the docs" icon="open-book">
+		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	</Card>
+</CardGrid>
+
+## Presentations
