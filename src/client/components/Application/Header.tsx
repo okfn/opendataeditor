@@ -28,7 +28,14 @@ export default function Header() {
               <LightTooltip title="Show the project page">
                 <Typography
                   variant="h5"
-                  sx={{ paddingLeft: 4, fontSize: '28px', ml: 2, mt: '4px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                  sx={{
+                    paddingLeft: 4,
+                    fontSize: '28px',
+                    ml: 2,
+                    mt: '4px',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                  }}
                   onClick={() => closeFile()}
                 >
                   <strong>
