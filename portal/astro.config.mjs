@@ -14,7 +14,7 @@ export default defineConfig({
       social: {
         github: 'https://github.com/frictionlessdata/open-data-editor',
       },
-      customCss: ['@fontsource/roboto', '/src/assets/styles.css'],
+      customCss: ['/src/assets/styles.css'],
       sidebar: [
         {
           label: 'Documentation',
