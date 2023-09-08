@@ -14,6 +14,7 @@ export default defineConfig({
       social: {
         github: 'https://github.com/frictionlessdata/open-data-editor',
       },
+      customCss: ['/src/assets/styles.css'],
       sidebar: [
         {
           label: 'Guides',
