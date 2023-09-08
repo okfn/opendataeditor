@@ -13,6 +13,11 @@ import help from './help.yaml'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
+interface ILayerState {
+  query?: string
+  isGrid?: boolean
+}
+
 interface IChannelState {
   query?: string
   type?: string
@@ -30,14 +35,11 @@ interface ISectionState {
 }
 
 interface State {
-  columns: types.IColumn[]
   descriptor: Partial<types.IChart>
+  columns: types.IColumn[]
   customFields: string[]
-  layerItems: types.IMenuItem[]
-  layers: string[]
-  layerIndex: number
+  menuItems: types.IMenuItem[]
   section: string
-  externalMenu?: { section: string }
   onChange: (chart: object) => void
   helpItem: types.IHelpItem
   updateState: (patch: Partial<State>) => void
@@ -46,8 +48,12 @@ interface State {
   updateCustomFields: (field: string) => void
 
   // Layer
+  layers: string[]
+  layerIndex: number
+  layerState: ILayerState
   addLayer: () => void
   removeLayer: (index: number) => void
+  updateLayerState: (patch: Partial<ILayerState>) => void
 
   // Channels
 
@@ -82,15 +88,13 @@ export function makeStore(props: ChartProps) {
     columns: props.columns || [],
     customFields: [],
     descriptor: props.chart || {},
-    layers: ['general'],
-    layerItems: [
-      { section: 'general', name: 'General' },
-      { section: 'general/chart', name: 'Chart' },
+    menuItems: [
+      { section: 'general', name: 'Chart' },
       { section: 'general/channels', name: 'Channels' },
       { section: 'general/transforms', name: 'Transforms' },
+      { section: 'general/layers', name: 'Layers' },
     ],
-    layerIndex: 0,
-    section: 'channel',
+    section: 'general',
     onChange: props.onChange || noop,
     helpItem: DEFAULT_HELP_ITEM,
     updateHelp: (path) => {
@@ -121,15 +125,17 @@ export function makeStore(props: ChartProps) {
     },
 
     // Layers
+    layers: ['general'],
+    layerIndex: 0,
+    layerState: {},
     addLayer: () => {
-      const { layerItems, layerIndex, layers, updateDescriptor, descriptor } = get()
+      const { menuItems, layerIndex, layers, updateDescriptor, descriptor } = get()
       const newIndex = layerIndex + 1
       const layer = descriptor.layer || []
       const layerName = `Layer${newIndex}`
       const prefix = layerName.toLowerCase()
       const newLayer = [
         { section: prefix, name: layerName },
-        { section: `${prefix}/chart`, name: 'Chart' },
         { section: `${prefix}/channels`, name: 'Channels' },
         { section: `${prefix}/transforms`, name: 'Transforms' },
       ]
@@ -138,10 +144,10 @@ export function makeStore(props: ChartProps) {
       }
       layers.push(prefix)
       updateDescriptor({ layer })
-      set({ layerItems: [...layerItems, ...newLayer], layerIndex: newIndex })
+      set({ menuItems: [...menuItems, ...newLayer], layerIndex: newIndex })
     },
     removeLayer: (index) => {
-      const { channelStates, descriptor, layerItems, layerIndex, layers, updateState } =
+      const { channelStates, descriptor, menuItems, layerIndex, layers, updateState } =
         get()
       const updatedChannelStates = channelStates.filter(
         (_, stateIndex) => stateIndex !== index
@@ -149,10 +155,15 @@ export function makeStore(props: ChartProps) {
       descriptor.layer = descriptor?.layer?.filter(
         (_, layerIndex) => layerIndex !== index - 1
       )
-      layerItems.splice(index, 3)
+      if ((descriptor.layer || []).length === 0) delete descriptor.layer
+      menuItems.splice(index, 3)
       layers.splice(index, 1)
-      set({ channelStates: updatedChannelStates, layerItems, layerIndex: layerIndex - 1 })
+      set({ channelStates: updatedChannelStates, menuItems, layerIndex: layerIndex - 1 })
       updateState({ descriptor })
+    },
+    updateLayerState: (patch) => {
+      const { layerState } = get()
+      set({ layerState: { ...layerState, ...patch } })
     },
 
     // Channels

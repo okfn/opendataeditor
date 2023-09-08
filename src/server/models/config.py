@@ -6,7 +6,7 @@ class SystemConfig(BaseModel):
 
 
 class ProjectConfig(BaseModel):
-    pass
+    name: str | None = None
 
 
 class Config(BaseModel):

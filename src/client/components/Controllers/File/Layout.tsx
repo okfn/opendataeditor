@@ -6,7 +6,7 @@ import Action from './Action'
 import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
-import Viewer from './Viewer'
+import View from './View'
 import { useStore } from './store'
 
 export default function Layout() {
@@ -26,7 +26,7 @@ export default function Layout() {
       <Box sx={{ height }}>
         <Menu />
         <ScrollBox height={contentHeight}>
-          <Viewer />
+          <View />
         </ScrollBox>
         <Panel />
         <Action />

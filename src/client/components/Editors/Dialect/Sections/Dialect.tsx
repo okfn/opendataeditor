@@ -142,11 +142,11 @@ function HeaderRows() {
   return (
     <InputField
       label="Header Rows"
-      value={headerRows}
+      value={(headerRows || []).join(',')}
       onFocus={() => updateHelp('dialect/type/headerRows')}
-      onChange={(headerRows) =>
+      onChange={(value) =>
         updateDescriptor({
-          headerRows: headerRows ? headerRows.split(',').map(parseInt) : undefined,
+          headerRows: value ? value.split(',').map(parseInt) : undefined,
         })
       }
     />

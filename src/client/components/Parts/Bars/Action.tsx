@@ -90,9 +90,9 @@ export function PublishButton(props: ButtonProps) {
 
 export function RevertButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  let title = 'Revert the changes [Ctrl+R]'
+  let title = 'Revert the changes [Ctrl+Q]'
   if (!props.updated) title = 'No changes to revert'
-  useKeyPress(['ctrl.r'], (event) => {
+  useKeyPress(['ctrl.q'], (event) => {
     event.preventDefault()
     if (props.updated) {
       onClick()

@@ -32,6 +32,7 @@ export default function InputDialog(props: InputDialogProps) {
         }}
         sx={{ marginBottom: 1 }}
       />
+      {props.children}
     </ConfirmDialog>
   )
 }

@@ -16,6 +16,7 @@ export default function Content() {
     <React.Fragment>
       {record.type === 'package' && (
         <Package
+          shallow
           package={modified as types.IPackage}
           onChange={(descriptor) => updateState({ modified: descriptor })}
           onAddResource={() => updateState({ dialog: 'resource' })}

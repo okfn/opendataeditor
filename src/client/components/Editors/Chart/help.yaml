@@ -35,6 +35,18 @@ chart/tooltip:
   - https://vega.github.io/vega/docs/data/
   - Specifies whether to show tooltip or not.
 
+# Layer
+
+layer:
+  - Layer
+  - https://vega.github.io/vega-lite/docs/spec.html
+  - Set properties of the chart.
+
+layer/mark:
+  - Mark
+  - https://vega.github.io/vega-lite/docs/mark.html
+  - Specifies basis shapes such as circle, square etc
+
 # Channels
 
 channels:
@@ -258,10 +270,3 @@ transforms/stackSortByField:
   - Stack SortBy
   - https://vega.github.io/vega-lite/docs/stack.html#transform
   - Specifies the field that determines the order.
-
-# Descriptor
-
-descriptor:
-  - Descriptor
-  - https://vega.github.io/vega-lite/docs/spec.html
-  - Descriptor for the chart in JSON format.

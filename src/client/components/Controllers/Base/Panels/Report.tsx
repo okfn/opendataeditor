@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Report from '../../../Editors/Report'
+import Report from '../../../Views/Report'
 import * as types from '../../../../types'
 
 export interface ReportPanelProps {
@@ -11,7 +11,7 @@ export default function ReportPanel(props: ReportPanelProps) {
   if (!props.report) return null
   return (
     <Box sx={{ paddingX: 2 }}>
-      <Report report={props.report} />
+      <Report report={props.report} shallow />
     </Box>
   )
 }

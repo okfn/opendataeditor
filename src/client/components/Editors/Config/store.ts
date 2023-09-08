@@ -27,7 +27,7 @@ export function makeStore(props: ConfigProps) {
   return createStore<State>((set, get) => ({
     descriptor: props.config || cloneDeep(settings.INITIAL_CONFIG),
     onChange: props.onChange || noop,
-    section: 'system',
+    section: props.defaultSection || 'system',
     helpItem: DEFAULT_HELP_ITEM,
     updateState: (patch) => {
       set({ ...patch })
@@ -39,7 +39,7 @@ export function makeStore(props: ConfigProps) {
     updateDescriptor: (patch) => {
       const { descriptor, onChange } = get()
       Object.assign(descriptor, patch)
-      onChange({ ...descriptor })
+      onChange(descriptor)
       set({ descriptor })
     },
   }))

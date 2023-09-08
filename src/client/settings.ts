@@ -1,9 +1,28 @@
+import * as React from 'react'
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth'
+import GridViewIcon from '@mui/icons-material/GridView'
+import MapIcon from '@mui/icons-material/Map'
+import WidgetsIcon from '@mui/icons-material/Widgets'
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
+import TerminalIcon from '@mui/icons-material/Terminal'
+import ImageIcon from '@mui/icons-material/Image'
+import FolderIcon from '@mui/icons-material/Folder'
+import DescriptionIcon from '@mui/icons-material/Description'
+import ChartIcon from '@mui/icons-material/Leaderboard'
+import AccountTree from '@mui/icons-material/AccountTree'
+import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
+import TableRowsIcon from '@mui/icons-material/TableRows'
+import SourceIcon from '@mui/icons-material/Source'
+import StorageIcon from '@mui/icons-material/Storage'
+import TableViewIcon from '@mui/icons-material/TableView'
+import GridOnIcon from '@mui/icons-material/GridOn'
 import * as types from './types'
 
 // Genearl
 
 export const PACKAGE_PATH = 'datapackage.json'
-export const TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'xlsx', 'xls']
+export const TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson', 'xlsx', 'xls']
+export const TEXT_TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson']
 export const HASHINGS = ['md5', 'sha256']
 export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
@@ -70,12 +89,35 @@ export const INITIAL_SCHEMA: types.ISchema = { fields: [] }
 export const INITIAL_DIALECT: types.IDialect = {}
 export const INITIAL_CONTROL: Partial<types.IControl> = { type: 'ckan' }
 export const INITIAL_PACKAGE: types.IPackage = { resources: [] }
+export const INITIAL_PORTAL: types.IPortal = { type: 'ckan' }
 export const INITIAL_VIEW: types.IView = { query: '' }
 export const INITIAL_HISTORY: types.IHistory = { changes: [] }
 export const INITIAL_RESOURCE: types.IResource = {
   name: 'name',
   type: 'table',
   path: 'path',
+}
+
+// Types
+
+export const TYPE_ICONS: { [key: string]: React.ElementType } = {
+  article: HistoryEduIcon,
+  chart: ChartIcon,
+  checklist: CheckCircleOutline,
+  dataset: [SourceIcon, WidgetsIcon][0],
+  dialect: DescriptionIcon,
+  file: DescriptionIcon,
+  folder: FolderIcon,
+  image: ImageIcon,
+  map: MapIcon,
+  package: [SourceIcon, WidgetsIcon][0],
+  pipeline: AccountTree,
+  resource: DescriptionIcon,
+  schema: DescriptionIcon,
+  script: TerminalIcon,
+  sql: StorageIcon,
+  table: [TableViewIcon, GridOnIcon, GridViewIcon, CalendarViewMonthIcon][3],
+  view: [TableRowsIcon, TableViewIcon][0],
 }
 
 // Structures

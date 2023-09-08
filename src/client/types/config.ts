@@ -7,4 +7,6 @@ export interface ISystemConfig {
   openaiApiKey?: string
 }
 
-export interface IProjectConfig {}
+export interface IProjectConfig {
+  name?: string
+}

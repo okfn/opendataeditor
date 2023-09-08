@@ -4,32 +4,34 @@ import Link from '@mui/material/Link'
 import LinearProgress from '@mui/material/LinearProgress'
 import CheckIcon from '@mui/icons-material/Check'
 import ConfirmDialog from '../../../Parts/Dialogs/Confirm'
-import ControlEditor from '../../../Editors/Control'
+import PortalEditor from '../../../Editors/Portal'
 import * as helpers from '../../../../helpers'
 import * as types from '../../../../types'
 
+type IState = 'form' | 'load' | 'done' | 'fail'
+
 export interface PublishDialogProps {
-  onPublish: (control: types.IControl) => Promise<string>
+  onPublish: (control: types.IControl) => Promise<string | undefined>
   onClose: () => void
 }
 
 export default function PublishDialog(props: PublishDialogProps) {
-  const [control, setControl] = React.useState<Partial<types.IControl> | undefined>()
-  const [isPublishing, setIsPublishing] = React.useState(false)
+  const [portal, setPortal] = React.useState<types.IPortal>({ type: 'ckan' })
+  const [control, setControl] = React.useState<types.IControl>()
+  const [state, setState] = React.useState<IState>('form')
   const [publishedUrl, setPublishedUrl] = React.useState<string | undefined>()
-  const ensuredControl = helpers.ensureControl(control)
   const handleClose = () => props.onClose()
   const handlePublish = async () => {
-    if (!ensuredControl) return
-    setIsPublishing(true)
-    const url = await props.onPublish(ensuredControl)
-    setIsPublishing(false)
+    if (!control) return
+    setState('load')
+    const url = await props.onPublish(control)
+    setState('done')
     setPublishedUrl(url)
   }
   return (
     <ConfirmDialog
       open={true}
-      disabled={!ensuredControl}
+      disabled={!control}
       maxWidth="md"
       title="Publish Dataset"
       label={publishedUrl ? 'OK' : 'Publish'}
@@ -37,16 +39,22 @@ export default function PublishDialog(props: PublishDialogProps) {
       onCancel={handleClose}
       onConfirm={publishedUrl ? handleClose : handlePublish}
     >
-      <Box sx={{ marginLeft: -2 }}>
-        <ControlEditor control={control} onChange={setControl} />
+      <Box sx={{ marginLeft: -2, paddingBottom: 2 }}>
+        <PortalEditor
+          portal={portal}
+          onChange={(portal) => {
+            setPortal(portal)
+            setControl(helpers.makeControl(portal))
+          }}
+        />
       </Box>
-      {isPublishing && (
+      {state === 'load' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Publishing
           <LinearProgress />
         </Box>
       )}
-      {!!publishedUrl && (
+      {state === 'done' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
           Published:{' '}
           <Link href={publishedUrl} target="_blank">

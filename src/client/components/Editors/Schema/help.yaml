@@ -27,124 +27,124 @@ schema/missingValues:
 
 # Fields
 
-schema/field:
+schema/fields:
   - Fields
   - https://specs.frictionlessdata.io/table-schema/#descriptor
   - Fields MUST be an array where each entry in the array is a field descriptor (as defined below).
 
-schema/field/name:
+schema/fields/name:
   - Name
   - https://specs.frictionlessdata.io/table-schema/#name
   - The field descriptor MUST contain a name property. This property SHOULD correspond to the name of field/column in the data file (if it has a name)
 
-schema/field/type:
+schema/fields/type:
   - Type
   - https://specs.frictionlessdata.io/table-schema/#types-and-formats
   - String indicating the type of this field.
 
-schema/field/format:
+schema/fields/format:
   - Format
   - https://specs.frictionlessdata.io/table-schema/#types-and-formats
   - String indicating the format of this field.
 
-schema/field/missingValues:
+schema/fields/missingValues:
   - Missing Values
   - https://specs.frictionlessdata.io/table-schema/#missing-values
   - Specifies which string values should be treated as null values.
 
-schema/field/rdfType:
+schema/fields/rdfType:
   - RDF Type
   - https://specs.frictionlessdata.io/table-schema/#rich-types
   - Indicates whether the field is of RDF type.
 
-schema/field/title:
+schema/fields/title:
   - Title
   - https://specs.frictionlessdata.io/table-schema/#title
   - A human-readable title.
 
-schema/field/bareNumber:
+schema/fields/bareNumber:
   - Bare Number
   - https://specs.frictionlessdata.io/table-schema/#types-and-formats
   - A boolean field with a default of true.
 
-schema/field/description:
+schema/fields/description:
   - Description
   - https://specs.frictionlessdata.io/table-schema/#description
   - A description of the field.
 
-schema/field/groupChar:
+schema/fields/groupChar:
   - Group Char
   - https://specs.frictionlessdata.io/table-schema/#types-and-formats
   - A string whose value is used to group digits within the number.
 
-schema/field/arrayItem:
+schema/fields/arrayItem:
   - Array Item
   - https://specs.frictionlessdata.io/table-schema/#array
   - A dictionary that specifies the type and other constraints for the data that will be read in this data type field.
 
-schema/field/trueValues:
+schema/fields/trueValues:
   - True Values
   - https://specs.frictionlessdata.io/table-schema/#boolean
   - Specifies which string values should be treated as true values.
 
-schema/field/falseValues:
+schema/fields/falseValues:
   - False Values
   - https://specs.frictionlessdata.io/table-schema/#boolean
   - Specifies which string values should be treated as false values.
 
-schema/field/floatNumber:
+schema/fields/floatNumber:
   - Float Number
   - https://specs.frictionlessdata.io/table-schema/#number
   - It specifies that the value is a float number.
 
-schema/field/decimalChar:
+schema/fields/decimalChar:
   - Float Number
   - https://specs.frictionlessdata.io/table-schema/#number
   - It specifies the char to be used as decimal character. The default value is "."
 
-schema/field/minimum:
+schema/fields/minimum:
   - Float Minimum
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - It specifies a minimum value for a field.
 
-schema/field/maximum:
+schema/fields/maximum:
   - Float Maximum
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - It specifies a maximum value for a field.
 
-field/enum:
+schema/fields/enum:
   - Enum
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - The value of the field must exactly match a value in the enum array.
 
-field/required:
+schema/fields/required:
   - Required
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - Indicates whether this field cannot be null.
 
-field/unique:
+schema/fields/unique:
   - Unique
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - Specifies all the values for that field MUST be unique.
 
-schema/field/minLength:
+schema/fields/minLength:
   - Min Length
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - An integer that specifies the minimum length of a value.
 
-schema/field/maxLength:
+schema/fields/maxLength:
   - Max Length
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - An integer that specifies the maximum length of a value.
 
-schema/field/pattern:
+schema/fields/pattern:
   - Max Length
   - https://specs.frictionlessdata.io/table-schema/#constraints
   - A regular expression that can be used to test field values.
 
 # Foreign Keys
 
-schema/foreignKey:
+schema/foreignKeys:
   - Foreign Keys
   - https://specs.frictionlessdata.io/table-schema/#foreign-keys
   - A foreign key is a reference where values in a field (or fields) on the table described by this Table Schema connect to values a field (or fields) on this or a separate table

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from typing import Optional
 
 from fastapi import Request
@@ -41,17 +42,16 @@ def action(project: Project, props: Props) -> Result:
         paths = json.loads(text)
         for path in paths:
             record = helpers.read_record_or_raise(project, path=path)
-            package.add_resource(Resource.from_descriptor(record.resource))
+            resource = Resource.from_descriptor(record.resource)
+            resource.path = str(os.path.relpath(path, os.path.dirname(props.path)))
+            package.add_resource(resource)
 
-    # Write json
-    if not package.resources:
-        package.resources = []
+    # Save package
     path = helpers.write_json(
         project,
         path=props.path,
         data=package.to_descriptor(),
         deduplicate=props.deduplicate,
     )
-    print(path, package.to_descriptor())
 
     return Result(path=path)

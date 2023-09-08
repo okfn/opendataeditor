@@ -14,16 +14,16 @@ export interface ConfirmDialogProps {
   description?: string
   Icon?: React.ElementType
   label?: string
+  cancelLabel?: string
   disabled?: boolean
   maxWidth?: 'md' | 'xl'
   onCancel?: () => void
   onConfirm?: () => void
   ctrlEnter?: boolean
+  children?: React.ReactNode
 }
 
-export default function ConfirmDialog(
-  props: React.PropsWithChildren<ConfirmDialogProps>
-) {
+export default function ConfirmDialog(props: ConfirmDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
   return (
@@ -59,7 +59,7 @@ export default function ConfirmDialog(
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label="Cancel [Esc]"
+            label={`${props.cancelLabel || 'Cancel'} [Esc]`}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"

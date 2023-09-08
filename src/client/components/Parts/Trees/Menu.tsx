@@ -6,7 +6,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import { Button } from '@mui/material'
 
 // TODO: add section search
 
@@ -14,7 +13,6 @@ export interface MenuTreeProps {
   menuItems: types.IMenuItem[]
   selected?: string
   defaultExpanded?: string[]
-  onAddNew?: () => void
   onSelect: (section: string) => void
 }
 
@@ -49,7 +47,6 @@ export default function MenuTree(props: MenuTreeProps) {
       {menuTree.map((item) => {
         return <TreeNode item={item} key={`${item.section}-${item.disabled}`} />
       })}
-      {props.onAddNew && <Button onClick={props.onAddNew}>+ Add New Layer</Button>}
     </TreeView>
   )
 }
