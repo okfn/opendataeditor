@@ -222,7 +222,7 @@ export const selectors = {
   resource: (state: State) => {
     const index = state.resourceState.index
     const resources = state.descriptor.resources!
-    const resource = resources[index]
+    const resource = resources[index] ?? {}
     return resource
   },
   resourceItems: (state: State) => {

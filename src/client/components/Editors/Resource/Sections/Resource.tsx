@@ -68,8 +68,8 @@ function Type() {
   return (
     <SelectField
       label="Type"
-      value={type}
-      options={['file', 'text', 'json', 'table']}
+      value={type || ''}
+      options={['', 'file', 'text', 'json', 'table']}
       onFocus={() => updateHelp('resource/type')}
       onChange={(value) => updateDescriptor({ type: value || 'file' })}
     />
