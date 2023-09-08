@@ -24,7 +24,6 @@ path = "package.json"
 pattern = '"version": "(?P<version>.*)"'
 
 [tool.hatch.envs.default]
-python = "3.10"
 dependencies = [
     "ruff",
     "httpx",
