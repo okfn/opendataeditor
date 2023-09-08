@@ -83,7 +83,7 @@ const StyledTreeItem = styled(
       item: types.IFileTreeItem
     }
   ) => {
-    const { item, ...others } = props
+    const { item, ref, ...others } = props
     const { event } = React.useContext(Context)
     const animation =
       event &&
