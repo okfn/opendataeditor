@@ -17,15 +17,12 @@ export default defineConfig({
       customCss: ['@fontsource/roboto', '/src/assets/styles.css'],
       sidebar: [
         {
-          label: 'Guides',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {label: 'Example Guide', link: '/guides/example/'},
-          ],
+          label: 'Documentation',
+          autogenerate: {directory: 'documentation'},
         },
         {
-          label: 'Reference',
-          autogenerate: {directory: 'reference'},
+          label: 'Contributing',
+          autogenerate: {directory: 'contributing'},
         },
       ],
     }),
