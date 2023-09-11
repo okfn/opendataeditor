@@ -92,13 +92,7 @@ make components
 
 ## Documentation
 
-Documentation is written with Mkdocs (defined in `mkdocs.yaml`). The source articles are in the `docs` directory. To start a live-reload server:
-
-```bash
-make write
-```
-
-Building the docs:
+Documentation is written with Starlign (in the `portal` directory). The source articles are in the `portal/src/content/docs` directory. To start a live-reload server and work on the docs:
 
 ```bash
 make docs
