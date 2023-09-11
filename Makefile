@@ -17,7 +17,7 @@ components:
 	npm run component
 
 docs:
-	hatch run docs
+	cd portal && npm start
 
 format:
 	hatch run format
