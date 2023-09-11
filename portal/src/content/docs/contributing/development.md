@@ -92,7 +92,7 @@ make components
 
 ## Documentation
 
-Documentation is written with Starlign (in the `portal` directory). The source articles are in the `portal/src/content/docs` directory. To start a live-reload server and work on the docs:
+Documentation is written with [Starlight](https://starlight.astro.build/) (in the `portal` directory). The source articles are in the `portal/src/content/docs` directory. To start a live-reload server and work on the docs:
 
 ```bash
 make docs
