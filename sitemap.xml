@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/installation/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/usage/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/blog/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/blog/2023/04/17/csv-conf-7/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/contributing/development/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://open-data-editor.frictionlessdata.io/integrating/library/</loc>
-         <lastmod>2023-09-08</lastmod>
+         <lastmod>2023-09-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
