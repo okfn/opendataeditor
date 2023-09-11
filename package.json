@@ -26,6 +26,7 @@
     "build": "rimraf lib && tsc && NODE_ENV=production webpack",
     "components": "storybook dev -p 6060",
     "coverage": "sensible-browser coverage/index.html",
+    "docs": "astro dev --open",
     "debug": "ndb node -r ts-node/register/transpile-only",
     "format": "prettier --write '{src,test}/**/*.ts*' && eslint --fix '{src,test}/**/*.ts*'",
     "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*' && tsc --noEmit",

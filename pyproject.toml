@@ -41,19 +41,12 @@ dependencies = [
     "pytest-dotenv",
     "pytest-timeout",
     "pytest-lazy-fixture",
-    "mkdocs-material",
 ]
 
 [tool.hatch.envs.default.scripts]
 # TODO: support autoreloading and providing a custom folder/port
 start = [
   "python -m src.server",
-]
-docs = [
-  "mkdocs build",
-]
-write = [
-  "mkdocs serve",
 ]
 format = [
   "ruff src/server test/server --fix",

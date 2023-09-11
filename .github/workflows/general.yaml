@@ -38,29 +38,6 @@ jobs:
       - name: Report coverage
         uses: codecov/codecov-action@v1
 
-  # Deploy
-
-  deploy:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-      - name: Prepare environment
-        run: pip3 install hatch
-      - name: Build docs
-        run: make docs
-      - name: Publush to Github Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: site
-          folder: site
-          clean: true
-
   # Release
 
   release:

@@ -5,7 +5,7 @@ sidebar:
 ---
 
 :::caution
-The currently published version is out-dated. Please wait for the v1 release that will be distributed as a desktop application. You you want to try it now, we reccomend running a [development version](../../contributing/development/).
+The currently published version is out-dated. Please wait for the v1 release that will be distributed as a desktop application. If you want to try it now, we reccomend running a [development version](../../contributing/development/).
 :::
 
 
