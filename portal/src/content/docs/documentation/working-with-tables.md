@@ -1,4 +1,8 @@
-# Table Resource
+---
+title: Working With Tables
+sidebar:
+  order: 2
+---
 
 This section explains about how to work with tabular data in open data editor. Tabular data is structured as rows and columns, and each row represents an instance of the data and each column represents an attribute of that data.
 
@@ -44,7 +48,7 @@ The metadata editor provides a user friendly graphical interface to modify metad
 
 ![METADATA WINDOW](../../../assets/table-metadata-window.png)
 
-The help window, on the right side of metadata editor, displays info about each input element when selected. The metadata editor generates a specification for the selected tabular resource. The metadata adheres to the [Frictionless Data Standards](https://specs.frictionlessdata.io). 
+The help window, on the right side of metadata editor, displays info about each input element when selected. The metadata editor generates a resource specification for the selected tabular resource. The metadata adheres to the [Frictionless Data Standards](https://specs.frictionlessdata.io). 
 
 ## Finding Errors
 
@@ -80,15 +84,15 @@ You can modify the data by clicking in the table's cell and editing the content.
 
 ## Adding Package Metadata
 
-After making changes and validating the data, you can package the table resource(s) using the 'Data Package' feature. To create a package, navigate to 'Create' menu and select 'Dataset'. You have the option to either use the default package name or specify a custom name for the package file, then click the 'Create' button.
+After making changes and validating the data, you can package the table resource(s) using 'Data Package'. To create a package, navigate to 'Create' menu and select 'Dataset'. You have the option to either use the default package name or specify a custom name for the package file, then click the 'Create' button.
 
 ![PACKAGE](../../../assets/table-package.png)
 
-It will create a new file named '<your_file_name>.json' containing metadata for the package and its resources. The metadata adheres to the [Frictionless Data Standards](https://specs.frictionlessdata.io).
+It will create a new file named '<your_file_name>.json' containing metadata for the package and its resources. Or you can upload datapackage using 'ADD' menu. The metadata adheres to the [Frictionless Data Standards](https://specs.frictionlessdata.io).
 
 ![PACKAGE EDITOR](../../../assets/table-package-editor.png)
 
-You can also make the changes to the package metadata. Your package is now ready for publishing.
+You can also make the changes to the package metadata by clicking package file. Your package is now ready for publishing.
 
 ## Publishing to CKAN
 
