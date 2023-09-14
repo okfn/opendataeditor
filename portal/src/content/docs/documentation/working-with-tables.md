@@ -30,7 +30,7 @@ It offers features like sorting, locking, automatic sizing, resizing and ability
 
 To view the file in its raw form, click on `source` menu. To hide, click on the menu again.
 
-![SORTING](./assets/working-with-tables/table-source-view.png)
+![SOURCE VIEW](./assets/working-with-tables/table-source-view.png)
 
 ## Sorting / Pagination
 
@@ -70,6 +70,10 @@ For table without errors, you will see a green background with a `VALID` check m
 
 ![TABLE VALID](./assets/working-with-tables/table-valid.png)
 
+If you have large table with multiple pages, you can use `List Errors` feature in the editor to list all the errors in one place as shown below:
+
+![INVALID FILE AFTER FIXING ERRORS](./assets/working-with-tables/table-show-all-errors.png)
+
 ## Fixing Errors
 
 To fix cell errors, you can directly edit the data cells in the viewer/editor. When you alter a cell's value, it changes to yellow, indicating a modified cell.
@@ -81,6 +85,12 @@ For schema changes, navigate to the `Schema Editor > Fields` menu within the `Me
 ![INVALID FILE AFTER FIXING ERRORS](./assets/working-with-tables/table-invalid-after.png)
 
 To make other changes like headers, blank rows, etc., you can make direct edits to your files.
+
+## Undo or Redo
+
+You can undo or redo your last change using `undo` or `redo` feature in the `tools` menu.
+
+![UNDO-REDO](./assets/working-with-tables/table-undo-redo.png)
 
 ## Saving or Reverting
 
@@ -105,3 +115,21 @@ To open the publishing window, click the `Publish` button located at the bottom 
 ![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
 
 Similarly, you can also publish it to `Zenodo` or `Github`
+
+## Creating / Editing Tables Using AI
+
+To generate data using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `file` tab.
+
+![AI INTERFACE](./assets/working-with-tables/table-chatgpt.png)
+
+In `file` tab, input `filename` and write a data generation command in the `prompt` input box. We use OpenAI's `ChatGPT` large language model API.
+
+![AI GENERATED](./assets/working-with-tables/table-chatgpt-aigenerated.png)
+
+Similarly, you can edit a table content by issuing command to AI. To access this window, select `Chat AI` option from the toolbar menu.
+
+![EDIT USING AI](./assets/working-with-tables/table-chatgpt-edit.png)
+
+Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
+
+![EDIT USING AI](./assets/working-with-tables/table-chatgpt-output.png)
