@@ -1,15 +1,9 @@
 {
-  "name": "fdapp",
+  "name": "odet",
   "version": "0.2.0",
   "engines": {
-    "node": "^16.0.0"
+    "node": "^18.0.0"
   },
-  "files": [
-    "dist",
-    "lib",
-    "src",
-    "test"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -24,14 +18,15 @@
   "scripts": {
     "analyze": "NODE_ENV=production webpack --profile --json | webpack-bundle-size-analyzer",
     "build": "rimraf lib && tsc && NODE_ENV=production webpack",
-    "components": "storybook dev -p 6060",
+    "check": "tsc --noEmit",
     "coverage": "sensible-browser coverage/index.html",
     "debug": "ndb node -r ts-node/register/transpile-only",
-    "format": "prettier --write '{src,test}/**/*.ts*' && eslint --fix '{src,test}/**/*.ts*'",
-    "lint": "prettier --check '{src,test}/**/*.ts*' && eslint '{src,test}/**/*.ts*' && tsc --noEmit",
+    "format": "prettier --write 'client/**/*.ts*' && eslint --fix 'client/**/*.ts*'",
+    "lint": "prettier --check 'client/**/*.ts*' && eslint 'client/**/*.ts*'",
     "library": "NODE_ENV=production ENTRY=library webpack",
     "start": "webpack serve --open",
-    "test": "npm run lint && jest --coverage",
+    "spec": "jest --coverage",
+    "test": "npm run lint && npm run check && npm run spec",
     "update": "ncu -u"
   },
   "dependencies": {
@@ -42,7 +37,7 @@
     "@inovua/reactdatagrid-community": "^5.10.1",
     "@monaco-editor/react": "^4.5.1",
     "@mui/icons-material": "^5.14.1",
-    "@mui/lab": "^5.0.0-alpha.137",
+    "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.2",
     "@mui/system": "^5.14.1",
     "@mui/x-date-pickers": "^6.10.1",
@@ -69,21 +64,9 @@
     "validator": "^13.9.0",
     "vega": "^5.25.0",
     "vega-lite": "^5.14.1",
-    "yaml-loader": "^0.8.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.22.9",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/preset-typescript": "^7.22.5",
-    "@storybook/addon-essentials": "^7.1.1",
-    "@storybook/addon-interactions": "^7.1.1",
-    "@storybook/addon-links": "^7.1.1",
-    "@storybook/blocks": "^7.1.1",
-    "@storybook/react": "^7.1.1",
-    "@storybook/react-webpack5": "^7.1.1",
-    "@storybook/testing-library": "^0.2.0",
-    "@storybook/theming": "^7.1.1",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.3",
     "@types/js-yaml": "^4.0.5",
@@ -107,7 +90,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-storybook": "^0.6.13",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.3",
     "http-proxy-middleware": "^2.0.6",
@@ -119,13 +101,13 @@
     "npm-check-updates": "^16.10.16",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
-    "storybook": "^7.1.1",
     "style-loader": "^3.3.3",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "url-loader": "^4.1.1",
+    "yaml-loader": "^0.8.0",
     "webpack": "^5.88.2",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^5.1.4",
@@ -141,7 +123,7 @@
     "preset": "ts-jest",
     "displayName": "node",
     "testMatch": [
-      "**/test/**/*.ts"
+      "**/__spec__/**/*.ts"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -177,8 +159,7 @@
     ],
     "extends": [
       "standard",
-      "plugin:react/recommended",
-      "plugin:storybook/recommended"
+      "plugin:react/recommended"
     ],
     "settings": {
       "react": {
@@ -213,21 +194,5 @@
         }
       ]
     }
-  },
-  "babel": {
-    "sourceType": "unambiguous",
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "chrome": 100
-          }
-        }
-      ],
-      "@babel/preset-typescript",
-      "@babel/preset-react"
-    ],
-    "plugins": []
   }
 }

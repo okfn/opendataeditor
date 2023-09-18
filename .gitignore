@@ -148,6 +148,7 @@ package-lock.json
 .server/
 .env
 static/
+build/
 dist/
 site/
 lib/

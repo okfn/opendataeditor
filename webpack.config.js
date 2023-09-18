@@ -10,9 +10,9 @@ const DEBUG = process.env.DEBUG || false
 // Base
 
 const webpackConfig = {
-  entry: ['./src/client/targets/browser.ts'],
+  entry: ['./client/targets/browser.ts'],
   output: {
-    path: path.resolve(__dirname, 'dist/browser'),
+    path: path.resolve(__dirname, 'build/browser'),
     filename: 'browser.js',
     clean: true,
   },
@@ -52,8 +52,8 @@ const webpackConfig = {
   plugins: [
     new webpack.EnvironmentPlugin({ NODE_ENV, DEBUG }),
     new HtmlWebpackPlugin({
-      favicon: 'src/client/targets/assets/favicon.png',
-      template: 'src/client/targets/browser.html',
+      favicon: 'client/targets/assets/favicon.png',
+      template: 'client/targets/browser.html',
       templateParameters: { version },
     }),
   ],
@@ -72,7 +72,7 @@ if (NODE_ENV === 'development') {
         pathRewrite: { '^/api': '' },
       },
     },
-    static: './dist/browser',
+    static: './build/browser',
   }
 }
 
@@ -97,10 +97,10 @@ if (NODE_ENV === 'production') {
 // Metadata
 
 if (ENTRY === 'library') {
-  webpackConfig.entry = ['./src/client/targets/library.ts']
+  webpackConfig.entry = ['./client/targets/library.ts']
   webpackConfig.output.filename = 'library.js'
-  webpackConfig.output.library = 'fdapp'
-  webpackConfig.output.path = path.resolve(__dirname, 'dist/library')
+  webpackConfig.output.library = 'odet'
+  webpackConfig.output.path = path.resolve(__dirname, 'build/library')
   delete webpackConfig.plugins[1]
 }
 
