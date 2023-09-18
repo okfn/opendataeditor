@@ -23,7 +23,7 @@ export default defineConfig({
         {
           label: 'Contributing',
           autogenerate: {directory: 'contributing'},
-        },
+        }
       ],
     }),
   ],
