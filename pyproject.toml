@@ -45,23 +45,29 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 # TODO: support autoreloading and providing a custom folder/port
-start = [
-  "python -m src.server",
+check = [
+  "pyright server",
 ]
 format = [
-  "ruff src/server test/server --fix",
-  "isort src/server test/server",
-  "black src/server test/server",
+  "ruff server --fix",
+  "isort server",
+  "black server",
 ]
 lint = [
-  "ruff src/server test/server",
-  "isort src/server test/server --check",
-  "black src/server test/server --check",
-  "pyright src/server test/server",
+  "ruff server",
+  "isort server --check",
+  "black server --check",
+]
+spec = [
+  "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
+]
+start = [
+  "python -m server",
 ]
 test = [
   "hatch run lint",
-  "pytest --cov src/server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
+  "hatch run check",
+  "hatch run spec",
 ]
 
 [tool.black]
@@ -79,11 +85,11 @@ ignore = ["E501", "E731"]
 "__init__.py" = ["F401", "F403"]
 
 [tool.pytest.ini_options]
-testpaths = ["test/server"]
+testpaths = ["server"]
 env_files = [".env"]
 markers = ["ci: integrational tests (select with '--ci')"]
 
 [tool.pyright]
-strict = ["src/server"]
-include = ["src/server", "test/server"]
-ignore = ["**/__init__.py"]
+strict = ["server"]
+include = ["server"]
+ignore = ["**/__init__.py", "**/__spec__/**/*", "**/conftest.py"]
