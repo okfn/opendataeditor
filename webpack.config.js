@@ -99,7 +99,7 @@ if (NODE_ENV === 'production') {
 if (ENTRY === 'library') {
   webpackConfig.entry = ['./src/client/targets/library.ts']
   webpackConfig.output.filename = 'library.js'
-  webpackConfig.output.library = 'fdapp'
+  webpackConfig.output.library = 'odet'
   webpackConfig.output.path = path.resolve(__dirname, 'dist/library')
   delete webpackConfig.plugins[1]
 }
