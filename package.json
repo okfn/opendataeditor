@@ -37,7 +37,7 @@
     "@inovua/reactdatagrid-community": "^5.10.1",
     "@monaco-editor/react": "^4.5.1",
     "@mui/icons-material": "^5.14.1",
-    "@mui/lab": "^5.0.0-alpha.137",
+    "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.2",
     "@mui/system": "^5.14.1",
     "@mui/x-date-pickers": "^6.10.1",
