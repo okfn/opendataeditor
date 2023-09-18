@@ -19,6 +19,9 @@ dependencies = [
     "gitignore-parser>=0.1",
 ]
 
+[tool.setuptools]
+packages=["server"]
+
 [tool.hatch.version]
 path = "package.json"
 pattern = '"version": "(?P<version>.*)"'
