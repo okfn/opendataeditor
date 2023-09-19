@@ -1,5 +1,5 @@
-describe('file', () => {
-  test('default', () => {
-    expect(1).toEqual(1)
-  })
+import { expect, test } from 'vitest'
+
+test('general', async () => {
+  expect(1).toEqual(1)
 })
