@@ -6,6 +6,7 @@ import yaml from '@modyfi/vite-plugin-yaml'
 export default defineConfig({
   root: 'client',
   build: {
+    emptyOutDir: true,
     outDir: '../build/client',
   },
   plugins: [react(), yaml()],
