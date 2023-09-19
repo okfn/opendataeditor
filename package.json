@@ -110,6 +110,10 @@
         "jsx": true
       }
     },
+    "ignorePatterns": [
+      "build/",
+      "coverage/"
+    ],
     "plugins": [
       "@typescript-eslint/eslint-plugin"
     ],

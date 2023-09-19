@@ -155,3 +155,4 @@ lib/
 tmp/
 .vim
 .vercel
+client/coverage
