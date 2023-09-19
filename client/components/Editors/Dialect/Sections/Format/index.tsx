@@ -1,4 +1,3 @@
-import * as React from 'react'
 import CsvFormat from './Csv'
 import EmptyFormat from './Empty'
 import ExcelFormat from './Excel'

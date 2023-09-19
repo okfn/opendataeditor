@@ -1,4 +1,3 @@
-import * as React from 'react'
 import EditorSection from '../../Base/Section'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import InputField from '../../../Parts/Fields/Input'

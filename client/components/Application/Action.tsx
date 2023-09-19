@@ -1,4 +1,3 @@
-import * as React from 'react'
 import AddButton from './Buttons/Add'
 import DeleteButton from './Buttons/Delete'
 import ManageButton from './Buttons/Manage'

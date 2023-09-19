@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Resource from '../../../Editors/Resource'
 import * as types from '../../../../types'
 

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import AddRemoteFileDialog from './Dialogs/AddRemoteFile'
 import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import AddRemoteDatasetDialog from './Dialogs/AddRemoteDataset'

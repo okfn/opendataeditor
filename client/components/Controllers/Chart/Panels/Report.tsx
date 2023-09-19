@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ReportPanel from '../../Base/Panels/Report'
 import { useStore } from '../store'
 

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import SaveAsDialog from '../../Base/Dialogs/SaveAs'
 import { useStore } from '../store'
 

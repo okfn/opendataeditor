@@ -1,4 +1,3 @@
-import * as React from 'react'
 import PublishDialog from '../../Base/Dialogs/Publish'
 import { useStore } from '../store'
 

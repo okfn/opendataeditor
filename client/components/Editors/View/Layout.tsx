@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import Columns from '../../Parts/Grids/Columns'
 import Query from './Sections/Query'

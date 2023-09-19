@@ -1,4 +1,3 @@
-import * as React from 'react'
 import CopyIcon from '@mui/icons-material/ContentCopy'
 import MoveIcon from '@mui/icons-material/CopyAll'
 import RuleIcon from '@mui/icons-material/Rule'

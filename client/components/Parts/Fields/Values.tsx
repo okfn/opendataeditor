@@ -1,4 +1,3 @@
-import * as React from 'react'
 import noop from 'lodash/noop'
 import capitalize from 'lodash/capitalize'
 import TextField from '@mui/material/TextField'

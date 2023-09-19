@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Image from '../../Views/Image'
 import Map from '../../Views/Map'
 import Missing from '../../Views/Missing'

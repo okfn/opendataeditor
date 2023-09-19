@@ -1,4 +1,3 @@
-import * as React from 'react'
 import EditorSection from '../../Base/Section'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'

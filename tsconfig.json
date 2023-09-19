@@ -15,6 +15,6 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "skipLibCheck": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   }
 }

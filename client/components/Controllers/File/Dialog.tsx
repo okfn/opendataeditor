@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ChatDialog from './Dialogs/Chat'
 import PublishDialog from './Dialogs/Publish'
 import SaveAsDialog from './Dialogs/SaveAs'

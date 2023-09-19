@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Chip from '@mui/material/Chip'
 // import InputIcon from '@mui/icons-material/Input'
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'

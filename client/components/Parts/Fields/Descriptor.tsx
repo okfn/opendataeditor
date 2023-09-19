@@ -1,4 +1,3 @@
-import * as React from 'react'
 import yaml from 'js-yaml'
 import noop from 'lodash/noop'
 import isPlainObject from 'lodash/isPlainObject'
