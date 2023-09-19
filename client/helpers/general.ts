@@ -25,6 +25,7 @@ export function generateTitle(items: any[], suffix: string = '') {
   let i = 0
   let exists = true
   let title: string
+  // eslint-disable-next-line
   while (true) {
     title = `${suffix}${i}`
     exists =

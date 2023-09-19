@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uvicorn
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import Config
@@ -21,6 +22,15 @@ class Server(FastAPI):
         server = Server(
             title="Frictionless Server",
             debug=config.debug,
+        )
+
+        # TODO: review
+        server.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
         )
 
         @server.exception_handler(Exception)  # type: ignore

@@ -6,7 +6,7 @@ export class Client {
   basepath: string
 
   constructor(props: { basepath?: string } = {}) {
-    this.basepath = props.basepath || settings.DEFAULT_BASEPATH
+    this.basepath = props.basepath || settings.SERVER_URL
   }
 
   async request(
@@ -55,7 +55,7 @@ export class Client {
 
   // Config
 
-  async configRead(props: {} = {}) {
+  async configRead(props: Record<string, never> = {}) {
     const result = await this.request('/config/read', props)
     return result as { config: types.IConfig }
   }
@@ -229,9 +229,9 @@ export class Client {
 
   // Project
 
-  async projectSync(props: {}) {
+  async projectSync(props: Record<string, never>) {
     const result = await this.request('/project/sync', props)
-    return result as {}
+    return result as Record<string, never>
   }
 
   // Resource

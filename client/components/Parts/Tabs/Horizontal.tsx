@@ -14,6 +14,7 @@ export interface TabsProps {
 
 export default function Tabs(props: TabsProps) {
   const theme = useTheme()
+  // eslint-disable-next-line
   let [value, setValue] = React.useState(props.index || 0)
   // TODO: it's a hack; rebase on normal controlled/uncontrolled
   if (props.index !== undefined) value = props.index

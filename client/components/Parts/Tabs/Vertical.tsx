@@ -14,6 +14,7 @@ export interface VtabsProps {
 }
 
 export default function Vtabs(props: VtabsProps) {
+  // eslint-disable-next-line
   let [value, setValue] = React.useState(props.index || 0)
   // TODO: it's a hack; rebase on normal controlled/uncontrolled
   if (props.index !== undefined) value = props.index
