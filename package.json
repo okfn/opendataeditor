@@ -24,7 +24,7 @@
     "format": "prettier --write 'client/**/*.ts*' && eslint --fix 'client/**/*.ts*'",
     "lint": "prettier --check 'client/**/*.ts*' && eslint 'client/**/*.ts*'",
     "library": "NODE_ENV=production ENTRY=library webpack",
-    "start": "webpack serve --open",
+    "start": "vite dev --open --port 8080",
     "spec": "vitest run",
     "spec:ui": "vitest run --ui",
     "test": "npm run lint && npm run check && npm run spec",
@@ -67,6 +67,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@modyfi/vite-plugin-yaml": "^1.0.4",
     "@types/js-yaml": "^4.0.5",
     "@types/leaflet": "^1.9.3",
     "@types/lodash": "^4.14.195",
@@ -78,6 +79,7 @@
     "@types/validator": "^13.7.17",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
+    "@vitejs/plugin-react": "^4.0.4",
     "@vitest/coverage-v8": "^0.34.4",
     "compression-webpack-plugin": "^10.0.0",
     "concurrently": "^8.2.0",

@@ -24,7 +24,7 @@ resource/mediaType:
   - Media Type
   - https://specs.frictionlessdata.io/data-resource/#optional-properties
   - Specifies the media type/mime type of this resource e.g "text/csv", "application/vnd.ms-excel” etc.
-"resource/path":
+'resource/path':
   - Path
   - https://specs.frictionlessdata.io/data-resource/#path-data-in-files
   - Specifies the path of this resource. It MUST either be a URL or a POSIX path.
@@ -41,7 +41,6 @@ resource/encoding:
   - https://specs.frictionlessdata.io/data-resource/#optional-properties
   - Specifies the character encoding of this resource e.g. "UTF-8". The values should be one of the “Preferred MIME Names” for a character encoding registered with IANA.
 
-
 # Integrity
 
 resource/integrity:
@@ -52,7 +51,7 @@ resource/integrity:
 resource/integrity/hash:
   - Hash
   - https://specs.frictionlessdata.io/data-resource/#metadata-properties
-  - The MD5 hash for this resource. 
+  - The MD5 hash for this resource.
 
 resource/integrity/bytes:
   - Bytes
@@ -79,7 +78,7 @@ resource/licenses:
 resource/licenses/name:
   - Name
   - https://specs.frictionlessdata.io/data-package/#licenses
-  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0 
+  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0
 
 resource/licenses/path:
   - Path

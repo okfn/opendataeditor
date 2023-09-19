@@ -20,6 +20,7 @@ import * as types from './types'
 
 // Genearl
 
+export const SERVER_URL = 'http://localhost:4040'
 export const PACKAGE_PATH = 'datapackage.json'
 export const TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson', 'xlsx', 'xls']
 export const TEXT_TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson']

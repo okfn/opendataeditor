@@ -6,7 +6,7 @@ export class Client {
   basepath: string
 
   constructor(props: { basepath?: string } = {}) {
-    this.basepath = props.basepath || settings.DEFAULT_BASEPATH
+    this.basepath = props.basepath || settings.SERVER_URL
   }
 
   async request(
