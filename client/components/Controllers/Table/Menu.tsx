@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useStore } from './store'
 import * as menu from '../../Parts/Bars/Menu'
 import * as settings from '../../../settings'

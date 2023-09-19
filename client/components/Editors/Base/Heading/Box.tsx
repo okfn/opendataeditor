@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 

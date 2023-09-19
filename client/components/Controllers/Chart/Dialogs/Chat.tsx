@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ChatDialog from '../../Base/Dialogs/Chat'
 import { useStore } from '../store'
 

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import MetadataPanel from '../../Base/Panels/Metadata'
 import { useStore } from '../store'
 

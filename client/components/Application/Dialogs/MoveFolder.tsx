@@ -1,4 +1,3 @@
-import * as React from 'react'
 import CopyAllIcon from '@mui/icons-material/CopyAll'
 import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'

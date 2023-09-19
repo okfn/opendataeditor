@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import YesNoField from '../../../../Parts/Fields/YesNo'
 import { useStore, selectors } from '../../store'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import InnerHtml from 'dangerously-set-html-content'
 

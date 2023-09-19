@@ -1,4 +1,3 @@
-import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'

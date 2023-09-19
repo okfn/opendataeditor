@@ -1,4 +1,3 @@
-import * as React from 'react'
 import * as action from '../../Parts/Bars/Action'
 import { useStore, selectors } from './store'
 

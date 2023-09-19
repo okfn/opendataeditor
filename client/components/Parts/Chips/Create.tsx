@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Chip from '@mui/material/Chip'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import LightTooltip from '../Tooltips/Light'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import noop from 'lodash/noop'
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ViewEditor from '../../../Editors/View'
 import { useStore } from '../store'
 

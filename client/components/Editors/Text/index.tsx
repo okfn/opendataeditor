@@ -1,5 +1,4 @@
 import './resize'
-import * as React from 'react'
 import Editor, { EditorProps } from '@monaco-editor/react'
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
 

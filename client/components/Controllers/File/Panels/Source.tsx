@@ -1,4 +1,3 @@
-import * as React from 'react'
 import SourcePanel from '../../Base/Panels/Source'
 import { useStore } from '../store'
 

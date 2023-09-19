@@ -1,4 +1,3 @@
-import * as React from 'react'
 import TableEditor from '../../Editors/Table'
 import { useStore } from './store'
 

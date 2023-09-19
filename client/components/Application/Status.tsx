@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import { alpha, styled } from '@mui/material/styles'
 import LightTooltip from '../Parts/Tooltips/Light'

@@ -1,5 +1,4 @@
 import './Iframe.css'
-import * as React from 'react'
 
 export interface IframeBoxProps {
   html: string

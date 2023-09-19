@@ -1,6 +1,6 @@
 import { marked } from 'marked'
 import classNames from 'classnames'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Table from './Table'
 
 export interface ReportGroupProps {

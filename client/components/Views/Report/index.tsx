@@ -1,5 +1,4 @@
 import './assets/styles.css'
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import ReportTask from './Task'
 import { ThemeProvider } from '@mui/material/styles'

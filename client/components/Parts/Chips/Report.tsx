@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import CheckCircle from '@mui/icons-material/CheckCircle'

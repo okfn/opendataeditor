@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ChartEditor from '../../../Editors/Chart'
 import { useStore } from '../store'
 

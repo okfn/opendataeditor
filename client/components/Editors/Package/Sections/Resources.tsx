@@ -1,4 +1,3 @@
-import * as React from 'react'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import EditorSearch from '../../Base/Search'

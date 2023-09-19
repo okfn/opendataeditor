@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/Boxes/Scroll'
 import MetadataPanel from './Panels/Metadata'

@@ -1,4 +1,3 @@
-import React from 'react'
 import classNames from 'classnames'
 import ReportGroup, { ReportGroupProps } from './Group'
 import * as types from '../../../types'

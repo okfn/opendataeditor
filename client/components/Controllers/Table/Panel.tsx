@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ScrollBox from '../../Parts/Boxes/Scroll'
 import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'

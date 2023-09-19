@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Article from '../../Views/Article'
 import Script from '../../Views/Script'
 import ScrollBox from '../../Parts/Boxes/Scroll'

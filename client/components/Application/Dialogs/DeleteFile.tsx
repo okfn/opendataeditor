@@ -1,4 +1,3 @@
-import * as React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import { useStore } from '../store'

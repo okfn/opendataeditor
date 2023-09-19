@@ -1,4 +1,3 @@
-import * as React from 'react'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
