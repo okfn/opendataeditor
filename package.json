@@ -58,7 +58,6 @@
     "react-leaflet": "^4.2.1",
     "react-vega": "^7.6.0",
     "reselect": "^4.1.8",
-    "tmp-promise": "^3.0.3",
     "topojson-client": "^3.1.0",
     "ts-essentials": "^9.3.2",
     "validator": "^13.9.0",
