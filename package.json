@@ -1,6 +1,7 @@
 {
   "name": "odet",
   "version": "0.2.0",
+  "main": "build/desktop/index.js",
   "engines": {
     "node": "^18.0.0"
   },
@@ -16,15 +17,15 @@
     "url": "https://github.com/frictionlessdata/application/issues"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "electron-vite build",
     "check": "tsc --noEmit",
     "coverage": "sensible-browser coverage/index.html",
     "format": "prettier --write 'client/**/*.ts*' && eslint --fix 'client/**/*.ts*'",
     "lint": "prettier --check 'client/**/*.ts*' && eslint 'client/**/*.ts*'",
     "prepare": "husky install",
-    "start": "vite dev --open --port 8080",
+    "preview": "electron-vite preview",
+    "start": "electron-vite dev",
     "spec": "vitest run",
-    "spec:ui": "vitest run --ui",
     "test": "npm run lint && npm run check && npm run spec",
     "update": "ncu -u"
   },
