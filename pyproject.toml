@@ -47,7 +47,9 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-# TODO: support autoreloading and providing a custom folder/port
+build = [
+  "python -m server.build",
+]
 check = [
   "pyright server",
 ]
@@ -64,6 +66,7 @@ lint = [
 spec = [
   "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
 ]
+# TODO: support autoreloading and providing a custom folder/port
 start = [
   "python -m server",
 ]
