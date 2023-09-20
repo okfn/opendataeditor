@@ -1,5 +1,6 @@
 {
   "name": "odet",
+  "productName": "Open Data Editor",
   "version": "0.2.0",
   "main": "build/desktop/index.js",
   "engines": {

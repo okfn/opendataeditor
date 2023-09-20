@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Chip from '@mui/material/Chip'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
@@ -37,15 +36,7 @@ export default function Header() {
                   }}
                   onClick={() => closeFile()}
                 >
-                  <strong>
-                    Open Data Editor{' '}
-                    <Chip
-                      size="small"
-                      label="beta"
-                      variant="outlined"
-                      sx={{ color: 'white', borderRadius: 1 }}
-                    />
-                  </strong>
+                  <strong>Open Data Editor</strong>
                 </Typography>
               </LightTooltip>
             </Grid>
