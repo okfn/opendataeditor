@@ -1,6 +1,12 @@
+from pathlib import Path
+
 # General
 
+HOME = str(Path.home())
+
 APP_NAME = "opendataeditor"
+APP_HOME = f"{HOME}/.{APP_NAME}"
+
 ARTIFACTS_IDENTIFIER = "_artifacts"
 BUFFER_SIZE = 1000
 DEFAULT_HTTP_PORT = 4040

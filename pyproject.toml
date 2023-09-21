@@ -12,7 +12,6 @@ dependencies = [
     "fastapi==0.103.1",
     "uvicorn==0.23.2",
     "sqlalchemy==2.0.20",
-    "platformdirs==3.10.0",
     "python-multipart==0.0.6",
     "gitignore-parser==0.1.6",
     "typing-extensions==4.8.0",
