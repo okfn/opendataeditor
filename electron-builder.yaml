@@ -1,19 +1,23 @@
 appId: org.opendataeditor.app
 copyright: Copyright © 2023 ${author}
 files:
-  - 'build/**/*'
-  - 'pyproject.toml'
-  - '!client/*'
-  - '!desktop/*'
-  - '!example/*'
-  - '!portal/*'
-  - '!runner/*'
-  - '!server/*'
-  - '!**/odet'
-# asarUnpack:
-# - example/**
-# - runner/**
-# - server/**
+  - 'build/client/**/*'
+  - 'build/desktop/**/*'
+extraResources:
+  - from: 'pyproject.toml'
+    to: 'pyproject.toml'
+  - from: 'build/runner'
+    to: 'runner'
+  - from: 'build/example'
+    to: 'example'
+    filter:
+      - '**/*'
+      - '!**/.odet'
+  - from: 'build/server'
+    to: 'server'
+    filter:
+      - '**/*'
+      - '!**/__pycache__'
 win:
   executableName: ${name}
 nsis:

@@ -1,6 +1,11 @@
 import { app, shell, BrowserWindow } from 'electron'
-import { resolve } from 'path'
+import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import cp from 'child_process'
+
+const python = join(process.resourcesPath, 'runner', 'python', 'bin', 'python3')
+const output = cp.execFileSync(python, ['--version'])
+console.log(output.toString())
 
 function createWindow(): void {
   // Create the browser window.
