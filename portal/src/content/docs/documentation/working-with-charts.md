@@ -111,7 +111,29 @@ To change the content of a channel or transform, `dblclick` on the corresponding
 
 To learn more about vegalite layers you can find the detailed document [here](https://vega.github.io/vega-lite/docs/layer.html).
 
-## Creating / Editing a chart with AI
+## Source view
+
+To view the chart file in its raw form, click on `source` menu. To hide, click on the menu again.
+
+![CHART SOURCE VIEW](./assets/working-with-charts/chart-source.png)
+
+## Saving / Reverting
+
+You can modify the chart content by using `Chart Editor`, `Source View` or using `Chat AI`. When changes are made, the `Save` and `Revert` button gets activated at the bottom of the editor. You can save your changes by clicking `Save` button.
+
+![CHART SOURCE VIEW](./assets/working-with-charts/chart-save.png)
+
+If needed, you can revert the changes clicking the `Revert` button. You can save it as a new file as well.
+
+## Publishing
+
+To open the publishing window, click the `Publish` button located at the bottom of the chart editor page. After you've chart ready, click the `Publish` button to initiate the publishing process
+
+![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
+
+Similarly, you can also publish it to `Zenodo` or `Github`
+
+## Creating / Editing Chart with AI
 
 To generate chart using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `Chart` tab.
 
@@ -132,17 +154,3 @@ Enter your instruction to AI in the prompt input box and apply the command by cl
 To use `CHAT AI` feature, you have to set the `OpenAI API Key`. To set the api key, click `Settings` menu.
 
 ![CHART AI EDIT OUTPUT](./assets/working-with-charts/chart-ai-settings.png)
-
-## Source view
-
-To view the chart file in its raw form, click on `source` menu. To hide, click on the menu again.
-
-![CHART SOURCE VIEW](./assets/working-with-charts/chart-source.png)
-
-## Saving / Reverting
-
-You can modify the chart content by using `Chart Editor`, `Source View` or using `Chat AI`. When changes are made, the `Save` and `Revert` button gets activated at the bottom of the editor. You can save your changes by clicking `Save` button.
-
-![CHART SOURCE VIEW](./assets/working-with-charts/chart-save.png)
-
-If needed, you can revert the changes clicking the `Revert` button. You can save it as a new file as well.

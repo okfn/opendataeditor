@@ -92,7 +92,7 @@ You can undo or redo your last change using `undo` or `redo` feature in the `too
 
 ![UNDO-REDO](./assets/working-with-tables/table-undo-redo.png)
 
-## Saving or Reverting
+## Saving / Reverting
 
 You can modify the data by clicking in the table's cell and editing the content. The changes can be saved using `Save` button. When changes are made, the `Save` and `Revert` button gets activated at the bottom of the editor. If needed, you can revert the changes clicking the `Revert` button.
 
