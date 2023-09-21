@@ -1,6 +1,6 @@
 # General
 
-APPNAME = "odet"
+APP_NAME = "opendataeditor"
 ARTIFACTS_IDENTIFIER = "_artifacts"
 BUFFER_SIZE = 1000
 DEFAULT_HTTP_PORT = 4040
@@ -11,5 +11,5 @@ IGNORED_FOLDERS = [
     ".pytest_cache",
     ".ruff_cache",
     "__pycache__",
-    ".odet",
+    ".opendataeditor",
 ]

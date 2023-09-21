@@ -12,7 +12,7 @@ extraResources:
     to: 'example'
     filter:
       - '**/*'
-      - '!**/.odet'
+      - '!**/.opendataeditor'
   - from: 'build/server'
     to: 'server'
     filter:

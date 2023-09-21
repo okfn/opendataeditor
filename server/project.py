@@ -20,9 +20,9 @@ class Project:
 
     def __init__(self, basepath: Optional[str] = None):
         # Ensure structure
-        self.system = platformdirs.user_config_path(appname=settings.APPNAME)
+        self.system = platformdirs.user_config_path(appname=settings.APP_NAME)
         self.public = Path(basepath or "")
-        self.private = self.public / f".{settings.APPNAME}"
+        self.private = self.public / f".{settings.APP_NAME}"
         self.system.mkdir(parents=True, exist_ok=True)
         self.public.mkdir(parents=True, exist_ok=True)
         self.private.mkdir(parents=True, exist_ok=True)

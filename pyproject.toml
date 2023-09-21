@@ -1,5 +1,5 @@
 [project]
-name = "odet"
+name = "opendataeditor"
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
