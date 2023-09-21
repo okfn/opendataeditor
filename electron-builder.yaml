@@ -4,8 +4,13 @@ files:
   - 'build/**/*'
   - '!client/*'
   - '!desktop/*'
+  - '!example/*'
   - '!portal/*'
+  - '!runner/*'
+  - '!server/*'
 asarUnpack:
+  - example/**
+  - runner/**
   - server/**
 win:
   executableName: ${name}

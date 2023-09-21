@@ -8,4 +8,4 @@ shutil.rmtree(target, ignore_errors=True)
 shutil.copytree(source, target)
 os.remove(f"{target}/build.py")
 
-print("[server] Copied 'server' to 'build/server'")
+print(f"[server] Copied '{source}' to '{target}'")
