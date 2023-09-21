@@ -2,6 +2,7 @@ appId: org.opendataeditor.app
 copyright: Copyright © 2023 ${author}
 files:
   - 'build/**/*'
+  - 'pyproject.toml'
   - '!client/*'
   - '!desktop/*'
   - '!example/*'
@@ -9,10 +10,10 @@ files:
   - '!runner/*'
   - '!server/*'
   - '!**/odet'
-asarUnpack:
-  - example/**
-  - runner/**
-  - server/**
+# asarUnpack:
+# - example/**
+# - runner/**
+# - server/**
 win:
   executableName: ${name}
 nsis:
