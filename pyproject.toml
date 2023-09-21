@@ -49,6 +49,7 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 build = [
+  "python -m example.build",
   "python -m server.build",
 ]
 check = [
