@@ -35,6 +35,7 @@ dependencies = [
     "black",
     "pytest",
     "neovim",
+    "fsspec",
     "pyright==1.1.317",
     "ipython",
     "pytest-cov",
