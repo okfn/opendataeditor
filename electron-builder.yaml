@@ -8,6 +8,7 @@ files:
   - '!portal/*'
   - '!runner/*'
   - '!server/*'
+  - '!**/odet'
 asarUnpack:
   - example/**
   - runner/**

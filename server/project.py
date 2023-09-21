@@ -22,7 +22,7 @@ class Project:
         # Ensure structure
         self.system = platformdirs.user_config_path(appname=settings.APPNAME)
         self.public = Path(basepath or "")
-        self.private = self.public / ".frictionless"
+        self.private = self.public / f".{settings.APPNAME}"
         self.system.mkdir(parents=True, exist_ok=True)
         self.public.mkdir(parents=True, exist_ok=True)
         self.private.mkdir(parents=True, exist_ok=True)

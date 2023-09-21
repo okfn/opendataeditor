@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "electron-vite build",
-    "dist": "npm run build && npm run dist:linux && npm run dist:mac && npm run dist:win",
+    "dist": "npm run dist:linux && npm run dist:mac && npm run dist:win",
     "dist:linux": "electron-builder --linux",
     "dist:mac": "electron-builder --mac",
     "dist:win": "electron-builder --win",
