@@ -1,52 +1,18 @@
-import { app, shell, BrowserWindow } from 'electron'
-import { join, resolve } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import cp from 'child_process'
-
-const python = join(process.resourcesPath, 'runner', 'python', 'bin', 'python3')
-const output = cp.execFileSync(python, ['--version'])
-console.log(output.toString())
-
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    // width: 900,
-    // height: 670,
-    show: false,
-    autoHideMenuBar: true,
-    titleBarStyle: 'hidden',
-    // ...(process.platform === 'linux' ? { icon } : {}),
-    // webPreferences: {
-    // preload: join(__dirname, '../preload/index.js'),
-    // sandbox: false,
-    // },
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.maximize()
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(resolve(__dirname, '../client/index.html'))
-  }
-}
+import { app, BrowserWindow } from 'electron'
+import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { createWindow } from './window'
+import * as python from './python'
+import * as settings from './settings'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await python.ensureVenv()
+  await python.ensureDeps()
+
   // Set app user model id for windows
-  electronApp.setAppUserModelId('org.opendataeditor')
+  electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -72,6 +38,3 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.

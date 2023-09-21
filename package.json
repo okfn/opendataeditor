@@ -39,7 +39,9 @@
     "update": "ncu -u"
   },
   "dependencies": {
-    "@electron-toolkit/utils": "2.0.1"
+    "@electron-toolkit/utils": "2.0.1",
+    "electron-log": "4.4.8",
+    "toml": "3.0.0"
   },
   "devDependencies": {
     "@emotion/react": "11.11.1",
@@ -93,7 +95,6 @@
     "react-leaflet": "4.2.1",
     "react-vega": "7.6.0",
     "reselect": "4.1.8",
-    "shelljs": "0.8.5",
     "topojson-client": "3.1.0",
     "ts-essentials": "9.3.2",
     "typescript": "5.2.2",
