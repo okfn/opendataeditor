@@ -70,7 +70,7 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
                 item.errors = errors_by_path[path]
             items.append(item)
         for folder in list(folders):
-            if folder.startswith(".") or folder in settings.IGNORED_FOLDERS:
+            if folder in settings.IGNORED_FOLDERS:
                 folders.remove(folder)
                 continue
             path = fs.get_path(root / folder)

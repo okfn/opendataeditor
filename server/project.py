@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 
-import platformdirs
 from frictionless.resources import TextResource
 
 from . import settings
@@ -20,9 +19,9 @@ class Project:
 
     def __init__(self, basepath: Optional[str] = None):
         # Ensure structure
-        self.system = platformdirs.user_config_path(appname=settings.APPNAME)
+        self.system = Path(settings.APP_HOME)
         self.public = Path(basepath or "")
-        self.private = self.public / ".frictionless"
+        self.private = self.public / f".{settings.APP_NAME}"
         self.system.mkdir(parents=True, exist_ok=True)
         self.public.mkdir(parents=True, exist_ok=True)
         self.private.mkdir(parents=True, exist_ok=True)

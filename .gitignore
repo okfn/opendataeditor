@@ -156,3 +156,4 @@ tmp/
 .vim
 .vercel
 client/coverage
+.opendataeditor
