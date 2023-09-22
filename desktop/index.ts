@@ -1,6 +1,7 @@
 import { app, dialog, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
+import * as server from './server'
 import * as python from './python'
 import * as settings from './settings'
 import * as resources from './resources'
@@ -19,6 +20,9 @@ app.whenReady().then(async () => {
   log.info('Prepare python environment')
   await python.ensurePython()
   await python.ensureLibraries()
+
+  log.info('Start server')
+  await server.startServer()
 
   log.info('Create main window')
   createWindow()

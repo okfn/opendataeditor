@@ -6,15 +6,12 @@ import log from 'electron-log'
 import toml from 'toml'
 import * as system from './system'
 
-const python = join(settings.APP_RUNNER, 'bin', 'python3')
-const pip = join(settings.APP_PYTHON, 'bin', 'pip3')
-
 export async function ensurePython() {
   log.info('[ensurePython]', settings.APP_PYTHON)
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
-    await system.execFile(python, ['-m', 'venv', settings.APP_PYTHON])
+    await system.execFile(settings.PYTHON, ['-m', 'venv', settings.APP_PYTHON])
     message = 'created'
   }
 
@@ -29,7 +26,7 @@ export async function ensureLibraries() {
 
   for (const spec of required) {
     if (installed.includes(spec)) continue
-    await system.execFile(pip, [
+    await system.execFile(settings.PIP, [
       'install',
       spec,
       '--upgrade',
@@ -54,7 +51,7 @@ export async function readRequiredLibraries() {
 export async function readInstalledLibraries() {
   log.info('[readInstalledLibraries]')
 
-  const text = await system.execFile(pip, [
+  const text = await system.execFile(settings.PIP, [
     'list',
     '--format',
     'freeze',
