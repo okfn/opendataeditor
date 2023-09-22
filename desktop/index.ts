@@ -1,31 +1,34 @@
 import { app, dialog, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
+import { is } from '@electron-toolkit/utils'
+import log from 'electron-log'
 import * as server from './server'
 import * as python from './python'
 import * as settings from './settings'
 import * as resources from './resources'
-import log from 'electron-log'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  log.info('# Start the application')
+  log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
-  log.info('## Ensure initial resources')
-  await resources.ensureExample()
-  await resources.ensureRunner()
+  if (!is.dev) {
+    log.info('## Ensure resources')
+    await resources.ensureExample()
+    await resources.ensureRunner()
 
-  log.info('## Prepare python environment')
-  await python.ensurePython()
-  await python.ensureLibraries()
+    log.info('## Prepare python')
+    await python.ensurePython()
+    await python.ensureLibraries()
 
-  log.info('## Start the server')
-  server.startServer()
+    log.info('## Start server')
+    await server.startServer()
+  }
 
-  log.info('## Create the main window')
+  log.info('## Create window')
   createWindow()
 })
 
