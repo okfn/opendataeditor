@@ -25,7 +25,7 @@ export async function ensureLibraries() {
   const pip = join(settings.APP_PYTHON, 'bin', 'pip3')
   const libs = await parseLibraries()
   for (const lib of libs) {
-    await system.execFile(pip, ['install', `'${lib}'`, '--disable-pip-version-check'])
+    await system.execFile(pip, ['install', lib, '--disable-pip-version-check'])
   }
 
   log.info('[ensureLibraries]', 'done')

@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, dialog, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import * as python from './python'
@@ -12,28 +12,16 @@ import log from 'electron-log'
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
-  try {
-    log.info('Ensure initial resources')
-    await resources.ensureExample()
-    await resources.ensureRunner()
-  } catch (error) {
-    log.error(error)
-  }
+  log.info('Ensure initial resources')
+  await resources.ensureExample()
+  await resources.ensureRunner()
 
-  try {
-    log.info('Prepare python environment')
-    await python.ensurePython()
-    await python.ensureLibraries()
-  } catch (error) {
-    log.error(error)
-  }
+  log.info('Prepare python environment')
+  await python.ensurePython()
+  await python.ensureLibraries()
 
-  try {
-    log.info('Create main window')
-    createWindow()
-  } catch (error) {
-    log.error(error)
-  }
+  log.info('Create main window')
+  createWindow()
 })
 
 // Default open or close DevTools by F12 in development
@@ -56,4 +44,17 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+// For convinience, we catch all unhandled rejections here
+// instead of wrapping all individual async functions with try/catch
+process.on('unhandledRejection', async (error: any) => {
+  log.error(error)
+  await dialog.showMessageBox({
+    type: 'error',
+    title: 'Open Data Editor',
+    message: 'Error during the application startup',
+    detail: error.toString(),
+  })
+  app.quit()
 })
