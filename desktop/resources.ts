@@ -4,7 +4,7 @@ import * as settings from './settings'
 import log from 'electron-log'
 
 export async function ensureExample() {
-  log.info('[ensureExample]', settings.APP_RUNNER)
+  log.info('[ensureExample]', { path: settings.APP_RUNNER })
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_EXAMPLE)) {
@@ -16,11 +16,11 @@ export async function ensureExample() {
     message = 'created'
   }
 
-  log.info('[ensureExample]', message)
+  log.info('[ensureExample]', { message })
 }
 
 export async function ensureRunner() {
-  log.info('[ensureRunner]', settings.APP_RUNNER)
+  log.info('[ensureRunner]', { path: settings.APP_RUNNER })
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_RUNNER)) {
@@ -32,5 +32,5 @@ export async function ensureRunner() {
     message = 'created'
   }
 
-  log.info('[ensureRunner]', message)
+  log.info('[ensureRunner]', { message })
 }

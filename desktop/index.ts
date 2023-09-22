@@ -11,20 +11,21 @@ import log from 'electron-log'
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+  log.info('# Start the application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
-  log.info('Ensure initial resources')
+  log.info('## Ensure initial resources')
   await resources.ensureExample()
   await resources.ensureRunner()
 
-  log.info('Prepare python environment')
+  log.info('## Prepare python environment')
   await python.ensurePython()
   await python.ensureLibraries()
 
-  log.info('Start server')
-  await server.startServer()
+  log.info('## Start the server')
+  server.startServer()
 
-  log.info('Create main window')
+  log.info('## Create the main window')
   createWindow()
 })
 

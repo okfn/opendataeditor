@@ -7,7 +7,7 @@ import toml from 'toml'
 import * as system from './system'
 
 export async function ensurePython() {
-  log.info('[ensurePython]', settings.APP_PYTHON)
+  log.info('[ensurePython]', { path: settings.APP_PYTHON })
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
@@ -15,7 +15,7 @@ export async function ensurePython() {
     message = 'created'
   }
 
-  log.info('[ensurePython]', message)
+  log.info('[ensurePython]', { message })
 }
 
 export async function ensureLibraries() {
@@ -34,7 +34,7 @@ export async function ensureLibraries() {
     ])
   }
 
-  log.info('[ensureLibraries]', 'done')
+  log.info('[ensureLibraries]', { message: 'done' })
 }
 
 export async function readRequiredLibraries() {
@@ -44,7 +44,7 @@ export async function readRequiredLibraries() {
   const text = await fsp.readFile(path, 'utf-8')
   const data = toml.parse(text).project.dependencies
 
-  log.info('[readRequiredLibraries]', data)
+  log.info('[readRequiredLibraries]', { data })
   return data
 }
 
@@ -59,6 +59,6 @@ export async function readInstalledLibraries() {
   ])
   const data = text.split(/\r?\n/).map((line) => line.trim().toLowerCase())
 
-  log.info('[readInstalledLibraries]', data)
+  log.info('[readInstalledLibraries]', { data })
   return data
 }
