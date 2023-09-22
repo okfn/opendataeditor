@@ -6,12 +6,14 @@ import log from 'electron-log'
 import toml from 'toml'
 import * as system from './system'
 
+const python = join(settings.APP_RUNNER, 'bin', 'python3')
+const pip = join(settings.APP_PYTHON, 'bin', 'pip3')
+
 export async function ensurePython() {
   log.info('[ensurePython]', settings.APP_PYTHON)
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
-    const python = join(settings.APP_RUNNER, 'bin', 'python3')
     await system.execFile(python, ['-m', 'venv', settings.APP_PYTHON])
     message = 'created'
   }
@@ -22,22 +24,44 @@ export async function ensurePython() {
 export async function ensureLibraries() {
   log.info('[ensureLibraries]')
 
-  const pip = join(settings.APP_PYTHON, 'bin', 'pip3')
-  const libs = await parseLibraries()
-  for (const lib of libs) {
-    await system.execFile(pip, ['install', lib, '--disable-pip-version-check'])
+  const required = await readRequiredLibraries()
+  const installed = await readInstalledLibraries()
+
+  for (const spec of required) {
+    if (installed.includes(spec)) continue
+    await system.execFile(pip, [
+      'install',
+      spec,
+      '--upgrade',
+      '--disable-pip-version-check',
+    ])
   }
 
   log.info('[ensureLibraries]', 'done')
 }
 
-export async function parseLibraries() {
-  log.info('[parseLibraries]')
+export async function readRequiredLibraries() {
+  log.info('[readRequiredLibraries]')
 
   const path = join(settings.DIST, 'pyproject.toml')
   const text = await fsp.readFile(path, 'utf-8')
-  const libs = toml.parse(text).project.dependencies
+  const data = toml.parse(text).project.dependencies
 
-  log.info('[parseLibraries]', libs)
-  return libs
+  log.info('[readRequiredLibraries]', data)
+  return data
+}
+
+export async function readInstalledLibraries() {
+  log.info('[readInstalledLibraries]')
+
+  const text = await system.execFile(pip, [
+    'list',
+    '--format',
+    'freeze',
+    '--disable-pip-version-check',
+  ])
+  const data = text.split(/\r?\n/).map((line) => line.trim().toLowerCase())
+
+  log.info('[readInstalledLibraries]', data)
+  return data
 }

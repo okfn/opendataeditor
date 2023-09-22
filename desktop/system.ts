@@ -10,4 +10,6 @@ export async function execFile(path: string, args: string[]) {
 
   if (stdout) log.info('[execFile]', 'stdout', stdout)
   if (stderr) log.error('[execFile]', 'stderr', stderr)
+
+  return stdout
 }
