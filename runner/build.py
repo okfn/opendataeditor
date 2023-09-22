@@ -21,6 +21,7 @@ if not os.path.exists(f"{cache}/{filename}"):
             file_to.write(file_from.read())
 
 with tarfile.open(f"{cache}/{filename}", "r:gz") as tar:
-    tar.extractall(target)
+    tar.extractall(cache)
+    shutil.move(f"{cache}/python", target)
 
 print(f"[runner] Downloaded runner and extracted into '{target}'")
