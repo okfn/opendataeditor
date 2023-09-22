@@ -1,0 +1,140 @@
+# Resource
+
+resource:
+  - Resource
+  - https://specs.frictionlessdata.io/data-resource/
+  - A simple format to describe and package a single data resource such as a individual table or file.
+resource/name:
+  - Name
+  - https://specs.frictionlessdata.io/data-resource/#name
+  - A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.
+resource/type:
+  - Type
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - Specifies the type of this resource.
+resource/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - A human-readable title or label for this resource e.g. "Sales Data".
+resource/description:
+  - Description
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.
+resource/mediaType:
+  - Media Type
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the media type/mime type of this resource e.g "text/csv", "application/vnd.ms-excel” etc.
+'resource/path':
+  - Path
+  - https://specs.frictionlessdata.io/data-resource/#path-data-in-files
+  - Specifies the path of this resource. It MUST either be a URL or a POSIX path.
+resource/scheme:
+  - Scheme
+  - https://specs.frictionlessdata.io/data-resource/#url-or-path
+  - Specifies the scheme for loading the file (file, http, ...).
+resource/format:
+  - Format
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the standard file extension for this resource e.g. "csv", "xls", "json" etc
+resource/encoding:
+  - Encoding
+  - https://specs.frictionlessdata.io/data-resource/#optional-properties
+  - Specifies the character encoding of this resource e.g. "UTF-8". The values should be one of the “Preferred MIME Names” for a character encoding registered with IANA.
+
+# Integrity
+
+resource/integrity:
+  - Integrity
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - Checksum details  of this resource.
+
+resource/integrity/hash:
+  - Hash
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - The MD5 hash for this resource.
+
+resource/integrity/bytes:
+  - Bytes
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - Size of the resource file in bytes.
+
+resource/integrity/fields:
+  - Fields
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - Total fiels in this resource.
+
+resource/integrity/rows:
+  - Rows
+  - https://specs.frictionlessdata.io/data-resource/#metadata-properties
+  - Total rows in this resource.
+
+# Licenses
+
+resource/licenses:
+  - Licenses
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The license(s) under which the resource is provided.
+
+resource/licenses/name:
+  - Name
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - The name MUST be an Open Definition license ID e.g. ODC-BY-1.0
+
+resource/licenses/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path for this license.
+
+resource/licenses/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#licenses
+  - A human-readable title or label for this license e.g. "Open Data Commons Public Domain Dedication and License v1.0".
+
+# Contributors
+
+resource/contributors:
+  - Contributors
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A name/title of the contributor (name for person, name/title of organization).
+
+resource/contributors/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - Title of the source (e.g. document or organization name).
+
+resource/contributors/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - An email address.
+
+resource/contributors/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A fully qualified http URL pointing to a relevant location online for the contributor.
+
+resource/contributors/role:
+  - Role
+  - https://specs.frictionlessdata.io/data-package/#contributors
+  - A string describing the role of the contributor.
+
+# Sources
+
+resource/sources:
+  - Sources
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - Raw sources for the data resource.
+
+resource/sources/title:
+  - Title
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - Title of the source (e.g. document or organization name)
+
+resource/sources/path:
+  - Path
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path.
+
+resource/sources/email:
+  - Email
+  - https://specs.frictionlessdata.io/data-package/#sources
+  - An email address.
