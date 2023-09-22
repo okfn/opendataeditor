@@ -11,7 +11,7 @@ export async function ensurePython() {
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
-    await system.execFile(settings.PYTHON, ['-m', 'venv', settings.APP_PYTHON])
+    await system.execFile(settings.ORIGINAL_PYTHON, ['-m', 'venv', settings.APP_PYTHON])
     message = 'created'
   }
 

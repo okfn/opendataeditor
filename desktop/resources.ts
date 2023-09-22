@@ -34,17 +34,3 @@ export async function ensureRunner() {
 
   log.info('[ensureRunner]', message)
 }
-
-// export async function ensureServer() {
-// log.info('[ensureServer]', settings.APP_SERVER)
-
-// const message = 'created'
-// await fsp.rm(settings.APP_SERVER, { recursive: true, force: true })
-// await fsp.mkdir(settings.APP_SERVER, { recursive: true })
-// await fsp.cp(settings.DIST_SERVER, settings.APP_RUNNER, {
-// recursive: true,
-// verbatimSymlinks: true,
-// })
-
-// log.info('[ensureServer]', message)
-// }
