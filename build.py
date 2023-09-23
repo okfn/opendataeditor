@@ -18,25 +18,34 @@ def build_example():
 def build_runner():
     cache = ".cache"
     target = "build/runner"
-    datemark = "20230826"
-    basepath = "https://github.com/indygreg/python-build-standalone/releases/download"
-    filename = f"cpython-3.10.13+{datemark}-x86_64-unknown-linux-gnu-install_only.tar.gz"
+    platforms = ["linux", "mac", "win"]
 
     os.makedirs(cache, exist_ok=True)
     shutil.rmtree(target, ignore_errors=True)
 
-    if not os.path.exists(f"{cache}/{filename}"):
-        local = fsspec.filesystem("file")
-        remote = fsspec.filesystem("http")
-        with local.open(f"{cache}/{filename}", "wb") as file_to:
-            with remote.open(f"{basepath}/{datemark}/{filename}", "rb") as file_from:
-                file_to.write(file_from.read())
+    for platform in platforms:
+        datemark = "20230826"
+        basepath = "https://github.com/indygreg/python-build-standalone/releases/download"
+        filetype = "x86_64-unknown-linux-gnu-install_only"
+        if platform == "mac":
+            filetype = "x86_64-apple-darwin-install_only"
+        if platform == "win":
+            filetype = "x86_64-pc-windows-msvc-static-install_only"
+        filename = f"cpython-3.10.13+{datemark}-{filetype}.tar.gz"
 
-    with tarfile.open(f"{cache}/{filename}", "r:gz") as tar:
-        tar.extractall(cache)
-        shutil.move(f"{cache}/python", target)
+        if not os.path.exists(f"{cache}/{filename}"):
+            local = fsspec.filesystem("file")
+            remote = fsspec.filesystem("http")
+            with local.open(f"{cache}/{filename}", "wb") as file_to:
+                with remote.open(f"{basepath}/{datemark}/{filename}", "rb") as file_from:
+                    file_to.write(file_from.read())
 
-    print(f"[runner] Downloaded runner and extracted into '{target}'")
+        platform_target = f"{target}/{platform}"
+        with tarfile.open(f"{cache}/{filename}", "r:gz") as tar:
+            tar.extractall(cache)
+            shutil.move(f"{cache}/python", platform_target)
+
+        print(f"[runner] Copied '{platform}' runner to '{platform_target}'")
 
 
 def build_server():

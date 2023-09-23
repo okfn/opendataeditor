@@ -15,7 +15,7 @@ client:
 	npm run start
 
 dist:
-	npm run dist:linux
+	npm run dist
 
 docs:
 	cd portal && npm start
