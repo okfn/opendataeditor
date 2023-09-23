@@ -1,9 +1,10 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import yaml from '@modyfi/vite-plugin-yaml'
 
 export default defineConfig({
+  root: 'client',
   plugins: [react(), yaml()],
   test: {
     include: ['**/__spec__/*.(ts|tsx)'],
