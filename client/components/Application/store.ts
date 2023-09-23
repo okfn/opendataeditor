@@ -29,6 +29,10 @@ export interface State {
   onFileDelete: (path: string) => Promise<void>
   onFilePatch: (path: string) => Promise<void>
 
+  // Project
+
+  openProject: (fullpath: string) => Promise<void>
+
   // Config
 
   loadConfig: () => Promise<void>
@@ -115,6 +119,16 @@ export function makeStore(props: ApplicationProps) {
       selectFile(path)
       await delay(500)
       set({ fileEvent: undefined })
+    },
+
+    // Project
+
+    openProject: async (fullpath) => {
+      const { client, closeFile, loadConfig, loadFiles } = get()
+      await client.projectOpen({ fullpath })
+      closeFile()
+      await loadConfig()
+      await loadFiles()
     },
 
     // Config

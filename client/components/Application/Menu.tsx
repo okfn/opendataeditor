@@ -7,8 +7,14 @@ import { useStore } from './store'
 
 export default function Menu() {
   const name = useStore((state) => state.config?.project.name || 'current')
+  const openProject = useStore((state) => state.openProject)
   // @ts-ignore
   const selectFolder = window?.opendataeditor?.selectFolder
+  const handleOpen = async () => {
+    if (!selectFolder) return
+    const fullpath = await selectFolder()
+    await openProject(fullpath)
+  }
   return (
     <menu.MenuBar fullWidth>
       <Columns layout={[9, 3]} spacing={1}>
@@ -30,7 +36,7 @@ export default function Menu() {
           disabled={!selectFolder}
           variant="outlined"
           fullWidth
-          onClick={selectFolder ? selectFolder : undefined}
+          onClick={handleOpen}
           sx={{ height: '100%', borderColor: '#bbb !important' }}
         >
           Open

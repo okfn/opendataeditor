@@ -229,6 +229,11 @@ export class Client {
 
   // Project
 
+  async projectOpen(props: { fullpath: string }) {
+    const result = await this.request('/project/open', props)
+    return result as Record<string, never>
+  }
+
   async projectSync(props: Record<string, never>) {
     const result = await this.request('/project/sync', props)
     return result as Record<string, never>
