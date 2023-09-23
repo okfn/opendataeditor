@@ -1,5 +1,5 @@
 import { shell, BrowserWindow } from 'electron'
-import { resolve } from 'path'
+import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
 export function createWindow() {
@@ -11,10 +11,9 @@ export function createWindow() {
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     // ...(process.platform === 'linux' ? { icon } : {}),
-    // webPreferences: {
-    // preload: join(__dirname, '../preload/index.js'),
-    // sandbox: false,
-    // },
+    webPreferences: {
+      preload: join(__dirname, 'preload', 'index.js'),
+    },
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -32,7 +31,7 @@ export function createWindow() {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(resolve(__dirname, '../client/index.html'))
+    mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
   }
 
   return mainWindow
