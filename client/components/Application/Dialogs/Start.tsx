@@ -10,7 +10,10 @@ export default function StartDialog() {
           Starting the <strong>application</strong>!
         </big>{' '}
         <RocketLaunchIcon sx={{ fontSize: 24 }} />
-        If it is a first run on your computer, it may take <strong>a few minutes</strong>.
+        If it is a first run on your computer, it may take <strong>
+          a few minutes
+        </strong>{' '}
+        to download dependencies. Next time it will instant!
       </Box>
     </WaitDialog>
   )
