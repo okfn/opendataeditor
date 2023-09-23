@@ -20,7 +20,7 @@ export async function startServer() {
   let ready = false
   let attempt = 0
   const maxAttempts = 10
-  const delaySeconds = 0.5
+  const delaySeconds = 1
   const checkUrl = `${url}/project/check`
   while (!ready) {
     try {

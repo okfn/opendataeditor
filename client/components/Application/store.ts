@@ -80,8 +80,17 @@ export function makeStore(props: ApplicationProps) {
     onStart: async () => {
       const { loadConfig, loadFiles, updateState } = get()
       updateState({ dialog: 'start' })
-      await loadConfig()
-      await loadFiles()
+      let ready = false
+      const delaySeconds = 1
+      while (!ready) {
+        try {
+          await loadConfig()
+          await loadFiles()
+          ready = true
+        } catch (error) {
+          await delay(delaySeconds * 1000)
+        }
+      }
       updateState({ dialog: undefined })
     },
     onFileCreate: async (paths) => {
