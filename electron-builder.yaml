@@ -1,5 +1,9 @@
 appId: org.opendataeditor.app
 copyright: Copyright © 2023 ${author}
+npmRebuild: false
+
+# General
+
 files:
   - 'build/client/**/*'
   - 'build/desktop/**/*'
@@ -18,6 +22,19 @@ extraResources:
     filter:
       - '**/*'
       - '!**/__pycache__'
+
+# Linux
+
+linux:
+  maintainer: okfn.org
+  category: Utility
+  target:
+    - AppImage
+appImage:
+  artifactName: ${name}-${version}.${ext}
+
+# Windows
+
 win:
   executableName: ${name}
 nsis:
@@ -25,6 +42,9 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+
+# Macos
+
 mac:
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
@@ -34,13 +54,3 @@ mac:
   notarize: false
 dmg:
   artifactName: ${name}-${version}.${ext}
-linux:
-  target:
-    - AppImage
-    # - deb
-    # - snap
-  maintainer: okfn.org
-  category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
-npmRebuild: false
