@@ -15,6 +15,9 @@ app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
+  log.info('## Create window')
+  createWindow()
+
   if (!is.dev) {
     log.info('## Ensure resources')
     await resources.ensureExample()
@@ -27,9 +30,6 @@ app.whenReady().then(async () => {
     log.info('## Start server')
     await server.startServer()
   }
-
-  log.info('## Create window')
-  createWindow()
 })
 
 // Default open or close DevTools by F12 in development
