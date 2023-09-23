@@ -1,5 +1,8 @@
 appId: org.opendataeditor.app
 copyright: Copyright © 2023 ${author}
+
+# General
+
 files:
   - 'build/client/**/*'
   - 'build/desktop/**/*'
@@ -18,6 +21,32 @@ extraResources:
     filter:
       - '**/*'
       - '!**/__pycache__'
+
+# Linux
+
+linux:
+  maintainer: okfn.org
+  category: Utility
+  target:
+    - AppImage
+  extraResources:
+    - from: 'build/runner/linux'
+      to: 'runner'
+appImage:
+  artifactName: ${name}-${version}.${ext}
+
+# Macos
+
+mac:
+  notarize: false
+  extraResources:
+    - from: 'build/runner/mac'
+      to: 'runner'
+dmg:
+  artifactName: ${name}-${version}.${ext}
+
+# Windows
+
 win:
   executableName: ${name}
 nsis:
@@ -25,22 +54,3 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
-mac:
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
-dmg:
-  artifactName: ${name}-${version}.${ext}
-linux:
-  target:
-    - AppImage
-    # - deb
-    # - snap
-  maintainer: okfn.org
-  category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
-npmRebuild: false

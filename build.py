@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 import tarfile
 
 import fsspec
@@ -18,12 +19,18 @@ def build_example():
 def build_runner():
     cache = ".cache"
     target = "build/runner"
-    datemark = "20230826"
-    basepath = "https://github.com/indygreg/python-build-standalone/releases/download"
-    filename = f"cpython-3.10.13+{datemark}-x86_64-unknown-linux-gnu-install_only.tar.gz"
 
     os.makedirs(cache, exist_ok=True)
     shutil.rmtree(target, ignore_errors=True)
+
+    datemark = "20230826"
+    basepath = "https://github.com/indygreg/python-build-standalone/releases/download"
+    filetype = "x86_64-unknown-linux-gnu-install_only"
+    if sys.platform == "darwin":
+        filetype = "x86_64-apple-darwin-install_only"
+    if sys.platform == "win32":
+        filetype = "x86_64-pc-windows-msvc-static-install_only"
+    filename = f"cpython-3.10.13+{datemark}-{filetype}.tar.gz"
 
     if not os.path.exists(f"{cache}/{filename}"):
         local = fsspec.filesystem("file")
@@ -36,7 +43,7 @@ def build_runner():
         tar.extractall(cache)
         shutil.move(f"{cache}/python", target)
 
-    print(f"[runner] Downloaded runner and extracted into '{target}'")
+    print(f"[runner] Copied 'runner' to '{target}'")
 
 
 def build_server():
