@@ -8,6 +8,7 @@ export function createWindow() {
     // width: 900,
     // height: 670,
     show: false,
+    // alwaysOnTop: true,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     // ...(process.platform === 'linux' ? { icon } : {}),

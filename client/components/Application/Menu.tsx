@@ -13,7 +13,7 @@ export default function Menu() {
   const handleOpen = async () => {
     if (!selectFolder) return
     const fullpath = await selectFolder()
-    await openProject(fullpath)
+    if (fullpath) await openProject(fullpath)
   }
   return (
     <menu.MenuBar fullWidth>
