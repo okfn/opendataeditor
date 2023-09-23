@@ -23,9 +23,7 @@
   },
   "scripts": {
     "build": "electron-vite build",
-    "dist:linux": "electron-builder --linux",
-    "dist:mac": "electron-builder --mac",
-    "dist:win": "electron-builder --win",
+    "dist": "electron-builder",
     "check": "tsc --noEmit",
     "coverage": "sensible-browser coverage/index.html",
     "format": "prettier --write 'client/**/*.ts*' && eslint --fix 'client/**/*.ts*'",

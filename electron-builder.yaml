@@ -9,6 +9,8 @@ files:
 extraResources:
   - from: 'pyproject.toml'
     to: 'pyproject.toml'
+  - from: 'build/runner'
+    to: 'runner'
   - from: 'build/example'
     to: 'example'
     filter:
@@ -47,9 +49,6 @@ dmg:
 
 win:
   executableName: ${name}
-  extraResources:
-    - from: 'build/runner/win'
-      to: 'runner'
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

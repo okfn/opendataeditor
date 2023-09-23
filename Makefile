@@ -14,14 +14,8 @@ build:
 client:
 	npm run start
 
-dist-linux:
-	npm run dist:linux
-
-dist-mac:
-	npm run dist:mac
-
-dist-win:
-	npm run dist:win
+dist:
+	npm run dist
 
 docs:
 	cd portal && npm start
