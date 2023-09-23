@@ -4,10 +4,10 @@ import portfinder from 'portfinder'
 import * as settings from './settings'
 import log from 'electron-log'
 
-export async function startServer() {
+export async function runServer() {
   const port = await portfinder.getPortPromise({ port: 4040 })
   const url = `http://localhost:${port}`
-  log.info('[startServer]', { url })
+  log.info('[runServer]', { url })
 
   // Start server
   const proc = spawnFile(

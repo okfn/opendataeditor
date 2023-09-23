@@ -2,7 +2,7 @@ import { shell, BrowserWindow } from 'electron'
 import { resolve } from 'path'
 import { is } from '@electron-toolkit/utils'
 
-export function createWindow(): void {
+export function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     // width: 900,
@@ -34,4 +34,6 @@ export function createWindow(): void {
   } else {
     mainWindow.loadFile(resolve(__dirname, '../client/index.html'))
   }
+
+  return mainWindow
 }
