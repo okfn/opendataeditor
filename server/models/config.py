@@ -12,3 +12,4 @@ class ProjectConfig(BaseModel):
 class Config(BaseModel):
     system: SystemConfig
     project: ProjectConfig
+    folder: str

@@ -6,8 +6,10 @@ import * as menu from '../Parts/Bars/Menu'
 import { useStore } from './store'
 
 export default function Menu() {
-  const name = useStore((state) => state.config?.project.name || 'current')
+  const folder = useStore((state) => state.config?.folder)
   const openProject = useStore((state) => state.openProject)
+  if (!folder) return
+  const name = folder.split(/[\\/]/g).slice(-1)[0]
   // @ts-ignore
   const selectFolder = window?.opendataeditor?.selectFolder
   const handleOpen = async () => {
@@ -19,10 +21,9 @@ export default function Menu() {
     <menu.MenuBar fullWidth>
       <Columns layout={[9, 3]} spacing={1}>
         <SelectField
-          disabled={!selectFolder}
           margin="none"
           value={name}
-          options={[name]}
+          options={[name, folder]}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" disableTypography>
@@ -33,7 +34,6 @@ export default function Menu() {
         />
         <Button
           color="inherit"
-          disabled={!selectFolder}
           variant="outlined"
           fullWidth
           onClick={handleOpen}
