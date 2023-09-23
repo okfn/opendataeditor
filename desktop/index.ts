@@ -1,6 +1,7 @@
 import { app, dialog, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
+import { createBridge } from './bridge'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
@@ -15,21 +16,24 @@ app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 
+  log.info('## Start client')
+  const mainWindow = createWindow()
+  createBridge(mainWindow)
+
   if (!is.dev) {
+    log.info('## Start server')
+
     log.info('## Ensure resources')
     await resources.ensureExample()
     await resources.ensureRunner()
 
-    log.info('## Prepare python')
+    log.info('## Ensure python')
     await python.ensurePython()
     await python.ensureLibraries()
 
-    log.info('## Start server')
-    await server.startServer()
+    log.info('## Run server')
+    await server.runServer()
   }
-
-  log.info('## Create window')
-  createWindow()
 })
 
 // Default open or close DevTools by F12 in development

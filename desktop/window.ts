@@ -1,20 +1,20 @@
 import { shell, BrowserWindow } from 'electron'
-import { resolve } from 'path'
+import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
-export function createWindow(): void {
+export function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     // width: 900,
     // height: 670,
     show: false,
+    // alwaysOnTop: true,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     // ...(process.platform === 'linux' ? { icon } : {}),
-    // webPreferences: {
-    // preload: join(__dirname, '../preload/index.js'),
-    // sandbox: false,
-    // },
+    webPreferences: {
+      preload: join(__dirname, 'preload', 'index.js'),
+    },
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -32,6 +32,8 @@ export function createWindow(): void {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(resolve(__dirname, '../client/index.html'))
+    mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
   }
+
+  return mainWindow
 }

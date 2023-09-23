@@ -11,6 +11,7 @@ import DeleteFolderDialog from './Dialogs/DeleteFolder'
 import IndexFilesDialog from './Dialogs/IndexFiles'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
+import StartDialog from './Dialogs/Start'
 import { useStore } from './store'
 
 export default function Dialog() {
@@ -35,4 +36,5 @@ const DIALOGS = {
   indexFiles: IndexFilesDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
+  start: StartDialog,
 }

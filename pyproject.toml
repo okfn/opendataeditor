@@ -46,6 +46,7 @@ dependencies = [
     "fsspec",
     "pyright==1.1.317",
     "ipython",
+    "watchfiles",
     "pytest-cov",
     "pytest-vcr",
     "pytest-mock",
@@ -57,9 +58,7 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 build = [
-  "python -m example.build",
-  "python -m runner.build",
-  "python -m server.build",
+  "python -m build",
 ]
 check = [
   "pyright server",
@@ -77,9 +76,8 @@ lint = [
 spec = [
   "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
 ]
-# TODO: support autoreloading and providing a custom folder/port
 start = [
-  "python -m server",
+  "watchfiles 'python -m server {args:tmp/project}' server",
 ]
 test = [
   "hatch run lint",

@@ -59,3 +59,6 @@ class Server(FastAPI):
 
     def get_project(self):
         return Project(self.config.folder)
+
+    def set_project(self, fullpath: str):
+        self.config.folder = fullpath

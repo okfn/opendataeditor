@@ -4,10 +4,10 @@ import portfinder from 'portfinder'
 import * as settings from './settings'
 import log from 'electron-log'
 
-export async function startServer() {
+export async function runServer() {
   const port = await portfinder.getPortPromise({ port: 4040 })
   const url = `http://localhost:${port}`
-  log.info('[startServer]', { url })
+  log.info('[runServer]', { url })
 
   // Start server
   const proc = spawnFile(
@@ -20,7 +20,7 @@ export async function startServer() {
   let ready = false
   let attempt = 0
   const maxAttempts = 10
-  const delaySeconds = 0.5
+  const delaySeconds = 1
   const checkUrl = `${url}/project/check`
   while (!ready) {
     try {

@@ -1,6 +1,7 @@
 export interface IConfig {
   system: ISystemConfig
   project: IProjectConfig
+  folder: string
 }
 
 export interface ISystemConfig {

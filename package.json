@@ -32,8 +32,8 @@
     "format": "prettier --write 'client/**/*.ts*' && eslint --fix 'client/**/*.ts*'",
     "lint": "prettier --check 'client/**/*.ts*' && eslint 'client/**/*.ts*'",
     "prepare": "husky install",
-    "preview": "electron-vite preview",
-    "start": "electron-vite dev",
+    "preview": "electron-vite dev",
+    "start": "vite --open --port 8080",
     "spec": "vitest run",
     "test": "npm run lint && npm run check && npm run spec",
     "update": "ncu -u"

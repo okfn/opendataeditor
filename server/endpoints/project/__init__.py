@@ -1,2 +1,2 @@
 # Register modules
-from . import check, sync
+from . import check, open, sync
