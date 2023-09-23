@@ -13,3 +13,4 @@ export type IDialog =
   | 'indexFiles'
   | 'moveFile'
   | 'moveFolder'
+  | 'start'

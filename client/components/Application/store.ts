@@ -79,10 +79,10 @@ export function makeStore(props: ApplicationProps) {
 
     onStart: async () => {
       const { loadConfig, loadFiles, updateState } = get()
-      updateState({ loading: true })
+      updateState({ dialog: 'start' })
       await loadConfig()
       await loadFiles()
-      updateState({ loading: false })
+      updateState({ dialog: undefined })
     },
     onFileCreate: async (paths) => {
       const { loadFiles, selectFile } = get()
