@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+from pathlib import Path
 from typing import List
 
 from fastapi import Request
@@ -24,6 +26,15 @@ def endpoint(request: Request, props: Props) -> Result:
 
 
 def action(project: Project, props: Props) -> Result:
-    print(settings.HOME)
+    projects: List[models.Project] = []
 
-    return Result(projects=[])
+    for root, folders, _ in os.walk(settings.HOME):
+        print(root)
+        root = Path(root)
+        for folder in list(folders):
+            if folder.startswith(".") or folder in settings.IGNORED_FOLDERS:
+                folders.remove(folder)
+                continue
+            projects.append(models.Project(path=str(root / folder)))
+
+    return Result(projects=projects)
