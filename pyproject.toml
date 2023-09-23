@@ -57,9 +57,7 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 build = [
-  "python -m example.build",
-  "python -m runner.build",
-  "python -m server.build",
+  "python -m build",
 ]
 check = [
   "pyright server",
