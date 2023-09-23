@@ -14,7 +14,7 @@ class Config:
     def __init__(self, project: Project):
         self.system = project.system / "config.json"
         self.project = project.private / "config.json"
-        self.folder = project.public
+        self.folder = project.public.resolve()
         for fullpath in [self.system, self.project]:
             if not fullpath.exists():
                 JsonResource(data={}).write_json(path=str(fullpath))
