@@ -13,7 +13,7 @@ export default function StartDialog() {
         If it is a first run on your computer, it may take <strong>
           a few minutes
         </strong>{' '}
-        to download dependencies. Next time it will instant!
+        to download dependencies. Next time it will be instant!
       </Box>
     </WaitDialog>
   )

@@ -11,8 +11,6 @@ def build_example():
 
     shutil.rmtree(target, ignore_errors=True)
     shutil.copytree(source, target)
-    os.remove(f"{target}/__init__.py")
-    os.remove(f"{target}/build.py")
 
     print(f"[example] Copied '{source}' to '{target}'")
 
@@ -47,7 +45,6 @@ def build_server():
 
     shutil.rmtree(target, ignore_errors=True)
     shutil.copytree(source, target)
-    os.remove(f"{target}/build.py")
 
     print(f"[server] Copied '{source}' to '{target}'")
 
