@@ -1,2 +1,2 @@
 # Register modules
-from . import check, list, sync
+from . import check, sync
