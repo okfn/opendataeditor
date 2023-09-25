@@ -7,7 +7,7 @@ export default function StartDialog() {
     <WaitDialog open={true} title="Open Data Editor" maxWidth="xl">
       <Box>
         <big>
-          Starting the <strong>application</strong>!
+          Initializing the <strong>application</strong>!
         </big>{' '}
         <RocketLaunchIcon sx={{ fontSize: 24 }} />
         If it is a first run on your computer, it may take <strong>

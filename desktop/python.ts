@@ -23,18 +23,17 @@ export async function ensureLibraries() {
 
   const required = await readRequiredLibraries()
   const installed = await readInstalledLibraries()
+  const missing = required.filter((spec) => !installed.includes(spec))
+  if (!missing.length) return
 
-  for (const spec of required) {
-    if (installed.includes(spec)) continue
-    await system.execFile(settings.PIP, [
-      'install',
-      spec,
-      '--upgrade',
-      '--disable-pip-version-check',
-    ])
-  }
+  await system.execFile(settings.PIP, [
+    'install',
+    '--upgrade',
+    '--disable-pip-version-check',
+    ...missing,
+  ])
 
-  log.info('[ensureLibraries]', { message: 'done' })
+  log.info('[ensureLibraries]', { missing })
 }
 
 export async function readRequiredLibraries() {
@@ -42,7 +41,7 @@ export async function readRequiredLibraries() {
 
   const path = join(settings.DIST, 'pyproject.toml')
   const text = await fsp.readFile(path, 'utf-8')
-  const data = toml.parse(text).project.dependencies
+  const data = toml.parse(text).project.dependencies as string[]
 
   log.info('[readRequiredLibraries]', { data })
   return data

@@ -11,6 +11,7 @@ ARTIFACTS_IDENTIFIER = "_artifacts"
 BUFFER_SIZE = 1000
 DEFAULT_HTTP_PORT = 4040
 IGNORED_FOLDERS = [
+    ".git",
     ".venv",
     ".python",
     "node_modules",
