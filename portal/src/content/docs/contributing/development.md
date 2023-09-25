@@ -37,7 +37,7 @@ hatch shell # Enter the venv
 Now you can setup you IDE to use a proper Python path:
 
 ```bash
-.python/fdapp/bin/python
+.python/opendataeditor/bin/python
 ```
 
 ## Installation

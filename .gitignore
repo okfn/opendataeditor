@@ -148,9 +148,12 @@ package-lock.json
 .server/
 .env
 static/
+build/
 dist/
 site/
 lib/
 tmp/
 .vim
 .vercel
+client/coverage
+.opendataeditor

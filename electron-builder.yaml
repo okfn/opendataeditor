@@ -1,0 +1,56 @@
+appId: org.opendataeditor.app
+copyright: Copyright © 2023 ${author}
+
+# General
+
+files:
+  - 'build/client/**/*'
+  - 'build/desktop/**/*'
+extraResources:
+  - from: 'pyproject.toml'
+    to: 'pyproject.toml'
+  - from: 'build/runner'
+    to: 'runner'
+  - from: 'build/example'
+    to: 'example'
+    filter:
+      - '**/*'
+      - '!**/.opendataeditor'
+  - from: 'build/server'
+    to: 'server'
+    filter:
+      - '**/*'
+      - '!**/__pycache__'
+
+# Linux
+
+linux:
+  maintainer: okfn.org
+  category: Utility
+  target:
+    - AppImage
+  extraResources:
+    - from: 'build/runner/linux'
+      to: 'runner'
+appImage:
+  artifactName: ${name}-${version}.${ext}
+
+# Macos
+
+mac:
+  notarize: false
+  extraResources:
+    - from: 'build/runner/mac'
+      to: 'runner'
+dmg:
+  artifactName: ${name}-${version}.${ext}
+
+# Windows
+
+win:
+  executableName: ${name}
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
