@@ -6,6 +6,16 @@ import tarfile
 import fsspec
 
 
+def build_assets():
+    source = "desktop/assets"
+    target = "build"
+
+    for name in os.listdir(source):
+        shutil.copy(f"{source}/{name}", target)
+
+    print(f"[example] Copied '{source}' to '{target}'")
+
+
 def build_example():
     source = "example"
     target = "build/example"
@@ -57,6 +67,7 @@ def build_server():
 
 
 if __name__ == "__main__":
+    build_assets()
     build_example()
     build_runner()
     build_server()
