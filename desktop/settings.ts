@@ -3,6 +3,9 @@ import { join } from 'path'
 
 export const HOME = os.homedir()
 
+export const PORT_DEV = 4040
+export const PORT_PROD = 4444
+
 export const DIST = process.resourcesPath
 export const DIST_EXAMPLE = join(DIST, 'example')
 export const DIST_RUNNER = join(DIST, 'runner')

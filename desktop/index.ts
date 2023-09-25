@@ -4,6 +4,7 @@ import { createWindow } from './window'
 import { createBridge } from './bridge'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
+import * as system from './system'
 import * as server from './server'
 import * as python from './python'
 import * as settings from './settings'
@@ -15,24 +16,19 @@ import * as resources from './resources'
 app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
+  const serverPort = await system.findPort()
 
   log.info('## Start client')
-  const mainWindow = createWindow()
-  createBridge(mainWindow)
+  createBridge({ serverPort })
+  createWindow()
 
   if (!is.dev) {
     log.info('## Start server')
-
-    log.info('## Ensure resources')
     await resources.ensureExample()
     await resources.ensureRunner()
-
-    log.info('## Ensure python')
     await python.ensurePython()
     await python.ensureLibraries()
-
-    log.info('## Run server')
-    await server.runServer()
+    await server.runServer({ serverPort })
   }
 })
 

@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('opendataeditor', {
-  selectFolder: () => ipcRenderer.invoke('dialog:openDirectory'),
+  readServerUrl: () => ipcRenderer.invoke('readServerUrl'),
+  openDirectoryDialog: () => ipcRenderer.invoke('openDirectoryDialog'),
 })

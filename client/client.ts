@@ -3,18 +3,22 @@ import * as settings from './settings'
 import * as types from './types'
 
 export class Client {
-  basepath: string
+  serverUrl?: string
 
-  constructor(props: { basepath?: string } = {}) {
-    this.basepath = props.basepath || settings.SERVER_URL
+  constructor(props: { serverUrl?: string } = {}) {
+    this.serverUrl = props.serverUrl
   }
 
   async request(
     path: string,
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
-    if (this.basepath) path = this.basepath + path
-    return makeRequest(path, props)
+    const base =
+      this.serverUrl ||
+      // @ts-ignore
+      (await window?.opendataeditor?.readServerUrl()) ||
+      settings.SERVER_URL
+    return makeRequest(base + path, props)
   }
 
   // Article

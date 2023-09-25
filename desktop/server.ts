@@ -1,18 +1,17 @@
 import { spawnFile } from './system'
 import timersp from 'timers/promises'
-import portfinder from 'portfinder'
 import * as settings from './settings'
 import log from 'electron-log'
+import * as settings from './settings'
 
-export async function runServer() {
-  const port = await portfinder.getPortPromise({ port: 4040 })
-  const url = `http://localhost:${port}`
-  log.info('[runServer]', { url })
+export async function runServer({ serverPort }: { serverPort: number }) {
+  log.info('[runServer]', { serverPort })
+  const url = `http://localhost:${serverPort}`
 
   // Start server
   const proc = spawnFile(
     settings.PYTHON,
-    ['-m', 'server', settings.APP_EXAMPLE, '--port', port.toString()],
+    ['-m', 'server', settings.APP_EXAMPLE, '--port', serverPort.toString()],
     process.resourcesPath
   )
 
@@ -34,5 +33,5 @@ export async function runServer() {
     }
   }
 
-  return { port, proc }
+  return proc
 }

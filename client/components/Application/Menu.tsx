@@ -12,10 +12,10 @@ export default function Menu() {
   if (!folder) return
   const name = projectName || folder.split(/[\\/]/g).slice(-1)[0]
   // @ts-ignore
-  const selectFolder = window?.opendataeditor?.selectFolder
+  const openDirectoryDialog = window?.opendataeditor?.openDirectoryDialog
   const handleOpen = async () => {
-    if (!selectFolder) return
-    const fullpath = await selectFolder()
+    if (!openDirectoryDialog) return
+    const fullpath = await openDirectoryDialog()
     if (fullpath) await openProject(fullpath)
   }
   return (
