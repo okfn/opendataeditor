@@ -2,10 +2,9 @@ import * as React from 'react'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { alpha, styled } from '@mui/material/styles'
 import { keyframes } from '@mui/system'
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem'
+import { TreeItem, TreeView, TreeItemProps, treeItemClasses } from '@mui/x-tree-view'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import TreeView from '@mui/lab/TreeView'
 import ScrollBox from '../Boxes/Scroll'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
@@ -40,8 +39,8 @@ export default function FileTree(props: FileTreeProps) {
           <TreeView
             selected={selected}
             expanded={expanded}
-            onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-              props.onSelect(nodeId)
+            onNodeSelect={(_event, nodeId) => {
+              props.onSelect(nodeId as string)
             }}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
               // On collapsing we don't collapse a folder if it's not yet selected

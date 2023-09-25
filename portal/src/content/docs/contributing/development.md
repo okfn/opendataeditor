@@ -71,7 +71,7 @@ Running the server in isolation:
 ```bash
 make server # default folder
 # OR
-python -m src.server <data-folder> # select project folder
+hatch run start <data-folder> # optionally provide a data folder path
 ```
 
 ### Client
@@ -80,6 +80,8 @@ Running the client in isolation:
 
 ```bash
 make client
+# OR
+npm run start
 ```
 
 ### Components

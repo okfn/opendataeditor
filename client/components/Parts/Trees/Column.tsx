@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import TreeView from '@mui/lab/TreeView'
-import TreeItem from '@mui/lab/TreeItem'
+import { TreeView, TreeItem } from '@mui/x-tree-view'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as helpers from '../../../helpers'
@@ -31,8 +30,8 @@ export default function ColumnTree(props: ColumnTreeProps) {
         <TreeView
           selected={props.selected || ''}
           expanded={expanded}
-          onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-            if (props.onPathChange) props.onPathChange(nodeId)
+          onNodeSelect={(_event, nodeId) => {
+            if (props.onPathChange) props.onPathChange(nodeId as string)
           }}
           onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
             // On collapsing we don't collapse a folder if it's not yet selected

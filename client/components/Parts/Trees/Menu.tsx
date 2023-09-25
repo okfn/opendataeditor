@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import TreeView from '@mui/lab/TreeView'
-import TreeItem from '@mui/lab/TreeItem'
+import { TreeView, TreeItem } from '@mui/x-tree-view'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import * as helpers from '../../../helpers'
@@ -32,8 +31,8 @@ export default function MenuTree(props: MenuTreeProps) {
     <TreeView
       selected={props.selected || ''}
       expanded={expanded}
-      onNodeSelect={(_event: React.SyntheticEvent, nodeId: string) => {
-        props.onSelect(nodeId)
+      onNodeSelect={(_event, nodeId) => {
+        props.onSelect(nodeId as string)
       }}
       onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
         // Here we implemet accordion logic: only one can be extended at time
