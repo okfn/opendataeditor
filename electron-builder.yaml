@@ -29,9 +29,6 @@ linux:
   category: Utility
   target:
     - AppImage
-  extraResources:
-    - from: 'build/runner/linux'
-      to: 'runner'
 appImage:
   artifactName: ${name}-${version}.${ext}
 
@@ -39,9 +36,6 @@ appImage:
 
 mac:
   notarize: false
-  extraResources:
-    - from: 'build/runner/mac'
-      to: 'runner'
 dmg:
   artifactName: ${name}-${version}.${ext}
 
