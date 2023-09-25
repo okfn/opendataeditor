@@ -1,0 +1,3 @@
+# Don't apply EOL normalization for TypeScript files
+*.ts -text
+*.tsx -text
