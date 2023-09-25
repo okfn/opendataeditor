@@ -28,7 +28,7 @@ It offers features like sorting, locking, automatic sizing, resizing and ability
 
 ## Source View
 
-To view the file in its raw form, click on `source` menu. To hide, click on the menu again.
+To view the file in its raw form, click on `Source` menu. To hide, click on the menu again.
 
 ![SOURCE VIEW](./assets/working-with-tables/table-source-view.png)
 
