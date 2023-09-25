@@ -124,11 +124,13 @@ export function makeStore(props: ApplicationProps) {
     // Project
 
     openProject: async (fullpath) => {
-      const { client, closeFile, loadConfig, loadFiles } = get()
-      await client.projectOpen({ fullpath })
+      const { client, updateState, closeFile, loadConfig, loadFiles } = get()
       closeFile()
+      updateState({ loading: true })
+      await client.projectOpen({ fullpath })
       await loadConfig()
       await loadFiles()
+      updateState({ loading: false })
     },
 
     // Config
