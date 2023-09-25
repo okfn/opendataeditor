@@ -1,5 +1,5 @@
 ---
-title: Working With Articles
+title: Working with Articles
 sidebar:
   order: 5
 ---
@@ -43,7 +43,7 @@ Likewise, if you have a chart and want to include it in the article, you can do 
 ## Including Map
 
 Using same tag, you can also include map in the article. To include a map `extinct-dogs.geojson` we use tag
-`@extinct_dogs`. 
+`@extinct_dogs`.
 
 ![INCLUDE MAP](./assets/working-with-articles/article-tag-map.png)
 
@@ -88,3 +88,4 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![AI GENERATED](./assets/working-with-articles/article-ai-edit-output.png)
+

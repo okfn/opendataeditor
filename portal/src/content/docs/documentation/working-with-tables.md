@@ -1,5 +1,5 @@
 ---
-title: Working With Tables
+title: Working with Tables
 sidebar:
   order: 2
 ---
@@ -133,3 +133,4 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![EDIT USING AI](./assets/working-with-tables/table-chatgpt-output.png)
+

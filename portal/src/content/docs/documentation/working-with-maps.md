@@ -1,5 +1,5 @@
 ---
-title: Working With Maps
+title: Working with Maps
 sidebar:
   order: 4
 ---

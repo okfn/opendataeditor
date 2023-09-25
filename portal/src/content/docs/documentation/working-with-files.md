@@ -1,5 +1,5 @@
 ---
-title: Working With Other Files
+title: Working with Files
 sidebar:
   order: 6
 ---
@@ -8,7 +8,7 @@ This section explains how to work with other files in the editor.
 
 ## Image File
 
-To open the image file, simply click on the image file in the `File Explorer` on the left pane. 
+To open the image file, simply click on the image file in the `File Explorer` on the left pane.
 
 ![IMAGE FILE](./assets/working-with-other-files/otherfiles-image.png)
 
@@ -17,6 +17,7 @@ If you haven't already added the image file to the editor, click `ADD` button at
 ![ADD IMAGE FILE](./assets/working-with-other-files/otherfiles-add.png)
 
 ### Metadata
+
 You can add the metadata to the image file by clicking `Metadatata` menu in the toolbar. To hide metadata editor, just click the menu again.
 
 ![METADATA MENU](./assets/working-with-other-files/otherfiles-menu-metadata.png)
@@ -26,6 +27,7 @@ The metadata editor has three sections: Menu, Input form and Help. Using menu ex
 ![METADATA EDITOR](./assets/working-with-other-files/otherfiles-metadata-editor.png)
 
 ### Revert / Save
+
 When modifications are made to the file, the `Revert` and `Save` buttons gets activated. You can save the changes using `Save` button. If you want to revert the changes, just click `Revert` button.
 
 ![METADATA EDITOR](./assets/working-with-other-files/otherfiles-save-revert.png)
@@ -65,3 +67,4 @@ Similarly you can also generate and edit script using Chat AI Feature.
 You can also open `SQL` file using the editor.
 
 ![METADATA EDITOR](./assets/working-with-other-files/otherfiles-view.png)
+

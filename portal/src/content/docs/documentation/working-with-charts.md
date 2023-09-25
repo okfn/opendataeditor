@@ -1,9 +1,8 @@
 ---
-title: Working With Charts
+title: Working with Charts
 sidebar:
   order: 3
 ---
-
 
 This section explains about how to use the chart feature in the Open Data Editor. The `Chart Editor` makes it easy to create charts without any code. The editor generates vegalite specification from the user input, which is passed to vegalite library to generate charts.
 
@@ -29,19 +28,17 @@ Once you update the chart specifications, the chart will be rendered in the `Cha
 
 You can edit the chart specifications to customize it exactly how you want it to be rendered using `Chart Editor`. To hide the editor simply click the `Editor` icon.
 
-
-
 The editor allows us to make changes easily using GUI without requiring any understanding of the low level details of vegalite specification. It has three sections: a menu explorer, an input form and a help window.
 
 ![CHART MODE](./assets/working-with-charts/chart-editor.png)
 
-It supports adding channels, transforms and layers feature. 
+It supports adding channels, transforms and layers feature.
 
 ![CHART MODE](./assets/working-with-charts/chart-menu.png)
 
 ## Encoding or Channel
 
-The channels allows us to add multiple `Encodings` to map data fields to visual properties of a chart. To go to encoding/channel list, navigate to `Chart > Channels`. The term `Channel` and `Encoding` will be use alternatively here. 
+The channels allows us to add multiple `Encodings` to map data fields to visual properties of a chart. To go to encoding/channel list, navigate to `Chart > Channels`. The term `Channel` and `Encoding` will be use alternatively here.
 
 For example, to generate a bar chart with sales on `X` axis and states on `Y` axis as follows:
 
