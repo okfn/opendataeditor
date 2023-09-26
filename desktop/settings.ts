@@ -19,5 +19,5 @@ export const APP_RUNNER = join(APP_HOME, 'runner')
 export const APP_PYTHON = join(APP_HOME, 'python')
 export const APP_EXAMPLE = join(APP_HOME, 'example')
 
-export const PYTHON_SOURCE = join(APP_RUNNER, WIN ? 'python.exe' : 'bin/python')
-export const PYTHON_TARGET = join(APP_PYTHON, WIN ? 'Scripts\\python.exe' : 'bin/python')
+export const PYTHON_SOURCE = join(APP_RUNNER, WIN ? 'python.exe' : 'bin/python3')
+export const PYTHON_TARGET = join(APP_PYTHON, WIN ? 'Scripts\\python.exe' : 'bin/python3')
