@@ -2,7 +2,6 @@ import { spawnFile } from './system'
 import timersp from 'timers/promises'
 import * as settings from './settings'
 import log from 'electron-log'
-import * as settings from './settings'
 
 export async function runServer({ serverPort }: { serverPort: number }) {
   log.info('[runServer]', { serverPort })
@@ -10,7 +9,7 @@ export async function runServer({ serverPort }: { serverPort: number }) {
 
   // Start server
   const proc = spawnFile(
-    settings.PYTHON,
+    settings.PYTHON_TARGET,
     ['-m', 'server', settings.APP_EXAMPLE, '--port', serverPort.toString()],
     process.resourcesPath
   )

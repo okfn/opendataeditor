@@ -18,6 +18,5 @@ export const APP_RUNNER = join(APP_HOME, 'runner')
 export const APP_PYTHON = join(APP_HOME, 'python')
 export const APP_EXAMPLE = join(APP_HOME, 'example')
 
-export const ORIGINAL_PYTHON = join(APP_RUNNER, 'bin', 'python3')
-export const PYTHON = join(APP_PYTHON, 'bin', 'python3')
-export const PIP = join(APP_PYTHON, 'bin', 'pip3')
+export const PYTHON_SOURCE = join(APP_RUNNER, 'bin', 'python3')
+export const PYTHON_TARGET = join(APP_PYTHON, 'bin', 'python3')

@@ -6,11 +6,10 @@ import * as menu from '../Parts/Bars/Menu'
 import { useStore } from './store'
 
 export default function Menu() {
-  const folder = useStore((state) => state.config?.folder)
+  const folder = useStore((state) => state.config?.folder || '')
   const openProject = useStore((state) => state.openProject)
   const projectName = useStore((state) => state.config?.project.name)
-  if (!folder) return
-  const name = projectName || folder.split(/[\\/]/g).slice(-1)[0]
+  const name = projectName || folder.split(/[\\/]/g).slice(-1)[0] || ''
   // @ts-ignore
   const openDirectoryDialog = window?.opendataeditor?.openDirectoryDialog
   const handleOpen = async () => {

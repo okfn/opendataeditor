@@ -11,7 +11,7 @@ export async function ensurePython() {
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
-    await system.execFile(settings.ORIGINAL_PYTHON, ['-m', 'venv', settings.APP_PYTHON])
+    await system.execFile(settings.PYTHON_SOURCE, ['-m', 'venv', settings.APP_PYTHON])
     message = 'created'
   }
 
@@ -26,7 +26,9 @@ export async function ensureLibraries() {
   const missing = required.filter((spec) => !installed.includes(spec))
   if (!missing.length) return
 
-  await system.execFile(settings.PIP, [
+  await system.execFile(settings.PYTHON_TARGET, [
+    '-m',
+    'pip',
     'install',
     '--upgrade',
     '--disable-pip-version-check',
@@ -50,7 +52,9 @@ export async function readRequiredLibraries() {
 export async function readInstalledLibraries() {
   log.info('[readInstalledLibraries]')
 
-  const text = await system.execFile(settings.PIP, [
+  const text = await system.execFile(settings.PYTHON_TARGET, [
+    '-m',
+    'pip',
     'list',
     '--format',
     'freeze',
