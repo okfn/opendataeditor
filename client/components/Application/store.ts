@@ -82,9 +82,11 @@ export function makeStore(props: ApplicationProps) {
     // Events
 
     onStart: async () => {
-      const { loadConfig, loadFiles, updateState } = get()
+      const { client, loadConfig, loadFiles, updateState } = get()
       updateState({ dialog: 'start' })
       let ready = false
+      let attempt = 0
+      const maxAttempts = 10
       const delaySeconds = 1
       while (!ready) {
         try {
@@ -92,6 +94,14 @@ export function makeStore(props: ApplicationProps) {
           await loadFiles()
           ready = true
         } catch (error) {
+          attempt += 1
+          if (attempt >= maxAttempts) {
+            const serverUrl = await client.readServerUrl()
+            const message = `Client cannot connect to server on "${serverUrl}"`
+            // @ts-ignore
+            const sendFatalError = window?.opendataeditor?.sendFatalError
+            sendFatalError ? sendFatalError(message) : alert(message)
+          }
           await delay(delaySeconds * 1000)
         }
       }

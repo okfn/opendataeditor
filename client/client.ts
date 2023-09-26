@@ -9,16 +9,21 @@ export class Client {
     this.serverUrl = props.serverUrl
   }
 
-  async request(
-    path: string,
-    props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
-  ) {
-    const base =
+  async readServerUrl() {
+    return (
       this.serverUrl ||
       // @ts-ignore
       (await window?.opendataeditor?.readServerUrl()) ||
       settings.SERVER_URL
-    return makeRequest(base + path, props)
+    )
+  }
+
+  async request(
+    path: string,
+    props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
+  ) {
+    const serverUrl = await this.readServerUrl()
+    return makeRequest(serverUrl + path, props)
   }
 
   // Article
