@@ -7,6 +7,12 @@ export function createBridge({ serverPort }: { serverPort: number }) {
   })
   ipcMain.handle('sendFatalError', async (_ev, message: string) => {
     log.error(message)
+    await dialog.showMessageBox({
+      type: 'error',
+      title: 'Open Data Editor',
+      message: 'Fatal error',
+      detail: message,
+    })
     app.quit()
   })
   ipcMain.handle('openDirectoryDialog', async () => {

@@ -61,7 +61,7 @@ process.on('unhandledRejection', async (error: any) => {
   await dialog.showMessageBox({
     type: 'error',
     title: 'Open Data Editor',
-    message: 'Error during the application startup',
+    message: 'Fatal error',
     detail: error.toString(),
   })
   app.quit()
