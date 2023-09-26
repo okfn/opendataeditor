@@ -10,6 +10,7 @@ def build_assets():
     source = "desktop/assets"
     target = "build"
 
+    os.makedirs(target, exist_ok=True)
     for name in os.listdir(source):
         shutil.copy(f"{source}/{name}", target)
 
