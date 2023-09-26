@@ -1,6 +1,7 @@
 import os from 'os'
 import { join } from 'path'
 
+export const WIN = process.platform === 'win32'
 export const HOME = os.homedir()
 
 export const PORT_DEV = 4040
@@ -18,6 +19,5 @@ export const APP_RUNNER = join(APP_HOME, 'runner')
 export const APP_PYTHON = join(APP_HOME, 'python')
 export const APP_EXAMPLE = join(APP_HOME, 'example')
 
-export const PYTHON_BIN = process.platform === 'win32' ? 'python.exe' : 'bin/python'
-export const PYTHON_SOURCE = join(APP_RUNNER, PYTHON_BIN)
-export const PYTHON_TARGET = join(APP_PYTHON, PYTHON_BIN)
+export const PYTHON_SOURCE = join(APP_RUNNER, WIN ? 'python.exe' : 'bin/python')
+export const PYTHON_TARGET = join(APP_PYTHON, WIN ? 'Scripts\\python.exe' : 'bin/python')
