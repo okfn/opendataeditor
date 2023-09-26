@@ -40,7 +40,7 @@ def build_runner():
     if sys.platform == "darwin":
         filetype = "x86_64-apple-darwin-install_only"
     if sys.platform == "win32":
-        filetype = "x86_64-pc-windows-msvc-static-install_only"
+        filetype = "x86_64-pc-windows-msvc-shared-install_only"
     filename = f"cpython-3.10.13+{datemark}-{filetype}.tar.gz"
 
     if not os.path.exists(f"{cache}/{filename}"):
