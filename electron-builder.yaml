@@ -40,11 +40,12 @@ dmg:
   artifactName: ${name}-${version}.${ext}
 
 # Windows
+# Variable ${name} doesn't work on windows
 
 win:
-  executableName: ${name}
+  executableName: opendataeditor
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: opendataeditor-${version}.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
