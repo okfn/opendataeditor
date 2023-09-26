@@ -66,3 +66,5 @@ jobs:
         run: make build
       - name: Dist software
         run: make dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
