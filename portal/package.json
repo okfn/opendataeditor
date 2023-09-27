@@ -1,7 +1,6 @@
 {
-  "name": "site",
+  "name": "portal",
   "type": "module",
-  "version": "0.0.1",
   "scripts": {
     "start": "astro dev --open",
     "build": "astro build",
