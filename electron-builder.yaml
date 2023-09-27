@@ -29,15 +29,17 @@ linux:
   category: Utility
   target:
     - AppImage
+    - snap
+    - deb
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${name}-linux-${version}.${ext}
 
 # Macos
 
 mac:
   notarize: false
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${name}-mac-${version}.${ext}
 
 # Windows
 # Variable ${name} doesn't work on windows
@@ -45,7 +47,7 @@ dmg:
 win:
   executableName: opendataeditor
 nsis:
-  artifactName: opendataeditor-${version}.${ext}
+  artifactName: opendataeditor-win-${version}.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
