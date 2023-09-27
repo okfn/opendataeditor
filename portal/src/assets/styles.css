@@ -26,8 +26,8 @@
     linear-gradient(215deg, #dbfb2c, transparent 10%),
     radial-gradient(var(--primary-color), transparent 30%) no-repeat -60vw -40vh / 105vw
       200vh,
-    radial-gradient(var(--primary-color), transparent 40%) no-repeat 50%
-      calc(100% + 20rem) / 60rem 30rem;
+    radial-gradient(#ed73fe, transparent 60%) no-repeat 50% calc(100% + 20rem) / 60rem
+      30rem;
 }
 
 [data-has-hero] header {
