@@ -1,5 +1,6 @@
 appId: org.opendataeditor.app
 copyright: Copyright © 2023 ${author}
+artifactName: opendataeditor-${os}-${version}.${ext}
 
 # General
 
@@ -30,15 +31,11 @@ linux:
   target:
     - AppImage
     - deb
-appImage:
-  artifactName: ${name}-linux-${version}.${ext}
 
 # Macos
 
 mac:
   notarize: false
-dmg:
-  artifactName: ${name}-mac-${version}.${ext}
 
 # Windows
 # Variable ${name} doesn't work on windows
@@ -46,7 +43,6 @@ dmg:
 win:
   executableName: opendataeditor
 nsis:
-  artifactName: opendataeditor-win-${version}.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
