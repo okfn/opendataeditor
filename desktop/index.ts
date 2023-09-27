@@ -3,6 +3,7 @@ import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import { createBridge } from './bridge'
 import { is } from '@electron-toolkit/utils'
+import { join } from 'path'
 import log from 'electron-log'
 import * as system from './system'
 import * as server from './server'
@@ -66,3 +67,6 @@ process.on('unhandledRejection', async (error: any) => {
   })
   app.quit()
 })
+
+// Configure logger to write to the app directory
+log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
