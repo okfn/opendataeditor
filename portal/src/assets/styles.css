@@ -1,16 +1,19 @@
 :root {
   --purple-hsl: 209, 60%, 60%;
   --overlay-blurple: hsla(var(--purple-hsl), 0.2);
+  /* It's a primary color of the app itself */
+  /* --brand-color: #0288d1; */
+  --primary-color: #00d1ff;
 }
 
 :root[data-theme='light'] {
   --purple-hsl: 209, 85%, 65%;
-  --sl-color-text-accent: #0288d1;
+  --sl-color-text-accent: var(--primary-color);
   --sl-color-banner-bg: #85898c;
 }
 
 :root[data-theme='dark'] {
-  --sl-color-text-accent: #61d2fe;
+  --sl-color-text-accent: var(--primary-color);
   --sl-color-banner-bg: #85898c;
 }
 
@@ -20,10 +23,10 @@
 
 [data-has-hero] .page {
   background:
-    linear-gradient(215deg, var(--overlay-blurple), transparent 40%),
-    radial-gradient(var(--overlay-blurple), transparent 40%) no-repeat -60vw -40vh / 105vw
+    linear-gradient(215deg, #dbfb2c, transparent 10%),
+    radial-gradient(var(--primary-color), transparent 30%) no-repeat -60vw -40vh / 105vw
       200vh,
-    radial-gradient(var(--overlay-blurple), transparent 65%) no-repeat 50%
+    radial-gradient(var(--primary-color), transparent 40%) no-repeat 50%
       calc(100% + 20rem) / 60rem 30rem;
 }
 
@@ -97,7 +100,7 @@
 
 /* Firefox */
 * {
-  scrollbar-color: #0288d1 transparent;
+  scrollbar-color: var(--primary-color) transparent;
 }
 
 /* Webkit */
@@ -116,5 +119,5 @@ body::-webkit-scrollbar-track {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background: #0288d1;
+  background: var(--primary-color);
 }
