@@ -4,8 +4,8 @@
 [![Codebase](https://img.shields.io/badge/codebase-github-brightgreen)](https://github.com/frictionlessdata/application)
 [![Support](https://img.shields.io/badge/support-slack-brightgreen)](https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg)
 
-> Initially developed under name Frictionless Application
+<strong>Open Data Editor (v1)</strong> for early adopters has been released on <strong>
+Oct 2, 2023
+</strong> -- [READ THE CONCEPT NOTE](https://docs.google.com/presentation/d/1X_SyifQovytKN19L0TUeP-CzLKmWb5d-pfF1NkEiWLs/edit?usp=sharing)
 
-Open Data Editor (beta) has been released on Apr 19, 2023 at csv,conf ([LINK TO THE SLIDES](https://docs.google.com/presentation/d/1VEVBCnxAouNXA0jEcyCjrXtx2R_t-QmFzSZCp3UlqD8))!
-
-[![CSVCONF](portal/src/assets/csvconf.png)](https://docs.google.com/presentation/d/1VEVBCnxAouNXA0jEcyCjrXtx2R_t-QmFzSZCp3UlqD8)
+[![Concept Note](portal/src/assets/concept-note.png)](https://docs.google.com/presentation/d/1X_SyifQovytKN19L0TUeP-CzLKmWb5d-pfF1NkEiWLs/edit?usp=sharing)
