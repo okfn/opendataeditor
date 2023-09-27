@@ -12,7 +12,7 @@ export default defineConfig({
         replacesTitle: true,
       },
       social: {
-        github: 'https://github.com/frictionlessdata/open-data-editor',
+        github: 'https://github.com/okfn/opendataeditor',
       },
       favicon: 'favicon.ico',
       customCss: ['/src/assets/styles.css'],
