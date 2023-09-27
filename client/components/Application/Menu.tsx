@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import SelectField from '../Parts/Fields/Select'
+import LightTooltip from '../Parts/Tooltips/Light'
 import Columns from '../Parts/Grids/Columns'
 import * as menu from '../Parts/Bars/Menu'
 import { useStore } from './store'
@@ -32,15 +33,17 @@ export default function Menu() {
             ),
           }}
         />
-        <Button
-          color="inherit"
-          variant="outlined"
-          fullWidth
-          onClick={handleOpen}
-          sx={{ height: '100%', borderColor: '#bbb !important' }}
-        >
-          Open
-        </Button>
+        <LightTooltip title="Select a new folder to open a project">
+          <Button
+            color="inherit"
+            variant="outlined"
+            fullWidth
+            onClick={handleOpen}
+            sx={{ height: '100%', borderColor: '#bbb !important' }}
+          >
+            Open
+          </Button>
+        </LightTooltip>
       </Columns>
     </menu.MenuBar>
   )
