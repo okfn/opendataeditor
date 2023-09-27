@@ -29,7 +29,6 @@ linux:
   category: Utility
   target:
     - AppImage
-    - snap
     - deb
 appImage:
   artifactName: ${name}-linux-${version}.${ext}
