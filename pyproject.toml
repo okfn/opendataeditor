@@ -1,23 +1,34 @@
 [project]
-name = "fdapp"
+name = "opendataeditor"
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
-    "typer>=0.9",
-    "marko>=1.0",
-    "jinja2>=3.1",
-    "tinydb>=4.7",
-    "openai>=0.27",
-    "pydantic>=2.0",
-    "fastapi>=0.78",
-    "uvicorn>=0.17",
-    "sqlalchemy>=2.0",
-    "platformdirs>=3.8",
-    "python-multipart>=0.0",
-    "typing-extensions>=4.3",
-    "frictionless[ckan,csv,excel,json,github,pandas,sql,zenodo]>=5.15.9",
-    "gitignore-parser>=0.1",
+    "fastapi==0.103.1",
+    "frictionless-ckan-mapper==1.0.9",
+    "frictionless==5.15.10",
+    "gitignore-parser==0.1.6",
+    "ijson==3.2.3",
+    "jinja2==3.1.2",
+    "jsonlines==4.0.0",
+    "marko==2.0.0",
+    "openai==0.28.0",
+    "openpyxl==3.1.2",
+    "pandas==2.1.1",
+    "pydantic==2.3.0",
+    "pygithub==1.59.1",
+    "python-multipart==0.0.6",
+    "pyzenodo3==1.0.2",
+    "sqlalchemy==2.0.20",
+    "tinydb==4.8.0",
+    "typer==0.9.0",
+    "typing_extensions==4.8.0",
+    "uvicorn==0.23.2",
+    "xlrd==2.0.1",
+    "xlwt==1.3.0",
 ]
+
+[tool.setuptools]
+packages=["server"]
 
 [tool.hatch.version]
 path = "package.json"
@@ -32,8 +43,10 @@ dependencies = [
     "black",
     "pytest",
     "neovim",
+    "fsspec",
     "pyright==1.1.317",
     "ipython",
+    "watchfiles",
     "pytest-cov",
     "pytest-vcr",
     "pytest-mock",
@@ -44,24 +57,32 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-# TODO: support autoreloading and providing a custom folder/port
-start = [
-  "python -m src.server",
+build = [
+  "python -m build",
+]
+check = [
+  "pyright server",
 ]
 format = [
-  "ruff src/server test/server --fix",
-  "isort src/server test/server",
-  "black src/server test/server",
+  "ruff server --fix",
+  "isort server",
+  "black server",
 ]
 lint = [
-  "ruff src/server test/server",
-  "isort src/server test/server --check",
-  "black src/server test/server --check",
-  "pyright src/server test/server",
+  "ruff server",
+  "isort server --check",
+  "black server --check",
+]
+spec = [
+  "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
+]
+start = [
+  "watchfiles 'python -m server {args:tmp/project}' server",
 ]
 test = [
   "hatch run lint",
-  "pytest --cov src/server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
+  "hatch run check",
+  "hatch run spec",
 ]
 
 [tool.black]
@@ -79,11 +100,11 @@ ignore = ["E501", "E731"]
 "__init__.py" = ["F401", "F403"]
 
 [tool.pytest.ini_options]
-testpaths = ["test/server"]
+testpaths = ["server"]
 env_files = [".env"]
 markers = ["ci: integrational tests (select with '--ci')"]
 
 [tool.pyright]
-strict = ["src/server"]
-include = ["src/server", "test/server"]
-ignore = ["**/__init__.py"]
+strict = ["server"]
+include = ["server"]
+ignore = ["**/__init__.py", "**/__spec__/**/*", "**/conftest.py"]

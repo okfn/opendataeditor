@@ -1,5 +1,5 @@
 ---
-title: Working With Tables
+title: Working with Tables
 sidebar:
   order: 2
 ---
@@ -28,7 +28,7 @@ It offers features like sorting, locking, automatic sizing, resizing and ability
 
 ## Source View
 
-To view the file in its raw form, click on `source` menu. To hide, click on the menu again.
+To view the file in its raw form, click on `Source` menu. To hide, click on the menu again.
 
 ![SOURCE VIEW](./assets/working-with-tables/table-source-view.png)
 
@@ -92,7 +92,7 @@ You can undo or redo your last change using `undo` or `redo` feature in the `too
 
 ![UNDO-REDO](./assets/working-with-tables/table-undo-redo.png)
 
-## Saving or Reverting
+## Saving / Reverting
 
 You can modify the data by clicking in the table's cell and editing the content. The changes can be saved using `Save` button. When changes are made, the `Save` and `Revert` button gets activated at the bottom of the editor. If needed, you can revert the changes clicking the `Revert` button.
 
@@ -133,3 +133,4 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![EDIT USING AI](./assets/working-with-tables/table-chatgpt-output.png)
+
