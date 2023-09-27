@@ -48,12 +48,6 @@ jspm_packages
 # Yarn Integrity file
 .yarn-integrity
 
-# Livemark
-blog/**/*.html
-docs/**/*.html
-index.html
-404.html
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -148,9 +142,12 @@ package-lock.json
 .server/
 .env
 static/
+build/
 dist/
 site/
 lib/
 tmp/
 .vim
 .vercel
+client/coverage
+.opendataeditor
