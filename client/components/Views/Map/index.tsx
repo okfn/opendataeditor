@@ -17,7 +17,6 @@ export default function Map(props: MapProps) {
   }, [map, geo, props.text])
   if (!props.text) return null
   let data = JSON.parse(props.text)
-  console.log(data)
   if (data?.type === 'Topology') {
     data = topojson.feature(data, Object.keys(data.objects)[0] as any)
   }

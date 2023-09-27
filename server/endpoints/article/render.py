@@ -47,8 +47,6 @@ def action(project: Project, props: Props) -> Result:
     for match in matches:
         element = match.group(0)
         relpath = match.group(1)
-        print(element)
-        print(relpath)
         fullpath = fs.get_fullpath(props.path).parent / relpath
         if fullpath.is_file():
             data = base64.b64encode(fullpath.read_bytes()).decode()
