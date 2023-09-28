@@ -42,13 +42,13 @@ Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaa
 
 ## Windows
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaadb0fe25f950e285ca).Navigate to the URL, choose the appropriate file and initiate the download process.
+Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaadb0fe25f950e285ca). Choose the appropriate file and initiate the download process.
 
 1. If you receive the following message click `Continue download`
 
-![DOWNLOAD SECURITY](./assets/getting-started/gs-download-continue.png)
+![DOWNLOAD SECURITY](./assets/getting-started/gs-windows-download.png)
 
-2. Once downloaded, double click to run the file. You may receive the security message window, click `More info`
+2. After downloading, double click to run the file. You may encounter the security message window, click `More info` and proceed.
 
 ![SECURITY MESSAGE](./assets/getting-started/gs-protection-screen.png)
 
