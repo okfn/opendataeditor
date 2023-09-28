@@ -17,6 +17,7 @@ function OpenaiApiKey() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
+      type="password"
       label="Openai Api Key"
       value={openaiApiKey || ''}
       onChange={(value) =>
