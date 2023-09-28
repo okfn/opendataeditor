@@ -98,25 +98,7 @@ You can modify the data by clicking in the table's cell and editing the content.
 
 ![TABLE EDIT](./assets/working-with-tables/table-edit.png)
 
-After making changes and validating the data, you can package the table resource(s) using the 'Data Package' feature. To create a package, navigate to 'Create' menu and select 'Dataset'. You have the option to either use the default package name or specify a custom name for the package file, then click the 'Create' button.
-
-![PACKAGE](./assets/working-with-tables/table-package.png)
-
-It will create a new file named '<your_file_name>.json' containing metadata for the package and its resources. The metadata adheres to the [Frictionless Data Standards](https://specs.frictionlessdata.io).
-
-![PACKAGE EDITOR](./assets/working-with-tables/table-package-editor.png)
-
-You can also make the changes to the package metadata. Your package is now ready for publishing.
-
-## Publishing
-
-To open the publishing window, click the `Publish` button located at the bottom of the package editor page. After you've added the CKAN details, click the `Publish` button to initiate the publishing process
-
-![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
-
-Similarly, you can also publish it to `Zenodo` or `Github`
-
-## Creating / Editing Tables Using AI
+## Using AI with Tables
 
 To generate data using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `file` tab.
 
@@ -134,3 +116,10 @@ Enter your instruction to AI in the promt input box and apply the command by cli
 
 ![EDIT USING AI](./assets/working-with-tables/table-chatgpt-output.png)
 
+## Publishing
+
+To open the publishing window, click the `Publish` button located at the bottom of the page. After you've added the CKAN details, click the `Publish` button to initiate the publishing process
+
+![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
+
+Similarly, you can also publish it to `Zenodo` or `Github`
