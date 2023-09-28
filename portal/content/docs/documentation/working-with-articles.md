@@ -61,13 +61,13 @@ To edit metadata of the article such as licenses, contributors, sources etc use 
 
 You can undo or redo your last change using `undo` or `redo` feature in the `tools` menu.
 
-![METADATA EDITOR](./assets/working-with-articles/article-undo-redo.png)
+![UNDO AND REDO BUTTON](./assets/working-with-articles/article-undo-redo.png)
 
 ## Saving or Reverting
 
 Once you modify the article, you can save the changes using `Save` button. When changes are made, the `Save` and `Revert` button gets activated at the bottom of the editor. If needed, you can revert the changes by clicking the `Revert` button.
 
-![SAVE AND REVERT](./assets/working-with-articles/article-save-revert.png)
+![SAVE AND REVERT BUTTON](./assets/working-with-articles/article-save-revert.png)
 
 The changes can be saved in a different file using `Save As` button.
 
@@ -75,7 +75,7 @@ The changes can be saved in a different file using `Save As` button.
 
 To generate data using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `Article` tab.
 
-![ARTICLE AI](./assets/working-with-articles/article-ai.png)
+![AI PROMPT WINDOW](./assets/working-with-articles/article-ai.png)
 
 In `Article` tab, input `filename` and write a data generation command in the `prompt` input box. We use OpenAI's `ChatGPT` large language model API.
 

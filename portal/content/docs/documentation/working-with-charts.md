@@ -62,7 +62,7 @@ To make changes to the encoding, `double click` on the encoding button.
 
 Inside the encoding input form, you can set values as per your requirement. To get back to the encoding/channel list, click `BACK TO LIST` button.
 
-![ENCODING DBLCLICK](./assets/working-with-charts/chart-encoding-edit.png)
+![BACK TO LIST BUTTON](./assets/working-with-charts/chart-encoding-edit.png)
 
 You can find the detailed explanation of vegalite encoding [here](https://vega.github.io/vega-lite/docs/encoding.html).
 
