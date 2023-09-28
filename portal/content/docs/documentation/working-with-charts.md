@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to use the chart feature in the Open Data Editor. The `Chart Editor` makes it easy to create charts without any code. The editor generates vegalite specification from the user input, which is passed to vegalite library to generate charts.
 
-## Creating a chart
+## Creating Chart
 
 To create a chart, simply click on the `create` button and a dialog box opens. Navigate to `Chart` tab, you can either modify the name of the file or keep the default name `chart.json`.
 
@@ -24,7 +24,7 @@ Once you update the chart specifications, the chart will be rendered in the `Cha
 
 ![CHART MODE](./assets/working-with-charts/chart-mode.png)
 
-## Editing chart
+## Editing Chart
 
 You can edit the chart specifications to customize it exactly how you want it to be rendered using `Chart Editor`. To hide the editor simply click the `Editor` icon.
 
@@ -108,7 +108,7 @@ To change the content of a channel or transform, `dblclick` on the corresponding
 
 To learn more about vegalite layers you can find the detailed document [here](https://vega.github.io/vega-lite/docs/layer.html).
 
-## Source view
+## Source View
 
 To view the chart file in its raw form, click on `source` menu. To hide, click on the menu again.
 
@@ -122,15 +122,7 @@ You can modify the chart content by using `Chart Editor`, `Source View` or using
 
 If needed, you can revert the changes clicking the `Revert` button. You can save it as a new file as well.
 
-## Publishing
-
-To open the publishing window, click the `Publish` button located at the bottom of the chart editor page. After you've chart ready, click the `Publish` button to initiate the publishing process
-
-![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
-
-Similarly, you can also publish it to `Zenodo` or `Github`
-
-## Creating / Editing Chart with AI
+## Using AI with Charts
 
 To generate chart using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `Chart` tab.
 
@@ -151,3 +143,11 @@ Enter your instruction to AI in the prompt input box and apply the command by cl
 To use `CHAT AI` feature, you have to set the `OpenAI API Key`. To set the api key, click `Settings` menu.
 
 ![CHART AI EDIT OUTPUT](./assets/working-with-charts/chart-ai-settings.png)
+
+## Publishing
+
+To open the publishing window, click the `Publish` button located at the bottom of the chart editor page. After you've chart ready, click the `Publish` button to initiate the publishing process
+
+![CHART PUBLISH](./assets/working-with-tables/table-package-publish.png)
+
+Similarly, you can also publish it to `Zenodo` or `Github`

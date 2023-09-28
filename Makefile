@@ -1,4 +1,4 @@
-.PHONY: all build client dist docs format install lint release server start test version
+.PHONY: all build client dist docs format install lint preview release server start test version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
@@ -31,6 +31,9 @@ install:
 lint:
 	hatch run lint
 	npm run lint
+
+preview:
+	npm run preview
 
 release:
 	git checkout main && git pull origin && git fetch -p

@@ -4,14 +4,14 @@ sidebar:
   order: 1
 ---
 
-Open Data Editor uses a client/server architecture. As a server, we use a Python codebase that uses [frictionless-py](https://framework.frictionlessdata.io/) for data and metadata processing. As a client, we use this codebase written in TypeScript that uses React for components and Zustand for state management.
+Open Data Editor uses a client/server architecture wrapped into a desktop application. As a server, we use a Python codebase that uses [frictionless-py](https://framework.frictionlessdata.io/) for data and metadata processing. As a client, we use this codebase written in TypeScript that uses React for components and Zustand for state management. As a desktop wrapper, we use Electron for NodeJS.
 
 ## Prerequisites
 
 To start working on the project:
 
 - Python 3.10+
-- Node 16+
+- Node 18+
 
 ## Enviroment
 
@@ -84,18 +84,22 @@ make client
 npm run start
 ```
 
-### Components
+### Desktop
 
-To work on individual components (StoryBook):
+Previewing descript application:
 
 ```bash
-make components
+make preview
+# OR
+npm run preview
 ```
 
 ## Documentation
 
-Documentation is written with [Starlight](https://starlight.astro.build/) (in the `portal` directory). The source articles are in the `portal/src/content/docs` directory. To start a live-reload server and work on the docs:
+Documentation is written with [Starlight](https://starlight.astro.build/) (in the `portal` directory). The source articles are in the `portal/content/docs` directory. To start a live-reload server and work on the docs:
 
 ```bash
 make docs
 ```
+
+It will be automatically published on CloudFlare when merged to the `main` branch with previews available for pull requests.

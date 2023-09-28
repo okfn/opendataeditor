@@ -36,13 +36,7 @@ To save the changes as a new file, click `Save As` button and input a new name f
 
 ![SAVE AS BUTTON](./assets/working-with-other-files/otherfiles-saveas.png)
 
-### Publish
-
-You can publish the image using `Publish` feature. To be able to publish, you have to set the required credentials to connect to data portal (CKAN, Zenodo, Github).
-
-![PUBLISH BUTTON](./assets/working-with-other-files/otherfiles-publish.png)
-
-### Generate Image using AI
+### Using AI with Images
 
 You can also generate an image using AI prompts by giving commands. To use AI feature, click `Create` button, and navigate to `Image` tab.
 
@@ -62,9 +56,8 @@ Editor also has other features to `Undo`, `Redo` and `Clear` the changes.
 
 Similarly you can also generate and edit script using Chat AI Feature.
 
-## SQL File
+## Publishing
 
-You can also open `SQL` file using the editor.
+You can publish a file using `Publish` feature. To be able to publish, you have to set the required credentials to connect to data portal (CKAN, Zenodo, Github).
 
-![SQL FILE EDITOR](./assets/working-with-other-files/otherfiles-view.png)
-
+![PUBLISH BUTTON](./assets/working-with-other-files/otherfiles-publish.png)

@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to work with articles in the editor using markdown language. The editor offers both editing and previewing features, which enables you to simultaneously edit and view the article.
 
-## Creating an Article
+## Creating Article
 
 If you already have article file, just `Click` on the article file in `File Explorer` on the left side of the editor to open the file in the editable form. You can format the article using markdown supported formatting rules.
 
@@ -71,7 +71,7 @@ Once you modify the article, you can save the changes using `Save` button. When 
 
 The changes can be saved in a different file using `Save As` button.
 
-## Creating / Editing an Article with AI
+## Using AI with Articles
 
 To generate data using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `Article` tab.
 
@@ -88,4 +88,3 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![AI GENERATED](./assets/working-with-articles/article-ai-edit-output.png)
-

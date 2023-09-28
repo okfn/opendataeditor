@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to work with geojson files. GeoJSON file stores geographic data which can be used to create custom maps.
 
-## Opening a Map
+## Opening Map
 
 To open the map view, click on the map file for example `map.geojson` in the `File Explorer`.
 
@@ -42,15 +42,7 @@ To save your changes, click the `Save` button. If you want to undo the change, c
 
 Now, the map is ready to be published.
 
-## Publishing
-
-To open the publishing window, click the `Publish` button located at the bottom of the package editor page. After you've added the CKAN details, click the `Publish` button to initiate the publishing process.
-
-![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
-
-Similarly, you can also publish it to `Zenodo` or `Github`.
-
-## Creating / Editing a Map with AI
+## Using AI with Maps
 
 To create map using AI, click `Create` button. A `Create File` dialog box will appear. Navigate to the `Chart` tab.
 
@@ -67,3 +59,11 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![MAP AI EDIT OUTPUT](./assets/working-with-maps/map-ai-edit-output.png)
+
+## Publishing
+
+To open the publishing window, click the `Publish` button located at the bottom of the package editor page. After you've added the CKAN details, click the `Publish` button to initiate the publishing process.
+
+![PACKAGE PUBLISH](./assets/working-with-tables/table-package-publish.png)
+
+Similarly, you can also publish it to `Zenodo` or `Github`.

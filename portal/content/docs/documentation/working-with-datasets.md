@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to create dataset and publish it.
 
-## How to create a Dataset
+## Creating Dataset
 
 You can upload a package/dataset with its resources if you already have one. To upload click `Add > Local Folder` button on the bottom left of the `File Explorer`.
 
@@ -18,13 +18,13 @@ If you have resources files only, you can generate a package by using `Create Da
 
 Within the dialog box, you can also use `AI` by giving instructions through prompt input box. For instance, "Use table.csv only"
 
-### Editing Metadata
+## Editing Metadata
 
 Once you have package file `<file_name>.json`, you can make changes to it using `Metadata` editor. Using the UI, you can add/change resources, licenses, contributors and sources.
 
 ![EDIT DATASET](./assets/working-with-datasets/datasets-editor.png)
 
-## How to add resources
+## Adding Resources
 
 Resources can be added to dataset/package in multiple ways. While creating dataset/package, specify the resources you want to include in `Chat AI` prompt.
 
@@ -36,7 +36,7 @@ Or, you can add it using `Metadata` editor. To add new resource navigate to `Pac
 
 Or, if the package has the resources listed in the metadata, it will automatically be listed in `Metadata > Package > Resources` section.
 
-## How to Publish
+## Publishing
 
 Make sure to save the modifications made to metadata by using `Save` button. Once the package and resources are ready, you can proceed to publish the dataset by clicking `Publish` button.
 
