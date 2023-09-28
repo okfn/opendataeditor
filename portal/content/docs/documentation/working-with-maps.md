@@ -38,7 +38,7 @@ After creating or editing the `map` file using Chat AI, you can either revert or
 
 To save your changes, click the `Save` button. If you want to undo the change, click the `Revert` button. Using `Save As` button you can save the map to a different file.
 
-![MAP SAVE](./assets/working-with-maps/map-saveas.png)
+![MAP SAVE AS](./assets/working-with-maps/map-saveas.png)
 
 Now, the map is ready to be published.
 
