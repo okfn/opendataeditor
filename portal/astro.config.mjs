@@ -3,19 +3,22 @@ import starlight from '@astrojs/starlight'
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://opendataeditor.okfn.org',
+  srcDir: '.',
+  outDir: 'build',
   integrations: [
     starlight({
       title: 'Open Data Editor',
       logo: {
-        light: '/src/assets/logo-light.svg',
-        dark: '/src/assets/logo-dark.svg',
+        light: '/assets/logo-light.svg',
+        dark: '/assets/logo-dark.svg',
         replacesTitle: true,
       },
       social: {
         github: 'https://github.com/okfn/opendataeditor',
       },
       favicon: 'favicon.ico',
-      customCss: ['typeface-hk-grotesk/index.css', '/src/assets/styles.css'],
+      customCss: ['typeface-hk-grotesk/index.css', '/assets/styles.css'],
       sidebar: [
         {
           label: 'Documentation',
