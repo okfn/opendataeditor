@@ -26,6 +26,7 @@ format:
 
 install:
 	npm install
+	cd portal && npm install
 
 lint:
 	hatch run lint
