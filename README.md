@@ -8,4 +8,4 @@
 Oct 2, 2023
 </strong> -- [READ THE CONCEPT NOTE](https://docs.google.com/presentation/d/1X_SyifQovytKN19L0TUeP-CzLKmWb5d-pfF1NkEiWLs/edit?usp=sharing)
 
-[![Concept Note](portal/src/assets/concept-note.png)](https://docs.google.com/presentation/d/1X_SyifQovytKN19L0TUeP-CzLKmWb5d-pfF1NkEiWLs/edit?usp=sharing)
+[![Concept Note](portal/assets/concept-note.png)](https://docs.google.com/presentation/d/1X_SyifQovytKN19L0TUeP-CzLKmWb5d-pfF1NkEiWLs/edit?usp=sharing)
