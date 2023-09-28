@@ -15,7 +15,7 @@ export default defineConfig({
         github: 'https://github.com/okfn/opendataeditor',
       },
       favicon: 'favicon.ico',
-      customCss: ['/src/assets/styles.css'],
+      customCss: ['typeface-hk-grotesk/index.css', '/src/assets/styles.css'],
       sidebar: [
         {
           label: 'Documentation',
