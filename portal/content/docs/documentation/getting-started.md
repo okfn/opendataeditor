@@ -4,33 +4,36 @@ sidebar:
   order: 1
 ---
 
-:::caution
-The currently published version is out-dated. Please wait for the v1 release that will be distributed as a desktop application. If you want to try it now, we reccomend running a [development version](../../contributing/development/).
+:::tip
+In October 2023, **Open Data Editor (v1)** has been released for **early adopters**. Please share your feedback or issues you encouter testing the application! At the moment, it's no recommended to use this software for critical data projects.
 :::
 
+Open Data Editor is available on all major platforms:
 
-To install a beta version of the Frictionless Application ensure that you have Python 3.8+ available and run this command:
+- Linux
+- MacOS
+- Windows
 
-```bash
-$ pip3 install frictionless[application]==5.13.1
-```
-
-To start the application:
-
-```bash
-$ frictionless application <folder>
-```
-You can run Open Data Editor on various platforms.
+You can download and run it without any technical skills. Here are the instructions for all the available platforms:
 
 ## Linux
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases) and download the AppImage. You may not be able to run the application directly. In order to run, you have to make it executable.
+For Linux, there are two options available:
+
+- AppImage (for any distributions)
+- deb (for Ubuntu/Debian)
+
+### Any Distribution
+
+Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and download the most recent **AppImage** file. After downloading, you have to make it executable:
 
 ![MAKE EXECUTABLE](./assets/getting-started/gs-linux-executable.png)
 
-### Ubuntu/Debian section
+Then double-click on the file to start the application.
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases) and download the relevant file. Double click on the file and it will initiate the installation process.
+### Ubuntu/Debian
+
+Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and download the most recent **DEB** file. Double click on the file and it will initiate the installation process.
 
 ![MAKE INSTALLATION](./assets/getting-started/gs-ode-installation.png)
 
@@ -40,7 +43,7 @@ After installation, you can use it.
 
 ## MacOS
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the relevant file and initiate the download process.
+Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and download the most recent **DMG** file.
 
 1. If you encounter security message, click on the question mark and then click the link in the first section.
 
@@ -52,7 +55,7 @@ Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the rel
 
 ## Windows
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the relevant file and initiate the download process.
+Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and download the most recent **EXE** file.
 
 1. If you receive the following message click `Continue download`
 
@@ -65,3 +68,4 @@ Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the rel
 3. Click `Run anyway` to run the application.
 
 ![SECURITY MESSAGE STEP 2](./assets/getting-started/gs-protection-screen-2.png)
+
