@@ -1,7 +1,7 @@
 ---
-title: Working With dataset
+title: Working with Datasets
 sidebar:
-  order: 8
+  order: 7
 ---
 
 This section explains about how to create dataset and publish it.
@@ -43,3 +43,4 @@ Make sure to save the modifications made to metadata by using `Save` button. Onc
 ![PUBLISH DATASET](./assets/working-with-datasets/datasets-publish.png)
 
 ODE supports publishing to multiple platforms: `CKAN`, `Github`, `Zenodo`. You can choose the platform of your choice and publish the dataset by adding the required credentials.
+
