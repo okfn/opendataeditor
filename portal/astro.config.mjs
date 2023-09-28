@@ -31,6 +31,14 @@ export default defineConfig({
       ],
       head: [
         {
+          tag: 'script',
+          attrs: {
+            src: 'https://plausible.io/js/script.js',
+            'data-domain': 'opendataeditor.okfn.org',
+            defer: true,
+          },
+        },
+        {
           tag: 'link',
           attrs: {
             rel: 'icon',
