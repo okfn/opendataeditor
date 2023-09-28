@@ -24,13 +24,23 @@ You can run Open Data Editor on various platforms.
 
 ## Linux
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaadb0fe25f950e285ca) and download the AppImage. You may not be able to run the application directly. In order to run, you have to make it executable.
+Go to the [url](https://github.com/okfn/opendataeditor/releases) and download the AppImage. You may not be able to run the application directly. In order to run, you have to make it executable.
 
 ![MAKE EXECUTABLE](./assets/getting-started/gs-linux-executable.png)
 
+### Ubuntu/Debian section
+
+Go to the [url](https://github.com/okfn/opendataeditor/releases) and download the relevant file. Double click on the file and it will initiate the installation process.
+
+![MAKE INSTALLATION](./assets/getting-started/gs-ode-installation.png)
+
+After installation, you can use it.
+
+![INSTALLED APP](./assets/getting-started/gs-ode-app.png)
+
 ## MacOS
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaadb0fe25f950e285ca). Choose the relevant file and initiate the download process.
+Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the relevant file and initiate the download process.
 
 1. If you encounter security message, click on the question mark and then click the link in the first section.
 
@@ -42,7 +52,7 @@ Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaa
 
 ## Windows
 
-Go to the [url](https://github.com/okfn/opendataeditor/releases/tag/untagged-eaadb0fe25f950e285ca). Choose the relevant file and initiate the download process.
+Go to the [url](https://github.com/okfn/opendataeditor/releases). Choose the relevant file and initiate the download process.
 
 1. If you receive the following message click `Continue download`
 
