@@ -1,4 +1,5 @@
 import ChatDialog from './Dialogs/Chat'
+import LeaveDialog from './Dialogs/Leave'
 import PublishDialog from './Dialogs/Publish'
 import ResourceDialog from './Dialogs/Resource'
 import SaveAsDialog from './Dialogs/SaveAs'
@@ -9,6 +10,8 @@ export default function Dialog() {
   switch (dialog) {
     case 'chat':
       return <ChatDialog />
+    case 'leave':
+      return <LeaveDialog />
     case 'publish':
       return <PublishDialog />
     case 'saveAs':

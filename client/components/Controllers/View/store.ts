@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'publish' | 'saveAs' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   columns?: types.IColumn[]
   record?: types.IRecord
@@ -38,6 +38,7 @@ export interface State {
   publish: (control: types.IControl) => Promise<string | undefined>
   revert: () => void
   save: () => Promise<void>
+  onClickAway: () => void
 }
 
 export function makeStore(props: ViewProps) {
@@ -110,6 +111,11 @@ export function makeStore(props: ViewProps) {
     clear: () => {
       const { updateState } = get()
       updateState({ modified: cloneDeep(settings.INITIAL_VIEW) })
+    },
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
     },
   }))
 }

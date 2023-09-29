@@ -18,7 +18,7 @@ export interface State {
   path: string
   client: Client
   panel?: 'metadata' | 'report'
-  dialog?: 'publish' | 'saveAs' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   editorRef: React.RefObject<ITextEditor>
   updateState: (patch: Partial<State>) => void
 
@@ -42,6 +42,7 @@ export interface State {
 
   onSave: () => void
   onSaveAs: (path: string) => void
+  onClickAway: () => void
 
   // General
 
@@ -89,6 +90,11 @@ export function makeStore(props: TextProps) {
 
     onSave: props.onSave || noop,
     onSaveAs: props.onSaveAs || noop,
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
+    },
 
     // General
 

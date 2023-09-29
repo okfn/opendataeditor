@@ -16,7 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
-  dialog?: 'publish' | 'saveAs' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   record?: types.IRecord
   report?: types.IReport
@@ -38,6 +38,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   render: () => void
+  onClickAway: () => void
 }
 
 export function makeStore(props: ChartProps) {
@@ -108,6 +109,11 @@ export function makeStore(props: ChartProps) {
       const { chart } = await client.chartRender({ path, chart: modified })
       set({ rendered: chart })
     }, 1000),
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
+    },
   }))
 }
 

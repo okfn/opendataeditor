@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ClickAwayListener } from '@mui/base'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Action from './Action'
@@ -20,22 +21,29 @@ export default function Layout() {
   const path = useStore((state) => state.path)
   const type = useStore((state) => state.record?.type)
   const withViewer = type === 'article' || type === 'script'
+  const onClickAway = useStore((state) => state.onClickAway)
   React.useEffect(() => {
     load().catch(console.error)
   }, [path])
   return (
     <React.Fragment>
       <Dialog />
-      <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-        <Menu />
-        {withViewer ? (
-          <TwoColumns height={contentHeight} />
-        ) : (
-          <OneColumn height={contentHeight} />
-        )}
-        <Panel />
-        <Action />
-      </Box>
+      <ClickAwayListener
+        mouseEvent="onMouseDown"
+        touchEvent="onTouchStart"
+        onClickAway={onClickAway}
+      >
+        <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+          <Menu />
+          {withViewer ? (
+            <TwoColumns height={contentHeight} />
+          ) : (
+            <OneColumn height={contentHeight} />
+          )}
+          <Panel />
+          <Action />
+        </Box>
+      </ClickAwayListener>
     </React.Fragment>
   )
 }
