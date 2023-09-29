@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
 import ScrollBox from '../../Parts/Boxes/Scroll'
 import { useTheme } from '@mui/material/styles'
@@ -17,20 +18,27 @@ export default function Layout() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
   const load = useStore((state) => state.load)
   const path = useStore((state) => state.path)
+  const onClickAway = useStore((state) => state.onClickAway)
   React.useEffect(() => {
     load().catch(console.error)
   }, [path])
   return (
     <React.Fragment>
       <Dialog />
-      <Box sx={{ height }}>
-        <Menu />
-        <ScrollBox height={contentHeight}>
-          <Editor />
-        </ScrollBox>
-        <Panel />
-        <Action />
-      </Box>
+      <ClickAwayListener
+        mouseEvent="onMouseDown"
+        touchEvent="onTouchStart"
+        onClickAway={onClickAway}
+      >
+        <Box sx={{ height }}>
+          <Menu />
+          <ScrollBox height={contentHeight}>
+            <Editor />
+          </ScrollBox>
+          <Panel />
+          <Action />
+        </Box>
+      </ClickAwayListener>
     </React.Fragment>
   )
 }
