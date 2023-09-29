@@ -28,6 +28,7 @@ extraResources:
 linux:
   maintainer: okfn.org
   category: Utility
+  icon: icon.icns
   target:
     - AppImage
     - deb
