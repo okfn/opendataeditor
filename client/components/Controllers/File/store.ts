@@ -16,7 +16,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'metadata' | 'report' | 'source'
-  dialog?: 'publish' | 'saveAs' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -34,6 +34,7 @@ export interface State {
   publish: (control: types.IControl) => Promise<string | undefined>
   revert: () => void
   save: () => void
+  onClickAway: () => void
 }
 
 export function makeStore(props: FileProps) {
@@ -94,6 +95,11 @@ export function makeStore(props: FileProps) {
       }
       onSave()
       load()
+    },
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
     },
   }))
 }

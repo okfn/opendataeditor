@@ -17,7 +17,7 @@ export interface State {
   onSave: () => void
   onSaveAs: (path: string) => void
   panel?: 'report' | 'source'
-  dialog?: 'publish' | 'saveAs' | 'resource' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'resource' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -34,6 +34,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   clear: () => void
+  onClickAway: () => void
 
   // Package
 
@@ -94,6 +95,11 @@ export function makeStore(props: MetadataProps) {
       await client.jsonPatch({ path, data: modified })
       onSave()
       load()
+    },
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
     },
 
     // Package

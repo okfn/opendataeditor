@@ -20,7 +20,7 @@ export interface State {
   onSaveAs: (path: string) => void
   mode?: 'errors'
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  dialog?: 'publish' | 'saveAs' | 'chat'
+  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
@@ -46,6 +46,7 @@ export interface State {
   toggleErrorMode: () => Promise<void>
   gridRef?: React.MutableRefObject<ITableEditor>
   clearHistory: () => void
+  onClickAway: () => void
 
   // Editing
 
@@ -182,6 +183,11 @@ export function makeStore(props: TableProps) {
         history: cloneDeep(settings.INITIAL_HISTORY),
         undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
       })
+    },
+    onClickAway: () => {
+      const { dialog, updateState } = get()
+      const isUpdated = selectors.isUpdated(get())
+      if (isUpdated && !dialog) updateState({ dialog: 'leave' })
     },
 
     // Editing
