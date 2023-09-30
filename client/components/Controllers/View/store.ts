@@ -8,6 +8,7 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ViewProps } from './index'
+import { ITableEditor } from '../../Editors/Table'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
 
@@ -30,6 +31,7 @@ export interface State {
   error?: string
   rowCount?: number
   schema?: types.ISchema
+  gridRef?: React.MutableRefObject<ITableEditor>
 
   // General
 
@@ -100,14 +102,18 @@ export function makeStore(props: ViewProps) {
       })
     },
     save: async () => {
-      const { path, client, resource, modified, onSave, load } = get()
+      const { path, client, resource, modified, onSave, load, gridRef } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
       await client.viewPatch({
         path,
         data: selectors.isDataUpdated(get()) ? modified : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSave()
-      load()
+      await load()
+      grid.reload()
     },
     clear: () => {
       const { updateState } = get()
