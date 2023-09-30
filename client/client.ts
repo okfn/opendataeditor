@@ -289,6 +289,11 @@ export class Client {
     return result as { data: types.IView }
   }
 
+  async tableInfer(props: { path: string }) {
+    const result = await this.request('/table/infer', props)
+    return result as { tableSchema: types.ISchema }
+  }
+
   async tablePatch(props: {
     path: string
     toPath?: string
@@ -297,11 +302,6 @@ export class Client {
   }) {
     const result = await this.request('/table/patch', props)
     return result as { path: string }
-  }
-
-  async tableQuery(props: { query: string }) {
-    const result = await this.request('/table/query', props)
-    return result as { table: types.ITable }
   }
 
   async tableRead(props: {
