@@ -68,11 +68,11 @@ export function makeStore(props: ViewProps) {
         columns,
       })
       // TODO: move to autoupdating on change (throttle)
-      if (record.name) {
-        const query = `select * from "${record.name}"`
-        const { table } = await client.tableQuery({ query })
-        set({ table })
-      }
+      // if (record.name) {
+      // const query = `select * from "${record.name}"`
+      // const { table } = await client.tableQuery({ query })
+      // set({ table })
+      // }
     },
     edit: async (prompt) => {
       const { path, client, modified } = get()

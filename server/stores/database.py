@@ -93,3 +93,11 @@ class Database:
 
     def get_table(self, *, name: str):
         return self.metadata.tables.get(name, None)
+
+    # Views
+
+    def sync_view(self, *, name: str, query: str):
+        with self.engine.begin() as conn:
+            conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
+            if query:
+                conn.execute(sa.text(f'CREATE VIEW "{name}" AS {query}'))

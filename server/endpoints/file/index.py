@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sqlalchemy as sa
 from fastapi import Request
 from frictionless import FrictionlessException, Resource
 from pydantic import BaseModel
@@ -87,5 +88,10 @@ def action(project: Project, props: Props) -> Result:
         md.write_document(name=record.name, type="record", descriptor=record.model_dump())
         db.write_artifact(name=record.name, type="report", descriptor=report)
         db.write_artifact(name=record.name, type="measure", descriptor=measure)
+
+    # Sync view
+    if record.type == "view":
+        view = helpers.read_json(project, path=props.path)
+        db.sync_view(name=record.name, query=view.get("query"))
 
     return Result(record=record, report=report, measure=measure)
