@@ -5,5 +5,5 @@ export default function Editor() {
   const loader = useStore((state) => state.loader)
   const schema = useStore((state) => state.schema)
   if (!schema) return null
-  return <TableEditor source={loader} schema={schema} />
+  return <TableEditor source={loader} schema={schema} multiSelect={false} />
 }

@@ -62,6 +62,7 @@ export function makeStore(props: ViewProps) {
       const { data } = await client.jsonRead({ path: record.path })
       const { columns } = await client.columnList()
       const { tableSchema } = await client.viewInfer({ path })
+      const rowCount = tableSchema ? (await client.tableCount({ path })).count : undefined
       set({
         record,
         report,
@@ -71,11 +72,8 @@ export function makeStore(props: ViewProps) {
         original: data,
         columns,
         schema: tableSchema,
+        rowCount,
       })
-      if (tableSchema) {
-        const { count } = await client.tableCount({ path })
-        set({ rowCount: count })
-      }
     },
     edit: async (prompt) => {
       const { path, client, modified } = get()
@@ -130,6 +128,7 @@ export function makeStore(props: ViewProps) {
         desc: sortInfo?.dir === -1,
       })
 
+      rows.forEach((row, index) => (row._rowNumber = skip + index + 1))
       return { data: rows, count: rowCount || 0 }
     },
   }))
