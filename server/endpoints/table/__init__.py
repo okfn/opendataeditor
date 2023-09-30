@@ -1,2 +1,2 @@
 # Register modules
-from . import count, create, edit, patch, query, read
+from . import count, create, edit, infer, patch, query, read

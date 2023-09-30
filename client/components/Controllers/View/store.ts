@@ -27,6 +27,7 @@ export interface State {
   modified?: types.IView
   table?: types.ITable
   error?: string
+  rowCount?: number
   updateState: (patch: Partial<State>) => void
 
   // General
@@ -39,6 +40,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   onClickAway: () => void
+  loader: types.ITableLoader
 }
 
 export function makeStore(props: ViewProps) {
@@ -58,6 +60,7 @@ export function makeStore(props: ViewProps) {
       const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
       const { columns } = await client.columnList()
+      const { count } = await client.tableCount({ path })
       set({
         record,
         report,
@@ -66,13 +69,8 @@ export function makeStore(props: ViewProps) {
         modified: cloneDeep(data),
         original: data,
         columns,
+        rowCount: count,
       })
-      // TODO: move to autoupdating on change (throttle)
-      // if (record.name) {
-      // const query = `select * from "${record.name}"`
-      // const { table } = await client.tableQuery({ query })
-      // set({ table })
-      // }
     },
     edit: async (prompt) => {
       const { path, client, modified } = get()
@@ -116,6 +114,18 @@ export function makeStore(props: ViewProps) {
       const { dialog, updateState } = get()
       const isUpdated = selectors.isUpdated(get())
       if (isUpdated && !dialog) updateState({ dialog: 'leave' })
+    },
+    loader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount } = get()
+      const { rows } = await client.tableRead({
+        path,
+        limit,
+        offset: skip,
+        order: sortInfo?.name,
+        desc: sortInfo?.dir === -1,
+      })
+
+      return { data: rows, count: rowCount || 0 }
     },
   }))
 }

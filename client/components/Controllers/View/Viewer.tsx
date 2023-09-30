@@ -1,43 +1,37 @@
-import * as React from 'react'
+import SpinnerCard from '../../Parts/Cards/Spinner'
 import Box from '@mui/material/Box'
-import Alert from '@mui/material/Alert'
+import { Typography } from '@mui/material'
+import InovuaDatagrid from '@inovua/reactdatagrid-community'
 // import Table from '../../Editors/Table'
 import { useStore } from './store'
-import * as types from '../../../types'
 
 export default function Viewer() {
-  const error = useStore((state) => state.error)
-  const table = useStore((state) => state.table)
+  const loader = useStore((state) => state.loader)
+  return (
+    <InovuaDatagrid
+      dataSource={loader}
+      pagination={true}
+      loadingText={<Typography>Loading...</Typography>}
+      renderLoadMask={LoadMask}
+      defaultActiveCell={[0, 1]}
+      style={{ height: '100%', border: 'none' }}
+    />
+  )
+}
 
-  // TODO: it's a stub
-  // @ts-ignore
-  const report: types.IReport = { valid: true, tasks: [], warnings: [], errors: [] }
-  if (!table) {
-    if (error) {
-      return (
-        <React.Fragment>
-          <Box
-            display="flex"
-            width="100%"
-            height="100%"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Alert sx={{ margin: 2 }} severity="error">
-              {error}
-            </Alert>
-          </Box>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
-  }
-
-  // TODO: recover
-  console.log(report)
-  return null
-  // <React.Fragment>
-  // <Table table={table} report={report} />
-  // </React.Fragment>
+function LoadMask(props: { visible: boolean; zIndex: number }) {
+  if (!props.visible) return null
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        opacity: 0.6,
+        background: 'rgba(121, 134, 203, 0.25)',
+        zIndex: props.zIndex,
+      }}
+    >
+      <SpinnerCard message="Loading" />
+    </Box>
+  )
 }
