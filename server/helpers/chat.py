@@ -40,6 +40,12 @@ def ask_chatgpt(
     # Mention-based system messages
     records = extract_records(project, text=prompt)
     for record in records:
+        if type == "view":
+            prompt = prompt.replace(f"@{record.name}", record.name)
+            schema = json.dumps(record.resource.get("schema", {}))
+            instruction = f"The {record.name} table has Table Schema {schema}"
+            messages.append({"role": "system", "content": instruction})
+            continue
         path = str(os.path.relpath(record.path, os.path.dirname(path)))
         prompt = prompt.replace(f"@{record.name}", path)
         if record.type == "table":
