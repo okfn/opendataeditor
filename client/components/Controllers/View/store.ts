@@ -12,6 +12,7 @@ import * as settings from '../../../settings'
 import * as types from '../../../types'
 
 export interface State {
+  updateState: (patch: Partial<State>) => void
   path: string
   client: Client
   onSave: () => void
@@ -28,7 +29,7 @@ export interface State {
   table?: types.ITable
   error?: string
   rowCount?: number
-  updateState: (patch: Partial<State>) => void
+  schema?: types.ISchema
 
   // General
 
@@ -60,7 +61,7 @@ export function makeStore(props: ViewProps) {
       const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
       const { columns } = await client.columnList()
-      const { count } = await client.tableCount({ path })
+      const { tableSchema } = await client.viewInfer({ path })
       set({
         record,
         report,
@@ -69,8 +70,12 @@ export function makeStore(props: ViewProps) {
         modified: cloneDeep(data),
         original: data,
         columns,
-        rowCount: count,
+        schema: tableSchema,
       })
+      if (tableSchema) {
+        const { count } = await client.tableCount({ path })
+        set({ rowCount: count })
+      }
     },
     edit: async (prompt) => {
       const { path, client, modified } = get()

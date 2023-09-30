@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import sqlalchemy as sa
 from fastapi import Request
 from frictionless import Schema
@@ -15,10 +17,10 @@ class Props(BaseModel, extra="forbid"):
 
 
 class Result(BaseModel, extra="forbid"):
-    tableSchema: types.IDescriptor
+    tableSchema: Optional[types.IDescriptor]
 
 
-@router.post("/table/infer")
+@router.post("/view/infer")
 def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -28,7 +30,9 @@ def action(project: Project, props: Props) -> Result:
 
     # Prepare query
     record = helpers.read_record_or_raise(project, path=props.path)
-    table = db.metadata.tables[record.name]
+    table = db.metadata.tables.get(record.name)
+    if table is None:
+        return Result(tableSchema=None)
     query = sa.select(table).limit(100)
 
     # Execute query

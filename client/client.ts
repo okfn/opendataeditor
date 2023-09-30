@@ -289,11 +289,6 @@ export class Client {
     return result as { data: types.IView }
   }
 
-  async tableInfer(props: { path: string }) {
-    const result = await this.request('/table/infer', props)
-    return result as { tableSchema: types.ISchema }
-  }
-
   async tablePatch(props: {
     path: string
     toPath?: string
@@ -358,6 +353,11 @@ export class Client {
   async viewEdit(props: { path: string; data: types.IView; prompt: string }) {
     const result = await this.request('/view/edit', props)
     return result as { data: types.IView }
+  }
+
+  async viewInfer(props: { path: string }) {
+    const result = await this.request('/view/infer', props)
+    return result as { tableSchema?: types.ISchema }
   }
 
   async viewPatch(props: {
