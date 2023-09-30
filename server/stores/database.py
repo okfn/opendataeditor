@@ -96,13 +96,17 @@ class Database:
 
     # Views
 
-    def sync_view(self, *, name: str, query: str):
+    def delete_view(self, *, name: str):
         with self.engine.begin() as conn:
             conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
+
+    def sync_view(self, *, name: str, query: str):
+        with self.engine.begin() as conn:
+            self.delete_view(name=name)
             if query:
                 try:
                     # Create and validate view
                     conn.execute(sa.text(f'CREATE VIEW "{name}" AS {query}'))
                     conn.execute(sa.text(f"SELECT count(*) from {name}"))
                 except Exception:
-                    conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
+                    self.delete_view(name=name)

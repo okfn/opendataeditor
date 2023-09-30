@@ -76,7 +76,10 @@ def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False
     # Delete from database
     db.delete_artifact(name=record.name, type="report")
     db.delete_artifact(name=record.name, type="measure")
-    db.delete_table(name=record.name)
+    if record.type == "table":
+        db.delete_table(name=record.name)
+    if record.type == "view":
+        db.delete_view(name=record.name)
 
     # Delete from metadata
     if not onlyFromDatabase:
