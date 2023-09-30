@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sqlalchemy as sa
 from fastapi import Request
 from frictionless import FrictionlessException, Resource
 from pydantic import BaseModel

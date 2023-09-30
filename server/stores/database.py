@@ -100,11 +100,9 @@ class Database:
         with self.engine.begin() as conn:
             conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
             if query:
-                # Create view
-                conn.execute(sa.text(f'CREATE VIEW "{name}" AS {query}'))
-
-                # Validate view
                 try:
+                    # Create and validate view
+                    conn.execute(sa.text(f'CREATE VIEW "{name}" AS {query}'))
                     conn.execute(sa.text(f"SELECT count(*) from {name}"))
                 except Exception:
                     conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
