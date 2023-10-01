@@ -8,7 +8,7 @@ This section explains about how to work with tabular data in open data editor. T
 
 ## Opening Table
 
-If you have a tabular data file, for example, `table.csv` then you can open the file by clicking table name in `File Explorer` on the left side of the editor. It supports other formats also, such as `csv`, `xls`, `json`, `parquet` etc.
+If you have a tabular data file, for example, `table.csv` then you can open the file by clicking table name in `File Explorer` on the left side of the editor. It supports tables in other formats also, such as `csv`, `xls`, `json`, `parquet`, `html` etc.
 
 ![ADD TABLE](./assets/working-with-tables/table.png)
 
