@@ -8,10 +8,12 @@ import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ViewProps } from './index'
+import { ITableEditor } from '../../Editors/Table'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
 
 export interface State {
+  updateState: (patch: Partial<State>) => void
   path: string
   client: Client
   onSave: () => void
@@ -27,7 +29,9 @@ export interface State {
   modified?: types.IView
   table?: types.ITable
   error?: string
-  updateState: (patch: Partial<State>) => void
+  rowCount?: number
+  schema?: types.ISchema
+  gridRef?: React.MutableRefObject<ITableEditor>
 
   // General
 
@@ -39,6 +43,7 @@ export interface State {
   revert: () => void
   save: () => Promise<void>
   onClickAway: () => void
+  loader: types.ITableLoader
 }
 
 export function makeStore(props: ViewProps) {
@@ -58,6 +63,8 @@ export function makeStore(props: ViewProps) {
       const { record, report, measure } = await client.fileIndex({ path })
       const { data } = await client.jsonRead({ path: record.path })
       const { columns } = await client.columnList()
+      const { tableSchema } = await client.viewInfer({ path })
+      const rowCount = tableSchema ? (await client.tableCount({ path })).count : undefined
       set({
         record,
         report,
@@ -66,13 +73,9 @@ export function makeStore(props: ViewProps) {
         modified: cloneDeep(data),
         original: data,
         columns,
+        schema: tableSchema,
+        rowCount,
       })
-      // TODO: move to autoupdating on change (throttle)
-      if (record.name) {
-        const query = `select * from "${record.name}"`
-        const { table } = await client.tableQuery({ query })
-        set({ table })
-      }
     },
     edit: async (prompt) => {
       const { path, client, modified } = get()
@@ -99,14 +102,17 @@ export function makeStore(props: ViewProps) {
       })
     },
     save: async () => {
-      const { path, client, resource, modified, onSave, load } = get()
+      const { path, client, resource, modified, onSave, load, gridRef } = get()
+      const grid = gridRef?.current
+
       await client.viewPatch({
         path,
         data: selectors.isDataUpdated(get()) ? modified : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
       onSave()
-      load()
+      await load()
+      if (grid) grid.reload()
     },
     clear: () => {
       const { updateState } = get()
@@ -116,6 +122,19 @@ export function makeStore(props: ViewProps) {
       const { dialog, updateState } = get()
       const isUpdated = selectors.isUpdated(get())
       if (isUpdated && !dialog) updateState({ dialog: 'leave' })
+    },
+    loader: async ({ skip, limit, sortInfo }) => {
+      const { path, client, rowCount } = get()
+      const { rows } = await client.tableRead({
+        path,
+        limit,
+        offset: skip,
+        order: sortInfo?.name,
+        desc: sortInfo?.dir === -1,
+      })
+
+      rows.forEach((row, index) => (row._rowNumber = skip + index + 1))
+      return { data: rows, count: rowCount || 0 }
     },
   }))
 }

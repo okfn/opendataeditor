@@ -28,7 +28,10 @@ class Database:
         self.mapper = SqlMapper(self.engine.dialect.name)
         with self.engine.begin() as conn:
             self.metadata = sa.MetaData()
-            self.metadata.reflect(conn, views=True)
+            try:
+                self.metadata.reflect(conn, views=True)
+            except Exception:
+                self.metadata.reflect(conn)
 
             # Ensure artifacts table
             artifacts = self.metadata.tables.get(settings.ARTIFACTS_IDENTIFIER)
@@ -93,3 +96,20 @@ class Database:
 
     def get_table(self, *, name: str):
         return self.metadata.tables.get(name, None)
+
+    # Views
+
+    def delete_view(self, *, name: str):
+        with self.engine.begin() as conn:
+            conn.execute(sa.text(f'DROP VIEW IF EXISTS "{name}"'))
+
+    def sync_view(self, *, name: str, query: str):
+        with self.engine.begin() as conn:
+            self.delete_view(name=name)
+            if query:
+                try:
+                    # Create and validate view
+                    conn.execute(sa.text(f'CREATE VIEW "{name}" AS {query}'))
+                    conn.execute(sa.text(f"SELECT count(*) from {name}"))
+                except Exception:
+                    self.delete_view(name=name)

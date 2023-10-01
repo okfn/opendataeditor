@@ -6,6 +6,10 @@ sidebar:
 
 This section explains about how to use the chart feature in the Open Data Editor. The `Chart Editor` makes it easy to create charts without any code. The editor generates vegalite specification from the user input, which is passed to vegalite library to generate charts.
 
+:::tip
+Charts can be created based on the data from both, regular tables or SQL views
+:::
+
 ## Creating Chart
 
 To create a chart, simply click on the `create` button and a dialog box opens. Navigate to `Chart` tab, you can either modify the name of the file or keep the default name `chart.json`.

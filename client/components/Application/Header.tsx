@@ -58,7 +58,7 @@ export default function Header() {
                 <LightTooltip title="Report an issue">
                   <Button
                     color="inherit"
-                    href="https://github.com/frictionlessdata/application/issues"
+                    href="https://github.com/okfn/opendataeditor/issues"
                     target="_blank"
                   >
                     <GithubIcon />
@@ -67,7 +67,7 @@ export default function Header() {
                 <LightTooltip title="Open documentation">
                   <Button
                     color="inherit"
-                    href="https://application.frictionlessdata.io"
+                    href="https://opendataeditor.okfn.org"
                     target="_blank"
                   >
                     <HelpIcon />

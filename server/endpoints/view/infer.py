@@ -1,24 +1,26 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import sqlalchemy as sa
 from fastapi import Request
 from frictionless import Schema
 from pydantic import BaseModel
 
-from ... import models
+from ... import helpers, types
 from ...project import Project
 from ...router import router
 
 
 class Props(BaseModel, extra="forbid"):
-    query: str
+    path: str
 
 
 class Result(BaseModel, extra="forbid"):
-    table: models.Table
+    tableSchema: Optional[types.IDescriptor]
 
 
-@router.post("/table/query")
+@router.post("/view/infer")
 def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
@@ -26,11 +28,19 @@ def endpoint(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     db = project.database
 
-    with db.engine.begin() as conn:
-        result = conn.execute(sa.text(props.query))
-        rows = list(dict(item) for item in result.mappings())
-        header = list(result.keys())
-        schema = Schema.describe(rows).to_descriptor()
-        table = models.Table(tableSchema=schema, header=header, rows=rows)
+    # Prepare query
+    record = helpers.read_record_or_raise(project, path=props.path)
+    table = db.metadata.tables.get(record.name)
+    if table is None:
+        return Result(tableSchema=None)
+    query = sa.select(table).limit(100)
 
-    return Result(table=table)
+    # Execute query
+    with db.engine.begin() as conn:
+        result = conn.execute(query)
+        rows = list(dict(item) for item in result.mappings())
+
+    # Infer schema
+    schema = Schema.describe(rows).to_descriptor()
+
+    return Result(tableSchema=schema)

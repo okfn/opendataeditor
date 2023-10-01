@@ -88,4 +88,9 @@ def action(project: Project, props: Props) -> Result:
         db.write_artifact(name=record.name, type="report", descriptor=report)
         db.write_artifact(name=record.name, type="measure", descriptor=measure)
 
+    # Sync view
+    if record.type == "view":
+        view = helpers.read_json(project, path=props.path)
+        db.sync_view(name=record.name, query=view.get("query"))
+
     return Result(record=record, report=report, measure=measure)

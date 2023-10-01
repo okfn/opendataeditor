@@ -299,11 +299,6 @@ export class Client {
     return result as { path: string }
   }
 
-  async tableQuery(props: { query: string }) {
-    const result = await this.request('/table/query', props)
-    return result as { table: types.ITable }
-  }
-
   async tableRead(props: {
     path: string
     valid?: boolean
@@ -358,6 +353,11 @@ export class Client {
   async viewEdit(props: { path: string; data: types.IView; prompt: string }) {
     const result = await this.request('/view/edit', props)
     return result as { data: types.IView }
+  }
+
+  async viewInfer(props: { path: string }) {
+    const result = await this.request('/view/infer', props)
+    return result as { tableSchema?: types.ISchema }
   }
 
   async viewPatch(props: {

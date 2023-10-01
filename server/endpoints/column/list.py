@@ -26,18 +26,32 @@ def endpoint(request: Request, props: Props) -> Result:
 
 def action(project: Project, props: Props) -> Result:
     md = project.metadata
+    db = project.database
 
     result = Result(columns=[])
     for descriptor in md.iter_documents(type="record"):
-        if "schema" in descriptor["resource"]:
-            schema = Schema.from_descriptor(descriptor["resource"]["schema"])
+        name = descriptor["name"]
+        type = descriptor["type"]
+        path = descriptor["path"]
+        schema = None
+
+        if type == "table":
+            descriptor = descriptor["resource"].get("schema")
+            schema = Schema.from_descriptor(descriptor) if descriptor else Schema()
+
+        if type == "view":
+            table = db.get_table(name=descriptor["name"])
+            if table is not None:
+                schema = db.mapper.read_schema(table)
+
+        if schema:
             for field in schema.fields:
                 result.columns.append(
                     models.Column(
                         name=field.name,
                         type=field.type,
-                        tableName=descriptor["name"],
-                        tablePath=descriptor["path"],
+                        tableName=name,
+                        tablePath=path,
                     )
                 )
 

@@ -103,10 +103,10 @@ export default function CreateDialog() {
       create: createTable,
     },
     {
-      name: 'View',
+      name: 'View (SQL)',
       section: 'view',
       fileName: 'view.json',
-      description: 'Creating a SQL view. Enter destination:',
+      description: 'Creating a view (SQL). Enter destination:',
       placeholder: 'Enter a view path',
       promptPlaceholder: 'average price by brand for @cars',
       create: createView,

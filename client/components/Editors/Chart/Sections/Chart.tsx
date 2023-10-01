@@ -13,7 +13,7 @@ export default function Chart() {
     <EditorSection name="Chart" onHeadingClick={() => updateHelp('chart')}>
       <Columns spacing={3}>
         <Box>
-          <Table />
+          <Data />
           <Title />
           <Mark />
         </Box>
@@ -27,7 +27,7 @@ export default function Chart() {
   )
 }
 
-function Table() {
+function Data() {
   const descriptor = useStore((state) => state.descriptor)
   const url = useStore((state) => state.descriptor.data?.url)
   const values = useStore((state) => state.descriptor.data?.values)
@@ -36,7 +36,7 @@ function Table() {
   const updateState = useStore((state) => state.updateState)
   return (
     <SelectField
-      label="Table"
+      label="Data"
       value={values ? '(inline)' : url || ''}
       options={tablePaths}
       onFocus={() => updateHelp('chart/table')}
