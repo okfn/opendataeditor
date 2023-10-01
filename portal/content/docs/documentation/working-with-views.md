@@ -1,5 +1,5 @@
 ---
-title: Working with SQL Views
+title: Working with Views (SQL)
 sidebar:
   order: 2
 ---
