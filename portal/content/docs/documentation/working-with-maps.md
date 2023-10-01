@@ -1,7 +1,7 @@
 ---
 title: Working with Maps
 sidebar:
-  order: 4
+  order: 3
 ---
 
 This section explains about how to work with geojson files. GeoJSON file stores geographic data which can be used to create custom maps.
