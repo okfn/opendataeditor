@@ -104,7 +104,6 @@ export function makeStore(props: ViewProps) {
     save: async () => {
       const { path, client, resource, modified, onSave, load, gridRef } = get()
       const grid = gridRef?.current
-      if (!grid) return
 
       await client.viewPatch({
         path,
@@ -113,7 +112,7 @@ export function makeStore(props: ViewProps) {
       })
       onSave()
       await load()
-      grid.reload()
+      if (grid) grid.reload()
     },
     clear: () => {
       const { updateState } = get()
