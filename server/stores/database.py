@@ -28,7 +28,10 @@ class Database:
         self.mapper = SqlMapper(self.engine.dialect.name)
         with self.engine.begin() as conn:
             self.metadata = sa.MetaData()
-            self.metadata.reflect(conn, views=True)
+            try:
+                self.metadata.reflect(conn, views=True)
+            except Exception:
+                self.metadata.reflect(conn)
 
             # Ensure artifacts table
             artifacts = self.metadata.tables.get(settings.ARTIFACTS_IDENTIFIER)
