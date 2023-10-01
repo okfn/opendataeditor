@@ -31,6 +31,7 @@ def ask_chatgpt(
     api_key: str,
 ) -> str:
     md = project.metadata
+    db = project.database
 
     # Default system messages
     messages = [
@@ -52,6 +53,12 @@ def ask_chatgpt(
             schema = json.dumps(record.resource.get("schema", {}))
             instruction = f"The {path} table has Table Schema {schema}"
             messages.append({"role": "system", "content": instruction})
+        if record.type == "view":
+            table = db.get_table(name=record.name)
+            if table is not None:
+                schema = db.mapper.read_schema(table).to_json()
+                instruction = f"The {path} table has Table Schema {schema}"
+                messages.append({"role": "system", "content": instruction})
 
     # Package type system messages
     if type == "package":
