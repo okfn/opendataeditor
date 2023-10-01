@@ -49,6 +49,6 @@ def action(project: Project, props: Props) -> Result:
         table = db.get_table(name=record.name)
         result = conn.execute(sa.select(table))
         values = list(dict(item) for item in result.mappings())
-        chart["data"]["values"] = values
+        chart["data"] = dict(values=values)
 
     return Result(chart=chart)
