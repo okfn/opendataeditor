@@ -4,6 +4,7 @@ dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
     "fastapi==0.103.1",
+    "fastparquet==2023.8.0",
     "frictionless-ckan-mapper==1.0.9",
     "frictionless==5.15.10",
     "gitignore-parser==0.1.6",
