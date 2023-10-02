@@ -1,5 +1,7 @@
 import * as React from 'react'
+import Box from '@mui/material/Box'
 import { ControllerProps } from '../Controllers/Base'
+import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
 import Metadata from '../Controllers/Metadata'
 import Chart from '../Controllers/Chart'
@@ -25,12 +27,24 @@ function FileContent() {
   const Controller = CONTROLLERS[record.type] || File
   const handleUpdate = React.useMemo(() => () => onFilePatch(record.path), [record.path])
   return (
-    <Controller
-      path={record.path}
-      client={client}
-      onSave={handleUpdate}
-      onSaveAs={(path) => onFileCreate([path])}
-    />
+    <ErrorBoundary
+      fallback={
+        <Box sx={{ padding: 2.5, color: '#555' }}>
+          <strong>Failed to open the file</strong>. Please{' '}
+          <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
+            create an issue
+          </a>{' '}
+          sharing the file contents <small>(if possible)</small>
+        </Box>
+      }
+    >
+      <Controller
+        path={record.path}
+        client={client}
+        onSave={handleUpdate}
+        onSaveAs={(path) => onFileCreate([path])}
+      />
+    </ErrorBoundary>
   )
 }
 
