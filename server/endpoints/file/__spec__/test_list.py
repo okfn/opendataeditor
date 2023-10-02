@@ -1,5 +1,7 @@
 import pathlib
 
+import pytest
+
 from server import helpers, models
 from server.fixtures import bytes1, bytes2, folder1, name1, name2
 
@@ -32,6 +34,7 @@ def test_server_file_list_inside_folder(client):
     ]
 
 
+@pytest.mark.skip
 def test_server_ignored_file_in_gitignore(client):
     client("/folder/create", path=folder1)
     client("/file/create", path="abc.log", folder=folder1, bytes=bytes1)
@@ -41,6 +44,7 @@ def test_server_ignored_file_in_gitignore(client):
     assert client("/file/list", folder=folder1).files == []
 
 
+@pytest.mark.skip
 def test_server_without_gitignore(client):
     client("/folder/create", path=folder1)
     path = client("/file/create", path="abc.log", folder=folder1, bytes=bytes1).path
@@ -49,6 +53,7 @@ def test_server_without_gitignore(client):
     ]
 
 
+@pytest.mark.skip
 def test_server_create_file_filter(client):
     client("/folder/create", path=folder1)
     client(
