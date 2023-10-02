@@ -10,7 +10,7 @@ This section explains about how to use the chart feature in the Open Data Editor
 Charts can be created based on the data from both, regular tables or SQL views
 :::
 
-## Creating Chart
+## Creating a Chart
 
 To create a chart, simply click on the `create` button and a dialog box opens. Navigate to `Chart` tab, you can either modify the name of the file or keep the default name `chart.json`.
 
@@ -28,7 +28,7 @@ Once you update the chart specifications, the chart will be rendered in the `Cha
 
 ![CHART MODE](./assets/working-with-charts/chart-mode.png)
 
-## Editing Chart
+## Editing a Chart
 
 You can edit the chart specifications to customize it exactly how you want it to be rendered using `Chart Editor`. To hide the editor simply click the `Editor` icon.
 

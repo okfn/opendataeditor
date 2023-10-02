@@ -14,13 +14,13 @@ With Open Data Editor you can create as many views on top of you tables as neede
 Once, you data changes SQL views will update automatically, as well, as all the charts and articles that use them. Think about views as a "window" to your data
 :::
 
-## Creating View
+## Creating a View
 
 To creat a SQL view, click the `Create` button on the top of the screen and select a view file path, for example, `view.json`:
 
 ![Creating view](./assets/working-with-views/creating-view-1.png)
 
-## Editing View
+## Editing a View
 
 Since a view is created, you can edit it by updating the SQL query in the form below the data table. Once it's updated, click on `Save` to see the updated data. The table viewer here is no different to the one that regular tables have so you can use any features described in the [Tables Guide](../working-with-tables) like pagination or sorting:
 

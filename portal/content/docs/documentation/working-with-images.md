@@ -6,7 +6,7 @@ sidebar:
 
 This section explains how to work with images in Open Data Editor.
 
-## Opening Image
+## Opening an Image
 
 To open the image file, simply click on the image file in the `File Explorer` on the left pane.
 

@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to work with articles in the editor using markdown language. The editor offers both editing and previewing features, which enables you to simultaneously edit and view the article.
 
-## Creating Article
+## Creating an Article
 
 If you already have article file, just `Click` on the article file in `File Explorer` on the left side of the editor to open the file in the editable form. You can format the article using markdown supported formatting rules.
 
@@ -16,7 +16,7 @@ If you haven't already added the article to the editor, click `ADD` button at th
 
 ![ADD ARTICLE](./assets/working-with-articles/article-add.png)
 
-## Editing Article
+## Editing an Article
 
 Once you have the file, you can start adding the contents using markdown formatting features. It supports all the formatting elements of the markdown language such as headers, lists, emphasis etc.
 
@@ -24,7 +24,7 @@ Once you have the file, you can start adding the contents using markdown formatt
 
 To learn more about markdown formatting, refer to this [link](https://www.markdownguide.org/basic-syntax/).
 
-## Including Image
+## Including an Image
 
 To include image `image.png` in the article, use `@image` tag.
 
@@ -34,13 +34,13 @@ To include another image `dog.png` simply use `@dog1` tag. The files can be refe
 
 ![INCLUDE DOG IMAGE](./assets/working-with-articles/article-tag.png)
 
-## Including Chart
+## Including a Chart
 
 Likewise, if you have a chart and want to include it in the article, you can do so by using `@{name}` tag. Similar to other files, chart is given a unique name, so we can reference them using their name.
 
 ![INCLUDE CHART](./assets/working-with-articles/article-tag-chart.png)
 
-## Including Map
+## Including a Map
 
 Using same tag, you can also include map in the article. To include a map `extinct-dogs.geojson` we use tag
 `@extinct_dogs`.

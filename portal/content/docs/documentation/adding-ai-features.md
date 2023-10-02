@@ -10,7 +10,7 @@ Adding an AI provider is totally **OPTIONAL** as Open Data Editor doesn't requir
 
 Open Data Editor supports integration with generative AI providers. Currently, the list of available providers is limited to **OpenAI**, but once there are good alternatives, especially free and open, we will suport them as well.
 
-## Getting API Key
+## Getting an API Key
 
 To get OpenAI `API Key` go to [OpenAI](https://platform.openai.com/) website and create an account by clicking on the `Sign Up` button. Navigate to the `View API keys` section.
 
@@ -20,7 +20,7 @@ Generate the API Key, clicking `Create new secret key` button.
 
 ![GENERATE API KEY](./assets/ai-guide/ai-generate-key.png)
 
-## Connecting API Key
+## Connecting an API Key
 
 After getting the `API Key`, return to Open Data Editor, open the `Settings` page by clicking `gear` icon located in the top right of the editor.
 

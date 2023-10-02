@@ -6,7 +6,7 @@ sidebar:
 
 The editor also supports opening python script file with preview feature. If you have the python file uploaded to the editor, you can simply click the file in `File Explorer` in the left pane to open it.
 
-## Opening Script
+## Opening a Script
 
 ![PYTHON EDITOR AND VIEWER](./assets/working-with-files/otherfiles-script.png)
 
@@ -16,7 +16,7 @@ After you make the changes, you can save it with `Save` button. If you don't lik
 
 Editor also has other features to `Undo`, `Redo` and `Clear` the changes.
 
-## Running Script
+## Running a Script
 
 :::note
 Currently, only fixed amount of dependencies are supported, for example, `pandas` and `frictionless`

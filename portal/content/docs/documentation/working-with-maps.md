@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to work with geojson files. GeoJSON file stores geographic data which can be used to create custom maps.
 
-## Opening Map
+## Opening a Map
 
 To open the map view, click on the map file for example `map.geojson` in the `File Explorer`.
 

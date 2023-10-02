@@ -6,7 +6,7 @@ sidebar:
 
 This section explains about how to work with tabular data in open data editor. Tabular data is structured as rows and columns, and each row represents an instance of the data and each column represents an attribute of that data.
 
-## Opening Table
+## Opening a Table
 
 If you have a tabular data file, for example, `table.csv` then you can open the file by clicking table name in `File Explorer` on the left side of the editor. It supports tables in other formats also, such as `csv`, `xls`, `json`, `parquet`, `html` etc.
 
@@ -16,7 +16,7 @@ If you haven't already added the file to the editor, click `ADD` button at the b
 
 ![TABLE](./assets/working-with-tables/table-add.png)
 
-## Exploring Table
+## Exploring a Table
 
 `Table Explorer` view of the editor displays data in the tabular format with attributes as columns and data as row.
 

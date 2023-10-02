@@ -6,7 +6,7 @@ sidebar:
 
 Open Data Editor allows to work with other files such as JSON. Currently, the editor can't open binary files like PDF but you still can add and edit their metadata.
 
-## Opening File
+## Opening a File
 
 Choose the file in the file browser and click on it:
 
