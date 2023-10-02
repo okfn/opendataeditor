@@ -13,7 +13,9 @@ DEFAULT_HTTP_PORT = 4040
 IGNORED_FOLDERS = [
     ".git",
     ".venv",
+    ".cache",
     ".python",
+    "coverage",
     "node_modules",
     ".pytest_cache",
     ".ruff_cache",

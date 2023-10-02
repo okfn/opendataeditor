@@ -57,7 +57,7 @@ def create_file_filter(project: Project) -> Callable[[str], bool]:
     matches = parse_gitignore(fullpath)  # type:ignore
 
     def ignore_path(path: str) -> bool:
-        fullpath = fs.get_fullpath(path)
-        return True if matches(fullpath) else False
+        #  fullpath = fs.get_fullpath(path)
+        return True if matches(path) else False
 
     return ignore_path
