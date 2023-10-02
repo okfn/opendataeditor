@@ -6,7 +6,7 @@ dependencies = [
     "fastapi==0.103.1",
     "fastparquet==2023.8.0",
     "frictionless-ckan-mapper==1.0.9",
-    "frictionless==5.15.10",
+    "frictionless==5.15.12",
     "gitignore-parser==0.1.6",
     "ijson==3.2.3",
     "jinja2==3.1.2",
