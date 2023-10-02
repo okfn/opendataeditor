@@ -125,7 +125,12 @@ export function makeStore(props: TextProps) {
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.filePublish({ path: record!.path, control })
+      if (!record) return
+      const action =
+        record.type === 'article'
+          ? client.articlePublish.bind(client)
+          : client.filePublish.bind(client)
+      const { url } = await action({ path: record.path, control })
       return url
     },
     revert: () => {

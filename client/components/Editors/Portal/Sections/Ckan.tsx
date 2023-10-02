@@ -58,6 +58,7 @@ function Apikey() {
   const updateCkan = useStore((state) => state.updateCkan)
   return (
     <InputField
+      type="password"
       required
       label="API Key"
       value={apikey || ''}

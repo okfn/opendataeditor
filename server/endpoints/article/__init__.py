@@ -1,2 +1,2 @@
 # Register modules
-from . import create, render
+from . import create, publish, render

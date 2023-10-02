@@ -21,6 +21,7 @@ export interface IGithubControl {
   repo: string
   email?: string
   apikey: string
+  enable_pages?: boolean
 }
 
 export interface IZenodoControl {

@@ -4,7 +4,7 @@ import base64
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import jinja2
 import marko
@@ -20,6 +20,7 @@ from ...router import router
 class Props(BaseModel, extra="forbid"):
     path: str
     text: str
+    asPage: Optional[bool] = None
 
 
 class Result(BaseModel, extra="forbid"):
@@ -55,7 +56,6 @@ def action(project: Project, props: Props) -> Result:
                 format=fullpath.suffix[1:],
                 data=data,
             )
-            print(markup[:100])
             text = text.replace(element, markup)
 
     # Process text (mentions)
@@ -90,6 +90,10 @@ def action(project: Project, props: Props) -> Result:
                 data=data,
             )
             text = text.replace(f"@{record.name}", markup)
+
+    # Compose article
+    if props.asPage:
+        text = render_template("templates/page.html", html=text)
 
     return Result(text=text)
 

@@ -33,6 +33,11 @@ export class Client {
     return result as { path: string }
   }
 
+  async articlePublish(props: { path: string; control: types.IControl }) {
+    const result = await this.request('/article/publish', props)
+    return result as { url?: string }
+  }
+
   async articleRender(props: { path: string; text: string }) {
     const result = await this.request('/article/render', props)
     return result as { text: string }

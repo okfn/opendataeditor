@@ -11,8 +11,9 @@ import * as types from '../../../../types'
 type IState = 'form' | 'load' | 'done' | 'fail'
 
 export interface PublishDialogProps {
-  onPublish: (control: types.IControl) => Promise<string | undefined>
   onClose: () => void
+  onPublish: (control: types.IControl) => Promise<string | undefined>
+  onPublishNote?: string
 }
 
 export default function PublishDialog(props: PublishDialogProps) {
@@ -59,7 +60,8 @@ export default function PublishDialog(props: PublishDialogProps) {
           Published:{' '}
           <Link href={publishedUrl} target="_blank">
             {publishedUrl}
-          </Link>
+          </Link>{' '}
+          {props.onPublishNote && <small> ({props.onPublishNote})</small>}
         </Box>
       )}
     </ConfirmDialog>

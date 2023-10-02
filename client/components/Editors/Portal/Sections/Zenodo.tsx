@@ -60,6 +60,7 @@ function Apikey() {
   return (
     <InputField
       required
+      type="password"
       label="API Key"
       value={apikey || ''}
       onChange={(value) => updateZenodo({ apikey: value || undefined })}

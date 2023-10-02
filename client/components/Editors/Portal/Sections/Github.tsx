@@ -58,6 +58,7 @@ function Apikey() {
   return (
     <InputField
       required
+      type="password"
       label="API Key"
       value={apikey || ''}
       onChange={(value) => updateGithub({ apikey: value || undefined })}

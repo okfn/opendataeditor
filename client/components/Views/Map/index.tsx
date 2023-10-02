@@ -1,4 +1,4 @@
-import 'leaflet/dist/leaflet.css'
+// NOTE: there is a bug showing tooltips; it's a fix
 import 'leaflet/dist/images/marker-shadow.png'
 import * as React from 'react'
 import Box from '@mui/material/Box'
