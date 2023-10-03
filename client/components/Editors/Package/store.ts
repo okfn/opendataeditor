@@ -221,7 +221,7 @@ export const selectors = {
 
   resource: (state: State) => {
     const index = state.resourceState.index
-    const resources = state.descriptor.resources!
+    const resources = state.descriptor.resources || []
     const resource = resources[index] ?? {}
     return resource
   },
@@ -242,8 +242,8 @@ export const selectors = {
 
   license: (state: State) => {
     const index = state.licenseState.index!
-    const licenses = state.descriptor.licenses!
-    const license = licenses[index]!
+    const licenses = state.descriptor.licenses || []
+    const license = licenses[index] ?? {}
     return license
   },
   licenseItems: (state: State) => {
@@ -260,8 +260,8 @@ export const selectors = {
 
   source: (state: State) => {
     const index = state.sourceState.index!
-    const sources = state.descriptor.sources!
-    const source = sources[index]!
+    const sources = state.descriptor.sources || []
+    const source = sources[index] ?? {}
     return source
   },
   sourceItems: (state: State) => {
@@ -278,8 +278,8 @@ export const selectors = {
 
   contributor: (state: State) => {
     const index = state.contributorState.index!
-    const contributors = state.descriptor.contributors!
-    const contributor = contributors[index]!
+    const contributors = state.descriptor.contributors || []
+    const contributor = contributors[index] ?? {}
     return contributor
   },
   contributorItems: (state: State) => {

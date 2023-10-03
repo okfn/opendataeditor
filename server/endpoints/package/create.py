@@ -32,7 +32,7 @@ def action(project: Project, props: Props) -> Result:
     cf = project.config
 
     # Create package
-    package = Package()
+    package = Package(resources=[])
     config = cf.read()
     api_key = config.system.openaiApiKey
     if props.prompt and api_key:
