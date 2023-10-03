@@ -88,3 +88,19 @@ Similarly, you can edit a table content by issuing command to AI. To access this
 Enter your instruction to AI in the promt input box and apply the command by clicking the `EDIT` button. The resulting output is as follows:
 
 ![AI GENERATED](./assets/working-with-articles/article-ai-edit-output.png)
+
+## Publishing on Github Pages
+
+> Live demo - https://roll.github.io/cars-and-dogs/
+
+Click on the `Publish` button below the article:
+
+![Publish an Article](./assets/working-with-articles/publish-1.png)
+
+A publishing dialog will open, select `Github`, add your `User`, `Repo`, and and `API Key`. When the form is filled, click on `Publish`:
+
+![Publish an Article](./assets/working-with-articles/publish-2.png)
+
+The article will be published on Github Pages. Note, that it might take a few minutes for a deployment:
+
+![Publish an Article](./assets/working-with-articles/publish-3.png)
