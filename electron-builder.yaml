@@ -18,9 +18,6 @@ extraResources:
     to: 'runner'
   - from: 'build/example'
     to: 'example'
-    filter:
-      - '**/*'
-      - '!**/.opendataeditor'
   - from: 'build/server'
     to: 'server'
     filter:

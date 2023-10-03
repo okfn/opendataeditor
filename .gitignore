@@ -151,3 +151,4 @@ tmp/
 .vercel
 client/coverage
 .opendataeditor
+!example/.opendataeditor

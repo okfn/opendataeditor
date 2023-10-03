@@ -1,0 +1,157 @@
+{
+  "record": {
+    "article": {
+      "name": "article",
+      "type": "article",
+      "path": "article.md",
+      "resource": {
+        "name": "article",
+        "type": "text",
+        "path": "article.md",
+        "scheme": "file",
+        "format": "md",
+        "mediatype": "text/markdown",
+        "encoding": "utf-8"
+      }
+    },
+    "chart": {
+      "name": "chart",
+      "type": "chart",
+      "path": "chart.json",
+      "resource": {
+        "name": "chart",
+        "type": "json",
+        "path": "chart.json",
+        "scheme": "file",
+        "format": "json",
+        "mediatype": "text/json",
+        "encoding": "utf-8"
+      }
+    },
+    "datapackage": {
+      "name": "datapackage",
+      "type": "package",
+      "path": "datapackage.json",
+      "resource": {
+        "name": "datapackage",
+        "type": "json",
+        "path": "datapackage.json",
+        "scheme": "file",
+        "format": "json",
+        "mediatype": "text/json"
+      }
+    },
+    "image": {
+      "name": "image",
+      "type": "image",
+      "path": "image.png",
+      "resource": {
+        "name": "image",
+        "type": "file",
+        "path": "image.png",
+        "scheme": "file",
+        "format": "png",
+        "mediatype": "image/png",
+        "encoding": "cp1252"
+      }
+    },
+    "license": {
+      "name": "license",
+      "type": "text",
+      "path": "license.txt",
+      "resource": {
+        "name": "license",
+        "type": "text",
+        "path": "license.txt",
+        "scheme": "file",
+        "format": "txt",
+        "mediatype": "text/txt",
+        "encoding": "utf-8"
+      }
+    },
+    "map": {
+      "name": "map",
+      "type": "map",
+      "path": "map.geojson",
+      "resource": {
+        "name": "map",
+        "type": "json",
+        "path": "map.geojson",
+        "scheme": "file",
+        "format": "geojson",
+        "mediatype": "text/geojson",
+        "encoding": "utf-8"
+      }
+    },
+    "script": {
+      "name": "script",
+      "type": "script",
+      "path": "script.py",
+      "resource": {
+        "name": "script",
+        "type": "text",
+        "path": "script.py",
+        "scheme": "file",
+        "format": "py",
+        "mediatype": "text/x-python",
+        "encoding": "utf-8"
+      }
+    },
+    "table": {
+      "name": "table",
+      "type": "table",
+      "path": "table.csv",
+      "resource": {
+        "name": "table",
+        "type": "table",
+        "path": "table.csv",
+        "scheme": "file",
+        "format": "csv",
+        "mediatype": "text/csv",
+        "encoding": "utf-8",
+        "schema": {
+          "fields": [
+            {
+              "name": "brand",
+              "type": "string"
+            },
+            {
+              "name": "model",
+              "type": "string"
+            },
+            {
+              "name": "price",
+              "type": "integer"
+            },
+            {
+              "name": "kmpl",
+              "type": "number"
+            },
+            {
+              "name": "bhp",
+              "type": "integer"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "view": {
+      "name": "view",
+      "type": "view",
+      "path": "view.json",
+      "resource": {
+        "name": "view",
+        "type": "json",
+        "path": "view.json",
+        "scheme": "file",
+        "format": "json",
+        "mediatype": "text/json",
+        "encoding": "utf-8"
+      }
+    }
+  }
+}
