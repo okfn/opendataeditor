@@ -1,7 +1,7 @@
 {
   "name": "opendataeditor",
   "license": "MIT",
-  "version": "1.0.0-rc.22",
+  "version": "1.0.0",
   "productName": "Open Data Editor",
   "author": "Open Knowledge Foundation",
   "description": "Data management for humans",
