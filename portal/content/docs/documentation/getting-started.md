@@ -5,7 +5,7 @@ sidebar:
 ---
 
 :::tip
-In October 2023, **Open Data Editor (v1)** has been released for **early adopters**. Please share your feedback or issues you encouter testing the application! At the moment, it's no recommended to use this software for critical data projects.
+In October 2023, an alpha version of **Open Data Editor (v1)** has been released for **early adopters**. Please share your feedback or issues you encouter testing the application! At the moment, it's not recommended to use this software for critical data projects.
 :::
 
 Open Data Editor is available on all major platforms:
