@@ -1,4 +1,4 @@
-# Open Data Editor
+# Open Data Editor (beta)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/frictionlessdata/application/general.yaml?branch=main)](https://github.com/frictionlessdata/application/actions)
 [![Codebase](https://img.shields.io/badge/codebase-github-brightgreen)](https://github.com/frictionlessdata/application)
