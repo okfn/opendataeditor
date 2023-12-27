@@ -41,8 +41,6 @@ python = "3.10"
 dependencies = [
     "ruff",
     "httpx",
-    "isort",
-    "black",
     "pytest",
     "neovim",
     "fsspec",
@@ -67,13 +65,11 @@ check = [
 ]
 format = [
   "ruff server --fix",
-  "isort server",
-  "black server",
+  "ruff format server",
 ]
 lint = [
   "ruff server",
-  "isort server --check",
-  "black server --check",
+  "ruff format server --check",
 ]
 spec = [
   "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
@@ -87,16 +83,12 @@ test = [
   "hatch run spec",
 ]
 
-[tool.black]
-line-length = 90
-
-[tool.isort]
-profile = "black"
-multi_line_output = 9
-
 [tool.ruff]
 line-length = 90
+
+[tool.ruff.lint]
 ignore = ["E501", "E731"]
+select = ["I"]
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401", "F403"]

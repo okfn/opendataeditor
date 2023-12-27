@@ -20,6 +20,7 @@ dist:
 docs:
 	cd portal && npm start
 
+## Runs ruff linter (including imports), ruff formater, prettier and eslint.
 format:
 	hatch run format
 	npm run format
@@ -29,6 +30,7 @@ install:
 	npm install
 	cd portal && npm install
 
+## Checks ruff linter (including imports), ruff formater, prettier and eslint.
 lint:
 	hatch run lint
 	npm run lint
