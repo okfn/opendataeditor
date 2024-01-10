@@ -6,6 +6,6 @@
 
 <strong>Open Data Editor (beta)</strong> for early adopters has been released on <strong>
 Oct 2, 2023
-</strong> -- [READ THE CONCEPT NOTE](https://docs.google.com/presentation/d/1wh3r6fC6gsiUx0tBwon4HT8dqufFV0C5GE6IG4PG7jI/edit)
 
-[![Concept Note](portal/assets/odet-concept-note-new.png)](https://docs.google.com/presentation/d/1wh3r6fC6gsiUx0tBwon4HT8dqufFV0C5GE6IG4PG7jI/edit)
+Check the project documentation for more information:
+ - [https://opendataeditor.okfn.org/](https://opendataeditor.okfn.org/)
