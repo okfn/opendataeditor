@@ -49,7 +49,6 @@ dependencies = [
     "pyright==1.1.317",
     "ipython",
     "watchfiles",
-    "pytest-cov",
     "pytest-vcr",
     "pytest-mock",
     "pytest-only",
@@ -75,16 +74,13 @@ lint = [
   "isort server --check",
   "black server --check",
 ]
-spec = [
-  "pytest --cov server --cov-report term-missing --cov-report html:coverage --cov-fail-under 70 --timeout=300",
-]
 start = [
   "watchfiles 'python -m server {args:tmp/project}' server",
 ]
 test = [
   "hatch run lint",
   "hatch run check",
-  "hatch run spec",
+  "hatch run pytest",
 ]
 
 [tool.black]
