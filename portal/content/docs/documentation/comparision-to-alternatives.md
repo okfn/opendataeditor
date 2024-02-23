@@ -10,7 +10,7 @@ There are several alternatives available with their own pros and cons. Let's com
 
 ## OpenRefine
 
-Openrefine is an open source web application tool that has various features to edit and clean the data. It allows users to process tabular data and has features to export the processed data. It offers an extensive set of features for both data exploration and cleaning such as filtering, faceting, clustering, edit data, join, merge, reconcile etc. More information about OpenRefine can be found [here](https://openrefine.org).
+OpenRefine is an open source web application for editing and cleaning data. It allows users to process tabular data and has an extensive set of features for data exploration, cleaning and export: such as filtering, faceting, clustering, edit data, join, merge, reconcilliation and more through plug-ins. Since version 3, there is built-in support for Frictionless Data standards to describe and package a collection of data. More information about OpenRefine can be found [here](https://openrefine.org).
 
 ![OPEN REFINE](./assets/alternative-data-editors/alternatives-openrefine.png)
 
