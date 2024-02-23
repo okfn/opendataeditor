@@ -11,27 +11,34 @@ build:
 	hatch run build
 	npm run build
 
+## Runs the React client in isolation (:8080)
 client:
 	npm run start
 
+## Runs electron-builder to package and build a ready for distribution app.
 dist:
 	npm run dist
 
+## Runs Astro dev server to serve documentation.
 docs:
 	cd portal && npm start
 
+## Runs ruff linter (including imports), ruff formater, prettier and eslint.
 format:
 	hatch run format
 	npm run format
 
+## Install application and documentation npm dependencies.
 install:
 	npm install
 	cd portal && npm install
 
+## Checks ruff linter (including imports), ruff formater, prettier and eslint.
 lint:
 	hatch run lint
 	npm run lint
 
+## Runs the Electron application with live reload (requires a running server).
 preview:
 	npm run preview
 
@@ -42,15 +49,42 @@ release:
 	make test && git commit -a -m 'v$(VERSION)' && git tag -a v$(VERSION) -m 'v$(VERSION)'
 	git push --follow-tags --no-verify
 
+## Runs the FastAPI server in isolation (:4040).
 server:
 	hatch run start
 
+## Runs the React client (:8080) and the Uvicorn server (:4040) concurrently.
 start:
 	npx concurrently 'hatch run start' 'npm run start'
 
+## Runs the whole suit of tests for server and client.
 test:
 	hatch run test
 	npm run test
 
 version:
 	@echo $(VERSION)
+
+
+## Show help
+GREEN  := $(shell tput -Txterm setaf 2)
+YELLOW := $(shell tput -Txterm setaf 3)
+WHITE  := $(shell tput -Txterm setaf 7)
+RESET  := $(shell tput -Txterm sgr0)
+TARGET_MAX_CHAR_NUM := 20
+
+help:
+	@echo ''
+	@echo 'Usage:'
+	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
+	@echo ''
+	@echo 'Targets:'
+	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
+	  helpMessage = match(lastLine, /^## (.*)/); \
+	  if (helpMessage) { \
+	    helpCommand = substr($$1, 0, index($$1, ":")-1); \
+	    helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+	    printf "  ${YELLOW}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${GREEN}%s${RESET}\n", helpCommand, helpMessage; \
+	  } \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
