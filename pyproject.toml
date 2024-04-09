@@ -17,7 +17,6 @@ dependencies = [
     "pandas==2.1.1",
     "pydantic==2.3.0",
     "pygithub==1.59.1",
-    "pyquery==2.0.0",
     "python-multipart==0.0.6",
     "pyzenodo3==1.0.2",
     "sqlalchemy==2.0.20",
