@@ -1,4 +1,4 @@
-.PHONY: all build client dist docs format install lint preview release server start test version
+.PHONY: all build client dist docs format install lint preview release server start test type version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
@@ -61,6 +61,11 @@ start:
 test:
 	hatch run test
 	npm run test
+
+## Checks types with pyright and typescript
+type:
+	hatch run type
+	npm run type
 
 version:
 	@echo $(VERSION)
