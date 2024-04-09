@@ -71,12 +71,10 @@ check = [
   "pyright server",
 ]
 format = [
-  "ruff server --fix",
   "ruff format server",
 ]
 lint = [
-  "ruff server",
-  "ruff format server --check",
+  "ruff check server",
 ]
 start = [
   "watchfiles 'python -m server {args:tmp/project}' server",
@@ -94,7 +92,7 @@ line-length = 90
 ignore = ["E501", "E731"]
 select = ["I"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401", "F403"]
 
 [tool.pytest.ini_options]
