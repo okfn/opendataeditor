@@ -60,7 +60,7 @@ dependencies = [
     "pytest-only",
     "pytest-dotenv",
     "pytest-timeout",
-    "pytest-lazy-fixture",
+    "pytest-lazy-fixtures",
 ]
 
 [tool.hatch.envs.default.scripts]
