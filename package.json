@@ -24,7 +24,6 @@
   "scripts": {
     "build": "electron-vite build",
     "dist": "electron-builder",
-    "check": "tsc --noEmit",
     "coverage": "sensible-browser coverage/index.html",
     "format": "prettier --write \"client/**/*.ts*\" && eslint --fix \"client/**/*.ts*\"",
     "lint": "prettier --check \"client/**/*.ts*\" && eslint \"client/**/*.ts*\"",
@@ -32,7 +31,8 @@
     "preview": "electron-vite dev",
     "start": "vite --open --port 8080",
     "spec": "vitest run",
-    "test": "npm run lint && npm run check && npm run spec",
+    "test": "npm run lint && npm run type && npm run spec",
+    "type": "tsc --noEmit",
     "update": "ncu -u"
   },
   "dependencies": {

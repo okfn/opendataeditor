@@ -3,30 +3,38 @@ name = "opendataeditor"
 dynamic = ["version"]
 requires-python = ">=3.10"
 dependencies = [
+    # Core
     "fastapi==0.103.1",
-    "fastparquet==2023.8.0",
-    "frictionless-ckan-mapper==1.0.9",
     "frictionless==5.16.0",
     "gitignore-parser==0.1.6",
-    "ijson==3.2.3",
-    "jinja2==3.1.2",
-    "jsonlines==4.0.0",
-    "marko==2.0.0",
     "openai==0.28.0",
-    "openpyxl==3.1.2",
-    "pandas==2.1.1",
     "pydantic==2.3.0",
-    "pygithub==1.59.1",
-    "pyquery==2.0.0",
     "python-multipart==0.0.6",
-    "pyzenodo3==1.0.2",
     "sqlalchemy==2.0.20",
     "tinydb==4.8.0",
     "typer==0.9.0",
     "typing_extensions==4.8.0",
     "uvicorn==0.23.2",
+    # Articles
+    "jinja2==3.1.2",
+    "marko==2.0.0",
+    # Scripts
+    "pandas==2.1.1",
+    # Excel
+    "openpyxl==3.1.2",
     "xlrd==2.0.1",
     "xlwt==1.3.0",
+    # JSON
+    "ijson==3.2.3",
+    "jsonlines==4.0.0",
+    # Parquet
+    "fastparquet==2023.8.0",
+    # CKAN
+    "frictionless-ckan-mapper==1.0.9",
+    # Github
+    "pygithub==1.59.1",
+    # Zenodo
+    "pyzenodo3==1.0.2",
 ]
 
 [tool.setuptools]
@@ -52,31 +60,29 @@ dependencies = [
     "pytest-only",
     "pytest-dotenv",
     "pytest-timeout",
-    "pytest-lazy-fixture",
+    "pytest-lazy-fixtures",
 ]
 
 [tool.hatch.envs.default.scripts]
 build = [
   "python -m build",
 ]
-check = [
-  "pyright server",
-]
 format = [
-  "ruff server --fix",
   "ruff format server",
 ]
 lint = [
-  "ruff server",
-  "ruff format server --check",
+  "ruff check server",
 ]
 start = [
   "watchfiles 'python -m server {args:tmp/project}' server",
 ]
 test = [
   "hatch run lint",
-  "hatch run check",
+  "hatch run type",
   "hatch run pytest",
+]
+type = [
+  "pyright server",
 ]
 
 [tool.ruff]
@@ -86,7 +92,7 @@ line-length = 90
 ignore = ["E501", "E731"]
 select = ["I"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401", "F403"]
 
 [tool.pytest.ini_options]
