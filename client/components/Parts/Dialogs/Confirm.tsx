@@ -57,7 +57,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
         <Columns spacing={2}>
           <SimpleButton
             fullWidth
-            label={`${props.cancelLabel || 'Cancel'}`}
+            label={props.cancelLabel || 'Cancel'}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
@@ -66,7 +66,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           />
           <SimpleButton
             fullWidth
-            label={`${props.label || 'Confirm'}`}
+            label={props.label || 'Confirm'}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
             aria-label="accept"
