@@ -59,7 +59,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
         <Columns spacing={2}>
           <IconButton
             fullWidth
-            label={`${props.cancelLabel || 'Cancel'} [Esc]`}
+            label={props.cancelLabel || 'Cancel'}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
@@ -69,7 +69,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           />
           <IconButton
             fullWidth
-            label={`${props.label || 'Confirm'} [${props.ctrlEnter ? 'Ctrl+' : ''}Enter]`}
+            label={props.label || 'Confirm'}
             Icon={props.Icon || CheckCircleIcon}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
