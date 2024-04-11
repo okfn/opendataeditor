@@ -10,7 +10,7 @@ export default function DeleteFileDialog() {
     <ConfirmDialog
       open={true}
       title="Delete File"
-      description={"Are you sure you want to delete this file?"}
+      description={'Are you sure you want to delete this file?'}
       label="Yes"
       cancelLabel="No"
       onCancel={() => updateState({ dialog: undefined })}
