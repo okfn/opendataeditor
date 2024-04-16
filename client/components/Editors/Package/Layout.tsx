@@ -87,8 +87,10 @@ function LayoutWithMenu() {
 
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
-      <Box className="package__box__file-menu"
-        sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+      <Box
+        className="package__box__file-menu"
+        sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}
+      >
         {!shallow && (
           <Box
             sx={{
@@ -113,9 +115,11 @@ function LayoutWithMenu() {
         />
       </Box>
       <Box className="package__box__main-menu">
-        <Box hidden={!section.startsWith('package')}
+        <Box
+          hidden={!section.startsWith('package')}
           className="inner-wrapper"
-          sx={{ height: '100%', display: 'flex' }}>
+          sx={{ height: '100%', display: 'flex' }}
+        >
           <LayoutWithoutMenu />
         </Box>
         {!shallow && (
