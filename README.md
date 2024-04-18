@@ -8,7 +8,8 @@
 
 # Open Data Editor (beta)
 
-<h3> Welcome to our Readme!</h3>
+### Welcome to our Readme!
+
 <p>The Open Data Editor (ODE) is a <strong>no-code application</strong> to <strong>explore, check and publish data</strong> in a simple way. Forever free and <strong>open source project</strong> powered by the Frictionless Framework.</p>
 
 
