@@ -1,11 +1,43 @@
-# Open Data Editor (beta)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/frictionlessdata/application/general.yaml?branch=main)](https://github.com/frictionlessdata/application/actions)
 [![Codebase](https://img.shields.io/badge/codebase-github-brightgreen)](https://github.com/frictionlessdata/application)
 [![Support](https://img.shields.io/badge/support-slack-brightgreen)](https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg)
 
-<strong>Open Data Editor (beta)</strong> for early adopters has been released on <strong>
-Oct 2, 2023
+![ODE-landscape-full-rgb@3x](https://github.com/okfn/opendataeditor/assets/20649846/01ae62e8-87f6-4e44-9487-790b8111e321)
 
-Check the project documentation for more information:
- - [https://opendataeditor.okfn.org/](https://opendataeditor.okfn.org/)
+
+# Open Data Editor (beta)
+
+### Welcome to our Readme!
+
+The Open Data Editor (ODE) is a **no-code application** to **explore, validate and publish data** in a simple way. Forever free and **open source project** powered by the **Frictionless Framework**.
+
+
+ 📩 [Send us feedback/Report a problem (email)](info@okfn.org) 
+ 🪲 [Create an issue on GitHub](https://github.com/okfn/opendataeditor/issues) 
+ 🤔 [Suggest a new feature](https://github.com/okfn/opendataeditor/issues) 
+
+# Useful links
+
+🔵 [Open Data Editor Concept Note](https://opendataeditor.okfn.org/ode-concept-note.pdf)
+
+🔵 [Open Data Editor User Guide and Project Documentation](https://opendataeditor.okfn.org/)
+
+🔵 [Frictionless Framework](https://framework.frictionlessdata.io/)
+
+🔵 [Frictionless Data](https://frictionlessdata.io/)
+
+# How to download the ODE
+
+📍***Note:** the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.*
+
+Go to [RELEASES](https://github.com/okfn/opendataeditor/releases)
+* For **Windows**:Download the most recent **EXE** file.
+* For **MacOS**:Downloadthe most recent **DMG** file.
+* For **Linux**:Download the most recent **DMG** or **DEB** file.
+
+
+_**Open Data Editor (beta)** for early adopters has been released on **Oct 2, 2023**_
+
+
+
