@@ -10,7 +10,7 @@
 
 ### Welcome to our Readme!
 
-<p>The Open Data Editor (ODE) is a <strong>no-code application</strong> to <strong>explore, check and publish data</strong> in a simple way. Forever free and <strong>open source project</strong> powered by the Frictionless Framework.</p>
+The Open Data Editor (ODE) is a **no-code application** to **explore, validate and publish data** in a simple way. Forever free and **open source project** powered by the **Frictionless Framework**.
 
 
  📩 [Send us feedback/Report a problem (email)](info@okfn.org) 
@@ -29,15 +29,15 @@
 
 # How to download the ODE
 
-📍<em><strong>Note:</strong> the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.</em>
+📍<em>**Note:** the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.</em>
 
 Go to [RELEASES](https://github.com/okfn/opendataeditor/releases)
-* For <strong>Windows</strong>:Download the most recent <strong>EXE</strong> file.
-* For <strong>MacOS</strong>:Downloadthe most recent <strong>DMG</strong> file.
-* For <strong>Linux</strong>:Download the most recent <strong>DMG</strong> or <strong>DEB</strong> file.
+* For **Windows**:Download the most recent **EXE** file.
+* For **MacOS**:Downloadthe most recent **DMG** file.
+* For **Linux**:Download the most recent **DMG** or **DEB** file.
 
 
-<em><strong>Open Data Editor (beta)</strong> for early adopters has been released on <strong>Oct 2, 2023</em>
+<em>**Open Data Editor (beta)** for early adopters has been released on **Oct 2, 2023**</em>
 
 
 
