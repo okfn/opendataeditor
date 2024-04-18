@@ -33,8 +33,8 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 Go to [RELEASES](https://github.com/okfn/opendataeditor/releases)
 * For **Windows**:Download the most recent **EXE** file.
-* For **MacOS**:Downloadthe most recent **DMG** file.
-* For **Linux**:Download the most recent **DMG** or **DEB** file.
+* For **MacOS**:Download the most recent **DMG** file.
+* For **Linux**:Download the most recent **AppImage** or **DEB** file.
 
 
 _**Open Data Editor (beta)** for early adopters has been released on **Oct 2, 2023**_
