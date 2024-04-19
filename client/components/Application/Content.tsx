@@ -55,7 +55,7 @@ function EmptyContent() {
 }
 
 function LoadingContent() {
-  return <SpinnerCard message="Indexing" />
+  return <SpinnerCard message="Loading" />
 }
 
 export const CONTROLLERS: {
