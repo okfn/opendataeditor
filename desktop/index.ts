@@ -25,7 +25,6 @@ app.whenReady().then(async () => {
 
   if (!is.dev) {
     log.info('## Start server')
-    await resources.ensureExample()
     await resources.ensureRunner()
     await python.ensurePython()
     await python.ensureLibraries()

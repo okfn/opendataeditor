@@ -14,17 +14,7 @@ def build_assets():
     for name in os.listdir(source):
         shutil.copy(f"{source}/{name}", target)
 
-    print(f"[example] Copied '{source}' to '{target}'")
-
-
-def build_example():
-    source = "example"
-    target = "build/example"
-
-    shutil.rmtree(target, ignore_errors=True)
-    shutil.copytree(source, target)
-
-    print(f"[example] Copied '{source}' to '{target}'")
+    print(f"[assets] Copied '{source}' to '{target}'")
 
 
 def build_runner():
@@ -69,6 +59,5 @@ def build_server():
 
 if __name__ == "__main__":
     build_assets()
-    build_example()
     build_runner()
     build_server()

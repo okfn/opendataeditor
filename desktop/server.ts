@@ -8,7 +8,7 @@ export async function runServer({ serverPort }: { serverPort: number }) {
   // Start server
   const proc = spawnFile(
     settings.PYTHON_TARGET,
-    ['-m', 'server', settings.APP_EXAMPLE, '--port', serverPort.toString()],
+    ['-m', 'server', settings.APP_HOME, '--port', serverPort.toString()],
     process.resourcesPath
   )
 
