@@ -16,6 +16,7 @@ export const APP_USER_MODEL_ID = 'org.opendataeditor'
 export const APP_HOME = join(HOME, `.${APP_NAME}`)
 export const APP_RUNNER = join(APP_HOME, 'runner')
 export const APP_PYTHON = join(APP_HOME, 'python')
+export const APP_PROJECTS = join(APP_HOME, 'projects')
 
 export const PYTHON_SOURCE = join(APP_RUNNER, WIN ? 'python.exe' : 'bin/python3')
 export const PYTHON_TARGET = join(APP_PYTHON, WIN ? 'Scripts\\python.exe' : 'bin/python3')
