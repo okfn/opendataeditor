@@ -73,6 +73,7 @@ jobs:
             dist/*.deb
             dist/*.exe
             dist/*.dmg
+          retention-days: 14
 
   # Release
 
