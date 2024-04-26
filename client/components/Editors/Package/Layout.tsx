@@ -18,7 +18,7 @@ import * as types from '../../../types'
 
 export default function Layout() {
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box className="package__layout__box" sx={{ height: '100%', display: 'flex' }}>
       <LayoutWithMenu />
     </Box>
   )
@@ -87,7 +87,10 @@ function LayoutWithMenu() {
 
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
-      <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
+      <Box
+        className="package__box__file-menu"
+        sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}
+      >
         {!shallow && (
           <Box
             sx={{
@@ -111,8 +114,12 @@ function LayoutWithMenu() {
           }}
         />
       </Box>
-      <Box>
-        <Box hidden={!section.startsWith('package')}>
+      <Box className="package__box__main-menu">
+        <Box
+          hidden={!section.startsWith('package')}
+          className="inner-wrapper"
+          sx={{ height: '100%', display: 'flex' }}
+        >
           <LayoutWithoutMenu />
         </Box>
         {!shallow && (
@@ -156,7 +163,7 @@ function LayoutWithoutMenu() {
   if (!section) return null
   return (
     <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box>
+      <Box className="layout-without-menu__box">
         <Box hidden={section !== 'package'}>
           <PackageSection />
         </Box>
