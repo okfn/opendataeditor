@@ -16,8 +16,6 @@ extraResources:
     to: 'pyproject.toml'
   - from: 'build/runner'
     to: 'runner'
-  - from: 'build/example'
-    to: 'example'
   - from: 'build/server'
     to: 'server'
     filter:
