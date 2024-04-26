@@ -37,7 +37,7 @@ function AddLocalFileButton() {
         component="label"
         startIcon={<UploadFileRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Local File
+        File
         <input
           type="file"
           hidden
@@ -75,7 +75,7 @@ function AddLocalFolderButton() {
         component="label"
         startIcon={<DriveFolderUploadRounded fontSize="small" sx={{ mr: 1 }} />}
       >
-        Local Folder
+        Folder
         <input
           type="file"
           hidden
@@ -95,7 +95,7 @@ function AddEmptyFolderButton() {
   return (
     <IconButton
       variant="text"
-      label="Empty Folder"
+      label="Create Folder"
       Icon={CreateNewFolderIcon}
       onClick={() => updateState({ dialog: 'addEmptyFolder' })}
     />
