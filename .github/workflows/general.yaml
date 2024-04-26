@@ -36,6 +36,45 @@ jobs:
       - name: Test software
         run: make test
 
+  # Build
+
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    needs: [test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Prepare environment
+        run: pip3 install hatch
+      - name: Install dependencies
+        run: make install
+      - name: Build software
+        run: make build
+      - name: Dist software
+        run: make dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-files-${{ matrix.os }}
+          path: |
+            dist/*.deb
+            dist/*.exe
+            dist/*.dmg
+          retention-days: 14
+
   # Release
 
   release:
