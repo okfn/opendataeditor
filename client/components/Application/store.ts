@@ -165,15 +165,22 @@ export function makeStore(props: ApplicationProps) {
       updateState({ files })
     },
     addFiles: async (files) => {
-      const { client, onFileCreate } = get()
+      const { client, onFileCreate, updateState } = get()
       const folder = selectors.folderPath(get())
       const paths: string[] = []
+      const supportedFormats = ['csv', 'xls', 'json', 'sql']
       for (const file of files) {
-        const path = file.webkitRelativePath || undefined
-        const result = await client.fileCreate({ file, path, folder, deduplicate: true })
-        paths.push(result.path)
+        const fileExt = file.name.slice(file.name.lastIndexOf('.') + 1)
+        if (!supportedFormats.includes(fileExt)) {
+          updateState({ dialog: 'unsupportedFile' })
+          return;
+        } else {
+          const path = file.webkitRelativePath || undefined
+          const result = await client.fileCreate({ file, path, folder, deduplicate: true })
+          paths.push(result.path)
+        }
+        onFileCreate(paths)
       }
-      onFileCreate(paths)
     },
     fetchFile: async (url) => {
       const { client, onFileCreate } = get()

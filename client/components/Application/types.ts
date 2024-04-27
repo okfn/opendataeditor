@@ -14,3 +14,4 @@ export type IDialog =
   | 'moveFile'
   | 'moveFolder'
   | 'start'
+  | 'unsupportedFile'
