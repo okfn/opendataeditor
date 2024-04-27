@@ -11,7 +11,8 @@ export default function UnsupportedFileDialog() {
       open={true}
       title="Unsupported file"
       label="OK"
-      description={`This file format is not supported by the application. \n\n The supported formats are ${supportedFormats.join(', ').toUpperCase()}`}
+      description={`Your file is not supported by this tool. Supported data formats: 
+        ${supportedFormats.join(', ').toUpperCase()}`}
       onConfirm={() => updateState({ dialog: undefined })}
     />
   )

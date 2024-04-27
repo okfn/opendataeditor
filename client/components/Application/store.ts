@@ -173,13 +173,18 @@ export function makeStore(props: ApplicationProps) {
         const fileExt = file.name.slice(file.name.lastIndexOf('.') + 1)
         if (!supportedFormats.includes(fileExt)) {
           updateState({ dialog: 'unsupportedFile' })
-          return;
+          return
         } else {
           const path = file.webkitRelativePath || undefined
-          const result = await client.fileCreate({ file, path, folder, deduplicate: true })
+          const result = await client.fileCreate({
+            file,
+            path,
+            folder,
+            deduplicate: true,
+          })
           paths.push(result.path)
         }
-        onFileCreate(paths)
+        if (paths.length > 0) onFileCreate(paths)
       }
     },
     fetchFile: async (url) => {

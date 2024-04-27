@@ -38,5 +38,5 @@ const DIALOGS = {
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
   start: StartDialog,
-  unsupportedFile : UnsupportedFileDialog
+  unsupportedFile: UnsupportedFileDialog,
 }
