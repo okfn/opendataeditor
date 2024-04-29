@@ -27,6 +27,8 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 🔵 [Frictionless Data](https://frictionlessdata.io/)
 
+🔵 [Contributing Guide](https://opendataeditor.okfn.org/contributing/development/)
+
 # How to download the ODE
 
 📍***Note:** the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.*
