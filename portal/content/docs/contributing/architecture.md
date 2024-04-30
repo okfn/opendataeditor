@@ -20,6 +20,12 @@ High-level design of the Open Data Editor project is shown in the diagram below.
 
 The desktop component is built using the Electron framework. It provides a desktop application for the Open Data Editor project. The desktop component is responsible for starting the client and server components and managing their lifecycle, as well as environment management i.e. installing Python dependencies. This component is the tiniest part of the project and it is not required to be used for local development as the client and server components can be run independently.
 
+The main technologies used in the client component are:
+
+- TypeScript
+- Electron
+- Electron Builder
+
 #### Main Process
 
 The main process is responsible for starting the client and server components and managing their lifecycle. It is also responsible for environment management i.e. installing Python dependencies. As in any Electron app, the main process is the entry point of the application and is responsible for creating the application window.
@@ -38,4 +44,28 @@ The context bridge is a feature of Electron that allows the renderer process to 
 
 ### Client
 
+The client component is responsible for rendering the user interface and sending requests to the server. It is built using React and communicates with the server using REST APIs.
+
+The main technologies used in the client component are:
+
+- TypeScript
+- React
+- MaterialUI
+- Zustand
+- Inovua
+- Monaco
+- Leaflet
+- Vega
+
 ### Server
+
+The server component is responsible for handling requests from the client and interacting with the file system, database, and local or remote services. It is built using FastAPI and communicates with the client using REST APIs.
+
+The main technologies used in the server component are:
+
+- Python
+- FastAPI
+- SQLAlchemy
+- TinyDB
+- Frictionless
+- OpenAPI
