@@ -57,6 +57,16 @@ The main technologies used in the client component are:
 - Leaflet
 - Vega
 
+#### Application
+
+#### Controllers
+
+#### Editors
+
+#### Views
+
+#### Parts
+
 ### Server
 
 The server component is responsible for handling requests from the client and interacting with the file system, database, and local or remote services. It is built using FastAPI and communicates with the client using REST APIs.
