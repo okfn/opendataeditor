@@ -11,7 +11,7 @@ Open Data Editor uses a client/server architecture wrapped into a desktop applic
 To start working on the project:
 
 - Python 3.10+
-- Node 18+
+- Node 20+
 
 ## Enviroment
 
