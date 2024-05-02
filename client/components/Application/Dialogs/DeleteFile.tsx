@@ -11,9 +11,9 @@ export default function DeleteFileDialog() {
     <ConfirmDialog
       open={true}
       title="Delete File"
-      label="Delete"
+      label="OK"
       Icon={DeleteIcon}
-      description={`You are deleting "${path}". Are you sure?`}
+      description={'Are you sure you want to delete this file?'}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
         await deleteFile(path)
