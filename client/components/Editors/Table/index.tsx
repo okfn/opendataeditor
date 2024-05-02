@@ -25,8 +25,29 @@ export default function TableEditor(props: TableEditorProps) {
     () => createColumns(schema, report, history, selection),
     [schema, report, history, selection]
   )
+  const [rowsPerPage, setRowsPerPage] = React.useState(20)
+  const [setPageSizes, pageSizes] = React.useState<number[]>([])
+
+  function makePageSizesArray( numberToCompareAgainst : number ){
+    const newPageSizes = [numberToCompareAgainst]
+    const array = [5, 10, 20, 50, 100].map( ( n: number ) => ( n > numberToCompareAgainst ? n : newPageSizes.push(n) ) );
+    // setPageSizes(array as number[]); // TODO : fix
+    return array;
+  }
+
+  function loaded(){
+    const tableHeight = document.querySelector('.InovuaReactDataGrid__column-layout')?.clientHeight || 0
+    // TODO: get cellHeight properly
+    // add on resize event
+    const cellHeight = document.querySelector('.InovuaReactDataGrid__cell')?.clientHeight || 1
+    // 38 is the current height of the cell by default 
+    // - 1 because we dont include header row
+    setRowsPerPage( Math.floor(tableHeight / 38) - 1 )
+    // makePageSizesArray( Math.floor(tableHeight / 38) - 1 )
+  }
   return (
     <InovuaDatagrid
+      onReady={loaded}
       idProperty="_rowNumber"
       dataSource={source}
       columns={columns}
@@ -35,6 +56,9 @@ export default function TableEditor(props: TableEditorProps) {
       renderLoadMask={LoadMask}
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
       style={{ height: '100%', border: 'none' }}
+      limit={rowsPerPage}
+      onLimitChange={setRowsPerPage}
+      // pageSizes={pageSizes}
       {...others}
     />
   )
