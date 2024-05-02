@@ -9,6 +9,7 @@ import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
 import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
+import debounce from 'lodash/debounce'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
@@ -26,28 +27,41 @@ export default function TableEditor(props: TableEditorProps) {
     [schema, report, history, selection]
   )
   const [rowsPerPage, setRowsPerPage] = React.useState(20)
-  const [setPageSizes, pageSizes] = React.useState<number[]>([])
 
-  function makePageSizesArray( numberToCompareAgainst : number ){
-    const newPageSizes = [numberToCompareAgainst]
-    const array = [5, 10, 20, 50, 100].map( ( n: number ) => ( n > numberToCompareAgainst ? n : newPageSizes.push(n) ) );
-    // setPageSizes(array as number[]); // TODO : fix
-    return array;
-  }
+  const [rowHeight] = React.useState(40)
 
-  function loaded(){
-    const tableHeight = document.querySelector('.InovuaReactDataGrid__column-layout')?.clientHeight || 0
-    // TODO: get cellHeight properly
-    // add on resize event
-    const cellHeight = document.querySelector('.InovuaReactDataGrid__cell')?.clientHeight || 1
-    // 38 is the current height of the cell by default 
+  React.useEffect(() => {
+    const debouncedHandleResize = debounce(function handleResize() {
+      resizeTable()
+    }, 300)
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return () => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+  })
+
+  // const [setPageSizes, pageSizes] = React.useState<number[]>([])
+
+  // function makePageSizesArray(numberToCompareAgainst: number) {
+  //   const newPageSizes = [numberToCompareAgainst]
+  //   const array = [5, 10, 20, 50, 100].map((n: number) =>
+  //     n > numberToCompareAgainst ? n : newPageSizes.push(n)
+  //   )
+  //   // setPageSizes(array as number[]); // TODO : fix
+  //   return array
+  // }
+
+  function resizeTable() {
+    const tableElement = document.querySelector('.InovuaReactDataGrid__column-layout')
+    const tableHeight = tableElement?.clientHeight as number
     // - 1 because we dont include header row
-    setRowsPerPage( Math.floor(tableHeight / 38) - 1 )
-    // makePageSizesArray( Math.floor(tableHeight / 38) - 1 )
+    setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
+
   return (
     <InovuaDatagrid
-      onReady={loaded}
+      onReady={resizeTable}
       idProperty="_rowNumber"
       dataSource={source}
       columns={columns}
@@ -58,6 +72,7 @@ export default function TableEditor(props: TableEditorProps) {
       style={{ height: '100%', border: 'none' }}
       limit={rowsPerPage}
       onLimitChange={setRowsPerPage}
+      rowHeight={rowHeight}
       // pageSizes={pageSizes}
       {...others}
     />
