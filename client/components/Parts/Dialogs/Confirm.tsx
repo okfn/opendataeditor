@@ -3,9 +3,7 @@ import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import Cancel from '@mui/icons-material/Cancel'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import IconButton from '..//Buttons/Icon'
+import SimpleButton from '../Buttons/SimpleButton'
 import Columns from '../Grids/Columns'
 
 export interface ConfirmDialogProps {
@@ -57,20 +55,18 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <IconButton
+          <SimpleButton
             fullWidth
-            label={`${props.cancelLabel || 'Cancel'} [Esc]`}
+            label={`${props.cancelLabel || 'Cancel'}`}
             sx={{ my: 0.5 }}
             onClick={handleCancel}
             aria-label="cancel"
             color="warning"
             variant="contained"
-            Icon={Cancel}
           />
-          <IconButton
+          <SimpleButton
             fullWidth
-            label={`${props.label || 'Confirm'} [${props.ctrlEnter ? 'Ctrl+' : ''}Enter]`}
-            Icon={props.Icon || CheckCircleIcon}
+            label={`${props.label || 'Confirm'}`}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
             aria-label="accept"
