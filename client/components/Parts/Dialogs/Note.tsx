@@ -3,8 +3,7 @@ import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import IconButton from '..//Buttons/Icon'
+import SimpleButton from '../Buttons/SimpleButton'
 import Columns from '../Grids/Columns'
 
 export interface NoteDialogProps {
@@ -54,11 +53,10 @@ export default function NoteDialog(props: NoteDialogProps) {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <IconButton
+          <SimpleButton
             fullWidth
             color="info"
-            label={`${props.label || 'Confirm'} [${props.ctrlEnter ? 'Ctrl+' : ''}Enter]`}
-            Icon={props.Icon || CheckCircleIcon}
+            label={props.label || 'Confirm'}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
             aria-label="accept"

@@ -1,4 +1,3 @@
-import DeleteIcon from '@mui/icons-material/Delete'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import { useStore } from '../store'
 
@@ -11,9 +10,9 @@ export default function DeleteFolderDialog() {
     <ConfirmDialog
       open={true}
       title="Delete Folder"
-      label="Delete"
-      Icon={DeleteIcon}
-      description={`You are deleting "${path}". Are you sure?`}
+      description="Are you sure you want to delete this folder?"
+      label="Yes"
+      cancelLabel="No"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
         await deleteFolder(path)
