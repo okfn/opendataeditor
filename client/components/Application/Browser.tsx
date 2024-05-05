@@ -19,6 +19,7 @@ export default function Browser() {
 
 function DefaultBrowser() {
   const path = useStore((state) => state.path)
+  const selectedMultiplePaths = useStore((state) => state.selectedMultiplePaths)
   const files = useStore((state) => state.files)
   const fileEvent = useStore((state) => state.fileEvent)
   const selectFile = useStore((state) => state.selectFile)
@@ -34,7 +35,13 @@ function DefaultBrowser() {
         </Box>
       }
     >
-      <FileTree files={files} event={fileEvent} selected={path} onSelect={selectFile} />
+      <FileTree
+        files={files}
+        event={fileEvent}
+        selectedMultiple={selectedMultiplePaths}
+        selected={path}
+        onSelect={selectFile}
+      />
     </ErrorBoundary>
   )
 }

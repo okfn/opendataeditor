@@ -3,7 +3,8 @@ import { useStore } from '../store'
 
 export default function DeleteFileDialog() {
   const path = useStore((state) => state.path)
-  const deleteFile = useStore((state) => state.deleteFile)
+  const selectedMultiplePaths = useStore((state) => state.selectedMultiplePaths)
+  const deleteFiles = useStore((state) => state.deleteFiles)
   const updateState = useStore((state) => state.updateState)
   if (!path) return null
   return (
@@ -15,7 +16,8 @@ export default function DeleteFileDialog() {
       cancelLabel="No"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
-        await deleteFile(path)
+        if (selectedMultiplePaths) await deleteFiles(selectedMultiplePaths)
+        else await deleteFiles([path])
         updateState({ dialog: undefined })
       }}
     />

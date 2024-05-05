@@ -12,6 +12,7 @@ import * as types from '../../types'
 
 export interface State {
   path?: string
+  selectedMultiplePaths?: string[]
   client: Client
   config?: types.IConfig
   record?: types.IRecord
@@ -48,10 +49,10 @@ export interface State {
   createFile: (path: string, prompt?: string) => Promise<void>
   adjustFile: (name?: string, type?: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
-  deleteFile: (path: string) => Promise<void>
+  deleteFiles: (multiplePaths: string[]) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
   locateFile: (path: string) => Promise<void>
-  selectFile: (path?: string) => Promise<void>
+  selectFile: (path?: string[] | string) => Promise<void>
   openFile: (path: string) => Promise<void>
   closeFile: () => void
 
@@ -272,15 +273,12 @@ export function makeStore(props: ApplicationProps) {
 
       onFileCreate([result.path])
     },
-    deleteFile: async (path) => {
-      const { client, onFileDelete, updateState } = get()
-      const result = await client.fileDelete({ path })
-
-      if (result instanceof client.Error) {
-        return updateState({ error: result })
+    deleteFiles: async (paths) => {
+      const { client, onFileDelete } = get()
+      for (const path of paths) {
+        await client.fileDelete({ path })
+        onFileDelete(path)
       }
-
-      onFileDelete(path)
     },
     moveFile: async (path, toPath) => {
       const { client, onFileCreate, updateState } = get()
@@ -300,12 +298,20 @@ export function makeStore(props: ApplicationProps) {
     },
     selectFile: async (newPath) => {
       const { path, record, openFile } = get()
-      if (path === newPath) return
-      set({ path: newPath })
-      if (!newPath) return
-      if (record?.path === newPath) return
-      if (selectors.isFolder(get())) return
-      await openFile(newPath)
+      if (newPath) {
+        if (!Array.isArray(newPath)) newPath = [newPath]
+        if (newPath.length === 1) {
+          set({ selectedMultiplePaths: undefined })
+          if (path === newPath[0]) return
+          set({ path: newPath[0] })
+          if (!newPath) return
+          if (record?.path === newPath[0]) return
+          if (selectors.isFolder(get())) return
+          await openFile(newPath[0])
+        } else {
+          set({ selectedMultiplePaths: newPath as string[] })
+        }
+      }
     },
     openFile: async (path) => {
       const { client, loadFiles, fileEvent, updateState } = get()
