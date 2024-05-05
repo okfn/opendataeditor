@@ -13,8 +13,8 @@ import * as types from '../../../types'
 export interface FileTreeProps {
   files: types.IFile[]
   event?: types.IFileEvent
-  selected?: string
-  onSelect: (path?: string) => void
+  selected?: string[]
+  onSelect: (path?: string[]) => void
   defaultExpanded?: string[]
 }
 
@@ -31,23 +31,24 @@ export default function FileTree(props: FileTreeProps) {
       : props.defaultExpanded || []
     setExpanded([...new Set([...expanded, ...defaultExpanded])])
   }, [props.event, props.defaultExpanded])
-  const selected = props.selected || ''
+  const selected = props.selected
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <Stack alignItems="stretch" height="100%">
           <TreeView
+            multiSelect
             selected={selected}
             expanded={expanded}
-            onNodeSelect={(_event, nodeId) => {
-              props.onSelect(nodeId as string)
+            onNodeSelect={(_event, nodeIds) => {
+              props.onSelect(nodeIds as string[])
             }}
-            onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
-              // On collapsing we don't collapse a folder if it's not yet selected
-              const isCollapsing = nodeIds.length < expanded.length
-              if (isCollapsing && !expanded.includes(props.selected || '')) return
-              setExpanded(nodeIds)
-            }}
+            // onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+            //   // On collapsing we don't collapse a folder if it's not yet selected
+            //   const isCollapsing = nodeIds.length < expanded.length
+            //   if (isCollapsing && !expanded.includes(props.selected[0] || '')) return
+            //   setExpanded(nodeIds)
+            // }}
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
             aria-label="customized"
