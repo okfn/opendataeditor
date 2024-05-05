@@ -51,6 +51,12 @@ export default function FileTree(props: FileTreeProps) {
               if (isCollapsing && !expanded.every(value => selected.includes(value))) return
               setExpanded(nodeIds)
             }}
+            // onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+            //   // On collapsing we don't collapse a folder if it's not yet selected
+            //   const isCollapsing = nodeIds.length < expanded.length
+            //   if (isCollapsing && !expanded.includes(props.selected[0] || '')) return
+            //   setExpanded(nodeIds)
+            // }}
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
             aria-label="customized"
