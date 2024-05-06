@@ -42,6 +42,10 @@ export default function TableEditor(props: TableEditorProps) {
   })
 
   function resizeTable() {
+    // using a query selector here and not a ref because the tableRef selects the whole
+    // table including the bottom pagination bar, so we would still need to use a querySelector
+    // for selecting the pagination bar to get its height
+    // see: https://github.com/okfn/opendataeditor/pull/364#discussion_r1589574167
     const tableElement = document.querySelector('.InovuaReactDataGrid__column-layout')
     const tableHeight = tableElement?.clientHeight as number
     // - 1 because we dont include header row
