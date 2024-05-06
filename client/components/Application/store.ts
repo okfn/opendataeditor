@@ -10,7 +10,7 @@ import * as helpers from '../../helpers'
 import * as types from '../../types'
 
 export interface State {
-  path?: string
+  path?: string[]
   client: Client
   config?: types.IConfig
   record?: types.IRecord
