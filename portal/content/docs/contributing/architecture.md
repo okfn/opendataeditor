@@ -57,6 +57,10 @@ The main technologies used in the client component are:
 - Leaflet
 - Vega
 
+#### Components
+
+The client uses a component-based architecture. Each component is responsible for rendering a specific part of the user interface. The components are nested and have different level of abstraction. Most of high-level components uses `Zustand` for shared state management while low-level components are stateless or use local `React.useState` and `React.useEffect`.
+
 #### Application
 
 #### Controllers
@@ -66,6 +70,8 @@ The main technologies used in the client component are:
 #### Views
 
 #### Parts
+
+In the parts `folder` there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that mostly based on `MUI` primitives.
 
 ### Server
 
@@ -79,3 +85,15 @@ The main technologies used in the server component are:
 - TinyDB
 - Frictionless
 - OpenAPI
+
+#### Endpoints
+
+#### Metadata
+
+#### Database
+
+#### Frictionless
+
+#### OpenAPI
+
+## Workflows
