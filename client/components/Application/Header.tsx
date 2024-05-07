@@ -15,7 +15,7 @@ export default function Header() {
   const measure = useStore((state) => state.measure)
   const updateState = useStore((state) => state.updateState)
   return (
-    <AppBar position="static">
+    <AppBar position="static" elevation={0}>
       <Toolbar disableGutters>
         <LightTooltip title="Show the project page">
           <Typography
