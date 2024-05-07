@@ -128,6 +128,7 @@ The main technologies used in the server component are:
 - FastAPI
 - Pydantic
 - SQLAlchemy
+- SQLite
 - TinyDB
 - Frictionless
 - OpenAPI
@@ -163,6 +164,13 @@ For example, there are models for:
 - etc
 
 ##### Stores
+
+The server component consists of a set of stores that are responsible for interacting with the file system and a database. The core stores are:
+
+- **Config**: incapsulates application configuration management
+- **Database**: incapsulates database management i.e. storing tabular data in a SQLite database
+- **Filesystem**: incapsulates file system management i.e. reading and writing files
+- **Metadata**: incapsulates metadata management i.e. storing metadata in a TinyDB database
 
 #### Services
 
