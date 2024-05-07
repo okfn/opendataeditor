@@ -33,8 +33,8 @@ export default function ValidationChip(props: ValidationChipProps) {
         size="medium"
         sx={{
           width: '8vw',
-          height: '100%',
-          borderLeft: 'solid 1px #ddd',
+          height: '2.5rem',
+          border: 'solid 1px #ddd',
           borderRadius: '3px',
           cursor: 'pointer',
         }}
