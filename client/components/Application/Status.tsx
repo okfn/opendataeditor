@@ -3,7 +3,6 @@ import { alpha, styled } from '@mui/material/styles'
 import LightTooltip from '../Parts/Tooltips/Light'
 import ReportChip from '../Parts/Chips/Report'
 import CreateChip from '../Parts/Chips/Create'
-import TypeChip from '../Parts/Chips/Type'
 import { useStore } from './store'
 
 export default function Status() {
@@ -13,16 +12,6 @@ export default function Status() {
   const updateState = useStore((state) => state.updateState)
   return (
     <Container>
-      <Prefix>
-        <TypeChip
-          type={record?.type}
-          onClick={() =>
-            record
-              ? updateState({ dialog: 'adjustFile' })
-              : updateState({ dialog: 'configProject' })
-          }
-        />
-      </Prefix>
       <Contents onClick={record ? () => locateFile(record.path) : undefined}>
         <Box>
           <LightTooltip
