@@ -182,4 +182,6 @@ For example, there are models for:
 
 ## Workflows
 
-## Problems
+## Design System
+
+## Weaknesses Analysis
