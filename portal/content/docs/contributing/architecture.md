@@ -112,6 +112,12 @@ In the `components/parts` folder there are components that are used in multiple 
 
 #### Testing
 
+A testing system hasn't been set up yet. Here is a list of issue for hadnling it:
+
+- [Bootstrap unit testing for client](https://github.com/okfn/opendataeditor/issues/130)
+- [Bootstrap e2e testing](https://github.com/okfn/opendataeditor/issues/131)
+- [Recover Storybooks](https://github.com/okfn/opendataeditor/issues/360)
+
 ### Server
 
 The server component is responsible for handling requests from the client and interacting with the file system, database, and local or remote services. It is built using FastAPI and communicates with the client using REST APIs.
