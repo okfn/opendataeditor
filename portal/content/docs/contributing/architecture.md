@@ -26,21 +26,31 @@ The main technologies used in the client component are:
 - Electron
 - Electron Builder
 
-#### Main Process
+#### Components
+
+The desktop component consists of the classical Electron architecture with the main process, renderer process, and context bridge:
+
+##### Main Process
 
 The main process is responsible for starting the client and server components and managing their lifecycle. It is also responsible for environment management i.e. installing Python dependencies. As in any Electron app, the main process is the entry point of the application and is responsible for creating the application window.
 
-#### Renderer Process
+##### Renderer Process
 
 The renderer process is responsible for rendering the user interface and sending requests to the server. It is built using React and communicates with the server using REST APIs.
 
-#### Context Bridge
+##### Context Bridge
 
 The context bridge is a feature of Electron that allows the renderer process to securely communicate with the main process. It is used to send messages between the renderer process and the main process. The only functionality that the client uses from the Electron native interfaces:
 
 - getting a server port
 - opening a project directory
 - communicating fatal errors
+
+#### Testing
+
+Currently, the desktop component is not tested. The main reason for this is that the desktop component is a thin layer that starts the client and server components and does not contain any business logic. The client and server components are tested independently.
+
+On the other hand, once [Bootstrap e2e testing](https://github.com/okfn/opendataeditor/issues/131) is setup it will be great to add at least some basic e2e coverage. The best case scinario would be having some unit testings as well for the main process and context bridge. In-general, the testing will require seting up a testing environment for the Electron app in different OS.
 
 ### Client
 
@@ -61,17 +71,46 @@ The main technologies used in the client component are:
 
 The client uses a component-based architecture. Each component is responsible for rendering a specific part of the user interface. The components are nested and have different level of abstraction. Most of high-level components uses `Zustand` for shared state management while low-level components are stateless or use local `React.useState` and `React.useEffect`.
 
-#### Application
+Components that are required to have access to the server use the `Client` class singletone to access the server. The `Client` class is a wrapper around the `fetch` function that is used to send requests to the API. The `Client` class is responsible for providing client-side types information and error handling.
 
-#### Controllers
+##### Application
 
-#### Editors
+> Application USE `Zustand` for shared state management
 
-#### Views
+The `Application` component is the root component of the application. It is responsible for rendering the main layout of the application and managing the routing and controllers. The underlaying component are described in the sections belows and here is an examplar structure of the `Application` component for a tabular data source:
 
-#### Parts
+![Layout](./assets/layout.png)
 
-In the parts `folder` there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that mostly based on `MUI` primitives.
+##### Controllers
+
+> Controllers usually USE `Zustand` for shared state management
+
+In the `components/controllers` folder there are components that are responsible for rendering a full data source representation including all the underlaying editors, views, and parts. Controllers are split by the file type e.g.:
+
+- table
+- text
+- chart
+- etc
+
+##### Editors
+
+> Editors usually USE `Zustand` for shared state management
+
+In the `components/Editors` folder there are components that are responsible for editing different data and metadata sources. It includes editors for tables, texts, Data Package metadata entities, and more.
+
+##### Views
+
+> Views usually DON'T USE `Zustand` for shared state management
+
+In the `components/views` folder there are components that are responsible for rendering different data and metadata sources without an ability to edit the source. The most promenent example of a view is a `Report` that takes a [Frictionless Validation Report](https://framework.frictionlessdata.io/docs/framework/report.html) as one of the props and renders it to a visual representation.
+
+##### Parts
+
+> Parts usually DON'T USE `Zustand` for shared state management
+
+In the `components/parts` folder there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that mostly based on `MUI` primitives.
+
+#### Testing
 
 ### Server
 
@@ -86,14 +125,18 @@ The main technologies used in the server component are:
 - Frictionless
 - OpenAPI
 
-#### Endpoints
+#### Components
 
-#### Metadata
+##### Endpoints
 
-#### Database
+##### Metadata
 
-#### Frictionless
+##### Database
 
-#### OpenAPI
+##### Frictionless
+
+##### OpenAPI
 
 ## Workflows
+
+## Problems
