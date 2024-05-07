@@ -174,9 +174,21 @@ The server component consists of a set of stores that are responsible for intera
 
 #### Services
 
+The server component consists of a set of services that are responsible for interacting with local or remote services. The core services are:
+
 ##### Frictionless
 
+The Frictionless service is a [frictionless-py](https://framework.frictionlessdata.io/) library. The server uses the library direclty via its Python interface. The core Frictionless usage is:
+
+- describing data sources i.e. inferring its metadata
+- validating data sources i.e. checking its quality
+- indexing tabular data sources i.e. streaming them into a SQLite database
+
+There are also secondary tasks that Frictionless is used for like reading and writing JSON etc. Those applications might be removed over time to simplify the codebase.
+
 ##### OpenAPI
+
+The OpenAPI service uses the official [OpenAI](https://pypi.org/project/openai/) driver to interact with the OpenAI API. The service is used to generate text based on the user input, and, in-general, is meant to provide a text-based AI assistant.
 
 #### Artifacts
 
