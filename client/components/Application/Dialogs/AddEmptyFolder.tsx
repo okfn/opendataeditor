@@ -1,4 +1,3 @@
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore, selectors } from '../store'
 
@@ -10,11 +9,9 @@ export default function AddEmptyFolderDialog() {
     <InputDialog
       open={true}
       value={folderPath}
-      title="Add Empty Folder"
-      label="Add"
-      description="You are creating a folder. Enter destination:"
-      placholder="Enter a folder path"
-      Icon={CreateNewFolderIcon}
+      title="Create Folder"
+      label="Create"
+      placholder="Name of the new folder"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (path) => {
         await createFolder(path)
