@@ -15,18 +15,14 @@ export default function Header() {
   const measure = useStore((state) => state.measure)
   const updateState = useStore((state) => state.updateState)
   return (
-    <AppBar position="static" elevation={0}>
+    <AppBar position="static">
       <Toolbar disableGutters>
         <LightTooltip title="Show the project page">
           <Typography
-            variant="h5"
             sx={{
-              paddingLeft: 4,
               fontSize: '28px',
               ml: 2,
-              mt: '4px',
               cursor: 'pointer',
-              whiteSpace: 'nowrap',
             }}
             onClick={() => closeFile()}
           >
