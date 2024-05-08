@@ -110,7 +110,7 @@ function LayoutWithMenu() {
           }}
         />
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={6} sx={{margin: '0px 15px'}}>
           <Sections section={section} />
         {!shallow && (
           <Box>
