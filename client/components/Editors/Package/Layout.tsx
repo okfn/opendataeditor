@@ -17,9 +17,7 @@ import { useStore, selectors, select } from './store'
 import * as types from '../../../types'
 
 export default function Layout() {
-  return (
-      <LayoutWithMenu />
-  )
+  return <LayoutWithMenu />
 }
 
 // TODO: improve menu implementation (move some state to store / reduce re-renders)
@@ -85,7 +83,7 @@ function LayoutWithMenu() {
   }, [resource])
 
   return (
-    <Grid container columns={12} sx={{height: '100%'}}>
+    <Grid container columns={12} sx={{ height: '100%' }}>
       <Grid item xs={2} sx={{ borderRight: 'solid 1px #ddd' }}>
         {!shallow && (
           <Box
@@ -110,8 +108,8 @@ function LayoutWithMenu() {
           }}
         />
       </Grid>
-      <Grid item xs={6} sx={{margin: '0px 15px'}}>
-          <Sections section={section} />
+      <Grid item xs={6} sx={{ margin: '0px 15px' }}>
+        <Sections section={section} />
         {!shallow && (
           <Box>
             <Box hidden={!section.startsWith('resource')}>
@@ -142,21 +140,21 @@ function LayoutWithMenu() {
             )}
           </Box>
         )}
-        </Grid>
-        <Grid item xs={3}>
-          <EditorHelp helpItem={helpItem} />
-        </Grid>
+      </Grid>
+      <Grid item xs={3}>
+        <EditorHelp helpItem={helpItem} />
+      </Grid>
     </Grid>
   )
 }
 
-function Sections({section}) {
+function Sections({ section }) {
   if (!section) return null
-  if (section == 'package') return (<PackageSection />)
-  if (section == 'package/resources') return (<ResourcesSection />)
-  if (section == 'package/licenses') return (<LicensesSection />)
-  if (section == 'package/contributors') return (<ContributorsSection />)
-  if (section == 'package/sources') return (<SourcesSection />)
+  if (section == 'package') return <PackageSection />
+  if (section == 'package/resources') return <ResourcesSection />
+  if (section == 'package/licenses') return <LicensesSection />
+  if (section == 'package/contributors') return <ContributorsSection />
+  if (section == 'package/sources') return <SourcesSection />
   return null
 }
 
