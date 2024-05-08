@@ -1,10 +1,10 @@
 import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import SelectField from '../../Parts/Fields/Select'
-import Columns from '../../Parts/Grids/Columns'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
@@ -86,11 +86,8 @@ function LayoutWithMenu() {
   }, [resource])
 
   return (
-    <Columns spacing={3} layout={[2, 8]} columns={10}>
-      <Box
-        className="package__box__file-menu"
-        sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}
-      >
+    <Grid container  columns={10} sx={{height: '100%'}}>
+      <Grid item xs={2} sx={{ borderRight: 'solid 1px #ddd' }}>
         {!shallow && (
           <Box
             sx={{
@@ -113,13 +110,12 @@ function LayoutWithMenu() {
             externalMenu.section = section
           }}
         />
-      </Box>
-      <Box className="package__box__main-menu">
+      </Grid>
+      <Grid item xs={8}>
         <Box
           hidden={!section.startsWith('package')}
           className="inner-wrapper"
-          sx={{ height: '100%', display: 'flex' }}
-        >
+          >
           <LayoutWithoutMenu />
         </Box>
         {!shallow && (
@@ -152,8 +148,8 @@ function LayoutWithMenu() {
             )}
           </Box>
         )}
-      </Box>
-    </Columns>
+        </Grid>
+      </Grid>
   )
 }
 
@@ -162,8 +158,8 @@ function LayoutWithoutMenu() {
   const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box className="layout-without-menu__box">
+    <Grid container spacing={3} columns={8} sx={{height: '100%'}}>
+      <Grid item xs={5}>
         <Box hidden={section !== 'package'}>
           <PackageSection />
         </Box>
@@ -179,9 +175,11 @@ function LayoutWithoutMenu() {
         <Box hidden={section !== 'package/sources'}>
           <SourcesSection />
         </Box>
-      </Box>
-      <EditorHelp helpItem={helpItem} />
-    </Columns>
+      </Grid>
+      <Grid item xs={3}>
+        <EditorHelp helpItem={helpItem} />
+      </Grid>
+    </Grid>
   )
 }
 
