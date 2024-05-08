@@ -18,9 +18,7 @@ import * as types from '../../../types'
 
 export default function Layout() {
   return (
-    <Box sx={{ height: '100%'}}>
       <LayoutWithMenu />
-    </Box>
   )
 }
 
@@ -35,6 +33,7 @@ function LayoutWithMenu() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const updateResource = useStore((state) => state.updateResource)
+  const helpItem = useStore((state) => state.helpItem)
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'package', name: 'Package' },
@@ -86,7 +85,7 @@ function LayoutWithMenu() {
   }, [resource])
 
   return (
-    <Grid container  columns={10} sx={{height: '100%'}}>
+    <Grid container columns={12} sx={{height: '100%'}}>
       <Grid item xs={2} sx={{ borderRight: 'solid 1px #ddd' }}>
         {!shallow && (
           <Box
@@ -111,13 +110,8 @@ function LayoutWithMenu() {
           }}
         />
       </Grid>
-      <Grid item xs={8}>
-        <Box
-          hidden={!section.startsWith('package')}
-          className="inner-wrapper"
-          >
-          <LayoutWithoutMenu />
-        </Box>
+      <Grid item xs={7}>
+          <Sections section={section} />
         {!shallow && (
           <Box>
             <Box hidden={!section.startsWith('resource')}>
@@ -149,38 +143,21 @@ function LayoutWithMenu() {
           </Box>
         )}
         </Grid>
-      </Grid>
+        <Grid item xs={3}>
+          <EditorHelp helpItem={helpItem} />
+        </Grid>
+    </Grid>
   )
 }
 
-function LayoutWithoutMenu() {
-  const section = useStore((state) => state.section)
-  const helpItem = useStore((state) => state.helpItem)
+function Sections({section}) {
   if (!section) return null
-  return (
-    <Grid container spacing={3} columns={8} sx={{height: '100%'}}>
-      <Grid item xs={5}>
-        <Box hidden={section !== 'package'}>
-          <PackageSection />
-        </Box>
-        <Box hidden={section !== 'package/resources'}>
-          <ResourcesSection />
-        </Box>
-        <Box hidden={section !== 'package/licenses'}>
-          <LicensesSection />
-        </Box>
-        <Box hidden={section !== 'package/contributors'}>
-          <ContributorsSection />
-        </Box>
-        <Box hidden={section !== 'package/sources'}>
-          <SourcesSection />
-        </Box>
-      </Grid>
-      <Grid item xs={3}>
-        <EditorHelp helpItem={helpItem} />
-      </Grid>
-    </Grid>
-  )
+  if (section == 'package') return (<PackageSection />)
+  if (section == 'package/resources') return (<ResourcesSection />)
+  if (section == 'package/licenses') return (<LicensesSection />)
+  if (section == 'package/contributors') return (<ContributorsSection />)
+  if (section == 'package/sources') return (<SourcesSection />)
+  return null
 }
 
 export function ResourceSelector() {
