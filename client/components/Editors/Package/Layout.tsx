@@ -18,7 +18,7 @@ import * as types from '../../../types'
 
 export default function Layout() {
   return (
-    <Box className="package__layout__box" sx={{ height: '100%', display: 'flex' }}>
+    <Box sx={{ height: '100%'}}>
       <LayoutWithMenu />
     </Box>
   )
