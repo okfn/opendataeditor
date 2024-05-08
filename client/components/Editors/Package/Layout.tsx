@@ -109,7 +109,7 @@ function LayoutWithMenu() {
         />
       </Grid>
       <Grid item xs={6} sx={{ margin: '0px 15px' }}>
-        <Sections section={section} />
+        <Sections />
         {!shallow && (
           <Box>
             <Box hidden={!section.startsWith('resource')}>
@@ -148,7 +148,8 @@ function LayoutWithMenu() {
   )
 }
 
-function Sections({ section }) {
+function Sections() {
+  const section = useStore((state) => state.section)
   if (!section) return null
   if (section == 'package') return <PackageSection />
   if (section == 'package/resources') return <ResourcesSection />
