@@ -1,6 +1,5 @@
 export type IDialog =
   | 'addEmptyFolder'
-  | 'addRemoteDataset'
   | 'addRemoteFile'
   | 'adjustFile'
   | 'config'

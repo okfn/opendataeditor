@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked'
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import DropdownButton from '../../Parts/Buttons/Dropdown'
 import IconButton from '../../Parts/Buttons/Icon'
@@ -21,7 +20,6 @@ export default function AddButton() {
       <AddRemoteFileButton />
       <AddLocalFolderButton />
       <AddEmptyFolderButton />
-      <AddRemoteDatasetButton />
     </DropdownButton>
   )
 }
@@ -98,18 +96,6 @@ function AddEmptyFolderButton() {
       label="Create Folder"
       Icon={CreateNewFolderIcon}
       onClick={() => updateState({ dialog: 'addEmptyFolder' })}
-    />
-  )
-}
-
-function AddRemoteDatasetButton() {
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <IconButton
-      variant="text"
-      label="Remote Dataset"
-      Icon={DatasetLinkedIcon}
-      onClick={() => updateState({ dialog: 'addRemoteDataset' })}
     />
   )
 }
