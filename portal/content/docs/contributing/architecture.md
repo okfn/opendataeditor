@@ -271,12 +271,16 @@ Structure reference:
   - `name` (string) - the record name
   - `type` (string) - the artifact type (report/measure)
   - `descriptor` (object) - the Frictionless [report](https://framework.frictionlessdata.io/docs/guides/validating-data.html#validation-report) OR the [measure](https://github.com/okfn/opendataeditor/blob/main/server/models/measure.py) object based on `type`
-- `<record-name>` (table) - for every indexed tabular data source there is a table with the same name as the record name. The table has the following columns:
+- `<record-name>` (table) - for every indexed tabular data source there is a table with the same name as the record name. These tables have the following columns:
   - `_rowNumber` (integer) - the row number
   - `_rowValid` (boolean) - whether the row is valid
   - `<field-name>` (any) (one or more fields) - the rest of the table columns are the fields from the tabular data source.
 
 #### Testing
+
+Most of the endpoints are tested as plain functions as they are written as simple Python functions and then wrapped by FastAPI. The tests are written using the `pytest` framework. The tests are located in the `__spec__` folders in the server component.
+
+As the `server` is the most stable part of the appliction and the endpoints are plain Python functions, it is highly recommended to use test driven development (TDD) approach for any new features or bug fixes.
 
 ## Workflows
 
