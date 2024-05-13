@@ -17,7 +17,7 @@ export default function Missing(props: MissingProps) {
         fontFamily: 'Monospace',
       }}
     >
-      This file type does not have a supported data view ({props.format})
+      Preview is not available for this file format ({props.format})
     </Box>
   )
 }
