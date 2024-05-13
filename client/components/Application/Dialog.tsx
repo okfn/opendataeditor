@@ -1,6 +1,5 @@
 import AddRemoteFileDialog from './Dialogs/AddRemoteFile'
 import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
-import AddRemoteDatasetDialog from './Dialogs/AddRemoteDataset'
 import AdjustFileDialog from './Dialogs/AdjustFile'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
@@ -24,7 +23,6 @@ export default function Dialog() {
 const DIALOGS = {
   addEmptyFolder: AddEmptyFolderDialog,
   addRemoteFile: AddRemoteFileDialog,
-  addRemoteDataset: AddRemoteDatasetDialog,
   adjustFile: AdjustFileDialog,
   config: ConfigDialog,
   configProject: ConfigDialog,
