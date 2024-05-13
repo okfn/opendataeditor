@@ -344,7 +344,7 @@ The Open Data Editor project uses consistent color coding system accross the app
 
 Here are the list of some potintial weaknesses of the Open Data Editor architecture:
 
-### Python Dependencies
+### Python Dependency
 
 Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is battle-tested library it has its own limitations regarding perfomance, maintance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture.
 
