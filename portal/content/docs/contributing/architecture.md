@@ -278,11 +278,36 @@ Structure reference:
 
 #### Testing
 
-Most of the endpoints are tested as plain functions as they are written as simple Python functions and then wrapped by FastAPI. The tests are written using the `pytest` framework. The tests are located in the `__spec__` folders in the server component.
+Most of the endpoints are tested as isolated functions as they are written as plain Python functions and then wrapped by FastAPI. The tests are written using the `pytest` framework. The tests are located in the `__spec__` folders in the server component.
 
 As the `server` is the most stable part of the appliction and the endpoints are plain Python functions, it is highly recommended to use test driven development (TDD) approach for any new features or bug fixes.
 
 ## Workflows
+
+This section describes a few main workflows of the Open Data Editor project:
+
+### Adding a Local File
+
+1. The user click on the "Add" and "Local File" buttons in the Open Data Editor client.
+2. The webrowser opens a file dialog and the user selects a file, for example, `players.csv`.
+3. The `Application` component sends a request to the `file/create` endpoint with the file content.
+4. The `Application` component reloads the file list and the `players.csv` file is now visible in the file browser.
+5. The `Application` component set `players.csv` to be a selected file.
+
+> The "Opening a Tabular File" workflow is triggered automatically as the file is a tabular data source. The rest of the worklow is the same as described in the "Opening a Tabular File" section.
+
+### Opening a Tabular File
+
+1. The user clicks on a tabular file in the Open Data Editor client, for example, `cars.csv`.
+2. The `Application` component sends a request to the `file/index(path=cars.csv)` endpoint
+3. The `file/index` endpoint checks existing artifacts and if there are missing artifacts it ensures that all the artifacts are in-place. It uses `frictionless-py` to infer the metadata, get a validation report, and index the tabular data source.
+4. The `file/index` endpoint returns the `record` and the `measure` objects to the client.
+5. The `Application` component updates the file status and file list as `cars.csv` is now indexed and validated (i.e. the icon becomes green if valid).
+6. The `Application` component fires a `open` event for provide animation and sets the `record` object of the `cars.csv` to be an active one.
+7. The `Application` component selects appropriate controller for the `record` object and renders the `Controllers/Table` component in this case.
+   8 . The `Controllers/Table` component renders the `Editors/Table` component that is responsible for viewing and editing the tabular data source.
+8. The `Editors/Table` component uses the `types.ITableLoader` provided as a prop to access the table via API. Note that the data loader is injected into the editor and actual API calls are made by the controller.
+9. The `types.ITableLoader` implementation uses the `table/read(path=cars.csv)` to get the tabular data source, paginate and filter it.
 
 ## Design System
 
