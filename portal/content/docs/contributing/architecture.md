@@ -323,7 +323,7 @@ Although the Open Data Editor project is designed after complext programming IDE
 
 ### Consistency
 
-The Open Data Editor project uses a consistent dialogs, editors, views, and menus for all file types. One of the main user challenges of working with IDEs is to remember the controls locations. The Open Data Editor project tries to solve this problem by using a consistent layout for all file types making buttons enabled and disabled based on available functionality.
+The Open Data Editor project uses a consistent dialogs, editors, views, and menus for all file types. For example, in dialogs, the rejecting action is always on the left, and the approving is on the right (see "Shortcuts" and "Color Coding" as well). One of the main user challenges of working with IDEs is to remember the controls locations. The Open Data Editor project tries to solve this problem by using a consistent layout for all file types making buttons enabled and disabled based on available functionality.
 
 ## Shortcuts
 
@@ -341,3 +341,15 @@ The Open Data Editor project uses consistent color coding system accross the app
 - **grey**: disabled
 
 ## Weaknesses Analysis
+
+Here are the list of some potintial weaknesses of the Open Data Editor architecture:
+
+### Python Dependencies
+
+Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is battle-tested library it has its own limitations regarding perfomance, maintance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture.
+
+Using `frictionless-py` also brings the whole Python environment to be installed and used for Open Data Editor to work properly. This is a significant limitation for the project as it makes the project less portable and more complex to setup. It creates a lot of issues with the Electron environment and makes the project less stable and not possible to be run without the Internet on the initialization stage.
+
+### Client Maturity
+
+The client component is still not really mature. The client component is not fully tested and state management are work in progress, generally speaking, as the team tried different approaches to improve the workflows during the first development phase. The client component is also not fully optimized for accessibility.
