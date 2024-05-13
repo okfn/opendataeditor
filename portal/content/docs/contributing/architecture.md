@@ -192,11 +192,89 @@ The OpenAPI service uses the official [OpenAI](https://pypi.org/project/openai/)
 
 #### Artifacts
 
+The appliction creates a set of artifacts that are stored in the user and project directories:
+
+- `$HOME/.opendataeditor` - this directory contains system files i.e. Python virtual environment, examplar projects, logs, and user configuration
+- `$PROJECT/.opendataeditor` - this directory contains project specific configration and artifacts. In also includes `.gitignore` file to exclude subset of artifacts from the version control system
+
+The core artifacts are:
+
 ##### `config.json`
+
+> The project-level `config.json` file is not meant to be checked into the version control system. It's included into `.gitignore` by default.
+
+The configration exists both in the user and project directories. The user configuration is used to store the user settings and the project configuration is used to store the project settings.
+
+Structure reference:
+
+- a descriptor MUST be an object compatible with the [config model](https://github.com/okfn/opendataeditor/blob/main/server/models/config.py)
 
 ##### `metadata.json`
 
+> The `metadata.json` file is meant to be checked into the version control system for projects that requires multiple user collaboration. It's excluded from `.gitignore` by default.
+
+The metadata is stored in the project directory. The metadata is used to store all the information about fieles in the projects.
+
+Structure reference:
+
+- a descriptor MUST be an object with keys being **record names** and values being **record objects** (a **RECORD** is a core concept in the application; a record describes an individual resource in the project)
+- a record MUST be an object with the following properties:
+  - `name` (string) - the resource name
+  - `type` (string) - the resource type (table/text/chart/etc)
+  - `path` (string) - the resource path (within the project directory)
+  - `resource` (object) - the resource descriptor as per [Data Resource](https://datapackage.org/specifications/data-resource/) specification. Initially, the descriptor is inferred from the file content by `frictionless-py`, later can be updated manually by user in the UI.
+
+Example:
+
+```json
+{
+  ...
+  "players": {
+    "name": "players",
+    "type": "table",
+    "path": "players.csv",
+    "resource": {
+      "name": "table-1",
+      "type": "table",
+      "path": "players.csv",
+      "scheme": "file",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "Name",
+            "type": "string"
+          },
+          {
+            "name": "Golden Balls",
+            "type": "integer"
+          }
+        ]
+      }
+    }
+  }
+  ...
+}
+```
+
 ##### `database.db`
+
+> The `database.db` file is not meant to be checked into the version control system. It's included into `.gitignore` by default. Note that table and column names are escaped by `sqlalchemy` but they are not changed from the user perspective e.g. comapred to a CSV file header.
+
+The database is stored in the project directory. The database is used to store indexed tabular data sources in a SQLite database.
+
+Structure reference:
+
+- `_artifacts` (table) - the table is used to store information about the indexed tabular data sources that is not a part of the Data Package standard (i.e. validation reports). The table has the following columns:
+  - `name` (string) - the record name
+  - `type` (string) - the artifact type (report/measure)
+  - `descriptor` (object) - the Frictionless [report](https://framework.frictionlessdata.io/docs/guides/validating-data.html#validation-report) OR the [measure](https://github.com/okfn/opendataeditor/blob/main/server/models/measure.py) object based on `type`
+- `<record-name>` (table) - for every indexed tabular data source there is a table with the same name as the record name. The table has the following columns:
+  - `_rowNumber` (integer) - the row number
+  - `_rowValid` (boolean) - whether the row is valid
+  - `<field-name>` (any) (one or more fields) - the rest of the table columns are the fields from the tabular data source.
 
 #### Testing
 
