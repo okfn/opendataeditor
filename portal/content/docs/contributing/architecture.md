@@ -353,3 +353,5 @@ Using `frictionless-py` also brings the whole Python environment to be installed
 ### Client Maturity
 
 The client component is still not really mature. The client component is not fully tested and state management are work in progress, generally speaking, as the team tried different approaches to improve the workflows during the first development phase. The client component is also not fully optimized for accessibility.
+
+The error handling is also not fully implemented in the client component making application crash on edge cases without an ability to recover the UI for the user.
