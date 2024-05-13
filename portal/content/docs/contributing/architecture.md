@@ -311,4 +311,33 @@ This section describes a few main workflows of the Open Data Editor project:
 
 ## Design System
 
+The project uses the following principles for the design system:
+
+### Familiarity
+
+The high-level design of the Open Data Editor project is inspired by the layouts of popular text and code editors like VSCode or typical texte editor. The goal is to make the user interface familiar to users who are already familiar with these tools.
+
+### Simplicity
+
+Although the Open Data Editor project is designed after complext programming IDE, the project's UI is way simpler. The application doesn't have complex menus, toolbars, or sidebars. The main focus is on the file browser, the editor, and the metadata editor. There are less buttons in menus and they are generally bigger than in typical IDEs.
+
+### Consistency
+
+The Open Data Editor project uses a consistent dialogs, editors, views, and menus for all file types. One of the main user challenges of working with IDEs is to remember the controls locations. The Open Data Editor project tries to solve this problem by using a consistent layout for all file types making buttons enabled and disabled based on available functionality.
+
+## Shortcuts
+
+Using keyboard shortcuts is a key practice for making advanced users productive. The Open Data Editor project provides as many shortcuts as possible. Keyboard shortcuts are visually available on the buttons to speed user learning.
+
+## Color Coding
+
+The Open Data Editor project uses consistent color coding system accross the application. The main colors are:
+
+- **blue**: actions
+- **yellow**: visual selections
+- **orange**: attention (potentially destructive actions)
+- **green**: valid state
+- **red**: invalid state
+- **grey**: disabled
+
 ## Weaknesses Analysis
