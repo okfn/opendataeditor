@@ -6,6 +6,8 @@ export function getLanguageByFormat(format?: string) {
   switch (format) {
     case 'csv':
       return 'csv'
+    case 'tsv':
+      return 'tsv'
     case 'ndjson':
       return 'json'
     case 'jsonl':
