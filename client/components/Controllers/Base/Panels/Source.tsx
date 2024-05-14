@@ -29,7 +29,7 @@ export default function SourcePanel(props: SourcePanelProps) {
           }
           if (props.onChange) props.onChange(text || '')
         }}
-        language="json"
+        language={props.json ? 'json' : undefined}
         options={{ readOnly: !props.onChange }}
         height={theme.spacing(41)}
       />
