@@ -10,6 +10,7 @@ import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
 import debounce from 'lodash/debounce'
+import { useStore } from '../../Controllers/Table/store'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
@@ -31,6 +32,8 @@ export default function TableEditor(props: TableEditorProps) {
   const [rowHeight] = React.useState(40)
 
   const [cellSelection, setCellSelection] = React.useState({})
+
+  const gridRef = useStore((state) => state.gridRef)
 
   React.useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
@@ -54,6 +57,23 @@ export default function TableEditor(props: TableEditorProps) {
     setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
 
+  function deleteCells(cells: object) {
+    for (const [key] of Object.entries(cells)) {
+      const row = key.substring(0, key.indexOf(','))
+      const column = key.substring(key.indexOf(',') + 1, key.length)
+      console.log(`${row}`, `${column}`)
+      // TODO: not working yet
+      gridRef?.current?.setItemAt(parseInt(row), { [column]: '' }, { replace: true })
+    }
+  }
+
+  const onKeyDown = React.useCallback(
+    (event: { key: any }) => {
+      if (event.key === 'Delete') deleteCells(cellSelection)
+    },
+    [cellSelection, setCellSelection]
+  )
+
   return (
     <InovuaDatagrid
       onReady={resizeTable}
@@ -66,10 +86,11 @@ export default function TableEditor(props: TableEditorProps) {
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
       style={{ height: '100%', border: 'none' }}
       limit={rowsPerPage}
-      cellSelection={cellSelection}
-      onCellSelectionChange={setCellSelection}
       onLimitChange={setRowsPerPage}
       rowHeight={rowHeight}
+      onKeyDown={onKeyDown}
+      defaultCellSelection={cellSelection}
+      onCellSelectionChange={setCellSelection}
       {...others}
     />
   )
