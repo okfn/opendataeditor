@@ -1,10 +1,9 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import InputField from '../../../Parts/Fields/Input'
 import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../Base/Section'
-import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 import validator from 'validator'
 import dayjs from 'dayjs'
@@ -13,20 +12,20 @@ export default function Package() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Package" onHeadingClick={() => updateHelp('package')}>
-      <Columns spacing={3}>
-        <Box>
+      <Grid container spacing={1} justifyContent="center">
+        <Grid item xs={6}>
           <Name />
           <Title />
           <Description />
           <Keywords />
-        </Box>
-        <Box>
+        </Grid>
+        <Grid item xs={6}>
           <Homepage />
           <Version />
           <Created />
           <Image />
-        </Box>
-      </Columns>
+        </Grid>
+      </Grid>
     </EditorSection>
   )
 }

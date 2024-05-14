@@ -1,10 +1,10 @@
 import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import SelectField from '../../Parts/Fields/Select'
-import Columns from '../../Parts/Grids/Columns'
 import Resource from '../Resource'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
@@ -17,11 +17,7 @@ import { useStore, selectors, select } from './store'
 import * as types from '../../../types'
 
 export default function Layout() {
-  return (
-    <Box className="package__layout__box" sx={{ height: '100%', display: 'flex' }}>
-      <LayoutWithMenu />
-    </Box>
-  )
+  return <LayoutWithMenu />
 }
 
 // TODO: improve menu implementation (move some state to store / reduce re-renders)
@@ -35,6 +31,7 @@ function LayoutWithMenu() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const updateResource = useStore((state) => state.updateResource)
+  const helpItem = useStore((state) => state.helpItem)
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'package', name: 'Package' },
@@ -86,11 +83,8 @@ function LayoutWithMenu() {
   }, [resource])
 
   return (
-    <Columns spacing={3} layout={[2, 8]} columns={10}>
-      <Box
-        className="package__box__file-menu"
-        sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}
-      >
+    <Grid container columns={12} sx={{ height: '100%' }}>
+      <Grid item xs={2} sx={{ borderRight: 'solid 1px #ddd' }}>
         {!shallow && (
           <Box
             sx={{
@@ -113,15 +107,9 @@ function LayoutWithMenu() {
             externalMenu.section = section
           }}
         />
-      </Box>
-      <Box className="package__box__main-menu">
-        <Box
-          hidden={!section.startsWith('package')}
-          className="inner-wrapper"
-          sx={{ height: '100%', display: 'flex' }}
-        >
-          <LayoutWithoutMenu />
-        </Box>
+      </Grid>
+      <Grid item xs={6} sx={{ margin: '0px 15px' }}>
+        <Sections />
         {!shallow && (
           <Box>
             <Box hidden={!section.startsWith('resource')}>
@@ -152,37 +140,23 @@ function LayoutWithMenu() {
             )}
           </Box>
         )}
-      </Box>
-    </Columns>
+      </Grid>
+      <Grid item xs={3}>
+        <EditorHelp helpItem={helpItem} />
+      </Grid>
+    </Grid>
   )
 }
 
-function LayoutWithoutMenu() {
+function Sections() {
   const section = useStore((state) => state.section)
-  const helpItem = useStore((state) => state.helpItem)
   if (!section) return null
-  return (
-    <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box className="layout-without-menu__box">
-        <Box hidden={section !== 'package'}>
-          <PackageSection />
-        </Box>
-        <Box hidden={section !== 'package/resources'}>
-          <ResourcesSection />
-        </Box>
-        <Box hidden={section !== 'package/licenses'}>
-          <LicensesSection />
-        </Box>
-        <Box hidden={section !== 'package/contributors'}>
-          <ContributorsSection />
-        </Box>
-        <Box hidden={section !== 'package/sources'}>
-          <SourcesSection />
-        </Box>
-      </Box>
-      <EditorHelp helpItem={helpItem} />
-    </Columns>
-  )
+  if (section == 'package') return <PackageSection />
+  if (section == 'package/resources') return <ResourcesSection />
+  if (section == 'package/licenses') return <LicensesSection />
+  if (section == 'package/contributors') return <ContributorsSection />
+  if (section == 'package/sources') return <SourcesSection />
+  return null
 }
 
 export function ResourceSelector() {
