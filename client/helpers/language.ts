@@ -1,3 +1,7 @@
+/*
+ * It returns a Monaco Editor language based on the file format.
+ * If format is not supported (e.g. binary), it returns undefined.
+ */
 export function getLanguageByFormat(format?: string) {
   switch (format) {
     case 'csv':
