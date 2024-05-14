@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SourcePanel from '../../Base/Panels/Source'
+import { TextSourcePanel } from '../../Base/Panels/Source'
 import { useStore } from '../store'
 
 export default function Source() {
@@ -10,5 +10,5 @@ export default function Source() {
     loadSource().catch(console.error)
   }, [record])
   if (!source) return null
-  return <SourcePanel value={source} />
+  return <TextSourcePanel value={source} />
 }
