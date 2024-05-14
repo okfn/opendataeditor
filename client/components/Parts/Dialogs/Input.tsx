@@ -23,8 +23,8 @@ export default function InputDialog(props: InputDialogProps) {
       return onConfirm && onConfirm(value)
     } else {
       setTextFieldError(true)
-      if(value === '') { setErrorHelperText('Empty field!') }
-      else if(!helpers.isUrlValid(value)) { setErrorHelperText('Invalid URL') }
+      if(value === '') { setErrorHelperText('Enter an URL') }
+      else if(!helpers.isUrlValid(value)) { setErrorHelperText('Enter a valid URL') }
     }
   }
   return (
