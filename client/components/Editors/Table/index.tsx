@@ -30,6 +30,8 @@ export default function TableEditor(props: TableEditorProps) {
 
   const [rowHeight] = React.useState(40)
 
+  const [cellSelection, setCellSelection] = React.useState({})
+
   React.useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
       resizeTable()
@@ -64,6 +66,8 @@ export default function TableEditor(props: TableEditorProps) {
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
       style={{ height: '100%', border: 'none' }}
       limit={rowsPerPage}
+      cellSelection={cellSelection}
+      onCellSelectionChange={setCellSelection}
       onLimitChange={setRowsPerPage}
       rowHeight={rowHeight}
       {...others}
