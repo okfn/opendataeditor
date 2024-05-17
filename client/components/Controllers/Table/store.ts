@@ -50,7 +50,7 @@ export interface State {
 
   // Editing
 
-  initialEditingValue?: any
+  initialEditingValue?: string | number
   // TODO: find proper context type
   startEditing: (context: any) => void
   saveEditing: (context: any) => void
@@ -195,7 +195,7 @@ export function makeStore(props: TableProps) {
 
     startEditing: (context) => {
       const { updateState } = get()
-      updateState({ initialEditingValue: context.value })
+      updateState({ initialEditingValue: context.value || '' })
     },
     saveEditing: (context) => {
       const { gridRef, history, undoneHistory, initialEditingValue } = get()
@@ -203,7 +203,7 @@ export function makeStore(props: TableProps) {
       if (!grid) return
 
       // Don't save if not changed
-      let value = context.value
+      let value = context.value || ''
       if (value === initialEditingValue) return
 
       const rowNumber = context.rowId
@@ -219,11 +219,12 @@ export function makeStore(props: TableProps) {
       history.changes.push(change)
       undoneHistory.changes = []
       set({ history: { ...history } })
+      gridRef?.current?.reload()
     },
-    stopEditing: () => {
+    stopEditing: (payload) => {
       const { gridRef, updateState } = get()
       requestAnimationFrame(() => {
-        updateState({ initialEditingValue: undefined })
+        updateState({ initialEditingValue: payload.value })
         gridRef?.current?.focus()
       })
     },
@@ -245,13 +246,14 @@ export function makeStore(props: TableProps) {
       const { gridRef, history, undoneHistory } = get()
       const grid = gridRef?.current
       if (!grid) return
+
       for (const [key] of Object.entries(cells)) {
         const row = key.substring(0, key.indexOf(','))
         const rowNumber = parseInt(row)
         const column = key.substring(key.indexOf(',') + 1, key.length)
         // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
         // the header row, this is why we need to substract 2 from the column here
-        await gridRef?.current?.setItemAt(rowNumber - 2, { [column]: '' })
+        await grid.setItemAt(rowNumber - 2, { [column]: '' })
         const change: types.IChange = {
           type: 'cell-update',
           rowNumber,
