@@ -11,11 +11,14 @@ export default function Editor() {
   const saveEditing = useStore((state) => state.saveEditing)
   const stopEditing = useStore((state) => state.stopEditing)
   const updateState = useStore((state) => state.updateState)
+  const gridRef = useStore((state) => state.gridRef)
+
   if (!schema) return null
   if (!report) return null
   return (
     <TableEditor
       editable
+      gridRef={gridRef}
       source={loader}
       schema={schema}
       report={report}

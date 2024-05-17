@@ -10,19 +10,19 @@ import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
 import debounce from 'lodash/debounce'
-import { useStore } from '../../Controllers/Table/store'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
   source: types.ITableLoader | types.IRow[]
   schema: types.ISchema
+  gridRef?: React.MutableRefObject<ITableEditor>
   report?: types.IReport
   history?: types.IHistory
   selection?: types.ITableSelection
 }
 
 export default function TableEditor(props: TableEditorProps) {
-  const { source, schema, report, history, selection, ...others } = props
+  const { source, schema, report, history, selection, gridRef, ...others } = props
   const columns = React.useMemo(
     () => createColumns(schema, report, history, selection),
     [schema, report, history, selection]
@@ -32,8 +32,6 @@ export default function TableEditor(props: TableEditorProps) {
   const [rowHeight] = React.useState(40)
 
   const [cellSelection, setCellSelection] = React.useState({})
-
-  const gridRef = useStore((state) => state.gridRef)
 
   React.useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
@@ -57,13 +55,13 @@ export default function TableEditor(props: TableEditorProps) {
     setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
 
-  function deleteCells(cells: object) {
+  const deleteCells = async (cells: object) => {
     for (const [key] of Object.entries(cells)) {
       const row = key.substring(0, key.indexOf(','))
       const column = key.substring(key.indexOf(',') + 1, key.length)
-      console.log(`${row}`, `${column}`)
-      // TODO: not working yet
-      gridRef?.current?.setItemAt(parseInt(row), { [column]: '' }, { replace: true })
+      // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
+      // the header row, this is why we need to substract 2 from the column here
+      await gridRef?.current?.setItemAt(parseInt(row) - 2, { [column]: '' })
     }
   }
 
