@@ -1,5 +1,6 @@
 import TableEditor from '../../Editors/Table'
 import { useStore } from './store'
+import * as React from 'react'
 
 export default function Editor() {
   const schema = useStore((state) => state.record?.resource.schema)
@@ -11,14 +12,22 @@ export default function Editor() {
   const saveEditing = useStore((state) => state.saveEditing)
   const stopEditing = useStore((state) => state.stopEditing)
   const updateState = useStore((state) => state.updateState)
-  const gridRef = useStore((state) => state.gridRef)
+  const deleteCells = useStore((state) => state.deleteCells)
+
+  const [cellSelection, setCellSelection] = React.useState({})
+
+  const onKeyDown = React.useCallback(
+    (event: { key: any }) => {
+      if (event.key === 'Delete') deleteCells(cellSelection)
+    },
+    [cellSelection, setCellSelection]
+  )
 
   if (!schema) return null
   if (!report) return null
   return (
     <TableEditor
       editable
-      gridRef={gridRef}
       source={loader}
       schema={schema}
       report={report}
@@ -28,6 +37,9 @@ export default function Editor() {
       onEditComplete={saveEditing}
       onEditStop={stopEditing}
       handle={(gridRef) => updateState({ gridRef })}
+      onKeyDown={onKeyDown}
+      defaultCellSelection={cellSelection}
+      onCellSelectionChange={setCellSelection}
     />
   )
 }

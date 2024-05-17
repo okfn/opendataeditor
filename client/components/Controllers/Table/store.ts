@@ -57,6 +57,7 @@ export interface State {
   stopEditing: (context: any) => void
   undoChange: () => void
   redoChange: () => void
+  deleteCells: (cells: object) => Promise<void>
 }
 
 export function makeStore(props: TableProps) {
@@ -239,6 +240,29 @@ export function makeStore(props: TableProps) {
       if (change) history.changes.push(change)
       set({ history: { ...history } })
       gridRef?.current?.reload()
+    },
+    deleteCells: async (cells: object) => {
+      const { gridRef, history, undoneHistory } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+      for (const [key] of Object.entries(cells)) {
+        const row = key.substring(0, key.indexOf(','))
+        const rowNumber = parseInt(row)
+        const column = key.substring(key.indexOf(',') + 1, key.length)
+        // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
+        // the header row, this is why we need to substract 2 from the column here
+        await gridRef?.current?.setItemAt(rowNumber - 2, { [column]: '' })
+        const change: types.IChange = {
+          type: 'cell-update',
+          rowNumber,
+          fieldName: column,
+          value: '',
+        }
+        helpers.applyTableHistory({ changes: [change] }, grid.data)
+        history.changes.push(change)
+        undoneHistory.changes = []
+        set({ history: { ...history } })
+      }
     },
   }))
 }
