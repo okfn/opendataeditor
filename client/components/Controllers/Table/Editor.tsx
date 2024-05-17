@@ -12,13 +12,13 @@ export default function Editor() {
   const saveEditing = useStore((state) => state.saveEditing)
   const stopEditing = useStore((state) => state.stopEditing)
   const updateState = useStore((state) => state.updateState)
-  const deleteCells = useStore((state) => state.deleteCells)
+  const deleteMultipleCells = useStore((state) => state.deleteMultipleCells)
 
   const [cellSelection, setCellSelection] = React.useState({})
 
   const onKeyDown = React.useCallback(
     (event: { key: any }) => {
-      if (event.key === 'Delete') deleteCells(cellSelection)
+      if (event.key === 'Delete') deleteMultipleCells(cellSelection)
     },
     [cellSelection, setCellSelection]
   )

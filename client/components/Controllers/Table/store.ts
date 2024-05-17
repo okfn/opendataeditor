@@ -57,7 +57,7 @@ export interface State {
   stopEditing: (context: any) => void
   undoChange: () => void
   redoChange: () => void
-  deleteCells: (cells: object) => Promise<void>
+  deleteMultipleCells: (cells: object) => Promise<void>
 }
 
 export function makeStore(props: TableProps) {
@@ -241,7 +241,7 @@ export function makeStore(props: TableProps) {
       set({ history: { ...history } })
       gridRef?.current?.reload()
     },
-    deleteCells: async (cells: object) => {
+    deleteMultipleCells: async (cells: object) => {
       const { gridRef, history, undoneHistory } = get()
       const grid = gridRef?.current
       if (!grid) return
