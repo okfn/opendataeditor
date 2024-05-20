@@ -327,7 +327,7 @@ The Open Data Editor project uses a consistent dialogs, editors, views, and menu
 
 ## Shortcuts
 
-Using keyboard shortcuts is a key practice for making advanced users productive. The Open Data Editor project provides as many shortcuts as possible. Keyboard shortcuts are visually available on the buttons to speed user learning.
+Using keyboard shortcuts is a key practice for making advanced users productive. The Open Data Editor project provides as many shortcuts as possible.
 
 ## Color Coding
 
