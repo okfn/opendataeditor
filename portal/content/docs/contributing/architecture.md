@@ -222,7 +222,7 @@ Structure reference:
   - `name` (string) - the resource name
   - `type` (string) - the resource type (table/text/chart/etc)
   - `path` (string) - the resource path (within the project directory)
-  - `resource` (object) - the resource descriptor as per [Data Resource](https://datapackage.org/specifications/data-resource/) specification. Initially, the descriptor is inferred from the file content by `frictionless-py`, later can be updated manually by user in the UI.
+  - `resource` (object) - the resource descriptor as per [Data Resource](https://datapackage.org/specifications/data-resource/) specification. Initially, the descriptor is inferred from the file content by `frictionless-py`, later can be updated manually by the user in the UI.
 
 Example:
 
