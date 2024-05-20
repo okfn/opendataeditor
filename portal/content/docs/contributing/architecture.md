@@ -194,7 +194,7 @@ The OpenAPI service uses the official [OpenAI](https://pypi.org/project/openai/)
 
 The application creates a set of artifacts that are stored in the user and project directories:
 
-- `$HOME/.opendataeditor` - this directory contains system files i.e. Python virtual environment, examplar projects, logs, and user configuration
+- `$HOME/.opendataeditor` - this directory contains system files i.e. Python virtual environment, logs, and user configuration
 - `$PROJECT/.opendataeditor` - this directory contains project specific configration and artifacts. In also includes `.gitignore` file to exclude subset of artifacts from the version control system
 
 The core artifacts are:
