@@ -10,6 +10,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../../client'
 import { ITextEditor } from '../../Editors/Text'
 import { TextProps } from './index'
+import { getLanguageByFormat } from '../../../helpers'
 import * as helpers from './helpers'
 import * as types from '../../../types'
 import dirtyJson from 'dirty-json'
@@ -237,32 +238,7 @@ export const selectors = {
   language: (state: State) => {
     const resource = state.record?.resource
     if (!resource) return undefined
-    switch (resource.format) {
-      case 'ndjson':
-        return 'json'
-      case 'jsonl':
-        return 'json'
-      case 'json':
-        return 'json'
-      case 'geojson':
-        return 'json'
-      case 'topojson':
-        return 'json'
-      case 'yaml':
-        return 'yaml'
-      case 'md':
-        return 'markdown'
-      case 'py':
-        return 'python'
-      case 'js':
-        return 'javascript'
-      case 'r':
-        return 'r'
-      case 'html':
-        return 'html'
-      default:
-        return 'plaintext'
-    }
+    return getLanguageByFormat(resource.format) || 'plaintext'
   },
 }
 
