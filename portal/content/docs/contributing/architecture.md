@@ -108,7 +108,7 @@ In the `components/Views` folder there are components that are responsible for r
 
 > Parts usually DON'T USE `Zustand` for shared state management
 
-In the `components/Parts` folder there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that mostly based on `MUI` primitives.
+In the `components/Parts` folder there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that are mostly based on `MUI` primitives.
 
 #### Testing
 
