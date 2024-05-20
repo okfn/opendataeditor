@@ -71,7 +71,7 @@ The main technologies used in the client component are:
 
 The client uses a component-based architecture. Each component is responsible for rendering a specific part of the user interface. The components are nested and have different level of abstraction. Most of high-level components uses `Zustand` for shared state management while low-level components are stateless or use local `React.useState`.
 
-Components that are required to have access to the server use the `Client` class singletone to access the server. The `Client` class is a wrapper around the `fetch` function that is used to send requests to the API. The `Client` class is responsible for providing client-side types information and error handling. Components get the `client` singleton instance as a prop as a part of dependency injection pattern.
+Components that are required to have access to the server use the `Client` class singleton to access the server. The `Client` class is a wrapper around the `fetch` function that is used to send requests to the API. The `Client` class is responsible for providing client-side types information and error handling. Components get the `client` singleton instance as a prop as a part of dependency injection pattern.
 
 ##### Application
 
