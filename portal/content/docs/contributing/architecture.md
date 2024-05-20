@@ -342,7 +342,7 @@ The Open Data Editor project uses consistent color coding system accross the app
 
 ## Weaknesses Analysis
 
-Here are the list of some potintial weaknesses of the Open Data Editor architecture:
+Here are the list of some potential weaknesses of the Open Data Editor architecture:
 
 ### Python Dependency
 
