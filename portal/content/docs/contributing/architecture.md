@@ -315,7 +315,7 @@ The project uses the following principles for the design system:
 
 ### Familiarity
 
-The high-level design of the Open Data Editor project is inspired by the layouts of popular text and code editors like VSCode or typical texte editor. The goal is to make the user interface familiar to users who are already familiar with these tools.
+The high-level design of the Open Data Editor project is inspired by the layouts of popular text and code editors like VSCode or typical text editor. The goal is to make the user interface familiar to users who are already familiar with these tools.
 
 ### Simplicity
 
