@@ -319,7 +319,7 @@ The high-level design of the Open Data Editor project is inspired by the layouts
 
 ### Simplicity
 
-Although the Open Data Editor project is designed after complext programming IDE, the project's UI is way simpler. The application doesn't have complex menus, toolbars, or sidebars. The main focus is on the file browser, the editor, and the metadata editor. There are less buttons in menus and they are generally bigger than in typical IDEs.
+Although the Open Data Editor project is designed after complex programming IDE, the project's UI is way simpler. The application doesn't have complex menus, toolbars, or sidebars. The main focus is on the file browser, the editor, and the metadata editor. There are less buttons in menus and they are generally bigger than in typical IDEs.
 
 ### Consistency
 
