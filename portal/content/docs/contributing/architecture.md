@@ -213,7 +213,7 @@ Structure reference:
 
 > The `metadata.json` file is meant to be checked into the version control system for projects that requires multiple user collaboration. It's excluded from `.gitignore` by default.
 
-The metadata is stored in the project directory. The metadata is used to store all the information about fieles in the projects.
+The metadata is stored in the project directory. The metadata is used to store all the information about fields in the projects.
 
 Structure reference:
 
