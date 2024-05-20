@@ -19,6 +19,7 @@ export default defineConfig({
       },
       favicon: 'favicon.ico',
       customCss: ['typeface-hk-grotesk/index.css', '/assets/styles.css'],
+      tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 5 },
       sidebar: [
         {
           label: 'Documentation',

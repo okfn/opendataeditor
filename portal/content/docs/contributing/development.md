@@ -1,7 +1,7 @@
 ---
 title: Development
 sidebar:
-  order: 1
+  order: 3
 ---
 
 Open Data Editor uses a client/server architecture wrapped into a desktop application. As a server, we use a Python codebase that uses [frictionless-py](https://framework.frictionlessdata.io/) for data and metadata processing. As a client, we use this codebase written in TypeScript that uses React for components and Zustand for state management. As a desktop wrapper, we use Electron for NodeJS.
