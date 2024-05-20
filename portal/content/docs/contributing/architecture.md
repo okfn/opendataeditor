@@ -112,7 +112,7 @@ In the `components/Parts` folder there are components that are used in multiple 
 
 #### Testing
 
-A testing system hasn't been set up yet. Here is a list of issue for hadnling it:
+A testing system hasn't been set up yet. Here is a list of issue for handling it:
 
 - [Bootstrap unit testing for client](https://github.com/okfn/opendataeditor/issues/130)
 - [Bootstrap e2e testing](https://github.com/okfn/opendataeditor/issues/131)
