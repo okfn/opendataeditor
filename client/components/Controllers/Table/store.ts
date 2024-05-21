@@ -247,6 +247,8 @@ export function makeStore(props: TableProps) {
       const grid = gridRef?.current
       if (!grid) return
 
+      const cellChanges = []
+
       for (const [key] of Object.entries(cells)) {
         const row = key.substring(0, key.indexOf(','))
         const rowNumber = parseInt(row)
@@ -254,17 +256,16 @@ export function makeStore(props: TableProps) {
         // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
         // the header row, this is why we need to substract 2 from the column here
         await grid.setItemAt(rowNumber - 2, { [column]: '' })
-        const change: types.IChange = {
-          type: 'cell-update',
-          rowNumber,
-          fieldName: column,
-          value: '',
-        }
-        helpers.applyTableHistory({ changes: [change] }, grid.data)
-        history.changes.push(change)
-        undoneHistory.changes = []
-        set({ history: { ...history } })
+        cellChanges.push({ rowNumber, fieldName: column, value: '' })
       }
+      const change: types.IChange = {
+        type: 'multiple-cells-update',
+        cells: cellChanges,
+      }
+      history.changes.push(change)
+      helpers.applyTableHistory({ changes: [change] }, grid.data)
+      undoneHistory.changes = []
+      set({ history: { ...history } })
     },
   }))
 }

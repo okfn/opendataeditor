@@ -10,6 +10,11 @@ export function createChangeIndex(patch?: types.IHistory) {
     } else if (change.type === 'cell-update') {
       const cellKey = `${change.rowNumber},${change.fieldName}`
       changeIndex.cell[cellKey] = change
+    } else if (change.type == 'multiple-cells-update') {
+      for (const cell of change.cells) {
+        const cellKey = `${cell.rowNumber},${cell.fieldName}`
+        changeIndex.cell[cellKey] = change
+      }
     }
   }
   return changeIndex

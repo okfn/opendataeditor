@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Change(BaseModel):
-    type: str
+    type: Any
 
 
 class RowDelete(Change):
@@ -18,6 +18,15 @@ class CellUpdate(Change):
     fieldName: str
     value: Any
 
+class Cell(BaseModel):
+    rowNumber: int
+    fieldName: str
+    value: Any
+
+class MultipleCellUpdate(Change):
+    type: Literal["multiple-cell-update"]
+    cells: List[Cell]
+
 
 class History(BaseModel):
-    changes: List[Union[RowDelete, CellUpdate]]
+    changes: List[Union[RowDelete, CellUpdate, MultipleCellUpdate]]
