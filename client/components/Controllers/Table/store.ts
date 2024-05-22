@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
+import mapValues from 'lodash/mapValues'
+import isNull from 'lodash/isNull'
 import isEqual from 'fast-deep-equal'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
@@ -159,8 +161,15 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
 
-      helpers.applyTableHistory(history, rows)
-      return { data: rows, count: rowCount || 0 }
+      // convert null fields in db to empty strings to avoid errors
+      // in table representation. InovuaDataGrid complains with null values
+      const rowsNotNull = []
+      for (const row of rows) {
+        rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
+      }
+
+      helpers.applyTableHistory(history, rowsNotNull)
+      return { data: rowsNotNull, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
       const { path, client, mode, gridRef } = get()
@@ -255,7 +264,6 @@ export function makeStore(props: TableProps) {
         const column = key.substring(key.indexOf(',') + 1, key.length)
         // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
         // the header row, this is why we need to substract 2 from the column here
-        // await grid.setItemAt(rowNumber - 2, { [column]: '' })
         cellChanges.push({ rowNumber, fieldName: column, value: '' })
       }
       const change: types.IChange = {
