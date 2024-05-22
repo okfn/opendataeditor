@@ -31,6 +31,7 @@ export async function ensureLibraries() {
   await system.execFile(
     settings.PYTHON_TARGET,
     ['-m', 'pip', 'install', '--upgrade', '--disable-pip-version-check', ...missing],
+    // https://stackoverflow.com/a/41957788
     { env: { http_proxy: httpProxyUrl } }
   )
 
