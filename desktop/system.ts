@@ -17,17 +17,29 @@ export async function findPort() {
   return port
 }
 
-export async function execFile(path: string, args: string[], cwd?: string) {
-  log.info('[execFile]', { path, args, cwd })
+export async function execFile(
+  path: string,
+  args: string[],
+  opts?: { cwd?: string; env?: Record<string, string> }
+) {
+  log.info('[execFile]', { path, args, opts })
 
-  const { stdout } = await execFilePromise(path, args, { cwd })
+  const cwd = opts?.cwd
+  const env = { ...process.env, ...opts?.env }
+  const { stdout } = await execFilePromise(path, args, { cwd, env })
   return stdout
 }
 
-export async function spawnFile(path: string, args: string[], cwd?: string) {
-  log.info('[spawnFile]', { path, args, cwd })
+export async function spawnFile(
+  path: string,
+  args: string[],
+  opts?: { cwd?: string; env?: Record<string, string> }
+) {
+  log.info('[spawnFile]', { path, args, opts })
 
-  const proc = cp.spawn(path, args, { cwd })
+  const cwd = opts?.cwd
+  const env = { ...process.env, ...opts?.env }
+  const proc = cp.spawn(path, args, { cwd, env })
   proc.stdout.on('data', (data) => log.info(data.toString().trim()))
   proc.stderr.on('data', (data) => log.error(data.toString().trim()))
   proc.on('close', (code) => {
