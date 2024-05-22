@@ -19,9 +19,6 @@ export async function ensurePython() {
   log.info('[ensurePython]', { message })
 }
 
-// TODO:
-// 1. Detect proxy using a library (https://www.npmjs.com/package/get-proxy-settings)
-// 2. Pass them as environment variables to PIP (https://stackoverflow.com/a/41957788)
 export async function ensureLibraries() {
   log.info('[ensureLibraries]')
 
