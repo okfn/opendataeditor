@@ -5,6 +5,7 @@ import { join } from 'path'
 import log from 'electron-log'
 import toml from 'toml'
 import * as system from './system'
+import { getProxySettings } from 'get-proxy-settings'
 
 export async function ensurePython() {
   log.info('[ensurePython]', { path: settings.APP_PYTHON })
@@ -67,4 +68,17 @@ export async function readInstalledLibraries() {
 
   log.info('[readInstalledLibraries]', { data })
   return data
+}
+
+export async function detectProxyConfiguration() {
+  log.info('[detectProxyConfiguration]')
+
+  const proxy = await getProxySettings()
+  const proxyUrlFull = proxy?.http ? proxy.http.toString() : undefined
+  const proxyUrl = proxy?.http
+    ? `http://***@${proxy.http.host}:${proxy.http.port}`
+    : undefined
+
+  log.info('[detectProxyConfiguration]', { proxyUrl })
+  return proxyUrlFull
 }
