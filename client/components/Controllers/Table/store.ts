@@ -204,7 +204,7 @@ export function makeStore(props: TableProps) {
 
     startEditing: (context) => {
       const { updateState } = get()
-      updateState({ initialEditingValue: context.value || '' })
+      updateState({ initialEditingValue: context.value })
     },
     saveEditing: (context) => {
       const { gridRef, history, undoneHistory, initialEditingValue } = get()
@@ -212,7 +212,7 @@ export function makeStore(props: TableProps) {
       if (!grid) return
 
       // Don't save if not changed
-      let value = context.value || ''
+      let value = context.value
       if (value === initialEditingValue) return
 
       const rowNumber = context.rowId
@@ -230,10 +230,10 @@ export function makeStore(props: TableProps) {
       set({ history: { ...history } })
       gridRef?.current?.reload()
     },
-    stopEditing: (payload) => {
+    stopEditing: () => {
       const { gridRef, updateState } = get()
       requestAnimationFrame(() => {
-        updateState({ initialEditingValue: payload.value })
+        updateState({ initialEditingValue: undefined })
         gridRef?.current?.focus()
       })
     },
