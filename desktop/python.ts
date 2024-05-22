@@ -25,19 +25,17 @@ export async function ensurePython() {
 export async function ensureLibraries() {
   log.info('[ensureLibraries]')
 
+  const httpProxyUrl = await detectHttpProxyUrl()
   const required = await readRequiredLibraries()
   const installed = await readInstalledLibraries()
   const missing = required.filter((spec) => !installed.includes(spec))
   if (!missing.length) return
 
-  await system.execFile(settings.PYTHON_TARGET, [
-    '-m',
-    'pip',
-    'install',
-    '--upgrade',
-    '--disable-pip-version-check',
-    ...missing,
-  ])
+  await system.execFile(
+    settings.PYTHON_TARGET,
+    ['-m', 'pip', 'install', '--upgrade', '--disable-pip-version-check', ...missing],
+    { env: { http_proxy: httpProxyUrl } }
+  )
 
   log.info('[ensureLibraries]', { missing })
 }
@@ -70,15 +68,15 @@ export async function readInstalledLibraries() {
   return data
 }
 
-export async function detectProxyConfiguration() {
-  log.info('[detectProxyConfiguration]')
+export async function detectHttpProxyUrl() {
+  log.info('[detectHttpProxyUrl]')
 
   const proxy = await getProxySettings()
-  const proxyUrlFull = proxy?.http ? proxy.http.toString() : undefined
-  const proxyUrl = proxy?.http
-    ? `http://***@${proxy.http.host}:${proxy.http.port}`
-    : undefined
+  const url = proxy?.http ? proxy.http.toString() : undefined
+  const message = proxy?.http
+    ? `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
+    : `no proxy detected`
 
-  log.info('[detectProxyConfiguration]', { proxyUrl })
-  return proxyUrlFull
+  log.info('[detectHttpProxyUrl]', { message })
+  return url
 }

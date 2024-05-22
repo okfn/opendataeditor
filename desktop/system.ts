@@ -20,7 +20,7 @@ export async function findPort() {
 export async function execFile(
   path: string,
   args: string[],
-  opts?: { cwd?: string; env?: Record<string, string> }
+  opts?: { cwd?: string; env?: Record<string, string | undefined> }
 ) {
   log.info('[execFile]', { path, args, opts })
 
@@ -33,7 +33,7 @@ export async function execFile(
 export async function spawnFile(
   path: string,
   args: string[],
-  opts?: { cwd?: string; env?: Record<string, string> }
+  opts?: { cwd?: string; env?: Record<string, string | undefined> }
 ) {
   log.info('[spawnFile]', { path, args, opts })
 
