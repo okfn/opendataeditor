@@ -76,6 +76,19 @@ def action(project: Project, props: Props) -> Result:
                         .where(table.c._rowNumber == change.rowNumber)
                         .values(**{change.fieldName: value})
                     )
+                elif change.type == "multiple-cells-update":
+                    for cell in change.cells:
+                        # Prepare value
+                        value = cell.value
+                        if schema.has_field(cell.fieldName):
+                            field = schema.get_field(cell.fieldName)
+                            value, _ = field.read_cell(value)
+                        # Write value
+                        conn.execute(
+                            sa.update(table)
+                            .where(table.c._rowNumber == cell.rowNumber)
+                            .values(**{cell.fieldName: value})
+                        )
 
         # Export database table
         target = fs.get_fullpath(props.toPath or props.path)

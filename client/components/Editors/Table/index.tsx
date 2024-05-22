@@ -15,7 +15,6 @@ export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
   source: types.ITableLoader | types.IRow[]
   schema: types.ISchema
-  gridRef?: React.MutableRefObject<ITableEditor>
   report?: types.IReport
   history?: types.IHistory
   selection?: types.ITableSelection
