@@ -1,6 +1,7 @@
 from typing import Any, List, Literal, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing_extensions import Annotated
 
 
 class Change(BaseModel):
@@ -24,9 +25,14 @@ class Cell(BaseModel):
     value: Any
 
 class MultipleCellUpdate(Change):
-    type: Literal["multiple-cell-update"]
+    type: Literal["multiple-cells-update"]
     cells: List[Cell]
 
 
 class History(BaseModel):
-    changes: List[Union[RowDelete, CellUpdate, MultipleCellUpdate]]
+    changes: List[
+        Annotated[
+            Union[RowDelete, CellUpdate, MultipleCellUpdate],
+            Field(discriminator="type")
+        ]
+    ]
