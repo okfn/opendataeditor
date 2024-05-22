@@ -20,7 +20,7 @@ export default function Editor() {
     (event: { key: any }) => {
       if (event.key === 'Delete') deleteMultipleCells(cellSelection)
     },
-    [cellSelection, setCellSelection]
+    [cellSelection]
   )
 
   if (!schema) return null
