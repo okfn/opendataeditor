@@ -14,8 +14,11 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 export interface State {
+  // Path of the file relative to the project
   path: string
+  // Singleton to connect to the backend
   client: Client
+  // Event triggered onSave, it is set as a property of the component
   onSave: () => void
   onSaveAs: (path: string) => void
   mode?: 'errors'
@@ -30,26 +33,34 @@ export interface State {
   updateState: (patch: Partial<State>) => void
 
   // General
-
+  // Set the values required to load the component: data, errors, reports, etc
   load: () => Promise<void>
   loadSource: () => Promise<void>
+  // Edit the table using an AI prompt
   edit: (prompt: string) => Promise<void>
   saveAs: (toPath: string) => Promise<void>
+  // Revert all the changes that were not saved to disk.
   revert: () => void
+  // Save the changes made to the data grid to disk.
   save: () => Promise<void>
   publish: (control: types.IControl) => Promise<string | undefined>
+  // Returns the tabular data indexed in the SQLite database.
+  // It will apply historyChanges if they exist.
   loader: types.ITableLoader
+  // Array of changes that the user made to the data. Kept until saving to disk.
   history: types.IHistory
   undoneHistory: types.IHistory
   selection?: types.ITableSelection
   error?: types.IError
   toggleErrorMode: () => Promise<void>
   gridRef?: React.MutableRefObject<ITableEditor>
+  // Removes all entries from history. Called when reverting all changes.
   clearHistory: () => void
   onClickAway: () => void
 
   // Editing
-
+  // The following functions are called when the user edit values in 
+  // the data grid.
   initialEditingValue?: any
   // TODO: find proper context type
   startEditing: (context: any) => void
