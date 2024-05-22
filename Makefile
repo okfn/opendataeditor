@@ -1,4 +1,4 @@
-.PHONY: all build client dist docs format install lint preview release server start test type version
+.PHONY: all build client desktop dist docs format install lint release server start test type version
 
 
 VERSION := $(shell node -p -e "require('./package.json').version")
@@ -14,6 +14,10 @@ build:
 ## Runs the React client in isolation (:8080)
 client:
 	npm run start
+
+## Runs the Electron application with live reload (requires a running server).
+desktop:
+	npm run desktop
 
 ## Runs electron-builder to package and build a ready for distribution app.
 dist:
@@ -37,10 +41,6 @@ install:
 lint:
 	hatch run lint
 	npm run lint
-
-## Runs the Electron application with live reload (requires a running server).
-preview:
-	npm run preview
 
 release:
 	git checkout main && git pull origin && git fetch -p

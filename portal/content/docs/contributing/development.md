@@ -86,12 +86,14 @@ npm run start
 
 ### Desktop
 
-Previewing descript application:
+> Note that you need to start the server as well
+
+Running the desktop application:
 
 ```bash
-make preview
+make desktop
 # OR
-npm run preview
+npm run desktop
 ```
 
 ## Documentation
