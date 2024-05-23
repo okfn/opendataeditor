@@ -12,8 +12,8 @@ export interface ChartProps {
 export default function Chart(props: ChartProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }

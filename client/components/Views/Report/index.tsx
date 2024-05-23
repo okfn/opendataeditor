@@ -10,10 +10,10 @@ export interface ReportProps {
 
 export default function Report(props: ReportProps) {
   return (
-      <div className="frictionless-components-report">
-        <TopLevelErrors {...props} />
-        {props.shallow ? <ShallowTasks {...props} /> : <ExpandedTasks {...props} />}
-      </div>
+    <div className="frictionless-components-report">
+      <TopLevelErrors {...props} />
+      {props.shallow ? <ShallowTasks {...props} /> : <ExpandedTasks {...props} />}
+    </div>
   )
 }
 

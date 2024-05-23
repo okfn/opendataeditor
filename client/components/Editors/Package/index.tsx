@@ -14,8 +14,8 @@ export interface PackageProps {
 export default function Package(props: PackageProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }

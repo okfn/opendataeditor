@@ -14,8 +14,8 @@ export default function View(props: ViewProps) {
   const editorRef = React.useMemo(() => React.createRef<ITextEditor>(), [])
   const store = React.useMemo(() => makeStore(props, editorRef), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }

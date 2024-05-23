@@ -12,8 +12,8 @@ export interface ConfigProps {
 export default function Config(props: ConfigProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }

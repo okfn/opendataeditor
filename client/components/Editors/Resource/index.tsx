@@ -14,8 +14,8 @@ export interface ResourceProps {
 export default function Resource(props: ResourceProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }

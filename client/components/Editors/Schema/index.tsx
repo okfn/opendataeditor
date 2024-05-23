@@ -13,8 +13,8 @@ export interface SchemaProps {
 export default function Schema(props: SchemaProps) {
   const store = React.useMemo(() => makeStore(props), Object.values(props))
   return (
-      <StoreProvider value={store}>
-        <Layout />
-      </StoreProvider>
+    <StoreProvider value={store}>
+      <Layout />
+    </StoreProvider>
   )
 }
