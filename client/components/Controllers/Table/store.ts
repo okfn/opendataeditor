@@ -262,8 +262,7 @@ export function makeStore(props: TableProps) {
         const row = key.substring(0, key.indexOf(','))
         const rowNumber = parseInt(row)
         const column = key.substring(key.indexOf(',') + 1, key.length)
-        // the row counting for the method setItemAt starts at 0 and doesn't take into consideration
-        // the header row, this is why we need to substract 2 from the column here
+
         cellChanges.push({ rowNumber, fieldName: column, value: '' })
       }
       const change: types.IChange = {
