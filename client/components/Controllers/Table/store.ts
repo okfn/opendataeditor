@@ -59,7 +59,7 @@ export interface State {
   onClickAway: () => void
 
   // Editing
-  // The following functions are called when the user edit values in 
+  // The following functions are called when the user edit values in
   // the data grid.
   initialEditingValue?: any
   // TODO: find proper context type
