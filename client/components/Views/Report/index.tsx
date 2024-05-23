@@ -1,8 +1,6 @@
 import './assets/styles.css'
 import Box from '@mui/material/Box'
 import ReportTask from './Task'
-import { ThemeProvider } from '@mui/material/styles'
-import * as themes from '../../../themes'
 import * as types from '../../../types'
 
 export interface ReportProps {
@@ -12,12 +10,10 @@ export interface ReportProps {
 
 export default function Report(props: ReportProps) {
   return (
-    <ThemeProvider theme={themes.DEFAULT}>
       <div className="frictionless-components-report">
         <TopLevelErrors {...props} />
         {props.shallow ? <ShallowTasks {...props} /> : <ExpandedTasks {...props} />}
       </div>
-    </ThemeProvider>
   )
 }
 
