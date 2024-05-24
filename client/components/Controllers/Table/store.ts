@@ -14,63 +14,62 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 export interface State {
-  // Path of the file relative to the project
+  /** Path of the file relative to the project **/
   path: string
-  // Singleton to connect to the backend
+  /** Singleton to connect to the backend **/
   client: Client
-  // Event triggered onSave, it is set as a property of the component
+  /** Event triggered onSave, it is set as a property of the component **/
   onSave: () => void
-  // Event triggered onSaveAs, it is set as a property of the component
+  /** Event triggered onSaveAs, it is set as a property of the component **/
   onSaveAs: (path: string) => void
-  // Keeps track if we are displaying the full datagrid or only errors.
+  /** Keeps track if we are displaying the full datagrid or only errors. **/
   mode?: 'errors'
-  // Keeps track of the selected panel
+  /** Keeps track of the selected panel **/
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  // Keeps track of the displayed dialog
+  /** Keeps track of the displayed dialog **/
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
-  // Stores the content of the raw file when loadSource is triggered.
+  /** Stores the content of the raw file when loadSource is triggered. **/
   source?: string
-  // Number of rows of the file
+  /** Number of rows of the file **/
   rowCount?: number
   resource?: types.IResource
   updateState: (patch: Partial<State>) => void
 
   // General
-  // Set the values required to load the component: data, errors, reports, etc
+  /** Set the values required to load the component: data, errors, reports, etc **/
   load: () => Promise<void>
-  // Loads the source view of the file (Displays raw CSV file)
+  /** Loads the source view of the file (Displays raw CSV file) **/
   loadSource: () => Promise<void>
-  // Edit the table using an AI prompt
+  /** Edit the table using an AI prompt **/
   edit: (prompt: string) => Promise<void>
-  // Save file to another path
+  /** Save file to another path **/
   saveAs: (toPath: string) => Promise<void>
-  // Revert all the changes done to the datagrid that were not saved to disk.
+  /** Revert all the changes done to the datagrid that were not saved to disk. **/
   revert: () => void
-  // Save the changes made to the datagrid to disk.
+  /** Save the changes made to the datagrid to disk. **/
   save: () => Promise<void>
-  // Calls to frictionless-py Publish function.
+  /** Calls to frictionless-py Publish function. **/
   publish: (control: types.IControl) => Promise<string | undefined>
-  // Returns the tabular data indexed in the SQLite database.
-  // It will apply historyChanges if they exist.
+  /** Returns the tabular data indexed in the SQLite database. **/
+  /** It will apply historyChanges if they exist. **/
   loader: types.ITableLoader
-  // Array of changes that the user made to the datagrid. Kept until saving to disk.
+  /** Array of changes that the user made to the datagrid. Kept until saving to disk. **/
   history: types.IHistory
   undoneHistory: types.IHistory
   selection?: types.ITableSelection
-  // Used to display in the table view only rows with errors
+  /** Used to display in the table view only rows with errors **/
   toggleErrorMode: () => Promise<void>
   gridRef?: React.MutableRefObject<ITableEditor>
-  // Removes all entries from history. Called when reverting all changes.
+  /** Removes all entries from history. Called when reverting all changes. **/
   clearHistory: () => void
-  // Handles event when user clicks outside a dialog
+  /** Handles event when user clicks outside a dialog **/
   onClickAway: () => void
 
   // Editing
-  // The following functions are called when the user edit values in
-  // the data grid.
+  /** The following functions are called when the user edit values in the data grid. **/
   initialEditingValue?: any
   // TODO: find proper context type
   startEditing: (context: any) => void
