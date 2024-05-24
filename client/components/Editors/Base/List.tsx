@@ -9,6 +9,7 @@ import HeadingBox from './Heading/Box'
 export interface EditorListProps {
   kind: string
   query?: string
+  hideGridViewButton?: boolean
   isGrid?: boolean
   onAddClick: () => void
   onGridClick: () => void
@@ -44,7 +45,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
           <Box sx={{ whiteSpace: 'nowrap' }}>{startCase(props.kind)}s</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />
-            <GridButton />
+            {props.hideGridViewButton ? null : <GridButton />}
           </Box>
           {props.SearchInput}
         </Columns>

@@ -26,6 +26,7 @@ function LicenseList() {
       kind="license"
       query={query}
       isGrid={isGrid}
+      hideGridViewButton={true}
       onAddClick={() => addLicense()}
       onGridClick={() => updateLicenseState({ isGrid: !isGrid })}
       SearchInput={

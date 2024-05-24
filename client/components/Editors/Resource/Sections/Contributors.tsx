@@ -24,6 +24,7 @@ function ContributorList() {
       kind="contributor"
       query={query}
       isGrid={isGrid}
+      hideGridViewButton={true}
       onAddClick={() => addContributor()}
       onGridClick={() => updateContributorState({ isGrid: !isGrid })}
       SearchInput={

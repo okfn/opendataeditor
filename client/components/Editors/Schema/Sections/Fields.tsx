@@ -36,6 +36,7 @@ function FieldList() {
       kind="field"
       query={query}
       isGrid={isGrid}
+      hideGridViewButton={true}
       onAddClick={() => addField()}
       onGridClick={() => updateFieldState({ isGrid: !isGrid })}
       SearchInput={
