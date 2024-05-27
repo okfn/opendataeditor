@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as zustand from 'zustand'
 import noop from 'lodash/noop'
+import mapValues from 'lodash/mapValues'
+import isNull from 'lodash/isNull'
 import isEqual from 'fast-deep-equal'
 import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
@@ -50,13 +52,14 @@ export interface State {
 
   // Editing
 
-  initialEditingValue?: any
+  initialEditingValue?: string | number
   // TODO: find proper context type
   startEditing: (context: any) => void
   saveEditing: (context: any) => void
   stopEditing: (context: any) => void
   undoChange: () => void
   redoChange: () => void
+  deleteMultipleCells: (cells: object) => Promise<void>
 }
 
 export function makeStore(props: TableProps) {
@@ -158,8 +161,15 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
 
-      helpers.applyTableHistory(history, rows)
-      return { data: rows, count: rowCount || 0 }
+      // convert null fields in db to empty strings to avoid errors
+      // in table representation. InovuaDataGrid complains with null values
+      const rowsNotNull = []
+      for (const row of rows) {
+        rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
+      }
+
+      helpers.applyTableHistory(history, rowsNotNull)
+      return { data: rowsNotNull, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
       const { path, client, mode, gridRef } = get()
@@ -218,6 +228,7 @@ export function makeStore(props: TableProps) {
       history.changes.push(change)
       undoneHistory.changes = []
       set({ history: { ...history } })
+      gridRef?.current?.reload()
     },
     stopEditing: () => {
       const { gridRef, updateState } = get()
@@ -239,6 +250,29 @@ export function makeStore(props: TableProps) {
       if (change) history.changes.push(change)
       set({ history: { ...history } })
       gridRef?.current?.reload()
+    },
+    deleteMultipleCells: async (cells: object) => {
+      const { gridRef, history, undoneHistory } = get()
+      const grid = gridRef?.current
+      if (!grid) return
+
+      const cellChanges = []
+
+      for (const [key] of Object.entries(cells)) {
+        const row = key.substring(0, key.indexOf(','))
+        const rowNumber = parseInt(row)
+        const column = key.substring(key.indexOf(',') + 1, key.length)
+
+        cellChanges.push({ rowNumber, fieldName: column, value: '' })
+      }
+      const change: types.IChange = {
+        type: 'multiple-cells-update',
+        cells: cellChanges,
+      }
+      history.changes.push(change)
+      helpers.applyTableHistory({ changes: [change] }, grid.data)
+      undoneHistory.changes = []
+      set({ history: { ...history } })
     },
   }))
 }

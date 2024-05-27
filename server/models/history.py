@@ -1,10 +1,11 @@
 from typing import Any, List, Literal, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing_extensions import Annotated
 
 
 class Change(BaseModel):
-    type: str
+    type: Any
 
 
 class RowDelete(Change):
@@ -18,6 +19,20 @@ class CellUpdate(Change):
     fieldName: str
     value: Any
 
+class Cell(BaseModel):
+    rowNumber: int
+    fieldName: str
+    value: Any
+
+class MultipleCellUpdate(Change):
+    type: Literal["multiple-cells-update"]
+    cells: List[Cell]
+
 
 class History(BaseModel):
-    changes: List[Union[RowDelete, CellUpdate]]
+    changes: List[
+        Annotated[
+            Union[RowDelete, CellUpdate, MultipleCellUpdate],
+            Field(discriminator="type")
+        ]
+    ]
