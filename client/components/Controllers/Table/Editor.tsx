@@ -18,7 +18,8 @@ export default function Editor() {
 
   const onKeyDown = React.useCallback(
     (event: { key: any }) => {
-      if (event.key === 'Delete') deleteMultipleCells(cellSelection)
+      if (event.key === 'Delete' || event.key === 'Backspace')
+        deleteMultipleCells(cellSelection)
     },
     [cellSelection]
   )
