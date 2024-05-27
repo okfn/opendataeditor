@@ -26,7 +26,6 @@ function SourceList() {
       kind="source"
       query={query}
       isGrid={isGrid}
-      hideGridViewButton={true}
       onAddClick={() => addSource()}
       onGridClick={() => updateSourceState({ isGrid: !isGrid })}
       SearchInput={

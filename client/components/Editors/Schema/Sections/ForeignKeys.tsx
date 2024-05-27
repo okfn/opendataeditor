@@ -25,7 +25,6 @@ function ForeignKeyList() {
       kind="foreign key"
       query={query}
       isGrid={isGrid}
-      hideGridViewButton={true}
       onAddClick={() => addForeignKey()}
       onGridClick={() => updateForeignKeyState({ isGrid: !isGrid })}
       SearchInput={
