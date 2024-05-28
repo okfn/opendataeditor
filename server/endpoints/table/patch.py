@@ -44,7 +44,6 @@ def action(project: Project, props: Props) -> Result:
         path=props.path,
         toPath=props.toPath,
         resource=props.resource,
-        isDataChanged=props.history is not None,
     )
 
     # Copy table
