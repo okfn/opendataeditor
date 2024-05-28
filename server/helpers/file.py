@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Callable, Optional
 
 from frictionless import FrictionlessException
@@ -46,6 +47,14 @@ def write_file(
     path = fs.get_path(fullpath)
 
     return path
+
+
+def get_file_last_updated(project: Project, *, path: str):
+    fs = project.filesystem
+    fullpath = fs.get_fullpath(path)
+    # ST_MTIME is a POSIX timestamp so it is in UTC
+    updated = datetime.fromtimestamp(fullpath.stat().st_mtime, tz=timezone.utc)
+    return updated
 
 
 def create_file_filter(project: Project) -> Callable[[str], bool]:
