@@ -29,6 +29,11 @@ def action(project: Project, props: Props) -> Result:
     md = project.metadata
     db = project.database
 
+    # Ensure file exists
+    fullpath = fs.get_fullpath(props.path)
+    if not fullpath.is_file():
+        raise FrictionlessException("file not found")
+
     # Read current state
     record = helpers.read_record(project, path=props.path)
     report = db.read_artifact(name=record.name, type="report") if record else None
@@ -43,12 +48,7 @@ def action(project: Project, props: Props) -> Result:
 
     # Ensure indexing
     if missing_record or missing_report or missing_measure or missing_table:
-        # Ensure file exists
-        fullpath = fs.get_fullpath(props.path)
-        if not fullpath.is_file():
-            raise FrictionlessException("file not found")
-
-        # Index resource
+        # Create resource
         path, basepath = fs.get_path_and_basepath(props.path)
         name = helpers.name_record(project, path=path)
         resource_obj = (
@@ -61,7 +61,7 @@ def action(project: Project, props: Props) -> Result:
             )
         )
 
-        # Validate resource
+        # Index/validate resource
         report_obj = helpers.index_resource(
             project, resource=resource_obj, table_name=name
         )
