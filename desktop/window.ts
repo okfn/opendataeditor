@@ -11,7 +11,7 @@ export function createWindow() {
     // height: 670,
     show: false,
     // alwaysOnTop: true,
-    autoHideMenuBar: true,
+    // autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
