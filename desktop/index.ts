@@ -10,7 +10,8 @@ import * as server from './server'
 import * as python from './python'
 import * as settings from './settings'
 import * as resources from './resources'
-const { mainMenu } = require('./menu.ts')
+// const { mainMenu } = require('./menu.ts')
+import mainMenu from './menu'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

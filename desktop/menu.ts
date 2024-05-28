@@ -72,4 +72,6 @@ const template = [
   },
 ]
 
-module.exports.mainMenu = Menu.buildFromTemplate(template)
+// module.exports.mainMenu = Menu.buildFromTemplate(template)
+
+export default Menu.buildFromTemplate(template)
