@@ -3,22 +3,22 @@ import InputDialog from '../../Parts/Dialogs/Input'
 import { useStore } from '../store'
 
 export default function CopyFileDialog() {
-  const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
   const copyFile = useStore((state) => state.copyFile)
   const updateState = useStore((state) => state.updateState)
-  if (!path) return null
+  if (!paths || paths.length > 1) return null
   return (
     <InputDialog
       open={true}
-      value={path}
+      value={paths[0]}
       title="Copy File"
       label="Copy"
       Icon={ContentCopyIcon}
       placholder="Enter a path"
-      description={`You are copying "${path}". Enter destination:`}
+      description={`You are copying "${paths[0]}". Enter destination:`}
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async (toPath) => {
-        await copyFile(path, toPath)
+        await copyFile(paths[0], toPath)
         updateState({ dialog: undefined })
       }}
     />

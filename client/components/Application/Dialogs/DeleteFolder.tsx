@@ -2,10 +2,10 @@ import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import { useStore } from '../store'
 
 export default function DeleteFolderDialog() {
-  const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
   const deleteFolder = useStore((state) => state.deleteFolder)
   const updateState = useStore((state) => state.updateState)
-  if (!path) return null
+  if (!paths || paths.length > 1) return null
   return (
     <ConfirmDialog
       open={true}
@@ -15,7 +15,7 @@ export default function DeleteFolderDialog() {
       cancelLabel="No"
       onCancel={() => updateState({ dialog: undefined })}
       onConfirm={async () => {
-        await deleteFolder(path)
+        await deleteFolder(paths[0])
         updateState({ dialog: undefined })
       }}
     />

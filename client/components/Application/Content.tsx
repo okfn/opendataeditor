@@ -15,7 +15,7 @@ import { useStore } from './store'
 export default function Content() {
   const record = useStore((state) => state.record)
   const indexing = useStore((state) => state.indexing)
-  const path = useStore((state) => state.path)
+  const path = useStore((state) => state.paths)
   return indexing ? (
     <LoadingContent />
   ) : record && path ? (

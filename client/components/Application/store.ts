@@ -203,10 +203,12 @@ export function makeStore(props: ApplicationProps) {
       await loadFiles()
       await selectFile(paths)
     },
-    copyFile: async (path, toPath) => {
+    copyFile: async (paths, toPath) => {
       const { client, onFileCreate } = get()
-      const result = await client.fileCopy({ path, toPath, deduplicate: true })
-      onFileCreate([result.path])
+      for (const path of paths) {
+        const result = await client.fileCopy({ path, toPath, deduplicate: true })
+        onFileCreate([result.path])
+      }
     },
     deleteFile: async (paths) => {
       const { client, onFileDelete } = get()

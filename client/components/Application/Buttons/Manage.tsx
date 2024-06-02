@@ -7,7 +7,7 @@ import DropdownButton from '../../Parts/Buttons/Dropdown'
 import { useStore, selectors } from '../store'
 
 export default function ManageButton() {
-  const path = useStore((state) => state.path)
+  const path = useStore((state) => state.paths)
   const notIndexedFiles = useStore(selectors.notIndexedFiles)
   return (
     <DropdownButton
@@ -24,7 +24,7 @@ export default function ManageButton() {
 }
 
 function CopyButton() {
-  const path = useStore((state) => state.path)
+  const path = useStore((state) => state.paths)
   const updateState = useStore((state) => state.updateState)
   const isFolder = useStore(selectors.isFolder)
   const type = isFolder ? 'Folder' : 'File'
@@ -40,7 +40,7 @@ function CopyButton() {
 }
 
 function MoveButton() {
-  const path = useStore((state) => state.path)
+  const path = useStore((state) => state.paths)
   const updateState = useStore((state) => state.updateState)
   const isFolder = useStore(selectors.isFolder)
   const type = isFolder ? 'Folder' : 'File'
