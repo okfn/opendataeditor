@@ -10,7 +10,7 @@ import * as helpers from '../../helpers'
 import * as types from '../../types'
 
 export interface State {
-  path?: string[]
+  paths?: string[]
   client: Client
   config?: types.IConfig
   record?: types.IRecord
@@ -46,10 +46,10 @@ export interface State {
   createFile: (path: string, prompt?: string) => Promise<void>
   adjustFile: (name?: string, type?: string) => Promise<void>
   copyFile: (path: string, toPath: string) => Promise<void>
-  deleteFile: (path: string) => Promise<void>
+  deleteFile: (paths: string[]) => Promise<void>
   moveFile: (path: string, toPath: string) => Promise<void>
   locateFile: (path: string) => Promise<void>
-  selectFile: (path?: string) => Promise<void>
+  selectFile: (paths?: string[]) => Promise<void>
   openFile: (path: string) => Promise<void>
   closeFile: () => void
 
@@ -111,7 +111,7 @@ export function makeStore(props: ApplicationProps) {
       const { loadFiles, selectFile } = get()
       await loadFiles()
       set({ fileEvent: { type: 'create', paths } })
-      if (paths.length === 1) selectFile(paths[0])
+      if (paths.length === 1) selectFile(paths)
       await delay(500)
       set({ fileEvent: undefined })
     },
@@ -126,7 +126,7 @@ export function makeStore(props: ApplicationProps) {
     onFilePatch: async (path) => {
       const { selectFile } = get()
       set({ fileEvent: { type: 'update', paths: [path] } })
-      selectFile(path)
+      selectFile([path])
       await delay(500)
       set({ fileEvent: undefined })
     },
@@ -194,13 +194,14 @@ export function makeStore(props: ApplicationProps) {
       }
     },
     adjustFile: async (name, type) => {
-      const { path, client, closeFile, loadFiles, selectFile } = get()
-      if (!path) return
-      await client.filePatch({ path, name, type })
-      set({ path: undefined })
+      const { paths, client, closeFile, loadFiles, selectFile } = get()
+      // only adjust file if one file is selected from menu
+      if (!paths || paths.length !== 1) return
+      await client.filePatch({ path: paths[0], name, type })
+      set({ paths: undefined })
       closeFile()
       await loadFiles()
-      await selectFile(path)
+      await selectFile(paths)
     },
     copyFile: async (path, toPath) => {
       const { client, onFileCreate } = get()
@@ -220,21 +221,26 @@ export function makeStore(props: ApplicationProps) {
       onFileCreate([result.path])
     },
     locateFile: async (path) => {
-      set({ path })
+      set({ paths: [path] })
       set({ fileEvent: { type: 'locate', paths: [path] } })
       await delay(500)
       set({ fileEvent: undefined })
     },
-    selectFile: async (newPath) => {
-      const { path, record, openFile } = get()
-      if (path === newPath) return
-      set({ path: newPath })
-      if (!newPath) return
-      if (record?.path === newPath) return
+    selectFile: async (newPaths) => {
+      console.log('selectFile called with', newPaths)
+      const isSingleFile = newPaths && newPaths.length === 1
+      const { paths, record, openFile } = get()
+      if (paths === newPaths) return
+      set({ paths: newPaths })
+      if (!newPaths) return
+      if (record?.path === newPaths[0]) return
       if (selectors.isFolder(get())) return
-      await openFile(newPath)
+      if (isSingleFile) {
+        await openFile(newPaths[0])
+      } else return
     },
     openFile: async (path) => {
+      console.log('openFile', path)
       const { client, loadFiles, fileEvent } = get()
       set({ record: undefined, measure: undefined })
       set({ indexing: true })
@@ -358,15 +364,14 @@ export function makeStore(props: ApplicationProps) {
 
 export const selectors = {
   isFolder: (state: State) => {
-    return !!state.files.find(
-      (file) => file.path === state.path && file.type === 'folder'
-    )
+    const path = state.paths ? state.paths[0] : null
+    return !!state.files.find((file) => file.path === path && file.type === 'folder')
   },
   folderPath: (state: State) => {
-    if (!state.path) return undefined
+    if (!state.paths) return undefined
     const isFolder = selectors.isFolder(state)
-    if (isFolder) return state.path
-    return helpers.getFolderPath(state.path)
+    if (isFolder) return state.paths[0]
+    return helpers.getFolderPath(state.paths[0])
   },
   notIndexedFiles: (state: State) => {
     return state.files.filter((file) => !file.name)

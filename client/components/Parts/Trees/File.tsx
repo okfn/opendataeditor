@@ -14,7 +14,7 @@ export interface FileTreeProps {
   files: types.IFile[]
   event?: types.IFileEvent
   selected?: string[]
-  onSelect: (path?: string[]) => void
+  onSelect: (paths?: string[]) => void
   defaultExpanded?: string[]
 }
 

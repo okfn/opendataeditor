@@ -6,13 +6,13 @@ import { selectors, useStore } from '../store'
 import { useKeyPress } from 'ahooks'
 
 export default function DeleteButton() {
-  const path = useStore((state) => state.path)
+  const paths = useStore((state) => state.paths)
   const isFolder = useStore(selectors.isFolder)
   const updateState = useStore((state) => state.updateState)
   const type = isFolder ? 'Folder' : 'File'
   useKeyPress(['ctrl.i'], (event) => {
     event.preventDefault()
-    if (path) updateState({ dialog: `delete${type}` })
+    if (paths) updateState({ dialog: `delete${type}` })
   })
   return (
     <LightTooltip title="Delete file [Ctrl+I]">
@@ -20,7 +20,7 @@ export default function DeleteButton() {
         <IconButton
           label="Delete"
           Icon={DeleteIcon}
-          disabled={!path}
+          disabled={!paths}
           variant="text"
           color="warning"
           onClick={() => updateState({ dialog: `delete${type}` })}

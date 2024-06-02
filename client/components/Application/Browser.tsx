@@ -18,7 +18,7 @@ export default function Browser() {
 }
 
 function DefaultBrowser() {
-  const path = useStore((state) => state.path)
+  const path = useStore((state) => state.paths)
   const files = useStore((state) => state.files)
   const fileEvent = useStore((state) => state.fileEvent)
   const selectFile = useStore((state) => state.selectFile)
