@@ -229,20 +229,17 @@ export function makeStore(props: ApplicationProps) {
       set({ fileEvent: undefined })
     },
     selectFile: async (newPaths) => {
-      console.log('selectFile called with', newPaths)
-      const isSingleFile = newPaths && newPaths.length === 1
       const { paths, record, openFile } = get()
+      console.log('newPaths', newPaths)
       if (paths === newPaths) return
       set({ paths: newPaths })
       if (!newPaths) return
       if (record?.path === newPaths[0]) return
       if (selectors.isFolder(get())) return
-      if (isSingleFile) {
-        await openFile(newPaths[0])
-      } else return
+      // if more than one file is selected, display the only the first one
+      if (paths && paths[0] !== newPaths[0]) await openFile(newPaths[0])
     },
     openFile: async (path) => {
-      console.log('openFile', path)
       const { client, loadFiles, fileEvent } = get()
       set({ record: undefined, measure: undefined })
       set({ indexing: true })

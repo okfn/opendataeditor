@@ -31,7 +31,7 @@ export default function FileTree(props: FileTreeProps) {
       : props.defaultExpanded || []
     setExpanded([...new Set([...expanded, ...defaultExpanded])])
   }, [props.event, props.defaultExpanded])
-  const selected = props.selected
+  const selected = props.selected || ['']
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
@@ -43,12 +43,12 @@ export default function FileTree(props: FileTreeProps) {
             onNodeSelect={(_event, nodeIds) => {
               props.onSelect(nodeIds as string[])
             }}
-            // onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
-            //   // On collapsing we don't collapse a folder if it's not yet selected
-            //   const isCollapsing = nodeIds.length < expanded.length
-            //   if (isCollapsing && !expanded.includes(props.selected[0] || '')) return
-            //   setExpanded(nodeIds)
-            // }}
+            onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
+              // On collapsing we don't collapse a folder if it's not yet selected
+              const isCollapsing = nodeIds.length < expanded.length
+              if (isCollapsing && !expanded.every(value => selected.includes(value))) return
+              setExpanded(nodeIds)
+            }}
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
             aria-label="customized"
