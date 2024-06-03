@@ -33,7 +33,7 @@ def action(project: Project, props: Props) -> Result:
     fullpath = fs.get_fullpath(props.path)
     if not fullpath.is_file():
         raise FrictionlessException("file not found")
-    updated_at = helpers.get_file_updated_at(project, path=props.path)
+    data_updated_at = helpers.get_file_updated_at(project, path=props.path)
 
     # Read current state
     record = helpers.read_record(project, path=props.path)
@@ -46,7 +46,7 @@ def action(project: Project, props: Props) -> Result:
     missing_report = not report
     missing_measure = not measure
     missing_table = record and record.type == "table" and table is None
-    is_outdated = record and (record.dataUpdatedAt or 0) < updated_at
+    is_data_outdated = record and (record.dataUpdatedAt or 0) < data_updated_at
 
     # Ensure indexing
     if (
@@ -54,7 +54,7 @@ def action(project: Project, props: Props) -> Result:
         or missing_report
         or missing_measure
         or missing_table
-        or is_outdated
+        or is_data_outdated
     ):
         # Create resource
         path, basepath = fs.get_path_and_basepath(props.path)
@@ -84,12 +84,10 @@ def action(project: Project, props: Props) -> Result:
                 resource=resource_obj.to_descriptor(),
             )
         record.resource = resource_obj.to_descriptor()
-        record.dataUpdatedAt = updated_at
+        record.dataUpdatedAt = data_updated_at
 
         # Create measure
-        measure_obj = models.Measure(
-            errors=report_obj.stats["errors"],
-        )
+        measure_obj = models.Measure(errors=report_obj.stats["errors"])
         measure = measure_obj.model_dump()
 
         # Write document/artifacts
