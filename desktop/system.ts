@@ -18,6 +18,9 @@ export async function findPort() {
   return port
 }
 
+// TODO: consider using `ses.resolveProxy(url)` instead
+// https://www.electronjs.org/docs/latest/api/session/#sesresolveproxyurl
+// https://github.com/felicienfrancois/node-electron-proxy-agent/blob/master/index.js
 export async function detectHttpProxyUrl() {
   log.info('[detectHttpProxyUrl]')
 
