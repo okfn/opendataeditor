@@ -4,6 +4,7 @@ import log from 'electron-log'
 import portfinder from 'portfinder'
 import { is } from '@electron-toolkit/utils'
 import * as settings from './settings'
+import { getProxySettings } from 'get-proxy-settings'
 const execFilePromise = util.promisify(cp.execFile)
 
 export async function findPort() {
@@ -15,6 +16,19 @@ export async function findPort() {
 
   log.info('[findPort]', { port })
   return port
+}
+
+export async function detectHttpProxyUrl() {
+  log.info('[detectHttpProxyUrl]')
+
+  const proxy = await getProxySettings()
+  const url = proxy?.http ? proxy.http.toString() : undefined
+  const message = proxy?.http
+    ? `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
+    : `no proxy detected`
+
+  log.info('[detectHttpProxyUrl]', { message })
+  return url
 }
 
 export async function execFile(

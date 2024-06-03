@@ -5,7 +5,6 @@ import { join } from 'path'
 import log from 'electron-log'
 import toml from 'toml'
 import * as system from './system'
-import { getProxySettings } from 'get-proxy-settings'
 
 export async function ensurePython() {
   log.info('[ensurePython]', { path: settings.APP_PYTHON })
@@ -19,10 +18,9 @@ export async function ensurePython() {
   log.info('[ensurePython]', { message })
 }
 
-export async function ensureLibraries() {
+export async function ensureLibraries(props: { httpProxyUrl?: string }) {
   log.info('[ensureLibraries]')
 
-  const httpProxyUrl = await detectHttpProxyUrl()
   const required = await readRequiredLibraries()
   const installed = await readInstalledLibraries()
   const missing = required.filter((spec) => !installed.includes(spec))
@@ -31,8 +29,14 @@ export async function ensureLibraries() {
   await system.execFile(
     settings.PYTHON_TARGET,
     ['-m', 'pip', 'install', '--upgrade', '--disable-pip-version-check', ...missing],
-    // https://stackoverflow.com/a/41957788
-    { env: { http_proxy: httpProxyUrl } }
+    {
+      // pip requires explicit proxy settings
+      // https://stackoverflow.com/a/41957788
+      env: {
+        HTTP_PROXY: props.httpProxyUrl, // UNIX
+        http_proxy: props.httpProxyUrl, // Windows
+      },
+    }
   )
 
   log.info('[ensureLibraries]', { missing })
@@ -64,17 +68,4 @@ export async function readInstalledLibraries() {
 
   log.info('[readInstalledLibraries]', { data })
   return data
-}
-
-export async function detectHttpProxyUrl() {
-  log.info('[detectHttpProxyUrl]')
-
-  const proxy = await getProxySettings()
-  const url = proxy?.http ? proxy.http.toString() : undefined
-  const message = proxy?.http
-    ? `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
-    : `no proxy detected`
-
-  log.info('[detectHttpProxyUrl]', { message })
-  return url
 }
