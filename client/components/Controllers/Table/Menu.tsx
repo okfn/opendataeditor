@@ -1,5 +1,6 @@
 import { useStore } from './store'
 import * as menu from '../../Parts/Bars/Menu'
+import * as helpers from '../../../helpers'
 import * as settings from '../../../settings'
 
 export default function Menu() {
@@ -17,7 +18,6 @@ export default function Menu() {
   const redoChange = useStore((state) => state.redoChange)
   return (
     <menu.MenuBar>
-      <menu.EditorButton enabled />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
@@ -30,6 +30,7 @@ export default function Menu() {
         onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
       />
       <menu.SourceButton
+        disabled={!helpers.getLanguageByFormat(format)}
         active={panel === 'source'}
         onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
       />

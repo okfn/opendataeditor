@@ -29,6 +29,8 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 🔵 [Contributing Guide](https://opendataeditor.okfn.org/contributing/development/)
 
+🔵 [Technical Architecture](https://opendataeditor.okfn.org/contributing/architecture/)
+
 # How to download the ODE
 
 📍***Note:** the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.*
