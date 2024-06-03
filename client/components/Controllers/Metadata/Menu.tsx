@@ -9,7 +9,6 @@ export default function Menu() {
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
-      <menu.EditorButton enabled />
       <menu.MetadataButton enabled />
       <menu.ReportButton
         disabled={!report || report?.valid}

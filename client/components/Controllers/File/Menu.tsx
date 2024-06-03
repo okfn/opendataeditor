@@ -10,7 +10,6 @@ export default function Menu() {
   const updateState = useStore((state) => state.updateState)
   return (
     <menu.MenuBar>
-      <menu.EditorButton disabled />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
