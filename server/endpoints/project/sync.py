@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from fastapi import Request
 from pydantic import BaseModel
@@ -19,11 +19,11 @@ class Result(BaseModel, extra="forbid"):
 
 
 @router.post("/project/sync")
-def endpoint(request: Request, _: Props) -> Result:
+def endpoint(request: Request, props: Props) -> Result:
     return action(request.app.get_project())
 
 
-def action(project: Project) -> Result:
+def action(project: Project, props: Optional[Props] = None) -> Result:
     md = project.metadata
     from ... import endpoints
 
