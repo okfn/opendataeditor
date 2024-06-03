@@ -18,7 +18,6 @@ export default function Menu() {
   const redoChange = useStore((state) => state.redoChange)
   return (
     <menu.MenuBar>
-      <menu.EditorButton enabled />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
