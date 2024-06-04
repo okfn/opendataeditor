@@ -19,16 +19,12 @@ export async function findPort() {
   return port
 }
 
+// TODO: it only works if both HTTP ans HTTPS proxies are set
+// If only one of them is set, the `get-proxy-settings` library fails
 // We cannot use `ses.resolveProxy(url)` because it does not return credentials
 export async function detectProxyUrls() {
   log.info('[detectProxyUrls]')
   const proxyUrls: types.IProxyUrls = {}
-
-  // TODO:
-  // the proxy detection library is broken; it fails if only one kind of proxy is set
-  // we might need to fix it in the library
-  process.env.HTTP_PROXY = process.env.HTTP_PROXY || process.env.HTTPS_PROXY
-  process.env.HTTPS_PROXY = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
 
   try {
     const proxy = await getProxySettings()
