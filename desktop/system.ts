@@ -19,7 +19,7 @@ export async function findPort() {
   return port
 }
 
-// TODO: it only works if both HTTP ans HTTPS proxies are set
+// It only works if both HTTP ans HTTPS proxies are set
 // If only one of them is set, the `get-proxy-settings` library fails
 // We cannot use `ses.resolveProxy(url)` because it does not return credentials
 export async function detectProxyUrls() {
