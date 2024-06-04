@@ -1,6 +1,5 @@
 import * as React from 'react'
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth'
-import GridViewIcon from '@mui/icons-material/GridView'
 import MapIcon from '@mui/icons-material/Map'
 import WidgetsIcon from '@mui/icons-material/Widgets'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
@@ -117,7 +116,7 @@ export const TYPE_ICONS: { [key: string]: React.ElementType } = {
   schema: DescriptionIcon,
   script: TerminalIcon,
   sql: StorageIcon,
-  table: [TableViewIcon, GridOnIcon, GridViewIcon, CalendarViewMonthIcon][3],
+  table: [TableViewIcon, GridOnIcon, CalendarViewMonthIcon][3],
   view: [TableRowsIcon, TableViewIcon][0],
 }
 
