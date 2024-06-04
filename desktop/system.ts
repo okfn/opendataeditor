@@ -18,17 +18,25 @@ export async function findPort() {
   return port
 }
 
-// TODO: consider using `ses.resolveProxy(url)` instead
-// https://www.electronjs.org/docs/latest/api/session/#sesresolveproxyurl
-// https://github.com/felicienfrancois/node-electron-proxy-agent/blob/master/index.js
+// We cannot use `ses.resolveProxy(url)` because it does not return credentials
 export async function detectHttpProxyUrl() {
   log.info('[detectHttpProxyUrl]')
+  let message = 'no proxy detected'
+  let url: string | undefined
 
-  const proxy = await getProxySettings()
-  const url = proxy?.http ? proxy.http.toString() : undefined
-  const message = proxy?.http
-    ? `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
-    : `no proxy detected`
+  // NOTE:
+  // the proxy detection library is broken; it fails if only one kind of proxy is set
+  // we can safely mix HTTP/HTTPS because we are only interested in the HTTP one
+  process.env.HTTP_PROXY = process.env.HTTP_PROXY || process.env.HTTPS_PROXY
+  process.env.HTTPS_PROXY = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
+
+  try {
+    const proxy = await getProxySettings()
+    if (proxy?.http) {
+      url = proxy.http.toString()
+      message = `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
+    }
+  } catch {}
 
   log.info('[detectHttpProxyUrl]', { message })
   return url

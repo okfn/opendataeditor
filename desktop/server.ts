@@ -11,7 +11,7 @@ export async function runServer(props: { httpProxyUrl?: string; serverPort: numb
     settings.PYTHON_TARGET,
     ['-m', 'server', settings.APP_TMP, '--port', serverPort.toString()],
     {
-      cwd: process.resourcesPath,
+      cwd: settings.DIST,
       // frictionless-py uses `requests` for HTTP requests
       // https://stackoverflow.com/questions/8287628/proxies-with-python-requests-module
       env: {
