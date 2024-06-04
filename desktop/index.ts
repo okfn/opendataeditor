@@ -18,7 +18,7 @@ app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
   const serverPort = await system.findPort()
-  const httpProxyUrl = await system.detectHttpProxyUrl()
+  const proxyUrls = await system.detectProxyUrls()
 
   log.info('## Start client')
   createBridge({ serverPort })
@@ -28,8 +28,8 @@ app.whenReady().then(async () => {
     log.info('## Start server')
     await resources.ensureRunner()
     await python.ensurePython()
-    await python.ensureLibraries({ httpProxyUrl })
-    await server.runServer({ httpProxyUrl, serverPort })
+    await python.ensureLibraries({ proxyUrls })
+    await server.runServer({ proxyUrls, serverPort })
   }
 })
 

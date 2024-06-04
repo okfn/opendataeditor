@@ -1,6 +1,7 @@
 import fs from 'fs'
 import fsp from 'fs/promises'
 import * as settings from './settings'
+import * as types from './types'
 import { join } from 'path'
 import log from 'electron-log'
 import toml from 'toml'
@@ -18,7 +19,7 @@ export async function ensurePython() {
   log.info('[ensurePython]', { message })
 }
 
-export async function ensureLibraries(props: { httpProxyUrl?: string }) {
+export async function ensureLibraries(props: { proxyUrls: types.IProxyUrls }) {
   log.info('[ensureLibraries]')
 
   const required = await readRequiredLibraries()
@@ -29,14 +30,7 @@ export async function ensureLibraries(props: { httpProxyUrl?: string }) {
   await system.execFile(
     settings.PYTHON_TARGET,
     ['-m', 'pip', 'install', '--upgrade', '--disable-pip-version-check', ...missing],
-    {
-      // pip requires explicit proxy settings
-      // https://stackoverflow.com/a/41957788
-      env: {
-        HTTP_PROXY: props.httpProxyUrl, // UNIX
-        http_proxy: props.httpProxyUrl, // Windows
-      },
-    }
+    { env: createEnvFromProxyUrls(props.proxyUrls) }
   )
 
   log.info('[ensureLibraries]', { missing })
@@ -68,4 +62,17 @@ export async function readInstalledLibraries() {
 
   log.info('[readInstalledLibraries]', { data })
   return data
+}
+
+export function createEnvFromProxyUrls(proxyUrls: types.IProxyUrls) {
+  // https://stackoverflow.com/a/41957788
+  // https://stackoverflow.com/questions/8287628/proxies-with-python-requests-module
+  return {
+    // UNIX
+    HTTP_PROXY: proxyUrls.http,
+    HTTPS_PROXY: proxyUrls.https,
+    // Windows
+    http_proxy: proxyUrls.http,
+    https_proxy: proxyUrls.https,
+  }
 }

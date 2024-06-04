@@ -4,6 +4,7 @@ import log from 'electron-log'
 import portfinder from 'portfinder'
 import { is } from '@electron-toolkit/utils'
 import * as settings from './settings'
+import * as types from './types'
 import { getProxySettings } from 'get-proxy-settings'
 const execFilePromise = util.promisify(cp.execFile)
 
@@ -19,27 +20,24 @@ export async function findPort() {
 }
 
 // We cannot use `ses.resolveProxy(url)` because it does not return credentials
-export async function detectHttpProxyUrl() {
-  log.info('[detectHttpProxyUrl]')
-  let message = 'no proxy detected'
-  let url: string | undefined
+export async function detectProxyUrls() {
+  log.info('[detectProxyUrls]')
+  const proxyUrls: types.IProxyUrls = {}
 
-  // NOTE:
+  // TODO:
   // the proxy detection library is broken; it fails if only one kind of proxy is set
-  // we can safely mix HTTP/HTTPS because we are only interested in the HTTP one
+  // we might need to fix it in the library
   process.env.HTTP_PROXY = process.env.HTTP_PROXY || process.env.HTTPS_PROXY
   process.env.HTTPS_PROXY = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
 
   try {
     const proxy = await getProxySettings()
-    if (proxy?.http) {
-      url = proxy.http.toString()
-      message = `proxy detected: http://***@${proxy.http.host}:${proxy.http.port}`
-    }
+    if (proxy?.http) proxyUrls.http = proxy.http.toString()
+    if (proxy?.https) proxyUrls.https = proxy.https.toString()
   } catch {}
 
-  log.info('[detectHttpProxyUrl]', { message })
-  return url
+  log.info('[detectHttpProxyUrl]', { proxies: Object.keys(proxyUrls) })
+  return proxyUrls
 }
 
 export async function execFile(
