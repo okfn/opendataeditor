@@ -47,11 +47,12 @@ export async function execFile(
   args: string[],
   opts?: { cwd?: string; env?: Record<string, string | undefined> }
 ) {
-  log.info('[execFile]', { path, args, opts })
-
   const cwd = opts?.cwd
-  const env = { ...process.env, ...opts?.env }
-  const { stdout } = await execFilePromise(path, args, { cwd, env })
+  const thisEnv = opts?.env || {}
+  const fullEnv = { ...process.env, ...opts?.env }
+  log.info('[execFile]', { path, args, cwd, env: Object.keys(thisEnv) })
+
+  const { stdout } = await execFilePromise(path, args, { cwd, env: fullEnv })
   return stdout
 }
 
@@ -60,11 +61,12 @@ export async function spawnFile(
   args: string[],
   opts?: { cwd?: string; env?: Record<string, string | undefined> }
 ) {
-  log.info('[spawnFile]', { path, args, opts })
-
   const cwd = opts?.cwd
-  const env = { ...process.env, ...opts?.env }
-  const proc = cp.spawn(path, args, { cwd, env })
+  const thisEnv = opts?.env || {}
+  const fullEnv = { ...process.env, ...opts?.env }
+  log.info('[spawnFile]', { path, args, cwd, env: Object.keys(thisEnv) })
+
+  const proc = cp.spawn(path, args, { cwd, env: fullEnv })
   proc.stdout.on('data', (data) => log.info(data.toString().trim()))
   proc.stderr.on('data', (data) => log.error(data.toString().trim()))
   proc.on('close', (code) => {
