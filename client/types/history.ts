@@ -11,7 +11,7 @@ export interface IHistory {
   changes: IChange[]
 }
 
-export type IChange = IRowDelete | ICellUpdate
+export type IChange = IRowDelete | ICellUpdate | IMultipleCellUpdate
 
 interface IRowDelete {
   type: 'row-delete'
@@ -23,4 +23,14 @@ interface ICellUpdate {
   rowNumber: number
   fieldName: string
   value: any
+}
+interface ICell {
+  rowNumber: number
+  fieldName: string
+  value: any
+}
+
+interface IMultipleCellUpdate {
+  type: 'multiple-cells-update'
+  cells: ICell[]
 }

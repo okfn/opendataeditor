@@ -15,7 +15,6 @@ import RedoIcon from '@mui/icons-material/Redo'
 import HandymanIcon from '@mui/icons-material/Handyman'
 import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
-import EditRoadIcon from '@mui/icons-material/EditRoad'
 import LightTooltip from '../Tooltips/Light'
 import IconButton from '../Buttons/Icon'
 import { useTheme } from '@mui/material/styles'
@@ -52,40 +51,6 @@ export interface ButtonProps {
   enabled?: boolean
   disabled?: boolean
   onClick?: () => void
-}
-
-export function EditorButton(props: ButtonProps) {
-  const theme = useTheme()
-  const onClick = props.onClick || noop
-  let title = 'Toggle the editor panel [Alt+E]'
-  if (props.enabled) title = 'Editor is enabled'
-  if (props.disabled) title = 'Editor is not available'
-  useKeyPress(['alt.e'], (event) => {
-    event.preventDefault()
-    if (!props.enabled && !props.disabled) {
-      onClick()
-    }
-  })
-  return (
-    <LightTooltip title={title}>
-      <Box>
-        <IconButton
-          small
-          variant="text"
-          label={props.label || 'Editor'}
-          Icon={EditRoadIcon}
-          color={props.color || props.active ? 'warning' : undefined}
-          disabled={props.disabled || props.enabled}
-          onClick={() => onClick()}
-          sx={{
-            '&.Mui-disabled': {
-              color: props.enabled ? theme.palette.info.main : undefined,
-            },
-          }}
-        />
-      </Box>
-    </LightTooltip>
-  )
 }
 
 export function MetadataButton(props: ButtonProps) {

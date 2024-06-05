@@ -21,7 +21,6 @@ export default function Menu() {
   const maximalVersion = useStore((state) => state.maximalVersion)
   return (
     <menu.MenuBar>
-      <menu.EditorButton enabled />
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() =>
