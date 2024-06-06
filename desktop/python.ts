@@ -8,11 +8,11 @@ import * as system from './system'
 
 export async function ensurePythonVirtualEnvironment() {
   // When running, ODE will ensure that a virtual environment for dependencies exists
-  log.info('[ensurePythonVirtualEnvironment]', { path: settings.APP_PYTHON })
+  log.info('[ensurePythonVirtualEnvironment]', { path: settings.APP_PYTHON_VENV })
 
   let message = 'existed'
-  if (!fs.existsSync(settings.APP_PYTHON)) {
-    await system.execFile(settings.PYTHON_SOURCE, ['-m', 'venv', settings.APP_PYTHON])
+  if (!fs.existsSync(settings.APP_PYTHON_VENV)) {
+    await system.execFile(settings.PYTHON_SOURCE, ['-m', 'venv', settings.APP_PYTHON_VENV])
     message = 'created'
   }
 
