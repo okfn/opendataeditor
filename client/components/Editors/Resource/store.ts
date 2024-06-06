@@ -21,7 +21,6 @@ const MEDIA_TYPES: { [key: string]: string } = {
 interface ISectionState {
   query?: string
   index?: number
-  isGrid?: boolean
   isExtras?: boolean
 }
 

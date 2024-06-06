@@ -4,7 +4,6 @@ import EditorSearch from '../../Base/Search'
 import { useStore, selectors } from '../store'
 
 export default function Resources() {
-  const isGrid = useStore((state) => state.resourceState.isGrid)
   const query = useStore((state) => state.resourceState.query)
   const resourceItems = useStore(selectors.resourceItems)
   const updateResourceState = useStore((state) => state.updateResourceState)
@@ -15,9 +14,7 @@ export default function Resources() {
     <EditorList
       kind="resource"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addResource()}
-      onGridClick={() => updateResourceState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -32,7 +29,6 @@ export default function Resources() {
           kind="resource"
           name={resource.name}
           type={resource.type}
-          isGrid={isGrid}
           onClick={() => {
             updateResourceState({ index })
             if (onResourceSelected) onResourceSelected(resource.name)

@@ -14,7 +14,6 @@ export default function ForeignKey() {
 }
 
 function ForeignKeyList() {
-  const isGrid = useStore((state) => state.foreignKeyState.isGrid)
   const query = useStore((state) => state.foreignKeyState.query)
   const foreignKeyItems = useStore(selectors.foreignKeyItems)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
@@ -24,9 +23,7 @@ function ForeignKeyList() {
     <EditorList
       kind="foreign key"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addForeignKey()}
-      onGridClick={() => updateForeignKeyState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -40,7 +37,6 @@ function ForeignKeyList() {
           kind="foreign key"
           name={foreignKey.fields.join(',')}
           type="fk"
-          isGrid={isGrid}
           onClick={() => updateForeignKeyState({ index })}
           onRemoveClick={() => removeForeignKey(index)}
         />

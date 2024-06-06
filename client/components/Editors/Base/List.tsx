@@ -9,9 +9,7 @@ import HeadingBox from './Heading/Box'
 export interface EditorListProps {
   kind: string
   query?: string
-  isGrid?: boolean
   onAddClick: () => void
-  onGridClick: () => void
   // We accept search as a prop otherwise it loses focus
   SearchInput: React.ReactNode
 }

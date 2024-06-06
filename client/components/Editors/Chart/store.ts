@@ -15,13 +15,11 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'chart')!
 
 interface ILayerState {
   query?: string
-  isGrid?: boolean
 }
 
 interface IChannelState {
   query?: string
   type?: string
-  isGrid?: boolean
   isExtras?: boolean
   activeInput?: string
 }
@@ -30,7 +28,6 @@ interface ISectionState {
   query?: string
   index?: number
   type?: string
-  isGrid?: boolean
   isExtras?: boolean
 }
 
