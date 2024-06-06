@@ -25,9 +25,9 @@ app.whenReady().then(async () => {
 
   if (!is.dev) {
     log.info('## Start server')
-    await resources.ensureRunner()
-    await python.ensurePython()
-    await python.ensureLibraries()
+    await resources.ensurePython()
+    await python.ensurePythonVirtualEnvironment()
+    await python.ensurePythonRequirements()
     await server.runServer({ serverPort })
   }
 })

@@ -3,8 +3,10 @@ import fsp from 'fs/promises'
 import * as settings from './settings'
 import log from 'electron-log'
 
-export async function ensureRunner() {
-  log.info('[ensureRunner]', { path: settings.APP_RUNNER })
+export async function ensurePython() {
+  // ODE builds a Python 3.10 distribution and ships it with the app.
+  // It is generated when running make build
+  log.info('[ensurePython]', { path: settings.APP_RUNNER })
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_RUNNER)) {
@@ -16,5 +18,5 @@ export async function ensureRunner() {
     message = 'created'
   }
 
-  log.info('[ensureRunner]', { message })
+  log.info('[ensurePython]', { message })
 }

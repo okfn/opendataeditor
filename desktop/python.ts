@@ -6,8 +6,9 @@ import log from 'electron-log'
 import toml from 'toml'
 import * as system from './system'
 
-export async function ensurePython() {
-  log.info('[ensurePython]', { path: settings.APP_PYTHON })
+export async function ensurePythonVirtualEnvironment() {
+  // When running, ODE will ensure that a virtual environment for dependencies exists
+  log.info('[ensurePythonVirtualEnvironment]', { path: settings.APP_PYTHON })
 
   let message = 'existed'
   if (!fs.existsSync(settings.APP_PYTHON)) {
@@ -15,11 +16,12 @@ export async function ensurePython() {
     message = 'created'
   }
 
-  log.info('[ensurePython]', { message })
+  log.info('[ensurePythonVirtualEnvironment]', { message })
 }
 
-export async function ensureLibraries() {
-  log.info('[ensureLibraries]')
+export async function ensurePythonRequirements() {
+  // When running, ODE will ensure that all python dependencies are installed.
+  log.info('[ensurePythonRequirements]')
 
   const required = await readRequiredLibraries()
   const installed = await readInstalledLibraries()
@@ -35,7 +37,7 @@ export async function ensureLibraries() {
     ...missing,
   ])
 
-  log.info('[ensureLibraries]', { missing })
+  log.info('[ensurePythonRequirements]', { missing })
 }
 
 export async function readRequiredLibraries() {
