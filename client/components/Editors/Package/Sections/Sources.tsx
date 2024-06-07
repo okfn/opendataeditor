@@ -15,7 +15,6 @@ export default function Sources() {
 }
 
 function SourceList() {
-  const isGrid = useStore((state) => state.sourceState.isGrid)
   const query = useStore((state) => state.sourceState.query)
   const sourceItems = useStore(selectors.sourceItems)
   const updateSourceState = useStore((state) => state.updateSourceState)
@@ -25,9 +24,7 @@ function SourceList() {
     <EditorList
       kind="source"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addSource()}
-      onGridClick={() => updateSourceState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -41,7 +38,6 @@ function SourceList() {
           kind="source"
           name={source.title}
           type="source"
-          isGrid={isGrid}
           onClick={() => {
             updateSourceState({ index })
           }}

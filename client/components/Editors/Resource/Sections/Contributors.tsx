@@ -13,7 +13,6 @@ export default function Contributors() {
 }
 
 function ContributorList() {
-  const isGrid = useStore((state) => state.contributorState.isGrid)
   const query = useStore((state) => state.contributorState.query)
   const contributorItems = useStore(selectors.contributorItems)
   const updateContributorState = useStore((state) => state.updateContributorState)
@@ -23,9 +22,7 @@ function ContributorList() {
     <EditorList
       kind="contributor"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addContributor()}
-      onGridClick={() => updateContributorState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -39,7 +36,6 @@ function ContributorList() {
           kind="contributor"
           name={contributor.title}
           type="contributor"
-          isGrid={isGrid}
           onClick={() => {
             updateContributorState({ index })
           }}

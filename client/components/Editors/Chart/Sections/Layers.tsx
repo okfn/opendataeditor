@@ -6,7 +6,6 @@ import { useStore } from '../store'
 export default function Resources() {
   const layers = useStore((state) => state.layers)
   const query = useStore((state) => state.layerState.query)
-  const isGrid = useStore((state) => state.layerState.isGrid)
   const addLayer = useStore((state) => state.addLayer)
   const removeLayer = useStore((state) => state.removeLayer)
   const updateLayerState = useStore((state) => state.updateLayerState)
@@ -14,9 +13,7 @@ export default function Resources() {
     <EditorList
       kind="layer"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addLayer()}
-      onGridClick={() => updateLayerState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -31,7 +28,6 @@ export default function Resources() {
           kind="layer"
           name={layer}
           type="layer"
-          isGrid={isGrid}
           onClick={() => {
             // TODO: implement
           }}

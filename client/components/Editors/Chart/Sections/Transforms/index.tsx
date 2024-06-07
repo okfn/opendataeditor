@@ -33,9 +33,6 @@ export default function Transform() {
 function TransformList() {
   // TODO: fix
   // @ts-ignore
-  const isGrid = useStore((state) => state.transformStates[state.layer]?.isGrid)
-  // TODO: fix
-  // @ts-ignore
   const query = useStore((state) => state.transformStates[state.layer]?.query)
   const transformItems = useStore(selectors.transformItems)
   const updateTransformState = useStore((state) => state.updateTransformState)
@@ -45,9 +42,7 @@ function TransformList() {
     <EditorList
       kind="transform"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addTransform()}
-      onGridClick={() => updateTransformState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -61,7 +56,6 @@ function TransformList() {
           kind="transform"
           name={transform.title ?? ''}
           type="transform"
-          isGrid={isGrid}
           onClick={() => {
             updateTransformState({ index })
           }}

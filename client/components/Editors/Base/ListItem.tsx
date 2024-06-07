@@ -9,7 +9,6 @@ interface EditorListItemProps {
   name: string
   type?: string
   title?: string
-  isGrid?: boolean
   disabled?: boolean
   onClick?: () => void
   onRemoveClick?: () => void
@@ -42,14 +41,14 @@ export default function EditorListItem(props: EditorListItemProps) {
     <Button
       size="large"
       variant="outlined"
-      endIcon={!props.isGrid && props.type ? <EndIcon /> : null}
+      endIcon={props.type ? <EndIcon /> : null}
       onClick={() => (props.onClick ? props.onClick() : undefined)}
       disabled={props.disabled}
       title={props.title || `Edit ${capitalize(props.kind)}`}
       sx={{
         height: theme.spacing(5),
-        width: props.isGrid ? 'inherit' : '100%',
-        marginRight: props.isGrid ? 2 : 0,
+        width: '100%',
+        marginRight: 0,
         justifyContent: 'space-between',
         textTransform: 'initial',
         padding: [2, 2],

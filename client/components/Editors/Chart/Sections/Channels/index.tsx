@@ -23,7 +23,6 @@ export default function Channel() {
 }
 
 function ChannelList() {
-  const isGrid = useStore((state) => state.channelStates[state.layerIndex]?.isGrid)
   const query = useStore((state) => state.channelStates[state.layerIndex]?.query)
   const channelItems = useStore(selectors.channelItems)
   const updateChannelState = useStore((state) => state.updateChannelState)
@@ -33,9 +32,7 @@ function ChannelList() {
     <EditorList
       kind="channel"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addChannel()}
-      onGridClick={() => updateChannelState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -49,7 +46,6 @@ function ChannelList() {
           kind="channel"
           type="channel"
           name={type}
-          isGrid={isGrid}
           onClick={() => updateChannelState({ type })}
           onRemoveClick={() => removeChannel(type)}
         />
