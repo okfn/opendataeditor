@@ -66,6 +66,8 @@ export default function TableEditor(props: TableEditorProps) {
       limit={rowsPerPage}
       onLimitChange={setRowsPerPage}
       rowHeight={rowHeight}
+      showColumnMenuLockOptions={false}
+      showColumnMenuGroupOptions={false}
       {...others}
     />
   )
