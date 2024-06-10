@@ -4,9 +4,6 @@ import { join } from 'path'
 export const WIN = process.platform === 'win32'
 export const HOME = os.homedir()
 
-export const PORT_DEV = 4040
-export const PORT_PROD = 4444
-
 export const DIST = process.resourcesPath
 export const DIST_PYTHON = join(DIST, 'runner')
 export const DIST_SERVER = join(DIST, 'server')

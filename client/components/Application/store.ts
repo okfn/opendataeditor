@@ -98,7 +98,7 @@ export function makeStore(props: ApplicationProps) {
         } catch (error) {
           attempt += 1
           if (attempt >= maxAttempts) {
-            const serverUrl = await client.readServerUrl()
+            const serverUrl = client.serverUrl
             const message = `Client cannot connect to server on "${serverUrl}"`
             sendFatalError ? sendFatalError(message) : alert(message)
           }

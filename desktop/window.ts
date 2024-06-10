@@ -1,17 +1,19 @@
 import { shell, BrowserWindow } from 'electron'
+
 import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
 import * as python from './python'
 import * as resources from './resources'
+
 const EventEmitter = require('events')
 const loadingEvents = new EventEmitter()
 
 // @ts-ignore
 import icon from './assets/icon.png?asset'
 
-export async function createWindow(serverPort: any) {
+export async function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     show: false,
@@ -57,7 +59,7 @@ export async function createWindow(serverPort: any) {
     mainWindow?.webContents.send('ensureLogs', "Ensuring Python requirements are installed")
     await python.ensurePythonRequirements()
     mainWindow?.webContents.send('ensureLogs', "Starting server")
-    await server.runServer({ serverPort })
+    await server.runServer()
   }
 
   loadingEvents.emit('finished')

@@ -4,7 +4,6 @@ import { createWindow } from './window'
 import { createBridge } from './bridge'
 import { join } from 'path'
 import log from 'electron-log'
-import * as system from './system'
 import * as settings from './settings'
 
 // This method will be called when Electron has finished
@@ -13,11 +12,10 @@ import * as settings from './settings'
 app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
-  const serverPort = await system.findPort()
 
   log.info('## Start client')
-  createBridge({ serverPort })
-  await createWindow(serverPort)
+  createBridge()
+  await createWindow()
 })
 
 // Default open or close DevTools by F12 in development

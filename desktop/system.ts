@@ -1,21 +1,7 @@
 import cp from 'child_process'
 import util from 'util'
 import log from 'electron-log'
-import portfinder from 'portfinder'
-import { is } from '@electron-toolkit/utils'
-import * as settings from './settings'
 const execFilePromise = util.promisify(cp.execFile)
-
-export async function findPort() {
-  log.info('[findPort]')
-
-  const port = !is.dev
-    ? await portfinder.getPortPromise({ port: settings.PORT_PROD })
-    : settings.PORT_DEV
-
-  log.info('[findPort]', { port })
-  return port
-}
 
 export async function execFile(path: string, args: string[], cwd?: string) {
   log.info('[execFile]', { path, args, cwd })
