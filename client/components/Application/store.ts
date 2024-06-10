@@ -6,6 +6,7 @@ import { assert } from 'ts-essentials'
 import { Client } from '../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
+import * as settings from '../../settings'
 import * as helpers from '../../helpers'
 import * as types from '../../types'
 
@@ -83,9 +84,11 @@ export function makeStore(props: ApplicationProps) {
 
     onStart: async () => {
       const { client, loadConfig, loadFiles, updateState } = get()
+      updateState({ dialog: 'start' })
+
+      // Wait for the server
       // @ts-ignore
       const sendFatalError = window?.opendataeditor?.sendFatalError
-      updateState({ dialog: 'start' })
       let ready = false
       let attempt = 0
       const maxAttempts = sendFatalError ? 300 : 3
@@ -105,6 +108,13 @@ export function makeStore(props: ApplicationProps) {
           await delay(delaySeconds * 1000)
         }
       }
+
+      // Setup project sync polling
+      setInterval(async () => {
+        const { files } = await client.projectSync({})
+        updateState({ files })
+      }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
+
       updateState({ dialog: undefined })
     },
     onFileCreate: async (paths) => {
