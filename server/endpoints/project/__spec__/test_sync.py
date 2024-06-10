@@ -8,7 +8,7 @@ from server.fixtures import bytes1, folder1, name1, name2, not_secure
 # Action
 
 
-def test_server_file_create(client):
+def test_server_project_sync(client):
     # Create two files
     path1 = client("/file/create", path=name1, bytes=bytes1).path
     path2 = client("/file/create", path=name2, bytes=bytes1).path
