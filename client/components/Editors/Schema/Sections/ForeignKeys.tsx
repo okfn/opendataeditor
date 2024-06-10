@@ -5,7 +5,6 @@ import SelectField from '../../../Parts/Fields/Select'
 import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
-import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 
 export default function ForeignKey() {
@@ -20,17 +19,7 @@ function ForeignKeyList() {
   const addForeignKey = useStore((state) => state.addForeignKey)
   const removeForeignKey = useStore((state) => state.removeForeignKey)
   return (
-    <EditorList
-      kind="foreign key"
-      query={query}
-      onAddClick={() => addForeignKey()}
-      SearchInput={
-        <EditorSearch
-          value={query || ''}
-          onChange={(query) => updateForeignKeyState({ query })}
-        />
-      }
-    >
+    <EditorList kind="foreign key" query={query} onAddClick={() => addForeignKey()}>
       {foreignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem
           key={index}

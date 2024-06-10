@@ -11,7 +11,7 @@ export interface EditorListProps {
   query?: string
   onAddClick: () => void
   // We accept search as a prop otherwise it loses focus
-  SearchInput: React.ReactNode
+  SearchInput?: React.ReactNode
 }
 
 export default function EditorList(props: React.PropsWithChildren<EditorListProps>) {
@@ -28,7 +28,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   return (
     <React.Fragment>
       <HeadingBox>
-        <Columns spacing={1} layout={[4, 5, 3]}>
+        <Columns spacing={1} layout={props.SearchInput ? [4, 5, 3] : [6, 6]}>
           <Box sx={{ whiteSpace: 'nowrap' }}>{startCase(props.kind)}s</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />

@@ -5,7 +5,6 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
-import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 
@@ -21,17 +20,7 @@ function SourceList() {
   const addSource = useStore((state) => state.addSource)
   const removeSource = useStore((state) => state.removeSource)
   return (
-    <EditorList
-      kind="source"
-      query={query}
-      onAddClick={() => addSource()}
-      SearchInput={
-        <EditorSearch
-          value={query || ''}
-          onChange={(query) => updateSourceState({ query })}
-        />
-      }
-    >
+    <EditorList kind="source" query={query} onAddClick={() => addSource()}>
       {sourceItems.map(({ index, source }) => (
         <EditorListItem
           key={index}

@@ -4,7 +4,6 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
-import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 
 export default function Contributors() {
@@ -19,17 +18,7 @@ function ContributorList() {
   const addContributor = useStore((state) => state.addContributor)
   const removeContributor = useStore((state) => state.removeContributor)
   return (
-    <EditorList
-      kind="contributor"
-      query={query}
-      onAddClick={() => addContributor()}
-      SearchInput={
-        <EditorSearch
-          value={query || ''}
-          onChange={(query) => updateContributorState({ query })}
-        />
-      }
-    >
+    <EditorList kind="contributor" query={query} onAddClick={() => addContributor()}>
       {contributorItems.map(({ index, contributor }) => (
         <EditorListItem
           key={index}
