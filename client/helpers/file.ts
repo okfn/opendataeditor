@@ -49,8 +49,7 @@ export function createFileTree(
 }
 
 export function listParentFolders(paths: string[], folders: string[] = []) {
-  const flattenedPaths = paths.flat()
-  for (const path of flattenedPaths) {
+  for (const path of paths) {
     const folder = path.split('/').slice(0, -1).join('/')
     if (!folder) continue
     if (!folders.includes(folder)) folders.push(folder)
