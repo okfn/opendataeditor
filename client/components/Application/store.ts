@@ -82,10 +82,9 @@ export function makeStore(props: ApplicationProps) {
     // Events
 
     onStart: async () => {
-      const { client, loadConfig, loadFiles, updateState } = get()
+      const { client, loadConfig, loadFiles} = get()
       // @ts-ignore
       const sendFatalError = window?.opendataeditor?.sendFatalError
-      updateState({ dialog: 'start' })
       let ready = false
       let attempt = 0
       const maxAttempts = sendFatalError ? 300 : 3
@@ -105,7 +104,6 @@ export function makeStore(props: ApplicationProps) {
           await delay(delaySeconds * 1000)
         }
       }
-      updateState({ dialog: undefined })
     },
     onFileCreate: async (paths) => {
       const { loadFiles, selectFile } = get()
