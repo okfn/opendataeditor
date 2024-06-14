@@ -15,6 +15,19 @@ import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
   // Create the browser window.
+  var splashWindow = new BrowserWindow({
+    width: 500,
+    height: 500,
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+    autoHideMenuBar: true,
+    ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, 'preload', 'index.js'),
+    },
+  });
+
   const mainWindow = new BrowserWindow({
     show: false,
     autoHideMenuBar: true,
@@ -24,17 +37,13 @@ export async function createWindow() {
     },
   })
 
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.maximize()
-    mainWindow.show()
-  })
-
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
   loadingEvents.on('finished', () => {
+    splashWindow.close();
     log.info('Opening index.html')
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
@@ -43,6 +52,8 @@ export async function createWindow() {
     } else {
       mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
     }
+    mainWindow.maximize()
+    mainWindow.show();
   })
 
   // Open the DevTools.
@@ -50,15 +61,16 @@ export async function createWindow() {
   
   if (!is.dev) {
     log.info('Opening loading.html')
-    mainWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+    splashWindow.center()
     log.info('## Start server')
-    mainWindow?.webContents.send('ensureLogs', "Ensuring Python is installed")
+    splashWindow?.webContents.send('ensureLogs', "Ensuring Python is installed")
     await resources.ensurePython()
-    mainWindow?.webContents.send('ensureLogs', "Ensuring Python virtual environment exists ")
+    splashWindow?.webContents.send('ensureLogs', "Ensuring Python virtual environment exists ")
     await python.ensurePythonVirtualEnvironment()
-    mainWindow?.webContents.send('ensureLogs', "Ensuring Python requirements are installed")
+    splashWindow?.webContents.send('ensureLogs', "Ensuring Python requirements are installed")
     await python.ensurePythonRequirements()
-    mainWindow?.webContents.send('ensureLogs', "Starting server")
+    splashWindow?.webContents.send('ensureLogs', "Starting server")
     await server.runServer()
   }
 
