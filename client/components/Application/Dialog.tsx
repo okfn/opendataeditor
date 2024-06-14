@@ -15,6 +15,7 @@ import { useStore } from './store'
 export default function Dialog() {
   const dialog = useStore((state) => state.dialog)
   if (!dialog) return null
+  // @ts-ignore
   const Dialog = DIALOGS[dialog]
   return <Dialog />
 }
