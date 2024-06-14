@@ -19,10 +19,12 @@ class CellUpdate(Change):
     fieldName: str
     value: Any
 
+
 class Cell(BaseModel):
     rowNumber: int
     fieldName: str
     value: Any
+
 
 class MultipleCellUpdate(Change):
     type: Literal["multiple-cells-update"]
@@ -32,7 +34,6 @@ class MultipleCellUpdate(Change):
 class History(BaseModel):
     changes: List[
         Annotated[
-            Union[RowDelete, CellUpdate, MultipleCellUpdate],
-            Field(discriminator="type")
+            Union[RowDelete, CellUpdate, MultipleCellUpdate], Field(discriminator="type")
         ]
     ]

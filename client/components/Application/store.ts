@@ -82,7 +82,7 @@ export function makeStore(props: ApplicationProps) {
     // Events
 
     onStart: async () => {
-      const { client, loadConfig, loadFiles} = get()
+      const { client, loadConfig, loadFiles } = get()
       // @ts-ignore
       const sendFatalError = window?.opendataeditor?.sendFatalError
       let ready = false
