@@ -275,7 +275,6 @@ export function makeStore(props: ApplicationProps) {
     },
     deleteFiles: async (paths) => {
       const { client, onFileDelete } = get()
-      console.log('paths', paths)
       for (const path of paths) {
         await client.fileDelete({ path })
         onFileDelete(path)
