@@ -64,14 +64,13 @@ export async function createWindow() {
     splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
     splashWindow.center()
     log.info('## Start server')
-    splashWindow?.webContents.send('ensureLogs', "Ensuring Python is installed")
     await resources.ensurePython()
-    splashWindow?.webContents.send('ensureLogs', "Ensuring Python virtual environment exists ")
     await python.ensurePythonVirtualEnvironment()
-    splashWindow?.webContents.send('ensureLogs', "Ensuring Python requirements are installed")
+    splashWindow?.webContents.send('ensureLogs', "python")
     await python.ensurePythonRequirements()
-    splashWindow?.webContents.send('ensureLogs', "Starting server")
+    splashWindow?.webContents.send('ensureLogs', "requirements")
     await server.runServer()
+    splashWindow?.webContents.send('ensureLogs', "server")
   }
 
   loadingEvents.emit('finished')
