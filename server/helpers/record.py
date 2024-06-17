@@ -23,7 +23,6 @@ def patch_record(
     type: Optional[str] = None,
     resource: Optional[types.IDescriptor] = None,
     toPath: Optional[str] = None,
-    isDataChanged: bool = False,
 ):
     md = project.metadata
 

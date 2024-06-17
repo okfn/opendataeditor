@@ -1,6 +1,5 @@
 import * as React from 'react'
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth'
-import GridViewIcon from '@mui/icons-material/GridView'
 import MapIcon from '@mui/icons-material/Map'
 import WidgetsIcon from '@mui/icons-material/Widgets'
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
@@ -32,6 +31,7 @@ export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
 export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
 export const MAX_TABLE_SOURCE_SIZE = 1000000
+export const PROJECT_SYNC_INTERVAL_MILLIS = 10 * 1000
 export const FILE_TYPES = [
   'article',
   'chart',
@@ -117,7 +117,7 @@ export const TYPE_ICONS: { [key: string]: React.ElementType } = {
   schema: DescriptionIcon,
   script: TerminalIcon,
   sql: StorageIcon,
-  table: [TableViewIcon, GridOnIcon, GridViewIcon, CalendarViewMonthIcon][3],
+  table: [TableViewIcon, GridOnIcon, CalendarViewMonthIcon][3],
   view: [TableRowsIcon, TableViewIcon][0],
 }
 

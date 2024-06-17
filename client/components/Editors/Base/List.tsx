@@ -9,9 +9,7 @@ import HeadingBox from './Heading/Box'
 export interface EditorListProps {
   kind: string
   query?: string
-  isGrid?: boolean
   onAddClick: () => void
-  onGridClick: () => void
   // We accept search as a prop otherwise it loses focus
   SearchInput: React.ReactNode
 }
@@ -24,17 +22,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
       </Button>
     )
   }
-  const GridButton = () => {
-    return (
-      <Button
-        color={props.isGrid ? 'warning' : undefined}
-        onClick={() => props.onGridClick()}
-        title="Toggle grid view"
-      >
-        Grid View
-      </Button>
-    )
-  }
+
   // TODO: we can make HeadingBox (or with Tabs/Help) "sticky" with CSS:
   // https://developer.mozilla.org/en-US/docs/Web/CSS/position
   return (
@@ -44,7 +32,6 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
           <Box sx={{ whiteSpace: 'nowrap' }}>{startCase(props.kind)}s</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />
-            <GridButton />
           </Box>
           {props.SearchInput}
         </Columns>

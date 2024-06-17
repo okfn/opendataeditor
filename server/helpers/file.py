@@ -48,6 +48,12 @@ def write_file(
     return path
 
 
+def get_file_updated_at(project: Project, *, path: str):
+    fs = project.filesystem
+    fullpath = fs.get_fullpath(path)
+    return fullpath.stat().st_mtime
+
+
 def create_file_filter(project: Project) -> Callable[[str], bool]:
     fs = project.filesystem
     fullpath = fs.get_fullpath(".gitignore")

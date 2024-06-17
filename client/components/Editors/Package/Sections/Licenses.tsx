@@ -15,7 +15,6 @@ export default function Licenses() {
 }
 
 function LicenseList() {
-  const isGrid = useStore((state) => state.licenseState.isGrid)
   const query = useStore((state) => state.licenseState.query)
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
@@ -25,9 +24,7 @@ function LicenseList() {
     <EditorList
       kind="license"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addLicense()}
-      onGridClick={() => updateLicenseState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -41,7 +38,6 @@ function LicenseList() {
           kind="license"
           name={license.name}
           type="license"
-          isGrid={isGrid}
           onClick={() => updateLicenseState({ index })}
           onRemoveClick={() => removeLicense(index)}
         />

@@ -25,7 +25,6 @@ export default function Fields() {
 }
 
 function FieldList() {
-  const isGrid = useStore((state) => state.fieldState.isGrid)
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
@@ -35,9 +34,7 @@ function FieldList() {
     <EditorList
       kind="field"
       query={query}
-      isGrid={isGrid}
       onAddClick={() => addField()}
-      onGridClick={() => updateFieldState({ isGrid: !isGrid })}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -51,7 +48,6 @@ function FieldList() {
           kind="field"
           name={field.title || field.name}
           type={field.type}
-          isGrid={isGrid}
           onClick={() => updateFieldState({ index })}
           onRemoveClick={() => removeField(index)}
         />

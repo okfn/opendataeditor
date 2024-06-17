@@ -1,6 +1,7 @@
 import TableEditor from '../../Editors/Table'
 import { useStore } from './store'
 import * as React from 'react'
+import { useKeyPress } from 'ahooks'
 
 export default function Editor() {
   const schema = useStore((state) => state.record?.resource.schema)
@@ -16,12 +17,10 @@ export default function Editor() {
 
   const [cellSelection, setCellSelection] = React.useState({})
 
-  const onKeyDown = React.useCallback(
-    (event: { key: any }) => {
-      if (event.key === 'Delete') deleteMultipleCells(cellSelection)
-    },
-    [cellSelection]
-  )
+  // works automatically, doesnt need to be passed to <TableEditor with onKeyPress
+  useKeyPress(['delete', 'backspace'], () => {
+    deleteMultipleCells(cellSelection)
+  })
 
   if (!schema) return null
   if (!report) return null
@@ -37,7 +36,6 @@ export default function Editor() {
       onEditComplete={saveEditing}
       onEditStop={stopEditing}
       handle={(gridRef) => updateState({ gridRef })}
-      onKeyDown={onKeyDown}
       defaultCellSelection={cellSelection}
       onCellSelectionChange={setCellSelection}
     />

@@ -239,7 +239,7 @@ export class Client {
 
   async projectSync(props: Record<string, never>) {
     const result = await this.request('/project/sync', props)
-    return result as Record<string, never>
+    return result as { files: types.IFile[] }
   }
 
   // Resource

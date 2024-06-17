@@ -29,6 +29,12 @@ def action(project: Project, props: Props) -> Result:
     md = project.metadata
     db = project.database
 
+    # Ensure file exists
+    fullpath = fs.get_fullpath(props.path)
+    if not fullpath.is_file():
+        raise FrictionlessException("file not found")
+    data_updated_at = helpers.get_file_updated_at(project, path=props.path)
+
     # Read current state
     record = helpers.read_record(project, path=props.path)
     report = db.read_artifact(name=record.name, type="report") if record else None
@@ -40,15 +46,17 @@ def action(project: Project, props: Props) -> Result:
     missing_report = not report
     missing_measure = not measure
     missing_table = record and record.type == "table" and table is None
+    is_data_outdated = record and (record.dataUpdatedAt or 0) < data_updated_at
 
     # Ensure indexing
-    if missing_record or missing_report or missing_measure or missing_table:
-        # Ensure file exists
-        fullpath = fs.get_fullpath(props.path)
-        if not fullpath.is_file():
-            raise FrictionlessException("file not found")
-
-        # Index resource
+    if (
+        missing_record
+        or missing_report
+        or missing_measure
+        or missing_table
+        or is_data_outdated
+    ):
+        # Create resource
         path, basepath = fs.get_path_and_basepath(props.path)
         name = helpers.name_record(project, path=path)
         resource_obj = (
@@ -61,7 +69,7 @@ def action(project: Project, props: Props) -> Result:
             )
         )
 
-        # Validate resource
+        # Index/validate resource
         report_obj = helpers.index_resource(
             project, resource=resource_obj, table_name=name
         )
@@ -76,11 +84,10 @@ def action(project: Project, props: Props) -> Result:
                 resource=resource_obj.to_descriptor(),
             )
         record.resource = resource_obj.to_descriptor()
+        record.dataUpdatedAt = data_updated_at
 
         # Create measure
-        measure_obj = models.Measure(
-            errors=report_obj.stats["errors"],
-        )
+        measure_obj = models.Measure(errors=report_obj.stats["errors"])
         measure = measure_obj.model_dump()
 
         # Write document/artifacts

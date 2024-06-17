@@ -16,7 +16,6 @@ const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
 interface ISectionState {
   query?: string
   index?: number
-  isGrid?: boolean
   isExtras?: boolean
 }
 
