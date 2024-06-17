@@ -68,6 +68,8 @@ export default function TableEditor(props: TableEditorProps) {
       rowHeight={rowHeight}
       showColumnMenuLockOptions={false}
       showColumnMenuGroupOptions={false}
+      columnContextMenuConstrainTo={true}
+      columnContextMenuPosition={'fixed'}
       {...others}
     />
   )
