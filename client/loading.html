@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Open Data Editor</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+      <script>
+      window?.opendataeditor.ensureLogs((message) => {
+        if (message == "python") {
+          var element = document.getElementById("python")
+          var loader = document.getElementById("loader")
+          element.classList.toggle('pending')
+          element.removeChild(loader)
+          var next = document.getElementById("requirements")
+          next.appendChild(loader)
+        }
+        if (message == "requirements") {
+          var element = document.getElementById("requirements")
+          var loader = document.getElementById("loader")
+          element.classList.toggle('pending')
+          element.removeChild(loader)
+          var next = document.getElementById("server")
+          next.appendChild(loader)
+        }
+        if (message == "server") {
+          var element = document.getElementById("server")
+          var loader = document.getElementById("loader")
+          element.classList.toggle('pending')
+          element.removeChild(loader)
+        }
+      })
+    </script>
+    <style>
+      li {
+        color: black;
+      }
+      .pending {
+        color: grey;
+      }
+      .loader {
+        border: 5px solid grey;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+      } 
+    </style>
+  </head>
+  <body>
+    <section style="display:grid; place-items: center;">
+      <div>
+        <h1 style="text-align: center;">Open Data Editor is loading</h1>
+        <p style="text-align: center;">The first time launching Open Data Editor needs to ensure requirements are installed.</p>
+        <ul id="logs">
+          <li class="pending" id="python">Ensure python is installed <span id="loader" class="loader"></span></li>
+          <li class="pending" id="requirements">Ensure python dependencies are installed</li>
+          <li class="pending" id="server">Ensure server is running</li>
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>

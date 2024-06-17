@@ -1,16 +1,35 @@
 import { shell, BrowserWindow } from 'electron'
+
 import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
+import log from 'electron-log'
+import * as server from './server'
+import * as python from './python'
+import * as resources from './resources'
+import EventEmitter from 'events'
+
+const loadingEvents = new EventEmitter()
+
 // @ts-ignore
 import icon from './assets/icon.png?asset'
 
-export function createWindow() {
+export async function createWindow() {
   // Create the browser window.
+  var splashWindow = new BrowserWindow({
+    width: 500,
+    height: 500,
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+    autoHideMenuBar: true,
+    ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, 'preload', 'index.js'),
+    },
+  });
+
   const mainWindow = new BrowserWindow({
-    // width: 900,
-    // height: 670,
     show: false,
-    // alwaysOnTop: true,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -18,23 +37,41 @@ export function createWindow() {
     },
   })
 
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.maximize()
-    mainWindow.show()
-  })
-
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
+  loadingEvents.on('finished', () => {
+    splashWindow.close();
+    log.info('Opening index.html')
+    // HMR for renderer base on electron-vite cli.
+    // Load the remote URL for development or the local html file for production.
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+      mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+      mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
+    }
+    mainWindow.maximize()
+    mainWindow.show();
+  })
+
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools()
+  
+  if (!is.dev) {
+    log.info('Opening loading.html')
+    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+    splashWindow.center()
+    log.info('## Start server')
+    await resources.ensurePython()
+    await python.ensurePythonVirtualEnvironment()
+    splashWindow?.webContents.send('ensureLogs', "python")
+    await python.ensurePythonRequirements()
+    splashWindow?.webContents.send('ensureLogs', "requirements")
+    await server.runServer()
+    splashWindow?.webContents.send('ensureLogs', "server")
   }
 
-  return mainWindow
+  loadingEvents.emit('finished')
 }

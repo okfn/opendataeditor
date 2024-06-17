@@ -84,9 +84,7 @@ export function makeStore(props: ApplicationProps) {
 
     onStart: async () => {
       const { client, loadConfig, loadFiles, updateState } = get()
-      updateState({ dialog: 'start' })
 
-      // Wait for the server
       // @ts-ignore
       const sendFatalError = window?.opendataeditor?.sendFatalError
       let ready = false
@@ -101,21 +99,18 @@ export function makeStore(props: ApplicationProps) {
         } catch (error) {
           attempt += 1
           if (attempt >= maxAttempts) {
-            const serverUrl = await client.readServerUrl()
+            const serverUrl = client.serverUrl
             const message = `Client cannot connect to server on "${serverUrl}"`
             sendFatalError ? sendFatalError(message) : alert(message)
           }
           await delay(delaySeconds * 1000)
         }
       }
-
       // Setup project sync polling
       setInterval(async () => {
         const { files } = await client.projectSync({})
         updateState({ files })
       }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
-
-      updateState({ dialog: undefined })
     },
     onFileCreate: async (paths) => {
       const { loadFiles, selectFile } = get()

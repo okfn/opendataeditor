@@ -24,6 +24,7 @@ export default defineConfig({
       outDir: 'build/client',
       rollupOptions: {
         input: {
+          loading: 'client/loading.html',
           index: 'client/index.html',
         },
       },

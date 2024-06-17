@@ -1,29 +1,18 @@
 import omit from 'lodash/omit'
-import * as settings from './settings'
 import * as types from './types'
 
 export class Client {
   serverUrl?: string
 
-  constructor(props: { serverUrl?: string } = {}) {
-    this.serverUrl = props.serverUrl
-  }
-
-  async readServerUrl() {
-    return (
-      this.serverUrl ||
-      // @ts-ignore
-      (await window?.opendataeditor?.readServerUrl()) ||
-      settings.SERVER_URL
-    )
+  constructor() {
+    this.serverUrl = 'http://localhost:4040'
   }
 
   async request(
     path: string,
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
-    const serverUrl = await this.readServerUrl()
-    return makeRequest(serverUrl + path, props)
+    return makeRequest(this.serverUrl + path, props)
   }
 
   // Article

@@ -1,10 +1,7 @@
 import { ipcMain, dialog, app } from 'electron'
 import log from 'electron-log'
 
-export function createBridge({ serverPort }: { serverPort: number }) {
-  ipcMain.handle('readServerUrl', async () => {
-    return `http://localhost:${serverPort}`
-  })
+export function createBridge() {
   ipcMain.handle('sendFatalError', async (_ev, message: string) => {
     log.error(message)
     await dialog.showMessageBox({
