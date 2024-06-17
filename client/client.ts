@@ -3,20 +3,20 @@ import * as settings from './settings'
 import * as types from './types'
 
 // https://fastapi.tiangolo.com/tutorial/handling-errors/
-class Error {
+class RequestError {
   constructor(
-    public code: number,
+    public status: number,
     public detail: string
   ) {}
 }
 
 export class Client {
   serverUrl?: string
-  Error: typeof Error
+  Error: typeof RequestError
 
   constructor(props: { serverUrl?: string } = {}) {
     this.serverUrl = props.serverUrl
-    this.Error = Error
+    this.Error = RequestError
   }
 
   async readServerUrl() {
@@ -33,8 +33,8 @@ export class Client {
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
     const serverUrl = await this.readServerUrl()
-    const response = await makeRequest(serverUrl + path, props)
-    return response as T
+    const response = await makeRequest<T>(serverUrl + path, props)
+    return response
   }
 
   // Article
@@ -341,7 +341,7 @@ export class Client {
 
 // Internal
 
-async function makeRequest(
+async function makeRequest<T>(
   path: string,
   props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
 ) {
@@ -349,6 +349,7 @@ async function makeRequest(
   const method = 'POST'
   let headers = {}
   let body
+
   if (options.file) {
     body = new FormData()
     body.append('file', new Blob([await options.file.arrayBuffer()]), options.file.name)
@@ -360,8 +361,26 @@ async function makeRequest(
     headers = { 'Content-Type': 'application/json;charset=utf-8' }
     body = JSON.stringify(options)
   }
+
   const response = await fetch(path, { method, headers, body })
-  const result = isBytes ? { bytes: await response.arrayBuffer() } : await response.json()
-  // console.log({ path, options, result })
-  return result
+  const status = response.status
+
+  try {
+    if (status === 200) {
+      const data = isBytes
+        ? { bytes: await response.arrayBuffer() }
+        : await response.json()
+      return data as T
+    } else if (status === 400) {
+      const data = await response.json()
+      return new RequestError(status, data.detail)
+    } else {
+      return new RequestError(status, DEFAULT_ERROR_DETAIL)
+    }
+  } catch (error) {
+    const detail = error instanceof Error ? error.toString() : DEFAULT_ERROR_DETAIL
+    return new RequestError(status, detail)
+  }
 }
+
+const DEFAULT_ERROR_DETAIL = 'Unknown error'
