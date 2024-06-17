@@ -2,11 +2,20 @@ import omit from 'lodash/omit'
 import * as settings from './settings'
 import * as types from './types'
 
+class ClientError {
+  constructor(
+    public code: number,
+    public message: string
+  ) {}
+}
+
 export class Client {
   serverUrl?: string
+  Error: typeof ClientError
 
   constructor(props: { serverUrl?: string } = {}) {
     this.serverUrl = props.serverUrl
+    this.Error = ClientError
   }
 
   async readServerUrl() {
