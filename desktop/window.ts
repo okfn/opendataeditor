@@ -6,8 +6,8 @@ import log from 'electron-log'
 import * as server from './server'
 import * as python from './python'
 import * as resources from './resources'
+import EventEmitter from 'events'
 
-const EventEmitter = require('events')
 const loadingEvents = new EventEmitter()
 
 // @ts-ignore
