@@ -23,7 +23,7 @@ export class Client {
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
     return await makeRequest<T>(this.serverUrl + path, props)
-   }
+  }
 
   // Article
 
