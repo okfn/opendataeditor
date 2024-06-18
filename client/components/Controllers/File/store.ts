@@ -15,6 +15,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
+  error?: ClientError
   panel?: 'metadata' | 'report' | 'source'
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   record?: types.IRecord
@@ -50,21 +51,45 @@ export function makeStore(props: FileProps) {
 
     load: async () => {
       const { path, client } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
+
+      const result = await client.fileIndex({ path })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      const { record, report, measure } = result
       set({ record, report, measure, resource: cloneDeep(record.resource) })
+
       if (record.type === 'image') {
-        const { bytes } = await client.fileRead({ path: record.path })
-        set({ byteSource: bytes })
+        const result = await client.fileRead({ path: record.path })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        set({ byteSource: result.bytes })
       } else if (record.type === 'map') {
-        const { text } = await client.textRead({ path: record.path })
-        set({ textSource: text, textSourceOriginal: text })
+        const result = await client.textRead({ path: record.path })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        set({ textSource: result.text, textSourceOriginal: result.text })
       }
     },
     edit: async (prompt) => {
       const { path, client, textSource } = get()
       if (!textSource) return
-      const { text } = await client.textEdit({ path, text: textSource || '', prompt })
-      set({ textSource: text })
+
+      const result = await client.textEdit({ path, text: textSource || '', prompt })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      set({ textSource: result.text })
     },
     saveAs: async (toPath) => {
       const { path, client, resource, onSaveAs } = get()
@@ -73,8 +98,14 @@ export function makeStore(props: FileProps) {
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.filePublish({ path: record!.path, control })
-      return url
+      const result = await client.filePublish({ path: record!.path, control })
+
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return
+      }
+
+      return result.url
     },
     revert: () => {
       const { record, textSourceOriginal } = get()
@@ -84,15 +115,25 @@ export function makeStore(props: FileProps) {
     },
     save: async () => {
       const { path, client, resource, onSave, load, textSource } = get()
+
       if (textSource) {
-        await client.jsonPatch({
+        const result = await client.jsonPatch({
           path,
           data: selectors.isDataUpdated(get()) ? JSON.parse(textSource) : undefined,
           resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
         })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
       } else {
-        await client.filePatch({ path, resource })
+        const result = await client.filePatch({ path, resource })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
       }
+
       onSave()
       load()
     },

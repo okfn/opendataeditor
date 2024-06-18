@@ -86,6 +86,7 @@ export function makeStore(props: ChartProps) {
       if (!modified) return
 
       const result = await client.chartEdit({ path, chart: modified, prompt })
+
       if (result instanceof client.Error) {
         return set({ error: result })
       }
@@ -100,6 +101,7 @@ export function makeStore(props: ChartProps) {
       const { path, client, modified, resource, onSaveAs } = get()
 
       const result = await client.jsonPatch({ path, toPath, data: modified, resource })
+
       if (result instanceof client.Error) {
         return set({ error: result })
       }
@@ -110,6 +112,7 @@ export function makeStore(props: ChartProps) {
       const { record, client } = get()
 
       const result = await client.filePublish({ path: record!.path, control })
+
       if (result instanceof client.Error) {
         set({ error: result })
         return
@@ -142,6 +145,7 @@ export function makeStore(props: ChartProps) {
       if (!modified) return
 
       const result = await client.chartRender({ path, chart: modified })
+
       if (result instanceof client.Error) {
         return set({ error: result })
       }
