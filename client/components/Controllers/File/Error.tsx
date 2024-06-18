@@ -1,4 +1,4 @@
-import BaseError from '../Base/Error'
+import ErrorDialog from '../../Parts/Dialogs/Error'
 import { useStore } from './store'
 
 export default function Error() {
@@ -6,9 +6,9 @@ export default function Error() {
   const error = useStore((state) => state.error)
   if (!error) return null
   return (
-    <BaseError
+    <ErrorDialog
       detail={error.detail}
-      onClose={() => updateState({ dialog: undefined, error: undefined })}
+      onClose={() => updateState({ error: undefined })}
     />
   )
 }

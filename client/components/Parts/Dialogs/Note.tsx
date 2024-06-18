@@ -12,6 +12,7 @@ export interface NoteDialogProps {
   description?: string
   Icon?: React.ElementType
   label?: string
+  color?: 'error'
   maxWidth?: 'md' | 'xl'
   onConfirm?: () => void
   onCancel?: () => void
@@ -55,7 +56,7 @@ export default function NoteDialog(props: NoteDialogProps) {
         <Columns spacing={2}>
           <SimpleButton
             fullWidth
-            color="info"
+            color={props.color || 'info'}
             label={props.label || 'Confirm'}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
