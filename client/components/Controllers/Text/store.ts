@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ITextEditor } from '../../Editors/Text'
 import { TextProps } from './index'
 import { getLanguageByFormat } from '../../../helpers'
@@ -18,6 +18,7 @@ import dirtyJson from 'dirty-json'
 export interface State {
   path: string
   client: Client
+  error?: ClientError
   panel?: 'metadata' | 'report'
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   editorRef: React.RefObject<ITextEditor>

@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ViewProps } from './index'
 import { ITableEditor } from '../../Editors/Table'
 import * as settings from '../../../settings'
@@ -18,6 +18,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
+  error?: ClientError
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   columns?: types.IColumn[]
@@ -28,7 +29,6 @@ export interface State {
   original?: types.IView
   modified?: types.IView
   table?: types.ITable
-  error?: string
   rowCount?: number
   schema?: types.ISchema
   gridRef?: React.MutableRefObject<ITableEditor>

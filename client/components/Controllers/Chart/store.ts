@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ChartProps } from './index'
 import * as types from '../../../types'
 

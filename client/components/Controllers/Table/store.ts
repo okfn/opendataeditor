@@ -8,7 +8,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ITableEditor } from '../../Editors/Table'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
@@ -26,6 +26,8 @@ export interface State {
   onSaveAs: (path: string) => void
   /** Keeps track if we are displaying the full datagrid or only errors. **/
   mode?: 'errors'
+  /** Error object returned by the client **/
+  error?: ClientError
   /** Keeps track of the selected panel **/
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   /** Keeps track of the displayed dialog **/
