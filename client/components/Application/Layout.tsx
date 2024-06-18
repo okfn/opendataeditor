@@ -5,6 +5,7 @@ import Columns from '../Parts/Grids/Columns'
 import Action from './Action'
 import Content from './Content'
 import Dialog from './Dialog'
+import Error from './Error'
 import Header from './Header'
 import Browser from './Browser'
 import Menu from './Menu'
@@ -20,6 +21,7 @@ export default function Layout() {
   }, [])
   return (
     <React.Fragment>
+      <Error />
       <Dialog />
       <Header />
       <Columns layout={[3, 9]}>

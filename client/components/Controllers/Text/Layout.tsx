@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Error from './Error'
 import { ClickAwayListener } from '@mui/base'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -27,6 +28,7 @@ export default function Layout() {
   }, [path])
   return (
     <React.Fragment>
+      <Error />
       <Dialog />
       <ClickAwayListener
         mouseEvent="onMouseDown"

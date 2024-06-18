@@ -1,8 +1,8 @@
-import NoteDialog from '../../Parts/Dialogs/Note'
+import NoteDialog from '../Parts/Dialogs/Note'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
-import { useStore } from '../store'
+import { useStore } from './store'
 
-export default function ErrorDialog() {
+export default function Error() {
   const updateState = useStore((state) => state.updateState)
   const error = useStore((state) => state.error)
   if (!error) return null

@@ -1,7 +1,7 @@
-import NoteDialog from '../../../Parts/Dialogs/Note'
+import NoteDialog from '../../Parts/Dialogs/Note'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
-export default function ErrorDialog(props: { detail: string; onClose: () => void }) {
+export default function Error(props: { detail: string; onClose: () => void }) {
   return (
     <NoteDialog
       open={true}
