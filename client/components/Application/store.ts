@@ -3,7 +3,7 @@ import * as zustand from 'zustand'
 import delay from 'delay'
 import { createStore } from 'zustand/vanilla'
 import { assert } from 'ts-essentials'
-import { Client } from '../../client'
+import { Client, ClientError } from '../../client'
 import { ApplicationProps } from './index'
 import { IDialog } from './types'
 import * as settings from '../../settings'
@@ -18,6 +18,7 @@ export interface State {
   measure?: types.IMeasure
   files: types.IFile[]
   fileEvent?: types.IFileEvent
+  error?: ClientError
   dialog?: IDialog
   loading?: boolean
   indexing?: boolean

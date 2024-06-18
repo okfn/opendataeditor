@@ -3,7 +3,7 @@ import * as settings from './settings'
 import * as types from './types'
 
 // https://fastapi.tiangolo.com/tutorial/handling-errors/
-class RequestError {
+export class ClientError {
   constructor(
     public status: number,
     public detail: string
@@ -12,11 +12,11 @@ class RequestError {
 
 export class Client {
   serverUrl?: string
-  Error: typeof RequestError
+  Error: typeof ClientError
 
   constructor(props: { serverUrl?: string } = {}) {
     this.serverUrl = props.serverUrl
-    this.Error = RequestError
+    this.Error = ClientError
   }
 
   async readServerUrl() {
@@ -373,13 +373,13 @@ async function makeRequest<T>(
       return data as T
     } else if (status === 400) {
       const data = await response.json()
-      return new RequestError(status, data.detail)
+      return new ClientError(status, data.detail)
     } else {
-      return new RequestError(status, DEFAULT_ERROR_DETAIL)
+      return new ClientError(status, DEFAULT_ERROR_DETAIL)
     }
   } catch (error) {
     const detail = error instanceof Error ? error.toString() : DEFAULT_ERROR_DETAIL
-    return new RequestError(status, detail)
+    return new ClientError(status, detail)
   }
 }
 
