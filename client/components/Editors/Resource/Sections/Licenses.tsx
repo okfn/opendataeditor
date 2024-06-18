@@ -5,7 +5,6 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
-import EditorSearch from '../../Base/Search'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 
@@ -21,17 +20,7 @@ function LicenseList() {
   const addLicense = useStore((state) => state.addLicense)
   const removeLicense = useStore((state) => state.removeLicense)
   return (
-    <EditorList
-      kind="license"
-      query={query}
-      onAddClick={() => addLicense()}
-      SearchInput={
-        <EditorSearch
-          value={query || ''}
-          onChange={(query) => updateLicenseState({ query })}
-        />
-      }
-    >
+    <EditorList kind="license" query={query} onAddClick={() => addLicense()}>
       {licenseItems.map(({ index, license }) => (
         <EditorListItem
           key={index}

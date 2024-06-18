@@ -1,15 +1,10 @@
 import { app, dialog, BrowserWindow } from 'electron'
-import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { electronApp, optimizer } from '@electron-toolkit/utils'  
 import { createWindow } from './window'
 import { createBridge } from './bridge'
-import { is } from '@electron-toolkit/utils'
 import { join } from 'path'
 import log from 'electron-log'
-import * as system from './system'
-import * as server from './server'
-import * as python from './python'
 import * as settings from './settings'
-import * as resources from './resources'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -17,19 +12,10 @@ import * as resources from './resources'
 app.whenReady().then(async () => {
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
-  const serverPort = await system.findPort()
 
   log.info('## Start client')
-  createBridge({ serverPort })
-  createWindow()
-
-  if (!is.dev) {
-    log.info('## Start server')
-    await resources.ensureRunner()
-    await python.ensurePython()
-    await python.ensureLibraries()
-    await server.runServer({ serverPort })
-  }
+  createBridge()
+  await createWindow()
 })
 
 // Default open or close DevTools by F12 in development

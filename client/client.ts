@@ -1,5 +1,4 @@
 import omit from 'lodash/omit'
-import * as settings from './settings'
 import * as types from './types'
 
 // https://fastapi.tiangolo.com/tutorial/handling-errors/
@@ -14,28 +13,17 @@ export class Client {
   serverUrl?: string
   Error: typeof ClientError
 
-  constructor(props: { serverUrl?: string } = {}) {
-    this.serverUrl = props.serverUrl
+  constructor() {
+    this.serverUrl = 'http://localhost:4040'
     this.Error = ClientError
-  }
-
-  async readServerUrl() {
-    return (
-      this.serverUrl ||
-      // @ts-ignore
-      (await window?.opendataeditor?.readServerUrl()) ||
-      settings.SERVER_URL
-    )
   }
 
   async request<T>(
     path: string,
     props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
   ) {
-    const serverUrl = await this.readServerUrl()
-    const response = await makeRequest<T>(serverUrl + path, props)
-    return response
-  }
+    return await makeRequest<T>(this.serverUrl + path, props)
+   }
 
   // Article
 
