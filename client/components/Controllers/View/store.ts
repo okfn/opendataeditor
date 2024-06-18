@@ -60,11 +60,30 @@ export function makeStore(props: ViewProps) {
 
     load: async () => {
       const { path, client } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
-      const { data } = await client.jsonRead({ path: record.path })
-      const { columns } = await client.columnList()
-      const { tableSchema } = await client.viewInfer({ path })
-      const rowCount = tableSchema ? (await client.tableCount({ path })).count : undefined
+
+      const indexResult = await client.fileIndex({ path })
+      if (indexResult instanceof client.Error) return set({ error: indexResult })
+      const { record, report, measure } = indexResult
+
+      const readResult = await client.jsonRead({ path: record.path })
+      if (readResult instanceof client.Error) return set({ error: readResult })
+      const { data } = readResult
+
+      const listResult = await client.columnList()
+      if (listResult instanceof client.Error) return set({ error: listResult })
+      const { columns } = listResult
+
+      const inferResult = await client.viewInfer({ path })
+      if (inferResult instanceof client.Error) return set({ error: inferResult })
+      const { tableSchema } = inferResult
+
+      let rowCount: number | undefined
+      if (tableSchema) {
+        const result = await client.tableCount({ path })
+        if (result instanceof client.Error) return set({ error: result })
+        rowCount = result.count
+      }
+
       set({
         record,
         report,
@@ -80,18 +99,34 @@ export function makeStore(props: ViewProps) {
     edit: async (prompt) => {
       const { path, client, modified } = get()
       if (!modified) return
-      const { data } = await client.viewEdit({ path, data: modified, prompt })
-      set({ modified: data })
+      const result = await client.viewEdit({ path, data: modified, prompt })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      set({ modified: result.data })
     },
     saveAs: async (toPath) => {
       const { path, client, resource, modified, onSaveAs } = get()
-      await client.viewPatch({ path, toPath, data: modified, resource })
+      const result = await client.viewPatch({ path, toPath, data: modified, resource })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSaveAs(toPath)
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.filePublish({ path: record!.path, control })
-      return url
+      const result = await client.filePublish({ path: record!.path, control })
+
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return
+      }
+
+      return result.url
     },
     revert: () => {
       const { record, original } = get()
@@ -105,11 +140,16 @@ export function makeStore(props: ViewProps) {
       const { path, client, resource, modified, onSave, load, gridRef } = get()
       const grid = gridRef?.current
 
-      await client.viewPatch({
+      const result = await client.viewPatch({
         path,
         data: selectors.isDataUpdated(get()) ? modified : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       await load()
       if (grid) grid.reload()
@@ -125,7 +165,8 @@ export function makeStore(props: ViewProps) {
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount } = get()
-      const { rows } = await client.tableRead({
+
+      const result = await client.tableRead({
         path,
         limit,
         offset: skip,
@@ -133,6 +174,12 @@ export function makeStore(props: ViewProps) {
         desc: sortInfo?.dir === -1,
       })
 
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return { data: [], count: 0 }
+      }
+
+      const { rows } = result
       rows.forEach((row, index) => (row._rowNumber = skip + index + 1))
       return { data: rows, count: rowCount || 0 }
     },

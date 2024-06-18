@@ -263,6 +263,7 @@ export function makeStore(props: ApplicationProps) {
 
       set({ path: undefined })
       closeFile()
+
       await loadFiles()
       await selectFile(path)
     },
