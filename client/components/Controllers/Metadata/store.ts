@@ -16,6 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
+  error?: ClientError
   panel?: 'report' | 'source'
   dialog?: 'publish' | 'saveAs' | 'resource' | 'chat' | 'leave'
   record?: types.IRecord
@@ -54,15 +55,27 @@ export function makeStore(props: MetadataProps) {
 
     load: async () => {
       const { path, client } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
-      const { data } = await client.jsonRead({ path: record.path })
+
+      const indexResult = await client.fileIndex({ path })
+      if (indexResult instanceof client.Error) return set({ error: indexResult })
+      const { record, report, measure } = indexResult
+
+      const readResult = await client.jsonRead({ path: record.path })
+      if (readResult instanceof client.Error) return set({ error: readResult })
+      const { data } = readResult
+
       set({ record, report, measure, modified: cloneDeep(data), original: data })
     },
     edit: async (prompt) => {
       const { path, client, modified, updateState } = get()
       if (!modified) return
-      const { data } = await client.jsonEdit({ path, data: modified, prompt })
-      updateState({ modified: data })
+      const result = await client.jsonEdit({ path, data: modified, prompt })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      updateState({ modified: result.data })
     },
     clear: () => {
       const { record, updateState } = get()
@@ -73,17 +86,34 @@ export function makeStore(props: MetadataProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, modified, onSaveAs } = get()
-      await client.jsonPatch({ path, toPath, data: modified })
+      const result = await client.jsonPatch({ path, toPath, data: modified })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSaveAs(toPath)
     },
     publish: async (control) => {
       const { record, client } = get()
       if (record!.type === 'package') {
-        const { url } = await client.packagePublish({ path: record!.path, control })
-        return url
+        const result = await client.packagePublish({ path: record!.path, control })
+
+        if (result instanceof client.Error) {
+          set({ error: result })
+          return
+        }
+
+        return result.url
       } else {
-        const { url } = await client.filePublish({ path: record!.path, control })
-        return url
+        const result = await client.filePublish({ path: record!.path, control })
+
+        if (result instanceof client.Error) {
+          set({ error: result })
+          return
+        }
+
+        return result.url
       }
     },
     revert: () => {
@@ -92,7 +122,12 @@ export function makeStore(props: MetadataProps) {
     },
     save: async () => {
       const { path, client, modified, onSave, load } = get()
-      await client.jsonPatch({ path, data: modified })
+      const result = await client.jsonPatch({ path, data: modified })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       load()
     },
@@ -109,8 +144,13 @@ export function makeStore(props: MetadataProps) {
       if (!modified || record?.type !== 'package') return
       const dpackage = modified as types.IPackage
       for (const path of paths) {
-        const { record } = await client.fileIndex({ path })
-        dpackage.resources.push(record.resource)
+        const result = await client.fileIndex({ path })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        dpackage.resources.push(result.record.resource)
       }
       updateState({ modified: { ...dpackage } })
     },
