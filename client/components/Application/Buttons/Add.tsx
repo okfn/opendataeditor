@@ -10,11 +10,13 @@ import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
 import { useStore } from '../store'
 
 export default function AddButton() {
+  const fileEvent = useStore((state) => state.fileEvent)
   return (
     <DropdownButton
       label="Add"
       variant="text"
       icon={<AddBoxIcon fontSize="small" sx={{ mr: 1 }} />}
+      complete={fileEvent ? false : true}
     >
       <AddLocalFileButton />
       <AddRemoteFileButton />
