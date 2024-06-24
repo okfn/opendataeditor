@@ -1,21 +1,24 @@
 from __future__ import annotations
 
+from typing import Any
+
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.cors import CORSMiddleware
 
 from .config import Config
 from .project import Project
 from .router import router
 
-# TODO: handle errors
+# TODO: refactor
 # TODO: rebase on async endpoints
 # TODO: review endpoints to use proper imports (use platform)
 
 
 class Server(FastAPI):
     config: Config
+    asgi_app: Any
 
     @staticmethod
     def create(config: Config):
@@ -25,8 +28,9 @@ class Server(FastAPI):
         )
 
         # TODO: review
-        server.add_middleware(
-            CORSMiddleware,
+        # https://github.com/tiangolo/fastapi/discussions/8027
+        server.asgi_app = CORSMiddleware(
+            app=server,
             allow_origins=["*"],
             allow_credentials=True,
             allow_methods=["*"],
@@ -49,7 +53,7 @@ class Server(FastAPI):
     def run(self):
         log_level = "debug" if self.config.debug else None
         uvicorn.run(  # type: ignore
-            self,
+            self.asgi_app,
             workers=1,
             port=self.config.port,
             log_level=log_level,

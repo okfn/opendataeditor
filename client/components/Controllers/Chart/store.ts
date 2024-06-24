@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ChartProps } from './index'
 import * as types from '../../../types'
 
@@ -16,6 +16,7 @@ export interface State {
   client: Client
   onSave: () => void
   onSaveAs: (path: string) => void
+  error?: ClientError
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   panel?: 'editor' | 'metadata' | 'report' | 'source'
   record?: types.IRecord
@@ -55,9 +56,19 @@ export function makeStore(props: ChartProps) {
     },
     load: async () => {
       const { path, client, render } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
-      const { columns } = await client.columnList()
-      const { data } = await client.jsonRead({ path: record.path })
+
+      const indexResult = await client.fileIndex({ path })
+      if (indexResult instanceof client.Error) return set({ error: indexResult })
+      const { record, report, measure } = indexResult
+
+      const listResult = await client.columnList()
+      if (listResult instanceof client.Error) return set({ error: listResult })
+      const { columns } = listResult
+
+      const readResult = await client.jsonRead({ path: record.path })
+      if (readResult instanceof client.Error) return set({ error: readResult })
+      const { data } = readResult
+
       set({
         record,
         report,
@@ -67,13 +78,20 @@ export function makeStore(props: ChartProps) {
         original: data,
         columns,
       })
+
       render()
     },
     edit: async (prompt) => {
       const { path, client, modified, updateState } = get()
       if (!modified) return
-      const { chart } = await client.chartEdit({ path, chart: modified, prompt })
-      updateState({ modified: chart })
+
+      const result = await client.chartEdit({ path, chart: modified, prompt })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      updateState({ modified: result.chart })
     },
     clear: () => {
       const { updateState } = get()
@@ -81,13 +99,26 @@ export function makeStore(props: ChartProps) {
     },
     saveAs: async (toPath) => {
       const { path, client, modified, resource, onSaveAs } = get()
-      await client.jsonPatch({ path, toPath, data: modified, resource })
+
+      const result = await client.jsonPatch({ path, toPath, data: modified, resource })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSaveAs(toPath)
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.filePublish({ path: record!.path, control })
-      return url
+
+      const result = await client.filePublish({ path: record!.path, control })
+
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return
+      }
+
+      return result.url
     },
     revert: () => {
       const { original, updateState } = get()
@@ -95,19 +126,31 @@ export function makeStore(props: ChartProps) {
     },
     save: async () => {
       const { path, client, modified, resource, onSave, load } = get()
-      await client.jsonPatch({
+
+      const result = await client.jsonPatch({
         path,
         data: selectors.isDataUpdated(get()) ? modified : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       load()
     },
     render: throttle(async () => {
       const { path, client, modified } = get()
       if (!modified) return
-      const { chart } = await client.chartRender({ path, chart: modified })
-      set({ rendered: chart })
+
+      const result = await client.chartRender({ path, chart: modified })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      set({ rendered: result.chart })
     }, 1000),
     onClickAway: () => {
       const { dialog, updateState } = get()

@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ITextEditor } from '../../Editors/Text'
 import { TextProps } from './index'
 import { getLanguageByFormat } from '../../../helpers'
@@ -18,6 +18,7 @@ import dirtyJson from 'dirty-json'
 export interface State {
   path: string
   client: Client
+  error?: ClientError
   panel?: 'metadata' | 'report'
   dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   editorRef: React.RefObject<ITextEditor>
@@ -101,8 +102,15 @@ export function makeStore(props: TextProps) {
 
     load: async () => {
       const { path, client, render } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
-      const { text } = await client.textRead({ path: record.path })
+
+      const indexResult = await client.fileIndex({ path })
+      if (indexResult instanceof client.Error) return set({ error: indexResult })
+      const { record, report, measure } = indexResult
+
+      const readResult = await client.textRead({ path: record.path })
+      if (readResult instanceof client.Error) return set({ error: readResult })
+      const { text } = readResult
+
       set({
         record,
         report,
@@ -115,13 +123,28 @@ export function makeStore(props: TextProps) {
     },
     edit: async (prompt) => {
       const { path, client, modifiedText, editorRef } = get()
-      const { text } = await client.textEdit({ path, text: modifiedText || '', prompt })
+      const result = await client.textEdit({ path, text: modifiedText || '', prompt })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       if (!editorRef.current) return
-      editorRef.current.setValue(text)
+      editorRef.current.setValue(result.text)
     },
     saveAs: async (toPath) => {
       const { path, client, modifiedText, resource, onSaveAs } = get()
-      await client.textPatch({ path, toPath, text: modifiedText, resource })
+      const result = await client.textPatch({
+        path,
+        toPath,
+        text: modifiedText,
+        resource,
+      })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSaveAs(toPath)
     },
     publish: async (control) => {
@@ -131,8 +154,14 @@ export function makeStore(props: TextProps) {
         record.type === 'article'
           ? client.articlePublish.bind(client)
           : client.filePublish.bind(client)
-      const { url } = await action({ path: record.path, control })
-      return url
+      const result = await action({ path: record.path, control })
+
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return
+      }
+
+      return result.url
     },
     revert: () => {
       const { record, originalText, updateState, editorRef } = get()
@@ -143,11 +172,16 @@ export function makeStore(props: TextProps) {
     },
     save: async () => {
       const { path, client, modifiedText, resource, onSave, load } = get()
-      await client.textPatch({
+      const result = await client.textPatch({
         path,
         text: selectors.isDataUpdated(get()) ? modifiedText : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       load()
     },
@@ -201,11 +235,16 @@ export function makeStore(props: TextProps) {
       if (!record) return
       if (!modifiedText) return
       if (record.type === 'article') {
-        const { text } = await client.articleRender({
+        const result = await client.articleRender({
           path: record.path,
           text: modifiedText,
         })
-        set({ outputedText: text })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        set({ outputedText: result.text })
       }
     }, 1000),
 
@@ -215,11 +254,16 @@ export function makeStore(props: TextProps) {
       const { record, client, modifiedText } = get()
       if (!record) return
       if (!modifiedText) return
-      const { text } = await client.scriptExecute({
+      const result = await client.scriptExecute({
         path: record.path,
         text: modifiedText,
       })
-      set({ outputedText: text })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      set({ outputedText: result.text })
     },
   }))
 }

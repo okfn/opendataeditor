@@ -20,13 +20,18 @@ export default function Resource() {
     addResources(paths)
   }
   React.useEffect(() => {
-    client.fileList().then(({ files }) => {
+    client.fileList().then((result) => {
+      if (result instanceof client.Error) {
+        return updateState({ error: result })
+      }
+
       const paths = []
-      for (const file of files) {
+      for (const file of result.files) {
         if (existentPaths.includes(file.path)) continue
         if (file.type === 'package') continue
         paths.push(file.path)
       }
+
       setPaths(paths)
     })
   }, [record])

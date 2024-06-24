@@ -8,7 +8,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client } from '../../../client'
+import { Client, ClientError } from '../../../client'
 import { ITableEditor } from '../../Editors/Table'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
@@ -26,6 +26,8 @@ export interface State {
   onSaveAs: (path: string) => void
   /** Keeps track if we are displaying the full datagrid or only errors. **/
   mode?: 'errors'
+  /** Error object returned by the client **/
+  error?: ClientError
   /** Keeps track of the selected panel **/
   panel?: 'metadata' | 'report' | 'changes' | 'source'
   /** Keeps track of the displayed dialog **/
@@ -98,8 +100,15 @@ export function makeStore(props: TableProps) {
 
     load: async () => {
       const { path, client, clearHistory } = get()
-      const { record, report, measure } = await client.fileIndex({ path })
-      const { count } = await client.tableCount({ path })
+
+      const indexResult = await client.fileIndex({ path })
+      if (indexResult instanceof client.Error) return set({ error: indexResult })
+      const { record, report, measure } = indexResult
+
+      const countResult = await client.tableCount({ path })
+      if (countResult instanceof client.Error) return set({ error: countResult })
+      const { count } = countResult
+
       set({
         record,
         report,
@@ -113,11 +122,13 @@ export function makeStore(props: TableProps) {
       const { path, record, client } = get()
       if (!record) return
       if (!settings.TEXT_TABLE_FORMATS.includes(record.resource.format || '')) return
-      const { text } = await client.textRead({
-        path,
-        size: settings.MAX_TABLE_SOURCE_SIZE,
-      })
-      set({ source: text })
+      const result = await client.textRead({ path, size: settings.MAX_TABLE_SOURCE_SIZE })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
+      set({ source: result.text })
     },
     edit: async (prompt) => {
       const { path, client, source, onSave, load, loadSource, gridRef } = get()
@@ -130,20 +141,35 @@ export function makeStore(props: TableProps) {
         text = get().source || ''
       }
 
-      await client.tableEdit({ path, text, prompt })
+      const result = await client.tableEdit({ path, text, prompt })
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       await load()
       grid.reload()
     },
     saveAs: async (toPath) => {
       const { path, client, history, resource, onSaveAs } = get()
-      await client.tablePatch({ path, toPath, history, resource })
+      const result = await client.tablePatch({ path, toPath, history, resource })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSaveAs(toPath)
     },
     publish: async (control) => {
       const { record, client } = get()
-      const { url } = await client.filePublish({ path: record!.path, control })
-      return url
+      const result = await client.filePublish({ path: record!.path, control })
+
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return
+      }
+
+      return result.url
     },
     revert: () => {
       const { record, gridRef, clearHistory } = get()
@@ -161,18 +187,24 @@ export function makeStore(props: TableProps) {
       const grid = gridRef?.current
       if (!grid) return
 
-      await client.tablePatch({
+      const result = await client.tablePatch({
         path,
         history: selectors.isDataUpdated(get()) ? history : undefined,
         resource: selectors.isMetadataUpdated(get()) ? resource : undefined,
       })
+
+      if (result instanceof client.Error) {
+        return set({ error: result })
+      }
+
       onSave()
       await load()
       grid.reload()
     },
     loader: async ({ skip, limit, sortInfo }) => {
       const { path, client, rowCount, mode, history } = get()
-      const { rows } = await client.tableRead({
+
+      const result = await client.tableRead({
         path,
         valid: mode === 'errors' ? false : undefined,
         limit,
@@ -181,10 +213,15 @@ export function makeStore(props: TableProps) {
         desc: sortInfo?.dir === -1,
       })
 
+      if (result instanceof client.Error) {
+        set({ error: result })
+        return { data: [], count: 0 }
+      }
+
       // convert null fields in db to empty strings to avoid errors
       // in table representation. InovuaDataGrid complains with null values
       const rowsNotNull = []
-      for (const row of rows) {
+      for (const row of result.rows) {
         rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
       }
 
@@ -198,11 +235,21 @@ export function makeStore(props: TableProps) {
 
       // Update mode/rowCount
       if (mode === 'errors') {
-        const { count } = await client.tableCount({ path })
-        set({ mode: undefined, rowCount: count })
+        const result = await client.tableCount({ path })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        set({ mode: undefined, rowCount: result.count })
       } else {
-        const { count } = await client.tableCount({ path, valid: false })
-        set({ mode: 'errors', rowCount: count })
+        const result = await client.tableCount({ path, valid: false })
+
+        if (result instanceof client.Error) {
+          return set({ error: result })
+        }
+
+        set({ mode: 'errors', rowCount: result.count })
       }
 
       if (grid.setSkip) grid.setSkip(0)
