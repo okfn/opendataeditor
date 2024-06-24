@@ -33,7 +33,7 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 🔵 [Technical Architecture](https://opendataeditor.okfn.org/contributing/architecture/)
 
-🔵 For all contrinutions: [Code of conduct](https://frictionlessdata.io/code-of-conduct/) 
+🔵 For all contributions: [Code of conduct](https://frictionlessdata.io/code-of-conduct/) 
 
 # How to download the ODE
 
