@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as unzipper from 'unzipper';
 import * as settings from './settings';
+import log from 'electron-log';
 import { spawn, ChildProcess } from 'child_process';
 
 let fastAPIServer: ChildProcess | null = null;
@@ -20,11 +21,11 @@ export async function unzipEnvironment(): Promise<void> {
         fs.createReadStream(zipFilePath)
             .pipe(unzipper.Extract({ path: outputDir }))
             .on('close', () => {
-                console.log('Unzipped the virtual environment successfully.');
+                log.info('Unzipped the virtual environment successfully.');
                 resolve();
             })
             .on('error', (err) => {
-                console.error('Failed to unzip the virtual environment:', err);
+                log.error('Failed to unzip the virtual environment:', err);
                 reject(err);
             });
     });
@@ -47,16 +48,16 @@ export async function activateEnvAndRunFastAPI(): Promise<void> {
         fastAPIServer = spawn(shell, ['-c', command], { cwd: venvPath });
 
         fastAPIServer.stdout.on('data', (data) => {
-            console.log(`FastAPI stdout: ${data}`);
+            log.info(`FastAPI stdout: ${data}`);
         });
 
         fastAPIServer.stderr.on('data', (data) => {
-            console.error(`FastAPI stderr: ${data}`);
+            log.error(`FastAPI stderr: ${data}`);
         });
 
         fastAPIServer.on('close', (code) => {
             if (code !== 0) {
-                console.error(`FastAPI server exited with code ${code}`);
+                log.error(`FastAPI server exited with code ${code}`);
                 reject(new Error(`FastAPI server exited with code ${code}`));
             } else {
                 resolve();
@@ -71,6 +72,6 @@ export function stopFastAPIServer(): void {
     if (fastAPIServer) {
         fastAPIServer.kill();
         fastAPIServer = null;
-        console.log('FastAPI server stopped.');
+        log.info('FastAPI server stopped.');
     }
 }
