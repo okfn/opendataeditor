@@ -5,7 +5,7 @@ export const WIN = process.platform === 'win32'
 export const HOME = os.homedir()
 
 export const DIST = process.resourcesPath
-export const DIST_PYTHON_VENV = join(DIST, 'runner/pythonvenv.zip')
+export const DIST_PYTHON_VENV = join(DIST, 'python/pythonvenv.zip')
 export const DIST_SERVER = join(DIST, 'server')
 
 export const APP_NAME = 'opendataeditor'
