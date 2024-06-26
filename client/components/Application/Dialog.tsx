@@ -5,8 +5,7 @@ import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateDialog from './Dialogs/Create'
-import DeleteFileDialog from './Dialogs/DeleteFile'
-import DeleteFolderDialog from './Dialogs/DeleteFolder'
+import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
 import IndexFilesDialog from './Dialogs/IndexFiles'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
@@ -29,8 +28,7 @@ const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
   create: CreateDialog,
-  deleteFile: DeleteFileDialog,
-  deleteFolder: DeleteFolderDialog,
+  deleteFilesFolders: DeleteFilesFoldersDialog,
   indexFiles: IndexFilesDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
