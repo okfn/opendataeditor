@@ -2,7 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as unzipper from 'unzipper';
 import * as settings from './settings';
-import {exec} from 'child_process';
+import { spawn, ChildProcess } from 'child_process';
+
+let fastAPIServer: ChildProcess | null = null;
 
 export async function unzipEnvironment(): Promise<void> {
     const zipFilePath = settings.DIST_PYTHON_VENV
@@ -32,26 +34,43 @@ export async function activateEnvAndRunFastAPI(): Promise<void> {
     const venvPath = settings.APP_PYTHON_VENV
     const isWindows = process.platform === 'win32';
     const activateScript = isWindows 
-        ? path.join(venvPath, 'Scripts', 'activate') 
+        ? path.join(venvPath, 'Scripts', 'activate.bat')
         : path.join(venvPath, 'bin', 'activate');
 
     return new Promise((resolve, reject) => {
         const command = isWindows
-            ? `cmd.exe /c "${activateScript} && python -m server ${settings.APP_TMP} --port 4040"`
-            : `bash -c "source ${activateScript} && python -m server ${settings.APP_TMP} --port 4040"`;
+            ? `${activateScript} && python -m server ${settings.APP_TMP} --port 4040`
+            : `source ${activateScript} && python -m server ${settings.APP_TMP} --port 4040`;
 
-        exec(command, { cwd: venvPath }, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error running FastAPI server: ${error.message}`);
-                reject(error);
-                return;
-            }
-            if (stderr) {
-                console.error(`stderr: ${stderr}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-            resolve();
+        const shell = isWindows ? 'cmd.exe' : 'bash';
+
+        fastAPIServer = spawn(shell, ['-c', command], { cwd: venvPath });
+
+        fastAPIServer.stdout.on('data', (data) => {
+            console.log(`FastAPI stdout: ${data}`);
         });
+
+        fastAPIServer.stderr.on('data', (data) => {
+            console.error(`FastAPI stderr: ${data}`);
+        });
+
+        fastAPIServer.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`FastAPI server exited with code ${code}`);
+                reject(new Error(`FastAPI server exited with code ${code}`));
+            } else {
+                resolve();
+            }
+        });
+
+        resolve();
     });
+}
+
+export function stopFastAPIServer(): void {
+    if (fastAPIServer) {
+        fastAPIServer.kill();
+        fastAPIServer = null;
+        console.log('FastAPI server stopped.');
+    }
 }

@@ -5,6 +5,7 @@ import { createBridge } from './bridge'
 import { join } from 'path'
 import log from 'electron-log'
 import * as settings from './settings'
+import {stopFastAPIServer} from './backend'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -36,6 +37,7 @@ app.on('activate', function () {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    stopFastAPIServer()
     app.quit()
   }
 })
@@ -50,8 +52,13 @@ process.on('unhandledRejection', async (error: any) => {
     message: 'Fatal error',
     detail: error.toString(),
   })
+  stopFasttAPIServer()
   app.quit()
 })
+
+app.on('before-quit', () => {
+    stopFastAPIServer();
+});
 
 // Configure logger to write to the app directory
 log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
