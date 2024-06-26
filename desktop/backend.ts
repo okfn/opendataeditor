@@ -28,7 +28,7 @@ export async function unzipEnvironment(): Promise<void> {
     });
 }
 
-export async function activateAndRunFastAPI(): Promise<void> {
+export async function activateEnvAndRunFastAPI(): Promise<void> {
     const venvPath = settings.APP_PYTHON_VENV
     const isWindows = process.platform === 'win32';
     const activateScript = isWindows 

@@ -3,12 +3,9 @@ import { shell, BrowserWindow } from 'electron'
 import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
-import * as server from './server'
 import EventEmitter from 'events'
-const path = require('path');
-const { execFile } = require('child_process');
 const loadingEvents = new EventEmitter()
-import { unzipEnvironment, activateAndRunFastAPI } from './resources';
+import { unzipEnvironment, activateEnvAndRunFastAPI } from './backend';
 
 // @ts-ignore
 import icon from './assets/icon.png?asset'
