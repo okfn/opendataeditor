@@ -1,9 +1,6 @@
 import os
 import shutil
-import sys
-import tarfile
-
-import fsspec
+import zipfile
 
 
 def build_assets():
@@ -17,34 +14,29 @@ def build_assets():
     print(f"[assets] Copied '{source}' to '{target}'")
 
 
-def build_runner():
-    cache = ".cache"
-    target = "build/runner"
+def build_python():
+    # Define the source and destination paths
+    source_folder = os.path.expanduser('.python/opendataeditor')
+    build_runner_folder = 'build/runner'
+    zip_filename = 'pythonvenv'
+    zip_filepath = os.path.join(build_runner_folder, zip_filename + '.zip')
 
-    os.makedirs(cache, exist_ok=True)
-    shutil.rmtree(target, ignore_errors=True)
+    # Ensure the build/runner folder exists
+    os.makedirs(build_runner_folder, exist_ok=True)
 
-    datemark = "20230826"
-    basepath = "https://github.com/indygreg/python-build-standalone/releases/download"
-    filetype = "x86_64-unknown-linux-gnu-install_only"
-    if sys.platform == "darwin":
-        filetype = "x86_64-apple-darwin-install_only"
-    if sys.platform == "win32":
-        filetype = "x86_64-pc-windows-msvc-shared-install_only"
-    filename = f"cpython-3.10.13+{datemark}-{filetype}.tar.gz"
+    # Create a zip file with
+    with zipfile.ZipFile(zip_filepath, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(source_folder):
+            for file in files:
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, start=source_folder)
+                zipf.write(file_path, arcname=arcname)
 
-    if not os.path.exists(f"{cache}/{filename}"):
-        local = fsspec.filesystem("file")
-        remote = fsspec.filesystem("http")
-        with local.open(f"{cache}/{filename}", "wb") as file_to:
-            with remote.open(f"{basepath}/{datemark}/{filename}", "rb") as file_from:
-                file_to.write(file_from.read())
-
-    with tarfile.open(f"{cache}/{filename}", "r:gz") as tar:
-        tar.extractall(cache)
-        shutil.move(f"{cache}/python", target)
-
-    print(f"[runner] Copied 'runner' to '{target}'")
+    # Verify if the zip file was created successfully
+    if os.path.isfile(zip_filepath):
+        print(f'Successfully zipped and copied to {zip_filepath}')
+    else:
+        print('Failed to zip the source folder.')
 
 
 def build_server():
@@ -59,5 +51,5 @@ def build_server():
 
 if __name__ == "__main__":
     build_assets()
-    build_runner()
+    build_python()
     build_server()

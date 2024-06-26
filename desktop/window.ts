@@ -4,11 +4,11 @@ import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
-import * as python from './python'
-import * as resources from './resources'
 import EventEmitter from 'events'
-
+const path = require('path');
+const { execFile } = require('child_process');
 const loadingEvents = new EventEmitter()
+import { unzipEnvironment, activateAndRunFastAPI } from './resources';
 
 // @ts-ignore
 import icon from './assets/icon.png?asset'
@@ -63,13 +63,13 @@ export async function createWindow() {
     log.info('Opening loading.html')
     splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
     splashWindow.center()
-    log.info('## Start server')
-    await resources.ensurePython()
-    await python.ensurePythonVirtualEnvironment()
-    splashWindow?.webContents.send('ensureLogs', "python")
-    await python.ensurePythonRequirements()
-    splashWindow?.webContents.send('ensureLogs', "requirements")
-    await server.runServer()
+    // Run the unzipping function on startup
+    unzipEnvironment().then(() => {
+        log.info('Environment setup completed.');
+        return activateAndRunFastAPI();
+    }).catch((error) => {
+        log.info(`Error during environment setup: ${error.message}`);
+    });
     splashWindow?.webContents.send('ensureLogs', "server")
   }
 

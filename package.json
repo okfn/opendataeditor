@@ -40,7 +40,8 @@
     "@electron-toolkit/utils": "2.0.1",
     "electron-log": "4.4.8",
     "portfinder": "1.0.32",
-    "toml": "3.0.0"
+    "toml": "3.0.0",
+    "unzipper": "^0.12.1"
   },
   "devDependencies": {
     "@emotion/react": "11.11.1",
