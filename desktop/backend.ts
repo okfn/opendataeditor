@@ -3,9 +3,7 @@ import * as path from 'path';
 import * as unzipper from 'unzipper';
 import * as settings from './settings';
 import log from 'electron-log';
-import { spawn, ChildProcess } from 'child_process';
-
-let fastAPIServer: ChildProcess | null = null;
+import { spawn } from 'child_process';
 
 export async function unzipEnvironment(): Promise<void> {
     const zipFilePath = settings.DIST_PYTHON_VENV
@@ -45,7 +43,7 @@ export async function activateEnvAndRunFastAPI(): Promise<void> {
 
         const shell = isWindows ? 'cmd.exe' : 'bash';
 
-        fastAPIServer = spawn(shell, ['-c', command], { cwd: venvPath });
+        const fastAPIServer = spawn(shell, ['-c', command], { cwd: venvPath });
 
         fastAPIServer.stdout.on('data', (data) => {
             log.info(`FastAPI stdout: ${data}`);
@@ -64,14 +62,12 @@ export async function activateEnvAndRunFastAPI(): Promise<void> {
             }
         });
 
-        resolve();
-    });
-}
+        // Kill the fastAPIServer when the node process exits
+        process.on('exit', () => {
+            log.info('[spawnFile]', { message: `exiting child process on node exit` })
+            fastAPIServer.kill()
+        })
 
-export function stopFastAPIServer(): void {
-    if (fastAPIServer) {
-        fastAPIServer.kill();
-        fastAPIServer = null;
-        log.info('FastAPI server stopped.');
-    }
+        resolve()
+    });
 }

@@ -37,7 +37,6 @@ app.on('activate', function () {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    stopFastAPIServer()
     app.quit()
   }
 })
@@ -52,13 +51,8 @@ process.on('unhandledRejection', async (error: any) => {
     message: 'Fatal error',
     detail: error.toString(),
   })
-  stopFasttAPIServer()
   app.quit()
 })
-
-app.on('before-quit', () => {
-    stopFastAPIServer();
-});
 
 // Configure logger to write to the app directory
 log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
