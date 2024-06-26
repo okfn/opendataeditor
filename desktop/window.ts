@@ -60,13 +60,11 @@ export async function createWindow() {
     log.info('Opening loading.html')
     splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
     splashWindow.center()
-    // Run the unzipping function on startup
-    unzipEnvironment().then(() => {
-        log.info('Environment setup completed.');
-        return activateEnvAndRunFastAPI();
-    }).catch((error) => {
-        log.info(`Error during environment setup: ${error.message}`);
-    });
+    log.info('Start unzip')
+    await unzipEnvironment()
+    splashWindow?.webContents.send('ensureLogs', "python")
+    log.info('Running FastAPI Server')
+    await activateEnvAndRunFastAPI();
     splashWindow?.webContents.send('ensureLogs', "server")
   }
 

@@ -11,14 +11,6 @@
           var loader = document.getElementById("loader")
           element.classList.toggle('pending')
           element.removeChild(loader)
-          var next = document.getElementById("requirements")
-          next.appendChild(loader)
-        }
-        if (message == "requirements") {
-          var element = document.getElementById("requirements")
-          var loader = document.getElementById("loader")
-          element.classList.toggle('pending')
-          element.removeChild(loader)
           var next = document.getElementById("server")
           next.appendChild(loader)
         }
@@ -62,7 +54,6 @@
         <p style="text-align: center;">The first time launching Open Data Editor needs to ensure requirements are installed.</p>
         <ul id="logs">
           <li class="pending" id="python">Ensure python is installed <span id="loader" class="loader"></span></li>
-          <li class="pending" id="requirements">Ensure python dependencies are installed</li>
           <li class="pending" id="server">Ensure server is running</li>
         </ul>
       </div>
