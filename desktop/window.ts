@@ -63,7 +63,7 @@ export async function createWindow() {
     // Run the unzipping function on startup
     unzipEnvironment().then(() => {
         log.info('Environment setup completed.');
-        return activateAndRunFastAPI();
+        return activateEnvAndRunFastAPI();
     }).catch((error) => {
         log.info(`Error during environment setup: ${error.message}`);
     });
