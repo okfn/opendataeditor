@@ -33,7 +33,7 @@
     "start": "vite --open --port 8080",
     "spec": "vitest run",
     "test": "npm run lint && npm run type && npm run spec",
-    "type": "tsc --noEmit",
+    "type": "tsc",
     "update": "ncu -u"
   },
   "dependencies": {
