@@ -18,3 +18,5 @@ export const APP_TMP = join(APP_HOME, 'tmp')
 
 export const PYTHON_SOURCE = join(APP_PYTHON, WIN ? 'python.exe' : 'bin/python3')
 export const PYTHON_TARGET = join(APP_PYTHON_VENV, WIN ? 'Scripts\\python.exe' : 'bin/python3')
+
+export const SERVER_EXEC = join(DIST_SERVER, WIN ? 'server.exe': 'server')

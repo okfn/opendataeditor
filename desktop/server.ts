@@ -6,11 +6,7 @@ export async function runServer() {
   log.info(`[Run FastAPI server on port 4040`)
 
   // Start production server
-  const proc = spawnFile(
-    settings.PYTHON_TARGET,
-    ['-m', 'server', settings.APP_TMP, '--port', `4040`],
-    process.resourcesPath
-  )
+  const proc = spawnFile(settings.SERVER_EXEC, [settings.APP_TMP])
 
   return proc
 }

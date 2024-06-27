@@ -10,10 +10,10 @@ export async function execFile(path: string, args: string[], cwd?: string) {
   return stdout
 }
 
-export async function spawnFile(path: string, args: string[], cwd?: string) {
-  log.info('[spawnFile]', { path, args, cwd })
+export async function spawnFile(path: string, args: string[]) {
+  log.info('[spawnFile]', { path, args})
 
-  const proc = cp.spawn(path, args, { cwd })
+  const proc = cp.spawn(path, args)
   proc.stdout.on('data', (data) => log.info(data.toString().trim()))
   proc.stderr.on('data', (data) => log.error(data.toString().trim()))
   proc.on('close', (code) => {

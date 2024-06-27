@@ -60,17 +60,8 @@ export async function createWindow() {
   // mainWindow.webContents.openDevTools()
   
   if (!is.dev) {
-    log.info('Opening loading.html')
-    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
-    splashWindow.center()
     log.info('## Start server')
-    await resources.ensurePython()
-    await python.ensurePythonVirtualEnvironment()
-    splashWindow?.webContents.send('ensureLogs', "python")
-    await python.ensurePythonRequirements()
-    splashWindow?.webContents.send('ensureLogs', "requirements")
     await server.runServer()
-    splashWindow?.webContents.send('ensureLogs', "server")
   }
 
   loadingEvents.emit('finished')
