@@ -1,5 +1,11 @@
+import { IMainState } from './main/types'
+
 export type IState = {
-  key?: string
+  main: IMainState
 }
 
-export const initialState: IState = {}
+export const initialState: IState = {
+  main: {
+    files: [],
+  },
+}

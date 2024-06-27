@@ -1,5 +1,2 @@
-import { useStore } from './store'
-
-export const store = {
-  useStore,
-}
+export { useStore } from './store'
+export * as main from './main'
