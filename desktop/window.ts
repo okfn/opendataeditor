@@ -60,6 +60,9 @@ export async function createWindow() {
   // mainWindow.webContents.openDevTools()
   
   if (!is.dev) {
+    log.info('Opening loading.html')
+    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+    splashWindow.center()
     log.info('## Start server')
     await server.runServer()
   }
