@@ -15,12 +15,13 @@ def build_assets():
 
 
 def build_server():
+    """Build an executable file for the FastAPI server."""
     PyInstaller.__main__.run([
         'server/__main__.py',
         '--onefile',
         '--name', 'server',
-        '--collect-all', 'frictionless',
-        '--distpath', 'build/server'
+        '--collect-all', 'frictionless',  # Frictionless depends on data files
+        '--distpath', 'build/server'  # Output the file to the build folder
     ])
 
 
