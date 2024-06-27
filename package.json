@@ -86,7 +86,9 @@
     "jsonschema": "1.4.1",
     "leaflet": "1.9.4",
     "lodash": "4.17.21",
+    "immer": "10.1.1",
     "marked": "4.3.0",
+    "merge-anything": "6.0.2",
     "npm-check-updates": "16.10.16",
     "prettier": "3.0.0",
     "react": "18.2.0",
@@ -103,7 +105,7 @@
     "vega-lite": "5.14.1",
     "vite": "5.3.1",
     "vitest": "1.6.0",
-    "zustand": "4.3.9"
+    "zustand": "4.5.2"
   },
   "prettier": {
     "semi": false,
