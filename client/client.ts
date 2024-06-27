@@ -327,6 +327,8 @@ export class Client {
   }
 }
 
+export const client = new Client()
+
 // Internal
 
 async function makeRequest<T>(
