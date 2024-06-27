@@ -21,7 +21,7 @@ export const useStore = create<IState>()(
     {
       name: NAME,
       merge: (persisted, current) => merge(current, persisted) as IState,
-      // Any parts of the state can be persistet
+      // Any parts of the state can be persisted (currently, none are)
       partialize: () => ({}),
     }
   )
@@ -38,4 +38,8 @@ export function setState(
   patch: Parameters<(typeof useStore)['setState']>[0]
 ) {
   return useStore.setState(patch, false, title)
+}
+
+export function resetState() {
+  return useStore.setState(initialState, false)
 }

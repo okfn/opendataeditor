@@ -14,6 +14,7 @@ export default defineConfig({
   },
   test: {
     include: ['**/__spec__/*.(ts|tsx)'],
+    environment: 'jsdom',
     coverage: {
       enabled: true,
       reporter: ['html'],
