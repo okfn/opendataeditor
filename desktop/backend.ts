@@ -9,6 +9,11 @@ export async function unzipEnvironment(): Promise<void> {
     const zipFilePath = settings.DIST_PYTHON_VENV
     const outputDir = settings.APP_PYTHON_VENV
 
+    // Check if the output directory already exists
+    if (fs.existsSync(outputDir)) {
+        log.info('Virtual environment already exists, skipping unzip.');
+        return;
+    }
     // Ensure the output directory exists
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
