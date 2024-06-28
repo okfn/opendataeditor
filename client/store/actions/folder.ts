@@ -7,7 +7,7 @@ export async function copyFolder(path: string, toPath: string) {
 
   if (result instanceof client.Error) {
     return store.setState('copy-folder-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -19,7 +19,7 @@ export async function createFolder(path: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-folder-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -31,7 +31,7 @@ export async function deleteFolder(path: string) {
 
   if (result instanceof client.Error) {
     return store.setState('delete-folder-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -43,7 +43,7 @@ export async function moveFolder(path: string, toPath: string) {
 
   if (result instanceof client.Error) {
     return store.setState('move-folder-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 

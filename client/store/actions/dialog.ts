@@ -1,8 +1,8 @@
-import { IDialog } from './types'
+import { IDialog } from '../state'
 import * as store from '../store'
 
 export function openDialog(dialog: IDialog) {
   store.setState('open-dialog', (state) => {
-    state.main.dialog = dialog
+    state.dialog = dialog
   })
 }

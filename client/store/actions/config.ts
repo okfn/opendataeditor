@@ -8,12 +8,12 @@ export async function loadConfig(throwError?: boolean) {
   if (result instanceof client.Error) {
     if (throwError) throw new Error(result.detail)
     return store.setState('load-config-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
   store.setState('load-config', (state) => {
-    state.main.config = result.config
+    state.config = result.config
   })
 }
 
@@ -22,7 +22,7 @@ export async function saveConfig(config: types.IConfig) {
 
   if (result instanceof client.Error) {
     return store.setState('save-config-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 

@@ -7,14 +7,14 @@ export async function openProject(fullpath: string) {
   closeFile()
 
   store.setState('open-project-start', (state) => {
-    state.main.loading = true
+    state.loading = true
   })
 
   const result = await client.projectOpen({ fullpath })
 
   if (result instanceof client.Error) {
     return store.setState('open-project-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -22,6 +22,6 @@ export async function openProject(fullpath: string) {
   await loadFiles()
 
   store.setState('open-project-end', (state) => {
-    state.main.loading = false
+    state.loading = false
   })
 }

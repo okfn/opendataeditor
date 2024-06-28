@@ -13,7 +13,7 @@ import MoveFolderDialog from './Dialogs/MoveFolder'
 import * as store from '@client/store'
 
 export default function Dialog() {
-  const dialog = store.useStore((state) => state.main.dialog)
+  const dialog = store.useStore((state) => state.dialog)
   if (!dialog) return null
   // @ts-ignore
   const Dialog = DIALOGS[dialog]

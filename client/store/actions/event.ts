@@ -39,7 +39,7 @@ export async function onStart() {
     }
 
     store.setState('sync-files', (state) => {
-      state.main.files = result.files
+      state.files = result.files
     })
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 }
@@ -48,7 +48,7 @@ export async function onFileCreate(paths: string[]) {
   await loadFiles()
 
   store.setState('file-create-start', (state) => {
-    state.main.fileEvent = { type: 'create', paths }
+    state.fileEvent = { type: 'create', paths }
   })
 
   if (paths.length === 1) {
@@ -58,13 +58,13 @@ export async function onFileCreate(paths: string[]) {
   await delay(500)
 
   store.setState('file-create-end', (state) => {
-    state.main.fileEvent = undefined
+    state.fileEvent = undefined
   })
 }
 
 export async function onFileDelete(path: string) {
   store.setState('file-delete-start', (state) => {
-    state.main.fileEvent = { type: 'delete', paths: [path] }
+    state.fileEvent = { type: 'delete', paths: [path] }
   })
 
   await delay(500)
@@ -72,21 +72,21 @@ export async function onFileDelete(path: string) {
   selectFile(undefined)
 
   store.setState('file-delete-end', (state) => {
-    state.main.fileEvent = undefined
-    state.main.record = undefined
-    state.main.measure = undefined
+    state.fileEvent = undefined
+    state.record = undefined
+    state.measure = undefined
   })
 }
 
 export async function onFilePatch(path: string) {
   store.setState('file-update-start', (state) => {
-    state.main.fileEvent = { type: 'update', paths: [path] }
+    state.fileEvent = { type: 'update', paths: [path] }
   })
 
   selectFile(path)
   await delay(500)
 
   store.setState('file-update-end', (state) => {
-    state.main.fileEvent = undefined
+    state.fileEvent = undefined
   })
 }

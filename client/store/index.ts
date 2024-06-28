@@ -1,2 +1,3 @@
 export { useStore } from './store'
-export * as main from './main'
+export * from './actions'
+export * from './state'

@@ -7,7 +7,7 @@ export async function createArticle(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-article-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -19,7 +19,7 @@ export async function createChart(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-chart-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -31,7 +31,7 @@ export async function createImage(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-image-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -43,7 +43,7 @@ export async function createMap(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-map-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -55,7 +55,7 @@ export async function createPackage(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-package-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -67,7 +67,7 @@ export async function createScript(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-script-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -84,7 +84,7 @@ export async function createTable(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-table-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -96,7 +96,7 @@ export async function createView(path: string, prompt?: string) {
 
   if (result instanceof client.Error) {
     return store.setState('create-view-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 

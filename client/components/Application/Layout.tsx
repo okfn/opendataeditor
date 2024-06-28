@@ -17,7 +17,7 @@ export default function Layout() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
 
   React.useEffect(() => {
-    store.main.onStart().catch(console.error)
+    store.onStart().catch(console.error)
   }, [])
 
   return (

@@ -5,19 +5,17 @@ import { onFileCreate, onFileDelete } from './event'
 import * as helpers from '@client/helpers'
 
 export const getIsFolder = store.createSelector((state) => {
-  return !!state.main.files.find(
-    (file) => file.path === state.main.path && file.type === 'folder'
-  )
+  return !!state.files.find((file) => file.path === state.path && file.type === 'folder')
 })
 
 export const getFolderPath = store.createSelector((state) => {
-  if (!state.main.path) return undefined
-  if (getIsFolder(state)) return state.main.path
-  return helpers.getFolderPath(state.main.path)
+  if (!state.path) return undefined
+  if (getIsFolder(state)) return state.path
+  return helpers.getFolderPath(state.path)
 })
 
 export const getNotIndexedFiles = store.createSelector((state) => {
-  return state.main.files.filter((file) => !file.name)
+  return state.files.filter((file) => !file.name)
 })
 
 export async function loadFiles(throwError?: boolean) {
@@ -26,12 +24,12 @@ export async function loadFiles(throwError?: boolean) {
   if (result instanceof client.Error) {
     if (throwError) throw new Error(result.detail)
     return store.setState('load-files-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
   store.setState('load-files', (state) => {
-    state.main.files = result.files
+    state.files = result.files
   })
 }
 
@@ -45,7 +43,7 @@ export async function addFiles(files: FileList) {
 
     if (result instanceof client.Error) {
       return store.setState('add-files-error', (state) => {
-        state.main.error = result
+        state.error = result
       })
     }
 
@@ -61,7 +59,7 @@ export async function fetchFile(url: string) {
 
   if (result instanceof client.Error) {
     return store.setState('fetch-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -75,7 +73,7 @@ export async function createFile(path: string, prompt?: string) {
 
     if (result instanceof client.Error) {
       return store.setState('create-file-error', (state) => {
-        state.main.error = result
+        state.error = result
       })
     }
 
@@ -86,7 +84,7 @@ export async function createFile(path: string, prompt?: string) {
 
     if (result instanceof client.Error) {
       return store.setState('create-file-error', (state) => {
-        state.main.error = result
+        state.error = result
       })
     }
 
@@ -95,19 +93,19 @@ export async function createFile(path: string, prompt?: string) {
 }
 
 export async function adjustFile(name?: string, type?: string) {
-  const { path } = store.getState().main
+  const { path } = store.getState()
   if (!path) return
 
   const result = await client.filePatch({ path, name, type })
 
   if (result instanceof client.Error) {
     return store.setState('adjust-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
   store.setState('adjust-file-close', (state) => {
-    state.main.path = undefined
+    state.path = undefined
   })
 
   closeFile()
@@ -121,7 +119,7 @@ export async function copyFile(path: string, toPath: string) {
 
   if (result instanceof client.Error) {
     return store.setState('copy-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -133,7 +131,7 @@ export async function deleteFile(path: string) {
 
   if (result instanceof client.Error) {
     return store.setState('delete-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -145,7 +143,7 @@ export async function moveFile(path: string, toPath: string) {
 
   if (result instanceof client.Error) {
     return store.setState('move-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
@@ -154,23 +152,23 @@ export async function moveFile(path: string, toPath: string) {
 
 export async function locateFile(path: string) {
   store.setState('locate-file-start', (state) => {
-    state.main.path = path
-    state.main.fileEvent = { type: 'locate', paths: [path] }
+    state.path = path
+    state.fileEvent = { type: 'locate', paths: [path] }
   })
 
   await delay(500)
 
   store.setState('locate-file-end', (state) => {
-    state.main.fileEvent = undefined
+    state.fileEvent = undefined
   })
 }
 
 export async function selectFile(newPath?: string) {
-  const { path, record } = store.getState().main
+  const { path, record } = store.getState()
   if (path === newPath) return
 
   store.setState('select-file', (state) => {
-    state.main.path = newPath
+    state.path = newPath
   })
 
   if (!newPath) return
@@ -181,46 +179,46 @@ export async function selectFile(newPath?: string) {
 }
 
 export async function openFile(path: string) {
-  const { fileEvent } = store.getState().main
+  const { fileEvent } = store.getState()
 
   store.setState('open-file-start', (state) => {
-    state.main.record = undefined
-    state.main.measure = undefined
-    state.main.indexing = true
+    state.record = undefined
+    state.measure = undefined
+    state.indexing = true
   })
 
   const result = await client.fileIndex({ path })
 
   if (result instanceof client.Error) {
     return store.setState('open-file-error', (state) => {
-      state.main.error = result
+      state.error = result
     })
   }
 
   await loadFiles()
 
   store.setState('open-file-loaded', (state) => {
-    state.main.record = result.record
-    state.main.measure = result.measure
-    state.main.indexing = false
+    state.record = result.record
+    state.measure = result.measure
+    state.indexing = false
   })
 
   if (!fileEvent) {
     store.setState('open-file-event-start', (state) => {
-      state.main.fileEvent = { type: 'open', paths: [path] }
+      state.fileEvent = { type: 'open', paths: [path] }
     })
   }
 
   await delay(500)
 
   store.setState('open-file-event-end', (state) => {
-    state.main.fileEvent = undefined
+    state.fileEvent = undefined
   })
 }
 
 export function closeFile() {
   store.setState('close-file', (state) => {
-    state.main.record = undefined
-    state.main.measure = undefined
+    state.record = undefined
+    state.measure = undefined
   })
 }

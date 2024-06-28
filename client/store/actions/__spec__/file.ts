@@ -9,12 +9,12 @@ describe('file', () => {
 
   test('closeFile', async () => {
     store.setState('set-measure', (state) => {
-      state.main.measure = { errors: 3 }
+      state.measure = { errors: 3 }
     })
 
     closeFile()
 
-    const { measure } = store.getState().main
+    const { measure } = store.getState()
     expect(measure).toEqual(undefined)
   })
 })
