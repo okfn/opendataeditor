@@ -12,7 +12,7 @@ const loadingEvents = new EventEmitter()
 import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
-  // Create the browser window.
+
   var splashWindow = new BrowserWindow({
     width: 500,
     height: 500,
