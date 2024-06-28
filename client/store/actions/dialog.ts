@@ -6,3 +6,9 @@ export function openDialog(dialog: IDialog) {
     state.dialog = dialog
   })
 }
+
+export function closeDialog() {
+  store.setState('close-dialog', (state) => {
+    state.dialog = undefined
+  })
+}

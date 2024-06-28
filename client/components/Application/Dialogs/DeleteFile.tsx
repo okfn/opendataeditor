@@ -1,11 +1,10 @@
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function DeleteFileDialog() {
-  const path = useStore((state) => state.path)
-  const deleteFile = useStore((state) => state.deleteFile)
-  const updateState = useStore((state) => state.updateState)
+  const path = store.useStore((state) => state.path)
   if (!path) return null
+
   return (
     <ConfirmDialog
       open={true}
@@ -13,10 +12,10 @@ export default function DeleteFileDialog() {
       description={'Are you sure you want to delete this file?'}
       label="Yes"
       cancelLabel="No"
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async () => {
-        await deleteFile(path)
-        updateState({ dialog: undefined })
+        await store.deleteFile(path)
+        store.closeDialog()
       }}
     />
   )

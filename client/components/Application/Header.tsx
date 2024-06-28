@@ -11,7 +11,7 @@ import ReportChip from '../Parts/Chips/Report'
 import * as store from '@client/store'
 
 export default function Header() {
-  const measure = store.useStore((state) => state.main.measure)
+  const measure = store.useStore((state) => state.measure)
 
   return (
     <AppBar position="static" elevation={0}>
@@ -23,7 +23,7 @@ export default function Header() {
               ml: 2,
               cursor: 'pointer',
             }}
-            onClick={() => store.main.closeFile()}
+            onClick={store.closeFile}
           >
             <strong>Open Data Editor</strong>
           </Typography>
@@ -32,7 +32,7 @@ export default function Header() {
         <ReportChip errorCount={measure ? measure.errors : undefined} />
         <LightTooltip title="Open config dialog">
           <Box>
-            <Button color="inherit" onClick={() => store.main.openDialog('config')}>
+            <Button color="inherit" onClick={() => store.openDialog('config')}>
               <SettingsIcon />
             </Button>
           </Box>
