@@ -1,4 +1,5 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import path from 'path'
 import react from '@vitejs/plugin-react'
 import yaml from '@modyfi/vite-plugin-yaml'
 
@@ -20,6 +21,11 @@ export default defineConfig({
   renderer: {
     root: 'client',
     plugins: [react(), yaml()],
+    resolve: {
+      alias: {
+        '@client': path.resolve(__dirname, 'client'),
+      },
+    },
     build: {
       outDir: 'build/client',
       rollupOptions: {
