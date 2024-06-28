@@ -4,8 +4,6 @@ import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
-import * as python from './python'
-import * as resources from './resources'
 import EventEmitter from 'events'
 
 const loadingEvents = new EventEmitter()
@@ -58,7 +56,7 @@ export async function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
-  
+
   if (!is.dev) {
     log.info('Opening loading.html')
     splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
