@@ -24,7 +24,7 @@ def build_server():
         '--name', 'server',
         '--collect-all', 'frictionless',  # Frictionless depends on data files
         '--distpath', 'build/server',  # Output the file to the build folder
-        '--log-level', 'ERROR'
+        '--log-level', 'WARN'
     ])
 
 
