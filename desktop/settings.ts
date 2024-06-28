@@ -18,4 +18,4 @@ export const APP_HOME = join(HOME, `.${APP_NAME}`)
 export const APP_TMP = join(APP_HOME, 'tmp')
 
 // Path to the FastAPI executable file to be run by the Desktop Application
-export const SERVER_EXEC = join(DIST, 'server', WIN ? 'server.exe': 'server')
+export const SERVER_EXEC = join(DIST, 'server/__main__', WIN ? '__main__.exe': '__main__')

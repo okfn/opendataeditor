@@ -20,8 +20,6 @@ def build_server():
     print("[server] Creating executable file for FastAPI server")
     PyInstaller.__main__.run([
         'server/__main__.py',
-        '--onefile',
-        '--name', 'server',
         '--collect-all', 'frictionless',  # Frictionless depends on data files
         '--distpath', 'build/server',  # Output the file to the build folder
         '--log-level', 'WARN'
