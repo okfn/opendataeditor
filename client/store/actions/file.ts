@@ -186,6 +186,9 @@ export async function selectFile(newPath?: string[] | string) {
       await openFile(newPath[0])
     } else {
       store.setState('select-file-end', (state) => {
+        // TODO: to make it more robust and avoid this type casting
+        // we should do a cleanup and accept only an array in this function
+        // and adjust other function that call selectFile with a string
         state.selectedMultiplePaths = newPath as string[]
       })
     }
