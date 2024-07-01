@@ -5,8 +5,8 @@ from typing import Optional
 
 from frictionless.resources import TextResource
 
-from . import settings
-from .stores import Config, Database, Filesystem, Metadata
+from server import settings
+from server.stores import Config, Database, Filesystem, Metadata
 
 
 class Project:

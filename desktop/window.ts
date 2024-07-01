@@ -4,8 +4,6 @@ import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
-import * as python from './python'
-import * as resources from './resources'
 import EventEmitter from 'events'
 
 const loadingEvents = new EventEmitter()
@@ -14,7 +12,7 @@ const loadingEvents = new EventEmitter()
 import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
-  // Create the browser window.
+
   var splashWindow = new BrowserWindow({
     width: 500,
     height: 500,
@@ -58,19 +56,13 @@ export async function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
-  
+
   if (!is.dev) {
     log.info('Opening loading.html')
     splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
     splashWindow.center()
     log.info('## Start server')
-    await resources.ensurePython()
-    await python.ensurePythonVirtualEnvironment()
-    splashWindow?.webContents.send('ensureLogs', "python")
-    await python.ensurePythonRequirements()
-    splashWindow?.webContents.send('ensureLogs', "requirements")
     await server.runServer()
-    splashWindow?.webContents.send('ensureLogs', "server")
   }
 
   loadingEvents.emit('finished')

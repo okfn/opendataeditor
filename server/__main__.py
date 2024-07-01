@@ -1,8 +1,8 @@
 import typer
 
-from . import settings
-from .config import Config
-from .server import Server
+from server import settings
+from server.config import Config
+from server.server import Server
 
 
 def main(

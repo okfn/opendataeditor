@@ -2,7 +2,7 @@ from typing import Optional
 
 import attrs
 
-from . import settings
+from server import settings
 
 
 @attrs.define(kw_only=True, repr=False)
