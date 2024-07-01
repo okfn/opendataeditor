@@ -126,16 +126,18 @@ export async function copyFile(path: string, toPath: string) {
   onFileCreate([result.path])
 }
 
-export async function deleteFile(path: string) {
-  const result = await client.fileDelete({ path })
+export async function deleteFiles(paths: string[]) {
+  for (const path of paths) {
+    const result = await client.fileDelete({ path })
 
-  if (result instanceof client.Error) {
-    return store.setState('delete-file-error', (state) => {
-      state.error = result
-    })
+    if (result instanceof client.Error) {
+      return store.setState('delete-files-error', (state) => {
+        state.error = result
+      })
+    }
+
+    onFileDelete(path)
   }
-
-  onFileDelete(path)
 }
 
 export async function moveFile(path: string, toPath: string) {
@@ -163,19 +165,34 @@ export async function locateFile(path: string) {
   })
 }
 
-export async function selectFile(newPath?: string) {
+export async function selectFile(newPath?: string[] | string) {
   const { path, record } = store.getState()
-  if (path === newPath) return
+  if (newPath) {
+    if (!Array.isArray(newPath)) newPath = [newPath]
+    if (newPath.length === 1) {
+      store.setState('select-file-reset', (state) => {
+        state.selectedMultiplePaths = undefined
+      })
 
-  store.setState('select-file', (state) => {
-    state.path = newPath
-  })
+      if (path === newPath[0]) return
+      store.setState('select-file-start', (state) => {
+        state.path = newPath?.[0]
+      })
 
-  if (!newPath) return
-  if (record?.path === newPath) return
-  if (getIsFolder(store.getState())) return
+      if (!newPath) return
+      if (record?.path === newPath[0]) return
+      if (getIsFolder(store.getState())) return
 
-  await openFile(newPath)
+      await openFile(newPath[0])
+    } else {
+      store.setState('select-file-end', (state) => {
+        // TODO: to make it more robust and avoid this type casting
+        // we should do a cleanup and accept only an array in this function
+        // and adjust other function that call selectFile with a string
+        state.selectedMultiplePaths = newPath as string[]
+      })
+    }
+  }
 }
 
 export async function openFile(path: string) {

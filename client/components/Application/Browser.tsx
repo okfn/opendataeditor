@@ -22,7 +22,7 @@ function DefaultBrowser() {
   const path = store.useStore((state) => state.path)
   const files = store.useStore((state) => state.files)
   const fileEvent = store.useStore((state) => state.fileEvent)
-
+  const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
   return (
     <ErrorBoundary
       fallback={
@@ -38,6 +38,7 @@ function DefaultBrowser() {
       <FileTree
         files={files}
         event={fileEvent}
+        selectedMultiple={selectedMultiplePaths}
         selected={path}
         onSelect={store.selectFile}
       />

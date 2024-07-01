@@ -7,12 +7,10 @@ import { useKeyPress } from 'ahooks'
 
 export default function DeleteButton() {
   const path = store.useStore((state) => state.path)
-  const isFolder = store.useStore(store.getIsFolder)
 
-  const type = isFolder ? 'Folder' : 'File'
   useKeyPress(['ctrl.i'], (event) => {
     event.preventDefault()
-    if (path) store.openDialog(`delete${type}`)
+    if (path) store.openDialog('deleteFilesFolders')
   })
 
   return (
@@ -24,7 +22,7 @@ export default function DeleteButton() {
           disabled={!path}
           variant="text"
           color="warning"
-          onClick={() => store.openDialog(`delete${type}`)}
+          onClick={() => store.openDialog('deleteFilesFolders')}
         />
       </Box>
     </LightTooltip>

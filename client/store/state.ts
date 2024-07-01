@@ -12,6 +12,7 @@ export type IState = {
   measure?: types.IMeasure
   files: types.IFile[]
   fileEvent?: types.IFileEvent
+  selectedMultiplePaths?: string[]
   error?: ClientError
   dialog?: IDialog
   loading?: boolean
@@ -27,8 +28,7 @@ export type IDialog =
   | 'copyFile'
   | 'copyFolder'
   | 'create'
-  | 'deleteFile'
-  | 'deleteFolder'
+  | 'deleteFilesFolders'
   | 'indexFiles'
   | 'moveFile'
   | 'moveFolder'
