@@ -7,6 +7,7 @@ import InovuaDatagrid from '@inovua/reactdatagrid-community'
 import { TypeDataGridProps } from '@inovua/reactdatagrid-community/types'
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
 import { createColumns } from './columns'
+import { createGroups } from './groups'
 import * as settings from './settings'
 import * as types from '../../../types'
 import debounce from 'lodash/debounce'
@@ -29,6 +30,8 @@ export default function TableEditor(props: TableEditorProps) {
   const [rowsPerPage, setRowsPerPage] = React.useState(20)
 
   const [rowHeight] = React.useState(40)
+
+  const groups = createGroups(columns.length - 1)
 
   React.useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
@@ -59,6 +62,7 @@ export default function TableEditor(props: TableEditorProps) {
       dataSource={source}
       columns={columns}
       pagination={true}
+      groups={groups}
       loadingText={<Typography>Loading...</Typography>}
       renderLoadMask={LoadMask}
       defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}

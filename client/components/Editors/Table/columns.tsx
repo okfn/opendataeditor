@@ -1,6 +1,7 @@
 import LightTooltip from '../../Parts/Tooltips/Light'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
+import { createGroups } from './groups'
 
 // TODO: remove colors hard-coding
 // TODO: use proper InovuaDatagrid types
@@ -30,8 +31,11 @@ export function createColumns(
     },
   }
 
+  // Using groups to add the headers with the letters of the alphabet
+  const groups = createGroups(schema.fields.length)
+
   const dataColumns = []
-  for (const field of schema.fields) {
+  for (const [index, field] of schema.fields.entries()) {
     // TODO: fix this on ther server side -- schema should not have hidden fields
     // Otherwise the _rowNumber and _rowValid are displayed on the table
     if (field.name === '_rowNumber' || field.name === '_rowValid') continue
@@ -46,6 +50,7 @@ export function createColumns(
       name: field.name,
       header,
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+      group: groups[index].name,
       headerProps:
         field.name in errorIndex.label
           ? { style: { color: 'white', background: 'red' } }
