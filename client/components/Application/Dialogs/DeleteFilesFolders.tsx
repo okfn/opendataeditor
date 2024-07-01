@@ -7,11 +7,6 @@ export default function DeleteFilesFoldersDialog() {
   const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
   const isFolder = store.useStore(store.getIsFolder)
 
-  // const selectedElements = files.filter((file) => {
-  //   if( selectedMultiplePaths?.includes(file.path) && file.type === 'folder' ) return file
-  //     else return
-  // })
-
   const selectedFolders = files
     .filter((file) => {
       return selectedMultiplePaths?.includes(file.path) && file.type === 'folder'
@@ -44,8 +39,10 @@ export default function DeleteFilesFoldersDialog() {
           if (selectedFiles.length > 0) await store.deleteFiles(selectedFiles)
         }
         // is only one selected file
-        else
-          isFolder ? await store.deleteFolders([path]) : await store.deleteFiles([path])
+        else {
+          if (isFolder) await store.deleteFolders([path])
+          else await store.deleteFiles([path])
+        }
         store.closeDialog()
       }}
     />
