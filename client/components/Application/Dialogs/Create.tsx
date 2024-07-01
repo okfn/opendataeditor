@@ -8,7 +8,7 @@ import Columns from '../../Parts/Grids/Columns'
 import MenuTree from '../../Parts/Trees/Menu'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
-import { useStore, selectors } from '../store'
+import * as store from '@client/store'
 
 interface IMenuItem extends types.IMenuItem {
   fileName: string
@@ -19,16 +19,6 @@ interface IMenuItem extends types.IMenuItem {
 }
 
 export default function CreateDialog() {
-  const updateState = useStore((state) => state.updateState)
-  const createArticle = useStore((state) => state.createArticle)
-  const createChart = useStore((state) => state.createChart)
-  const createImage = useStore((state) => state.createImage)
-  const createMap = useStore((state) => state.createMap)
-  const createPackage = useStore((state) => state.createPackage)
-  const createFile = useStore((state) => state.createFile)
-  const createScript = useStore((state) => state.createScript)
-  const createTable = useStore((state) => state.createTable)
-  const createView = useStore((state) => state.createView)
   const MENU_ITEMS: IMenuItem[] = [
     {
       name: 'Article',
@@ -37,7 +27,7 @@ export default function CreateDialog() {
       description: 'Creating a Markdown article. Enter destination:',
       placeholder: 'Enter an article path',
       promptPlaceholder: 'story about dogs',
-      create: createArticle,
+      create: store.createArticle,
     },
     {
       name: 'Chart',
@@ -46,7 +36,7 @@ export default function CreateDialog() {
       description: 'Creating a Vega chart. Enter destination:',
       placeholder: 'Enter a chart path',
       promptPlaceholder: 'bar chart for @cars with average price by brand',
-      create: createChart,
+      create: store.createChart,
     },
     {
       name: 'Dataset',
@@ -55,7 +45,7 @@ export default function CreateDialog() {
       description: 'Creating a dataset. Enter destination:',
       placeholder: 'Enter a package path',
       promptPlaceholder: 'all tables in data folder',
-      create: createPackage,
+      create: store.createPackage,
     },
     {
       name: 'File',
@@ -64,7 +54,7 @@ export default function CreateDialog() {
       description: 'Creating an arbitrary file. Enter destination:',
       placeholder: 'Enter a file path',
       promptPlaceholder: 'dummy data in json with name and age',
-      create: createFile,
+      create: store.createFile,
     },
     {
       name: 'Image',
@@ -73,7 +63,7 @@ export default function CreateDialog() {
       description: 'Creating an image. Enter destination:',
       placeholder: 'Enter an image path',
       promptPlaceholder: 'cute dog in cartoon style',
-      create: createImage,
+      create: store.createImage,
     },
     {
       name: 'Map',
@@ -82,7 +72,7 @@ export default function CreateDialog() {
       description: 'Creating a map. Enter destination:',
       placeholder: 'Enter a map path',
       promptPlaceholder: 'london and paris',
-      create: createMap,
+      create: store.createMap,
     },
     {
       name: 'Script',
@@ -91,7 +81,7 @@ export default function CreateDialog() {
       description: 'Creating a Python script. Enter destination:',
       placeholder: 'Enter a script path',
       promptPlaceholder: 'average price by brand for @cars',
-      create: createScript,
+      create: store.createScript,
     },
     {
       name: 'Table',
@@ -100,7 +90,7 @@ export default function CreateDialog() {
       description: 'Creating a CSV table. Enter destination:',
       placeholder: 'Enter a table path',
       promptPlaceholder: 'continents with population',
-      create: createTable,
+      create: store.createTable,
     },
     {
       name: 'View (SQL)',
@@ -109,11 +99,11 @@ export default function CreateDialog() {
       description: 'Creating a view (SQL). Enter destination:',
       placeholder: 'Enter a view path',
       promptPlaceholder: 'average price by brand for @cars',
-      create: createView,
+      create: store.createView,
     },
   ]
 
-  const folderPath = useStore(selectors.folderPath)
+  const folderPath = store.useStore(store.getFolderPath)
   const [path, setPath] = React.useState(folderPath ? `${folderPath}/` : '')
   const [prompt, setPrompt] = React.useState('')
   const [section, setSection] = React.useState('file')
@@ -139,13 +129,13 @@ export default function CreateDialog() {
       label="Create"
       Icon={settings.TYPE_ICONS[section]}
       disabled={loading}
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async () => {
         if (!menuItem) return
         setLoading(true)
         await menuItem.create(path, prompt)
         setLoading(false)
-        updateState({ dialog: undefined })
+        store.closeDialog()
       }}
     >
       <Columns layout={[3, 9]} spacing={2}>

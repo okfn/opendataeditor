@@ -1,11 +1,11 @@
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
-import { selectors, useStore } from '../store'
+import * as store from '@client/store'
 
 export default function DeleteFilesFoldersDialog() {
-  const path = useStore((state) => state.path)
-  const selectedMultiplePaths = useStore((state) => state.selectedMultiplePaths)
-  const files = useStore((state) => state.files)
-  const isFolder = useStore(selectors.isFolder)
+  const path = store.useStore((state) => state.path)
+  const files = store.useStore((state) => state.files)
+  const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
+  const isFolder = store.useStore(store.getIsFolder)
 
   // const selectedElements = files.filter((file) => {
   //   if( selectedMultiplePaths?.includes(file.path) && file.type === 'folder' ) return file
@@ -24,9 +24,6 @@ export default function DeleteFilesFoldersDialog() {
     })
     .map((file) => file.path)
 
-  const deleteFiles = useStore((state) => state.deleteFiles)
-  const deleteFolders = useStore((state) => state.deleteFolders)
-  const updateState = useStore((state) => state.updateState)
   if (!path) return null
 
   return (
@@ -40,15 +37,16 @@ export default function DeleteFilesFoldersDialog() {
       }
       label="Yes"
       cancelLabel="No"
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async () => {
         if (selectedMultiplePaths) {
-          if (selectedFolders.length > 0) await deleteFolders(selectedFolders)
-          if (selectedFiles.length > 0) await deleteFiles(selectedFiles)
+          if (selectedFolders.length > 0) await store.deleteFolders(selectedFolders)
+          if (selectedFiles.length > 0) await store.deleteFiles(selectedFiles)
         }
         // is only one selected file
-        else isFolder ? await deleteFolders([path]) : await deleteFiles([path])
-        updateState({ dialog: undefined })
+        else
+          isFolder ? await store.deleteFolders([path]) : await store.deleteFiles([path])
+        store.closeDialog()
       }}
     />
   )

@@ -1,23 +1,13 @@
-import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
-import { StoreProvider, makeStore } from './store'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Client } from '../../client'
 import * as themes from '../../themes'
 import Layout from './Layout'
 
-export interface ApplicationProps {
-  client: Client
-}
-
-export default function Application(props: ApplicationProps) {
-  const store = React.useMemo(() => makeStore(props), Object.values(props))
+export default function Application() {
   return (
     <ThemeProvider theme={themes.DEFAULT}>
-      <StoreProvider value={store}>
-        <CssBaseline />
-        <Layout />
-      </StoreProvider>
+      <CssBaseline />
+      <Layout />
     </ThemeProvider>
   )
 }

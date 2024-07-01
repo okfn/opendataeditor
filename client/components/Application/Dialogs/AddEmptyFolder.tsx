@@ -1,10 +1,9 @@
 import InputDialog from '../../Parts/Dialogs/Input'
-import { useStore, selectors } from '../store'
+import * as store from '@client/store'
 
 export default function AddEmptyFolderDialog() {
-  const folderPath = useStore(selectors.folderPath)
-  const createFolder = useStore((state) => state.createFolder)
-  const updateState = useStore((state) => state.updateState)
+  const folderPath = store.useStore(store.getFolderPath)
+
   return (
     <InputDialog
       open={true}
@@ -12,10 +11,10 @@ export default function AddEmptyFolderDialog() {
       title="Create Folder"
       label="Create"
       placholder="Name of the new folder"
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async (path) => {
-        await createFolder(path)
-        updateState({ dialog: undefined })
+        await store.createFolder(path)
+        store.closeDialog()
       }}
     />
   )

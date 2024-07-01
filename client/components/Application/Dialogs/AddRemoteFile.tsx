@@ -1,12 +1,10 @@
 import * as React from 'react'
 import UploadIcon from '@mui/icons-material/Upload'
 import InputDialog from '../../Parts/Dialogs/Input'
-import { useStore } from '../store'
+import * as store from '@client/store'
 import * as helpers from '../../../helpers'
 
 export default function AddRemoteFileDialog() {
-  const fetchFile = useStore((state) => state.fetchFile)
-  const updateState = useStore((state) => state.updateState)
   const [textFieldError, setTextFieldError] = React.useState(false)
   const [errorHelperText, setErrorHelperText] = React.useState('')
 
@@ -20,12 +18,12 @@ export default function AddRemoteFileDialog() {
       errorHelperText={errorHelperText}
       description="You are fetching a file. Enter source:"
       placholder="Enter or paste a URL"
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async (url) => {
         if (url !== '' && helpers.isUrlValid(url)) {
           setTextFieldError(false)
-          await fetchFile(url)
-          updateState({ dialog: undefined })
+          await store.fetchFile(url)
+          store.closeDialog()
         } else {
           setTextFieldError(true)
           if (url === '') {
