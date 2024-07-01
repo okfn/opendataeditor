@@ -3,11 +3,12 @@ import { ErrorBoundary } from 'react-error-boundary'
 import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import FileTree from '../Parts/Trees/File'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Browser() {
-  const files = useStore((state) => state.files)
-  const loading = useStore((state) => state.loading)
+  const files = store.useStore((state) => state.files)
+  const loading = store.useStore((state) => state.loading)
+
   return loading ? (
     <LoadingBrowser />
   ) : files.length ? (
@@ -18,10 +19,10 @@ export default function Browser() {
 }
 
 function DefaultBrowser() {
-  const path = useStore((state) => state.path)
-  const files = useStore((state) => state.files)
-  const fileEvent = useStore((state) => state.fileEvent)
-  const selectFile = useStore((state) => state.selectFile)
+  const path = store.useStore((state) => state.path)
+  const files = store.useStore((state) => state.files)
+  const fileEvent = store.useStore((state) => state.fileEvent)
+
   return (
     <ErrorBoundary
       fallback={
@@ -34,7 +35,12 @@ function DefaultBrowser() {
         </Box>
       }
     >
-      <FileTree files={files} event={fileEvent} selected={path} onSelect={selectFile} />
+      <FileTree
+        files={files}
+        event={fileEvent}
+        selected={path}
+        onSelect={store.selectFile}
+      />
     </ErrorBoundary>
   )
 }

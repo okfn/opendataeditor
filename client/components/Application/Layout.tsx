@@ -9,16 +9,17 @@ import Error from './Error'
 import Header from './Header'
 import Browser from './Browser'
 import Menu from './Menu'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Layout() {
   const theme = useTheme()
   const height = `calc(100vh - ${theme.spacing(8)})`
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8)})`
-  const onStart = useStore((state) => state.onStart)
+
   React.useEffect(() => {
-    onStart().catch(console.error)
+    store.onStart().catch(console.error)
   }, [])
+
   return (
     <React.Fragment>
       <Error />

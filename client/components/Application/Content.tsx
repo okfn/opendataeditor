@@ -10,12 +10,14 @@ import Text from '../Controllers/Text'
 import View from '../Controllers/View'
 import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
-import { useStore } from './store'
+import * as store from '@client/store'
+import { client } from '@client/client'
 
 export default function Content() {
-  const record = useStore((state) => state.record)
-  const indexing = useStore((state) => state.indexing)
-  const path = useStore((state) => state.path)
+  const record = store.useStore((state) => state.record)
+  const indexing = store.useStore((state) => state.indexing)
+  const path = store.useStore((state) => state.path)
+
   return indexing ? (
     <LoadingContent />
   ) : record && path ? (
@@ -26,13 +28,15 @@ export default function Content() {
 }
 
 function FileContent() {
-  const client = useStore((state) => state.client)
-  const record = useStore((state) => state.record)
-  const onFileCreate = useStore((state) => state.onFileCreate)
-  const onFilePatch = useStore((state) => state.onFilePatch)
+  const record = store.useStore((state) => state.record)
   if (!record) return null
+
   const Controller = CONTROLLERS[record.type] || File
-  const handleUpdate = React.useMemo(() => () => onFilePatch(record.path), [record.path])
+  const handleUpdate = React.useMemo(
+    () => () => store.onFilePatch(record.path),
+    [record.path]
+  )
+
   return (
     <ErrorBoundary
       fallback={
@@ -49,7 +53,7 @@ function FileContent() {
         path={record.path}
         client={client}
         onSave={handleUpdate}
-        onSaveAs={(path) => onFileCreate([path])}
+        onSaveAs={(path) => store.onFileCreate([path])}
       />
     </ErrorBoundary>
   )

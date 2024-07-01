@@ -4,20 +4,21 @@ import SelectField from '../Parts/Fields/Select'
 import LightTooltip from '../Parts/Tooltips/Light'
 import Columns from '../Parts/Grids/Columns'
 import * as menu from '../Parts/Bars/Menu'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Menu() {
-  const folder = useStore((state) => state.config?.folder || '')
-  const openProject = useStore((state) => state.openProject)
-  const projectName = useStore((state) => state.config?.project.name)
+  const folder = store.useStore((state) => state.config?.folder || '')
+  const projectName = store.useStore((state) => state.config?.project.name)
   const name = projectName || folder.split(/[\\/]/g).slice(-1)[0] || ''
+
   // @ts-ignore
   const openDirectoryDialog = window?.opendataeditor?.openDirectoryDialog
   const handleOpen = async () => {
     if (!openDirectoryDialog) return
     const fullpath = await openDirectoryDialog()
-    if (fullpath) await openProject(fullpath)
+    if (fullpath) await store.openProject(fullpath)
   }
+
   return (
     <menu.MenuBar fullWidth>
       <Columns layout={[9, 3]} spacing={1}>

@@ -7,10 +7,11 @@ import IconButton from '../../Parts/Buttons/Icon'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import DriveFolderUploadRounded from '@mui/icons-material/DriveFolderUploadRounded'
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function AddButton() {
-  const fileEvent = useStore((state) => state.fileEvent)
+  const fileEvent = store.useStore((state) => state.fileEvent)
+
   return (
     <DropdownButton
       label="Add"
@@ -27,8 +28,8 @@ export default function AddButton() {
 }
 
 function AddLocalFileButton() {
-  const addFiles = useStore((state) => state.addFiles)
   const inputFileRef = React.useRef<HTMLInputElement>(null)
+
   return (
     <React.Fragment>
       <Button
@@ -44,7 +45,7 @@ function AddLocalFileButton() {
           multiple
           ref={inputFileRef}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) addFiles(ev.target.files)
+            if (ev.target.files) store.addFiles(ev.target.files)
           }}
         />
       </Button>
@@ -53,13 +54,12 @@ function AddLocalFileButton() {
 }
 
 function AddRemoteFileButton() {
-  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
       label="Remote File"
       Icon={AddLinkIcon}
-      onClick={() => updateState({ dialog: 'addRemoteFile' })}
+      onClick={() => store.openDialog('addRemoteFile')}
     />
   )
 }
@@ -67,7 +67,7 @@ function AddRemoteFileButton() {
 function AddLocalFolderButton() {
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
-  const addFiles = useStore((state) => state.addFiles)
+
   return (
     <React.Fragment>
       <Button
@@ -80,7 +80,7 @@ function AddLocalFolderButton() {
           type="file"
           hidden
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-            if (ev.target.files) addFiles(ev.target.files)
+            if (ev.target.files) store.addFiles(ev.target.files)
           }}
           // @ts-expect-error
           webkitdirectory=""
@@ -91,13 +91,12 @@ function AddLocalFolderButton() {
 }
 
 function AddEmptyFolderButton() {
-  const updateState = useStore((state) => state.updateState)
   return (
     <IconButton
       variant="text"
       label="Create Folder"
       Icon={CreateNewFolderIcon}
-      onClick={() => updateState({ dialog: 'addEmptyFolder' })}
+      onClick={() => store.openDialog('addEmptyFolder')}
     />
   )
 }

@@ -10,10 +10,10 @@ import DeleteFolderDialog from './Dialogs/DeleteFolder'
 import IndexFilesDialog from './Dialogs/IndexFiles'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Dialog() {
-  const dialog = useStore((state) => state.dialog)
+  const dialog = store.useStore((state) => state.dialog)
   if (!dialog) return null
   // @ts-ignore
   const Dialog = DIALOGS[dialog]

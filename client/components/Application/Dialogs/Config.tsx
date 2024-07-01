@@ -3,15 +3,15 @@ import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Save'
 import ConfirmDialog from '../../Parts/Dialogs/Confirm'
 import ConfigEditor from '../../Editors/Config'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function ConfigDialog() {
-  const config = useStore((state) => state.config)
-  const dialog = useStore((state) => state.dialog)
-  const saveConfig = useStore((state) => state.saveConfig)
-  const updateState = useStore((state) => state.updateState)
+  const config = store.useStore((state) => state.config)
+  const dialog = store.useStore((state) => state.dialog)
+
   const [newConfig, setNewConfig] = React.useState(config)
   if (!newConfig) return null
+
   return (
     <ConfirmDialog
       open={true}
@@ -19,10 +19,10 @@ export default function ConfigDialog() {
       label="Save"
       maxWidth="md"
       Icon={SaveIcon}
-      onCancel={() => updateState({ dialog: undefined })}
+      onCancel={store.closeDialog}
       onConfirm={async () => {
-        await saveConfig(newConfig)
-        updateState({ dialog: undefined })
+        await store.saveConfig(newConfig)
+        store.closeDialog()
       }}
     >
       <Box sx={{ marginLeft: -2 }}>

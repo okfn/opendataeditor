@@ -4,11 +4,12 @@ import RuleIcon from '@mui/icons-material/Rule'
 import ManageIcon from '@mui/icons-material/FileCopy'
 import IconButton from '../../Parts/Buttons/Icon'
 import DropdownButton from '../../Parts/Buttons/Dropdown'
-import { useStore, selectors } from '../store'
+import * as store from '@client/store'
 
 export default function ManageButton() {
-  const path = useStore((state) => state.path)
-  const notIndexedFiles = useStore(selectors.notIndexedFiles)
+  const path = store.useStore((state) => state.path)
+  const notIndexedFiles = store.useStore(store.getNotIndexedFiles)
+
   return (
     <DropdownButton
       disabled={!path && !notIndexedFiles.length}
@@ -24,47 +25,46 @@ export default function ManageButton() {
 }
 
 function CopyButton() {
-  const path = useStore((state) => state.path)
-  const updateState = useStore((state) => state.updateState)
-  const isFolder = useStore(selectors.isFolder)
+  const path = store.useStore((state) => state.path)
+  const isFolder = store.useStore(store.getIsFolder)
   const type = isFolder ? 'Folder' : 'File'
+
   return (
     <IconButton
       disabled={!path}
       variant="text"
       Icon={CopyIcon}
       label={`Copy ${type}`}
-      onClick={() => updateState({ dialog: `copy${type}` })}
+      onClick={() => store.openDialog(`copy${type}`)}
     />
   )
 }
 
 function MoveButton() {
-  const path = useStore((state) => state.path)
-  const updateState = useStore((state) => state.updateState)
-  const isFolder = useStore(selectors.isFolder)
+  const path = store.useStore((state) => state.path)
+  const isFolder = store.useStore(store.getIsFolder)
   const type = isFolder ? 'Folder' : 'File'
+
   return (
     <IconButton
       disabled={!path}
       variant="text"
       Icon={MoveIcon}
       label={`Move ${type}`}
-      onClick={() => updateState({ dialog: `move${type}` })}
+      onClick={() => store.openDialog(`move${type}`)}
     />
   )
 }
 
 function IndexFilesButton() {
-  const updateState = useStore((state) => state.updateState)
-  const notIndexedFiles = useStore(selectors.notIndexedFiles)
+  const notIndexedFiles = store.useStore(store.getNotIndexedFiles)
   return (
     <IconButton
       disabled={!notIndexedFiles.length}
       variant="text"
       label="Index Files"
       Icon={RuleIcon}
-      onClick={() => updateState({ dialog: 'indexFiles' })}
+      onClick={() => store.openDialog('indexFiles')}
     />
   )
 }
