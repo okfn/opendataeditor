@@ -30,8 +30,6 @@ export interface State {
   error?: ClientError
   /** Keeps track of the selected panel **/
   panel?: 'metadata' | 'report' | 'changes' | 'source'
-  /** Keeps track of the displayed dialog **/
-  dialog?: 'publish' | 'saveAs' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure

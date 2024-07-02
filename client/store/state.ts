@@ -13,6 +13,10 @@ export type IState = {
   files: types.IFile[]
   fileEvent?: types.IFileEvent
   error?: ClientError
+
+  /**
+   * Keeps track of the displayed dialog
+   **/
   dialog?: IDialog
   loading?: boolean
   indexing?: boolean
@@ -33,3 +37,7 @@ export type IDialog =
   | 'moveFile'
   | 'moveFolder'
   | 'start'
+  | 'publish'
+  | 'saveAs'
+  | 'chat'
+  | 'leave'

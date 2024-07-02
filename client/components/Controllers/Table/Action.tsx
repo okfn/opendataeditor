@@ -1,17 +1,17 @@
 import * as action from '../../Parts/Bars/Action'
 import { useStore, selectors } from './store'
+import * as store from '@client/store'
 
 export default function Action() {
-  const updateState = useStore((state) => state.updateState)
   const isUpdated = useStore(selectors.isUpdated)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
   return (
     <action.ActionBar>
-      <action.SaveAsButton onClick={() => updateState({ dialog: 'saveAs' })} />
+      <action.SaveAsButton onClick={() => store.openDialog('saveAs')} />
       <action.PublishButton
         disabled={isUpdated}
-        onClick={() => updateState({ dialog: 'publish' })}
+        onClick={() => store.openDialog('publish')}
       />
       <action.RevertButton updated={isUpdated} onClick={revert} />
       <action.SaveButton updated={isUpdated} onClick={save} />

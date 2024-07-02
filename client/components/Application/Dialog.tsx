@@ -15,8 +15,11 @@ import * as store from '@client/store'
 export default function Dialog() {
   const dialog = store.useStore((state) => state.dialog)
   if (!dialog) return null
+
   // @ts-ignore
   const Dialog = DIALOGS[dialog]
+  if (!Dialog) return null
+
   return <Dialog />
 }
 
@@ -34,4 +37,4 @@ const DIALOGS = {
   indexFiles: IndexFilesDialog,
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
-}
+} as const

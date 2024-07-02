@@ -12,3 +12,12 @@ export function closeDialog() {
     state.dialog = undefined
   })
 }
+
+export function toggleDialog(dialog: IDialog) {
+  const current = store.getState().dialog
+  if (current !== dialog) {
+    openDialog(dialog)
+  } else {
+    closeDialog()
+  }
+}
