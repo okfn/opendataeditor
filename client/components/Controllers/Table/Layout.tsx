@@ -21,9 +21,11 @@ export default function Layout() {
   const load = useStore((state) => state.load)
   const path = useStore((state) => state.path)
   const onClickAway = useStore((state) => state.onClickAway)
+
   React.useEffect(() => {
     load().catch(console.error)
   }, [path])
+
   return (
     <React.Fragment>
       <Error />

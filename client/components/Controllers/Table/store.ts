@@ -8,7 +8,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { assert } from 'ts-essentials'
-import { Client, ClientError } from '../../../client'
+import { client, ClientError } from '../../../client'
 import { ITableEditor } from '../../Editors/Table'
 import { TableProps } from './index'
 import * as settings from '../../../settings'
@@ -18,13 +18,6 @@ import * as types from '../../../types'
 export interface State {
   /** Path of the file relative to the project **/
   path: string
-  /** Singleton to connect to the backend **/
-  client: Client
-  /** Event triggered onSave, it is set as a property of the component **/
-  onSave: () => void
-  /** Event triggered onSaveAs, it is set as a property of the component **/
-  onSaveAs: (path: string) => void
-  /** Keeps track if we are displaying the full datagrid or only errors. **/
   mode?: 'errors'
   /** Error object returned by the client **/
   error?: ClientError
@@ -36,9 +29,14 @@ export interface State {
   /** Number of rows of the file **/
   rowCount?: number
   resource?: types.IResource
-  updateState: (patch: Partial<State>) => void
 
   // General
+  updateState: (patch: Partial<State>) => void
+  /** Event triggered onSave, it is set as a property of the component **/
+  onSave: () => void
+  /** Event triggered onSaveAs, it is set as a property of the component **/
+  onSaveAs: (path: string) => void
+  /** Keeps track if we are displaying the full datagrid or only errors. **/
   /** Set the values required to load the component: data, errors, reports, etc **/
   load: () => Promise<void>
   /** Loads the source view of the file (Displays raw CSV file) **/
@@ -95,7 +93,7 @@ export function makeStore(props: TableProps) {
     // General
 
     load: async () => {
-      const { path, client, clearHistory } = get()
+      const { path, clearHistory } = get()
 
       const indexResult = await client.fileIndex({ path })
       if (indexResult instanceof client.Error) return set({ error: indexResult })
@@ -115,7 +113,7 @@ export function makeStore(props: TableProps) {
       clearHistory()
     },
     loadSource: async () => {
-      const { path, record, client } = get()
+      const { path, record } = get()
       if (!record) return
       if (!settings.TEXT_TABLE_FORMATS.includes(record.resource.format || '')) return
       const result = await client.textRead({ path, size: settings.MAX_TABLE_SOURCE_SIZE })
@@ -127,7 +125,7 @@ export function makeStore(props: TableProps) {
       set({ source: result.text })
     },
     edit: async (prompt) => {
-      const { path, client, source, onSave, load, loadSource, gridRef } = get()
+      const { path, source, onSave, load, loadSource, gridRef } = get()
       const grid = gridRef?.current
       if (!grid) return
 
@@ -147,7 +145,7 @@ export function makeStore(props: TableProps) {
       grid.reload()
     },
     saveAs: async (toPath) => {
-      const { path, client, history, resource, onSaveAs } = get()
+      const { path, history, resource, onSaveAs } = get()
       const result = await client.tablePatch({ path, toPath, history, resource })
 
       if (result instanceof client.Error) {
@@ -157,7 +155,7 @@ export function makeStore(props: TableProps) {
       onSaveAs(toPath)
     },
     publish: async (control) => {
-      const { record, client } = get()
+      const { record } = get()
       const result = await client.filePublish({ path: record!.path, control })
 
       if (result instanceof client.Error) {
@@ -179,7 +177,7 @@ export function makeStore(props: TableProps) {
       }
     },
     save: async () => {
-      const { path, client, history, load, gridRef, resource, onSave } = get()
+      const { path, history, load, gridRef, resource, onSave } = get()
       const grid = gridRef?.current
       if (!grid) return
 
@@ -198,7 +196,7 @@ export function makeStore(props: TableProps) {
       grid.reload()
     },
     loader: async ({ skip, limit, sortInfo }) => {
-      const { path, client, rowCount, mode, history } = get()
+      const { path, rowCount, mode, history } = get()
 
       const result = await client.tableRead({
         path,
@@ -225,7 +223,7 @@ export function makeStore(props: TableProps) {
       return { data: rowsNotNull, count: rowCount || 0 }
     },
     toggleErrorMode: async () => {
-      const { path, client, mode, gridRef } = get()
+      const { path, mode, gridRef } = get()
       const grid = gridRef?.current
       if (!grid) return
 
@@ -258,8 +256,10 @@ export function makeStore(props: TableProps) {
       })
     },
     onClickAway: () => {
+      // @ts-ignore
       const { dialog, updateState } = get()
       const isUpdated = selectors.isUpdated(get())
+      // @ts-ignore
       if (isUpdated && !dialog) updateState({ dialog: 'leave' })
     },
 
