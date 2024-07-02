@@ -13,13 +13,18 @@ export type IState = {
   files: types.IFile[]
   fileEvent?: types.IFileEvent
   error?: ClientError
+  loading?: boolean
+  indexing?: boolean
 
   /**
    * Keeps track of the displayed dialog
    **/
   dialog?: IDialog
-  loading?: boolean
-  indexing?: boolean
+
+  /**
+   * Keeps track of the selected panel
+   **/
+  panel?: IPanel
 }
 
 export type IDialog =
@@ -41,3 +46,5 @@ export type IDialog =
   | 'saveAs'
   | 'chat'
   | 'leave'
+
+export type IPanel = 'metadata' | 'report' | 'changes' | 'source'

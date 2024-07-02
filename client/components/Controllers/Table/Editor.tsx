@@ -24,6 +24,7 @@ export default function Editor() {
 
   if (!schema) return null
   if (!report) return null
+
   return (
     <TableEditor
       editable

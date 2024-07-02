@@ -6,6 +6,7 @@ export default function Action() {
   const isUpdated = useStore(selectors.isUpdated)
   const revert = useStore((state) => state.revert)
   const save = useStore((state) => state.save)
+
   return (
     <action.ActionBar>
       <action.SaveAsButton onClick={() => store.openDialog('saveAs')} />

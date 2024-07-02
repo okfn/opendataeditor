@@ -6,33 +6,31 @@ import * as store from '@client/store'
 
 export default function Menu() {
   const mode = useStore((state) => state.mode)
-  const panel = useStore((state) => state.panel)
+  const panel = store.useStore((state) => state.panel)
   const report = useStore((state) => state.report)
   const measure = useStore((state) => state.measure)
   const history = useStore((state) => state.history)
   const format = useStore((state) => state.record?.resource.format)
   const undoneHistory = useStore((state) => state.undoneHistory)
-  const updateState = useStore((state) => state.updateState)
   const toggleErrorMode = useStore((state) => state.toggleErrorMode)
   const undoChange = useStore((state) => state.undoChange)
   const redoChange = useStore((state) => state.redoChange)
+
   return (
     <menu.MenuBar>
       <menu.MetadataButton
         active={panel === 'metadata'}
-        onClick={() =>
-          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
-        }
+        onClick={() => store.togglePanel('metadata')}
       />
       <menu.ReportButton
         disabled={!report || report?.valid}
         active={panel === 'report'}
-        onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+        onClick={() => store.togglePanel('report')}
       />
       <menu.SourceButton
         disabled={!helpers.getLanguageByFormat(format)}
         active={panel === 'source'}
-        onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+        onClick={() => store.togglePanel('source')}
       />
       <menu.ChatButton
         disabled={!settings.TEXT_TABLE_FORMATS.includes(format || '')}

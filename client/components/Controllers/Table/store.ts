@@ -28,8 +28,6 @@ export interface State {
   mode?: 'errors'
   /** Error object returned by the client **/
   error?: ClientError
-  /** Keeps track of the selected panel **/
-  panel?: 'metadata' | 'report' | 'changes' | 'source'
   record?: types.IRecord
   report?: types.IReport
   measure?: types.IMeasure
