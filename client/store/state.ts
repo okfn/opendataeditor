@@ -1,5 +1,6 @@
 import type * as types from '@client/types'
 import type { ClientError } from '@client/client'
+import type { ITableEditor } from '@client/components/Editors/Table'
 
 export const initialState: IState = {
   files: [],
@@ -10,11 +11,13 @@ export type IState = {
   config?: types.IConfig
   record?: types.IRecord
   measure?: types.IMeasure
+  resource?: types.IResource
   files: types.IFile[]
   fileEvent?: types.IFileEvent
   error?: ClientError
   loading?: boolean
   indexing?: boolean
+  table?: ITableState
 
   /**
    * Keeps track of the displayed dialog
@@ -48,3 +51,12 @@ export type IDialog =
   | 'leave'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
+
+export type ITableState = {
+  rowCount: number
+  history: types.IHistory
+  undoneHistory: types.IHistory
+  gridRef?: React.MutableRefObject<ITableEditor>
+  source?: string
+  publishedUrl?: string
+}

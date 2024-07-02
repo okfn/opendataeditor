@@ -33,7 +33,7 @@ function FileContent() {
 
   const Controller = CONTROLLERS[record.type] || File
   const handleUpdate = React.useMemo(
-    () => () => store.onFilePatch(record.path),
+    () => () => store.onFileUpdate(record.path),
     [record.path]
   )
 

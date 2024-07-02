@@ -1,6 +1,8 @@
 import * as store from '../store'
 import delay from 'delay'
 import { client } from '@client/client'
+import { cloneDeep } from 'lodash'
+import { openTable } from './table'
 import { onFileCreate, onFileDelete } from './event'
 import * as helpers from '@client/helpers'
 
@@ -188,11 +190,14 @@ export async function openFile(path: string) {
   })
 
   const result = await client.fileIndex({ path })
-
   if (result instanceof client.Error) {
     return store.setState('open-file-error', (state) => {
       state.error = result
     })
+  }
+
+  if (result.record?.type === 'table') {
+    await openTable()
   }
 
   await loadFiles()
@@ -200,6 +205,7 @@ export async function openFile(path: string) {
   store.setState('open-file-loaded', (state) => {
     state.record = result.record
     state.measure = result.measure
+    state.resource = cloneDeep(result.record.resource)
     state.indexing = false
   })
 

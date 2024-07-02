@@ -78,7 +78,7 @@ export async function onFileDelete(path: string) {
   })
 }
 
-export async function onFilePatch(path: string) {
+export async function onFileUpdate(path: string) {
   store.setState('file-update-start', (state) => {
     state.fileEvent = { type: 'update', paths: [path] }
   })
