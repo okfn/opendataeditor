@@ -73,6 +73,11 @@ export type IState = {
 
 export type ITableState = {
   /**
+   * Optional table mode, e.g. 'errors' to show only errors
+   **/
+  mode?: 'errors'
+
+  /**
    * The number of rows in the table
    **/
   rowCount: number
