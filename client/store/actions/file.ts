@@ -185,6 +185,7 @@ export async function openFile(path: string) {
 
   store.setState('open-file-start', (state) => {
     state.record = undefined
+    state.report = undefined
     state.measure = undefined
     state.indexing = true
   })
@@ -196,18 +197,19 @@ export async function openFile(path: string) {
     })
   }
 
-  if (result.record?.type === 'table') {
-    await openTable()
-  }
-
   await loadFiles()
 
   store.setState('open-file-loaded', (state) => {
     state.record = result.record
+    state.report = result.report
     state.measure = result.measure
     state.resource = cloneDeep(result.record.resource)
     state.indexing = false
   })
+
+  if (result.record?.type === 'table') {
+    await openTable()
+  }
 
   if (!event) {
     store.setState('open-file-event-start', (state) => {

@@ -1,20 +1,16 @@
-import { useStore } from './store'
 import * as menu from '../../Parts/Bars/Menu'
 import * as helpers from '../../../helpers'
 import * as settings from '../../../settings'
 import * as store from '@client/store'
 
 export default function Menu() {
-  const mode = useStore((state) => state.mode)
+  const mode = store.useStore((state) => state.table?.mode)
   const panel = store.useStore((state) => state.panel)
-  const report = useStore((state) => state.report)
-  const measure = useStore((state) => state.measure)
-  const history = useStore((state) => state.history)
-  const format = useStore((state) => state.record?.resource.format)
-  const undoneHistory = useStore((state) => state.undoneHistory)
-  const toggleErrorMode = useStore((state) => state.toggleErrorMode)
-  const undoChange = useStore((state) => state.undoChange)
-  const redoChange = useStore((state) => state.redoChange)
+  const report = store.useStore((state) => state.report)
+  const measure = store.useStore((state) => state.measure)
+  const history = store.useStore((state) => state.table?.history)
+  const format = store.useStore((state) => state.record?.resource.format)
+  const undoneHistory = store.useStore((state) => state.table?.undoneHistory)
 
   return (
     <menu.MenuBar>
@@ -38,11 +34,17 @@ export default function Menu() {
       />
       <menu.ErrorsButton
         active={mode === 'errors'}
-        onClick={toggleErrorMode}
+        onClick={store.toggleTableErrorMode}
         disabled={!measure?.errors}
       />
-      <menu.UndoButton onClick={undoChange} disabled={!history?.changes.length} />
-      <menu.RedoButton onClick={redoChange} disabled={!undoneHistory?.changes.length} />
+      <menu.UndoButton
+        onClick={store.undoTableChange}
+        disabled={!history?.changes.length}
+      />
+      <menu.RedoButton
+        onClick={store.redoTableChange}
+        disabled={!undoneHistory?.changes.length}
+      />
     </menu.MenuBar>
   )
 }

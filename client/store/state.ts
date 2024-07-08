@@ -19,6 +19,11 @@ export type IState = {
   record?: types.IRecord
 
   /**
+   * A `frictionless-py` validation report for the currently selected file if any is selected
+   **/
+  report?: types.IReport
+
+  /**
    * A measure desribing currently selected file if any is selected
    **/
   measure?: types.IMeasure
@@ -112,6 +117,11 @@ export type ITableState = {
    * When the table is in the in-edit mode keeps track of the initial cell value
    **/
   initialEditingValue?: string | number
+
+  /**
+   * Keeps track of the current table selection in the Inovua table editor
+   **/
+  selection?: types.ITableSelection
 }
 
 export type IDialog =

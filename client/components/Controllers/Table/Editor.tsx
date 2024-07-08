@@ -1,25 +1,19 @@
 import TableEditor from '../../Editors/Table'
-import { useStore } from './store'
 import * as React from 'react'
 import { useKeyPress } from 'ahooks'
+import * as store from '@client/store'
 
 export default function Editor() {
-  const schema = useStore((state) => state.record?.resource.schema)
-  const report = useStore((state) => state.report)
-  const loader = useStore((state) => state.loader)
-  const history = useStore((state) => state.history)
-  const selection = useStore((state) => state.selection)
-  const startEditing = useStore((state) => state.startEditing)
-  const saveEditing = useStore((state) => state.saveEditing)
-  const stopEditing = useStore((state) => state.stopEditing)
-  const updateState = useStore((state) => state.updateState)
-  const deleteMultipleCells = useStore((state) => state.deleteMultipleCells)
+  const schema = store.useStore((state) => state.record?.resource.schema)
+  const report = store.useStore((state) => state.report)
+  const history = store.useStore((state) => state.table?.history)
+  const selection = store.useStore((state) => state.table?.selection)
 
   const [cellSelection, setCellSelection] = React.useState({})
 
   // works automatically, doesnt need to be passed to <TableEditor with onKeyPress
   useKeyPress(['delete', 'backspace'], () => {
-    deleteMultipleCells(cellSelection)
+    store.deleteMultipleCells(cellSelection)
   })
 
   if (!schema) return null
@@ -28,15 +22,15 @@ export default function Editor() {
   return (
     <TableEditor
       editable
-      source={loader}
+      source={store.tableLoader}
       schema={schema}
       report={report}
       history={history}
       selection={selection}
-      onEditStart={startEditing}
-      onEditComplete={saveEditing}
-      onEditStop={stopEditing}
-      handle={(gridRef) => updateState({ gridRef })}
+      onEditStart={store.startTableEditing}
+      onEditComplete={store.saveTableEditing}
+      onEditStop={store.stopTableEditing}
+      handle={store.setTableGridRef}
       defaultCellSelection={cellSelection}
       onCellSelectionChange={setCellSelection}
     />

@@ -1,11 +1,8 @@
 import * as action from '../../Parts/Bars/Action'
-import { useStore, selectors } from './store'
 import * as store from '@client/store'
 
 export default function Action() {
-  const isUpdated = useStore(selectors.isUpdated)
-  const revert = useStore((state) => state.revert)
-  const save = useStore((state) => state.save)
+  const isUpdated = store.useStore(store.getIsTableOrResourceUpdated)
 
   return (
     <action.ActionBar>
@@ -14,8 +11,8 @@ export default function Action() {
         disabled={isUpdated}
         onClick={() => store.openDialog('publish')}
       />
-      <action.RevertButton updated={isUpdated} onClick={revert} />
-      <action.SaveButton updated={isUpdated} onClick={save} />
+      <action.RevertButton updated={isUpdated} onClick={store.revertTable} />
+      <action.SaveButton updated={isUpdated} onClick={store.saveTable} />
     </action.ActionBar>
   )
 }

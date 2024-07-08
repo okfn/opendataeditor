@@ -50,6 +50,18 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
   return { data: rowsNotNull, count: table.rowCount || 0 }
 }
 
+export function setTableGridRef(gridRef: any) {
+  store.setState('set-table-grid-ref', (state) => {
+    state.table!.gridRef = gridRef
+  })
+}
+
+export function setTableSelection(selection: types.ITableSelection) {
+  store.setState('set-table-selection', (state) => {
+    state.table!.selection = selection
+  })
+}
+
 export async function openTable() {
   const { path, record } = store.getState()
   if (!path || !record) return
@@ -131,6 +143,7 @@ export async function editTable(prompt: string) {
 
   const text = table.source || ''
   const result = await client.tableEdit({ path, text, prompt })
+
   if (result instanceof client.Error) {
     return store.setState('edit-table-error', (state) => {
       state.error = result
@@ -167,14 +180,18 @@ export async function publishTable(control: types.IControl) {
   const result = await client.filePublish({ path: record!.path, control })
 
   if (result instanceof client.Error) {
-    return store.setState('publish-table-error', (state) => {
+    store.setState('publish-table-error', (state) => {
       state.error = result
     })
+    return undefined
   }
 
   store.setState('publish-table-end', (state) => {
     state.table!.publishedUrl = result.url
   })
+
+  // TODO: remove and use from the state in UI
+  return result.url
 }
 
 export async function revertTable() {
@@ -251,27 +268,42 @@ export function saveTableEditing(context: any) {
   }
 
   store.setState('save-table-editing', (state) => {
-    helpers.applyTableHistory({ changes: [change] }, grid.data)
     state.table!.history.changes.push(change)
     state.table!.undoneHistory.changes = []
   })
 
+  helpers.applyTableHistory({ changes: [change] }, grid.data)
   grid.reload()
 }
 
-export function undoChange() {
+export function stopTableEditing() {
   const { table } = store.getState()
-  if (!table) return
+  const grid = table?.gridRef?.current
+  if (!grid) return
+
+  requestAnimationFrame(() => {
+    store.setState('stop-table-editing', (state) => {
+      state.table!.initialEditingValue = undefined
+    })
+  })
+
+  grid.focus()
+}
+
+export function undoTableChange() {
+  const { table } = store.getState()
+  const grid = table?.gridRef?.current
+  if (!grid) return
 
   store.setState('undo-change', (state) => {
     const change = state.table!.history.changes.pop()
     if (change) state.table!.undoneHistory.changes.push(change)
   })
 
-  table.gridRef?.current?.reload()
+  grid.reload()
 }
 
-export function redoChange() {
+export function redoTableChange() {
   const { table } = store.getState()
   if (!table) return
 
@@ -304,8 +336,9 @@ export async function deleteMultipleCells(cells: object) {
   }
 
   store.setState('delete-multiple-cells', (state) => {
-    helpers.applyTableHistory({ changes: [change] }, grid.data)
     state.table!.history.changes.push(change)
     state.table!.undoneHistory.changes = []
   })
+
+  helpers.applyTableHistory({ changes: [change] }, grid.data)
 }
