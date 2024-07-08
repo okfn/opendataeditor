@@ -16,6 +16,8 @@ export function createColumns(
 
   const rowNumberColumn = {
     name: '_rowNumber',
+    showColumnMenuTool: false,
+    sortable: false,
     header: '',
     type: 'number',
     width: 60,
