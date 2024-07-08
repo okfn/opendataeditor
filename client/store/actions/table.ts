@@ -10,6 +10,10 @@ import * as settings from '@client/settings'
 import * as types from '@client/types'
 import * as store from '../store'
 
+export const getIsTableOrResourceUpdated = store.createSelector((state) => {
+  return getIsTableUpdated(state) || getIsResourceUpdated(state)
+})
+
 export const getIsTableUpdated = store.createSelector((state) => {
   return !!state.table?.history.changes.length
 })
@@ -214,10 +218,7 @@ export async function saveTable() {
 
 export function catchTableClickAway() {
   const { dialog } = store.getState()
-
-  const isTableUpdated = getIsTableUpdated(store.getState())
-  const isResourceUpdated = getIsResourceUpdated(store.getState())
-  const isUpdated = isTableUpdated || isResourceUpdated
+  const isUpdated = getIsTableOrResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
     openDialog('leave')
