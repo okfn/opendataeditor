@@ -6,8 +6,7 @@ import * as store from '@client/store'
 export default function Editor() {
   const schema = store.useStore((state) => state.record?.resource.schema)
   const report = store.useStore((state) => state.report)
-  const history = store.useStore((state) => state.table?.history)
-  const selection = store.useStore((state) => state.table?.selection)
+  const table = store.useStore((state) => state.table)
 
   const [cellSelection, setCellSelection] = React.useState({})
 
@@ -18,6 +17,7 @@ export default function Editor() {
 
   if (!schema) return null
   if (!report) return null
+  if (!table) return null
 
   return (
     <TableEditor
@@ -25,8 +25,8 @@ export default function Editor() {
       source={store.tableLoader}
       schema={schema}
       report={report}
-      history={history}
-      selection={selection}
+      history={table.history}
+      selection={table.selection}
       onEditStart={store.startTableEditing}
       onEditComplete={store.saveTableEditing}
       onEditStop={store.stopTableEditing}

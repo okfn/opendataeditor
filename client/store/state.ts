@@ -78,11 +78,6 @@ export type IState = {
 
 export type ITableState = {
   /**
-   * Optional table mode, e.g. 'errors' to show only errors
-   **/
-  mode?: 'errors'
-
-  /**
    * The number of rows in the table
    **/
   rowCount: number
@@ -97,6 +92,11 @@ export type ITableState = {
    * The same as history but for reverted changes
    **/
   undoneHistory: types.IHistory
+
+  /**
+   * Optional table mode, e.g. 'errors' to show only errors
+   **/
+  mode?: 'errors'
 
   /**
    * The ref to the Inovua table editor component

@@ -3,7 +3,7 @@ import delay from 'delay'
 import { client } from '@client/client'
 import { cloneDeep } from 'lodash'
 import { openTable } from './table'
-import { emitFileCreateEvent, emitFileDeleteEvent } from './event'
+import { onFileCreate, onFileDelete } from './event'
 import * as helpers from '@client/helpers'
 
 export const getIsFolder = store.createSelector((state) => {
@@ -52,7 +52,7 @@ export async function addFiles(files: FileList) {
     paths.push(result.path)
   }
 
-  emitFileCreateEvent(paths)
+  onFileCreate(paths)
 }
 
 export async function fetchFile(url: string) {
@@ -65,7 +65,7 @@ export async function fetchFile(url: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createFile(path: string, prompt?: string) {
@@ -79,7 +79,7 @@ export async function createFile(path: string, prompt?: string) {
       })
     }
 
-    emitFileCreateEvent([result.path])
+    onFileCreate([result.path])
   } else {
     const file = new File([new Blob()], path)
     const result = await client.fileCreate({ path, file, deduplicate: true })
@@ -90,7 +90,7 @@ export async function createFile(path: string, prompt?: string) {
       })
     }
 
-    emitFileCreateEvent([result.path])
+    onFileCreate([result.path])
   }
 }
 
@@ -125,7 +125,7 @@ export async function copyFile(path: string, toPath: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function deleteFile(path: string) {
@@ -137,7 +137,7 @@ export async function deleteFile(path: string) {
     })
   }
 
-  emitFileDeleteEvent(path)
+  onFileDelete(path)
 }
 
 export async function moveFile(path: string, toPath: string) {
@@ -149,7 +149,7 @@ export async function moveFile(path: string, toPath: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function locateFile(path: string) {
@@ -207,14 +207,14 @@ export async function openFile(path: string) {
     state.indexing = false
   })
 
-  if (result.record?.type === 'table') {
-    await openTable()
-  }
-
   if (!event) {
     store.setState('open-file-event-start', (state) => {
       state.event = { type: 'open', paths: [path] }
     })
+  }
+
+  if (result.record?.type === 'table') {
+    await openTable()
   }
 
   await delay(500)

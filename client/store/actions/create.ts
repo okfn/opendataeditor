@@ -1,6 +1,6 @@
 import * as store from '../store'
 import { client } from '@client/client'
-import { emitFileCreateEvent } from './event'
+import { onFileCreate } from './event'
 
 export async function createArticle(path: string, prompt?: string) {
   const result = await client.articleCreate({ path, prompt, deduplicate: true })
@@ -11,7 +11,7 @@ export async function createArticle(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createChart(path: string, prompt?: string) {
@@ -23,7 +23,7 @@ export async function createChart(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createImage(path: string, prompt?: string) {
@@ -35,7 +35,7 @@ export async function createImage(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createMap(path: string, prompt?: string) {
@@ -47,7 +47,7 @@ export async function createMap(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createPackage(path: string, prompt?: string) {
@@ -59,7 +59,7 @@ export async function createPackage(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createScript(path: string, prompt?: string) {
@@ -71,7 +71,7 @@ export async function createScript(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createTable(path: string, prompt?: string) {
@@ -88,7 +88,7 @@ export async function createTable(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }
 
 export async function createView(path: string, prompt?: string) {
@@ -100,5 +100,5 @@ export async function createView(path: string, prompt?: string) {
     })
   }
 
-  emitFileCreateEvent([result.path])
+  onFileCreate([result.path])
 }

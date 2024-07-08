@@ -2,7 +2,7 @@ import * as store from '../store'
 import delay from 'delay'
 import { loadFiles, selectFile } from './file'
 
-export async function emitFileCreateEvent(paths: string[]) {
+export async function onFileCreate(paths: string[]) {
   await loadFiles()
 
   store.setState('file-create-start', (state) => {
@@ -20,7 +20,7 @@ export async function emitFileCreateEvent(paths: string[]) {
   })
 }
 
-export async function emitFileDeleteEvent(path: string) {
+export async function onFileDelete(path: string) {
   store.setState('file-delete-start', (state) => {
     state.event = { type: 'delete', paths: [path] }
   })
@@ -36,7 +36,7 @@ export async function emitFileDeleteEvent(path: string) {
   })
 }
 
-export async function emitFileUpdateEvent(path: string) {
+export async function onFileUpdate(path: string) {
   store.setState('file-update-start', (state) => {
     state.event = { type: 'update', paths: [path] }
   })

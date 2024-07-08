@@ -3,7 +3,7 @@ import { mapValues, isNull } from 'lodash'
 import { openDialog } from './dialog'
 import { cloneDeep } from 'lodash'
 import { getIsResourceUpdated } from './resource'
-import { emitFileCreateEvent, emitFileUpdateEvent } from './event'
+import { onFileCreate, onFileUpdate } from './event'
 import { revertResource } from './resource'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
@@ -150,7 +150,7 @@ export async function editTable(prompt: string) {
     })
   }
 
-  await emitFileUpdateEvent(path)
+  await onFileUpdate(path)
   grid.reload()
 }
 
@@ -171,7 +171,7 @@ export async function forkTable(toPath: string) {
     })
   }
 
-  await emitFileCreateEvent([toPath])
+  await onFileCreate([toPath])
 }
 
 export async function publishTable(control: types.IControl) {
@@ -229,7 +229,7 @@ export async function saveTable() {
     })
   }
 
-  await emitFileUpdateEvent(path)
+  await onFileUpdate(path)
   grid.reload()
 }
 
