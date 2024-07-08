@@ -33,7 +33,7 @@ function FileContent() {
 
   const Controller = CONTROLLERS[record.type] || File
   const handleUpdate = React.useMemo(
-    () => () => store.onFileUpdate(record.path),
+    () => () => store.emitFileUpdateEvent(record.path),
     [record.path]
   )
 
@@ -53,7 +53,7 @@ function FileContent() {
         path={record.path}
         client={client}
         onSave={handleUpdate}
-        onSaveAs={(path) => store.onFileCreate([path])}
+        onSaveAs={(path) => store.emitFileCreateEvent([path])}
       />
     </ErrorBoundary>
   )
