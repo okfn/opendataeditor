@@ -1,5 +1,6 @@
 import { client } from '@client/client'
 import { cloneDeep } from 'lodash'
+import { getIsResourceUpdated } from './resource'
 import { onFileCreate, onFileUpdate } from './event'
 import { revertResource } from './resource'
 import * as settings from '@client/settings'
@@ -112,4 +113,28 @@ export async function revertTable() {
   }
 
   revertResource()
+}
+
+export async function saveTable() {
+  const { path, resource, table } = store.getState()
+  const grid = table?.gridRef?.current
+  if (!path || !grid) return
+
+  const isTableUpdated = getIsTableUpdated(store.getState())
+  const isResourceUpdated = getIsResourceUpdated(store.getState())
+
+  const result = await client.tablePatch({
+    path,
+    history: isTableUpdated ? table.history : undefined,
+    resource: isResourceUpdated ? resource : undefined,
+  })
+
+  if (result instanceof client.Error) {
+    return store.setState('save-table-error', (state) => {
+      state.error = result
+    })
+  }
+
+  await onFileUpdate(path)
+  grid.reload()
 }

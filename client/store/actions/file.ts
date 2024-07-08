@@ -155,13 +155,13 @@ export async function moveFile(path: string, toPath: string) {
 export async function locateFile(path: string) {
   store.setState('locate-file-start', (state) => {
     state.path = path
-    state.fileEvent = { type: 'locate', paths: [path] }
+    state.event = { type: 'locate', paths: [path] }
   })
 
   await delay(500)
 
   store.setState('locate-file-end', (state) => {
-    state.fileEvent = undefined
+    state.event = undefined
   })
 }
 
@@ -181,7 +181,7 @@ export async function selectFile(newPath?: string) {
 }
 
 export async function openFile(path: string) {
-  const { fileEvent } = store.getState()
+  const { event } = store.getState()
 
   store.setState('open-file-start', (state) => {
     state.record = undefined
@@ -209,16 +209,16 @@ export async function openFile(path: string) {
     state.indexing = false
   })
 
-  if (!fileEvent) {
+  if (!event) {
     store.setState('open-file-event-start', (state) => {
-      state.fileEvent = { type: 'open', paths: [path] }
+      state.event = { type: 'open', paths: [path] }
     })
   }
 
   await delay(500)
 
   store.setState('open-file-event-end', (state) => {
-    state.fileEvent = undefined
+    state.event = undefined
   })
 }
 

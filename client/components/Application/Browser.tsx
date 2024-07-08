@@ -21,7 +21,7 @@ export default function Browser() {
 function DefaultBrowser() {
   const path = store.useStore((state) => state.path)
   const files = store.useStore((state) => state.files)
-  const fileEvent = store.useStore((state) => state.fileEvent)
+  const event = store.useStore((state) => state.event)
 
   return (
     <ErrorBoundary
@@ -35,12 +35,7 @@ function DefaultBrowser() {
         </Box>
       }
     >
-      <FileTree
-        files={files}
-        event={fileEvent}
-        selected={path}
-        onSelect={store.selectFile}
-      />
+      <FileTree files={files} event={event} selected={path} onSelect={store.selectFile} />
     </ErrorBoundary>
   )
 }

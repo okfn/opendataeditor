@@ -48,7 +48,7 @@ export async function onFileCreate(paths: string[]) {
   await loadFiles()
 
   store.setState('file-create-start', (state) => {
-    state.fileEvent = { type: 'create', paths }
+    state.event = { type: 'create', paths }
   })
 
   if (paths.length === 1) {
@@ -58,13 +58,13 @@ export async function onFileCreate(paths: string[]) {
   await delay(500)
 
   store.setState('file-create-end', (state) => {
-    state.fileEvent = undefined
+    state.event = undefined
   })
 }
 
 export async function onFileDelete(path: string) {
   store.setState('file-delete-start', (state) => {
-    state.fileEvent = { type: 'delete', paths: [path] }
+    state.event = { type: 'delete', paths: [path] }
   })
 
   await delay(500)
@@ -72,7 +72,7 @@ export async function onFileDelete(path: string) {
   selectFile(undefined)
 
   store.setState('file-delete-end', (state) => {
-    state.fileEvent = undefined
+    state.event = undefined
     state.record = undefined
     state.measure = undefined
   })
@@ -80,13 +80,13 @@ export async function onFileDelete(path: string) {
 
 export async function onFileUpdate(path: string) {
   store.setState('file-update-start', (state) => {
-    state.fileEvent = { type: 'update', paths: [path] }
+    state.event = { type: 'update', paths: [path] }
   })
 
   selectFile(path)
   await delay(500)
 
   store.setState('file-update-end', (state) => {
-    state.fileEvent = undefined
+    state.event = undefined
   })
 }

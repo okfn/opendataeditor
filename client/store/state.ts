@@ -2,22 +2,51 @@ import type * as types from '@client/types'
 import type { ClientError } from '@client/client'
 import type { ITableEditor } from '@client/components/Editors/Table'
 
-export const initialState: IState = {
-  files: [],
-}
-
 export type IState = {
-  path?: string
-  config?: types.IConfig
-  record?: types.IRecord
-  measure?: types.IMeasure
-  resource?: types.IResource
+  /**
+   * The list of files in the current project
+   **/
   files: types.IFile[]
-  fileEvent?: types.IFileEvent
-  error?: ClientError
+
+  /**
+   * A path of the currently selected file if any is selected
+   **/
+  path?: string
+
+  /**
+   * A recored desribing currently selected file if any is selected
+   **/
+  record?: types.IRecord
+
+  /**
+   * A measure desribing currently selected file if any is selected
+   **/
+  measure?: types.IMeasure
+
+  /**
+   * True if data is loading
+   **/
   loading?: boolean
+
+  /**
+   * True if data is indexing
+   **/
   indexing?: boolean
-  table?: ITableState
+
+  /**
+   * Application config object
+   **/
+  config?: types.IConfig
+
+  /**
+   * Currently active event for example, file creation or deletion (to show animation)
+   **/
+  event?: types.IFileEvent
+
+  /**
+   * Keeps track of the current error (global to the app)
+   **/
+  error?: ClientError
 
   /**
    * Keeps track of the displayed dialog
@@ -28,6 +57,56 @@ export type IState = {
    * Keeps track of the selected panel
    **/
   panel?: IPanel
+
+  /**
+   * A Data Resource descriptor for the current file
+   * It can be edited by a metadata editor as a part of metadata adjustment
+   * The original `record.resource` is immutable and can be compared
+   **/
+  resource?: types.IResource
+
+  /**
+   * Keeps track of the table state if current file is a table
+   **/
+  table?: ITableState
+}
+
+export type ITableState = {
+  /**
+   * The number of rows in the table
+   **/
+  rowCount: number
+
+  /**
+   * The history object that includes all the changes done to the current table
+   * The application merged these changes into the table editor via table loader
+   **/
+  history: types.IHistory
+
+  /**
+   * The same as history but for reverted changes
+   **/
+  undoneHistory: types.IHistory
+
+  /**
+   * The ref to the Inovua table editor component
+   **/
+  gridRef?: React.MutableRefObject<ITableEditor>
+
+  /**
+   * The source of the table in text format (capped to a certain size, see settings)
+   **/
+  source?: string
+
+  /**
+   * Keeps track of the URL where the table was published as a dataset (e.g. to CKAN)
+   **/
+  publishedUrl?: string
+
+  /**
+   * When the table is in the in-edit mode keeps track of the initial cell value
+   **/
+  initialEditingValue?: string | number
 }
 
 export type IDialog =
@@ -52,11 +131,6 @@ export type IDialog =
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
-export type ITableState = {
-  rowCount: number
-  history: types.IHistory
-  undoneHistory: types.IHistory
-  gridRef?: React.MutableRefObject<ITableEditor>
-  source?: string
-  publishedUrl?: string
+export const initialState: IState = {
+  files: [],
 }
