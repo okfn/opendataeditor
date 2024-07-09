@@ -3,11 +3,12 @@ import ScrollBox from '../../Parts/Boxes/Scroll'
 import MetadataPanel from './Panels/Metadata'
 import ReportPanel from './Panels/Report'
 import SourcePanel from './Panels/Source'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Layout() {
   const theme = useTheme()
-  const panel = useStore((state) => state.panel)
+  const panel = store.useStore((state) => state.panel)
+
   return (
     <ScrollBox
       hidden={!panel}

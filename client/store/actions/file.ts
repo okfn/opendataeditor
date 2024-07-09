@@ -1,6 +1,9 @@
 import * as store from '../store'
 import { client } from '@client/client'
+import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
+import { openDialog } from './dialog'
+import { getIsResourceUpdated } from './resource'
 import { openTable, closeTable } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
@@ -54,33 +57,42 @@ async function openFile() {
 
   await loadFiles()
 
-  store.setState('open-file-end', (state) => {
+  store.setState('open-file-loaded', (state) => {
     state.record = result.record
     state.report = result.report
     state.measure = result.measure
     state.resource = cloneDeep(result.record.resource)
-    state.indexing = false
   })
 
-  emitEvent({ type: 'open', paths: [path] })
-
-  if (result.record?.type === 'table') {
+  if (result.record.type === 'table') {
     await openTable()
   }
+
+  await loadSource()
+
+  emitEvent({ type: 'open', paths: [path] })
+  store.setState('open-file-end', (state) => {
+    state.indexing = false
+  })
 }
 
 async function closeFile() {
   const { record } = store.getState()
+  if (!record) return
 
   store.setState('close-file', (state) => {
     state.record = undefined
     state.report = undefined
     state.measure = undefined
     state.resource = undefined
+    state.source = undefined
+    state.error = undefined
+    state.dialog = undefined
+    state.panel = undefined
     state.indexing = false
   })
 
-  if (record?.type === 'table') {
+  if (record.type === 'table') {
     await closeTable()
   }
 }
@@ -185,6 +197,21 @@ export async function moveFile(path: string, toPath: string) {
   await onFileCreated([result.path])
 }
 
+export async function forkFile(toPath: string) {
+  const { path, resource } = store.getState()
+  if (!path) return
+
+  const result = await client.filePatch({ path, toPath, resource })
+
+  if (result instanceof client.Error) {
+    return store.setState('fork-table-error', (state) => {
+      state.error = result
+    })
+  }
+
+  await onFileCreated([result.path])
+}
+
 export async function locateFile(path: string) {
   store.setState('locate-file-start', (state) => {
     state.path = path
@@ -217,6 +244,15 @@ export async function onFileDeleted(paths: string[]) {
   deselectFile()
   await emitEvent({ type: 'delete', paths })
   await loadFiles()
+}
+
+export function catchFileClickAway() {
+  const { dialog } = store.getState()
+  const isUpdated = getIsResourceUpdated(store.getState())
+
+  if (isUpdated && !dialog) {
+    openDialog('leave')
+  }
 }
 
 // Selectors

@@ -1,15 +1,20 @@
 import Image from '../../Views/Image'
 import Map from '../../Views/Map'
 import Missing from '../../Views/Missing'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function View() {
-  const type = useStore((state) => state.record?.type)
-  const format = useStore((state) => state.record?.resource.format)
-  const byteSource = useStore((state) => state.byteSource)
-  const textSource = useStore((state) => state.textSource)
-  if (!type) return null
-  if (type === 'image') return <Image format={format} bytes={byteSource} />
-  if (type === 'map') return <Map text={textSource} />
+  const type = store.useStore((state) => state.record?.type)
+  const format = store.useStore((state) => state.record?.resource.format)
+  const source = store.useStore((state) => state.source)
+
+  if (type === 'image' && source?.bytes) {
+    return <Image format={format} bytes={source.bytes} />
+  }
+
+  if (type === 'map' && source?.text) {
+    return <Map text={source.text} />
+  }
+
   return <Missing format={format} />
 }

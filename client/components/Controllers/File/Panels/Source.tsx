@@ -1,8 +1,9 @@
 import { TextSourcePanel } from '../../Base/Panels/Source'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function Source() {
-  const textSource = useStore((state) => state.textSource)
-  if (!textSource) return null
-  return <TextSourcePanel value={textSource} />
+  const source = store.useStore((state) => state.source)
+  if (!source?.text) return null
+
+  return <TextSourcePanel value={source.text} />
 }

@@ -1,6 +1,5 @@
 import * as menu from '../../Parts/Bars/Menu'
 import * as helpers from '../../../helpers'
-import * as settings from '../../../settings'
 import * as store from '@client/store'
 
 export default function Menu() {
@@ -10,6 +9,7 @@ export default function Menu() {
   const measure = store.useStore((state) => state.measure)
   const history = store.useStore((state) => state.table?.history)
   const format = store.useStore((state) => state.record?.resource.format)
+  const source = store.useStore((state) => state.source)
   const undoneHistory = store.useStore((state) => state.table?.undoneHistory)
 
   return (
@@ -24,14 +24,11 @@ export default function Menu() {
         onClick={() => store.togglePanel('report')}
       />
       <menu.SourceButton
-        disabled={!helpers.getLanguageByFormat(format)}
+        disabled={!source?.text}
         active={panel === 'source'}
         onClick={() => store.togglePanel('source')}
       />
-      <menu.ChatButton
-        disabled={!settings.TEXT_TABLE_FORMATS.includes(format || '')}
-        onClick={() => store.toggleDialog('chat')}
-      />
+      <menu.ChatButton disabled />
       <menu.ErrorsButton
         active={mode === 'errors'}
         onClick={store.toggleTableErrorMode}

@@ -71,6 +71,12 @@ export type IState = {
   panel?: IPanel
 
   /**
+   * File source as text or binary data depending on the file format
+   * It will be loaded only if it makes sense for this file
+   **/
+  source?: ISource
+
+  /**
    * Keeps track of the table state if current file is a table
    **/
   table?: ITableState
@@ -102,11 +108,6 @@ export type ITableState = {
    * Optional table mode, e.g. 'errors' to show only errors
    **/
   mode?: 'errors'
-
-  /**
-   * The source of the table in text format (capped to a certain size, see settings)
-   **/
-  source?: string
 
   /**
    * Keeps track of the URL where the table was published as a dataset (e.g. to CKAN)
@@ -144,6 +145,11 @@ export type IDialog =
   | 'leave'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
+
+export type ISource = {
+  bytes?: ArrayBuffer
+  text?: string
+}
 
 export const initialState: IState = {
   files: [],

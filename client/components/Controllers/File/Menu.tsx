@@ -1,29 +1,25 @@
 import * as menu from '../../Parts/Bars/Menu'
-import { useStore } from './store'
+import * as store from '@client/store'
 
 export default function Menu() {
-  const panel = useStore((state) => state.panel)
-  const report = useStore((state) => state.report)
-  const textSource = useStore((state) => state.textSource)
-  const updateState = useStore((state) => state.updateState)
+  const panel = store.useStore((state) => state.panel)
+  const report = store.useStore((state) => state.report)
+  const source = store.useStore((state) => state.source)
 
   return (
     <menu.MenuBar>
       <menu.MetadataButton
         active={panel === 'metadata'}
-        onClick={() =>
-          updateState({ panel: panel !== 'metadata' ? 'metadata' : undefined })
-        }
+        onClick={() => store.togglePanel('metadata')}
       />
       <menu.ReportButton
         disabled={!report || report?.valid}
         active={panel === 'report'}
-        onClick={() => updateState({ panel: panel !== 'report' ? 'report' : undefined })}
+        onClick={() => store.togglePanel('report')}
       />
       <menu.SourceButton
-        disabled={!textSource}
-        active={panel === 'source'}
-        onClick={() => updateState({ panel: panel !== 'source' ? 'source' : undefined })}
+        disabled={!source?.text}
+        onClick={() => store.togglePanel('report')}
       />
       <menu.ChatButton disabled />
     </menu.MenuBar>

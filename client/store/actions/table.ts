@@ -15,7 +15,6 @@ export async function openTable() {
   const { path, record } = store.getState()
   if (!path || !record) return
 
-  // Row Count
   const result = await client.tableCount({ path })
   if (result instanceof client.Error) {
     return store.setState('open-table-error', (state) => {
@@ -23,24 +22,11 @@ export async function openTable() {
     })
   }
 
-  // Text Source
-  let source: string | undefined
-  if (settings.TEXT_TABLE_FORMATS.includes(record.resource.format || '')) {
-    const result = await client.textRead({ path, size: settings.MAX_TABLE_SOURCE_SIZE })
-    if (result instanceof client.Error) {
-      return store.setState('open-table-error', (state) => {
-        state.error = result
-      })
-    }
-    source = result.text
-  }
-
   store.setState('open-table-init', (state) => {
     state.table = {
       rowCount: result.count,
       history: cloneDeep(settings.INITIAL_HISTORY),
       undoneHistory: cloneDeep(settings.INITIAL_HISTORY),
-      source,
     }
   })
 }
@@ -49,24 +35,6 @@ export async function closeTable() {
   store.setState('close-table', (state) => {
     state.table = undefined
   })
-}
-
-export async function editTable(prompt: string) {
-  const { grid } = getRefs()
-  const { path, table } = store.getState()
-  if (!path || !table || !grid) return
-
-  const text = table.source || ''
-  const result = await client.tableEdit({ path, text, prompt })
-
-  if (result instanceof client.Error) {
-    return store.setState('edit-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  grid.reload()
-  await onFileUpdated([path])
 }
 
 export async function forkTable(toPath: string) {
