@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash'
 import { getIsResourceUpdated } from './resource'
 import { onFileCreate, onFileUpdate } from './event'
 import { revertResource } from './resource'
+import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
 import * as types from '@client/types'
@@ -50,12 +51,6 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
   return { data: rowsNotNull, count: table.rowCount || 0 }
 }
 
-export function setTableGridRef(gridRef: any) {
-  store.setState('set-table-grid-ref', (state) => {
-    state.table!.gridRef = gridRef
-  })
-}
-
 export function setTableSelection(selection: types.ITableSelection) {
   store.setState('set-table-selection', (state) => {
     state.table!.selection = selection
@@ -97,8 +92,8 @@ export async function openTable() {
 }
 
 export async function toggleTableErrorMode() {
+  const { grid } = getRefs()
   const { path, table } = store.getState()
-  const grid = table?.gridRef?.current
   if (!path || !table || !grid) return
 
   // Update mode/rowCount
@@ -135,11 +130,9 @@ export async function toggleTableErrorMode() {
 }
 
 export async function editTable(prompt: string) {
+  const { grid } = getRefs()
   const { path, table } = store.getState()
-  if (!path || !table) return
-
-  const grid = table.gridRef?.current
-  if (!grid) return
+  if (!path || !table || !grid) return
 
   const text = table.source || ''
   const result = await client.tableEdit({ path, text, prompt })
@@ -195,7 +188,9 @@ export async function publishTable(control: types.IControl) {
 }
 
 export async function revertTable() {
+  const { grid } = getRefs()
   const state = store.getState()
+  if (!grid) return
 
   if (getIsTableUpdated(state)) {
     store.setState('revert-table', (state) => {
@@ -203,16 +198,16 @@ export async function revertTable() {
       state.table!.undoneHistory = cloneDeep(settings.INITIAL_HISTORY)
     })
 
-    state.table?.gridRef?.current?.reload()
+    grid.reload()
   }
 
   revertResource()
 }
 
 export async function saveTable() {
+  const { grid } = getRefs()
   const { path, resource, table } = store.getState()
-  const grid = table?.gridRef?.current
-  if (!path || !grid) return
+  if (!path || !grid || !table) return
 
   const isTableUpdated = getIsTableUpdated(store.getState())
   const isResourceUpdated = getIsResourceUpdated(store.getState())
@@ -249,8 +244,8 @@ export function startTableEditing(context: any) {
 }
 
 export function saveTableEditing(context: any) {
+  const { grid } = getRefs()
   const { table } = store.getState()
-  const grid = table?.gridRef?.current
   if (!table || !grid) return
 
   // Don't save if not changed
@@ -277,8 +272,7 @@ export function saveTableEditing(context: any) {
 }
 
 export function stopTableEditing() {
-  const { table } = store.getState()
-  const grid = table?.gridRef?.current
+  const { grid } = getRefs()
   if (!grid) return
 
   requestAnimationFrame(() => {
@@ -291,8 +285,7 @@ export function stopTableEditing() {
 }
 
 export function undoTableChange() {
-  const { table } = store.getState()
-  const grid = table?.gridRef?.current
+  const { grid } = getRefs()
   if (!grid) return
 
   store.setState('undo-change', (state) => {
@@ -304,20 +297,20 @@ export function undoTableChange() {
 }
 
 export function redoTableChange() {
-  const { table } = store.getState()
-  if (!table) return
+  const { grid } = getRefs()
+  if (!grid) return
 
   store.setState('redo-change', (state) => {
     const change = state.table!.undoneHistory.changes.pop()
     if (change) state.table!.history.changes.push(change)
   })
 
-  table.gridRef?.current?.reload()
+  grid.reload()
 }
 
 export async function deleteMultipleCells(cells: object) {
+  const { grid } = getRefs()
   const { table } = store.getState()
-  const grid = table?.gridRef?.current
   if (!table || !grid) return
 
   const cellChanges = []

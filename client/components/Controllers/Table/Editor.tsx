@@ -30,9 +30,9 @@ export default function Editor() {
       onEditStart={store.startTableEditing}
       onEditComplete={store.saveTableEditing}
       onEditStop={store.stopTableEditing}
-      handle={store.setTableGridRef}
       defaultCellSelection={cellSelection}
       onCellSelectionChange={setCellSelection}
+      handle={(ref) => store.setRefs({ grid: ref })}
     />
   )
 }

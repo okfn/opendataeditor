@@ -1,6 +1,5 @@
 import type * as types from '@client/types'
 import type { ClientError } from '@client/client'
-import type { ITableEditor } from '@client/components/Editors/Table'
 
 export type IState = {
   /**
@@ -29,12 +28,13 @@ export type IState = {
   measure?: types.IMeasure
 
   /**
-   * True if data is loading
+   * True if data is loading (for example a list of files in the Browser)
    **/
   loading?: boolean
 
   /**
-   * True if data is indexing
+   * True if data is indexing (for example a tabular data validation and database uploading).
+   * Note that it's different with loading as it's about the data in the Content component.
    **/
   indexing?: boolean
 
@@ -97,11 +97,6 @@ export type ITableState = {
    * Optional table mode, e.g. 'errors' to show only errors
    **/
   mode?: 'errors'
-
-  /**
-   * The ref to the Inovua table editor component
-   **/
-  gridRef?: React.MutableRefObject<ITableEditor>
 
   /**
    * The source of the table in text format (capped to a certain size, see settings)

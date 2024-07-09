@@ -214,7 +214,7 @@ export async function openFile(path: string) {
   }
 
   if (result.record?.type === 'table') {
-    await openTable()
+    openTable()
   }
 
   await delay(500)
