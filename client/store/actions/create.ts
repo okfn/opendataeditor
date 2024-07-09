@@ -1,6 +1,7 @@
 import * as store from '../store'
 import { client } from '@client/client'
-import { onFileCreate } from './event'
+import { loadFiles, selectFile } from './file'
+import { emitFileEvent } from './event'
 
 export async function createArticle(path: string, prompt?: string) {
   const result = await client.articleCreate({ path, prompt, deduplicate: true })
@@ -11,7 +12,9 @@ export async function createArticle(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createChart(path: string, prompt?: string) {
@@ -23,7 +26,9 @@ export async function createChart(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createImage(path: string, prompt?: string) {
@@ -35,7 +40,9 @@ export async function createImage(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createMap(path: string, prompt?: string) {
@@ -47,7 +54,9 @@ export async function createMap(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createPackage(path: string, prompt?: string) {
@@ -59,7 +68,9 @@ export async function createPackage(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createScript(path: string, prompt?: string) {
@@ -71,7 +82,9 @@ export async function createScript(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createTable(path: string, prompt?: string) {
@@ -88,7 +101,9 @@ export async function createTable(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createView(path: string, prompt?: string) {
@@ -100,5 +115,7 @@ export async function createView(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }

@@ -1,9 +1,8 @@
 import * as store from '../store'
-import delay from 'delay'
 import { client } from '@client/client'
 import { cloneDeep } from 'lodash'
 import { openTable } from './table'
-import { onFileCreate, onFileDelete } from './event'
+import { emitFileEvent } from './event'
 import * as helpers from '@client/helpers'
 
 export const getIsFolder = store.createSelector((state) => {
@@ -52,7 +51,9 @@ export async function addFiles(files: FileList) {
     paths.push(result.path)
   }
 
-  onFileCreate(paths)
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths })
+  await selectFile(paths[0])
 }
 
 export async function fetchFile(url: string) {
@@ -65,7 +66,9 @@ export async function fetchFile(url: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function createFile(path: string, prompt?: string) {
@@ -79,7 +82,9 @@ export async function createFile(path: string, prompt?: string) {
       })
     }
 
-    onFileCreate([result.path])
+    await loadFiles()
+    emitFileEvent({ type: 'create', paths: [result.path] })
+    await selectFile(result.path)
   } else {
     const file = new File([new Blob()], path)
     const result = await client.fileCreate({ path, file, deduplicate: true })
@@ -90,7 +95,9 @@ export async function createFile(path: string, prompt?: string) {
       })
     }
 
-    onFileCreate([result.path])
+    await loadFiles()
+    emitFileEvent({ type: 'create', paths: [result.path] })
+    await selectFile(result.path)
   }
 }
 
@@ -125,7 +132,9 @@ export async function copyFile(path: string, toPath: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function deleteFile(path: string) {
@@ -137,7 +146,10 @@ export async function deleteFile(path: string) {
     })
   }
 
-  onFileDelete(path)
+  closeFile()
+  selectFile(undefined)
+  emitFileEvent({ type: 'delete', paths: [path] })
+  await loadFiles()
 }
 
 export async function moveFile(path: string, toPath: string) {
@@ -149,20 +161,17 @@ export async function moveFile(path: string, toPath: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [result.path] })
+  await selectFile(result.path)
 }
 
 export async function locateFile(path: string) {
   store.setState('locate-file-start', (state) => {
     state.path = path
-    state.event = { type: 'locate', paths: [path] }
   })
 
-  await delay(500)
-
-  store.setState('locate-file-end', (state) => {
-    state.event = undefined
-  })
+  emitFileEvent({ type: 'locate', paths: [path] })
 }
 
 export async function selectFile(newPath?: string) {
@@ -181,8 +190,6 @@ export async function selectFile(newPath?: string) {
 }
 
 export async function openFile(path: string) {
-  const { event } = store.getState()
-
   store.setState('open-file-start', (state) => {
     state.record = undefined
     state.report = undefined
@@ -207,21 +214,11 @@ export async function openFile(path: string) {
     state.indexing = false
   })
 
-  if (!event) {
-    store.setState('open-file-event-start', (state) => {
-      state.event = { type: 'open', paths: [path] }
-    })
-  }
+  emitFileEvent({ type: 'open', paths: [path] })
 
   if (result.record?.type === 'table') {
-    openTable()
+    await openTable()
   }
-
-  await delay(500)
-
-  store.setState('open-file-event-end', (state) => {
-    state.event = undefined
-  })
 }
 
 export function closeFile() {

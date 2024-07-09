@@ -32,10 +32,6 @@ function FileContent() {
   if (!record) return null
 
   const Controller = CONTROLLERS[record.type] || File
-  const handleUpdate = React.useMemo(
-    () => () => store.onFileUpdate(record.path),
-    [record.path]
-  )
 
   return (
     <ErrorBoundary
@@ -49,12 +45,7 @@ function FileContent() {
         </Box>
       }
     >
-      <Controller
-        path={record.path}
-        client={client}
-        onSave={handleUpdate}
-        onSaveAs={(path) => store.onFileCreate([path])}
-      />
+      <Controller path={record.path} client={client} />
     </ErrorBoundary>
   )
 }

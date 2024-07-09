@@ -1,9 +1,10 @@
 import { client } from '@client/client'
 import { mapValues, isNull } from 'lodash'
+import { loadFiles, openFile, selectFile } from './file'
 import { openDialog } from './dialog'
 import { cloneDeep } from 'lodash'
 import { getIsResourceUpdated } from './resource'
-import { onFileCreate, onFileUpdate } from './event'
+import { emitFileEvent } from './event'
 import { revertResource } from './resource'
 import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
@@ -143,8 +144,9 @@ export async function editTable(prompt: string) {
     })
   }
 
-  await onFileUpdate(path)
   grid.reload()
+  emitFileEvent({ type: 'update', paths: [path] })
+  await openFile(path)
 }
 
 export async function forkTable(toPath: string) {
@@ -164,7 +166,9 @@ export async function forkTable(toPath: string) {
     })
   }
 
-  await onFileCreate([toPath])
+  await loadFiles()
+  emitFileEvent({ type: 'create', paths: [toPath] })
+  await selectFile(toPath)
 }
 
 export async function publishTable(control: types.IControl) {
@@ -224,8 +228,9 @@ export async function saveTable() {
     })
   }
 
-  await onFileUpdate(path)
   grid.reload()
+  emitFileEvent({ type: 'update', paths: [result.path] })
+  await openFile(result.path)
 }
 
 export function catchTableClickAway() {

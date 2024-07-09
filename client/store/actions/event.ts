@@ -1,50 +1,15 @@
 import * as store from '../store'
+import type * as types from '@client/types'
 import delay from 'delay'
-import { loadFiles, selectFile } from './file'
 
-export async function onFileCreate(paths: string[]) {
-  await loadFiles()
-
-  store.setState('file-create-start', (state) => {
-    state.event = { type: 'create', paths }
-  })
-
-  if (paths.length === 1) {
-    selectFile(paths[0])
-  }
-
-  await delay(500)
-
-  store.setState('file-create-end', (state) => {
-    state.event = undefined
-  })
-}
-
-export async function onFileDelete(path: string) {
-  store.setState('file-delete-start', (state) => {
-    state.event = { type: 'delete', paths: [path] }
+export async function emitFileEvent(event: types.IFileEvent) {
+  store.setState(`${event.type}-file-event-start`, (state) => {
+    state.event = event
   })
 
   await delay(500)
-  await loadFiles()
-  selectFile(undefined)
 
-  store.setState('file-delete-end', (state) => {
-    state.event = undefined
-    state.record = undefined
-    state.measure = undefined
-  })
-}
-
-export async function onFileUpdate(path: string) {
-  store.setState('file-update-start', (state) => {
-    state.event = { type: 'update', paths: [path] }
-  })
-
-  selectFile(path)
-  await delay(500)
-
-  store.setState('file-update-end', (state) => {
+  store.setState(`${event.type}-file-event-end`, (state) => {
     state.event = undefined
   })
 }
