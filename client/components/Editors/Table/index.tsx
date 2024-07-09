@@ -22,9 +22,11 @@ export interface TableEditorProps extends Partial<TypeDataGridProps> {
 
 export default function TableEditor(props: TableEditorProps) {
   const { source, schema, report, history, selection, ...others } = props
+
+  const [visible, setVisible] = React.useState({ visible: true, columnName: '' })
   const columns = React.useMemo(
-    () => createColumns(schema, report, history, selection),
-    [schema, report, history, selection]
+    () => createColumns(schema, report, history, selection, visible),
+    [schema, report, history, selection, visible, visible]
   )
   const [rowsPerPage, setRowsPerPage] = React.useState(20)
 
@@ -52,6 +54,32 @@ export default function TableEditor(props: TableEditorProps) {
     setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
 
+  const renderColumnContextMenu = React.useMemo(
+    () => (menuProps: any, context: any) => {
+      menuProps.items = menuProps.items.concat([
+        {
+          label: 'Show all columns',
+          onClick: () => {
+            setVisible({ visible: true, columnName: context.cellProps.name })
+            menuProps.onDismiss()
+          },
+        },
+        {
+          label: 'Hide all columns except ' + context.cellProps.name,
+          onClick: () => {
+            setVisible({ visible: false, columnName: context.cellProps.name })
+            menuProps.onDismiss()
+          },
+        },
+      ])
+    },
+    []
+  )
+
+  // const onColumnVisibleChange = React.useMemo(() => ({ column, visible }) => {
+  //   setVisible({ visible, columnName: column.name, except: false })
+  // }, [])
+
   return (
     <InovuaDatagrid
       onReady={resizeTable}
@@ -66,10 +94,13 @@ export default function TableEditor(props: TableEditorProps) {
       limit={rowsPerPage}
       onLimitChange={setRowsPerPage}
       rowHeight={rowHeight}
+      renderColumnContextMenu={renderColumnContextMenu}
+      // onColumnVisibleChange={onColumnVisibleChange}
       showColumnMenuLockOptions={false}
       showColumnMenuGroupOptions={false}
       columnContextMenuConstrainTo={true}
       columnContextMenuPosition={'fixed'}
+      enableColumnAutosize={false}
       {...others}
     />
   )

@@ -5,11 +5,17 @@ import * as types from '../../../types'
 // TODO: remove colors hard-coding
 // TODO: use proper InovuaDatagrid types
 
+interface Visible {
+  visible: boolean
+  columnName: string
+}
+
 export function createColumns(
   schema: types.ISchema,
   report?: types.IReport,
   history?: types.IHistory,
-  selection?: types.ITableSelection
+  selection?: types.ITableSelection,
+  visible?: Visible
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
@@ -47,6 +53,7 @@ export function createColumns(
     dataColumns.push({
       name: field.name,
       header,
+      visible: visible?.columnName == field.name ? true : visible?.visible,
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
       headerProps:
         field.name in errorIndex.label
