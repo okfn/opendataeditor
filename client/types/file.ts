@@ -6,11 +6,6 @@ export interface IFile {
   errors?: number
 }
 
-export interface IFileEvent {
-  type: 'create' | 'delete' | 'update' | 'locate' | 'open'
-  paths: string[]
-}
-
 export interface IFileTreeItem {
   name?: string
   type: string

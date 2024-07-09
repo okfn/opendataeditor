@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach } from 'vitest'
-import { closeFile } from '../file'
+import { deselectFile } from '../file'
 import * as store from '../../store'
 
 // Put tests here; for example like this
@@ -9,10 +9,11 @@ describe('file', () => {
 
   test('closeFile', async () => {
     store.setState('set-measure', (state) => {
+      state.path = 'table.csv'
       state.measure = { errors: 3 }
     })
 
-    closeFile()
+    deselectFile()
 
     const { measure } = store.getState()
     expect(measure).toEqual(undefined)

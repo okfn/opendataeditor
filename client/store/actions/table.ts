@@ -1,62 +1,15 @@
 import { client } from '@client/client'
 import { mapValues, isNull } from 'lodash'
-import { loadFiles, openFile, selectFile } from './file'
+import { onFileCreated, onFileUpdated } from './file'
 import { openDialog } from './dialog'
 import { cloneDeep } from 'lodash'
 import { getIsResourceUpdated } from './resource'
-import { emitFileEvent } from './event'
 import { revertResource } from './resource'
 import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
 import * as types from '@client/types'
 import * as store from '../store'
-
-export const getIsTableOrResourceUpdated = store.createSelector((state) => {
-  return getIsTableUpdated(state) || getIsResourceUpdated(state)
-})
-
-export const getIsTableUpdated = store.createSelector((state) => {
-  return !!state.table?.history.changes.length
-})
-
-export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo }) => {
-  const defaultResult = { data: [], count: 0 }
-  const { path, table } = store.getState()
-  if (!path || !table) return defaultResult
-
-  const result = await client.tableRead({
-    path,
-    valid: table.mode === 'errors' ? false : undefined,
-    limit,
-    offset: skip,
-    order: sortInfo?.name,
-    desc: sortInfo?.dir === -1,
-  })
-
-  if (result instanceof client.Error) {
-    store.setState('table-loader-error', (state) => {
-      state.error = result
-    })
-    return defaultResult
-  }
-
-  // convert null fields in db to empty strings to avoid errors
-  // in table representation. InovuaDataGrid complains with null values
-  const rowsNotNull = []
-  for (const row of result.rows) {
-    rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
-  }
-
-  helpers.applyTableHistory(table.history, rowsNotNull)
-  return { data: rowsNotNull, count: table.rowCount || 0 }
-}
-
-export function setTableSelection(selection: types.ITableSelection) {
-  store.setState('set-table-selection', (state) => {
-    state.table!.selection = selection
-  })
-}
 
 export async function openTable() {
   const { path, record } = store.getState()
@@ -92,42 +45,10 @@ export async function openTable() {
   })
 }
 
-export async function toggleTableErrorMode() {
-  const { grid } = getRefs()
-  const { path, table } = store.getState()
-  if (!path || !table || !grid) return
-
-  // Update mode/rowCount
-  if (table.mode === 'errors') {
-    const result = await client.tableCount({ path })
-
-    if (result instanceof client.Error) {
-      return store.setState('toggle-table-error-mode', (state) => {
-        state.error = result
-      })
-    }
-
-    store.setState('toggle-table-error-mode-disable', (state) => {
-      state.table!.mode = undefined
-      state.table!.rowCount = result.count
-    })
-  } else {
-    const result = await client.tableCount({ path, valid: false })
-
-    if (result instanceof client.Error) {
-      return store.setState('toggle-table-error-mode', (state) => {
-        state.error = result
-      })
-    }
-
-    store.setState('toggle-table-error-mode-enable', (state) => {
-      state.table!.mode = 'errors'
-      state.table!.rowCount = result.count
-    })
-  }
-
-  if (grid.setSkip) grid.setSkip(0)
-  grid.reload()
+export async function closeTable() {
+  store.setState('close-table', (state) => {
+    state.table = undefined
+  })
 }
 
 export async function editTable(prompt: string) {
@@ -145,8 +66,7 @@ export async function editTable(prompt: string) {
   }
 
   grid.reload()
-  emitFileEvent({ type: 'update', paths: [path] })
-  await openFile(path)
+  await onFileUpdated([path])
 }
 
 export async function forkTable(toPath: string) {
@@ -166,9 +86,7 @@ export async function forkTable(toPath: string) {
     })
   }
 
-  await loadFiles()
-  emitFileEvent({ type: 'create', paths: [toPath] })
-  await selectFile(toPath)
+  await onFileCreated([result.path])
 }
 
 export async function publishTable(control: types.IControl) {
@@ -229,8 +147,51 @@ export async function saveTable() {
   }
 
   grid.reload()
-  emitFileEvent({ type: 'update', paths: [result.path] })
-  await openFile(result.path)
+  await onFileUpdated([path])
+}
+
+export function setTableSelection(selection: types.ITableSelection) {
+  store.setState('set-table-selection', (state) => {
+    state.table!.selection = selection
+  })
+}
+
+export async function toggleTableErrorMode() {
+  const { grid } = getRefs()
+  const { path, table } = store.getState()
+  if (!path || !table || !grid) return
+
+  // Update mode/rowCount
+  if (table.mode === 'errors') {
+    const result = await client.tableCount({ path })
+
+    if (result instanceof client.Error) {
+      return store.setState('toggle-table-error-mode', (state) => {
+        state.error = result
+      })
+    }
+
+    store.setState('toggle-table-error-mode-disable', (state) => {
+      state.table!.mode = undefined
+      state.table!.rowCount = result.count
+    })
+  } else {
+    const result = await client.tableCount({ path, valid: false })
+
+    if (result instanceof client.Error) {
+      return store.setState('toggle-table-error-mode', (state) => {
+        state.error = result
+      })
+    }
+
+    store.setState('toggle-table-error-mode-enable', (state) => {
+      state.table!.mode = 'errors'
+      state.table!.rowCount = result.count
+    })
+  }
+
+  if (grid.setSkip) grid.setSkip(0)
+  grid.reload()
 }
 
 export function catchTableClickAway() {
@@ -340,3 +301,47 @@ export async function deleteMultipleCells(cells: object) {
 
   helpers.applyTableHistory({ changes: [change] }, grid.data)
 }
+
+// Loaders
+
+export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo }) => {
+  const defaultResult = { data: [], count: 0 }
+  const { path, table } = store.getState()
+  if (!path || !table) return defaultResult
+
+  const result = await client.tableRead({
+    path,
+    valid: table.mode === 'errors' ? false : undefined,
+    limit,
+    offset: skip,
+    order: sortInfo?.name,
+    desc: sortInfo?.dir === -1,
+  })
+
+  if (result instanceof client.Error) {
+    store.setState('table-loader-error', (state) => {
+      state.error = result
+    })
+    return defaultResult
+  }
+
+  // convert null fields in db to empty strings to avoid errors
+  // in table representation. InovuaDataGrid complains with null values
+  const rowsNotNull = []
+  for (const row of result.rows) {
+    rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
+  }
+
+  helpers.applyTableHistory(table.history, rowsNotNull)
+  return { data: rowsNotNull, count: table.rowCount || 0 }
+}
+
+// Selectors
+
+export const getIsTableOrResourceUpdated = store.createSelector((state) => {
+  return getIsTableUpdated(state) || getIsResourceUpdated(state)
+})
+
+export const getIsTableUpdated = store.createSelector((state) => {
+  return !!state.table?.history.changes.length
+})

@@ -35,7 +35,12 @@ function DefaultBrowser() {
         </Box>
       }
     >
-      <FileTree files={files} event={event} selected={path} onSelect={store.selectFile} />
+      <FileTree
+        files={files}
+        event={event}
+        selected={path}
+        onSelect={(path) => store.selectFile({ path })}
+      />
     </ErrorBoundary>
   )
 }

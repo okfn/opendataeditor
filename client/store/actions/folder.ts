@@ -1,7 +1,6 @@
 import * as store from '../store'
 import { client } from '@client/client'
-import { loadFiles, closeFile, selectFile } from './file'
-import { emitFileEvent } from './event'
+import { onFileCreated, onFileDeleted } from './file'
 
 export async function copyFolder(path: string, toPath: string) {
   const result = await client.folderCopy({ path, toPath, deduplicate: true })
@@ -12,9 +11,7 @@ export async function copyFolder(path: string, toPath: string) {
     })
   }
 
-  await loadFiles()
-  emitFileEvent({ type: 'create', paths: [result.path] })
-  await selectFile(result.path)
+  await onFileCreated([result.path])
 }
 
 export async function createFolder(path: string) {
@@ -26,9 +23,7 @@ export async function createFolder(path: string) {
     })
   }
 
-  await loadFiles()
-  emitFileEvent({ type: 'create', paths: [result.path] })
-  await selectFile(result.path)
+  await onFileCreated([result.path])
 }
 
 export async function deleteFolder(path: string) {
@@ -40,10 +35,7 @@ export async function deleteFolder(path: string) {
     })
   }
 
-  closeFile()
-  selectFile(undefined)
-  emitFileEvent({ type: 'delete', paths: [path] })
-  await loadFiles()
+  await onFileDeleted([result.path])
 }
 
 export async function moveFolder(path: string, toPath: string) {
@@ -55,7 +47,5 @@ export async function moveFolder(path: string, toPath: string) {
     })
   }
 
-  await loadFiles()
-  emitFileEvent({ type: 'create', paths: [result.path] })
-  await selectFile(result.path)
+  await onFileCreated([result.path])
 }

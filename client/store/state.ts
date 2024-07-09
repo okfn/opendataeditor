@@ -23,6 +23,13 @@ export type IState = {
   report?: types.IReport
 
   /**
+   * A Data Resource descriptor for the current file
+   * It can be edited by a metadata editor as a part of metadata adjustment
+   * The original `record.resource` is immutable and can be compared
+   **/
+  resource?: types.IResource
+
+  /**
    * A measure desribing currently selected file if any is selected
    **/
   measure?: types.IMeasure
@@ -62,13 +69,6 @@ export type IState = {
    * Keeps track of the selected panel
    **/
   panel?: IPanel
-
-  /**
-   * A Data Resource descriptor for the current file
-   * It can be edited by a metadata editor as a part of metadata adjustment
-   * The original `record.resource` is immutable and can be compared
-   **/
-  resource?: types.IResource
 
   /**
    * Keeps track of the table state if current file is a table

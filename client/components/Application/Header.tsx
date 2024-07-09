@@ -23,7 +23,7 @@ export default function Header() {
               ml: 2,
               cursor: 'pointer',
             }}
-            onClick={store.closeFile}
+            onClick={store.deselectFile}
           >
             <strong>Open Data Editor</strong>
           </Typography>
