@@ -12,9 +12,10 @@ import * as types from '../../../types'
 
 export interface FileTreeProps {
   files: types.IFile[]
-  event?: types.IFileEvent
+  event?: types.IEvent
   selected?: string
-  onSelect: (path?: string) => void
+  selectedMultiple?: string[]
+  onSelect: (paths: string[]) => void
   defaultExpanded?: string[]
 }
 
@@ -31,21 +32,22 @@ export default function FileTree(props: FileTreeProps) {
       : props.defaultExpanded || []
     setExpanded([...new Set([...expanded, ...defaultExpanded])])
   }, [props.event, props.defaultExpanded])
+  const selectedMultiple = props.selectedMultiple || []
   const selected = props.selected || ''
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 2 }} height="100%">
         <Stack alignItems="stretch" height="100%">
           <TreeView
-            selected={selected}
+            multiSelect
+            selected={selectedMultiple.length > 0 ? selectedMultiple : [selected]}
             expanded={expanded}
-            onNodeSelect={(_event, nodeId) => {
-              props.onSelect(nodeId as string)
-            }}
+            onNodeSelect={(_event, nodeIds) => props.onSelect(nodeIds)}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
               // On collapsing we don't collapse a folder if it's not yet selected
               const isCollapsing = nodeIds.length < expanded.length
-              if (isCollapsing && !expanded.includes(props.selected || '')) return
+              if (isCollapsing && !expanded.every((value) => selected.includes(value)))
+                return
               setExpanded(nodeIds)
             }}
             defaultCollapseIcon={<MinusSquare />}
@@ -58,7 +60,7 @@ export default function FileTree(props: FileTreeProps) {
           </TreeView>
           <Box
             sx={{ flexGrow: 1, cursor: 'pointer' }}
-            onClick={() => props.onSelect()}
+            onClick={() => props.onSelect([])}
           ></Box>
         </Stack>
       </ScrollBox>

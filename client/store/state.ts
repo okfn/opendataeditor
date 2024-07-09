@@ -53,7 +53,7 @@ export type IState = {
   /**
    * Currently active event for example, file creation or deletion (to show animation)
    **/
-  event?: types.IFileEvent
+  event?: types.IEvent
 
   /**
    * Keeps track of the current error (global to the app)
@@ -74,6 +74,11 @@ export type IState = {
    * Keeps track of the table state if current file is a table
    **/
   table?: ITableState
+
+  /**
+   * Keeps track of the selected multiple files/folders paths for deletion
+   **/
+  selectedMultiplePaths?: string[]
 }
 
 export type ITableState = {
@@ -128,8 +133,7 @@ export type IDialog =
   | 'copyFile'
   | 'copyFolder'
   | 'create'
-  | 'deleteFile'
-  | 'deleteFolder'
+  | 'deleteFilesFolders'
   | 'indexFiles'
   | 'moveFile'
   | 'moveFolder'

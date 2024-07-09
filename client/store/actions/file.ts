@@ -20,10 +20,6 @@ export async function loadFiles(throwError?: boolean) {
   })
 }
 
-export async function deselectFile() {
-  await selectFile({ path: undefined })
-}
-
 export async function selectFile(props: { path?: string; updated?: boolean }) {
   const { path, record } = store.getState()
   if (!props.updated && path === props.path) return
@@ -87,6 +83,16 @@ async function closeFile() {
   if (record?.type === 'table') {
     await closeTable()
   }
+}
+
+export async function deselectFile() {
+  await selectFile({ path: undefined })
+}
+
+export async function selectMultipleFiles(paths: string[]) {
+  store.setState('select-multiple-files', (state) => {
+    state.selectedMultiplePaths = paths
+  })
 }
 
 export async function addFiles(files: FileList) {
@@ -153,16 +159,18 @@ export async function copyFile(path: string, toPath: string) {
   await onFileCreated([result.path])
 }
 
-export async function deleteFile(path: string) {
-  const result = await client.fileDelete({ path })
+export async function deleteFiles(paths: string[]) {
+  for (const path of paths) {
+    const result = await client.fileDelete({ path })
 
-  if (result instanceof client.Error) {
-    return store.setState('delete-file-error', (state) => {
-      state.error = result
-    })
+    if (result instanceof client.Error) {
+      return store.setState('delete-files-error', (state) => {
+        state.error = result
+      })
+    }
   }
 
-  await onFileDeleted([result.path])
+  await onFileDeleted(paths)
 }
 
 export async function moveFile(path: string, toPath: string) {

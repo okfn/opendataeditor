@@ -26,16 +26,18 @@ export async function createFolder(path: string) {
   await onFileCreated([result.path])
 }
 
-export async function deleteFolder(path: string) {
-  const result = await client.folderDelete({ path })
+export async function deleteFolders(paths: string[]) {
+  for (const path of paths) {
+    const result = await client.folderDelete({ path })
 
-  if (result instanceof client.Error) {
-    return store.setState('delete-folder-error', (state) => {
-      state.error = result
-    })
+    if (result instanceof client.Error) {
+      return store.setState('delete-folder-error', (state) => {
+        state.error = result
+      })
+    }
   }
 
-  await onFileDeleted([result.path])
+  await onFileDeleted(paths)
 }
 
 export async function moveFolder(path: string, toPath: string) {
