@@ -10,9 +10,10 @@ import Panel from './Panel'
 import View from './View'
 import * as store from '@client/store'
 
-export default function Layout() {
+export default function File() {
   const theme = useTheme()
   const panel = store.useStore((state) => state.panel)
+
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 42 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
@@ -23,7 +24,7 @@ export default function Layout() {
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
-        onClickAway={store.catchFileClickAway}
+        onClickAway={store.onFileClickAway}
       >
         <Box sx={{ height }}>
           <Menu />

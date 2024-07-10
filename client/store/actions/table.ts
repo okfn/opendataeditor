@@ -162,7 +162,7 @@ export async function toggleTableErrorMode() {
   grid.reload()
 }
 
-export function catchTableClickAway() {
+export function onTableClickAway() {
   const { dialog } = store.getState()
   const isUpdated = getIsTableOrResourceUpdated(store.getState())
 

@@ -10,7 +10,7 @@ import Panel from './Panel'
 import Dialog from './Dialog'
 import * as store from '@client/store'
 
-export default function Layout() {
+export default function Table() {
   const theme = useTheme()
   const panel = store.useStore((state) => state.panel)
   const height = `calc(100vh - ${theme.spacing(8)})`
@@ -23,7 +23,7 @@ export default function Layout() {
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
-        onClickAway={store.catchTableClickAway}
+        onClickAway={store.onTableClickAway}
       >
         <Box sx={{ height }}>
           <Menu />

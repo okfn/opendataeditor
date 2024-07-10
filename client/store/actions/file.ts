@@ -1,5 +1,6 @@
 import * as store from '../store'
 import { client } from '@client/client'
+import { openText, closeText } from './text'
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
@@ -7,6 +8,7 @@ import { getIsResourceUpdated } from './resource'
 import { openTable, closeTable } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
+import * as settings from '@client/settings'
 
 export async function loadFiles(throwError?: boolean) {
   const result = await client.fileList()
@@ -64,11 +66,13 @@ async function openFile() {
     state.resource = cloneDeep(result.record.resource)
   })
 
+  await loadSource()
+
   if (result.record.type === 'table') {
     await openTable()
+  } else if (settings.TEXT_FILE_TYPES.includes(result.record.type)) {
+    await openText()
   }
-
-  await loadSource()
 
   emitEvent({ type: 'open', paths: [path] })
   store.setState('open-file-end', (state) => {
@@ -94,6 +98,8 @@ async function closeFile() {
 
   if (record.type === 'table') {
     await closeTable()
+  } else if (settings.TEXT_FILE_TYPES.includes(record.type)) {
+    await closeText()
   }
 }
 
@@ -246,7 +252,7 @@ export async function onFileDeleted(paths: string[]) {
   await loadFiles()
 }
 
-export function catchFileClickAway() {
+export function onFileClickAway() {
   const { dialog } = store.getState()
   const isUpdated = getIsResourceUpdated(store.getState())
 

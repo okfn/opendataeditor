@@ -13,6 +13,11 @@ export type IState = {
   path?: string
 
   /**
+   * Keeps track of the selected multiple files/folders paths for deletion
+   **/
+  selectedMultiplePaths?: string[]
+
+  /**
    * A recored desribing currently selected file if any is selected
    **/
   record?: types.IRecord
@@ -82,9 +87,9 @@ export type IState = {
   table?: ITableState
 
   /**
-   * Keeps track of the selected multiple files/folders paths for deletion
+   * Keeps track of the text state if current file is a text
    **/
-  selectedMultiplePaths?: string[]
+  text?: ITextState
 }
 
 export type ITableState = {
@@ -123,6 +128,25 @@ export type ITableState = {
    * Keeps track of the current table selection in the Inovua table editor
    **/
   selection?: types.ITableSelection
+}
+
+export type ITextState = {
+  /**
+   * Text content for the text editor
+   **/
+  contents: string
+
+  /**
+   * Rendered text if it's an article (markdown)
+   **/
+  rendered?: string
+
+  /**
+   * Text versions for undo/redo functionality
+   **/
+  minimalVersion: number
+  currentVersion: number
+  maximalVersion: number
 }
 
 export type IDialog =

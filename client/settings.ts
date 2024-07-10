@@ -37,6 +37,7 @@ export const TEXT_SOURCE_FORMATS = [
   'json',
   'jsonl',
   'ndjson',
+  'geojson',
   'yaml',
   'html',
   'md',
@@ -59,6 +60,7 @@ export const FILE_TYPES = [
   'text',
   'view',
 ]
+export const TEXT_FILE_TYPES = ['article', 'json', 'script', 'text']
 
 // Defaults
 
