@@ -1,7 +1,7 @@
 [project]
 name = "opendataeditor"
 dynamic = ["version"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     # Core
     "fastapi==0.103.1",
