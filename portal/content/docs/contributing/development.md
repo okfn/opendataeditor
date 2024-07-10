@@ -8,10 +8,11 @@ Open Data Editor uses a client/server architecture wrapped into a desktop applic
 
 ## Prerequisites
 
-To start working on the project:
+To start working on the project you need the following dependencies in your machine:
 
 - Python 3.11+
 - Node 20+
+- python3.11-dev (For PyInstaller)
 
 ## Enviroment
 
