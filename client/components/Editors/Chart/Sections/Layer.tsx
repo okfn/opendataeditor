@@ -34,7 +34,6 @@ function Mark() {
       onChange={(value) => {
         if (!value) return
         descriptor.layer![layerIndex - 1].mark = value
-        console.log(descriptor)
         updateState({ descriptor })
       }}
     />

@@ -9,11 +9,6 @@ export interface MetadataPanelProps {
 
 export default function MetadataPanel(props: MetadataPanelProps) {
   if (!props.resource) return null
-  return (
-    <Resource
-      resource={props.resource}
-      onChange={props.onChange}
-      onFieldSelected={props.onFieldSelected}
-    />
-  )
+
+  return <Resource resource={props.resource} onChange={props.onChange} />
 }

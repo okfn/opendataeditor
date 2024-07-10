@@ -1,5 +1,5 @@
 import { IState, initialState } from './state'
-import { enableMapSet } from 'immer'
+import { enableMapSet, setAutoFreeze } from 'immer'
 // @ts-ignore
 import { merge } from 'merge-anything'
 import { create } from 'zustand'
@@ -7,6 +7,9 @@ import { devtools, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 enableMapSet()
+
+// TODO: Remove when a better solution that works for metadata editors are found
+setAutoFreeze(false)
 
 const NAME = 'opendataeditor'
 

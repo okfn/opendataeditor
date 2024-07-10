@@ -14,6 +14,7 @@ export interface ChatDialogProps {
 export default function ChatDialog(props: ChatDialogProps) {
   const [prompt, setPrompt] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+
   return (
     <ConfirmDialog
       ctrlEnter

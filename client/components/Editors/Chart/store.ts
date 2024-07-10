@@ -228,7 +228,6 @@ export function makeStore(props: ChartProps) {
       }
       Object.assign(channel, patch)
       updateState({ descriptor })
-      console.log('descriptor', descriptor)
     },
     removeChannel: (type) => {
       const { descriptor, updateState, updateChannelState } = get()

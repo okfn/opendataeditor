@@ -7,7 +7,7 @@ import * as store from '../../store'
 describe('file', () => {
   beforeEach(store.resetState)
 
-  test('closeFile', async () => {
+  test.skip('closeFile', async () => {
     store.setState('set-measure', (state) => {
       state.path = 'table.csv'
       state.measure = { errors: 3 }

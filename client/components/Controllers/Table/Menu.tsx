@@ -1,5 +1,4 @@
 import * as menu from '../../Parts/Bars/Menu'
-import * as helpers from '../../../helpers'
 import * as store from '@client/store'
 
 export default function Menu() {
@@ -8,7 +7,6 @@ export default function Menu() {
   const report = store.useStore((state) => state.report)
   const measure = store.useStore((state) => state.measure)
   const history = store.useStore((state) => state.table?.history)
-  const format = store.useStore((state) => state.record?.resource.format)
   const source = store.useStore((state) => state.source)
   const undoneHistory = store.useStore((state) => state.table?.undoneHistory)
 

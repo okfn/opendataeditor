@@ -25,7 +25,6 @@ export default function Editor() {
             const editor = React.createRef<ITextEditor | undefined>()
             // @ts-ignore
             editor.current = current
-            // @ts-ignore
             store.setRefs({ editor })
             setVisibility('visible')
           }}

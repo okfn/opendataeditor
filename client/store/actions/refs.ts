@@ -9,7 +9,7 @@ export function getRefs() {
   }
 }
 
-export function setRefs(patch: typeof refs) {
+export function setRefs(patch: Partial<typeof refs>) {
   Object.assign(refs, patch)
 }
 
