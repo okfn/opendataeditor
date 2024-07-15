@@ -5,8 +5,31 @@ import * as store from '@client/store'
 import * as helpers from '../../../helpers'
 
 export default function AddRemoteFileDialog() {
-  const [textFieldError, setTextFieldError] = React.useState(false)
-  const [errorHelperText, setErrorHelperText] = React.useState('')
+  const [errorMessage, setErrorMessage] = React.useState('')
+
+  const onChange = () => {
+    if (errorMessage) {
+      setErrorMessage('')
+    }
+  }
+
+  const onConfirm = async (url: string) => {
+    if (!url) {
+      setErrorMessage('The URL is blank')
+      return
+    }
+
+    if (!helpers.isUrlValid(url)) {
+      setErrorMessage('The URL is not valid')
+      return
+    }
+
+    try {
+      await store.fetchFile(url)
+    } catch (error) {
+      setErrorMessage('The URL does not point to a file we can load')
+    }
+  }
 
   return (
     <InputDialog
@@ -14,25 +37,12 @@ export default function AddRemoteFileDialog() {
       title="Add Remote File"
       label="Add"
       Icon={UploadIcon}
-      textFieldError={textFieldError}
-      errorHelperText={errorHelperText}
+      errorMessage={errorMessage}
       description="You are fetching a file. Enter source:"
       placholder="Enter or paste a URL"
       onCancel={store.closeDialog}
-      onConfirm={async (url) => {
-        if (url !== '' && helpers.isUrlValid(url)) {
-          setTextFieldError(false)
-          await store.fetchFile(url)
-          store.closeDialog()
-        } else {
-          setTextFieldError(true)
-          if (url === '') {
-            setErrorHelperText('Enter an URL')
-          } else if (!helpers.isUrlValid(url)) {
-            setErrorHelperText('Enter a valid URL')
-          }
-        }
-      }}
+      onConfirm={onConfirm}
+      onChange={onChange}
     />
   )
 }
