@@ -5,6 +5,7 @@ import * as store from '@client/store'
 import * as helpers from '../../../helpers'
 
 export default function AddRemoteFileDialog() {
+  const [loading, setLoading] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState('')
 
   const onChange = () => {
@@ -25,10 +26,16 @@ export default function AddRemoteFileDialog() {
     }
 
     try {
+      setLoading(true)
       await store.fetchFile(url)
     } catch (error) {
-      setErrorMessage('The URL does not point to a file we can load')
+      setErrorMessage('The URL does not point to a file that can be loaded')
+      return
+    } finally {
+      setLoading(false)
     }
+
+    store.closeDialog()
   }
 
   return (
@@ -43,6 +50,7 @@ export default function AddRemoteFileDialog() {
       onCancel={store.closeDialog}
       onConfirm={onConfirm}
       onChange={onChange}
+      loading={loading}
     />
   )
 }
