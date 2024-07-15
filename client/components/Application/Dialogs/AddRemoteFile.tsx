@@ -29,7 +29,7 @@ export default function AddRemoteFileDialog() {
       setLoading(true)
       await store.fetchFile(url)
     } catch (error) {
-      setErrorMessage('The URL does not point to a file that can be loaded')
+      setErrorMessage('The URL does not point to a supported tabular file')
       return
     } finally {
       setLoading(false)
@@ -45,7 +45,7 @@ export default function AddRemoteFileDialog() {
       label="Add"
       Icon={UploadIcon}
       errorMessage={errorMessage}
-      description="You are fetching a file. Enter source:"
+      description="You are adding a tabular file. Enter the source:"
       placholder="Enter or paste a URL"
       onCancel={store.closeDialog}
       onConfirm={onConfirm}
