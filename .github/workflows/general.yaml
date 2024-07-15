@@ -37,11 +37,12 @@ jobs:
         run: make test
 
   # Build
-
+  # For GNU/Linux we need to build our application in the oldest version we want to support.
+  # https://pyinstaller.org/en/stable/usage.html?highlight=glibc#making-gnu-linux-apps-forward-compatible
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     needs: [test]
     steps:
@@ -81,7 +82,7 @@ jobs:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     needs: [test]
     steps:
