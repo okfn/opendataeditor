@@ -57,12 +57,14 @@ export async function createWindow() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
-  if (!is.dev) {
-    log.info('Opening loading.html')
-    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
-    splashWindow.center()
-    log.info('## Start server')
-    await server.runServer()
+  log.info('Opening loading.html')
+  splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+  splashWindow.center()
+  if (!is.dev) await server.runServer()
+
+  const serverStarted = await server.pollServer();
+  if (!serverStarted) {
+    throw new Error('Failed to start FastAPI server');
   }
 
   loadingEvents.emit('finished')
