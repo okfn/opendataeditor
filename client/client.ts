@@ -25,20 +25,6 @@ export class Client {
     return await makeRequest<T>(this.serverUrl + path, props)
   }
 
-  // Article
-
-  async articleCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/article/create', props)
-  }
-
-  async articlePublish(props: { path: string; control: types.IControl }) {
-    return await this.request<{ url?: string }>('/article/publish', props)
-  }
-
-  async articleRender(props: { path: string; text: string }) {
-    return await this.request<{ text: string }>('/article/render', props)
-  }
-
   // Column
 
   async columnList() {

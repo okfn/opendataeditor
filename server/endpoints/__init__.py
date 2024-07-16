@@ -1,6 +1,5 @@
 # Register modules
 from . import (
-    article,
     column,
     config,
     file,
