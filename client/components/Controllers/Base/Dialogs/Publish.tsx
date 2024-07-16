@@ -21,6 +21,7 @@ export default function PublishDialog(props: PublishDialogProps) {
   const [control, setControl] = React.useState<types.IControl>()
   const [state, setState] = React.useState<IState>('form')
   const [publishedUrl, setPublishedUrl] = React.useState<string | undefined>()
+
   const handleClose = () => props.onClose()
   const handlePublish = async () => {
     if (!control) return
@@ -29,6 +30,7 @@ export default function PublishDialog(props: PublishDialogProps) {
     setState('done')
     setPublishedUrl(url)
   }
+
   return (
     <ConfirmDialog
       open={true}

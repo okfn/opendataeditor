@@ -1,38 +1,31 @@
 import * as React from 'react'
+import type { ITextEditor } from '@client/components/Editors/Text'
 import Box from '@mui/material/Box'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import TextEditor from '../../Editors/Text'
-import { useStore, selectors } from './store'
-import * as helpers from './helpers'
+import * as store from '@client/store'
 
 export default function Editor() {
   const [visibility, setVisibility] = React.useState('hidden')
-  const modifiedText = useStore((state) => state.modifiedText)
-  const editorRef = useStore((state) => state.editorRef)
-  const language = useStore(selectors.language)
-  const updateState = useStore((state) => state.updateState)
-  const maximalVersion = useStore((state) => state.maximalVersion)
-  const render = useStore((state) => state.render)
-  if (modifiedText === undefined) return null
+
+  const contents = store.useStore((state) => state.text?.contents)
+  const language = store.useStore(store.getTextLanguage)
+  const maximalVersion = store.useStore((state) => state.text?.maximalVersion)
+  if (contents === undefined || !maximalVersion) return null
+
   return (
     <React.Fragment>
       {visibility === 'hidden' && <SpinnerCard message="Loading" />}
       <Box sx={{ paddingY: 2, height: '100%', visibility }}>
         <TextEditor
-          value={modifiedText}
+          value={contents}
           language={language}
-          onChange={(text) => {
-            const version = helpers.getVersion(editorRef.current)
-            updateState({
-              modifiedText: text,
-              currentVersion: version,
-              maximalVersion: Math.max(version, maximalVersion),
-            })
-            render()
-          }}
-          onMount={(editor) => {
+          onChange={store.updateText}
+          onMount={(current) => {
+            const editor = React.createRef<ITextEditor | undefined>()
             // @ts-ignore
-            editorRef.current = editor
+            editor.current = current
+            store.setRefs({ editor })
             setVisibility('visible')
           }}
         />

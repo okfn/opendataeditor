@@ -15,7 +15,7 @@ interface IMenuItem extends types.IMenuItem {
   description: string
   placeholder: string
   promptPlaceholder: string
-  create: (path: string, prompt?: string) => Promise<void>
+  create: (props: { path: string; prompt?: string }) => Promise<void>
 }
 
 export default function CreateDialog() {
@@ -133,7 +133,7 @@ export default function CreateDialog() {
       onConfirm={async () => {
         if (!menuItem) return
         setLoading(true)
-        await menuItem.create(path, prompt)
+        await menuItem.create({ path, prompt })
         setLoading(false)
         store.closeDialog()
       }}

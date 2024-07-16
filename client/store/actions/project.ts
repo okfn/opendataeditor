@@ -1,10 +1,10 @@
 import { client } from '@client/client'
 import * as store from '../store'
-import { closeFile, loadFiles } from './file'
+import { deselectFile, loadFiles } from './file'
 import { loadConfig } from './config'
 
 export async function openProject(fullpath: string) {
-  closeFile()
+  deselectFile()
 
   store.setState('open-project-start', (state) => {
     state.loading = true

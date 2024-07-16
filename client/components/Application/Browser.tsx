@@ -21,8 +21,9 @@ export default function Browser() {
 function DefaultBrowser() {
   const path = store.useStore((state) => state.path)
   const files = store.useStore((state) => state.files)
-  const fileEvent = store.useStore((state) => state.fileEvent)
+  const event = store.useStore((state) => state.event)
   const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
+
   return (
     <ErrorBoundary
       fallback={
@@ -37,10 +38,14 @@ function DefaultBrowser() {
     >
       <FileTree
         files={files}
-        event={fileEvent}
+        event={event}
         selectedMultiple={selectedMultiplePaths}
         selected={path}
-        onSelect={store.selectFile}
+        onSelect={(paths) =>
+          paths.length <= 1
+            ? store.selectFile({ path: paths[0] })
+            : store.selectMultipleFiles(paths)
+        }
       />
     </ErrorBoundary>
   )

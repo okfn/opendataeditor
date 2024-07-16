@@ -1,13 +1,6 @@
 import PublishDialog from '../../Base/Dialogs/Publish'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function Publish() {
-  const publish = useStore((state) => state.publish)
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <PublishDialog
-      onPublish={publish}
-      onClose={() => updateState({ dialog: undefined })}
-    />
-  )
+  return <PublishDialog onPublish={store.publishTable} onClose={store.closeDialog} />
 }

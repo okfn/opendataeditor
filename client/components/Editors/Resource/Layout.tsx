@@ -69,7 +69,6 @@ function LayoutWithMenu() {
           selected={section}
           defaultExpanded={['resource']}
           onSelect={(section) => {
-            console.log('Resource Section', section)
             updateHelp(section)
             updateState({ section })
             externalMenu.section = section

@@ -1,13 +1,8 @@
 import MetadataPanel from '../../Base/Panels/Metadata'
-import { useStore } from '../store'
+import * as store from '@client/store'
 
 export default function Metadata() {
-  const resource = useStore((state) => state.resource)
-  const updateState = useStore((state) => state.updateState)
-  return (
-    <MetadataPanel
-      resource={resource}
-      onChange={(resource) => updateState({ resource })}
-    />
-  )
+  const resource = store.useStore((state) => state.resource)
+
+  return <MetadataPanel resource={resource} onChange={store.updateResource} />
 }
