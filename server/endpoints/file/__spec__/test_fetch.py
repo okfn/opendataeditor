@@ -13,7 +13,7 @@ def test_server_file_fetch(client):
     client("/file/fetch", url=url1)
     assert client("/file/read", path=url1name).bytes == url1bytes
     assert client("/file/list").files == [
-        models.File(path=url1name, type="file"),
+        models.File(path=url1name, type="table", name="table", errors=0),
     ]
 
 
@@ -25,7 +25,7 @@ def test_server_file_fetch_to_folder(client):
     assert client("/file/read", path=path).bytes == url1bytes
     assert client("/file/list").files == [
         models.File(path=folder1, type="folder"),
-        models.File(path=path, type="file"),
+        models.File(path=path, type="table", name="table", errors=0),
     ]
 
 

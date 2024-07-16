@@ -135,13 +135,11 @@ export async function addFiles(files: FileList) {
 
 export async function fetchFile(url: string) {
   const folder = getFolderPath(store.getState())
-  const result = await client.fileFetch({ url, folder, deduplicate: true })
 
-  if (result instanceof client.Error) {
-    return store.setState('fetch-file-error', (state) => {
-      state.error = result
-    })
-  }
+  // Once UI components handle all the possible errors that the client/store can throw
+  // we can return to throwing errors in the client directly (see AddRemoteFile dialog)
+  const result = await client.fileFetch({ url, folder, deduplicate: true })
+  if (result instanceof client.Error) throw result
 
   await onFileCreated([result.path])
 }

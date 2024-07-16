@@ -1,4 +1,5 @@
 import * as React from 'react'
+import LinearProgress from '@mui/material/LinearProgress'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -13,6 +14,7 @@ export interface ConfirmDialogProps {
   Icon?: React.ElementType
   label?: string
   cancelLabel?: string
+  loading?: boolean
   disabled?: boolean
   maxWidth?: 'md' | 'xl'
   onCancel?: () => void
@@ -29,7 +31,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
       fullWidth
       maxWidth={props.maxWidth}
       open={!!props.open}
-      onClose={handleCancel}
+      onClose={!props.loading ? handleCancel : undefined}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onKeyDown={(event) => {
@@ -52,6 +54,12 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           <Box sx={{ marginBottom: 1, opacity: 0.6 }}>{props.description}</Box>
         )}
         {props.children}
+        {props.loading && (
+          <Box sx={{ paddingY: 1, marginY: 1 }}>
+            Loading
+            <LinearProgress />
+          </Box>
+        )}
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
@@ -63,6 +71,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
             aria-label="cancel"
             color="warning"
             variant="contained"
+            disabled={props.loading}
           />
           <SimpleButton
             fullWidth
@@ -71,7 +80,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
             onClick={handleConfirm}
             aria-label="accept"
             variant="contained"
-            disabled={props.disabled}
+            disabled={props.disabled || props.loading}
           />
         </Columns>
       </Box>

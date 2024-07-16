@@ -8,27 +8,30 @@ export interface InputDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> 
   prefix?: string
   placholder?: string
   spellcheck?: boolean
-  onConfirm?: (value: string) => void,
-  textFieldError? : boolean,
-  errorHelperText?: string
+  onChange?: (value: string) => void
+  onConfirm?: (value: string) => void
+  errorMessage?: string
 }
 
 export default function InputDialog(props: InputDialogProps) {
-  const { value: initValue, prefix, placholder, spellcheck, onConfirm, textFieldError, errorHelperText, ...rest } = props
-  const [value, setValue] = React.useState(initValue || '')
+  const { prefix, placholder, spellcheck, onConfirm, errorMessage, ...rest } = props
+  const [value, setValue] = React.useState('')
 
   const handleConfirm = () => onConfirm && onConfirm(value)
   return (
-    <ConfirmDialog {...rest} onConfirm={handleConfirm}>
+    <ConfirmDialog {...rest} onConfirm={handleConfirm} disabled={!value}>
       <TextField
-        error={textFieldError}
-        helperText={textFieldError ? errorHelperText : ' '}
+        error={!!errorMessage}
+        helperText={errorMessage}
         autoFocus
         fullWidth
         size="small"
         value={value}
         placeholder={placholder}
-        onChange={(ev) => setValue(ev.target.value)}
+        onChange={(ev) => {
+          setValue(ev.target.value)
+          props.onChange?.(ev.target.value)
+        }}
         InputProps={{
           inputProps: { spellCheck: spellcheck || false },
           startAdornment: prefix ? (
