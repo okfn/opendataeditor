@@ -1,7 +1,6 @@
 # Register modules
 from . import (
     article,
-    chart,
     column,
     config,
     file,

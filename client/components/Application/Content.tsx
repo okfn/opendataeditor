@@ -4,7 +4,6 @@ import { ControllerProps } from '../Controllers/Base'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
 import Metadata from '../Controllers/Metadata'
-import Chart from '../Controllers/Chart'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
 import EmptyCard from '../Parts/Cards/Empty'
@@ -63,7 +62,7 @@ export const CONTROLLERS: {
   [type: string]: React.ElementType<ControllerProps>
 } = {
   article: Text,
-  chart: Chart,
+  chart: Text,
   dialect: Metadata,
   file: File,
   image: File,

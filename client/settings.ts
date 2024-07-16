@@ -60,7 +60,7 @@ export const FILE_TYPES = [
   'text',
   'view',
 ]
-export const TEXT_FILE_TYPES = ['article', 'json', 'script', 'text']
+export const TEXT_FILE_TYPES = ['article', 'chart', 'json', 'script', 'text']
 
 // Defaults
 

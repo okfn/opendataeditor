@@ -39,20 +39,6 @@ export class Client {
     return await this.request<{ text: string }>('/article/render', props)
   }
 
-  // Chart
-
-  async chartCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/chart/create', props)
-  }
-
-  async chartEdit(props: { path: string; chart: types.IChart; prompt: string }) {
-    return await this.request<{ chart: types.IChart }>('/chart/edit', props)
-  }
-
-  async chartRender(props: { path: string; chart: types.IChart }) {
-    return await this.request<{ chart: types.IChart }>('/chart/render', props)
-  }
-
   // Column
 
   async columnList() {
@@ -301,29 +287,6 @@ export class Client {
 
   async textRead(props: { path: string; size?: number }) {
     return await this.request<{ text: string }>('/text/read', props)
-  }
-
-  // View
-
-  async viewCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/view/create', props)
-  }
-
-  async viewEdit(props: { path: string; data: types.IView; prompt: string }) {
-    return await this.request<{ data: types.IView }>('/view/edit', props)
-  }
-
-  async viewInfer(props: { path: string }) {
-    return await this.request<{ tableSchema?: types.ISchema }>('/view/infer', props)
-  }
-
-  async viewPatch(props: {
-    path: string
-    data?: types.IView
-    toPath?: string
-    resource?: types.IResource
-  }) {
-    return await this.request<{ path: string }>('/view/patch', props)
   }
 }
 
