@@ -7,7 +7,6 @@ import Metadata from '../Controllers/Metadata'
 import Chart from '../Controllers/Chart'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
-import View from '../Controllers/View'
 import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import * as store from '@client/store'
@@ -77,5 +76,5 @@ export const CONTROLLERS: {
   script: Text,
   table: Table,
   text: Text,
-  view: View,
+  view: Text,
 }

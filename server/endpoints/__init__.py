@@ -15,5 +15,4 @@ from . import (
     script,
     table,
     text,
-    view,
 )
