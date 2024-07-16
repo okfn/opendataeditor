@@ -137,11 +137,6 @@ export type ITextState = {
   contents: string
 
   /**
-   * Rendered text if it's an article (markdown)
-   **/
-  rendered?: string
-
-  /**
    * Text versions for undo/redo functionality
    **/
   minimalVersion: number

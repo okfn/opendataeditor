@@ -224,7 +224,7 @@ export class Client {
   }
 
   async tableEdit(props: { path: string; text: string; prompt: string }) {
-    return await this.request<{ data: types.IView }>('/table/edit', props)
+    return await this.request<{ text: string }>('/table/edit', props)
   }
 
   async tablePatch(props: {

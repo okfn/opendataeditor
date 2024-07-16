@@ -103,7 +103,6 @@ export const INITIAL_DIALECT: types.IDialect = {}
 export const INITIAL_CONTROL: Partial<types.IControl> = { type: 'ckan' }
 export const INITIAL_PACKAGE: types.IPackage = { resources: [] }
 export const INITIAL_PORTAL: types.IPortal = { type: 'ckan' }
-export const INITIAL_VIEW: types.IView = { query: '' }
 export const INITIAL_HISTORY: types.IHistory = { changes: [] }
 export const INITIAL_RESOURCE: types.IResource = {
   name: 'name',
