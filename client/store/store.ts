@@ -9,6 +9,10 @@ import { immer } from 'zustand/middleware/immer'
 enableMapSet()
 
 // TODO: Remove when a better solution that works for metadata editors are found
+// We use zustand with immer to make store manipulations easier but
+// immer freezes all the objects that go through the store.
+// This means that when we pass e.g. resource object to the Resource Editor
+// it can't be updated.
 setAutoFreeze(false)
 
 const NAME = 'opendataeditor'
