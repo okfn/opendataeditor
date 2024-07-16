@@ -13,7 +13,7 @@ export async function openText() {
 
   invariant(source?.text)
 
-  store.setState('close-text', (state) => {
+  store.setState('open-text', (state) => {
     state.text = {
       contents: source.text!,
       minimalVersion: 1,

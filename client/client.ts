@@ -198,16 +198,6 @@ export class Client {
     return await this.request<{ path: string }>('/resource/patch', props)
   }
 
-  // Script
-
-  async scriptCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/script/create', props)
-  }
-
-  async scriptExecute(props: { path: string; text: string }) {
-    return await this.request<{ text: string }>('/script/execute', props)
-  }
-
   // Table
 
   async tableCount(props: { path: string; valid?: boolean }) {

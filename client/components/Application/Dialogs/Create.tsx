@@ -57,15 +57,6 @@ export default function CreateDialog() {
       create: store.createMap,
     },
     {
-      name: 'Script',
-      section: 'script',
-      fileName: 'script.py',
-      description: 'Creating a Python script. Enter destination:',
-      placeholder: 'Enter a script path',
-      promptPlaceholder: 'average price by brand for @cars',
-      create: store.createScript,
-    },
-    {
       name: 'Table',
       section: 'table',
       fileName: 'table.csv',

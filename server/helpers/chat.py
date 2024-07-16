@@ -97,12 +97,6 @@ INSTRUCTIONS = {
         You will be given a text description on what needs to be written.
         Respond with only the JSON list without explanation.
     """,
-    "script": """
-        You are a Python code generation assistant.
-        You will be given a text description on what needs to be written.
-        You can use pandas and frictionless libraries.
-        Respond with only the Python code without explanation.
-    """,
     "text": """
         You are a text file generation assistant.
         You will be given a text description on what needs to be written.

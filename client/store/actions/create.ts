@@ -64,18 +64,6 @@ export async function createPackage(props: { path: string; prompt?: string }) {
   await onFileCreated([result.path])
 }
 
-export async function createScript(props: { path: string; prompt?: string }) {
-  const result = await client.scriptCreate({ ...props, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('create-script-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
 export async function createTable(props: { path: string; prompt?: string }) {
   const result = await client.textCreate({ ...props, text: '', deduplicate: true })
 

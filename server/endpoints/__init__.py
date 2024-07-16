@@ -10,7 +10,6 @@ from . import (
     package,
     project,
     resource,
-    script,
     table,
     text,
 )

@@ -42,6 +42,8 @@ export const TEXT_SOURCE_FORMATS = [
   'html',
   'md',
   'txt',
+  'js',
+  'py',
 ] as const
 export const FILE_TYPES = [
   'article',
