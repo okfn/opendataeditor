@@ -1,7 +1,7 @@
 [project]
 name = "opendataeditor"
 dynamic = ["version"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     # Core
     "fastapi==0.103.1",
@@ -35,6 +35,8 @@ dependencies = [
     "pygithub==1.59.1",
     # Zenodo
     "pyzenodo3==1.0.2",
+    # PyInstaller
+    "pyinstaller==6.8.0"
 ]
 
 [tool.setuptools]
@@ -45,7 +47,7 @@ path = "package.json"
 pattern = '"version": "(?P<version>.*)"'
 
 [tool.hatch.envs.default]
-python = "3.10"
+python = "3.11"
 dependencies = [
     "ruff",
     "httpx",
