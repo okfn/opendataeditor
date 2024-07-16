@@ -21,7 +21,7 @@ dependencies = [
     # Scripts
     "pandas==2.1.1",
     # Gsheets
-    "pygsheets==2.0.6",
+    # "pygsheets==2.0.6",
     # Excel
     "openpyxl==3.1.2",
     "xlrd==2.0.1",
