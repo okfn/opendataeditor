@@ -78,7 +78,7 @@ export function createColumns(
         }
         if (change) {
           cellProps.style.color = 'black'
-          cellProps.style.background = 'yellow'
+          cellProps.style.border = '2px solid gray'
           return value
         }
 
