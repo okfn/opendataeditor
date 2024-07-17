@@ -14,10 +14,6 @@ import icon from './assets/icon.png?asset'
 export async function createWindow() {
 
   var splashWindow = new BrowserWindow({
-    width: 500,
-    height: 500,
-    frame: false,
-    alwaysOnTop: true,
     resizable: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -59,7 +55,8 @@ export async function createWindow() {
 
   log.info('Opening loading.html')
   splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
-  splashWindow.center()
+  splashWindow.maximize()
+
   if (!is.dev) await server.runServer()
 
   const serverStarted = await server.pollServer();
