@@ -52,8 +52,8 @@ export default function TableEditor(props: TableEditorProps) {
     setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
 
-  let elem = document.querySelector(".css-neb4x5-MuiGrid-root")
-  let rect = elem?.getBoundingClientRect()
+  const elem = document.querySelector('.css-neb4x5-MuiGrid-root')
+  const rect = elem?.getBoundingClientRect()
 
   return (
     <InovuaDatagrid
