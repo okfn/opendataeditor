@@ -11,6 +11,7 @@ export type SourcePanelProps<T extends string | types.IData> = {
 
 export function JsonSourcePanel(props: SourcePanelProps<types.IData>) {
   const { value, onChange, ...others } = props
+
   return (
     <TextSourcePanel
       language="json"
@@ -33,6 +34,7 @@ export function JsonSourcePanel(props: SourcePanelProps<types.IData>) {
 export function TextSourcePanel(props: SourcePanelProps<string>) {
   const theme = useTheme()
   if (props.value === undefined) return null
+
   return (
     <Box>
       <TextEditor

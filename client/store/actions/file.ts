@@ -1,22 +1,14 @@
 import * as store from '../store'
-import delay from 'delay'
 import { client } from '@client/client'
-import { onFileCreate, onFileDelete } from './event'
+import { openText, closeText } from './text'
+import { loadSource } from './source'
+import { cloneDeep } from 'lodash'
+import { openDialog } from './dialog'
+import { getIsResourceUpdated } from './resource'
+import { openTable, closeTable } from './table'
+import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
-
-export const getIsFolder = store.createSelector((state) => {
-  return !!state.files.find((file) => file.path === state.path && file.type === 'folder')
-})
-
-export const getFolderPath = store.createSelector((state) => {
-  if (!state.path) return undefined
-  if (getIsFolder(state)) return state.path
-  return helpers.getFolderPath(state.path)
-})
-
-export const getNotIndexedFiles = store.createSelector((state) => {
-  return state.files.filter((file) => !file.name)
-})
+import * as settings from '@client/settings'
 
 export async function loadFiles(throwError?: boolean) {
   const result = await client.fileList()
@@ -30,6 +22,94 @@ export async function loadFiles(throwError?: boolean) {
 
   store.setState('load-files', (state) => {
     state.files = result.files
+  })
+}
+
+export async function selectFile(props: { path?: string; updated?: boolean }) {
+  const { path, record } = store.getState()
+  if (!props.updated && path === props.path) return
+
+  await closeFile()
+
+  store.setState('select-file', (state) => {
+    state.path = props.path
+  })
+
+  if (!props.path) return
+  if (getIsFolder(store.getState())) return
+  if (!props.updated && record?.path === props.path) return
+
+  await openFile()
+}
+
+async function openFile() {
+  const { path } = store.getState()
+  if (!path) return
+
+  store.setState('open-file-start', (state) => {
+    state.indexing = true
+  })
+
+  const result = await client.fileIndex({ path })
+  if (result instanceof client.Error) {
+    return store.setState('open-file-error', (state) => {
+      state.error = result
+    })
+  }
+
+  await loadFiles()
+
+  store.setState('open-file-loaded', (state) => {
+    state.record = result.record
+    state.report = result.report
+    state.measure = result.measure
+    state.resource = cloneDeep(result.record.resource)
+  })
+
+  await loadSource()
+
+  if (result.record.type === 'table') {
+    await openTable()
+  } else if (settings.TEXT_FILE_TYPES.includes(result.record.type)) {
+    await openText()
+  }
+
+  emitEvent({ type: 'open', paths: [path] })
+  store.setState('open-file-end', (state) => {
+    state.indexing = false
+  })
+}
+
+async function closeFile() {
+  const { record } = store.getState()
+  if (!record) return
+
+  store.setState('close-file', (state) => {
+    state.record = undefined
+    state.report = undefined
+    state.measure = undefined
+    state.resource = undefined
+    state.source = undefined
+    state.error = undefined
+    state.dialog = undefined
+    state.panel = undefined
+    state.indexing = false
+  })
+
+  if (record.type === 'table') {
+    await closeTable()
+  } else if (settings.TEXT_FILE_TYPES.includes(record.type)) {
+    await closeText()
+  }
+}
+
+export async function deselectFile() {
+  await selectFile({ path: undefined })
+}
+
+export async function selectMultipleFiles(paths: string[]) {
+  store.setState('select-multiple-files', (state) => {
+    state.selectedMultiplePaths = paths
   })
 }
 
@@ -50,46 +130,18 @@ export async function addFiles(files: FileList) {
     paths.push(result.path)
   }
 
-  onFileCreate(paths)
+  await onFileCreated(paths)
 }
 
 export async function fetchFile(url: string) {
   const folder = getFolderPath(store.getState())
+
+  // Once UI components handle all the possible errors that the client/store can throw
+  // we can return to throwing errors in the client directly (see AddRemoteFile dialog)
   const result = await client.fileFetch({ url, folder, deduplicate: true })
+  if (result instanceof client.Error) throw result
 
-  if (result instanceof client.Error) {
-    return store.setState('fetch-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  onFileCreate([result.path])
-}
-
-export async function createFile(path: string, prompt?: string) {
-  if (prompt) {
-    const text = ''
-    const result = await client.textCreate({ path, text, prompt, deduplicate: true })
-
-    if (result instanceof client.Error) {
-      return store.setState('create-file-error', (state) => {
-        state.error = result
-      })
-    }
-
-    onFileCreate([result.path])
-  } else {
-    const file = new File([new Blob()], path)
-    const result = await client.fileCreate({ path, file, deduplicate: true })
-
-    if (result instanceof client.Error) {
-      return store.setState('create-file-error', (state) => {
-        state.error = result
-      })
-    }
-
-    onFileCreate([result.path])
-  }
+  await onFileCreated([result.path])
 }
 
 export async function adjustFile(name?: string, type?: string) {
@@ -108,10 +160,7 @@ export async function adjustFile(name?: string, type?: string) {
     state.path = undefined
   })
 
-  closeFile()
-
-  await loadFiles()
-  await selectFile(path)
+  await onFileUpdated([result.path])
 }
 
 export async function copyFile(path: string, toPath: string) {
@@ -123,7 +172,7 @@ export async function copyFile(path: string, toPath: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
 export async function deleteFiles(paths: string[]) {
@@ -135,9 +184,9 @@ export async function deleteFiles(paths: string[]) {
         state.error = result
       })
     }
-
-    onFileDelete(path)
   }
+
+  await onFileDeleted(paths)
 }
 
 export async function moveFile(path: string, toPath: string) {
@@ -149,93 +198,79 @@ export async function moveFile(path: string, toPath: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
+}
+
+export async function forkFile(toPath: string) {
+  const { path, resource } = store.getState()
+  if (!path) return
+
+  const result = await client.filePatch({ path, toPath, resource })
+
+  if (result instanceof client.Error) {
+    return store.setState('fork-table-error', (state) => {
+      state.error = result
+    })
+  }
+
+  await onFileCreated([result.path])
 }
 
 export async function locateFile(path: string) {
   store.setState('locate-file-start', (state) => {
     state.path = path
-    state.fileEvent = { type: 'locate', paths: [path] }
   })
 
-  await delay(500)
-
-  store.setState('locate-file-end', (state) => {
-    state.fileEvent = undefined
-  })
+  emitEvent({ type: 'locate', paths: [path] })
 }
 
-export async function selectFile(newPath?: string[] | string) {
-  const { path, record } = store.getState()
-  if (newPath) {
-    if (!Array.isArray(newPath)) newPath = [newPath]
-    if (newPath.length === 1) {
-      store.setState('select-file-reset', (state) => {
-        state.selectedMultiplePaths = undefined
-      })
+// Handlers
 
-      if (path === newPath[0]) return
-      store.setState('select-file-start', (state) => {
-        state.path = newPath?.[0]
-      })
-
-      if (!newPath) return
-      if (record?.path === newPath[0]) return
-      if (getIsFolder(store.getState())) return
-
-      await openFile(newPath[0])
-    } else {
-      store.setState('select-file-end', (state) => {
-        // TODO: to make it more robust and avoid this type casting
-        // we should do a cleanup and accept only an array in this function
-        // and adjust other function that call selectFile with a string
-        state.selectedMultiplePaths = newPath as string[]
-      })
-    }
-  }
-}
-
-export async function openFile(path: string) {
-  const { fileEvent } = store.getState()
-
-  store.setState('open-file-start', (state) => {
-    state.record = undefined
-    state.measure = undefined
-    state.indexing = true
-  })
-
-  const result = await client.fileIndex({ path })
-
-  if (result instanceof client.Error) {
-    return store.setState('open-file-error', (state) => {
-      state.error = result
-    })
-  }
-
+export async function onFileCreated(paths: string[]) {
   await loadFiles()
-
-  store.setState('open-file-loaded', (state) => {
-    state.record = result.record
-    state.measure = result.measure
-    state.indexing = false
-  })
-
-  if (!fileEvent) {
-    store.setState('open-file-event-start', (state) => {
-      state.fileEvent = { type: 'open', paths: [path] }
-    })
+  emitEvent({ type: 'create', paths })
+  if (paths.length === 1) {
+    const path = paths[0]
+    await selectFile({ path })
   }
-
-  await delay(500)
-
-  store.setState('open-file-event-end', (state) => {
-    state.fileEvent = undefined
-  })
 }
 
-export function closeFile() {
-  store.setState('close-file', (state) => {
-    state.record = undefined
-    state.measure = undefined
-  })
+export async function onFileUpdated(paths: string[]) {
+  await loadFiles()
+  emitEvent({ type: 'update', paths })
+  if (paths.length === 1) {
+    const path = paths[0]
+    await selectFile({ path, updated: true })
+  }
 }
+
+export async function onFileDeleted(paths: string[]) {
+  deselectFile()
+  await emitEvent({ type: 'delete', paths })
+  await loadFiles()
+}
+
+export function onFileClickAway() {
+  const { dialog } = store.getState()
+  const isUpdated = getIsResourceUpdated(store.getState())
+
+  if (isUpdated && !dialog) {
+    openDialog('leave')
+  }
+}
+
+// Selectors
+
+export const getIsFolder = store.createSelector((state) => {
+  return !!state.files.find((file) => file.path === state.path && file.type === 'folder')
+})
+
+export const getFolderPath = store.createSelector((state) => {
+  if (!state.path) return undefined
+  if (getIsFolder(state)) return state.path
+  return helpers.getFolderPath(state.path)
+})
+
+export const getNotIndexedFiles = store.createSelector((state) => {
+  return state.files.filter((file) => !file.name)
+})

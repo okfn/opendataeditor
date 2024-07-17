@@ -198,7 +198,6 @@ function FieldType() {
       onChange={(value) => {
         if (!value) value = undefined
         updateChannel({ customFieldType: value })
-        console.log({ customFieldType: value })
       }}
     />
   )

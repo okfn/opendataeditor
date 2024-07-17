@@ -31,21 +31,31 @@ def server_file_read(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     from ... import endpoints
 
-    # Load
+    # Load file
     resource = FileResource(path=props.url)
     bytes = resource.read_file()
 
-    # Save
-    parsed = urlparse(props.url)
-    path = props.path or Path(parsed.path).name or "file"
-    result = endpoints.file.create.action(
+    # Save file
+    path = endpoints.file.create.action(
         project,
         endpoints.file.create.Props(
-            path=path,
+            path=props.path or Path(urlparse(props.url).path).name or "file",
             bytes=bytes,
             folder=props.folder,
             deduplicate=props.deduplicate,
         ),
-    )
+    ).path
 
-    return Result(path=result.path)
+    # Index file
+    record = endpoints.file.index.action(
+        project, endpoints.file.index.Props(path=path)
+    ).record
+
+    # Ensure tabular
+    # Currently, we support only fetching tabular files because otherwise
+    # it's not possible to differentiate between HTML documents (wrong links) and data files
+    if record.type != "table":
+        endpoints.file.delete.action(project, endpoints.file.delete.Props(path=path))
+        raise Exception("The file is not tabular")
+
+    return Result(path=path)

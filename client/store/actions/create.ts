@@ -1,9 +1,9 @@
 import * as store from '../store'
 import { client } from '@client/client'
-import { onFileCreate } from './event'
+import { onFileCreated } from './file'
 
-export async function createArticle(path: string, prompt?: string) {
-  const result = await client.articleCreate({ path, prompt, deduplicate: true })
+export async function createArticle(props: { path: string; prompt?: string }) {
+  const result = await client.articleCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-article-error', (state) => {
@@ -11,11 +11,11 @@ export async function createArticle(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createChart(path: string, prompt?: string) {
-  const result = await client.chartCreate({ path, prompt, deduplicate: true })
+export async function createChart(props: { path: string; prompt?: string }) {
+  const result = await client.chartCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-chart-error', (state) => {
@@ -23,11 +23,37 @@ export async function createChart(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createImage(path: string, prompt?: string) {
-  const result = await client.imageCreate({ path, prompt, deduplicate: true })
+export async function createFile(props: { path: string; prompt?: string }) {
+  if (props.prompt) {
+    const text = ''
+    const result = await client.textCreate({ ...props, text, deduplicate: true })
+
+    if (result instanceof client.Error) {
+      return store.setState('create-file-error', (state) => {
+        state.error = result
+      })
+    }
+
+    await onFileCreated([result.path])
+  } else {
+    const file = new File([new Blob()], props.path)
+    const result = await client.fileCreate({ path: props.path, file, deduplicate: true })
+
+    if (result instanceof client.Error) {
+      return store.setState('create-file-error', (state) => {
+        state.error = result
+      })
+    }
+
+    await onFileCreated([result.path])
+  }
+}
+
+export async function createImage(props: { path: string; prompt?: string }) {
+  const result = await client.imageCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-image-error', (state) => {
@@ -35,11 +61,11 @@ export async function createImage(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createMap(path: string, prompt?: string) {
-  const result = await client.mapCreate({ path, prompt, deduplicate: true })
+export async function createMap(props: { path: string; prompt?: string }) {
+  const result = await client.mapCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-map-error', (state) => {
@@ -47,11 +73,11 @@ export async function createMap(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createPackage(path: string, prompt?: string) {
-  const result = await client.packageCreate({ path, prompt, deduplicate: true })
+export async function createPackage(props: { path: string; prompt?: string }) {
+  const result = await client.packageCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-package-error', (state) => {
@@ -59,11 +85,11 @@ export async function createPackage(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createScript(path: string, prompt?: string) {
-  const result = await client.scriptCreate({ path, prompt, deduplicate: true })
+export async function createScript(props: { path: string; prompt?: string }) {
+  const result = await client.scriptCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-script-error', (state) => {
@@ -71,16 +97,11 @@ export async function createScript(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createTable(path: string, prompt?: string) {
-  const result = await client.textCreate({
-    path,
-    text: '',
-    prompt,
-    deduplicate: true,
-  })
+export async function createTable(props: { path: string; prompt?: string }) {
+  const result = await client.textCreate({ ...props, text: '', deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-table-error', (state) => {
@@ -88,11 +109,11 @@ export async function createTable(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }
 
-export async function createView(path: string, prompt?: string) {
-  const result = await client.viewCreate({ path, prompt, deduplicate: true })
+export async function createView(props: { path: string; prompt?: string }) {
+  const result = await client.viewCreate({ ...props, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('create-view-error', (state) => {
@@ -100,5 +121,5 @@ export async function createView(path: string, prompt?: string) {
     })
   }
 
-  onFileCreate([result.path])
+  await onFileCreated([result.path])
 }

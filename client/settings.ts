@@ -21,8 +21,6 @@ import * as types from './types'
 
 export const SERVER_URL = 'http://localhost:4040'
 export const PACKAGE_PATH = 'datapackage.json'
-export const TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson', 'xlsx', 'xls']
-export const TEXT_TABLE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'ndjson']
 export const HASHINGS = ['md5', 'sha256']
 export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
@@ -30,8 +28,21 @@ export const TRUE_VALUES = ['true', 'TRUE', 'yes', 'YES', '1']
 export const FALSE_VALUES = ['false', 'FALSE', 'no', 'NO', '0']
 export const METADATA_FORMATS = ['yaml', 'json']
 export const METADATA_TYPES = ['resource', 'dialect', 'schema', 'checklist', 'pipeline']
-export const MAX_TABLE_SOURCE_SIZE = 1000000
+export const MAX_SOURCE_SIZE = 1000000
 export const PROJECT_SYNC_INTERVAL_MILLIS = 10 * 1000
+export const BYTE_SOURCE_FORMATS = ['png', 'jpg'] as const
+export const TEXT_SOURCE_FORMATS = [
+  'csv',
+  'tsv',
+  'json',
+  'jsonl',
+  'ndjson',
+  'geojson',
+  'yaml',
+  'html',
+  'md',
+  'txt',
+] as const
 export const FILE_TYPES = [
   'article',
   'chart',
@@ -49,6 +60,7 @@ export const FILE_TYPES = [
   'text',
   'view',
 ]
+export const TEXT_FILE_TYPES = ['article', 'json', 'script', 'text']
 
 // Defaults
 

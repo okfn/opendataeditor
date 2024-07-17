@@ -101,7 +101,6 @@ function LayoutWithMenu() {
           selected={section}
           defaultExpanded={['package']}
           onSelect={(section) => {
-            console.log('Package Section', section)
             updateHelp(section)
             updateState({ section })
             externalMenu.section = section
