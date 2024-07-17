@@ -52,6 +52,9 @@ export default function TableEditor(props: TableEditorProps) {
     setRowsPerPage(Math.floor(tableHeight / rowHeight) - 1)
   }
 
+  let elem = document.querySelector(".css-neb4x5-MuiGrid-root")
+  let rect = elem?.getBoundingClientRect()
+
   return (
     <InovuaDatagrid
       onReady={resizeTable}
@@ -68,8 +71,7 @@ export default function TableEditor(props: TableEditorProps) {
       rowHeight={rowHeight}
       showColumnMenuLockOptions={false}
       showColumnMenuGroupOptions={false}
-      columnContextMenuConstrainTo={true}
-      columnContextMenuPosition={'fixed'}
+      columnContextMenuConstrainTo={rect}
       {...others}
     />
   )
