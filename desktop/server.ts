@@ -18,7 +18,7 @@ function isServerRunning() {
 }
 
 export async function pollServer() {
-  const retries = 5;
+  const retries = 15;
   const delay = 1000;
 
   for (let i = 0; i < retries; i++) {

@@ -16,6 +16,7 @@ export async function createWindow() {
   var splashWindow = new BrowserWindow({
     resizable: false,
     autoHideMenuBar: true,
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
@@ -47,7 +48,7 @@ export async function createWindow() {
       mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
     }
     mainWindow.maximize()
-    mainWindow.show();
+    mainWindow.show()
   })
 
   // Open the DevTools.
@@ -55,7 +56,6 @@ export async function createWindow() {
 
   log.info('Opening loading.html')
   splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
-  splashWindow.maximize()
 
   if (!is.dev) await server.runServer()
 
