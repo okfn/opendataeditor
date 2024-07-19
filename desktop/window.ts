@@ -13,7 +13,7 @@ import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
 
-  var splashWindow = new BrowserWindow({
+  var loadingWindow = new BrowserWindow({
     resizable: false,
     autoHideMenuBar: true,
     frame: false,
@@ -38,7 +38,7 @@ export async function createWindow() {
   })
 
   loadingEvents.on('finished', () => {
-    splashWindow.close();
+    loadingWindow.close();
     log.info('Opening index.html')
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
@@ -55,7 +55,7 @@ export async function createWindow() {
   // mainWindow.webContents.openDevTools()
 
   log.info('Opening loading.html')
-  splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+  loadingWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
 
   if (!is.dev) await server.runServer()
 
