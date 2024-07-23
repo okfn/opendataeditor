@@ -69,8 +69,8 @@ export const config: Options.Testrunner = {
             appArgs: []
         },
         'goog:chromeOptions': {
-            // --headless is required for Github Actions
-            args: ['--headless'],
+            // --headless and --disable-dev-shm-usage is required for Github Actions
+            args: ['--headless', '--disable-dev-shm-usage'],
         },
     }],
 
