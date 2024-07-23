@@ -67,7 +67,11 @@ export const config: Options.Testrunner = {
             // custom application args,
             appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage',
             appArgs: []
-        }
+        },
+        'goog:chromeOptions': {
+            // --headless is required for Github Actions
+            args: ['--headless'],
+        },
     }],
 
     //
