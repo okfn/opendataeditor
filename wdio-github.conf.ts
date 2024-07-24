@@ -1,5 +1,5 @@
 // Run the E2E tests in Github Ubuntu machines
-// https://hackernoon.com/how-to-set-up-end-to-end-tests-with-webdriverio-on-github-action
+// https://github.com/webdriverio/jasmine-boilerplate/commit/53e88abc19ddf407aa95806532e920b42232a8a7
 
 const basicConfig = require('./wdio.conf.ts')
 
@@ -7,11 +7,9 @@ exports.config = {
   ...basicConfig.config,
   capabilities: [
     {
-      maxInstances: 5,
       browserName: 'chrome',
-      acceptInsecureCerts: true,
       'goog:chromeOptions': {
-        args: ['--headless', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+        args: ['headless', 'disable-gpu']
       },
     },
   ],
