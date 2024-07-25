@@ -13,3 +13,4 @@ class Config(BaseModel):
     system: SystemConfig
     project: ProjectConfig
     folder: str
+    hideWelcomeScreen: bool

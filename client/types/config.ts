@@ -1,7 +1,8 @@
 export interface IConfig {
   system: ISystemConfig
   project: IProjectConfig
-  folder: string
+  folder: string,
+  hideWelcomeScreen: boolean
 }
 
 export interface ISystemConfig {

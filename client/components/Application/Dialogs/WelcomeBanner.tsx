@@ -8,14 +8,21 @@ import * as store from '@client/store'
 import * as React from 'react'
 import welcomescreenImg from './assets/welcomescreen.png'
 import { styled } from '@mui/material/styles'
+import { saveConfig } from '../../../store/actions/config'
 
-export default function WelcomeBanner() {
+export default async function WelcomeBanner() {
+
+  const config = store.useStore((state) => state.config)
+
+  console.log('config', config)
+
   const [checked, setChecked] = React.useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked)
     // TODO: persist application variable hideScreen
     // config.json as suggested by @pdelboca
+    saveConfig( { system: {}, project: {}, folder: 'folder', hideWelcomeScreen: checked } )
   }
 
   const StyledButton = styled(SimpleButton)({
