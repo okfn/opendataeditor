@@ -7,14 +7,6 @@ export const config: Options.Testrunner = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
-    autoCompileOpts: {
-        autoCompile: true,
-        tsNodeOpts: {
-            project: './test/tsconfig.json',
-            transpileOnly: true
-        }
-    },
-    
     //
     // ==================
     // Specify Test Files
@@ -60,16 +52,11 @@ export const config: Options.Testrunner = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'electron',
-        // Electron service options
-        // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
-        'wdio:electronServiceOptions': {
-            // custom application args,
-            appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage',
-            appArgs: []
-        }
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+          args: ['headless', 'no-sandbox'],
+        },
     }],
-
     //
     // ===================
     // Test Configurations
@@ -77,7 +64,7 @@ export const config: Options.Testrunner = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'debug',
     //
     // Set specific log levels per logger
     // loggers:
@@ -117,7 +104,7 @@ export const config: Options.Testrunner = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['electron'],
+    services: [],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
