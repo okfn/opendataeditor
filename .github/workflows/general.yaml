@@ -60,6 +60,10 @@ jobs:
           run: make build
         - name: Generate bundle file
           run: make dist
+        - name: Check AppImage
+          run: ls dist/
+        - name: Check chrome version
+          run: google-chrome --version
         - name: Run headless test
           uses: coactions/setup-xvfb@v1
           with:
