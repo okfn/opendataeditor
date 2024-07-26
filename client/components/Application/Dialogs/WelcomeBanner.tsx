@@ -11,7 +11,6 @@ import { styled } from '@mui/material/styles'
 import { saveConfig } from '../../../store/actions/config'
 
 export default async function WelcomeBanner() {
-
   const config = store.useStore((state) => state.config)
 
   console.log('config', config)
@@ -22,7 +21,7 @@ export default async function WelcomeBanner() {
     setChecked(event.target.checked)
     // TODO: persist application variable hideScreen
     // config.json as suggested by @pdelboca
-    saveConfig( { system: {}, project: {}, folder: 'folder', hideWelcomeScreen: checked } )
+    saveConfig({ system: {}, project: {}, folder: 'folder', hideWelcomeScreen: checked })
   }
 
   const StyledButton = styled(SimpleButton)({
