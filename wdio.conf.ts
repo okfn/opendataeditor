@@ -57,7 +57,8 @@ export const config: Options.Testrunner = {
             appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage'
         },
         'goog:chromeOptions': {
-          args: ['headless', 'no-sandbox'],
+          // https://developer.chrome.com/blog/headless-chrome#starting_headless_cli
+          args: ['headless', 'no-sandbox', 'remote-debugging-port=9222'],
         },
     }],
     //
