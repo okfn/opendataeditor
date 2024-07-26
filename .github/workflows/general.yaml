@@ -39,10 +39,8 @@ jobs:
   # End to End testing
   # It is powered by WebdriverIO, it requires an application binary path in our dist folder.
   # See wdio.conf.ts capabilities attribute for more info.
-  # We are running the test using a specific Github Action
-  # https://github.com/webdriverio-community/wdio-electron-service/blob/main/docs/common-issues-debugging.md#devtoolsactiveport-file-doesnt-exist
   test-e2e:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
         - name: Checkout
           uses: actions/checkout@v4
@@ -63,9 +61,7 @@ jobs:
         - name: Generate bundle file
           run: make dist
         - name: Run E2E tests
-          uses: coactions/setup-xvfb@v1
-          with:
-            run: npm run wdio
+          run: npm run wdio
 
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
