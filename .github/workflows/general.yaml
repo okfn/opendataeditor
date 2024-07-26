@@ -61,7 +61,7 @@ jobs:
         - name: Generate bundle file
           run: make dist
         - name: Run E2E tests
-          run: npm run wdio wdio-github.conf.ts
+          run: npm run wdio
 
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
