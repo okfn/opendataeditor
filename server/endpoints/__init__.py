@@ -6,6 +6,7 @@ from . import (
     config,
     file,
     folder,
+    health,
     image,
     json,
     map,

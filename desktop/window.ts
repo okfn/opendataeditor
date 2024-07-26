@@ -13,13 +13,10 @@ import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
 
-  var splashWindow = new BrowserWindow({
-    width: 500,
-    height: 500,
-    frame: false,
-    alwaysOnTop: true,
+  var loadingWindow = new BrowserWindow({
     resizable: false,
     autoHideMenuBar: true,
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
@@ -41,7 +38,7 @@ export async function createWindow() {
   })
 
   loadingEvents.on('finished', () => {
-    splashWindow.close();
+    loadingWindow.close();
     log.info('Opening index.html')
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
@@ -51,18 +48,20 @@ export async function createWindow() {
       mainWindow.loadFile(resolve(__dirname, '..', 'client', 'index.html'))
     }
     mainWindow.maximize()
-    mainWindow.show();
+    mainWindow.show()
   })
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
-  if (!is.dev) {
-    log.info('Opening loading.html')
-    splashWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
-    splashWindow.center()
-    log.info('## Start server')
-    await server.runServer()
+  log.info('Opening loading.html')
+  loadingWindow.loadFile(resolve(__dirname, '..', 'client', 'loading.html'))
+
+  if (!is.dev) await server.runServer()
+
+  const serverStarted = await server.pollServer();
+  if (!serverStarted) {
+    throw new Error('Failed to start FastAPI server');
   }
 
   loadingEvents.emit('finished')
