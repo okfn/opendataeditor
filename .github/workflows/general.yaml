@@ -64,7 +64,8 @@ jobs:
           run: make dist
         - name: Run E2E tests
           uses: coactions/setup-xvfb@v1
-          run: npm run wdio
+          with:
+            run: npm run wdio
 
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
