@@ -40,7 +40,7 @@ jobs:
   # It is powered by WebdriverIO, it requires an application binary path in our dist folder.
   # See wdio.conf.ts capabilities attribute for more info.
   test-e2e:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
         - name: Checkout
           uses: actions/checkout@v4
