@@ -54,12 +54,10 @@ export const config: Options.Testrunner = {
     capabilities: [{
         browserName: 'electron',
         'wdio:electronServiceOptions': {
-            appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage'
-        },
-        'goog:chromeOptions': {
-          // https://developer.chrome.com/blog/headless-chrome#starting_headless_cli
-          args: ['headless', 'no-sandbox', 'remote-debugging-port=9222'],
-        },
+            appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage',
+            // https://github.com/webdriverio-community/wdio-electron-service/blob/main/docs/common-issues-debugging.md#devtoolsactiveport-file-doesnt-exist
+            appArgs: ['--headless', '--no-sandbox', '--remote-debugging-port=9222']
+        }
     }],
     //
     // ===================
