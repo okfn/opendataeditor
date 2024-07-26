@@ -54,7 +54,7 @@ export const config: Options.Testrunner = {
     capabilities: [{
         browserName: 'electron',
         'wdio:electronServiceOptions': {
-            appBinaryPath:'./dist/opendataeditor-linux-1.0.0.AppImage',
+            appBinaryPath:'./dist/linux-unpacked/opendataeditor',
             // https://github.com/webdriverio-community/wdio-electron-service/blob/main/docs/common-issues-debugging.md#devtoolsactiveport-file-doesnt-exist
             appArgs: ['--headless', '--no-sandbox', '--remote-debugging-port=9222']
         }
