@@ -60,6 +60,10 @@ jobs:
           run: make build
         - name: Generate bundle file
           run: make dist
+        - name: Make AppImage executable
+          run: |
+            chmod a+x ./dist/*.AppImage
+            ls -l ./dist
         - name: Check chrome version
           run: google-chrome --version
         - name: Run headless test
