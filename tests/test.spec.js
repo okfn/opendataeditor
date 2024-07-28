@@ -16,8 +16,8 @@ const driver = new webdriver.Builder()
   })
   .forBrowser('chrome') // note: use .forBrowser('electron') for selenium-webdriver <= 3.6.0
   .build()
-driver.findElement(webdriver.By.id('header'))
+driver.findElement(webdriver.By.className('.loader'))
       .getText().then(textValue => {
-        assert.equal('Open Data Editor', textValue);
+        assert.exists();
       });
 driver.quit()

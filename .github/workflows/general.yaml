@@ -63,10 +63,15 @@ jobs:
             ls -l ./dist
         - name: Check chrome version
           run: google-chrome --version
-        - name: Run headless test
-          uses: coactions/setup-xvfb@v1
-          with:
-            run: npm run test-selenium
+        - name: Run chromedriver
+          uses: nanasess/setup-chromedriver@v2
+        - run: |
+            export DISPLAY=:99
+            chromedriver --url-base=/wd/hub &
+            sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+        - name: Run tests
+          run: 
+            npm run selenium-test
 
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
