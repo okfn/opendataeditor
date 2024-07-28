@@ -35,7 +35,7 @@
     "test": "npm run lint && npm run type && npm run spec",
     "type": "tsc",
     "update": "ncu -u",
-    "e2e-test": "./node_modules/.bin/chromedriver && node tests/test.js"
+    "test-selenium": "node tests/test.spec.js"
   },
   "dependencies": {
     "@electron-toolkit/utils": "2.0.1",
