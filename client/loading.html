@@ -15,39 +15,35 @@
       })
     </script>
     <style>
-      li {
-        color: black;
-      }
-      .pending {
-        color: grey;
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(225.77deg, #00D1FF 23.96%, #AEFFEC 100%), #FFF;
+        display: grid;
+        place-items: center;
+        position: relative;
       }
       .loader {
-        border: 5px solid grey;
-        border-bottom-color: transparent;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
         border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
+        width: 20px;
+        height: 20px;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        bottom: 110px;
       }
-      @keyframes rotation {
-      0% {
-        transform: rotate(0deg);
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
-      100% {
-        transform: rotate(360deg);
-      }
-      } 
     </style>
   </head>
   <body>
-    <section style="display:grid; place-items: center;">
-      <div>
-        <h1 style="text-align: center;">Open Data Editor is loading</h1>
-        <p style="text-align: center;">The first time launching Open Data Editor needs to ensure requirements are installed.</p>
-        <ul id="logs">
-          <li class="pending" id="server">Starting backend Python server<span id="loader" class="loader"></span></li>
-        </ul>
-      </div>
-    </section>
+        <img src="/assets/logomark.png" />
+        <div class="loader"></div> 
   </body>
 </html>

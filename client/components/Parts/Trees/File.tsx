@@ -137,9 +137,6 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
       >
         {props.item.label}
       </span>
-      {props.item.name && (
-        <span style={{ marginLeft: '0.5em', opacity: 0.5 }}>@{props.item.name}</span>
-      )}
     </Box>
   )
 }

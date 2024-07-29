@@ -70,6 +70,7 @@ export default function TableEditor(props: TableEditorProps) {
       showColumnMenuGroupOptions={false}
       columnContextMenuConstrainTo={true}
       columnContextMenuPosition={'fixed'}
+      enableColumnAutosize={false}
       {...others}
     />
   )
