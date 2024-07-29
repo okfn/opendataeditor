@@ -62,6 +62,9 @@ export const CONTROLLERS: {
   [type: string]: React.ElementType<ControllerProps>
 } = {
   article: Text,
+  // We still need to cover here and in the settings chart type and some other types
+  // that were removed from UI in #463 because `frictionless-py` provides them
+  // as `resource.datatype`
   chart: Text,
   dialect: Metadata,
   file: File,
