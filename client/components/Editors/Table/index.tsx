@@ -41,6 +41,14 @@ export default function TableEditor(props: TableEditorProps) {
     }
   })
 
+  const renderColumnContextMenu = React.useCallback(
+    (menuProps: { items: any[] }): React.ReactNode => {
+      menuProps.items = menuProps.items.filter((x) => x.label !== 'Columns' && x !== '-')
+      return
+    },
+    []
+  )
+
   function resizeTable() {
     // using a query selector here and not a ref because the tableRef selects the whole
     // table including the bottom pagination bar, so we would still need to use a querySelector
@@ -68,9 +76,8 @@ export default function TableEditor(props: TableEditorProps) {
       rowHeight={rowHeight}
       showColumnMenuLockOptions={false}
       showColumnMenuGroupOptions={false}
-      columnContextMenuConstrainTo={true}
-      columnContextMenuPosition={'fixed'}
       enableColumnAutosize={false}
+      renderColumnContextMenu={renderColumnContextMenu}
       {...others}
     />
   )
