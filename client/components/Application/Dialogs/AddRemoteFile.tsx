@@ -29,7 +29,7 @@ export default function AddRemoteFileDialog() {
       setLoading(true)
       await store.fetchFile(url)
     } catch (error) {
-      setErrorMessage('The URL does not point to a supported tabular file e.g. CSV/XLSX')
+      setErrorMessage('The URL is not associated with a table')
       return
     } finally {
       setLoading(false)
