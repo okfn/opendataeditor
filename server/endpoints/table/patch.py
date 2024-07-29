@@ -52,7 +52,7 @@ def action(project: Project, props: Props) -> Result:
         with db.engine.begin() as conn:
             query = f'CREATE TABLE "{record.name}" AS SELECT * FROM "{fromRecord.name}"'
             conn.execute(sa.text(query))
-            db.metadata.reflect(conn, views=True)
+            db.metadata.reflect(conn)
 
     # Patch table
     if props.history:

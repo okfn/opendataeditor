@@ -36,7 +36,7 @@ def action(project: Project, props: Props) -> Result:
     if api_key:
         text = helpers.ask_chatgpt(
             project,
-            type="chart",
+            type="json",
             path=props.path,
             prompt=f"{props.prompt} for the following JSON: {json.dumps(data)}",
             api_key=api_key,

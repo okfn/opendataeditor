@@ -26,7 +26,6 @@ def endpoint(request: Request, props: Props) -> Result:
 
 def action(project: Project, props: Props) -> Result:
     md = project.metadata
-    db = project.database
 
     result = Result(columns=[])
     for descriptor in md.iter_documents(type="record"):
@@ -38,11 +37,6 @@ def action(project: Project, props: Props) -> Result:
         if type == "table":
             descriptor = descriptor["resource"].get("schema")
             schema = Schema.from_descriptor(descriptor) if descriptor else Schema()
-
-        if type == "view":
-            table = db.get_table(name=descriptor["name"])
-            if table is not None:
-                schema = db.mapper.read_schema(table)
 
         if schema:
             for field in schema.fields:

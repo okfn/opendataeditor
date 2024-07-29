@@ -1,7 +1,5 @@
 # Register modules
 from . import (
-    article,
-    chart,
     column,
     config,
     file,
@@ -13,8 +11,6 @@ from . import (
     package,
     project,
     resource,
-    script,
     table,
     text,
-    view,
 )

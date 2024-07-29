@@ -4,10 +4,8 @@ import { ControllerProps } from '../Controllers/Base'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
 import Metadata from '../Controllers/Metadata'
-import Chart from '../Controllers/Chart'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
-import View from '../Controllers/View'
 import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import * as store from '@client/store'
@@ -64,7 +62,10 @@ export const CONTROLLERS: {
   [type: string]: React.ElementType<ControllerProps>
 } = {
   article: Text,
-  chart: Chart,
+  // We still need to cover here and in the settings chart type and some other types
+  // that were removed from UI in #463 because `frictionless-py` provides them
+  // as `resource.datatype`
+  chart: Text,
   dialect: Metadata,
   file: File,
   image: File,
@@ -77,5 +78,5 @@ export const CONTROLLERS: {
   script: Text,
   table: Table,
   text: Text,
-  view: View,
+  view: Text,
 }

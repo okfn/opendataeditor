@@ -4,8 +4,8 @@ import type { ITableEditor } from '@client/components/Editors/Table'
 
 export function getRefs() {
   return {
-    grid: refs.grid.current,
-    editor: refs.editor.current,
+    grid: refs.grid?.current,
+    editor: refs.editor?.current,
   }
 }
 

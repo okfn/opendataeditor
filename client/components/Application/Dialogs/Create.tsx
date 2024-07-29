@@ -21,24 +21,6 @@ interface IMenuItem extends types.IMenuItem {
 export default function CreateDialog() {
   const MENU_ITEMS: IMenuItem[] = [
     {
-      name: 'Article',
-      section: 'article',
-      fileName: 'article.md',
-      description: 'Creating a Markdown article. Enter destination:',
-      placeholder: 'Enter an article path',
-      promptPlaceholder: 'story about dogs',
-      create: store.createArticle,
-    },
-    {
-      name: 'Chart',
-      section: 'chart',
-      fileName: 'chart.json',
-      description: 'Creating a Vega chart. Enter destination:',
-      placeholder: 'Enter a chart path',
-      promptPlaceholder: 'bar chart for @cars with average price by brand',
-      create: store.createChart,
-    },
-    {
       name: 'Dataset',
       section: 'dataset',
       fileName: 'datapackage.json',
@@ -75,15 +57,6 @@ export default function CreateDialog() {
       create: store.createMap,
     },
     {
-      name: 'Script',
-      section: 'script',
-      fileName: 'script.py',
-      description: 'Creating a Python script. Enter destination:',
-      placeholder: 'Enter a script path',
-      promptPlaceholder: 'average price by brand for @cars',
-      create: store.createScript,
-    },
-    {
       name: 'Table',
       section: 'table',
       fileName: 'table.csv',
@@ -91,15 +64,6 @@ export default function CreateDialog() {
       placeholder: 'Enter a table path',
       promptPlaceholder: 'continents with population',
       create: store.createTable,
-    },
-    {
-      name: 'View (SQL)',
-      section: 'view',
-      fileName: 'view.json',
-      description: 'Creating a view (SQL). Enter destination:',
-      placeholder: 'Enter a view path',
-      promptPlaceholder: 'average price by brand for @cars',
-      create: store.createView,
     },
   ]
 
