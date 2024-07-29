@@ -2,6 +2,8 @@ import { $, expect } from '@wdio/globals'
 
 describe('Electron Testing', () => {
     it('should display loader on start', async () => {
+        const handles = await browser.getWindowHandles()
+        await browser.switchToWindow(handles[0])
         const header = $('.loader')
         await expect(header).toExist()
     })
