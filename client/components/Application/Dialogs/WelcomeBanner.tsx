@@ -10,12 +10,17 @@ import welcomescreenImg from './assets/welcomescreen.png'
 import { styled } from '@mui/material/styles'
 
 export default function WelcomeBanner() {
+  const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)
+
   const [checked, setChecked] = React.useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked)
-    // TODO: persist application variable hideScreen
-    // config.json as suggested by @pdelboca
+    setChecked(event.target.checked) // this is to be replaced by the store.
+  }
+
+  const handleGetStarted = () => {
+    store.setHideWelcomeScreen(checked)
+    store.closeDialog()
   }
 
   const StyledButton = styled(SimpleButton)({
@@ -39,7 +44,7 @@ export default function WelcomeBanner() {
   })
 
   return (
-    <Dialog open={true} sx={{ margin: '0', padding: '0' }}>
+    <Dialog open={!hideWelcomeScreen} sx={{ margin: '0', padding: '0' }}>
       <DialogContent
         sx={{
           padding: '0',
@@ -103,7 +108,7 @@ export default function WelcomeBanner() {
               fullWidth
               label={'Get started'}
               sx={{ my: 0.5 }}
-              onClick={store.closeDialog}
+              onClick={handleGetStarted}
               variant="contained"
               aria-label="accept"
             />

@@ -89,7 +89,7 @@ export type IState = {
   /**
    * Records the decision of the user to show/hide the welcome screen
    **/
-  hideWelcomeBanner?: boolean
+  hideWelcomeScreen?: boolean
 }
 
 export type ITableState = {
