@@ -73,7 +73,6 @@ export class Client {
     return await this.request<{
       record: types.IRecord
       report: types.IReport
-      measure: types.IMeasure
     }>('/file/index', props)
   }
 

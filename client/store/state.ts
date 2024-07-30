@@ -35,11 +35,6 @@ export type IState = {
   resource?: types.IResource
 
   /**
-   * A measure desribing currently selected file if any is selected
-   **/
-  measure?: types.IMeasure
-
-  /**
    * True if data is loading (for example a list of files in the Browser)
    **/
   loading?: boolean
