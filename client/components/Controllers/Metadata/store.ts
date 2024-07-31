@@ -21,7 +21,6 @@ export interface State {
   dialog?: 'publish' | 'saveAs' | 'resource' | 'chat' | 'leave'
   record?: types.IRecord
   report?: types.IReport
-  measure?: types.IMeasure
   original?: types.IPackage | types.IResource | types.IDialect | types.ISchema
   modified?: types.IPackage | types.IResource | types.IDialect | types.ISchema
   updateState: (patch: Partial<State>) => void
@@ -58,13 +57,13 @@ export function makeStore(props: MetadataProps) {
 
       const indexResult = await client.fileIndex({ path })
       if (indexResult instanceof client.Error) return set({ error: indexResult })
-      const { record, report, measure } = indexResult
+      const { record, report } = indexResult
 
       const readResult = await client.jsonRead({ path: record.path })
       if (readResult instanceof client.Error) return set({ error: readResult })
       const { data } = readResult
 
-      set({ record, report, measure, modified: cloneDeep(data), original: data })
+      set({ record, report, modified: cloneDeep(data), original: data })
     },
     edit: async (prompt) => {
       const { path, client, modified, updateState } = get()

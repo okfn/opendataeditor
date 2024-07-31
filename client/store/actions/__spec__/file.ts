@@ -8,14 +8,13 @@ describe('file', () => {
   beforeEach(store.resetState)
 
   test.skip('closeFile', async () => {
-    store.setState('set-measure', (state) => {
+    store.setState('set-path', (state) => {
       state.path = 'table.csv'
-      state.measure = { errors: 3 }
     })
 
     deselectFile()
 
-    const { measure } = store.getState()
-    expect(measure).toEqual(undefined)
+    const { path } = store.getState()
+    expect(path).toEqual(undefined)
   })
 })
