@@ -2,7 +2,8 @@ import DangerousIcon from '@mui/icons-material/Dangerous'
 import ConfirmDialog from '../../../Parts/Dialogs/Confirm'
 
 export interface LeaveDialogProps {
-  onClose: () => void
+  onSave: () => void
+  onDiscard: () => void
 }
 
 export default function LeaveDialog(props: LeaveDialogProps) {
@@ -14,8 +15,8 @@ export default function LeaveDialog(props: LeaveDialogProps) {
       label="Save"
       Icon={DangerousIcon}
       description="There are unsaved changes. Please click Save or Discard"
-      onCancel={props.onClose}
-      onConfirm={props.onClose}
+      onCancel={props.onDiscard}
+      onConfirm={props.onSave}
     />
   )
 }
