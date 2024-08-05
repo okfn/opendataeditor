@@ -50,4 +50,13 @@ export async function onAppStart() {
   }
 }
 
-export async function closeApp() {}
+export async function closeApp() {
+  // @ts-ignore
+  const closeElectronApp = window?.opendataeditor?.closeElectronApp
+
+  if (closeElectronApp) {
+    closeElectronApp()
+  } else {
+    window.close()
+  }
+}

@@ -5,7 +5,7 @@ export default function Dialog() {
   const dialog = store.useStore((state) => state.dialog)
 
   switch (dialog) {
-    case 'leave':
+    case 'leaveFile':
       return <LeaveDialog />
     default:
       return null

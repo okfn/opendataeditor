@@ -253,7 +253,7 @@ export function onFileClickAway() {
   const isUpdated = getIsResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    openDialog('leave')
+    openDialog('leaveFile')
   }
 }
 

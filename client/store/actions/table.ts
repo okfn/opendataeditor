@@ -167,7 +167,7 @@ export function onTableClickAway() {
   const isUpdated = getIsTableOrResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    openDialog('leave')
+    openDialog('leaveFile')
   }
 }
 
