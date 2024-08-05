@@ -42,4 +42,9 @@ export async function onAppStart() {
       state.files = result.files
     })
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
+
+  // Register on windows close event handler
+  window.onbeforeunload = (event) => {
+    event.preventDefault()
+  }
 }
