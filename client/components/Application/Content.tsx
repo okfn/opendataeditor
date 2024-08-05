@@ -55,21 +55,59 @@ function EmptyContent() {
   return (
     <StyledCard>
       <StyledCardContent>
-        <Box sx={{ }}>
+        <Box sx={{}}>
           <img src={emptyContentScreenImg} alt="Empty Content Screen" />
         </Box>
-        <Typography sx={{ fontWeight: 600, color: '#00D1FF', fontSize: 14, fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(',') }}>Drag & drop files or folders</Typography>
-        <Typography sx={{ fontWeight: 500, color: '#52595A', fontSize: 14, fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(',') }}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            color: '#00D1FF',
+            fontSize: 14,
+            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+          }}
+        >
+          Drag & drop files or folders
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            color: '#52595A',
+            fontSize: 14,
+            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+          }}
+        >
           The ODE supports Excel & csv files
         </Typography>
-        <Typography sx={{ fontWeight: 500, padding: '16px', fontSize: 16, color: '#17181C', fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(',') }}>Or</Typography>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            padding: '16px',
+            fontSize: 16,
+            color: '#17181C',
+            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+          }}
+        >
+          Or
+        </Typography>
         <StyledButton
           label={'Upload your data'}
           sx={{ my: 0.5 }}
           variant="contained"
           aria-label="accept"
+          onClick={() => {
+            console.log('clicked button')
+            store.openDialog('fileUpload')
+          }}
         />
-        <Typography sx={{ paddingTop: '8px', fontWeight: 500, color: '#6B7380', fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','), fontSize: '12px' }}>
+        <Typography
+          sx={{
+            paddingTop: '8px',
+            fontWeight: 500,
+            color: '#6B7380',
+            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+            fontSize: '12px',
+          }}
+        >
           You can also add links to online tables
         </Typography>
       </StyledCardContent>

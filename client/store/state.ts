@@ -162,6 +162,7 @@ export type IDialog =
   | 'chat'
   | 'leave'
   | 'welcomeBanner'
+  | 'fileUpload'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
