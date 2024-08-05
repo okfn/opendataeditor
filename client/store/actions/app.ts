@@ -8,6 +8,7 @@ import { loadFiles } from './file'
 export async function onAppStart() {
   // @ts-ignore
   const sendFatalError = window?.opendataeditor?.sendFatalError
+
   let ready = false
   let attempt = 0
   const maxAttempts = sendFatalError ? 300 : 3
@@ -48,3 +49,5 @@ export async function onAppStart() {
     event.preventDefault()
   }
 }
+
+export async function closeApp() {}
