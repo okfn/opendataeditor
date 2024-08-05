@@ -162,12 +162,12 @@ export async function toggleTableErrorMode() {
   grid.reload()
 }
 
-export function onTableClickAway() {
+export function onTableClickAway(props: { onAppClose?: boolean }) {
   const { dialog } = store.getState()
   const isUpdated = getIsTableOrResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    openDialog('leaveFile')
+    props.onAppClose ? openDialog('leaveApp') : openDialog('leaveFile')
   }
 }
 
