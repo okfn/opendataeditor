@@ -248,12 +248,12 @@ export async function onFileDeleted(paths: string[]) {
   await loadFiles()
 }
 
-export function onFileClickAway(props: { onAppClose?: boolean }) {
+export function onFileClickAway() {
   const { dialog } = store.getState()
   const isUpdated = getIsResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    props.onAppClose ? openDialog('leaveApp') : openDialog('leaveFile')
+    openDialog('leaveFile')
   }
 }
 

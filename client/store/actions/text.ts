@@ -166,12 +166,12 @@ export function prettifyJson() {
   action.run()
 }
 
-export function onTextClickAway(props: { onAppClose?: boolean }) {
+export function onTextClickAway() {
   const { dialog } = store.getState()
   const isUpdated = getIsTextOrResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    props.onAppClose ? openDialog('leaveApp') : openDialog('leaveFile')
+    openDialog('leaveFile')
   }
 }
 
