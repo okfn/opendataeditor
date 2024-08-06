@@ -66,9 +66,9 @@ export type IState = {
   dialog?: IDialog
 
   /**
-   * An action that needs to be taken on dialog close
+   * Will be opened when the main `dialog` is closed (for dialog chains)
    **/
-  dialogCloseAction?: 'closeDesktopApp'
+  nextDialog?: IDialog
 
   /**
    * Keeps track of the selected panel
@@ -161,6 +161,7 @@ export type IDialog =
   | 'publish'
   | 'chat'
   | 'unsavedChanges'
+  | 'closeDesktopApp'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

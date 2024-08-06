@@ -57,7 +57,7 @@ export async function onAppStart() {
 
         store.setState('desktop-unsaved-changes', (state) => {
           state.dialog = 'unsavedChanges'
-          state.dialogCloseAction = 'closeDesktopApp'
+          state.nextDialog = 'closeDesktopApp'
         })
       }
     }

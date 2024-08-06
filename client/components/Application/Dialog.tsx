@@ -1,6 +1,7 @@
 import AddRemoteFileDialog from './Dialogs/AddRemoteFile'
 import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import AdjustFileDialog from './Dialogs/AdjustFile'
+import CloseDesktopAppDialog from './Dialogs/CloseDesktopApp'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
@@ -28,6 +29,7 @@ const DIALOGS = {
   addEmptyFolder: AddEmptyFolderDialog,
   addRemoteFile: AddRemoteFileDialog,
   adjustFile: AdjustFileDialog,
+  closeDesktopApp: CloseDesktopAppDialog,
   config: ConfigDialog,
   configProject: ConfigDialog,
   copyFile: CopyFileDialog,

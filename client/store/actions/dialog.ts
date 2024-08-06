@@ -17,14 +17,8 @@ export function openDialog(dialog: IDialog) {
 }
 
 export function closeDialog() {
-  const state = store.getState()
-
   store.setState('close-dialog', (state) => {
-    state.dialog = undefined
+    state.dialog = state.nextDialog
+    state.nextDialog = undefined
   })
-
-  if (state.dialogCloseAction === 'closeDesktopApp') {
-    // @ts-ignore
-    window?.opendataeditor?.closeDesktopApp()
-  }
 }
