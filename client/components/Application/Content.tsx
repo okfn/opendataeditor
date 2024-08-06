@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { ControllerProps } from '../Controllers/Base'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
@@ -61,7 +60,7 @@ function LoadingContent() {
 // that were removed from UI in #463 because `frictionless-py` provides them
 // as `resource.datatype`
 export const CONTROLLERS: {
-  [type: string]: React.ElementType<ControllerProps>
+  [type: string]: React.ElementType
 } = {
   article: Text,
   chart: Text,
