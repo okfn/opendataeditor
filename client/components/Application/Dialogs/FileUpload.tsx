@@ -14,6 +14,8 @@ import iconUploadFolderImg from '../../../assets/folder-open-big-plus.png'
 import Columns from '../../Parts/Grids/Columns'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
 import TextField from '@mui/material/TextField'
+import LinearProgress from '@mui/material/LinearProgress'
+import * as helpers from '../../../helpers'
 
 export interface FileUploadDialogProps {
   open?: boolean
@@ -41,11 +43,17 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
 
+  const [errorMessage, setErrorMessage] = React.useState('')
+
   const handleClose = () => {
     store.closeDialog()
   }
 
   const [value, setValue] = React.useState(0)
+
+  const [remoteUrlValue, setRemoteUrlValue] = React.useState('')
+
+  const [loading, setLoading] = React.useState(false)
 
   function a11yProps(index: number) {
     return {
@@ -78,6 +86,38 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
   }
 
   const inputFileRef = React.useRef<HTMLInputElement>(null)
+
+  const onAddRemoteTextfieldChange = (url: string) => {
+    if (errorMessage) {
+      setErrorMessage('')
+    } else {
+      setRemoteUrlValue(url)
+    }
+  }
+
+  const onAddRemoteConfirm = async (url: string) => {
+    if (!url) {
+      setErrorMessage('The URL is blank')
+      return
+    }
+
+    if (!helpers.isUrlValid(url)) {
+      setErrorMessage('The URL is not valid')
+      return
+    }
+
+    try {
+      setLoading(true)
+      await store.fetchFile(url)
+    } catch (error) {
+      setErrorMessage('The URL is not associated with a table')
+      return
+    } finally {
+      setLoading(false)
+    }
+
+    store.closeDialog()
+  }
 
   return (
     <Dialog
@@ -176,6 +216,7 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
               fullWidth
               size="small"
               name="Url"
+              helperText={errorMessage}
               label="Enter or paste URL"
               InputLabelProps={{
                 sx: {
@@ -184,20 +225,24 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
                   '&.MuiOutlinedInput-notchedOutline': { fontSize: '28px' },
                 },
               }}
-              // value={props.value || ''}
-              //onChange={(ev) => props.onChange(ev.target.value)}
-              // InputProps={{ endAdornment: props.value ? <ResetButton {...props} /> : undefined }}
-              // onFocus={onFocus}
+              value={remoteUrlValue}
+              onChange={(ev) => onAddRemoteTextfieldChange(ev.target.value)}
             />
+            {loading ? (
+              <LinearProgress
+                sx={{
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: '#00D1FF',
+                  },
+                }}
+              />
+            ) : null}
             <StyledButton
               label={'Add'}
               sx={{ my: 0.5, marginTop: '53px' }}
               variant="contained"
               aria-label="accept"
-              onClick={() => {
-                console.log('clicked button')
-                store.openDialog('fileUpload')
-              }}
+              onClick={() => onAddRemoteConfirm(remoteUrlValue)}
             />
           </Box>
         </CustomTabPanel>
