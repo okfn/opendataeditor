@@ -1,5 +1,3 @@
-import * as React from 'react'
-import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
 import ScrollBox from '../../Parts/Boxes/Scroll'
 import { useTheme } from '@mui/material/styles'
@@ -12,26 +10,19 @@ import * as store from '@client/store'
 export default function Table() {
   const theme = useTheme()
   const panel = store.useStore((state) => state.panel)
+
   const height = `calc(100vh - ${theme.spacing(8)})`
   const panelHeight = panel ? 42 : 0
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
 
   return (
-    <React.Fragment>
-      <ClickAwayListener
-        mouseEvent="onMouseDown"
-        touchEvent="onTouchStart"
-        onClickAway={store.onTableClickAway}
-      >
-        <Box sx={{ height }}>
-          <Menu />
-          <ScrollBox height={contentHeight}>
-            <Editor />
-          </ScrollBox>
-          <Panel />
-          <Action />
-        </Box>
-      </ClickAwayListener>
-    </React.Fragment>
+    <Box sx={{ height }}>
+      <Menu />
+      <ScrollBox height={contentHeight}>
+        <Editor />
+      </ScrollBox>
+      <Panel />
+      <Action />
+    </Box>
   )
 }

@@ -1,5 +1,3 @@
-import * as React from 'react'
-import { ClickAwayListener } from '@mui/base'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Action from './Action'
@@ -17,21 +15,13 @@ export default function Text() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
 
   return (
-    <React.Fragment>
-      <ClickAwayListener
-        mouseEvent="onMouseDown"
-        touchEvent="onTouchStart"
-        onClickAway={store.onTextClickAway}
-      >
-        <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
-          <Menu />
-          <Box sx={{ height: contentHeight }}>
-            <Editor />
-          </Box>
-          <Panel />
-          <Action />
-        </Box>
-      </ClickAwayListener>
-    </React.Fragment>
+    <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+      <Menu />
+      <Box sx={{ height: contentHeight }}>
+        <Editor />
+      </Box>
+      <Panel />
+      <Action />
+    </Box>
   )
 }

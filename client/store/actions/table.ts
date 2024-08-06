@@ -1,7 +1,6 @@
 import { client } from '@client/client'
 import { mapValues, isNull } from 'lodash'
 import { onFileCreated, onFileUpdated } from './file'
-import { openDialog } from './dialog'
 import { cloneDeep } from 'lodash'
 import { getIsResourceUpdated } from './resource'
 import { revertResource } from './resource'
@@ -160,15 +159,6 @@ export async function toggleTableErrorMode() {
 
   if (grid.setSkip) grid.setSkip(0)
   grid.reload()
-}
-
-export function onTableClickAway() {
-  const { dialog } = store.getState()
-  const isUpdated = getIsTableOrResourceUpdated(store.getState())
-
-  if (isUpdated && !dialog) {
-    openDialog('unsavedChanges')
-  }
 }
 
 export function startTableEditing(context: any) {

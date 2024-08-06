@@ -1,6 +1,5 @@
 import { client } from '@client/client'
 import { getRefs } from './refs'
-import { openDialog } from './dialog'
 import { getLanguageByFormat } from '@client/helpers'
 import { onFileCreated, onFileUpdated } from './file'
 import { revertResource, getIsResourceUpdated } from './resource'
@@ -164,15 +163,6 @@ export function prettifyJson() {
   if (!action) return
 
   action.run()
-}
-
-export function onTextClickAway() {
-  const { dialog } = store.getState()
-  const isUpdated = getIsTextOrResourceUpdated(store.getState())
-
-  if (isUpdated && !dialog) {
-    openDialog('unsavedChanges')
-  }
 }
 
 // Selectors

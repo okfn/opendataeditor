@@ -1,5 +1,3 @@
-import * as React from 'react'
-import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/Boxes/Scroll'
@@ -18,21 +16,13 @@ export default function File() {
   const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
 
   return (
-    <React.Fragment>
-      <ClickAwayListener
-        mouseEvent="onMouseDown"
-        touchEvent="onTouchStart"
-        onClickAway={store.onFileClickAway}
-      >
-        <Box sx={{ height }}>
-          <Menu />
-          <ScrollBox height={contentHeight}>
-            <View />
-          </ScrollBox>
-          <Panel />
-          <Action />
-        </Box>
-      </ClickAwayListener>
-    </React.Fragment>
+    <Box sx={{ height }}>
+      <Menu />
+      <ScrollBox height={contentHeight}>
+        <View />
+      </ScrollBox>
+      <Panel />
+      <Action />
+    </Box>
   )
 }

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
@@ -7,7 +8,6 @@ import Text from '../Controllers/Text'
 import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import * as store from '@client/store'
-import { client } from '@client/client'
 
 export default function Content() {
   const record = store.useStore((state) => state.record)
@@ -41,7 +41,15 @@ function FileContent() {
         </Box>
       }
     >
-      <Controller path={record.path} client={client} />
+      <ClickAwayListener
+        mouseEvent="onMouseDown"
+        touchEvent="onTouchStart"
+        onClickAway={store.onFileLeave}
+      >
+        <Box>
+          <Controller />
+        </Box>
+      </ClickAwayListener>
     </ErrorBoundary>
   )
 }
