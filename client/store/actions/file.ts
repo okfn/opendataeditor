@@ -1,12 +1,12 @@
 import * as store from '../store'
 import invariant from 'tiny-invariant'
 import { client } from '@client/client'
-import { openText, closeText, saveText, revertText } from './text'
+import { openText, closeText, saveText, revertText, getIsTextUpdated } from './text'
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
 import { getIsResourceUpdated } from './resource'
-import { openTable, closeTable, saveTable, revertTable } from './table'
+import { openTable, closeTable, saveTable, revertTable, getIsTableUpdated } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
@@ -294,4 +294,12 @@ export const getFolderPath = store.createSelector((state) => {
 
 export const getNotIndexedFiles = store.createSelector((state) => {
   return state.files.filter((file) => !file.name)
+})
+
+export const getIsFileOrResourceUpdated = store.createSelector((state) => {
+  return getIsFileUpdated(state) || getIsResourceUpdated(state)
+})
+
+export const getIsFileUpdated = store.createSelector((state) => {
+  return getIsTableUpdated(state) || getIsTextUpdated(state)
 })
