@@ -155,8 +155,7 @@ export type IDialog =
   | 'start'
   | 'publish'
   | 'chat'
-  | 'leaveApp'
-  | 'leaveFile'
+  | 'unsavedChanges'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

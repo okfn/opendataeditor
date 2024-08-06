@@ -171,7 +171,7 @@ export function onTextClickAway() {
   const isUpdated = getIsTextOrResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    openDialog('leaveFile')
+    openDialog('unsavedChanges')
   }
 }
 

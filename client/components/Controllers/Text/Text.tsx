@@ -4,7 +4,6 @@ import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Action from './Action'
 import Editor from './Editor'
-import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
 import * as store from '@client/store'
@@ -19,7 +18,6 @@ export default function Text() {
 
   return (
     <React.Fragment>
-      <Dialog />
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"

@@ -7,7 +7,6 @@ import Action from './Action'
 import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
-import Dialog from './Dialog'
 import * as store from '@client/store'
 
 export default function Table() {
@@ -19,7 +18,6 @@ export default function Table() {
 
   return (
     <React.Fragment>
-      <Dialog />
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"

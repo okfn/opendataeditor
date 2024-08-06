@@ -10,6 +10,7 @@ import IndexFilesDialog from './Dialogs/IndexFiles'
 import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
 import PublishDialog from './Dialogs/Publish'
+import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import * as store from '@client/store'
 
 export default function Dialog() {
@@ -37,4 +38,5 @@ const DIALOGS = {
   moveFile: MoveFileDialog,
   moveFolder: MoveFolderDialog,
   publish: PublishDialog,
+  unsavedChanges: UnsavedChangesDialog,
 } as const

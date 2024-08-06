@@ -4,7 +4,6 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import ScrollBox from '../../Parts/Boxes/Scroll'
 import Action from './Action'
-import Dialog from './Dialog'
 import Menu from './Menu'
 import Panel from './Panel'
 import View from './View'
@@ -20,7 +19,6 @@ export default function File() {
 
   return (
     <React.Fragment>
-      <Dialog />
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"

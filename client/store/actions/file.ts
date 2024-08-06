@@ -1,11 +1,12 @@
 import * as store from '../store'
+import invariant from 'tiny-invariant'
 import { client } from '@client/client'
-import { openText, closeText } from './text'
+import { openText, closeText, saveText, revertText } from './text'
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
 import { getIsResourceUpdated } from './resource'
-import { openTable, closeTable } from './table'
+import { openTable, closeTable, saveTable, revertTable } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
@@ -173,6 +174,28 @@ export async function copyFile(path: string, toPath: string) {
   await onFileCreated([result.path])
 }
 
+export async function saveFile() {
+  const { record } = store.getState()
+  invariant(record)
+
+  if (record.type === 'table') {
+    await saveTable()
+  } else if (record.type === 'text') {
+    await saveText()
+  }
+}
+
+export async function revertFile() {
+  const { record } = store.getState()
+  invariant(record)
+
+  if (record.type === 'table') {
+    await revertTable()
+  } else if (record.type === 'text') {
+    await revertText()
+  }
+}
+
 export async function deleteFiles(paths: string[]) {
   for (const path of paths) {
     const result = await client.fileDelete({ path })
@@ -253,7 +276,7 @@ export function onFileClickAway() {
   const isUpdated = getIsResourceUpdated(store.getState())
 
   if (isUpdated && !dialog) {
-    openDialog('leaveFile')
+    openDialog('unsavedChanges')
   }
 }
 
