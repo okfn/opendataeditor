@@ -6,7 +6,6 @@ export default function Action() {
 
   return (
     <action.ActionBar>
-      <action.SaveAsButton onClick={() => store.openDialog('saveAs')} />
       <action.PublishButton
         disabled={isUpdated}
         onClick={() => store.openDialog('publish')}
