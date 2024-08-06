@@ -12,6 +12,7 @@ import MoveFileDialog from './Dialogs/MoveFile'
 import MoveFolderDialog from './Dialogs/MoveFolder'
 import PublishDialog from './Dialogs/Publish'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
+import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
 import * as store from '@client/store'
 
 export default function Dialog() {
@@ -41,4 +42,5 @@ const DIALOGS = {
   moveFolder: MoveFolderDialog,
   publish: PublishDialog,
   unsavedChanges: UnsavedChangesDialog,
+  welcomeBanner: WelcomeBannerDialog,
 } as const

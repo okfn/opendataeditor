@@ -28,3 +28,9 @@ export async function saveConfig(config: types.IConfig) {
 
   await loadConfig()
 }
+
+export function setHideWelcomeScreen(hideWelcomeScreen: boolean) {
+  store.setState('hide-welcome-screen', (state) => {
+    state.hideWelcomeScreen = hideWelcomeScreen
+  })
+}

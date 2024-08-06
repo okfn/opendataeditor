@@ -90,6 +90,11 @@ export type IState = {
    * Keeps track of the text state if current file is a text
    **/
   text?: ITextState
+
+  /**
+   * Records the decision of the user to show/hide the welcome screen
+   **/
+  hideWelcomeScreen?: boolean
 }
 
 export type ITableState = {
@@ -162,6 +167,7 @@ export type IDialog =
   | 'chat'
   | 'unsavedChanges'
   | 'closeDesktopApp'
+  | 'welcomeBanner'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
