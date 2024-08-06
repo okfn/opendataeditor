@@ -5,5 +5,5 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   openDirectoryDialog: () => ipcRenderer.invoke('openDirectoryDialog'),
   ensureLogs: (callback: any) =>
     ipcRenderer.on('ensureLogs', (_event, message: string) => callback(message)),
-  closeApp: () => ipcRenderer.invoke('closeApp'),
+  closeDesktopApp: () => ipcRenderer.invoke('closeDesktopApp'),
 })

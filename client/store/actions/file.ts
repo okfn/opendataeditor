@@ -301,5 +301,11 @@ export const getIsFileOrResourceUpdated = store.createSelector((state) => {
 })
 
 export const getIsFileUpdated = store.createSelector((state) => {
-  return getIsTableUpdated(state) || getIsTextUpdated(state)
+  if (state.record?.type === 'table') {
+    return getIsTableUpdated(state)
+  } else if (state.record?.type === 'text') {
+    return getIsTextUpdated(state)
+  } else {
+    return false
+  }
 })

@@ -66,6 +66,11 @@ export type IState = {
   dialog?: IDialog
 
   /**
+   * An action that needs to be taken on dialog close
+   **/
+  dialogCloseAction?: 'closeDesktopApp'
+
+  /**
    * Keeps track of the selected panel
    **/
   panel?: IPanel

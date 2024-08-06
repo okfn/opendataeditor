@@ -25,7 +25,7 @@ export function createBridge() {
     }
   })
 
-  ipcMain.handle('closeElectronApp', async () => {
+  ipcMain.handle('closeDesktopApp', async () => {
     app.quit()
   })
 }

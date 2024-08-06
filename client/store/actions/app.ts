@@ -1,5 +1,6 @@
 import * as store from '../store'
 import delay from 'delay'
+import { getIsFileOrResourceUpdated } from './file'
 import * as settings from '@client/settings'
 import { client } from '@client/client'
 import { loadConfig } from './config'
@@ -44,19 +45,21 @@ export async function onAppStart() {
     })
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 
-  // Register on windows close event handler
-  window.onbeforeunload = (event) => {
-    event.preventDefault()
-  }
-}
-
-export async function closeApp() {
+  // Register on windows close event handler (only Desktop env)
+  // to prevent closing the app when there are unsaved changes
   // @ts-ignore
-  const closeElectronApp = window?.opendataeditor?.closeElectronApp
+  if (window?.opendataeditor?.closeDesktopApp) {
+    window.onbeforeunload = (event) => {
+      const isUpdated = getIsFileOrResourceUpdated(store.getState())
 
-  if (closeElectronApp) {
-    closeElectronApp()
-  } else {
-    window.close()
+      if (isUpdated) {
+        event.preventDefault()
+
+        store.setState('desktop-unsaved-changes', (state) => {
+          state.dialog = 'unsavedChanges'
+          state.dialogCloseAction = 'closeDesktopApp'
+        })
+      }
+    }
   }
 }
