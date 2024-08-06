@@ -1,5 +1,4 @@
 import LeaveDialog from './Dialogs/Leave'
-import PublishDialog from './Dialogs/Publish'
 import * as store from '@client/store'
 
 export default function Dialog() {
@@ -8,8 +7,6 @@ export default function Dialog() {
   switch (dialog) {
     case 'leave':
       return <LeaveDialog />
-    case 'publish':
-      return <PublishDialog />
     default:
       return null
   }
