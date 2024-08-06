@@ -29,7 +29,13 @@ export default function AddRemoteFileDialog() {
       setLoading(true)
       await store.fetchFile(url)
     } catch (error) {
-      setErrorMessage('The URL is not associated with a table')
+      if (url.includes('docs.google.com/spreadsheets')) {
+        setErrorMessage(
+          'The Google Sheets URL is not valid or the table is not publically available'
+        )
+      } else {
+        setErrorMessage('The URL is not associated with a table')
+      }
       return
     } finally {
       setLoading(false)

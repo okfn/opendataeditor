@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import tempfile
 from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 
 from fastapi import Request
-from frictionless.resources import FileResource
+from frictionless.resources import FileResource, TableResource
 from pydantic import BaseModel
 
 from ...project import Project
@@ -31,15 +32,29 @@ def server_file_read(request: Request, props: Props) -> Result:
 def action(project: Project, props: Props) -> Result:
     from ... import endpoints
 
-    # Load file
+    # Prepare resource
     resource = FileResource(path=props.url)
-    bytes = resource.read_file()
+
+    # Handle Googel Sheets
+    # We export Google Sheets to a temporary CSV file and read it
+    if resource.format == "gsheets":
+        path = "google-sheets.csv"
+        table = TableResource(path=props.url)
+        with tempfile.NamedTemporaryFile(suffix=".csv") as file:
+            table.write(file.name)
+            resource = FileResource(path=file.name)
+            bytes = resource.read_file()
+
+    # Handle regular files
+    else:
+        path = Path(urlparse(props.url).path).name or "file"
+        bytes = resource.read_file()
 
     # Save file
     path = endpoints.file.create.action(
         project,
         endpoints.file.create.Props(
-            path=props.path or Path(urlparse(props.url).path).name or "file",
+            path=props.path or path,
             bytes=bytes,
             folder=props.folder,
             deduplicate=props.deduplicate,
