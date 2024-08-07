@@ -1,32 +1,29 @@
 import * as React from 'react'
+import * as store from '@client/store'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import LinearProgress from '@mui/material/LinearProgress'
 import CheckIcon from '@mui/icons-material/Check'
-import ConfirmDialog from '../../../Parts/Dialogs/Confirm'
-import PortalEditor from '../../../Editors/Portal'
-import * as helpers from '../../../../helpers'
-import * as types from '../../../../types'
+import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import PortalEditor from '../../Editors/Portal'
+import * as helpers from '../../../helpers'
+import * as types from '../../../types'
 
 type IState = 'form' | 'load' | 'done' | 'fail'
 
-export interface PublishDialogProps {
-  onClose: () => void
-  onPublish: (control: types.IControl) => Promise<string | undefined>
-  onPublishNote?: string
-}
-
-export default function PublishDialog(props: PublishDialogProps) {
+export default function PublishDialog() {
   const [portal, setPortal] = React.useState<types.IPortal>({ type: 'ckan' })
   const [control, setControl] = React.useState<types.IControl>()
   const [state, setState] = React.useState<IState>('form')
   const [publishedUrl, setPublishedUrl] = React.useState<string | undefined>()
+  const record = store.useStore((state) => state.record)
+  if (record?.type !== 'table') return null
 
-  const handleClose = () => props.onClose()
+  const handleClose = () => store.closeDialog()
   const handlePublish = async () => {
     if (!control) return
     setState('load')
-    const url = await props.onPublish(control)
+    const url = await store.publishTable(control)
     setState('done')
     setPublishedUrl(url)
   }
@@ -63,7 +60,6 @@ export default function PublishDialog(props: PublishDialogProps) {
           <Link href={publishedUrl} target="_blank">
             {publishedUrl}
           </Link>{' '}
-          {props.onPublishNote && <small> ({props.onPublishNote})</small>}
         </Box>
       )}
     </ConfirmDialog>

@@ -1,9 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { ControllerProps } from '../Controllers/Base'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
-import Metadata from '../Controllers/Metadata'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
 import EmptyCard from '../Parts/Cards/Empty'
@@ -58,23 +56,23 @@ function LoadingContent() {
   return <SpinnerCard message="Loading" />
 }
 
+// We still need to cover here and in the settings "chart" type and some other types
+// that were removed from UI in #463 because `frictionless-py` provides them
+// as `resource.datatype`
 export const CONTROLLERS: {
-  [type: string]: React.ElementType<ControllerProps>
+  [type: string]: React.ElementType
 } = {
   article: Text,
-  // We still need to cover here and in the settings chart type and some other types
-  // that were removed from UI in #463 because `frictionless-py` provides them
-  // as `resource.datatype`
   chart: Text,
-  dialect: Metadata,
+  dialect: Text,
   file: File,
   image: File,
   json: Text,
   jsonschema: Text,
   map: File,
-  package: Metadata,
-  resource: Metadata,
-  schema: Metadata,
+  package: Text,
+  resource: Text,
+  schema: Text,
   script: Text,
   table: Table,
   text: Text,

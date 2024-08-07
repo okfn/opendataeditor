@@ -159,7 +159,6 @@ export type IDialog =
   | 'moveFolder'
   | 'start'
   | 'publish'
-  | 'saveAs'
   | 'chat'
   | 'leave'
   | 'welcomeBanner'
