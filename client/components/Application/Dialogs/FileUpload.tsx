@@ -11,10 +11,12 @@ import { styled } from '@mui/material/styles'
 import uploadFilesDialogImg from '../../../assets/dialog_upload_files.png'
 import iconUploadFileImg from '../../../assets/icon_upload_file.png'
 import iconUploadFolderImg from '../../../assets/folder-open-big-plus.png'
+import iconLinkTextField from '../../../assets/icon_link_textfield.svg'
 import Columns from '../../Parts/Grids/Columns'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
 import TextField from '@mui/material/TextField'
 import LinearProgress from '@mui/material/LinearProgress'
+import InputAdornment from '@mui/material/InputAdornment'
 import * as helpers from '../../../helpers'
 
 export interface FileUploadDialogProps {
@@ -93,6 +95,7 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
     } else {
       setRemoteUrlValue(url)
     }
+    console.log('url', url)
   }
 
   const onAddRemoteConfirm = async (url: string) => {
@@ -239,12 +242,26 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
               size="small"
               name="Url"
               helperText={errorMessage}
-              label="Enter or paste URL"
+              placeholder="Enter or paste URL"
               InputLabelProps={{
                 sx: {
                   fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
                   fontSize: '14px',
-                  '&.MuiOutlinedInput-notchedOutline': { fontSize: '28px' },
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <img src={iconLinkTextField} alt="" />
+                  </InputAdornment>
+                ),
+                sx: {
+                  '& ::placeholder': {
+                    color: '#D1D4DB',
+                    opacity: 1, // otherwise firefox shows a lighter color
+                    fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+                    fontSize: '14px',
+                  },
                 },
               }}
               value={remoteUrlValue}
@@ -264,6 +281,7 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
               sx={{ my: 0.5, marginTop: '53px' }}
               variant="contained"
               aria-label="accept"
+              disabled={!remoteUrlValue}
               onClick={() => onAddRemoteConfirm(remoteUrlValue)}
             />
           </Box>

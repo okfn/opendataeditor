@@ -94,10 +94,7 @@ function EmptyContent() {
           sx={{ my: 0.5 }}
           variant="contained"
           aria-label="accept"
-          onClick={() => {
-            console.log('clicked button')
-            store.openDialog('fileUpload')
-          }}
+          onClick={() => store.openDialog('fileUpload')}
         />
         <Typography
           sx={{
