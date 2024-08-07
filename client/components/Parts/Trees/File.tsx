@@ -118,6 +118,11 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
   let color = 'disabled'
   if (props.item.type === 'folder') color = 'primary'
   if (props.item.name) color = props.item.errors ? 'error' : 'success'
+
+  const fontWeight = 'normal'
+  // When data package is enabled consider highlighting it
+  // const fontWeight = props.item.type === 'package' ? 'bold' : 'normal'
+
   return (
     <Box
       sx={{
@@ -129,14 +134,7 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
       }}
     >
       <Icon color={color} />
-      <span
-        style={{
-          whiteSpace: 'nowrap',
-          fontWeight: props.item.type === 'package' ? 'bold' : 'normal',
-        }}
-      >
-        {props.item.label}
-      </span>
+      <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
     </Box>
   )
 }
