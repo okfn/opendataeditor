@@ -234,6 +234,7 @@ export default function FileUploadDialog() {
             <StyledTextField
               fullWidth
               size="small"
+              error={!!errorMessage}
               helperText={errorMessage}
               placeholder="Enter or paste URL"
               InputLabelProps={{
@@ -329,6 +330,9 @@ const FileSelectBox = styled(Box)(() => ({
     width: '100%',
     opacity: 0,
   },
+  ':hover': {
+    borderColor: '#00D1FF'
+  }
 }))
 
 const StyledSelectBox = styled(Box)(() => ({
