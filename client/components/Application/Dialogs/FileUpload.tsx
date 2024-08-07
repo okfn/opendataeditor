@@ -51,7 +51,6 @@ export default function FileUploadDialog() {
   const [tabHeight, setTabHeight] = React.useState(0)
 
   React.useEffect(() => {
-    console.log('tabRefForHeight.current', tabRefForHeight.current)
     tabRefForHeight.current ? setTabHeight(tabRefForHeight.current.clientHeight) : null
   }, [tabRefForHeight])
 
