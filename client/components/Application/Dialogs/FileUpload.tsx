@@ -119,6 +119,9 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
     store.closeDialog()
   }
 
+  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
+  if (!isWebkitDirectorySupported) return null
+
   return (
     <Dialog
       fullWidth
@@ -176,29 +179,48 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
             <StyledBox onClick={() => console.log('clicked box')}>
               <input
                 type="file"
-                hidden
                 multiple
                 ref={inputFileRef}
                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-                  if (ev.target.files) store.addFiles(ev.target.files)
+                  if (ev.target.files) {
+                    store.addFiles(ev.target.files)
+                    store.closeDialog()
+                  }
                 }}
               />
-              <Box>
-                <img src={iconUploadFileImg} alt="Icon Upload File" />
+              <Box sx={{ padding: '32px 48px 24px 48px' }}>
+                <Box>
+                  <img src={iconUploadFileImg} alt="Icon Upload File" />
+                </Box>
+                <Box>Add one or more Excel or csv files </Box>
+                <StyledSelectBox>
+                  Select <span>F</span>
+                </StyledSelectBox>
               </Box>
-              <Box>Add one or more Excel or csv files </Box>
-              <StyledSelectBox>
-                Select <span>F</span>
-              </StyledSelectBox>
             </StyledBox>
             <StyledBox>
-              <Box>
-                <img src={iconUploadFolderImg} alt="Icon Upload File" />
+              <input
+                type="file"
+                multiple
+                ref={inputFileRef}
+                onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                  if (ev.target.files) {
+                    store.addFiles(ev.target.files)
+                    store.closeDialog()
+                  }
+                }}
+                // @ts-expect-error
+                webkitdirectory=""
+              />
+              <Box sx={{ padding: '32px 48px 24px 48px' }}>
+                <Box>
+                  <img src={iconUploadFolderImg} alt="Icon Upload File" />
+                </Box>
+                <Box>Add one or more folders</Box>
+                <StyledSelectBox>
+                  Select <span>G</span>
+                </StyledSelectBox>
               </Box>
-              <Box>Add one or more folders</Box>
-              <StyledSelectBox>
-                Select <span>G</span>
-              </StyledSelectBox>
             </StyledBox>
           </Columns>
         </CustomTabPanel>
@@ -288,10 +310,17 @@ const StyledBox = styled(Box)(() => ({
   border: '1px solid #E7E9E9',
   borderRadius: '8px',
   textAlign: 'center',
-  padding: '32px 48px 24px 48px',
   color: '#717879',
   fontSize: '14px',
-  cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+  '& input': {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    opacity: 0,
+  },
 }))
 
 const StyledSelectBox = styled(Box)(() => ({
