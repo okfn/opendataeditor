@@ -190,7 +190,7 @@ export default function FileUploadDialog() {
                     <img src={iconUploadFileImg} alt="Icon Upload File" />
                   </Box>
                   <Box>Add one or more Excel or csv files </Box>
-                  <StyledSelectBox>
+                  <StyledSelectBox className="file-select__button">
                     Select <span>F</span>
                   </StyledSelectBox>
                 </Box>
@@ -214,7 +214,7 @@ export default function FileUploadDialog() {
                     <img src={iconUploadFolderImg} alt="Icon Upload File" />
                   </Box>
                   <Box>Add one or more folders</Box>
-                  <StyledSelectBox>
+                  <StyledSelectBox className="file-select__button">
                     Select <span>G</span>
                   </StyledSelectBox>
                 </Box>
@@ -331,8 +331,12 @@ const FileSelectBox = styled(Box)(() => ({
     opacity: 0,
   },
   ':hover': {
-    borderColor: '#00D1FF'
-  }
+    borderColor: '#00D1FF',
+  },
+  ':hover .file-select__button': {
+    backgroundColor: '#3F4345',
+    color: 'white',
+  },
 }))
 
 const StyledSelectBox = styled(Box)(() => ({
@@ -341,6 +345,7 @@ const StyledSelectBox = styled(Box)(() => ({
   padding: '4px 10px',
   borderRadius: '4px',
   border: '0.5px solid #D3D7D8',
+  lineHeight: '20px',
   boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.25)',
   '& span': {
     backgroundColor: '#4C5564',
