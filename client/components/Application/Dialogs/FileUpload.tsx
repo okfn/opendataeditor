@@ -231,7 +231,6 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
           <Box sx={{ paddingLeft: '140px', paddingRight: '140px' }}>
             <Box
               sx={{
-                fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
                 fontSize: '14px',
               }}
             >
@@ -240,12 +239,10 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
             <StyledTextField
               fullWidth
               size="small"
-              name="Url"
               helperText={errorMessage}
               placeholder="Enter or paste URL"
               InputLabelProps={{
                 sx: {
-                  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
                   fontSize: '14px',
                 },
               }}
@@ -258,14 +255,15 @@ export default function FileUploadDialog(props: FileUploadDialogProps) {
                 sx: {
                   '& ::placeholder': {
                     color: '#D1D4DB',
-                    opacity: 1, // otherwise firefox shows a lighter color
-                    fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
+                    opacity: 1, // otherwise firefox shows a lighter colorS
                     fontSize: '14px',
                   },
                 },
               }}
               value={remoteUrlValue}
-              onChange={(ev) => onAddRemoteTextfieldChange(ev.target.value)}
+              onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                onAddRemoteTextfieldChange(ev.target.value)
+              }
             />
             {loading ? (
               <LinearProgress
@@ -301,7 +299,6 @@ const StyledButton = styled(SimpleButton)({
   padding: '14px 24px',
   lineHeight: 1.5,
   backgroundColor: 'black',
-  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
   '&:hover': {
     backgroundColor: 'gray',
   },
@@ -316,7 +313,6 @@ const StyledButton = styled(SimpleButton)({
 
 const StyledTab = styled(Tab)(() => ({
   textTransform: 'none',
-  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
   fontWeight: 600,
   '&.Mui-selected': {
     color: '#00D1FF',
@@ -324,7 +320,6 @@ const StyledTab = styled(Tab)(() => ({
 }))
 
 const StyledBox = styled(Box)(() => ({
-  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
   border: '1px solid #E7E9E9',
   borderRadius: '8px',
   textAlign: 'center',
@@ -361,7 +356,6 @@ const StyledSelectBox = styled(Box)(() => ({
 
 const StyledTextField = styled(TextField)(() => ({
   marginTop: '8px',
-  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
   fontSize: '14px',
   '& label.Mui-focused': {
     color: '#00D1FF',

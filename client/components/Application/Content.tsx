@@ -63,7 +63,6 @@ function EmptyContent() {
             fontWeight: 600,
             color: '#00D1FF',
             fontSize: 14,
-            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
           }}
         >
           Drag & drop files or folders
@@ -73,7 +72,6 @@ function EmptyContent() {
             fontWeight: 500,
             color: '#52595A',
             fontSize: 14,
-            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
           }}
         >
           The ODE supports Excel & csv files
@@ -84,7 +82,6 @@ function EmptyContent() {
             padding: '16px',
             fontSize: 16,
             color: '#17181C',
-            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
           }}
         >
           Or
@@ -101,7 +98,6 @@ function EmptyContent() {
             paddingTop: '8px',
             fontWeight: 500,
             color: '#6B7380',
-            fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
             fontSize: '12px',
           }}
         >
@@ -129,7 +125,6 @@ const StyledButton = styled(SimpleButton)({
   padding: '14px 24px',
   lineHeight: 1.5,
   backgroundColor: 'black',
-  fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
   '&:hover': {
     backgroundColor: 'gray',
   },
