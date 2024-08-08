@@ -89,7 +89,7 @@ def read_google_sheets_path(url: str):
     match = re.search(r"<title>(.*?)</title>", text)
     path = "google-sheets.csv"
     if match:
-        title = match.group(1).strip()
-        title = title.replace(" - Google Sheets", "")
+        title = match.group(1)
+        title = title.rsplit("- Google", 1)[0].strip()
         path = f"{title}.csv"
     return path
