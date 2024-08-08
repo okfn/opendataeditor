@@ -11,7 +11,7 @@ Here is a structure of a tabular data with the terminology used in this article.
 ```
 [1] [header row] label 1  | label 2
 [2] [data row]   value 1  | value 2
-[3] [data row]   value 1  | value 2
+[3] [data row]   value 3  | value 4
 ```
 
 ## Errors Detected Automatically
