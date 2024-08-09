@@ -114,8 +114,8 @@ export async function saveTable() {
     })
   }
 
-  grid.reload()
   await onFileUpdated([path])
+  grid.reload()
 }
 
 export function setTableSelection(selection: types.ITableSelection) {
