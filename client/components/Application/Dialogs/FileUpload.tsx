@@ -15,7 +15,7 @@ import iconLinkTextField from '../../../assets/icon_link_textfield.svg'
 import Columns from '../../Parts/Grids/Columns'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
 import TextField from '@mui/material/TextField'
-import LinearProgress from '@mui/material/LinearProgress'
+import CircularProgress from '@mui/material/CircularProgress'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as helpers from '../../../helpers'
 
@@ -28,39 +28,40 @@ interface TabPanelProps {
 export interface TextFieldProps {
   errorMessage?: string
   defaultValue: string
-  onComplete: Function
+  onComplete(value: string): void
 }
 
-function AddRemoteTextfield( props: TextFieldProps ) {
-  
-  return (<StyledTextField
-    fullWidth
-    size="small"
-    error={!!props.errorMessage}
-    helperText={props.errorMessage}
-    placeholder="Enter or paste URL"
-    InputLabelProps={{
-      sx: {
-        fontSize: '14px',
-      },
-    }}
-    InputProps={{
-      startAdornment: (
-        <InputAdornment position="start">
-          <img src={iconLinkTextField} alt="" />
-        </InputAdornment>
-      ),
-      sx: {
-        '& ::placeholder': {
-          color: '#D1D4DB',
-          opacity: 1, // otherwise firefox shows a lighter colorS
+function AddRemoteTextfield(props: TextFieldProps) {
+  return (
+    <StyledTextField
+      fullWidth
+      size="small"
+      error={!!props.errorMessage}
+      helperText={props.errorMessage || ' '}
+      placeholder="Enter or paste URL"
+      InputLabelProps={{
+        sx: {
           fontSize: '14px',
         },
-      },
-    }}
-    defaultValue={props.defaultValue}
-    onBlur={(e) => props.onComplete(e.target.value)}
-  />)
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <img src={iconLinkTextField} alt="" />
+          </InputAdornment>
+        ),
+        sx: {
+          '& ::placeholder': {
+            color: '#D1D4DB',
+            opacity: 1, // otherwise firefox shows a lighter colorS
+            fontSize: '14px',
+          },
+        },
+      }}
+      defaultValue={props.defaultValue}
+      onBlur={(e) => props.onComplete(e.target.value)}
+    />
+  )
 }
 
 export default function FileUploadDialog() {
@@ -269,20 +270,24 @@ export default function FileUploadDialog() {
             >
               Link to the external table:
             </Box>
-            <AddRemoteTextfield
-              defaultValue={remoteUrlValue}
-              errorMessage={errorMessage}
-              onComplete={onAddRemoteTextfieldChange}
-            />
-            {loading ? (
-              <LinearProgress
-                sx={{
-                  '& .MuiLinearProgress-bar': {
-                    backgroundColor: '#00D1FF',
-                  },
-                }}
+            <Box sx={{ display: 'flex' }}>
+              <AddRemoteTextfield
+                defaultValue={remoteUrlValue}
+                errorMessage={errorMessage}
+                onComplete={onAddRemoteTextfieldChange}
               />
-            ) : null}
+              {loading ? (
+                <CircularProgress
+                  size={'2rem'}
+                  sx={{
+                    '& .MuiLinearProgress-bar': {
+                      backgroundColor: '#00D1FF',
+                    },
+                    padding: '10px',
+                  }}
+                />
+              ) : null}
+            </Box>
             <StyledButton
               label={'Add'}
               sx={{ my: 0.5, marginTop: '53px' }}
