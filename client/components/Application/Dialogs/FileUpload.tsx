@@ -25,6 +25,44 @@ interface TabPanelProps {
   value: number
 }
 
+export interface TextFieldProps {
+  errorMessage?: string
+  defaultValue: string
+  onComplete: Function
+}
+
+function AddRemoteTextfield( props: TextFieldProps ) {
+  
+  return (<StyledTextField
+    fullWidth
+    size="small"
+    error={!!props.errorMessage}
+    helperText={props.errorMessage}
+    placeholder="Enter or paste URL"
+    InputLabelProps={{
+      sx: {
+        fontSize: '14px',
+      },
+    }}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <img src={iconLinkTextField} alt="" />
+        </InputAdornment>
+      ),
+      sx: {
+        '& ::placeholder': {
+          color: '#D1D4DB',
+          opacity: 1, // otherwise firefox shows a lighter colorS
+          fontSize: '14px',
+        },
+      },
+    }}
+    defaultValue={props.defaultValue}
+    onBlur={(e) => props.onComplete(e.target.value)}
+  />)
+}
+
 export default function FileUploadDialog() {
   const [errorMessage, setErrorMessage] = React.useState('')
 
@@ -231,35 +269,10 @@ export default function FileUploadDialog() {
             >
               Link to the external table:
             </Box>
-            <StyledTextField
-              fullWidth
-              size="small"
-              error={!!errorMessage}
-              helperText={errorMessage}
-              placeholder="Enter or paste URL"
-              InputLabelProps={{
-                sx: {
-                  fontSize: '14px',
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <img src={iconLinkTextField} alt="" />
-                  </InputAdornment>
-                ),
-                sx: {
-                  '& ::placeholder': {
-                    color: '#D1D4DB',
-                    opacity: 1, // otherwise firefox shows a lighter colorS
-                    fontSize: '14px',
-                  },
-                },
-              }}
-              value={remoteUrlValue}
-              onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                onAddRemoteTextfieldChange(ev.target.value)
-              }
+            <AddRemoteTextfield
+              defaultValue={remoteUrlValue}
+              errorMessage={errorMessage}
+              onComplete={onAddRemoteTextfieldChange}
             />
             {loading ? (
               <LinearProgress
