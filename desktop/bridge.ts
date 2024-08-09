@@ -12,6 +12,7 @@ export function createBridge() {
     })
     app.quit()
   })
+
   ipcMain.handle('openDirectoryDialog', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       title: 'Select a folder',
@@ -22,5 +23,9 @@ export function createBridge() {
     } else {
       return filePaths[0]
     }
+  })
+
+  ipcMain.handle('closeDesktopApp', async () => {
+    app.quit()
   })
 }

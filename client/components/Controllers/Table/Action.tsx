@@ -10,7 +10,6 @@ export default function Action() {
         disabled={isUpdated}
         onClick={() => store.openDialog('publish')}
       />
-      <action.RevertButton updated={isUpdated} onClick={store.revertTable} />
       <action.SaveButton updated={isUpdated} onClick={store.saveTable} />
     </action.ActionBar>
   )

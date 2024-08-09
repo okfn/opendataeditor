@@ -7,7 +7,6 @@ export default function Action() {
   return (
     <action.ActionBar>
       <action.PublishButton disabled />
-      <action.RevertButton updated={isUpdated} onClick={store.revertText} />
       <action.SaveButton updated={isUpdated} onClick={store.saveText} />
     </action.ActionBar>
   )

@@ -1,5 +1,6 @@
 import * as store from '../store'
 import delay from 'delay'
+import { getIsFileOrResourceUpdated } from './file'
 import * as settings from '@client/settings'
 import { client } from '@client/client'
 import { loadConfig } from './config'
@@ -8,6 +9,7 @@ import { loadFiles } from './file'
 export async function onAppStart() {
   // @ts-ignore
   const sendFatalError = window?.opendataeditor?.sendFatalError
+
   let ready = false
   let attempt = 0
   const maxAttempts = sendFatalError ? 300 : 3
@@ -42,4 +44,22 @@ export async function onAppStart() {
       state.files = result.files
     })
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
+
+  // Register on windows close event handler (only Desktop env)
+  // to prevent closing the app when there are unsaved changes
+  // @ts-ignore
+  if (window?.opendataeditor?.closeDesktopApp) {
+    window.onbeforeunload = (event) => {
+      const isUpdated = getIsFileOrResourceUpdated(store.getState())
+
+      if (isUpdated) {
+        event.preventDefault()
+
+        store.setState('desktop-unsaved-changes', (state) => {
+          state.dialog = 'unsavedChanges'
+          state.nextDialog = 'closeDesktopApp'
+        })
+      }
+    }
+  }
 }
