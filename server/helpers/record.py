@@ -56,7 +56,10 @@ def patch_record(
         md.write_document(name=record.name, type="record", descriptor=record.model_dump())
 
     # Clear database
-    # TODO: use smarter logic to delete only if needed
+    # Currently, we remove the table from the database on any change
+    # so it will be re-index (re-validated) on the next index call
+    # It will be better to keep the table in the database if the user
+    # changes the metadata that can't affect validation (e.g. `resource.title`)
     if updated and not toPath:
         delete_record(project, path=path, onlyFromDatabase=True)
 
