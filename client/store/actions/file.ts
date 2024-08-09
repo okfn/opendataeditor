@@ -139,7 +139,7 @@ export async function fetchFile(url: string) {
   const result = await client.fileFetch({ url, folder, deduplicate: true })
   if (result instanceof client.Error) throw result
 
-  await onFileCreated([result.path])
+  onFileCreated([result.path])
 }
 
 export async function adjustFile(name?: string, type?: string) {
