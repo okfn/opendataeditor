@@ -62,6 +62,10 @@ test:
 	hatch run test
 	npm run test
 
+## Runs the E2E suite of tests (requires make dist for an application bundle)
+test-e2e:
+	npm run wdio
+
 ## Checks types with pyright and typescript
 type:
 	hatch run type
