@@ -1,5 +1,5 @@
 :root {
-  --sl-font: 'HK-Grotesk', sans-serif;
+  --sl-font: 'Hanken Grotesk Variable', sans-serif;
   --purple-hsl: 209, 60%, 60%;
   --overlay-blurple: hsla(var(--purple-hsl), 0.2);
   /* It's a primary color of the app itself */
@@ -18,9 +18,9 @@
   --sl-color-banner-bg: #85898c;
 }
 
-/* body { */
-/* font-family: 'Roboto', sustem-ui, sans-serif; */
-/* } */
+body {
+  font-family: 'Roboto', sustem-ui, sans-serif;
+}
 
 [data-has-hero] .page {
   background:

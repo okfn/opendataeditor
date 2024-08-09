@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import { ErrorBoundary } from 'react-error-boundary'
-import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import FileTree from '../Parts/Trees/File'
 import * as store from '@client/store'
@@ -52,9 +51,7 @@ function DefaultBrowser() {
 }
 
 function EmptyBrowser() {
-  return (
-    <EmptyCard title="No Files Added" description='Use "Create" button to add files' />
-  )
+  return <Box />
 }
 
 function LoadingBrowser() {

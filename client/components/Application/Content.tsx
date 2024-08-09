@@ -4,10 +4,15 @@ import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
-import EmptyCard from '../Parts/Cards/Empty'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import * as store from '@client/store'
 import { client } from '@client/client'
+import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import CardContent from '@mui/material/CardContent'
+import Card from '@mui/material/Card'
+import SimpleButton from '../Parts/Buttons/SimpleButton'
+import emptyContentScreenImg from '../../assets/empty_screen.png'
 
 export default function Content() {
   const record = store.useStore((state) => state.record)
@@ -48,7 +53,58 @@ function FileContent() {
 
 function EmptyContent() {
   return (
-    <EmptyCard title="No Files Selected" description="Select a file in the left menu" />
+    <StyledCard>
+      <StyledCardContent>
+        <Box sx={{}}>
+          <img src={emptyContentScreenImg} alt="Empty Content Screen" />
+        </Box>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            color: '#00D1FF',
+            fontSize: 14,
+          }}
+        >
+          Drag & drop files or folders
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            color: '#52595A',
+            fontSize: 14,
+          }}
+        >
+          The ODE supports Excel & csv files
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            padding: '16px',
+            fontSize: 16,
+            color: '#17181C',
+          }}
+        >
+          Or
+        </Typography>
+        <StyledButton
+          label={'Upload your data'}
+          sx={{ my: 0.5 }}
+          variant="contained"
+          aria-label="accept"
+          onClick={() => store.openDialog('fileUpload')}
+        />
+        <Typography
+          sx={{
+            paddingTop: '8px',
+            fontWeight: 500,
+            color: '#6B7380',
+            fontSize: '12px',
+          }}
+        >
+          You can also add links to online tables
+        </Typography>
+      </StyledCardContent>
+    </StyledCard>
   )
 }
 
@@ -59,6 +115,46 @@ function LoadingContent() {
 // We still need to cover here and in the settings "chart" type and some other types
 // that were removed from UI in #463 because `frictionless-py` provides them
 // as `resource.datatype`
+const StyledButton = styled(SimpleButton)({
+  boxShadow: 'none',
+  width: '236px',
+  textTransform: 'none',
+  borderRadius: '9px',
+  fontSize: 14,
+  fontWeight: 700,
+  padding: '14px 24px',
+  lineHeight: 1.5,
+  backgroundColor: 'black',
+  '&:hover': {
+    backgroundColor: 'gray',
+  },
+  '&:active': {
+    boxShadow: 'none',
+    backgroundColor: 'gray',
+  },
+  '&:focus': {
+    boxShadow: '0 0 0 0 rgba(0,123,255,.5)',
+  },
+})
+
+const StyledCard = styled(Card)(() => ({
+  width: '100%',
+  height: '100%',
+  border: 'none',
+  boxShadow: 'none',
+  borderRadius: 0,
+  square: 'true',
+  display: 'flex',
+  alignItems: 'center',
+}))
+
+const StyledCardContent = styled(CardContent)(() => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+}))
+
 export const CONTROLLERS: {
   [type: string]: React.ElementType
 } = {
