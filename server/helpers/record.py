@@ -66,6 +66,13 @@ def patch_record(
     return record
 
 
+# It's better to remove `onlyFromDatabase` logic because using it brings
+# the system into the inconsistent state. For example, see:
+# https://github.com/okfn/opendataeditor/issues/467
+# This issue happened because the client used `table_patch` and then mistakenly
+# issued `table_read` command although current logic expects that after patching
+# `file_index` is going to be called. It will be better if all the API calls
+# keep the system in a consistent state (e.g. `table_patch` will include reindexing).
 def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False):
     md = project.metadata
     db = project.database
