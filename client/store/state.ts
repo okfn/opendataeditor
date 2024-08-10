@@ -35,11 +35,6 @@ export type IState = {
   resource?: types.IResource
 
   /**
-   * A measure desribing currently selected file if any is selected
-   **/
-  measure?: types.IMeasure
-
-  /**
    * True if data is loading (for example a list of files in the Browser)
    **/
   loading?: boolean
@@ -90,6 +85,11 @@ export type IState = {
    * Keeps track of the text state if current file is a text
    **/
   text?: ITextState
+
+  /**
+   * Records the decision of the user to show/hide the welcome screen
+   **/
+  hideWelcomeScreen?: boolean
 }
 
 export type ITableState = {
@@ -137,11 +137,6 @@ export type ITextState = {
   contents: string
 
   /**
-   * Rendered text if it's an article (markdown)
-   **/
-  rendered?: string
-
-  /**
    * Text versions for undo/redo functionality
    **/
   minimalVersion: number
@@ -164,9 +159,9 @@ export type IDialog =
   | 'moveFolder'
   | 'start'
   | 'publish'
-  | 'saveAs'
   | 'chat'
   | 'leave'
+  | 'welcomeBanner'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

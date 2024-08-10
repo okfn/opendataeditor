@@ -9,7 +9,6 @@ import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import SupportAgentIcon from '@mui/icons-material/SupportAgent'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import UndoIcon from '@mui/icons-material/Undo'
 import RedoIcon from '@mui/icons-material/Redo'
 import HandymanIcon from '@mui/icons-material/Handyman'
@@ -200,33 +199,6 @@ export function ErrorsButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Errors'}
           Icon={ReportGmailerrorredIcon}
-          color={props.color || props.active ? 'warning' : undefined}
-          disabled={props.disabled}
-          onClick={() => onClick()}
-        />
-      </Box>
-    </LightTooltip>
-  )
-}
-
-export function RunButton(props: ButtonProps) {
-  const onClick = props.onClick || noop
-  let title = 'Execute the script [Ctrl+R]'
-  if (props.disabled) title = 'Not possible to execute'
-  useKeyPress(['ctrl.r'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
-  return (
-    <LightTooltip title={title}>
-      <Box>
-        <IconButton
-          small
-          variant="text"
-          label={props.label || 'Run'}
-          Icon={PlayArrowIcon}
           color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled}
           onClick={() => onClick()}

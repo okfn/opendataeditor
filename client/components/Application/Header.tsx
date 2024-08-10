@@ -11,7 +11,7 @@ import ReportChip from '../Parts/Chips/Report'
 import * as store from '@client/store'
 
 export default function Header() {
-  const measure = store.useStore((state) => state.measure)
+  const report = store.useStore((state) => state.report)
 
   return (
     <AppBar position="static" elevation={0}>
@@ -29,7 +29,7 @@ export default function Header() {
           </Typography>
         </LightTooltip>
         <Box sx={{ ml: 'auto' }}></Box>
-        <ReportChip errorCount={measure ? measure.errors : undefined} />
+        <ReportChip errorCount={report ? report.stats.errors : undefined} />
         <LightTooltip title="Open config dialog">
           <Box>
             <Button color="inherit" onClick={() => store.openDialog('config')}>

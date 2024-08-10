@@ -1,4 +1,3 @@
-import throttle from 'lodash/throttle'
 import { client } from '@client/client'
 import { getRefs } from './refs'
 import { openDialog } from './dialog'
@@ -14,7 +13,7 @@ export async function openText() {
 
   invariant(source?.text)
 
-  store.setState('close-text', (state) => {
+  store.setState('open-text', (state) => {
     state.text = {
       contents: source.text!,
       minimalVersion: 1,
@@ -22,8 +21,6 @@ export async function openText() {
       maximalVersion: 1,
     }
   })
-
-  await renderText()
 }
 
 export async function closeText() {
@@ -43,8 +40,6 @@ export async function updateText(value?: string) {
     state.text.currentVersion = version
     state.text.maximalVersion = Math.max(version, state.text.maximalVersion)
   })
-
-  await renderText()
 }
 
 export async function editText(prompt: string) {
@@ -118,27 +113,6 @@ export async function saveText() {
 
   await onFileUpdated([result.path])
 }
-
-export const renderText = throttle(async () => {
-  const { record, text } = store.getState()
-
-  invariant(record)
-  invariant(text)
-
-  if (record.type === 'article') {
-    const result = await client.articleRender({ path: record.path, text: text.contents })
-
-    if (result instanceof client.Error) {
-      return store.setState('render-text', (state) => {
-        state.error = result
-      })
-    }
-
-    store.setState('render-text', (state) => {
-      state.text!.rendered = result.text
-    })
-  }
-}, 1000)
 
 export function clearText() {
   store.setState('clear-text', (state) => {

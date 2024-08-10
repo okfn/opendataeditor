@@ -5,7 +5,6 @@ export default function Menu() {
   const mode = store.useStore((state) => state.table?.mode)
   const panel = store.useStore((state) => state.panel)
   const report = store.useStore((state) => state.report)
-  const measure = store.useStore((state) => state.measure)
   const history = store.useStore((state) => state.table?.history)
   const source = store.useStore((state) => state.source)
   const undoneHistory = store.useStore((state) => state.table?.undoneHistory)
@@ -30,7 +29,7 @@ export default function Menu() {
       <menu.ErrorsButton
         active={mode === 'errors'}
         onClick={store.toggleTableErrorMode}
-        disabled={!measure?.errors}
+        disabled={!report?.valid}
       />
       <menu.UndoButton
         onClick={store.undoTableChange}

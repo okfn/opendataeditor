@@ -62,7 +62,6 @@ async function openFile() {
   store.setState('open-file-loaded', (state) => {
     state.record = result.record
     state.report = result.report
-    state.measure = result.measure
     state.resource = cloneDeep(result.record.resource)
   })
 
@@ -87,7 +86,6 @@ async function closeFile() {
   store.setState('close-file', (state) => {
     state.record = undefined
     state.report = undefined
-    state.measure = undefined
     state.resource = undefined
     state.source = undefined
     state.error = undefined
@@ -141,7 +139,7 @@ export async function fetchFile(url: string) {
   const result = await client.fileFetch({ url, folder, deduplicate: true })
   if (result instanceof client.Error) throw result
 
-  await onFileCreated([result.path])
+  onFileCreated([result.path])
 }
 
 export async function adjustFile(name?: string, type?: string) {

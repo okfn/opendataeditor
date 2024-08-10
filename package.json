@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@electron-toolkit/utils": "2.0.1",
+    "@fontsource-variable/hanken-grotesk": "^5.0.21",
     "electron-log": "4.4.8",
     "portfinder": "1.0.32",
     "toml": "3.0.0"

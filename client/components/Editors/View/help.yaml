@@ -1,6 +1,0 @@
-# View
-
-view:
-  - View
-  - https://en.wikipedia.org/wiki/View_(SQL)
-  - In a database, a view is the result set of a stored query, which can be queried in the same manner as a persistent database collection object

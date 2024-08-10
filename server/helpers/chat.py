@@ -31,7 +31,6 @@ def ask_chatgpt(
     api_key: str,
 ) -> str:
     md = project.metadata
-    db = project.database
 
     # Default system messages
     messages = [
@@ -41,24 +40,12 @@ def ask_chatgpt(
     # Mention-based system messages
     records = extract_records(project, text=prompt)
     for record in records:
-        if type == "view":
-            prompt = prompt.replace(f"@{record.name}", record.name)
-            schema = json.dumps(record.resource.get("schema", {}))
-            instruction = f"The {record.name} table has Table Schema {schema}"
-            messages.append({"role": "system", "content": instruction})
-            continue
         path = str(os.path.relpath(record.path, os.path.dirname(path)))
         prompt = prompt.replace(f"@{record.name}", path)
         if record.type == "table":
             schema = json.dumps(record.resource.get("schema", {}))
             instruction = f"The {path} table has Table Schema {schema}"
             messages.append({"role": "system", "content": instruction})
-        if record.type == "view":
-            table = db.get_table(name=record.name)
-            if table is not None:
-                schema = db.mapper.read_schema(table).to_json()
-                instruction = f"The {path} table has Table Schema {schema}"
-                messages.append({"role": "system", "content": instruction})
 
     # Package type system messages
     if type == "package":
@@ -95,16 +82,6 @@ def ask_chatgpt(
 
 
 INSTRUCTIONS = {
-    "article": """
-        You are a Markdown document generation assistant.
-        You will be given a text description on what needs to be written.
-        Respond with only the document without explanation.
-    """,
-    "chart": """
-        You are a Vega Lite chart generation assistant.
-        You will be given a text description on what needs to be written.
-        Respond with only the JSON chart without explanation.
-    """,
     "json": """
         You are a JSON file generation assistant.
         You will be given a text description on what needs to be written.
@@ -120,20 +97,9 @@ INSTRUCTIONS = {
         You will be given a text description on what needs to be written.
         Respond with only the JSON list without explanation.
     """,
-    "script": """
-        You are a Python code generation assistant.
-        You will be given a text description on what needs to be written.
-        You can use pandas and frictionless libraries.
-        Respond with only the Python code without explanation.
-    """,
     "text": """
         You are a text file generation assistant.
         You will be given a text description on what needs to be written.
         Respond with only valid file content for this file format without explanation.
-    """,
-    "view": """
-        You are a SQL code generation assistant.
-        You will be given a text description on what needs to be written.
-        Respond with only the SQL code without explanation.
     """,
 }

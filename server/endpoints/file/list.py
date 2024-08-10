@@ -34,8 +34,8 @@ def action(project: Project, props: Optional[Props] = None) -> Result:
 
     # Index by name
     errors_by_name: Dict[str, int] = {}
-    for name, descriptor in db.iter_artifacts(type="measure"):
-        errors_by_name[name] = descriptor["errors"]
+    for name, descriptor in db.iter_artifacts(type="report"):
+        errors_by_name[name] = descriptor["stats"]["errors"]
 
     # Index by path
     name_by_path: Dict[str, str] = {}

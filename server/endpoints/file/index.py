@@ -16,7 +16,6 @@ class Props(BaseModel, extra="forbid"):
 class Result(BaseModel, extra="forbid"):
     record: models.Record
     report: types.IDescriptor
-    measure: types.IDescriptor
 
 
 @router.post("/file/index")
@@ -38,24 +37,16 @@ def action(project: Project, props: Props) -> Result:
     # Read current state
     record = helpers.read_record(project, path=props.path)
     report = db.read_artifact(name=record.name, type="report") if record else None
-    measure = db.read_artifact(name=record.name, type="measure") if record else None
     table = db.get_table(name=record.name) if record else None
 
     # Identify missing
     missing_record = not record
     missing_report = not report
-    missing_measure = not measure
     missing_table = record and record.type == "table" and table is None
     is_data_outdated = record and (record.dataUpdatedAt or 0) < data_updated_at
 
     # Ensure indexing
-    if (
-        missing_record
-        or missing_report
-        or missing_measure
-        or missing_table
-        or is_data_outdated
-    ):
+    if missing_record or missing_report or missing_table or is_data_outdated:
         # Create resource
         path, basepath = fs.get_path_and_basepath(props.path)
         name = helpers.name_record(project, path=path)
@@ -86,18 +77,8 @@ def action(project: Project, props: Props) -> Result:
         record.resource = resource_obj.to_descriptor()
         record.dataUpdatedAt = data_updated_at
 
-        # Create measure
-        measure_obj = models.Measure(errors=report_obj.stats["errors"])
-        measure = measure_obj.model_dump()
-
         # Write document/artifacts
         md.write_document(name=record.name, type="record", descriptor=record.model_dump())
         db.write_artifact(name=record.name, type="report", descriptor=report)
-        db.write_artifact(name=record.name, type="measure", descriptor=measure)
 
-    # Sync view
-    if record.type == "view":
-        view = helpers.read_json(project, path=props.path)
-        db.sync_view(name=record.name, query=view.get("query"))
-
-    return Result(record=record, report=report, measure=measure)
+    return Result(record=record, report=report)
