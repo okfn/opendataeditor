@@ -44,7 +44,10 @@ function FileContent() {
       <ClickAwayListener
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
-        onClickAway={store.onFileLeave}
+        onClickAway={(event) => {
+          event.preventDefault()
+          store.onFileLeave()
+        }}
       >
         <Box>
           <Controller />
