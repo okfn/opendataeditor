@@ -11,12 +11,16 @@ describe('Electron Testing', () => {
         const root = await $('#root')
         const banner = await root.react$('WelcomeBanner')
         await expect(banner).toHaveText(expect.stringContaining('Welcome to the Open Data Editor!'))
+
         const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get started'}})
         const focusTrap = await root.react$('FocusTrap')
+        const addButton = await $('div.MuiGrid-grid-md-4:nth-child(1)') // react$('AddButton') has problems when using toBeClickable. Using CSS selector instead.
 
         await expect(focusTrap).toExist()
+        await expect(addButton).not.toBeClickable()
         simpleButton.click()
         await expect(focusTrap).not.toExist()
+        await expect(addButton).toBeClickable()
 
         browser.closeWindow()
     })
