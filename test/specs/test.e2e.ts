@@ -22,6 +22,7 @@ describe('ODE basic workflow', () => {
         await expect(focusTrap).not.toExist()
         await expect(addButton).toBeClickable()
 
+        // We need to close the window for the FastAPI server to be closed and the port freedi.
         browser.closeWindow()
     })
 })
