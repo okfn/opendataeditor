@@ -80,7 +80,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    needs: [test]
+    needs: [test, test-e2e]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    needs: [test]
+    needs: [test, test-e2e]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
