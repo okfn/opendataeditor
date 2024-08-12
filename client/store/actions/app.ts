@@ -1,4 +1,5 @@
 import * as store from '../store'
+import isEqual from 'fast-deep-equal'
 import delay from 'delay'
 import * as settings from '@client/settings'
 import { client } from '@client/client'
@@ -38,8 +39,13 @@ export async function onAppStart() {
       return
     }
 
-    store.setState('sync-files', (state) => {
-      state.files = result.files
-    })
+    // We set state on if there are changes to prevent unnecessary re-renders
+    // and simplify debugging in Redux Debugger
+    const state = store.getState()
+    if (!isEqual(state.files, result.files)) {
+      store.setState('sync-files', (state) => {
+        state.files = result.files
+      })
+    }
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 }
