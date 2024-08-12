@@ -1,7 +1,7 @@
 import { $, expect } from '@wdio/globals'
 
 describe('Electron Testing', () => {
-    it('displays welcomming screen', async () => {
+    it('displays welcomming screen and FocusTrap exist until user clicks Get Started', async () => {
         // ODE has a Loading window and a main Window. We need to switch to the main one.
         const handles = await browser.getWindowHandles()
         await browser.switchToWindow(handles[0])
@@ -12,7 +12,11 @@ describe('Electron Testing', () => {
         const banner = await root.react$('WelcomeBanner')
         await expect(banner).toHaveText(expect.stringContaining('Welcome to the Open Data Editor!'))
         const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get started'}})
-        await simpleButton.click()
+        const focusTrap = await root.react$('FocusTrap')
+
+        await expect(focusTrap).toExist()
+        simpleButton.click()
+        await expect(focusTrap).not.toExist()
 
         browser.closeWindow()
     })
