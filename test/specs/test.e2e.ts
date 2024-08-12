@@ -1,6 +1,6 @@
 import { $, expect } from '@wdio/globals'
 
-describe('Electron Testing', () => {
+describe('ODE basic workflow', () => {
     it('displays welcomming screen and FocusTrap exist until user clicks Get Started', async () => {
         // ODE has a Loading window and a main Window. We need to switch to the main one.
         const handles = await browser.getWindowHandles()
