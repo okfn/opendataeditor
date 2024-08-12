@@ -60,6 +60,8 @@ jobs:
           run: make build
         - name: Generate bundle file
           run: make dist
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Make AppImage executable
           run: |
             chmod a+x ./dist/*.AppImage
