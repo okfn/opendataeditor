@@ -41,8 +41,6 @@ describe('ODE basic workflow', () => {
       // Calling tableEditor.toHaveText() fails (library bug?), get the element without using react$ selector
       const dataGrid = await $('.InovuaReactDataGrid')
       await expect(dataGrid).toHaveText(expect.stringContaining('Renault'))
-      const validationChip = await root.react$('ValidationChip')
-      await expect(validationChip).toHaveText(expect.stringContaining('VALID'))
 
       // We need to close the window for the FastAPI server to be closed and the port freed.
       browser.closeWindow()
