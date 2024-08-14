@@ -7,12 +7,9 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import GithubIcon from '@mui/icons-material/GitHub'
 import HelpIcon from '@mui/icons-material/Help'
 import LightTooltip from '../Parts/Tooltips/Light'
-import ReportChip from '../Parts/Chips/Report'
 import * as store from '@client/store'
 
 export default function Header() {
-  const report = store.useStore((state) => state.report)
-
   return (
     <AppBar position="static" elevation={0}>
       <Toolbar disableGutters>
@@ -29,7 +26,6 @@ export default function Header() {
           </Typography>
         </LightTooltip>
         <Box sx={{ ml: 'auto' }}></Box>
-        <ReportChip errorCount={report ? report.stats.errors : undefined} />
         <LightTooltip title="Open config dialog">
           <Box>
             <Button color="inherit" onClick={() => store.openDialog('config')}>
