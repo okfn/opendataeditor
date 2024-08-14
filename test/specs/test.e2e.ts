@@ -1,4 +1,5 @@
 import { $, expect } from '@wdio/globals'
+import path from 'node:path'
 
 describe('ODE basic workflow', () => {
     it('displays welcomming screen and FocusTrap exist until user clicks Get Started', async () => {
@@ -22,8 +23,29 @@ describe('ODE basic workflow', () => {
         await expect(focusTrap).not.toExist()
         await expect(addButton).toBeClickable()
 
-        // We need to close the window for the FastAPI server to be closed and the port freedi.
-        browser.closeWindow()
+    }),
+    it('uploads a csv file, file navigator adds an node, and the file content gets display', async() => {
+      const filePath = path.join(__dirname, '../data/valid.csv')
+      const remoteFilePath = await browser.uploadFile(filePath)
+      const root = await $('#root')
+
+      // Using CSS selector since react$('AddButton') is not clickable
+      await root.$('div.MuiGrid-grid-md-4:nth-child(1) > div:nth-child(1) > button:nth-child(1)').click()
+      // Adding the file to the hidden input[type=file] will trigger a server upload
+      await $('label.MuiButton-fullWidth > input:nth-child(2)').addValue(remoteFilePath)
+
+      const fileTreeNode = await root.react$('TreeNode', {props: {label: 'valid.csv'}})
+      await expect(fileTreeNode).toExist()
+      const tableEditor = await root.react$('TableEditor')
+      await expect(tableEditor).toExist()
+      // Calling tableEditor.toHaveText() fails (library bug?), get the element without using react$ selector
+      const dataGrid = await $('.InovuaReactDataGrid')
+      await expect(dataGrid).toHaveText(expect.stringContaining('Renault'))
+      const validationChip = await root.react$('ValidationChip')
+      await expect(validationChip).toHaveText(expect.stringContaining('VALID'))
+
+      // We need to close the window for the FastAPI server to be closed and the port freed.
+      browser.closeWindow()
     })
 })
 
