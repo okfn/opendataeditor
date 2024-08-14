@@ -1,6 +1,6 @@
 import type { TypeCellSelection } from '@inovua/reactdatagrid-community/types'
 
-export type ICellSelection = TypeCellSelection
+export type ICellSelection = NonNullable<TypeCellSelection>
 
 export interface ITable {
   header: IHeader
