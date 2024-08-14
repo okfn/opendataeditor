@@ -4,7 +4,6 @@ import { openText, closeText } from './text'
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
-import { getIsResourceUpdated } from './resource'
 import { openTable, closeTable } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
@@ -87,6 +86,7 @@ async function closeFile() {
     state.record = undefined
     state.report = undefined
     state.resource = undefined
+    state.isResourceUpdated = undefined
     state.source = undefined
     state.error = undefined
     state.dialog = undefined
@@ -249,10 +249,9 @@ export async function onFileDeleted(paths: string[]) {
 }
 
 export function onFileClickAway() {
-  const { dialog } = store.getState()
-  const isUpdated = getIsResourceUpdated(store.getState())
+  const { dialog, isResourceUpdated } = store.getState()
 
-  if (isUpdated && !dialog) {
+  if (isResourceUpdated && !dialog) {
     openDialog('leave')
   }
 }
