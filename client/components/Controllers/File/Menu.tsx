@@ -21,7 +21,6 @@ export default function Menu() {
         disabled={!source?.text}
         onClick={() => store.togglePanel('report')}
       />
-      <menu.ChatButton disabled />
     </menu.MenuBar>
   )
 }
