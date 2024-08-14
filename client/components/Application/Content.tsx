@@ -61,30 +61,12 @@ function EmptyContent() {
         <Typography
           sx={{
             fontWeight: 600,
-            color: '#00D1FF',
-            fontSize: 14,
-          }}
-        >
-          Drag & drop files or folders
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 500,
             color: '#52595A',
             fontSize: 14,
+            paddingBottom: '8px',
           }}
         >
           The ODE supports Excel & csv files
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 500,
-            padding: '16px',
-            fontSize: 16,
-            color: '#17181C',
-          }}
-        >
-          Or
         </Typography>
         <StyledButton
           label={'Upload your data'}
