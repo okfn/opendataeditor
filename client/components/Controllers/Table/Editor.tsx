@@ -2,13 +2,14 @@ import TableEditor from '../../Editors/Table'
 import * as React from 'react'
 import { useKeyPress } from 'ahooks'
 import * as store from '@client/store'
+import * as types from '@client/types'
 
 export default function Editor() {
   const schema = store.useStore((state) => state.record?.resource.schema)
   const report = store.useStore((state) => state.report)
   const table = store.useStore((state) => state.table)
 
-  const [cellSelection, setCellSelection] = React.useState({})
+  const [cellSelection, setCellSelection] = React.useState<types.ICellSelection>({})
 
   // works automatically, doesnt need to be passed to <TableEditor with onKeyPress
   useKeyPress(['delete', 'backspace'], () => {

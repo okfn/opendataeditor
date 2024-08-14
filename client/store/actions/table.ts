@@ -242,10 +242,13 @@ export function redoTableChange() {
   grid.reload()
 }
 
-export async function deleteMultipleCells(cells: object) {
+export async function deleteMultipleCells(cells: types.ICellSelection) {
   const { grid } = getRefs()
   const { table } = store.getState()
   if (!table || !grid) return
+
+  // Don't add multiple cells update if no cells are selected
+  if (!cells || !Object.keys(cells).length) return
 
   const cellChanges = []
 
