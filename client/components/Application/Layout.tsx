@@ -6,7 +6,6 @@ import Action from './Action'
 import Content from './Content'
 import Dialog from './Dialog'
 import Error from './Error'
-import Header from './Header'
 import Browser from './Browser'
 import Menu from './Menu'
 import * as store from '@client/store'
@@ -26,7 +25,6 @@ export default function Layout() {
     <React.Fragment>
       <Error />
       <Dialog />
-      <Header />
       <Columns layout={[3, 9]}>
         <Box sx={{ height, borderRight: 'solid 1px #ddd' }}>
           <Menu />
