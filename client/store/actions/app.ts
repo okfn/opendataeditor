@@ -39,7 +39,7 @@ export async function onAppStart() {
       return
     }
 
-    // We set state on if there are changes to prevent unnecessary re-renders
+    // We update state only if there are changes to prevent unnecessary re-renders
     // and simplify debugging in Redux Debugger
     const state = store.getState()
     if (!isEqual(state.files, result.files)) {
