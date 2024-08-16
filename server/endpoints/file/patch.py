@@ -46,4 +46,8 @@ def action(project: Project, props: Props) -> Result:
         resource=props.resource,
     )
 
+    # Reset record
+    if not props.toPath:
+        helpers.reset_record(project, path=props.path)
+
     return Result(path=record.path)

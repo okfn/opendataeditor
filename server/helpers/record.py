@@ -55,26 +55,22 @@ def patch_record(
             md.delete_document(name=fromName, type="record")
         md.write_document(name=record.name, type="record", descriptor=record.model_dump())
 
-    # Clear database
-    # Currently, we remove the table from the database on any change
-    # so it will be re-index (re-validated) on the next index call
-    # It will be better to keep the table in the database if the user
-    # changes the metadata that can't affect validation (e.g. `resource.title`)
-    if updated and not toPath:
-        delete_record(project, path=path, onlyFromDatabase=True)
-
     return record
 
 
-# It's better to remove `onlyFromDatabase` logic because using it brings
-# the system into the inconsistent state. For example, see:
-# https://github.com/okfn/opendataeditor/issues/467
-# This issue happened because the client used `table_patch` and then mistakenly
-# issued `table_read` command although current logic expects that after patching
-# `file_index` is going to be called. It will be better if all the API calls
-# keep the system in a consistent state (e.g. `table_patch` will include reindexing).
-def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False):
-    md = project.metadata
+def delete_record(project: Project, *, path: str):
+    """
+    Completely removes the record's metadata and data
+    """
+    reset_record(project, path=path)
+    prune_record(project, path=path)
+
+
+def reset_record(project: Project, *, path: str):
+    """
+    Remove record derivates such as validation report and database table
+    that are available after indexing
+    """
     db = project.database
 
     # Read record
@@ -87,9 +83,20 @@ def delete_record(project: Project, *, path: str, onlyFromDatabase: bool = False
     if record.type == "table":
         db.delete_table(name=record.name)
 
-    # Delete from metadata
-    if not onlyFromDatabase:
-        md.delete_document(name=record.name, type="record")
+
+def prune_record(project: Project, *, path: str):
+    """
+    Remove record the record document itself
+    """
+    md = project.metadata
+
+    # Read record
+    record = read_record(project, path=path)
+    if not record:
+        return None
+
+    # Remove document
+    md.delete_document(name=record.name, type="record")
 
 
 def read_record_or_raise(project: Project, *, path: str):
