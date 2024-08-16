@@ -19,7 +19,7 @@ export default function Editor() {
     store.deleteMultipleCells(cellSelection)
   })
 
-  // Ensure that when the use interact with other parts on the application
+  // Ensure that when the user interact with other parts on the application
   // e.g. Metadata editor the selection logic is not activated
   const onClickAway = () => {
     setCellSelection({})
