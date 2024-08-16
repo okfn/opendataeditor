@@ -1,6 +1,9 @@
 import { createTheme } from '@mui/material/styles'
 
 export const DEFAULT = createTheme({
+  typography: {
+    fontFamily: ['"Hanken Grotesk Variable"', 'sans-serif'].join(','),
+  },
   palette: {
     // Blue 1
     primary: {
