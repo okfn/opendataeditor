@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Browser from './Browser'
-import Action from './Action'
+import LowerMenu from './LowerMenu'
 import { useTheme } from '@mui/material/styles'
 import sidebarLogo from '../../assets/ODE_sidebar_logo.svg'
 
@@ -15,7 +15,7 @@ export default function Sidebar() {
       <Box sx={{ height: contentHeight }}>
         <Browser />
       </Box>
-      <Action />
+      <LowerMenu />
     </Box>
   )
 }
