@@ -7,7 +7,6 @@ import Content from './Content'
 import Dialog from './Dialog'
 import Error from './Error'
 import Browser from './Browser'
-import Menu from './Menu'
 import * as store from '@client/store'
 
 export default function Layout() {
@@ -26,8 +25,7 @@ export default function Layout() {
       <Error />
       <Dialog />
       <Columns layout={[3, 9]}>
-        <Box sx={{ height, borderRight: 'solid 1px #ddd' }}>
-          <Menu />
+        <Box sx={{ height, borderRight: 'solid 1px #ddd', width: '284px' }}>
           <Box sx={{ height: contentHeight }}>
             <Browser />
           </Box>
