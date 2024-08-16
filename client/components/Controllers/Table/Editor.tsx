@@ -35,7 +35,7 @@ export default function Editor() {
       touchEvent="onTouchStart"
       onClickAway={onClickAway}
     >
-      <Box>
+      <Box sx={{ height: '100%' }}>
         <TableEditor
           editable
           source={store.tableLoader}
