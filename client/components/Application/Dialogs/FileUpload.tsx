@@ -197,22 +197,23 @@ export default function FileUploadDialog() {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="basic tabs example"
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: '#00D1FF',
-              },
-            }}
+            aria-label="File Upload Tabs"
             centered
           >
-            <StyledTab label="From your computer" {...a11yProps(0)} />
-            <StyledTab label="Add external data" {...a11yProps(1)} />
+            <Tab label="From your computer" {...a11yProps(0)} />
+            <Tab label="Add external data" {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
           <Box ref={tabRefForHeight}>
             <Columns columns={2} spacing={4}>
-              <FileSelectBox>
+              <FileSelectBox
+                sx={{
+                  ':hover': {
+                    borderColor: (theme) => theme.palette.primary.main,
+                  },
+                }}
+              >
                 <input
                   type="file"
                   multiple
@@ -234,7 +235,13 @@ export default function FileUploadDialog() {
                   </StyledSelectBox>
                 </Box>
               </FileSelectBox>
-              <FileSelectBox>
+              <FileSelectBox
+                sx={{
+                  ':hover': {
+                    borderColor: (theme) => theme.palette.primary.main,
+                  },
+                }}
+              >
                 <input
                   type="file"
                   multiple
@@ -303,14 +310,6 @@ export default function FileUploadDialog() {
   )
 }
 
-const StyledTab = styled(Tab)(() => ({
-  textTransform: 'none',
-  fontWeight: 600,
-  '&.Mui-selected': {
-    color: '#00D1FF',
-  },
-}))
-
 const FileSelectBox = styled(Box)(() => ({
   border: '1px solid #E7E9E9',
   borderRadius: '8px',
@@ -325,9 +324,6 @@ const FileSelectBox = styled(Box)(() => ({
     height: '100%',
     width: '100%',
     opacity: 0,
-  },
-  ':hover': {
-    borderColor: '#00D1FF',
   },
   ':hover .file-select__button': {
     backgroundColor: '#3F4345',
