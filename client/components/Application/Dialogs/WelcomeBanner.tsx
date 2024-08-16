@@ -30,7 +30,6 @@ export default function WelcomeBanner() {
     padding: '18px 0',
     lineHeight: 1.5,
     backgroundColor: '#00D1FF',
-    fontFamily: ['Hanken Grotesk Variable', 'sans-serif'].join(','),
     '&:hover': {
       backgroundColor: '#11E2FF',
     },
@@ -54,7 +53,6 @@ export default function WelcomeBanner() {
           paddingRight: '0',
           marginBottom: '0',
           paddingBottom: '0',
-          fontFamily: "'Hanken Grotesk Variable', sans-serif",
         }}
       >
         <Box sx={{ backgroundColor: '#F3F4F6', padding: '56px 52px' }}>

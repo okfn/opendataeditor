@@ -36,6 +36,42 @@ jobs:
       - name: Test software
         run: make test
 
+  # End to End testing
+  # It is powered by WebdriverIO, it requires an application binary path in our dist folder.
+  # See wdio.conf.ts capabilities attribute for more info.
+  test-e2e:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Install Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.11'
+        - name: Install Node
+          uses: actions/setup-node@v3
+          with:
+            node-version: 20
+        - name: Prepare environment
+          run: pip3 install hatch
+        - name: Install dependencies
+          run: make install
+        - name: Build the application
+          run: make build
+        - name: Generate bundle file
+          run: make dist
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Make AppImage executable
+          run: |
+            chmod a+x ./dist/*.AppImage
+            ls -l ./dist
+        - name: Check chrome version
+          run: google-chrome --version
+        - name: Run headless test
+          uses: coactions/setup-xvfb@v1
+          with:
+            run: npm run wdio
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
   # https://pyinstaller.org/en/stable/usage.html?highlight=glibc#making-gnu-linux-apps-forward-compatible
@@ -44,7 +80,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    needs: [test]
+    needs: [test, test-e2e]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -84,7 +120,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    needs: [test]
+    needs: [test, test-e2e]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

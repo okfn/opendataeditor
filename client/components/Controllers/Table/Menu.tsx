@@ -25,7 +25,6 @@ export default function Menu() {
         active={panel === 'source'}
         onClick={() => store.togglePanel('source')}
       />
-      <menu.ChatButton disabled />
       <menu.ErrorsButton
         active={mode === 'errors'}
         onClick={store.toggleTableErrorMode}
