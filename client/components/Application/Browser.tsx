@@ -26,7 +26,7 @@ function DefaultBrowser() {
   return (
     <ErrorBoundary
       fallback={
-        <Box sx={{ padding: 2.5, color: '#555' }}>
+        <Box sx={{ color: '#555' }}>
           <strong>Failed to open the project</strong>. Please{' '}
           <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
             create an issue
