@@ -166,7 +166,7 @@ export type IDialog =
   | 'publish'
   | 'chat'
   | 'unsavedChanges'
-  | 'closeDesktopApp'
+  | 'closeWithUnsavedChanges'
   | 'welcomeBanner'
   | 'fileUpload'
 

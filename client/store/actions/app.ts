@@ -1,5 +1,6 @@
 import * as store from '../store'
 import delay from 'delay'
+import { openDialog } from './dialog'
 import { getIsFileOrResourceUpdated } from './file'
 import * as settings from '@client/settings'
 import { client } from '@client/client'
@@ -51,15 +52,15 @@ export async function onAppStart() {
   if (window?.opendataeditor?.closeDesktopApp) {
     window.onbeforeunload = (event) => {
       const isUpdated = getIsFileOrResourceUpdated(store.getState())
-
       if (isUpdated) {
         event.preventDefault()
-
-        store.setState('desktop-unsaved-changes', (state) => {
-          state.dialog = 'unsavedChanges'
-          state.nextDialog = 'closeDesktopApp'
-        })
+        openDialog('closeWithUnsavedChanges')
       }
     }
   }
+}
+
+export function closeDesktopApp() {
+  // @ts-ignore
+  window?.opendataeditor?.closeDesktopApp()
 }
