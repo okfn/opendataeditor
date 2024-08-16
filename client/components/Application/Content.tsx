@@ -68,9 +68,9 @@ function EmptyContent() {
         >
           The ODE supports Excel & csv files
         </Typography>
-        <StyledButton
+        <SimpleButton
           label={'Upload your data'}
-          sx={{ my: 0.5 }}
+          sx={{ my: 0.5, width: '236px' }}
           variant="contained"
           aria-label="accept"
           onClick={() => store.openDialog('fileUpload')}
@@ -97,27 +97,6 @@ function LoadingContent() {
 // We still need to cover here and in the settings "chart" type and some other types
 // that were removed from UI in #463 because `frictionless-py` provides them
 // as `resource.datatype`
-const StyledButton = styled(SimpleButton)({
-  boxShadow: 'none',
-  width: '236px',
-  textTransform: 'none',
-  borderRadius: '9px',
-  fontSize: 14,
-  fontWeight: 700,
-  padding: '14px 24px',
-  lineHeight: 1.5,
-  backgroundColor: 'black',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
-  '&:active': {
-    boxShadow: 'none',
-    backgroundColor: 'gray',
-  },
-  '&:focus': {
-    boxShadow: '0 0 0 0 rgba(0,123,255,.5)',
-  },
-})
 
 const StyledCard = styled(Card)(() => ({
   width: '100%',

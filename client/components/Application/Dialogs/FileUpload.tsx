@@ -288,7 +288,7 @@ export default function FileUploadDialog() {
                 />
               ) : null}
             </Box>
-            <StyledButton
+            <SimpleButton
               label={'Add'}
               sx={{ my: 0.5, marginTop: '53px' }}
               variant="contained"
@@ -302,28 +302,6 @@ export default function FileUploadDialog() {
     </Dialog>
   )
 }
-
-const StyledButton = styled(SimpleButton)({
-  boxShadow: 'none',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '9px',
-  fontSize: 14,
-  fontWeight: 700,
-  padding: '14px 24px',
-  lineHeight: 1.5,
-  backgroundColor: 'black',
-  '&:hover': {
-    backgroundColor: 'gray',
-  },
-  '&:active': {
-    boxShadow: 'none',
-    backgroundColor: 'gray',
-  },
-  '&:focus': {
-    boxShadow: '0 0 0 0 rgba(0,123,255,.5)',
-  },
-})
 
 const StyledTab = styled(Tab)(() => ({
   textTransform: 'none',
