@@ -168,6 +168,7 @@ export type IDialog =
   | 'unsavedChanges'
   | 'closeDesktopApp'
   | 'welcomeBanner'
+  | 'fileUpload'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

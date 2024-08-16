@@ -23,7 +23,6 @@ export default function Menu() {
         onClick={() => store.togglePanel('report')}
       />
       <menu.SourceButton enabled />
-      <menu.ChatButton disabled />
       <menu.UndoButton
         onClick={store.undoText}
         disabled={currentVersion <= minimalVersion}
