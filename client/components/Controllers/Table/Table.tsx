@@ -25,7 +25,7 @@ export default function Table() {
         touchEvent="onTouchStart"
         onClickAway={store.onTableClickAway}
       >
-        <Box sx={{ height }}>
+        <Box sx={{ height, width: '100%' }}>
           <Menu />
           <ScrollBox height={contentHeight}>
             <Editor />
