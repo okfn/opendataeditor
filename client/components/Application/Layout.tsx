@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Columns from '../Parts/Grids/Columns'
+import Box from '@mui/material/Box'
 import Sidebar from './Sidebar'
 import Content from './Content'
 import Dialog from './Dialog'
@@ -17,10 +17,10 @@ export default function Layout() {
     <React.Fragment>
       <Error />
       <Dialog />
-      <Columns layout={[3, 9]}>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <Sidebar />
         <Content />
-      </Columns>
+      </Box>
     </React.Fragment>
   )
 }
