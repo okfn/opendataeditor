@@ -1,4 +1,20 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, PaletteColorOptions } from '@mui/material/styles'
+
+declare module '@mui/material/styles' {
+  interface CustomPalette {
+    OKFNCoolGray: PaletteColorOptions;
+    OKFNBlue: PaletteColorOptions;
+  }
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends CustomPalette {}
+}
+
+declare module "@mui/material/Button" { // <-- Added `/Button` here
+  interface ButtonPropsColorOverrides {
+    OKFNCoolGray: true;
+    OKFNBlue: true;
+  }
+}
 
 export const DEFAULT = createTheme({
   typography: {
@@ -28,6 +44,14 @@ export const DEFAULT = createTheme({
     // Yellow
     warning: {
       main: '#ed6c02',
+    },
+    // LightGray
+    OKFNCoolGray: {
+      main: '#9CA2AE',
+    },
+    // OKFN Blue
+    OKFNBlue: {
+      main: '#00D1FF',
     },
   },
 })
