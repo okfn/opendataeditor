@@ -15,7 +15,7 @@ describe('ODE basic workflow', () => {
 
         const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get started'}})
         const focusTrap = await root.react$('FocusTrap')
-        const uploadYourDataButton = await $('div.MuiButton-outlined')
+        const uploadYourDataButton = await $('.sidebar .MuiButton-outlined')
 
         await expect(focusTrap).toExist()
         await expect(uploadYourDataButton).not.toBeClickable()
@@ -29,8 +29,8 @@ describe('ODE basic workflow', () => {
       const remoteFilePath = await browser.uploadFile(filePath)
       const root = await $('#root')
 
-      await root.$('div.MuiButton-outlined').click()
-      await root.$('div.simple-tab-1').click()
+      await root.$('.sidebar .MuiButton-outlined').click()
+      await root.$('button#simple-tab-1').click()
       // Adding the file to the hidden input[type=file] will trigger a server upload
       await $('input.MuiOutlinedInput-input').addValue(remoteFilePath)
 

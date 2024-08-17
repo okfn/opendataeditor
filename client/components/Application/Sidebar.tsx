@@ -12,6 +12,7 @@ export default function Sidebar() {
 
   return (
     <Box
+      className="sidebar"
       sx={{
         display: 'flex',
         height: '100vh',
