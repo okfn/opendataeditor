@@ -2,17 +2,18 @@ import { createTheme, PaletteColorOptions } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface CustomPalette {
-    OKFNCoolGray: PaletteColorOptions;
-    OKFNBlue: PaletteColorOptions;
+    OKFNCoolGray: PaletteColorOptions
+    OKFNBlue: PaletteColorOptions
   }
   interface Palette extends CustomPalette {}
   interface PaletteOptions extends CustomPalette {}
 }
 
-declare module "@mui/material/Button" { // <-- Added `/Button` here
+declare module '@mui/material/Button' {
+  // <-- Added `/Button` here
   interface ButtonPropsColorOverrides {
-    OKFNCoolGray: true;
-    OKFNBlue: true;
+    OKFNCoolGray: true
+    OKFNBlue: true
   }
 }
 
