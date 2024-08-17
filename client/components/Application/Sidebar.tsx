@@ -19,16 +19,15 @@ export default function Sidebar() {
         justifyContent: 'space-between',
         borderRight: 'solid 1px #ddd',
         width: '284px',
-        padding: '24px',
       }}
     >
-      <Box sx={{ height: '32px', marginBottom: '26px' }}>
+      <Box sx={{ padding: '24px' }}>
         {' '}
         <img src={sidebarLogo} alt="" />
       </Box>
       <Button
         variant="outlined"
-        sx={{ textTransform: 'none' }}
+        sx={{ textTransform: 'none', marginBottom: '22px', mx: '24px' }}
         onClick={() => store.openDialog('fileUpload')}
       >
         Upload your data
