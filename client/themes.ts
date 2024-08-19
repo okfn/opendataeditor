@@ -62,7 +62,7 @@ export const DEFAULT = createTheme({
       main: '#FF403F',
     },
     OKFNGreenBlue: {
-      main: '#56C4A3'
-    }
+      main: '#56C4A3',
+    },
   },
 })

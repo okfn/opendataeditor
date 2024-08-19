@@ -2,7 +2,9 @@ import Box from '@mui/material/Box'
 import { ErrorBoundary } from 'react-error-boundary'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import FileTree from '../Parts/Trees/File'
+import Button from '@mui/material/Button'
 import * as store from '@client/store'
+import createFolderIcon from '../../assets/create_folder_icon.svg'
 
 export default function Browser() {
   const files = store.useStore((state) => state.files)
@@ -35,6 +37,14 @@ function DefaultBrowser() {
         </Box>
       }
     >
+      <Button
+        color="OKFNCoolGray"
+        sx={{ textTransform: 'none', marginLeft: '16px', marginRight: '16px' }}
+        startIcon={<img src={createFolderIcon} alt="" />}
+        onClick={() => store.openDialog('addEmptyFolder')}
+      >
+        Create folder
+      </Button>
       <FileTree
         files={files}
         event={event}
