@@ -44,4 +44,8 @@ def action(project: Project, props: Props) -> Result:
     if props.text is not None:
         helpers.write_text(project, path=record.path, text=props.text, overwrite=True)
 
+    # Reset record
+    if not props.toPath:
+        helpers.reset_record(project, path=props.path)
+
     return Result(path=record.path)

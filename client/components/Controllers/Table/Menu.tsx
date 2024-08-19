@@ -28,7 +28,7 @@ export default function Menu() {
       <menu.ErrorsButton
         active={mode === 'errors'}
         onClick={store.toggleTableErrorMode}
-        disabled={!report?.valid}
+        disabled={report?.valid}
       />
       <menu.UndoButton
         onClick={store.undoTableChange}

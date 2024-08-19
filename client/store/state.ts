@@ -35,6 +35,14 @@ export type IState = {
   resource?: types.IResource
 
   /**
+   * True if the current resource was updated
+   * It is a temporaty solution bringing some source-of-truth duplication
+   * until there is a proper data/metadata logic separation as per:
+   * https://github.com/okfn/opendataeditor/issues/494
+   **/
+  isResourceUpdated?: boolean
+
+  /**
    * True if data is loading (for example a list of files in the Browser)
    **/
   loading?: boolean

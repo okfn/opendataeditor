@@ -44,4 +44,8 @@ def action(project: Project, props: Props) -> Result:
     if props.data is not None:
         helpers.write_json(project, path=record.path, data=props.data, overwrite=True)
 
+    # Reset record
+    if not props.toPath:
+        helpers.reset_record(project, path=props.path)
+
     return Result(path=record.path)
