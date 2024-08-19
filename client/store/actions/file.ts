@@ -5,7 +5,6 @@ import { openText, closeText, saveText, revertText, getIsTextUpdated } from './t
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
-import { getIsResourceUpdated } from './resource'
 import { openTable, closeTable, saveTable, revertTable, getIsTableUpdated } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
@@ -88,6 +87,7 @@ async function closeFile() {
     state.record = undefined
     state.report = undefined
     state.resource = undefined
+    state.isResourceUpdated = undefined
     state.source = undefined
     state.error = undefined
     state.dialog = undefined
@@ -272,10 +272,9 @@ export async function onFileDeleted(paths: string[]) {
 }
 
 export function onFileLeave() {
-  const state = store.getState()
-  const isUpdated = getIsFileOrResourceUpdated(state)
+  const { dialog, isResourceUpdated } = store.getState()
 
-  if (!state.dialog && isUpdated) {
+  if (isResourceUpdated && !dialog) {
     openDialog('unsavedChanges')
   }
 }
@@ -297,7 +296,7 @@ export const getNotIndexedFiles = store.createSelector((state) => {
 })
 
 export const getIsFileOrResourceUpdated = store.createSelector((state) => {
-  return getIsFileUpdated(state) || getIsResourceUpdated(state)
+  return getIsFileUpdated(state) || state.isResourceUpdated
 })
 
 export const getIsFileUpdated = store.createSelector((state) => {

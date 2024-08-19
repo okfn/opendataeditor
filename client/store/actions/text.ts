@@ -2,7 +2,7 @@ import { client } from '@client/client'
 import { getRefs } from './refs'
 import { getLanguageByFormat } from '@client/helpers'
 import { onFileCreated, onFileUpdated } from './file'
-import { revertResource, getIsResourceUpdated } from './resource'
+import { revertResource } from './resource'
 import dirtyJson from 'dirty-json'
 import * as store from '../store'
 import invariant from 'tiny-invariant'
@@ -95,8 +95,9 @@ export async function saveText() {
   invariant(path)
   invariant(text)
 
-  const isTextUpdated = getIsTextUpdated(store.getState())
-  const isResourceUpdated = getIsResourceUpdated(store.getState())
+  const state = store.getState()
+  const isTextUpdated = getIsTextUpdated(state)
+  const isResourceUpdated = state.isResourceUpdated
 
   const result = await client.textPatch({
     path,
@@ -168,7 +169,7 @@ export function prettifyJson() {
 // Selectors
 
 export const getIsTextOrResourceUpdated = store.createSelector((state) => {
-  return getIsTextUpdated(state) || getIsResourceUpdated(state)
+  return getIsTextUpdated(state) || state.isResourceUpdated
 })
 
 export const getIsTextUpdated = store.createSelector((state) => {

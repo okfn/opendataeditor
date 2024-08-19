@@ -2,7 +2,6 @@ import { client } from '@client/client'
 import { mapValues, isNull } from 'lodash'
 import { onFileCreated, onFileUpdated } from './file'
 import { cloneDeep } from 'lodash'
-import { getIsResourceUpdated } from './resource'
 import { revertResource } from './resource'
 import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
@@ -98,8 +97,9 @@ export async function saveTable() {
   const { path, resource, table } = store.getState()
   if (!path || !grid || !table) return
 
-  const isTableUpdated = getIsTableUpdated(store.getState())
-  const isResourceUpdated = getIsResourceUpdated(store.getState())
+  const state = store.getState()
+  const isTableUpdated = getIsTableUpdated(state)
+  const isResourceUpdated = state.isResourceUpdated
 
   const result = await client.tablePatch({
     path,
@@ -113,8 +113,8 @@ export async function saveTable() {
     })
   }
 
-  grid.reload()
   await onFileUpdated([path])
+  grid.reload()
 }
 
 export function setTableSelection(selection: types.ITableSelection) {
@@ -232,10 +232,13 @@ export function redoTableChange() {
   grid.reload()
 }
 
-export async function deleteMultipleCells(cells: object) {
+export async function deleteMultipleCells(cells: types.ICellSelection) {
   const { grid } = getRefs()
   const { table } = store.getState()
   if (!table || !grid) return
+
+  // Don't add multiple cells update if no cells are selected
+  if (!cells || !Object.keys(cells).length) return
 
   const cellChanges = []
 
@@ -297,7 +300,7 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
 // Selectors
 
 export const getIsTableOrResourceUpdated = store.createSelector((state) => {
-  return getIsTableUpdated(state) || getIsResourceUpdated(state)
+  return getIsTableUpdated(state) || state.isResourceUpdated
 })
 
 export const getIsTableUpdated = store.createSelector((state) => {

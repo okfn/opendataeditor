@@ -19,51 +19,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as helpers from '../../../helpers'
 
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
-
-export interface TextFieldProps {
-  errorMessage?: string
-  defaultValue: string
-  onComplete(value: string): void
-}
-
-function AddRemoteTextfield(props: TextFieldProps) {
-  return (
-    <StyledTextField
-      fullWidth
-      size="small"
-      error={!!props.errorMessage}
-      helperText={props.errorMessage || ' '}
-      placeholder="Enter or paste URL"
-      InputLabelProps={{
-        sx: {
-          fontSize: '14px',
-        },
-      }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <img src={iconLinkTextField} alt="" />
-          </InputAdornment>
-        ),
-        sx: {
-          '& ::placeholder': {
-            color: '#D1D4DB',
-            opacity: 1, // otherwise firefox shows a lighter colorS
-            fontSize: '14px',
-          },
-        },
-      }}
-      defaultValue={props.defaultValue}
-      onBlur={(e) => props.onComplete(e.target.value)}
-    />
-  )
-}
-
 export default function FileUploadDialog() {
   const [errorMessage, setErrorMessage] = React.useState('')
 
@@ -98,22 +53,6 @@ export default function FileUploadDialog() {
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-  }
-
-  function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-      </div>
-    )
   }
 
   const inputFileRef = React.useRef<HTMLInputElement>(null)
@@ -279,9 +218,9 @@ export default function FileUploadDialog() {
             </Box>
             <Box sx={{ display: 'flex' }}>
               <AddRemoteTextfield
-                defaultValue={remoteUrlValue}
+                value={remoteUrlValue}
                 errorMessage={errorMessage}
-                onComplete={onAddRemoteTextfieldChange}
+                onChange={onAddRemoteTextfieldChange}
               />
               {loading ? (
                 <CircularProgress
@@ -307,6 +246,63 @@ export default function FileUploadDialog() {
         </CustomTabPanel>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function CustomTabPanel(props: {
+  children?: React.ReactNode
+  index: number
+  value: number
+}) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  )
+}
+
+function AddRemoteTextfield(props: {
+  errorMessage?: string
+  value: string
+  onChange(value: string): void
+}) {
+  return (
+    <StyledTextField
+      fullWidth
+      size="small"
+      error={!!props.errorMessage}
+      helperText={props.errorMessage || ' '}
+      placeholder="Enter or paste URL"
+      InputLabelProps={{
+        sx: {
+          fontSize: '14px',
+        },
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <img src={iconLinkTextField} alt="" />
+          </InputAdornment>
+        ),
+        sx: {
+          '& ::placeholder': {
+            color: '#D1D4DB',
+            opacity: 1, // otherwise firefox shows a lighter colorS
+            fontSize: '14px',
+          },
+        },
+      }}
+      value={props.value}
+      onChange={(e) => props.onChange(e.target.value)}
+    />
   )
 }
 

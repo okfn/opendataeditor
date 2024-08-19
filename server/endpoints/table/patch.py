@@ -95,4 +95,8 @@ def action(project: Project, props: Props) -> Result:
         resource = TableResource(path=db.database_url, control=control)
         resource.write_table(path=str(target))
 
+    # Reset record
+    if not props.toPath:
+        helpers.reset_record(project, path=props.path)
+
     return Result(path=record.path)

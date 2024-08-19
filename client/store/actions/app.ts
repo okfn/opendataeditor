@@ -1,4 +1,5 @@
 import * as store from '../store'
+import isEqual from 'fast-deep-equal'
 import delay from 'delay'
 import { openDialog } from './dialog'
 import { getIsFileOrResourceUpdated } from './file'
@@ -41,9 +42,14 @@ export async function onAppStart() {
       return
     }
 
-    store.setState('sync-files', (state) => {
-      state.files = result.files
-    })
+    // We update state only if there are changes to prevent unnecessary re-renders
+    // and simplify debugging in Redux Debugger
+    const state = store.getState()
+    if (!isEqual(state.files, result.files)) {
+      store.setState('sync-files', (state) => {
+        state.files = result.files
+      })
+    }
   }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 
   // Register on windows close event handler (only Desktop env)
