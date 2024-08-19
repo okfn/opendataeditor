@@ -1,6 +1,6 @@
 import * as React from 'react'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
-import { alpha, styled } from '@mui/material/styles'
+import { alpha, SimplePaletteColorOptions, styled } from '@mui/material/styles'
 import { keyframes } from '@mui/system'
 import { TreeItem, TreeView, TreeItemProps, treeItemClasses } from '@mui/x-tree-view'
 import Box from '@mui/material/Box'
@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack'
 import ScrollBox from '../Boxes/Scroll'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
+import { useTheme } from '@mui/material/styles'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -113,9 +114,11 @@ const StyledTreeItem = styled(
 }))
 
 function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
+  const theme = useTheme()
+
   let color = 'gray'
   if (props.item.type === 'folder') color = 'primary'
-  if (props.item.name) color = props.item.errors ? 'red' : 'green'
+  if (props.item.name) color = props.item.errors ? theme.palette.OKFNRed.main : theme.palette.OKFNGreenBlue.main
 
   const fontWeight = 'normal'
   // When data package is enabled consider highlighting it
@@ -131,8 +134,11 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
         '& div': { mr: 1 },
       }}
     >
-      <div style={{height: '8px',
+      <div style={{
+        height: '8px',
         width: '8px',
+        minWidth: '8px',
+        minHeight: '8px',
         backgroundColor: color,
         borderRadius: '50%',}}>{" "}</div>
       <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
