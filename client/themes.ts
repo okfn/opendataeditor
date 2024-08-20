@@ -52,7 +52,7 @@ export const DEFAULT = createTheme({
     },
     // LightGray
     OKFNCoolGray: {
-      main: '#9CA2AE',
+      main: '#4C5564',
     },
     // OKFN Blue
     OKFNBlue: {
