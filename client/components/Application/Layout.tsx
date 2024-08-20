@@ -17,7 +17,7 @@ export default function Layout() {
     <React.Fragment>
       <Error />
       <Dialog />
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
         <Sidebar />
         <Content />
       </Box>

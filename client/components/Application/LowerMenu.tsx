@@ -12,6 +12,9 @@ export default function LowerMenu() {
         alignItems: 'flex-start',
         borderTop: '1px solid #E6E7EB',
         padding: '20px',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%'
       }}
     >
       <Button

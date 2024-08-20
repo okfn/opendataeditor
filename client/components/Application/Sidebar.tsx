@@ -15,9 +15,8 @@ export default function Sidebar() {
       className="sidebar"
       sx={{
         display: 'flex',
-        height: '100vh',
+        position: 'relative',
         flexDirection: 'column',
-        justifyContent: 'space-between',
         borderRight: 'solid 1px #ddd',
         width: '284px',
       }}

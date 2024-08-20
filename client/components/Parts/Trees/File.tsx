@@ -37,7 +37,7 @@ export default function FileTree(props: FileTreeProps) {
   const selected = props.selected || ''
   return (
     <Context.Provider value={{ event: props.event }}>
-      <ScrollBox sx={{ padding: 0 }} height="100%">
+      <ScrollBox sx={{ padding: 0, height: 'calc(100vh - 300px)'}} >
         <Stack alignItems="stretch" height="100%">
           <TreeView
             multiSelect
@@ -96,7 +96,15 @@ const StyledTreeItem = styled(
     return (
       <TreeItem
         {...others}
-        sx={{ animation }}
+        className={ item.type === 'folder' ? 'type_folder' : 'type_file' }
+        sx={{ animation, 
+          '&.type_folder > .MuiTreeItem-content': {
+            padding: '0 24px'
+          },
+          '& > .MuiTreeItem-content .MuiTreeItem-iconContainer': {
+            marginRight: 0
+          }
+         }}
         label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
       />
     )
