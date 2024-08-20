@@ -14,7 +14,7 @@ export default function LowerMenu() {
         padding: '20px',
         position: 'absolute',
         bottom: 0,
-        width: '100%'
+        width: '100%',
       }}
     >
       <Button
