@@ -1,4 +1,4 @@
-import { ipcMain, dialog, app } from 'electron'
+import { ipcMain, dialog, app, shell } from 'electron'
 import log from 'electron-log'
 
 export function createBridge() {
@@ -22,5 +22,8 @@ export function createBridge() {
     } else {
       return filePaths[0]
     }
+  })
+  ipcMain.on('openPathInExplorer', (_event, path) => {
+    shell.openPath(path)
   })
 }
