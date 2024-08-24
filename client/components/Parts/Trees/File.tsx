@@ -71,7 +71,7 @@ export default function FileTree(props: FileTreeProps) {
 
 function TreeNode(props: { item: types.IFileTreeItem }) {
   return (
-    <StyledTreeItem key={props.item.path} nodeId={props.item.path} item={props.item}>
+    <StyledTreeItem key={props.item.path} nodeId={props.item.path} item={props.item} icon={props.item.type === 'folder' ? <img src={closedFolderIcon} alt="" /> : null}>
       {props.item.children.map((item) => (
         <TreeNode item={item} key={item.path} />
       ))}
