@@ -12,10 +12,7 @@ import * as store from '@client/store'
 
 export default function Table() {
   const theme = useTheme()
-  const panel = store.useStore((state) => state.panel)
-  const height = `calc(100vh - ${theme.spacing(8)})`
-  const panelHeight = panel ? 42 : 0
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
+  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8)})`
 
   return (
     <React.Fragment>
@@ -25,7 +22,7 @@ export default function Table() {
         touchEvent="onTouchStart"
         onClickAway={store.onTableClickAway}
       >
-        <Box sx={{ height }}>
+        <Box sx={{ height: '100%', width: '100%' }}>
           <Menu />
           <ScrollBox height={contentHeight}>
             <Editor />
