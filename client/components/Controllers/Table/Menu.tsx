@@ -2,7 +2,6 @@ import * as menu from '../../Parts/Bars/Menu'
 import * as store from '@client/store'
 
 export default function Menu() {
-  const mode = store.useStore((state) => state.table?.mode)
   const panel = store.useStore((state) => state.panel)
   const report = store.useStore((state) => state.report)
   const history = store.useStore((state) => state.table?.history)
@@ -24,11 +23,6 @@ export default function Menu() {
         disabled={!source?.text}
         active={panel === 'source'}
         onClick={() => store.togglePanel('source')}
-      />
-      <menu.ErrorsButton
-        active={mode === 'errors'}
-        onClick={store.toggleTableErrorMode}
-        disabled={report?.valid}
       />
       <menu.UndoButton
         onClick={store.undoTableChange}
