@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
-import SimpleButton from '../Parts/Buttons/SimpleButton'
+import Button from '@mui/material/Button'
 import emptyContentScreenImg from '../../assets/empty_screen.png'
 
 export default function Content() {
@@ -79,13 +79,14 @@ function EmptyContent() {
         >
           The ODE supports Excel & csv files
         </Typography>
-        <SimpleButton
-          label={'Upload your data'}
-          sx={{ my: 0.5, width: '236px' }}
+        <Button
+          sx={{ my: 0.5, width: '236px', textTransform: 'none' }}
           variant="contained"
           aria-label="accept"
           onClick={() => store.openDialog('fileUpload')}
-        />
+        >
+          Upload your data
+        </Button>
         <Typography
           sx={{
             paddingTop: '8px',
@@ -118,6 +119,7 @@ const StyledCard = styled(Card)(() => ({
   square: 'true',
   display: 'flex',
   alignItems: 'center',
+  alignSelf: 'center',
 }))
 
 const StyledCardContent = styled(CardContent)(() => ({
