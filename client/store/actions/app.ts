@@ -17,6 +17,10 @@ export async function onAppStart() {
   const maxAttempts = sendFatalError ? 300 : 3
   const delaySeconds = 1
 
+  // Note: it is not possible to use imperative code mutating state
+  // inside React rendering functions (moved here from the Layout component)
+  openDialog('welcomeBanner')
+
   while (!ready) {
     try {
       await loadConfig(true)
