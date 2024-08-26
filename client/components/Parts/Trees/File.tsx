@@ -171,7 +171,8 @@ const StyledTreeItem = styled(
           <MenuItem onClick={handleDelete}>
             <ListItemIcon sx={{ 
                   paddingTop: '6px',
-                  alignSelf: 'flex-start'
+                  alignSelf: 'flex-start',
+                  minWidth: '24px'
               }}>
               {<img src={deleteIcon} alt="" />}
             </ListItemIcon>
