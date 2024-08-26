@@ -10,7 +10,10 @@ import * as types from '../../../types'
 import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
-import LightTooltip from '../Tooltips/Light'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import IconButton from '../../Parts/Buttons/Icon'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -90,21 +93,64 @@ const StyledTreeItem = styled(
       ['create', 'delete', 'update'].includes(event.type)
         ? `${fileEventKeyframe} 1s`
         : undefined
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleContextBtnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    }
+    const handleClose = () => {
+      setAnchorEl(null);
+    }
+    
     return (
-      <TreeItem
-        {...others}
-        endIcon={ item.type === 'folder' ? <img src={closedFolderIcon} alt="" />: null }
-        className={ item.type === 'folder' ? 'type_folder' : 'type_file' }
-        sx={{ animation, 
-          '&.type_folder > .MuiTreeItem-content': {
-            padding: '0 24px'
-          },
-          '& > .MuiTreeItem-content .MuiTreeItem-iconContainer': {
-            marginRight: 0
-          }
-         }}
-        label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
-      />
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <TreeItem
+          {...others}
+          endIcon={ item.type === 'folder' ? <img src={closedFolderIcon} alt="" />: null }
+          className={ item.type === 'folder' ? 'type_folder' : 'type_file' }
+          sx={{ animation, 
+            '&.type_folder > .MuiTreeItem-content': {
+              padding: '0 24px'
+            },
+            '& > .MuiTreeItem-content .MuiTreeItem-iconContainer': {
+              marginRight: 0
+            },
+            '& > .MuiTreeItem-content .MuiTreeItem-label': {
+              maxWidth: '188px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }
+          }}
+          label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
+        />
+        <IconButton 
+          sx={{
+            width: '20px'
+          }}
+          id="file-context-menu-btn"
+          onClick={handleContextBtnClick}
+          color="OKFNCoolGray"
+          Icon={MoreHorizIcon}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+        />
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'file-context-menu-btn',
+          }}
+        >
+          <MenuItem onClick={handleClose}>Rename</MenuItem>
+          <MenuItem onClick={handleClose}>Duplicate</MenuItem>
+          <MenuItem onClick={handleClose}>Open File Location</MenuItem>
+          <MenuItem onClick={handleClose}>Delete File</MenuItem>
+        </Menu>
+      </Box>
     )
   }
 )(({ theme }) => ({
@@ -132,26 +178,24 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
   // const fontWeight = props.item.type === 'package' ? 'bold' : 'normal'
 
   return (
-    <LightTooltip title={props.item.label} type="fileMenu">
-      <Box
-        sx={{
-          py: 1,
-          display: 'flex',
-          alignItems: 'center',
-          overflow: 'hidden',
-          '& div': { mr: 1 },
-        }}
-      >
-        <div style={{
-          height: '8px',
-          width: '8px',
-          minWidth: '8px',
-          minHeight: '8px',
-          backgroundColor: color,
-          borderRadius: '50%',}}>{" "}</div>
-        <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
-      </Box>
-    </LightTooltip>
+    <Box
+      sx={{
+        py: 1,
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',
+        '& div': { mr: 1 },
+      }}
+    >
+      <div style={{
+        height: '8px',
+        width: '8px',
+        minWidth: '8px',
+        minHeight: '8px',
+        backgroundColor: color,
+        borderRadius: '50%',}}>{" "}</div>
+      <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
+    </Box>
   )
 }
 
