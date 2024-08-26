@@ -7,7 +7,6 @@ import RuleIcon from '@mui/icons-material/Rule'
 import CompressIcon from '@mui/icons-material/Compress'
 import DataObjectIcon from '@mui/icons-material/DataObject'
 import FormatClearIcon from '@mui/icons-material/FormatClear'
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import SupportAgentIcon from '@mui/icons-material/SupportAgent'
 import UndoIcon from '@mui/icons-material/Undo'
 import RedoIcon from '@mui/icons-material/Redo'
@@ -173,33 +172,6 @@ export function ChatButton(props: ButtonProps) {
           label={props.label || 'Chat AI'}
           Icon={SupportAgentIcon}
           color={props.color}
-          disabled={props.disabled}
-          onClick={() => onClick()}
-        />
-      </Box>
-    </LightTooltip>
-  )
-}
-
-export function ErrorsButton(props: ButtonProps) {
-  const onClick = props.onClick || noop
-  let title = 'Toggle showing only errors [Ctrl+E]'
-  if (props.disabled) title = 'No errors to show'
-  useKeyPress(['ctrl.e'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
-  return (
-    <LightTooltip title={title}>
-      <Box>
-        <IconButton
-          small
-          variant="text"
-          label={props.label || 'Errors'}
-          Icon={ReportGmailerrorredIcon}
-          color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled}
           onClick={() => onClick()}
         />
