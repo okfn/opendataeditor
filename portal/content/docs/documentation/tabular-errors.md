@@ -18,7 +18,7 @@ Here is a structure of a tabular data with the terminology used in this article.
 
 This type of error occurs when the structure of the data is not as expected. For example, the number of columns in a row is different from the number of columns in the header. These errors can be identified **without providing a Table Schema**.
 
-### Blank Header
+### Header Missing
 
 This error occurs when the header row is empty. The header row should contain the names of the columns.
 
@@ -34,7 +34,7 @@ This error occurs when the header row is empty. The header row should contain th
 If the header row in CSV is completely empty (see the comma) this error won't be reproduced as `frictionless-py` detects that the header is in the second row.
 :::
 
-### Blank Label
+### Column Name Missing
 
 This error occurs when there is an empty cell in the header row. The header row should not contain any empty cells.
 
@@ -46,7 +46,7 @@ col1,
 
 ![Blank Label](./assets/tabular-errors/blank-label.png)
 
-### Duplicate Label
+### Duplicate Column Name
 
 This error occurs when there are two or more columns with the same name. Each column should have a unique name.
 
@@ -58,7 +58,7 @@ col1,col1
 
 ![Duplicate Label](./assets/tabular-errors/duplicate-label.png)
 
-### Blank Row
+### Empty Row
 
 This error occurs when there is an empty row in the data. The data should not contain any empty rows.
 
@@ -97,7 +97,7 @@ col1,col2
 
 ![Extra Cell](./assets/tabular-errors/extra-cell.png)
 
-### Type Error
+### Wrong Data Type
 
 This error occurs when a cell contains a value that is not of the expected type. For example, a cell in a column that should contain numbers contains a string.
 
@@ -126,7 +126,7 @@ This error can be identified without providing a Table Schema but only if the da
 
 These errors can only be identified if a Table Dialect or Table Schema is provided by editing the table's metadata. The Table Schema defines the structure of the data, including the type of each column. Table Schema adds **additional** constraints to the data, which are used to validate the data.
 
-### Extra Label
+### Extra Column Error
 
 This error occurs when there is a header label in the data that is not defined in the Table Schema. The Table Schema should define all the columns in the data.
 
@@ -144,7 +144,7 @@ col1,col2,col3
 
 Cell `col3` is an extra label.
 
-### Missing Label
+### Missing Column Name
 
 This error occurs when there is a column defined in the Table Schema that is not present in the header row. The data should contain all the columns defined in the Table Schema.
 
@@ -163,7 +163,7 @@ col1,col2
 
 Missing cell `col3` is a missing label.
 
-### Incorrect Label
+### Incorrect Column Name
 
 This error occurs when the header label in the data does not match the label defined in the Table Schema. The header row should contain the same labels as defined in the Table Schema.
 
@@ -222,7 +222,7 @@ col1,col2
 
 Cell `4` in the second data row is not present in the `col1` column.
 
-### Unique Error
+### Unique Constraint Error
 
 This error occurs when the unique constraint defined in the Table Schema is not satisfied. The unique constraint ensures that the values in the specified columns are unique.
 
