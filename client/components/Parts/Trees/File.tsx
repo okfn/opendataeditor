@@ -10,10 +10,14 @@ import * as types from '../../../types'
 import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
+import deleteIcon from '../../../assets/delete_icon.svg'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import IconButton from '../../Parts/Buttons/Icon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import * as store from '@client/store'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -102,6 +106,13 @@ const StyledTreeItem = styled(
     const handleClose = () => {
       setAnchorEl(null);
     }
+
+    const handleDelete = () => {
+      store.openDialog('deleteFilesFolders')
+      handleClose()
+    }
+
+    const theme = useTheme()
     
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -118,8 +129,6 @@ const StyledTreeItem = styled(
             },
             '& > .MuiTreeItem-content .MuiTreeItem-label': {
               maxWidth: '188px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
             }
           }}
           label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
@@ -141,14 +150,32 @@ const StyledTreeItem = styled(
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
+          onClick={async () => await store.selectFileWithoutOpening({ path: item.path })}
           MenuListProps={{
             'aria-labelledby': 'file-context-menu-btn',
           }}
         >
-          <MenuItem onClick={handleClose}>Rename</MenuItem>
-          <MenuItem onClick={handleClose}>Duplicate</MenuItem>
-          <MenuItem onClick={handleClose}>Open File Location</MenuItem>
-          <MenuItem onClick={handleClose}>Delete File</MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemText primary="Rename" />
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemText primary="Duplicate" secondary="Makes a copy of this file" />
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemText primary="Open File Location" secondary="The ODE folder where this file exists" />
+          </MenuItem>
+          <MenuItem onClick={handleDelete}>
+            <ListItemIcon sx={{ 
+                  paddingTop: '6px',
+                  alignSelf: 'flex-start'
+              }}>
+              {<img src={deleteIcon} alt="" />}
+            </ListItemIcon>
+            <ListItemText primaryTypographyProps={{
+              color: theme.palette.OKFNRed.main,
+            }}
+              primary="Delete File" secondary="Only removes this file from the ODE folder" />
+          </MenuItem>
         </Menu>
       </Box>
     )
