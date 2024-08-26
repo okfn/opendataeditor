@@ -272,9 +272,10 @@ export async function onFileDeleted(paths: string[]) {
 }
 
 export function onFileLeave() {
-  const { dialog, isResourceUpdated } = store.getState()
+  const { dialog } = store.getState()
+  const isUpdated = getIsFileOrResourceUpdated(store.getState())
 
-  if (isResourceUpdated && !dialog) {
+  if (isUpdated && !dialog) {
     openDialog('unsavedChanges')
   }
 }
