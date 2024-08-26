@@ -23,6 +23,7 @@ export default function CloseWithUnsavedChangesDialog() {
       description="There are unsaved changes. Please click Save or Discard"
       onCancel={onDiscard}
       onConfirm={onSave}
+      disableClosing={true}
     />
   )
 }
