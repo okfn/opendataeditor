@@ -1,10 +1,11 @@
 import * as store from '../store'
+import invariant from 'tiny-invariant'
 import { client } from '@client/client'
-import { openText, closeText } from './text'
+import { openText, closeText, saveText, revertText, getIsTextUpdated } from './text'
 import { loadSource } from './source'
 import { cloneDeep } from 'lodash'
 import { openDialog } from './dialog'
-import { openTable, closeTable } from './table'
+import { openTable, closeTable, saveTable, revertTable, getIsTableUpdated } from './table'
 import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
@@ -173,6 +174,28 @@ export async function copyFile(path: string, toPath: string) {
   await onFileCreated([result.path])
 }
 
+export async function saveFile() {
+  const { record } = store.getState()
+  invariant(record)
+
+  if (record.type === 'table') {
+    await saveTable()
+  } else if (record.type === 'text') {
+    await saveText()
+  }
+}
+
+export async function revertFile() {
+  const { record } = store.getState()
+  invariant(record)
+
+  if (record.type === 'table') {
+    await revertTable()
+  } else if (record.type === 'text') {
+    await revertText()
+  }
+}
+
 export async function deleteFiles(paths: string[]) {
   for (const path of paths) {
     const result = await client.fileDelete({ path })
@@ -248,11 +271,12 @@ export async function onFileDeleted(paths: string[]) {
   await loadFiles()
 }
 
-export function onFileClickAway() {
-  const { dialog, isResourceUpdated } = store.getState()
+export function onFileLeave() {
+  const { dialog } = store.getState()
+  const isUpdated = getIsFileOrResourceUpdated(store.getState())
 
-  if (isResourceUpdated && !dialog) {
-    openDialog('leave')
+  if (isUpdated && !dialog) {
+    openDialog('unsavedChanges')
   }
 }
 
@@ -270,4 +294,18 @@ export const getFolderPath = store.createSelector((state) => {
 
 export const getNotIndexedFiles = store.createSelector((state) => {
   return state.files.filter((file) => !file.name)
+})
+
+export const getIsFileOrResourceUpdated = store.createSelector((state) => {
+  return getIsFileUpdated(state) || state.isResourceUpdated
+})
+
+export const getIsFileUpdated = store.createSelector((state) => {
+  if (state.record?.type === 'table') {
+    return getIsTableUpdated(state)
+  } else if (state.record?.type === 'text') {
+    return getIsTextUpdated(state)
+  } else {
+    return false
+  }
 })

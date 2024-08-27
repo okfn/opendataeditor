@@ -11,8 +11,6 @@ export default function Layout() {
     store.onAppStart().catch(console.error)
   }, [])
 
-  store.openDialog('welcomeBanner')
-
   return (
     <React.Fragment>
       <Error />
