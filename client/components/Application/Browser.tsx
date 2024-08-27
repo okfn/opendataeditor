@@ -39,7 +39,7 @@ function DefaultBrowser() {
     >
       <Button
         color="OKFNCoolGray"
-        sx={{ textTransform: 'none', marginLeft: '16px', marginRight: '16px' }}
+        sx={{ textTransform: 'none', marginLeft: '20px', justifyContent: 'flex-start' }}
         startIcon={<img src={createFolderIcon} alt="" />}
         onClick={() => store.openDialog('addEmptyFolder')}
       >
