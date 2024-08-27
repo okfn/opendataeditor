@@ -6,7 +6,6 @@ import Button from '@mui/material/Button'
 import * as store from '@client/store'
 
 export default function Sidebar() {
-
   return (
     <Box
       className="sidebar"
