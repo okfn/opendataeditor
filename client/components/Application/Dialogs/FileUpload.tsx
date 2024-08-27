@@ -320,7 +320,7 @@ const FileSelectBox = styled(Box)(() => ({
     height: '100%',
     width: '100%',
     opacity: 0,
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   ':hover .file-select__button': {
     backgroundColor: '#3F4345',
