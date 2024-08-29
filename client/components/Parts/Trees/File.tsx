@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
 import deleteIcon from '../../../assets/delete_icon.svg'
+import openFileLocationIcon from '../../../assets/open_file_location_icon.svg'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import IconButton from '../../Parts/Buttons/Icon'
 import Menu from '@mui/material/Menu'
@@ -116,6 +117,13 @@ const StyledTreeItem = styled(
       handleClose()
     }
 
+    const handleOpenFileLocation = () => {
+      // window.opendataeditor.openPathInExplorer(path)
+      // get path in users machine from store.state
+      // or from client/helpers/folder.ts
+      handleClose()
+    }
+
     const theme = useTheme()
     
     return (
@@ -159,13 +167,14 @@ const StyledTreeItem = styled(
             'aria-labelledby': 'file-context-menu-btn',
           }}
         >
-          <MenuItem onClick={handleClose}>
-            <ListItemText primary="Rename" />
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemText primary="Duplicate" secondary="Makes a copy of this file" />
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleOpenFileLocation}>
+            <ListItemIcon sx={{ 
+                  paddingTop: '6px',
+                  alignSelf: 'flex-start',
+                  minWidth: '24px'
+              }}>
+              {<img src={openFileLocationIcon} alt="" />}
+            </ListItemIcon>
             <ListItemText primary="Open File Location" secondary="The ODE folder where this file exists" />
           </MenuItem>
           <MenuItem onClick={handleDelete}>
