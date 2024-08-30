@@ -21,7 +21,9 @@ export default function Editor() {
 
   // Ensure that when the user interact with other parts on the application
   // e.g. Metadata editor the selection logic is not activated
+  // also commit current table editing (https://github.com/okfn/opendataeditor/issues/495)
   const onClickAway = () => {
+    store.stopTableEditing()
     setCellSelection({})
   }
 

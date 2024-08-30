@@ -1,4 +1,25 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, SimplePaletteColorOptions } from '@mui/material/styles'
+
+declare module '@mui/material/styles' {
+  interface CustomPalette {
+    OKFNCoolGray: SimplePaletteColorOptions
+    OKFNBlue: SimplePaletteColorOptions
+    OKFNRed: SimplePaletteColorOptions
+    OKFNGreenBlue: SimplePaletteColorOptions
+  }
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends CustomPalette {}
+}
+
+declare module '@mui/material/Button' {
+  // <-- Added `/Button` here
+  interface ButtonPropsColorOverrides {
+    OKFNCoolGray: true
+    OKFNBlue: true
+    OKFNRed: true
+    OKFNGreenBlue: true
+  }
+}
 
 export const DEFAULT = createTheme({
   typography: {
@@ -28,6 +49,20 @@ export const DEFAULT = createTheme({
     // Yellow
     warning: {
       main: '#ed6c02',
+    },
+    // LightGray
+    OKFNCoolGray: {
+      main: '#4C5564',
+    },
+    // OKFN Blue
+    OKFNBlue: {
+      main: '#00D1FF',
+    },
+    OKFNRed: {
+      main: '#FF403F',
+    },
+    OKFNGreenBlue: {
+      main: '#56C4A3',
     },
   },
 })

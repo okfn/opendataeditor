@@ -74,6 +74,11 @@ export type IState = {
   dialog?: IDialog
 
   /**
+   * Will be opened when the main `dialog` is closed (for dialog chains)
+   **/
+  nextDialog?: IDialog
+
+  /**
    * Keeps track of the selected panel
    **/
   panel?: IPanel
@@ -168,7 +173,8 @@ export type IDialog =
   | 'start'
   | 'publish'
   | 'chat'
-  | 'leave'
+  | 'unsavedChanges'
+  | 'closeWithUnsavedChanges'
   | 'welcomeBanner'
   | 'fileUpload'
 

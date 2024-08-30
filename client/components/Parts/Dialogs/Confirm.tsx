@@ -21,17 +21,25 @@ export interface ConfirmDialogProps {
   onConfirm?: () => void
   ctrlEnter?: boolean
   children?: React.ReactNode
+  disableClosing?: boolean
 }
 
 export default function ConfirmDialog(props: ConfirmDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
+
+  const handleClose = () => {
+    if (props.loading) return
+    if (props.disableClosing) return
+    handleCancel()
+  }
+
   return (
     <Dialog
       fullWidth
       maxWidth={props.maxWidth}
       open={!!props.open}
-      onClose={!props.loading ? handleCancel : undefined}
+      onClose={handleClose}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onKeyDown={(event) => {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
 import { ErrorBoundary } from 'react-error-boundary'
 import File from '../Controllers/File'
@@ -6,12 +7,11 @@ import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import * as store from '@client/store'
-import { client } from '@client/client'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
-import SimpleButton from '../Parts/Buttons/SimpleButton'
+import Button from '@mui/material/Button'
 import emptyContentScreenImg from '../../assets/empty_screen.png'
 
 export default function Content() {
@@ -46,7 +46,18 @@ function FileContent() {
         </Box>
       }
     >
-      <Controller path={record.path} client={client} />
+      <ClickAwayListener
+        mouseEvent="onMouseDown"
+        touchEvent="onTouchStart"
+        onClickAway={(event) => {
+          event.preventDefault()
+          store.onFileLeave()
+        }}
+      >
+        <Box>
+          <Controller />
+        </Box>
+      </ClickAwayListener>
     </ErrorBoundary>
   )
 }
@@ -68,13 +79,14 @@ function EmptyContent() {
         >
           The ODE supports Excel & csv files
         </Typography>
-        <SimpleButton
-          label={'Upload your data'}
-          sx={{ my: 0.5, width: '236px' }}
+        <Button
+          sx={{ my: 0.5, width: '236px', textTransform: 'none' }}
           variant="contained"
           aria-label="accept"
           onClick={() => store.openDialog('fileUpload')}
-        />
+        >
+          Upload your data
+        </Button>
         <Typography
           sx={{
             paddingTop: '8px',
@@ -107,6 +119,7 @@ const StyledCard = styled(Card)(() => ({
   square: 'true',
   display: 'flex',
   alignItems: 'center',
+  alignSelf: 'center',
 }))
 
 const StyledCardContent = styled(CardContent)(() => ({
