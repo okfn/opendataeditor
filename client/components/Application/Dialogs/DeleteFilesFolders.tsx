@@ -7,8 +7,6 @@ export default function DeleteFilesFoldersDialog() {
   const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
   const isFolder = store.useStore(store.getIsFolder)
 
-  console.log('path', path, 'files', files, 'isFolder', isFolder)
-
   const selectedFolders = files
     .filter((file) => {
       return selectedMultiplePaths?.includes(file.path) && file.type === 'folder'
