@@ -159,7 +159,6 @@ export type ITextState = {
 
 export type IDialog =
   | 'addEmptyFolder'
-  | 'addRemoteFile'
   | 'adjustFile'
   | 'config'
   | 'configProject'
