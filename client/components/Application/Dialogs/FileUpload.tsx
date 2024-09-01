@@ -80,6 +80,7 @@ export default function FileUploadDialog() {
     try {
       setLoading(true)
       await store.fetchFile(url)
+      store.openDialog('openLocation')
     } catch (error) {
       setErrorMessage('The URL is not associated with a table')
       return
@@ -87,7 +88,6 @@ export default function FileUploadDialog() {
       setLoading(false)
     }
 
-    store.closeDialog()
   }
 
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
@@ -157,10 +157,10 @@ export default function FileUploadDialog() {
                   type="file"
                   multiple
                   ref={inputFileRef}
-                  onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange={ async (ev: React.ChangeEvent<HTMLInputElement>) => {
                     if (ev.target.files) {
-                      store.addFiles(ev.target.files)
-                      store.closeDialog()
+                      await store.addFiles(ev.target.files)
+                      store.openDialog('openLocation')
                     }
                   }}
                 />

@@ -177,6 +177,7 @@ export type IDialog =
   | 'closeWithUnsavedChanges'
   | 'welcomeBanner'
   | 'fileUpload'
+  | 'openLocation'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
