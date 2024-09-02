@@ -29,7 +29,10 @@ export const useStore = create<IState>()(
       name: NAME,
       merge: (persisted, current) => merge(current, persisted) as IState,
       // Any parts of the state can be persisted (currently, none are)
-      partialize: (state) => ({ hideWelcomeScreen: state.hideWelcomeScreen }),
+      partialize: (state) => ({
+        hideWelcomeScreen: state.hideWelcomeScreen,
+        hideOpenLocationDialog: state.hideOpenLocationDialog,
+      }),
     }
   )
 )

@@ -87,7 +87,6 @@ export default function FileUploadDialog() {
     } finally {
       setLoading(false)
     }
-
   }
 
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
@@ -157,7 +156,7 @@ export default function FileUploadDialog() {
                   type="file"
                   multiple
                   ref={inputFileRef}
-                  onChange={ async (ev: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
                     if (ev.target.files) {
                       await store.addFiles(ev.target.files)
                       store.openDialog('openLocation')
