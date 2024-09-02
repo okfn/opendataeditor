@@ -10,6 +10,7 @@ import * as types from '../../../types'
 import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
+import LightTooltip from '../Tooltips/Light'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -131,24 +132,26 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
   // const fontWeight = props.item.type === 'package' ? 'bold' : 'normal'
 
   return (
-    <Box
-      sx={{
-        py: 1,
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        '& div': { mr: 1 },
-      }}
-    >
-      <div style={{
-        height: '8px',
-        width: '8px',
-        minWidth: '8px',
-        minHeight: '8px',
-        backgroundColor: color,
-        borderRadius: '50%',}}>{" "}</div>
-      <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
-    </Box>
+    <LightTooltip title={props.item.label} type="fileMenu">
+      <Box
+        sx={{
+          py: 1,
+          display: 'flex',
+          alignItems: 'center',
+          overflow: 'hidden',
+          '& div': { mr: 1 },
+        }}
+      >
+        <div style={{
+          height: '8px',
+          width: '8px',
+          minWidth: '8px',
+          minHeight: '8px',
+          backgroundColor: color,
+          borderRadius: '50%',}}>{" "}</div>
+        <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
+      </Box>
+    </LightTooltip>
   )
 }
 
