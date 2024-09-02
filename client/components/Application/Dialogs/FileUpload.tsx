@@ -99,14 +99,6 @@ export default function FileUploadDialog() {
       open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onKeyDown={(event) => {
-        if (event.key === 'F' || event.key === 'f') {
-          inputFileRef.current ? inputFileRef.current.click() : null
-        }
-        if (event.key === 'G' || event.key === 'g') {
-          inputFolderRef.current ? inputFolderRef.current.click() : null
-        }
-      }}
     >
       <IconButton
         aria-label="close"
