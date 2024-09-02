@@ -7,6 +7,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import * as store from '@client/store'
 import * as React from 'react'
+import openFileLocationDialogSlide1 from './assets/open_file_dialog_slide1.png'
 
 export default function OpenLocationDialog() {
   const handleClose = () => {
@@ -40,62 +41,73 @@ export default function OpenLocationDialog() {
         <CloseIcon />
       </IconButton>
 
-      <DialogContent>
-        <Box>Open Location Dialog</Box>
-        <Box
-          sx={{
-            '& h1': {
-              fontSize: '20px',
-              fontWeight: '600',
-              textAlign: 'center',
-            },
-            '& div': {
-              fontSize: '14px',
-              fontWeight: '400',
-              textAlign: 'center',
-              color: (theme) => theme.palette.OKFNGray500.main,
-            },
-          }}
-        >
-          <h1>How the ODE handles your imported files</h1>
-          <div>
-            The tool makes a copy of your selections into the ODE folder on your Computer.
-            Any changes will be made to these copies, while the original data remains
-            unchanged.
-          </div>
+      <DialogContent
+        sx={{
+          padding: 0,
+          margin: 0,
+        }}
+      >
+        <Box>
+          <img src={openFileLocationDialogSlide1} alt="Open File Location Slide 1" />
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '68px' }}>
+        <Box sx={{ padding: '20px 24px' }}>
           <Box
             sx={{
-              '& span': {
-                fontSize: '14px',
+              '& h1': {
+                fontSize: '20px',
+                fontWeight: '600',
+                textAlign: 'center',
               },
-              color: (theme) => theme.palette.OKFNCoolGray400.main,
+              '& div': {
+                fontSize: '14px',
+                fontWeight: '400',
+                textAlign: 'center',
+                color: (theme) => theme.palette.OKFNGray500.main,
+              },
             }}
           >
-            <Checkbox
-              sx={{
-                color: '#4C5564',
-                '&.Mui-checked': {
-                  color: '#4C5564',
-                },
-              }}
-              checked={checked}
-              onChange={handleChange}
-            />{' '}
-            <span>Don't show next time</span>
+            <h1>How the ODE handles your imported files</h1>
+            <div>
+              The tool makes a copy of your selections into the ODE folder on your
+              Computer. Any changes will be made to these copies, while the original data
+              remains unchanged.
+            </div>
           </Box>
-          <Box>
-            <Button variant="contained" sx={{ textTransform: 'none' }}>
-              Open File Location
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ textTransform: 'none', marginLeft: '12px' }}
-              onClick={() => store.closeDialog()}
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '68px' }}
+          >
+            <Box
+              sx={{
+                '& span': {
+                  fontSize: '14px',
+                },
+                color: (theme) => theme.palette.OKFNCoolGray400.main,
+              }}
             >
-              Okay
-            </Button>
+              <Checkbox
+                sx={{
+                  color: '#4C5564',
+                  '&.Mui-checked': {
+                    color: '#4C5564',
+                  },
+                }}
+                checked={checked}
+                onChange={handleChange}
+              />{' '}
+              <span>Don't show next time</span>
+            </Box>
+            <Box>
+              <Button variant="contained" sx={{ textTransform: 'none' }}>
+                Open File Location
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ textTransform: 'none', marginLeft: '12px' }}
+                onClick={() => store.closeDialog()}
+              >
+                Okay
+              </Button>
+            </Box>
           </Box>
         </Box>
       </DialogContent>
