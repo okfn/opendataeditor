@@ -1,4 +1,3 @@
-import AddRemoteFileDialog from './Dialogs/AddRemoteFile'
 import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import AdjustFileDialog from './Dialogs/AdjustFile'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
@@ -29,7 +28,6 @@ export default function Dialog() {
 
 const DIALOGS = {
   addEmptyFolder: AddEmptyFolderDialog,
-  addRemoteFile: AddRemoteFileDialog,
   adjustFile: AdjustFileDialog,
   closeWithUnsavedChanges: CloseWithUnsavedChangesDialog,
   config: ConfigDialog,
