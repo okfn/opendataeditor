@@ -10,7 +10,7 @@ import * as types from '../../../types'
 import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
-import FileMenuTooltip from '../Tooltips/FileMenu'
+import LightTooltip from '../Tooltips/Light'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -136,7 +136,7 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
   // const fontWeight = props.item.type === 'package' ? 'bold' : 'normal'
 
   return (
-    <FileMenuTooltip title={props.item.label}>
+    <LightTooltip title={props.item.label} type="fileMenu">
       <Box
         sx={{
           py: 1,
@@ -155,7 +155,7 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
           borderRadius: '50%',}}>{" "}</div>
         <span style={{ whiteSpace: 'nowrap', fontWeight }}>{props.item.label}</span>
       </Box>
-    </FileMenuTooltip>
+    </LightTooltip>
   )
 }
 
