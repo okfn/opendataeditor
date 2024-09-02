@@ -45,10 +45,6 @@ export default function FileTree(props: FileTreeProps) {
             expanded={expanded}
             onNodeSelect={(_event, nodeIds) => props.onSelect(nodeIds)}
             onNodeToggle={(_event: React.SyntheticEvent, nodeIds: string[]) => {
-              // On collapsing we don't collapse a folder if it's not yet selected
-              const isCollapsing = nodeIds.length < expanded.length
-              if (isCollapsing && !expanded.every((value) => selected.includes(value)))
-                return
               setExpanded(nodeIds)
             }}
             defaultCollapseIcon={<img src={openFolderIcon} alt="" />}
