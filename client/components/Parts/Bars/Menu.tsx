@@ -25,7 +25,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
-      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2 }}
+      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2}}
     >
       <MenuBarItems {...props} />
     </Toolbar>

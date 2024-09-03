@@ -2,7 +2,6 @@ import * as React from 'react'
 import noop from 'lodash/noop'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import IosShareIcon from '@mui/icons-material/IosShare'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CheckIcon from '@mui/icons-material/Check'
 import HistoryIcon from '@mui/icons-material/History'
@@ -10,6 +9,7 @@ import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../Grids/Columns'
 import LightTooltip from '../Tooltips/Light'
 import { useKeyPress } from 'ahooks'
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 
 export interface ActionBarProps {}
 
@@ -50,12 +50,14 @@ export function SaveAsButton(props: ButtonProps) {
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={props.label || 'Save As'}
+          label={props.label || 'Save Changes'}
           Icon={SaveAltIcon}
           variant="outlined"
           disabled={props.disabled}
           onClick={() => onClick()}
-          sx={{ backgroundColor: 'white' }}
+          sx={{ backgroundColor: 'white', color: (theme) => theme.palette.OKFNCoolGray.main, borderColor: (theme) => theme.palette.OKFNCoolGray.main, '&:hover': {
+            borderColor: (theme) => theme.palette.OKFNCoolGray.main
+          } }}
         />
       </Box>
     </LightTooltip>
@@ -77,11 +79,13 @@ export function PublishButton(props: ButtonProps) {
       <Box>
         <IconButton
           label={props.label || 'Publish'}
-          Icon={IosShareIcon}
+          Icon={ElectricBoltIcon}
           variant="outlined"
           disabled={props.disabled}
           onClick={() => onClick()}
-          sx={{ backgroundColor: 'white' }}
+          sx={{ backgroundColor: 'white', textTransform: 'none', color: (theme) => theme.palette.OKFNCoolGray.main, borderColor: (theme) => theme.palette.OKFNCoolGray.main, '&:hover': {
+            borderColor: (theme) => theme.palette.OKFNCoolGray.main
+          }  }}
         />
       </Box>
     </LightTooltip>
@@ -129,12 +133,12 @@ export function SaveButton(props: ButtonProps) {
     <LightTooltip title={title}>
       <Box>
         <IconButton
-          label={props.label || 'Save'}
+          label={props.label || 'Save changes'}
           Icon={CheckIcon}
           variant={props.updated ? 'contained' : 'outlined'}
           disabled={!props.updated}
           onClick={() => onClick()}
-          sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
+          sx={{ backgroundColor: !props.updated ? 'white' : undefined, textTransform: 'none' }}
         />
       </Box>
     </LightTooltip>
