@@ -13,24 +13,29 @@ export default function Menu() {
       <menu.MetadataButton
         active={panel === 'metadata'}
         onClick={() => store.togglePanel('metadata')}
+        color='OKFNCoolGray'
       />
       <menu.ReportButton
         disabled={!report || report?.valid}
         active={panel === 'report'}
         onClick={() => store.togglePanel('report')}
+        color='OKFNCoolGray'
       />
       <menu.SourceButton
         disabled={!source?.text}
         active={panel === 'source'}
         onClick={() => store.togglePanel('source')}
+        color='OKFNCoolGray'
       />
       <menu.UndoButton
         onClick={store.undoTableChange}
         disabled={!history?.changes.length}
+        color='OKFNCoolGray'
       />
       <menu.RedoButton
         onClick={store.redoTableChange}
         disabled={!undoneHistory?.changes.length}
+        color='OKFNCoolGray'
       />
     </menu.MenuBar>
   )

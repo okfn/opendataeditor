@@ -43,7 +43,7 @@ function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
 
 export interface ButtonProps {
   label?: string
-  color?: 'success' | 'warning' | 'error' | 'info'
+  color?: 'success' | 'warning' | 'error' | 'info' | 'OKFNCoolGray'
   active?: boolean
   enabled?: boolean
   disabled?: boolean
@@ -66,10 +66,14 @@ export function MetadataButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
-          color={props.color || props.active ? 'warning' : undefined}
+          color={props.color || props.active ? 'OKFNCoolGray' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => onClick()}
           sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            },
             '&.Mui-disabled': {
               color: props.enabled ? theme.palette.info.main : undefined,
             },
@@ -95,10 +99,14 @@ export function ReportButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Errors Report'}
           Icon={RuleIcon}
-          color={props.color || props.active ? 'warning' : undefined}
+          color={props.color || props.active ? 'OKFNCoolGray' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => onClick()}
           sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            },
             '&.Mui-disabled': {
               color: props.enabled ? theme.palette.info.main : undefined,
             },
@@ -124,10 +132,14 @@ export function SourceButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Source'}
           Icon={CodeIcon}
-          color={props.color || props.active ? 'warning' : undefined}
+          color={props.color || props.active ? 'OKFNCoolGray' : undefined}
           disabled={props.disabled || props.enabled}
           onClick={() => onClick()}
           sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            },
             '&.Mui-disabled': {
               color: props.enabled ? theme.palette.info.main : undefined,
             },
@@ -178,6 +190,12 @@ export function UndoButton(props: ButtonProps) {
           color={props.color}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            },
+          }}
         />
       </Box>
   )
@@ -201,6 +219,12 @@ export function RedoButton(props: ButtonProps) {
           color={props.color}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
