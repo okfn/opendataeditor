@@ -178,7 +178,7 @@ export function saveTableEditing(context: any) {
 
   const rowNumber = context.rowId
   const fieldName = context.columnId
-  if (context.cellProps.type === 'number') value = parseInt(value)
+
   const change: types.IChange = {
     type: 'cell-update',
     rowNumber,
