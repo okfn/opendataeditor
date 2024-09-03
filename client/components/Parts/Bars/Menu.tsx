@@ -93,7 +93,7 @@ export function ReportButton(props: ButtonProps) {
         <IconButton
           small
           variant="text"
-          label={props.label || 'Report'}
+          label={props.label || 'Errors Report'}
           Icon={RuleIcon}
           color={props.color || props.active ? 'warning' : undefined}
           disabled={props.disabled || props.enabled}
