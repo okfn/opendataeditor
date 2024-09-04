@@ -173,7 +173,7 @@ export function saveTableEditing(context: any) {
   if (!table || !grid) return
 
   // Don't save if not changed
-  let value = context.value
+  const value = context.value
   if (value === table.initialEditingValue) return
 
   const rowNumber = context.rowId
