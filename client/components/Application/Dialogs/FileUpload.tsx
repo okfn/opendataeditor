@@ -105,14 +105,6 @@ export default function FileUploadDialog() {
       open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onKeyDown={(event) => {
-        if (event.key === 'F' || event.key === 'f') {
-          inputFileRef.current ? inputFileRef.current.click() : null
-        }
-        if (event.key === 'G' || event.key === 'g') {
-          inputFolderRef.current ? inputFolderRef.current.click() : null
-        }
-      }}
     >
       <IconButton
         aria-label="close"
@@ -176,7 +168,7 @@ export default function FileUploadDialog() {
                   </Box>
                   <Box>Add one or more Excel or csv files </Box>
                   <StyledSelectBox className="file-select__button">
-                    Select <span>F</span>
+                    Select
                   </StyledSelectBox>
                 </Box>
               </FileSelectBox>
@@ -206,7 +198,7 @@ export default function FileUploadDialog() {
                   </Box>
                   <Box>Add one or more folders</Box>
                   <StyledSelectBox className="file-select__button">
-                    Select <span>G</span>
+                    Select
                   </StyledSelectBox>
                 </Box>
               </FileSelectBox>
@@ -326,6 +318,7 @@ const FileSelectBox = styled(Box)(() => ({
     height: '100%',
     width: '100%',
     opacity: 0,
+    cursor: 'pointer',
   },
   ':hover .file-select__button': {
     backgroundColor: '#3F4345',
@@ -341,15 +334,6 @@ const StyledSelectBox = styled(Box)(() => ({
   border: '0.5px solid #D3D7D8',
   lineHeight: '20px',
   boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.25)',
-  '& span': {
-    backgroundColor: '#4C5564',
-    fontSize: '12px',
-    padding: '2px 4px',
-    borderRadius: '2px',
-    lineHeight: 1,
-    color: 'white',
-    marginLeft: '4px',
-  },
 }))
 
 const StyledTextField = styled(TextField)(() => ({
