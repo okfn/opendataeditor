@@ -8,7 +8,7 @@ export default function ScrollBox(props: React.PropsWithChildren<ScrollBoxProps>
   return (
     <Box
       sx={{
-        height: props.height,
+        maxHeight: props.height,
         overflow: 'auto',
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {

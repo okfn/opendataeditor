@@ -10,7 +10,7 @@ export default function Table() {
   const contentHeight = `calc(100vh - ${theme.spacing(8)})`
 
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%', position: 'relative' }}>
       <Menu />
       <ScrollBox height={contentHeight}>
         <Editor />

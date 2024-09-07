@@ -13,7 +13,13 @@ export default function Panel() {
     <ScrollBox
       hidden={!panel}
       height={theme.spacing(42)}
-      sx={{ borderTop: 'solid 1px #ddd' }}
+      sx={{
+        borderTop: 'solid 1px #ddd',
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: 'white',
+        width: '100%',
+      }}
     >
       {panel === 'metadata' && <MetadataPanel />}
       {panel === 'report' && <ReportPanel />}
