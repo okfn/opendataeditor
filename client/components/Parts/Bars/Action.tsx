@@ -68,7 +68,7 @@ export function PublishButton(props: ButtonProps) {
     }
   })
   return (
-    <Box>
+    <Box sx={{ marginRight: '20px' }}>
       <IconButton
         label={props.label || 'Publish'}
         Icon={ElectricBoltIcon}
