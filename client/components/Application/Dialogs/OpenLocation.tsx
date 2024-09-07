@@ -7,7 +7,12 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import * as store from '@client/store'
 import * as React from 'react'
+import MobileStepper from '@mui/material/MobileStepper'
 import openFileLocationDialogSlide1 from './assets/open_file_dialog_slide1.png'
+import openFileLocationDialogSlide2 from './assets/open_file_dialog_slide2.png'
+import openFileLocationDialogSlide3 from './assets/open_file_dialog_slide3.png'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 
 export default function OpenLocationDialog() {
   const handleClose = () => {
@@ -20,6 +25,22 @@ export default function OpenLocationDialog() {
     setChecked(event.target.checked)
     store.setHideOpenLocationDialog(event.target.checked)
   }
+
+  const [activeStep, setActiveStep] = React.useState(0)
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
+
+  const openFileLocationDialogSlides = [
+    openFileLocationDialogSlide1,
+    openFileLocationDialogSlide2,
+    openFileLocationDialogSlide3,
+  ]
 
   return (
     <Dialog
@@ -47,8 +68,48 @@ export default function OpenLocationDialog() {
           margin: 0,
         }}
       >
-        <Box>
-          <img src={openFileLocationDialogSlide1} alt="Open File Location Slide 1" />
+        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <img
+            width="100%"
+            src={openFileLocationDialogSlides[activeStep]}
+            alt="Open File Location Slide 1"
+          />
+          <MobileStepper
+            variant="dots"
+            steps={3}
+            position="static"
+            activeStep={activeStep}
+            sx={{
+              maxWidth: 400,
+              width: 250,
+              flexGrow: 1,
+              '& .MuiMobileStepper-dots .MuiMobileStepper-dotActive': {
+                backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+              },
+            }}
+            nextButton={
+              <Button
+                color="OKFNBlue"
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === 2}
+              >
+                Next
+                {<KeyboardArrowRight />}
+              </Button>
+            }
+            backButton={
+              <Button
+                color="OKFNBlue"
+                size="small"
+                onClick={handleBack}
+                disabled={activeStep === 0}
+              >
+                {<KeyboardArrowLeft />}
+                Back
+              </Button>
+            }
+          />
         </Box>
         <Box sx={{ padding: '20px 24px' }}>
           <Box
@@ -97,12 +158,19 @@ export default function OpenLocationDialog() {
               <span>Don't show next time</span>
             </Box>
             <Box>
-              <Button variant="contained" sx={{ textTransform: 'none' }}>
+              <Button
+                variant="outlined"
+                sx={{ textTransform: 'none', color: 'black', borderColor: 'black' }}
+              >
                 Open File Location
               </Button>
               <Button
                 variant="contained"
-                sx={{ textTransform: 'none', marginLeft: '12px' }}
+                sx={{
+                  textTransform: 'none',
+                  marginLeft: '12px',
+                  backgroundColor: 'black',
+                }}
                 onClick={() => store.closeDialog()}
               >
                 Okay
