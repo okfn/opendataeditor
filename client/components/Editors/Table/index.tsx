@@ -34,10 +34,15 @@ export default function TableEditor(props: TableEditorProps) {
     const debouncedHandleResize = debounce(function handleResize() {
       resizeTable()
     }, 300)
-    window.addEventListener('resize', debouncedHandleResize)
+
+    const tableElement = document.querySelector('.InovuaReactDataGrid__column-layout')
+
+    tableElement ? new ResizeObserver(debouncedHandleResize).observe(tableElement) : null
 
     return () => {
-      window.removeEventListener('resize', debouncedHandleResize)
+      tableElement
+        ? new ResizeObserver(debouncedHandleResize).observe(tableElement)
+        : null
     }
   })
 
