@@ -72,7 +72,7 @@ export default function OpenLocationDialog() {
           <img
             width="100%"
             src={openFileLocationDialogSlides[activeStep]}
-            alt="Open File Location Slide 1"
+            alt={`Open File Location Slide ${activeStep}`}
           />
           <MobileStepper
             variant="dots"
@@ -160,7 +160,15 @@ export default function OpenLocationDialog() {
             <Box>
               <Button
                 variant="outlined"
-                sx={{ textTransform: 'none', color: 'black', borderColor: 'black' }}
+                sx={{
+                  textTransform: 'none',
+                  color: 'black',
+                  borderColor: 'black',
+                  '&:hover': {
+                    borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+                    color: (theme) => theme.palette.OKFNCoolGray.main,
+                  },
+                }}
               >
                 Open File Location
               </Button>
@@ -170,6 +178,10 @@ export default function OpenLocationDialog() {
                   textTransform: 'none',
                   marginLeft: '12px',
                   backgroundColor: 'black',
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.OKFNCoolGray.main,
+                    color: 'white',
+                  },
                 }}
                 onClick={() => store.closeDialog()}
               >
