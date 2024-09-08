@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('opendataeditor', {
 
   ensureLogs: (callback: any) => ipcRenderer.on('ensureLogs', (_event, message: string) => callback(message)),
   openPathInExplorer: (path: string) => ipcRenderer.send('openPathInExplorer', path),
+  getAppPath: () => ipcRenderer.send('getAppPath'),
   closeDesktopApp: () => ipcRenderer.invoke('closeDesktopApp'),
 })

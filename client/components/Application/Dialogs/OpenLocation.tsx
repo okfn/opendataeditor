@@ -42,6 +42,10 @@ export default function OpenLocationDialog() {
     openFileLocationDialogSlide3,
   ]
 
+  // TODO: HOW TO GET appPath???
+  // @ts-ignore
+  const appPath = window?.opendataeditor?.openAppPath
+
   return (
     <Dialog
       fullWidth
@@ -131,7 +135,7 @@ export default function OpenLocationDialog() {
             <div>
               The tool makes a copy of your selections into the ODE folder on your
               Computer. Any changes will be made to these copies, while the original data
-              remains unchanged.
+              remains unchanged. File path: {appPath}
             </div>
           </Box>
           <Box
