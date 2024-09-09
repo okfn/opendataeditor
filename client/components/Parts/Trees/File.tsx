@@ -143,7 +143,13 @@ const StyledTreeItem = styled(
         />
         <IconButton 
           sx={{
-            width: '20px'
+            width: '20px',
+            '& .MuiButton-startIcon' : {
+              marginRight: 0
+            },
+            '& .MuiButton-startIcon .MuiSvgIcon-root' : {
+              marginRight: 0
+            }
           }}
           id="file-context-menu-btn"
           onClick={handleContextBtnClick}
