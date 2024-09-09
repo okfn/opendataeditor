@@ -53,7 +53,7 @@ export function createColumns(
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
       headerProps:
         field.name in errorIndex.label
-          ? { style: { color: 'white', background: theme.palette.OKFNRed.main } }
+          ? { style: { color: 'white', background: theme.palette.OKFNRed400.main } }
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,

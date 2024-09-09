@@ -125,7 +125,7 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
 
   let color = 'gray'
   if (props.item.type === 'folder') color = 'primary'
-  if (props.item.name) color = props.item.errors ? theme.palette.OKFNRed.main : theme.palette.OKFNGreenBlue.main
+  if (props.item.name) color = props.item.errors ? theme.palette.OKFNRed500.main : theme.palette.OKFNGreenBlue.main
 
   const fontWeight = 'normal'
   // When data package is enabled consider highlighting it
