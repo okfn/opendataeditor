@@ -27,11 +27,7 @@ export function createBridge() {
   })
 
   ipcMain.on('openPathInExplorer', (_event, path) => {
-    shell.openPath(path)
-  })
-
-  ipcMain.on('getAppPath', () => {
-    return settings.APP_HOME
+    shell.openPath(settings.APP_HOME + path )
   })
 
   ipcMain.handle('closeDesktopApp', async () => {
