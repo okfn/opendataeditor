@@ -103,6 +103,11 @@ export type IState = {
    * Records the decision of the user to show/hide the welcome screen
    **/
   hideWelcomeScreen?: boolean
+
+  /**
+   * Records the decision of the user to show/hide the Open Location dialog
+   **/
+  hideOpenLocationDialog?: boolean
 }
 
 export type ITableState = {
@@ -176,6 +181,7 @@ export type IDialog =
   | 'closeWithUnsavedChanges'
   | 'welcomeBanner'
   | 'fileUpload'
+  | 'openLocation'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

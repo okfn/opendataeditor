@@ -1,5 +1,6 @@
 import { ipcMain, dialog, app, shell } from 'electron'
 import log from 'electron-log'
+import * as settings from './settings'
 
 export function createBridge() {
   ipcMain.handle('sendFatalError', async (_ev, message: string) => {
@@ -26,7 +27,7 @@ export function createBridge() {
   })
 
   ipcMain.on('openPathInExplorer', (_event, path) => {
-    shell.openPath(path)
+    shell.openPath(settings.APP_HOME + path )
   })
 
   ipcMain.handle('closeDesktopApp', async () => {

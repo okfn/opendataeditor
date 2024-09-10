@@ -115,7 +115,7 @@ export default function WelcomeBanner() {
             sx={{
               textAlign: 'center',
               fontSize: '12px',
-              color: '#9CA2AE',
+              color: (theme) => theme.palette.OKFNCoolGray400.main,
               marginTop: '24px',
             }}
           >

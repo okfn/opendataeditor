@@ -34,3 +34,9 @@ export function setHideWelcomeScreen(hideWelcomeScreen: boolean) {
     state.hideWelcomeScreen = hideWelcomeScreen
   })
 }
+
+export function setHideOpenLocationDialog(hideOpenLocationDialog: boolean) {
+  store.setState('hide-open-location-dialog', (state) => {
+    state.hideOpenLocationDialog = hideOpenLocationDialog
+  })
+}
