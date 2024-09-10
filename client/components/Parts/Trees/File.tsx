@@ -113,10 +113,10 @@ const StyledTreeItem = styled(
       handleClose()
     }
 
-    const handleOpenFileLocation = () => {
-      // window.opendataeditor.openPathInExplorer(path)
-      // get path in users machine from store.state
-      // or from client/helpers/folder.ts
+    const handleOpenFileLocation = (relativePath: string) => {
+      const folderPath = relativePath.substring(0, relativePath.lastIndexOf('/') - 1)
+      // @ts-ignore
+      window?.opendataeditor?.openPathInExplorer('/tmp/' + folderPath)
       handleClose()
     }
 
@@ -137,6 +137,10 @@ const StyledTreeItem = styled(
             },
             '& > .MuiTreeItem-content .MuiTreeItem-label': {
               maxWidth: '188px',
+            },
+            '& .Mui-button-root' : {
+              alignItems: 'flex-start',
+              maxHeight: '40px'
             }
           }}
           label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
@@ -169,7 +173,7 @@ const StyledTreeItem = styled(
             'aria-labelledby': 'file-context-menu-btn',
           }}
         >
-          <MenuItem onClick={handleOpenFileLocation}>
+          <MenuItem onClick={() => handleOpenFileLocation(item.path)}>
             <ListItemIcon sx={{ 
                   paddingTop: '6px',
                   alignSelf: 'flex-start',
