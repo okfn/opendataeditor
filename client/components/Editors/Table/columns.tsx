@@ -1,6 +1,7 @@
 import LightTooltip from '../../Parts/Tooltips/Light'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
+import { useTheme } from '@mui/material/styles'
 
 // TODO: remove colors hard-coding
 // TODO: use proper InovuaDatagrid types
@@ -32,6 +33,8 @@ export function createColumns(
     },
   }
 
+  const theme = useTheme()
+
   const dataColumns = []
   for (const field of schema.fields) {
     // TODO: fix this on ther server side -- schema should not have hidden fields
@@ -50,7 +53,7 @@ export function createColumns(
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
       headerProps:
         field.name in errorIndex.label
-          ? { style: { color: 'white', background: 'red' } }
+          ? { style: { color: 'white', background: theme.palette.OKFNRed400.main } }
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,
