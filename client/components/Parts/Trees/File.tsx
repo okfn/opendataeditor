@@ -137,10 +137,6 @@ const StyledTreeItem = styled(
             },
             '& > .MuiTreeItem-content .MuiTreeItem-label': {
               maxWidth: '188px',
-            },
-            '& .Mui-button-root' : {
-              alignItems: 'flex-start',
-              maxHeight: '40px'
             }
           }}
           label={<TreeItemIcon nodeId={props.nodeId} item={item} />}
@@ -148,6 +144,8 @@ const StyledTreeItem = styled(
         <IconButton 
           sx={{
             width: '20px',
+            alignItems: 'flex-start',
+            maxHeight: '40px',
             '& .MuiButton-startIcon' : {
               marginRight: 0
             },
