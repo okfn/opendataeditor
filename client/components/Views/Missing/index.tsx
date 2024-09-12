@@ -14,7 +14,6 @@ export default function Missing(props: MissingProps) {
         backgroundColor: '#fafafa',
         padding: 2,
         color: '#777',
-        fontFamily: 'Monospace',
       }}
     >
       Preview is not available for this file format ({props.format})
