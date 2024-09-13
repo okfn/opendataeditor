@@ -1,27 +1,24 @@
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import Action from './Action'
 import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
-import * as store from '@client/store'
 
 export default function Text() {
-  const theme = useTheme()
-  const panel = store.useStore((state) => state.panel)
-
-  const height = `calc(100vh - ${theme.spacing(8)})`
-  const panelHeight = panel ? 42 : 0
-  const contentHeight = `calc(100vh - ${theme.spacing(8 + 8 + 8 + panelHeight)})`
 
   return (
-    <Box sx={{ height, display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{
+      height: '100%',
+      width: '100%',
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: 0,
+    }}>
       <Menu />
-      <Box sx={{ height: contentHeight }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Editor />
       </Box>
       <Panel />
-      <Action />
     </Box>
   )
 }
