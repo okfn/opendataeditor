@@ -19,11 +19,11 @@ export default function Menu() {
     <menu.MenuBar>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
           <menu.MetadataButton
             active={panel === 'metadata'}
             onClick={() => store.togglePanel('metadata')}
@@ -33,8 +33,7 @@ export default function Menu() {
             active={panel === 'report'}
             onClick={() => store.togglePanel('report')}
           />
-          <menu.SourceButton enabled
-          />
+          <menu.SourceButton enabled />
           <menu.UndoButton
             onClick={store.undoText}
             disabled={currentVersion <= minimalVersion}
@@ -43,12 +42,12 @@ export default function Menu() {
             onClick={store.redoText}
             disabled={currentVersion >= maximalVersion}
           />
-          <menu.ClearButton onClick={store.clearText}/>
+          <menu.ClearButton onClick={store.clearText} />
           {language === 'json' && (
             <React.Fragment>
-              <menu.FixButton onClick={store.fixJson}/>
-              <menu.MinifyButton onClick={store.minifyJson}/>
-              <menu.PrettifyButton onClick={store.prettifyJson}/>
+              <menu.FixButton onClick={store.fixJson} />
+              <menu.MinifyButton onClick={store.minifyJson} />
+              <menu.PrettifyButton onClick={store.prettifyJson} />
             </React.Fragment>
           )}
         </Box>

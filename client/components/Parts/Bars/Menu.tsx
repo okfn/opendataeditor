@@ -25,7 +25,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
-      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2}}
+      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2, width: '100%'}}
     >
       <MenuBarItems {...props} />
     </Toolbar>
@@ -35,7 +35,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
 function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
   if (props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" sx={{ width: '100%' }} spacing={1}>
       {props.children}
     </Stack>
   )

@@ -12,11 +12,11 @@ export default function Menu() {
     <menu.MenuBar fullWidth>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-              }}
-            >
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
           <menu.MetadataButton
             active={panel === 'metadata'}
             onClick={() => store.togglePanel('metadata')}
