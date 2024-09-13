@@ -66,7 +66,7 @@ export function MetadataButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
-          color={props.color || props.active ? 'OKFNCoolGray' : undefined}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled || props.enabled}
           onClick={() => onClick()}
           sx={{
@@ -245,9 +245,15 @@ export function ClearButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Clear'}
           Icon={FormatClearIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -268,9 +274,15 @@ export function FixButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Fix'}
           Icon={HandymanIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -291,9 +303,15 @@ export function MinifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Minify'}
           Icon={CompressIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -314,9 +332,15 @@ export function PrettifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
