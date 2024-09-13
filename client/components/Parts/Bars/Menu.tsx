@@ -75,7 +75,7 @@ export function MetadataButton(props: ButtonProps) {
               fontWeight: '600'
             },
             '&.Mui-disabled': {
-              color: props.enabled ? theme.palette.info.main : undefined,
+              color: props.enabled ? theme.palette.OKFNCoolGray.main : undefined,
             },
           }}
         />
@@ -141,7 +141,7 @@ export function SourceButton(props: ButtonProps) {
               fontWeight: '600'
             },
             '&.Mui-disabled': {
-              color: props.enabled ? theme.palette.info.main : undefined,
+              color: props.enabled ? theme.palette.OKFNCoolGray.main : undefined,
             },
           }}
         />

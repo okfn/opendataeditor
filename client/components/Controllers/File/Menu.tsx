@@ -20,15 +20,18 @@ export default function Menu() {
           <menu.MetadataButton
             active={panel === 'metadata'}
             onClick={() => store.togglePanel('metadata')}
+            color="OKFNCoolGray"
           />
           <menu.ReportButton
             disabled={!report || report?.valid}
             active={panel === 'report'}
             onClick={() => store.togglePanel('report')}
+            color="OKFNCoolGray"
           />
           <menu.SourceButton
             disabled={!source?.text}
             onClick={() => store.togglePanel('report')}
+            color="OKFNCoolGray"
           />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
