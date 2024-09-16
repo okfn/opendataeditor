@@ -119,8 +119,6 @@ const StyledTreeItem = styled(
       window?.opendataeditor?.openPathInExplorer('/tmp/' + folderPath)
       handleClose()
     }
-
-    const theme = useTheme()
     
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
@@ -183,7 +181,7 @@ const StyledTreeItem = styled(
               }}>
               {<img src={openFileLocationIcon} alt="" />}
             </ListItemIcon>
-            <ListItemText primary="Open File Location" secondary="The ODE folder where this file exists" />
+            <ListItemText primary={`Open ${item.type === 'folder' ? 'Folder': 'File' } Location`} secondary="The ODE folder where this file exists" />
           </MenuItem>
           <MenuItem onClick={handleDelete}>
             <ListItemIcon sx={{ 
@@ -194,7 +192,7 @@ const StyledTreeItem = styled(
               {<img src={deleteIcon} alt="" />}
             </ListItemIcon>
             <ListItemText primaryTypographyProps={{
-              color: theme.palette.OKFNRed.main,
+              color: (theme) => theme.palette.OKFNRed.main,
             }}
               primary="Delete File" secondary="Only removes this file from the ODE folder" />
           </MenuItem>
