@@ -25,6 +25,13 @@ declare module '@mui/material/Button' {
   }
 }
 
+declare module '@mui/material/ListItemText' {
+  // <-- Added `/Button` here
+  interface ListItemTextPropsColorOverrides {
+    OKFNRed: true
+  }
+}
+
 export const DEFAULT = createTheme({
   typography: {
     fontFamily: ['"Hanken Grotesk Variable"', 'sans-serif'].join(','),
