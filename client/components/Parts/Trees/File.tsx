@@ -196,7 +196,7 @@ const StyledTreeItem = styled(
               // @ts-ignore
               color: (theme) => theme.palette.OKFNRed.main,
             }}
-              primary="Delete File" secondary="Only removes this file from the ODE folder" />
+              primary={`Delete ${item.type === 'folder' ? 'Folder': 'File'}`} secondary={`Only removes this ${item.type === 'folder' ? 'folder': 'file'} from the ODE folder`} />
           </MenuItem>
         </Menu>
       </Box>
