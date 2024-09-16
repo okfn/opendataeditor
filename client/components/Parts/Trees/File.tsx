@@ -191,7 +191,7 @@ const StyledTreeItem = styled(
               }}>
               {<img src={deleteIcon} alt="" />}
             </ListItemIcon>
-            <ListItemText primaryTypographyProps={{
+            <ListItemText sx={{
               color: (theme) => theme.palette.OKFNRed.main,
             }}
               primary="Delete File" secondary="Only removes this file from the ODE folder" />

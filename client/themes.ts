@@ -14,7 +14,6 @@ declare module '@mui/material/styles' {
 }
 
 declare module '@mui/material/Button' {
-  // <-- Added `/Button` here
   interface ButtonPropsColorOverrides {
     OKFNCoolGray: true
     OKFNGray500: true
@@ -22,13 +21,6 @@ declare module '@mui/material/Button' {
     OKFNBlue: true
     OKFNRed: true
     OKFNGreenBlue: true
-  }
-}
-
-declare module '@mui/material/ListItemText' {
-  // <-- Added `/Button` here
-  interface ListItemTextPropsColorOverrides {
-    OKFNRed: true
   }
 }
 
