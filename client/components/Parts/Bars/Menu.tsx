@@ -25,7 +25,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
   return (
     <Toolbar
       disableGutters
-      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2}}
+      sx={{ borderBottom: 'solid 1px #ddd', backgroundColor: '#fafafa', paddingX: 2, width: '100%'}}
     >
       <MenuBarItems {...props} />
     </Toolbar>
@@ -35,7 +35,7 @@ export function MenuBar(props: React.PropsWithChildren<MenuBarProps>) {
 function MenuBarItems(props: React.PropsWithChildren<MenuBarProps>) {
   if (props.fullWidth) return <React.Fragment>{props.children}</React.Fragment>
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" sx={{ width: '100%' }} spacing={1}>
       {props.children}
     </Stack>
   )
@@ -66,7 +66,7 @@ export function MetadataButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Metadata'}
           Icon={TuneIcon}
-          color={props.color || props.active ? 'OKFNCoolGray' : undefined}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled || props.enabled}
           onClick={() => onClick()}
           sx={{
@@ -75,7 +75,7 @@ export function MetadataButton(props: ButtonProps) {
               fontWeight: '600'
             },
             '&.Mui-disabled': {
-              color: props.enabled ? theme.palette.info.main : undefined,
+              color: props.enabled ? theme.palette.OKFNCoolGray.main : undefined,
             },
           }}
         />
@@ -141,7 +141,7 @@ export function SourceButton(props: ButtonProps) {
               fontWeight: '600'
             },
             '&.Mui-disabled': {
-              color: props.enabled ? theme.palette.info.main : undefined,
+              color: props.enabled ? theme.palette.OKFNCoolGray.main : undefined,
             },
           }}
         />
@@ -245,9 +245,15 @@ export function ClearButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Clear'}
           Icon={FormatClearIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -268,9 +274,15 @@ export function FixButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Fix'}
           Icon={HandymanIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -291,9 +303,15 @@ export function MinifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Minify'}
           Icon={CompressIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
@@ -314,9 +332,15 @@ export function PrettifyButton(props: ButtonProps) {
           variant="text"
           label={props.label || 'Prettify'}
           Icon={DataObjectIcon}
-          color={props.color}
+          color={props.color || 'OKFNCoolGray'}
           disabled={props.disabled}
           onClick={() => onClick()}
+          sx={{
+            '& .MuiTypography-root': {
+              fontSize: '16px',
+              fontWeight: '600'
+            }
+          }}
         />
       </Box>
   )
