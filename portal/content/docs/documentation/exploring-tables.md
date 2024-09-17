@@ -4,8 +4,6 @@ sidebar:
   order: 4
 ---
 
-# Exploring tables
-
 Once you select one of the tables located on the sidebar or after uploading a file, ODE will offer a preview of the data on the main screen:
 
 ![Main screen data grid](./assets/exploring-tables/main-screen-datagrid.png)
