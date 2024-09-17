@@ -1,0 +1,17 @@
+---
+title: Publishing your data
+sidebar:
+  order: 10
+---
+
+You can publish a file using Publish feature located at the top right of the datagrid:
+
+![Publish button](./assets/publishing-data/publish-button.png)
+
+Once you click on the Publish button, the ODE will display the following dialog:
+
+![Publish form](./assets/publishing-data/publish-form.png)
+
+:::note
+To be able to publish, you have to set the required credentials to connect to a data portal (CKAN, Zenodo, Github).
+:::
