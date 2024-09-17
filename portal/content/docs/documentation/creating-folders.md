@@ -1,0 +1,11 @@
+---
+title: Creating folders within projects
+sidebar:
+  order: 3
+---
+
+# Creating folders within projects
+
+The ODE allows you to organize your data in folders. To create a new folder, click the **Create folder** button located on the sidebar, below the **Upload your data** function:
+
+![Create folder button](./assets/creating-folders/create-folder-button.png)
