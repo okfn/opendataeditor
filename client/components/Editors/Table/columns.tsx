@@ -3,7 +3,7 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 // TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
-// TODO: use proper InovuaDatagrid types
+// TODO: use proper InovuaDatagrid types (although their TypeColumn is not really correct compared to the docs)
 
 export function createColumns(
   schema: types.ISchema,
