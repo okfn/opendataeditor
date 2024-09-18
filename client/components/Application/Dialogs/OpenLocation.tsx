@@ -19,6 +19,8 @@ export default function OpenLocationDialog() {
     store.closeDialog()
   }
 
+  const hideOpenLocationDialog = store.useStore((state) => state.hideOpenLocationDialog)
+
   const [checked, setChecked] = React.useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,8 +46,8 @@ export default function OpenLocationDialog() {
 
   return (
     <Dialog
+      open={!hideOpenLocationDialog}
       fullWidth
-      open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
