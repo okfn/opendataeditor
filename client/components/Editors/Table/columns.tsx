@@ -82,7 +82,7 @@ export function createColumns(
         }
         if (change) {
           cellProps.style.color = 'black'
-          cellProps.style.border = '2px solid gray'
+          cellProps.style.border = '1px solid ' + theme.palette.OKFNBlue.main
           return value
         }
 

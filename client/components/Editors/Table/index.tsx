@@ -10,6 +10,7 @@ import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
 import debounce from 'lodash/debounce'
+import './assets/styles.css'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {

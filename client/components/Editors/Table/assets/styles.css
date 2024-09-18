@@ -1,0 +1,13 @@
+.InovuaReactDataGrid__cell__selection {
+    border: 0 !important;
+}
+
+.InovuaReactDataGrid__cell--cell-selected {
+    border: 1px solid #9CA2AE !important;
+    background: '#F4F4F4' !important;
+}
+
+.inovua-react-toolkit-text-input--focused {
+    border: 1px solid #9CA2AE !important;
+    box-shadow: none !important;
+}
