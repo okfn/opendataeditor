@@ -14,7 +14,7 @@ export function createColumns(
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
 
-  // Row number columns
+  // Row number column
 
   const rowNumberColumn: IColumn = {
     name: '_rowNumber',
@@ -50,6 +50,7 @@ export function createColumns(
       name: field.name,
       header,
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+      editable: !field.isExtra,
       headerProps:
         field.name in errorIndex.label
           ? // It's not possible to use `useTheme` inside useMemo so we hard-code the color for now
@@ -135,6 +136,7 @@ export function getDataFields(props: { schema: types.ISchema; report?: types.IRe
       name: `_fieldNumber${fieldNumber}`,
       type: 'string',
       title: '',
+      isExtra: true,
     })
   }
 
@@ -145,6 +147,7 @@ type IDataField = {
   name: string
   type: string
   title?: string
+  isExtra?: boolean
 }
 
 // It fixes the native TypeColumn type to match the docs and actual behavior

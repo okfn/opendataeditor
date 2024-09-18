@@ -19,7 +19,8 @@ export function createErrorIndex(report?: types.IReport) {
       errorIndex.row[rowKey] = errorIndex.row[rowKey] || []
       errorIndex.row[rowKey].push(error)
     } else {
-      const cellKey = `${error.rowNumber},${error.fieldName}`
+      const fieldName = error.fieldName || `_fieldNumber${error.fieldNumber}`
+      const cellKey = `${error.rowNumber},${fieldName}`
       errorIndex.cell[cellKey] = errorIndex.cell[cellKey] || []
       errorIndex.cell[cellKey].push(error)
     }

@@ -1,13 +1,6 @@
 import remove from 'lodash/remove'
 import * as types from '@client/types'
 
-export function getTableColumns(props: { schema: types.ISchema; report: types.IReport }) {
-  const columns = props.schema.fields.map((field) => ({
-    label: field.title || field.name,
-    type: field.type,
-  }))
-}
-
 export function applyTableHistory(history: types.IHistory, rows: types.IRow[]) {
   for (const change of history.changes) {
     if (change.type === 'row-delete') {
