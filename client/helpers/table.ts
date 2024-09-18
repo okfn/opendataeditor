@@ -1,5 +1,5 @@
 import remove from 'lodash/remove'
-import * as types from '@client/types'
+import * as types from '../types'
 
 export function applyTableHistory(history: types.IHistory, rows: types.IRow[]) {
   for (const change of history.changes) {
