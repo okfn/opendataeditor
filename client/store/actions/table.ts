@@ -238,7 +238,9 @@ export async function deleteMultipleCells(cells: types.ICellSelection) {
   if (!table || !grid) return
 
   // Don't add multiple cells update if no cells are selected
-  if (!cells || !Object.keys(cells).length) return
+  if (!cells || !Object.keys(cells).length) {
+    return
+  }
 
   const cellChanges = []
 
@@ -247,7 +249,17 @@ export async function deleteMultipleCells(cells: types.ICellSelection) {
     const rowNumber = parseInt(row)
     const column = key.substring(key.indexOf(',') + 1, key.length)
 
+    // Don't allow deleting row number
+    if (column === '_rowNumber') {
+      continue
+    }
+
     cellChanges.push({ rowNumber, fieldName: column, value: '' })
+  }
+
+  // Exit if no changes
+  if (!cellChanges.length) {
+    return
   }
 
   const change: types.IChange = {
