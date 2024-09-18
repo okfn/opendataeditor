@@ -2,7 +2,7 @@ import LightTooltip from '../../Parts/Tooltips/Light'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
-// TODO: remove colors hard-coding (probably declare them in settings.ts and use in theme/here)
+// TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
 // TODO: use proper InovuaDatagrid types
 
 export function createColumns(
@@ -13,6 +13,8 @@ export function createColumns(
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
+
+  // Number columns
 
   const rowNumberColumn = {
     name: '_rowNumber',
@@ -31,6 +33,8 @@ export function createColumns(
       cellProps.style.color = '#aaa'
     },
   }
+
+  // Data columns
 
   const dataColumns = []
   for (const field of schema.fields) {
@@ -106,6 +110,11 @@ export function createColumns(
       },
     })
   }
+
+  // Extra columns
+
+  // const extraColumns = []
+  // const extraCellErrors = report?.tasks[0]?.errors.filter((e) => e.type === 'extra-cell')
 
   return [rowNumberColumn, ...dataColumns]
 }
