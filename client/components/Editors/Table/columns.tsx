@@ -1,9 +1,9 @@
 import LightTooltip from '../../Parts/Tooltips/Light'
+import type { TypeColumn } from '@inovua/reactdatagrid-community/types'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 
 // TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
-// TODO: use proper InovuaDatagrid types (although their TypeColumn is not really correct compared to the docs)
 
 export function createColumns(
   schema: types.ISchema,
@@ -14,9 +14,9 @@ export function createColumns(
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
 
-  // Number columns
+  // Row number columns
 
-  const rowNumberColumn = {
+  const rowNumberColumn: IColumn = {
     name: '_rowNumber',
     showColumnMenuTool: false,
     sortable: false,
@@ -24,10 +24,10 @@ export function createColumns(
     type: 'number',
     width: 60,
     editable: false,
-    textAlign: 'center' as any,
-    headerAlign: 'center' as any,
+    textAlign: 'center',
+    headerAlign: 'center',
     headerProps: { style: { backgroundColor: '#c5cae0' } },
-    onRender: (cellProps: any) => {
+    onRender: (cellProps) => {
       cellProps.style.background = '#EBEDF7'
       // cellProps.style.fontWeight = 'bold'
       cellProps.style.color = '#aaa'
@@ -36,7 +36,7 @@ export function createColumns(
 
   // Data columns
 
-  const dataColumns = []
+  const dataColumns: IColumn[] = []
   const dataFields = getDataFields({ schema, report })
   for (const field of dataFields) {
     let header = field.title ?? field.name
@@ -57,7 +57,7 @@ export function createColumns(
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,
-      render: (context: any) => {
+      render: (context) => {
         const { cellProps, data } = context
         let { value } = context
         const rowNumber = data._rowNumber
@@ -109,11 +109,6 @@ export function createColumns(
     })
   }
 
-  // Extra columns
-
-  // const extraColumns = []
-  // const extraCellErrors = report?.tasks[0]?.errors.filter((e) => e.type === 'extra-cell')
-
   return [rowNumberColumn, ...dataColumns]
 }
 
@@ -150,4 +145,10 @@ type IDataField = {
   name: string
   type: string
   title?: string
+}
+
+// It fixes the native TypeColumn type to match the docs and actual behavior
+type IColumn = TypeColumn & {
+  showColumnMenuTool?: boolean
+  onRender?: (cellProps: any) => void
 }
