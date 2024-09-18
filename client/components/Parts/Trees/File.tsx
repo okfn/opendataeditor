@@ -126,7 +126,10 @@ const StyledTreeItem = styled(
           {...others}
           endIcon={ item.type === 'folder' ? <img src={closedFolderIcon} alt="" />: null }
           className={ item.type === 'folder' ? 'type_folder' : 'type_file' }
-          sx={{ animation, 
+          sx={{ animation,
+            '& .MuiTreeItem-content': {
+              minWidth: '205px'
+            },
             '&.type_folder > .MuiTreeItem-content': {
               padding: '0 24px'
             },
@@ -134,7 +137,7 @@ const StyledTreeItem = styled(
               marginRight: 0
             },
             '& > .MuiTreeItem-content .MuiTreeItem-label': {
-              maxWidth: '188px',
+              maxWidth: '172px',
             },
             '& + button': {
               position: 'sticky',
