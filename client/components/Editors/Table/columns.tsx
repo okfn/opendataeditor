@@ -37,11 +37,9 @@ export function createColumns(
   // Data columns
 
   const dataColumns = []
-  for (const field of schema.fields) {
-    // TODO: fix this on ther server side -- schema should not have hidden fields
-    // Otherwise the _rowNumber and _rowValid are displayed on the table
-    if (field.name === '_rowNumber' || field.name === '_rowValid') continue
-    let header = field.title || field.name
+  const dataFields = getDataFields({ schema, report })
+  for (const field of dataFields) {
+    let header = field.title ?? field.name
     const errors = errorIndex.label[field.name]
     if (errors) {
       const error = errors[0]
@@ -117,4 +115,39 @@ export function createColumns(
   // const extraCellErrors = report?.tasks[0]?.errors.filter((e) => e.type === 'extra-cell')
 
   return [rowNumberColumn, ...dataColumns]
+}
+
+export function getDataFields(props: { schema: types.ISchema; report?: types.IReport }) {
+  const task = props.report?.tasks[0]
+  const fields: IDataField[] = []
+
+  for (const field of props.schema.fields) {
+    // TODO: fix this on ther server side -- schema should not have hidden fields
+    // Otherwise the _rowNumber and _rowValid are displayed on the table
+    if (field.name === '_rowNumber' || field.name === '_rowValid') continue
+    fields.push({
+      name: field.name,
+      type: field.type,
+      title: field.title,
+    })
+  }
+
+  const extraCellErrors = task?.errors.filter((e) => e.type === 'extra-cell')
+  const extraFieldNumbers = new Set(extraCellErrors?.map((e) => e.fieldNumber))
+  for (const fieldNumber of extraFieldNumbers) {
+    if (!fieldNumber || fields[fieldNumber]) continue
+    fields.push({
+      name: `_fieldNumber${fieldNumber}`,
+      type: 'string',
+      title: '',
+    })
+  }
+
+  return fields
+}
+
+type IDataField = {
+  name: string
+  type: string
+  title?: string
 }
