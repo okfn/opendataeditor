@@ -1,5 +1,5 @@
 ---
-title: FAQ Questions
+title: FAQ 
 sidebar:
   order: 12
 ---
