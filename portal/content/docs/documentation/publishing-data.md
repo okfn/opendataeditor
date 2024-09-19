@@ -8,7 +8,7 @@ You can publish a file using the **Publish** feature located at the top right of
 
 ![Publish button](./assets/publishing-data/publish-button.png)
 
-Once you click on the Publish button, the ODE will display the following dialog:
+Once you click the **Publish** button, the ODE will display the following dialog:
 
 ![Publish form](./assets/publishing-data/publish-form.png)
 
