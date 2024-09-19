@@ -4,7 +4,7 @@ sidebar:
   order: 10
 ---
 
-You can publish a file using Publish feature located at the top right of the datagrid:
+You can publish a file using the **Publish** feature located at the top right of the datagrid:
 
 ![Publish button](./assets/publishing-data/publish-button.png)
 
