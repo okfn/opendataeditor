@@ -1,10 +1,9 @@
 import LightTooltip from '../../Parts/Tooltips/Light'
+import type { TypeColumn } from '@inovua/reactdatagrid-community/types'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import { useTheme } from '@mui/material/styles'
 
-// TODO: remove colors hard-coding
-// TODO: use proper InovuaDatagrid types
+// TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
 
 export function createColumns(
   schema: types.ISchema,
@@ -15,7 +14,9 @@ export function createColumns(
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
 
-  const rowNumberColumn = {
+  // Row number column
+
+  const rowNumberColumn: IColumn = {
     name: '_rowNumber',
     showColumnMenuTool: false,
     sortable: false,
@@ -23,24 +24,22 @@ export function createColumns(
     type: 'number',
     width: 60,
     editable: false,
-    textAlign: 'center' as any,
-    headerAlign: 'center' as any,
+    textAlign: 'center',
+    headerAlign: 'center',
     headerProps: { style: { backgroundColor: '#c5cae0' } },
-    onRender: (cellProps: any) => {
+    onRender: (cellProps) => {
       cellProps.style.background = '#EBEDF7'
       // cellProps.style.fontWeight = 'bold'
       cellProps.style.color = '#aaa'
     },
   }
 
-  const theme = useTheme()
+  // Data columns
 
-  const dataColumns = []
-  for (const field of schema.fields) {
-    // TODO: fix this on ther server side -- schema should not have hidden fields
-    // Otherwise the _rowNumber and _rowValid are displayed on the table
-    if (field.name === '_rowNumber' || field.name === '_rowValid') continue
-    let header = field.title || field.name
+  const dataColumns: IColumn[] = []
+  const dataFields = getDataFields({ schema, report })
+  for (const field of dataFields) {
+    let header = field.title ?? field.name
     const errors = errorIndex.label[field.name]
     if (errors) {
       const error = errors[0]
@@ -51,13 +50,15 @@ export function createColumns(
       name: field.name,
       header,
       type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+      editable: !field.isExtra,
       headerProps:
         field.name in errorIndex.label
-          ? { style: { color: 'white', background: theme.palette.OKFNRed400.main } }
+          ? // It's not possible to use `useTheme` inside useMemo so we hard-code the color for now
+            { style: { color: 'white', background: '#FF7170' } }
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,
-      render: (context: any) => {
+      render: (context) => {
         const { cellProps, data } = context
         let { value } = context
         const rowNumber = data._rowNumber
@@ -108,5 +109,49 @@ export function createColumns(
       },
     })
   }
+
   return [rowNumberColumn, ...dataColumns]
+}
+
+export function getDataFields(props: { schema: types.ISchema; report?: types.IReport }) {
+  const task = props.report?.tasks[0]
+  const fields: IDataField[] = []
+
+  for (const field of props.schema.fields) {
+    // TODO: fix this on ther server side -- schema should not have hidden fields
+    // Otherwise the _rowNumber and _rowValid are displayed on the table
+    if (field.name === '_rowNumber' || field.name === '_rowValid') continue
+    fields.push({
+      name: field.name,
+      type: field.type,
+      title: field.title,
+    })
+  }
+
+  const extraCellErrors = task?.errors.filter((e) => e.type === 'extra-cell')
+  const extraFieldNumbers = new Set(extraCellErrors?.map((e) => e.fieldNumber))
+  for (const fieldNumber of extraFieldNumbers) {
+    if (!fieldNumber || fields[fieldNumber]) continue
+    fields.push({
+      name: `_fieldNumber${fieldNumber}`,
+      type: 'string',
+      title: '',
+      isExtra: true,
+    })
+  }
+
+  return fields
+}
+
+type IDataField = {
+  name: string
+  type: string
+  title?: string
+  isExtra?: boolean
+}
+
+// It fixes the native TypeColumn type to match the docs and actual behavior
+type IColumn = TypeColumn & {
+  showColumnMenuTool?: boolean
+  onRender?: (cellProps: any) => void
 }

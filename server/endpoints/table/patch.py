@@ -63,6 +63,10 @@ def action(project: Project, props: Props) -> Result:
         with db.engine.begin() as conn:
             for change in props.history.changes:
                 if change.type == "cell-update":
+                    # Skip virtual extra cells
+                    if change.fieldName.startswith("_"):
+                        continue
+
                     # Prepare value
                     value = change.value
                     if schema.has_field(change.fieldName):
@@ -77,6 +81,10 @@ def action(project: Project, props: Props) -> Result:
                     )
                 elif change.type == "multiple-cells-update":
                     for cell in change.cells:
+                        # Skip virtual extra cells
+                        if cell.fieldName.startswith("_"):
+                            continue
+
                         # Prepare value
                         value = cell.value
                         if schema.has_field(cell.fieldName):
