@@ -40,6 +40,10 @@ Table example is represented as follows:
 
 [File to reproduce the error](../../../public/table-error-list/header-missing.csv)
 
+This is how the ODE will show the error:
+
+![Header missing error](./assets/table-error-list/header-missing.png)
+
 :::note
 If the header row in the csv is completely empty this error won’t be reproduced as the ODE interprets that the header is in the second row.
 For instance, if a user opens a csv with this structure:
@@ -49,6 +53,8 @@ For instance, if a user opens a csv with this structure:
 3,4
 ```
 The ODE will consider values 1 and 2 as column names.
+
+![First row as header](./assets/table-error-list/header-missing-2.png)
 :::
 
 ### Column name missing
@@ -63,6 +69,7 @@ col1,
 
 [File to reproduce the error](../../../public/table-error-list/column-name-missing.csv)
 
+
 ### Duplicate column name
 
 This error occurs when there are two or more columns with the same name. Each column should have a unique name.
@@ -74,6 +81,10 @@ col1,col1
 ```
 
 [File to reproduce the error](../../../public/table-error-list/duplicate-column-name.csv)
+
+This is how the ODE will show the error:
+
+![Duplicated column name error](./assets/table-error-list/duplicate-column-name.png)
 
 ### Empty Row
 
@@ -87,6 +98,26 @@ col1,col2
 ```
 
 [File to reproduce the error](../../../public/table-error-list/empty-row.csv)
+
+This is how the ODE will show the error:
+
+![Empty row error](./assets/table-error-list/empty-row.png)
+
+
+### Missing cell
+
+This error occurs when a row has fewer cells than the header.
+
+```
+col1,col2
+1,2
+3,4
+5
+```
+
+This is how the ODE will show the error:
+
+![Missing cell error](./assets/table-error-list/missing-cell.png)
 
 ### Extra cell
 
@@ -121,6 +152,10 @@ col1,col2
 ```
 
 [File to reproduce the error](../../../public/table-error-list/wrong-data-type.csv)
+
+This is how the ODE will show the error:
+
+![Wrong data type](./assets/table-error-list/wrong-data-type.png)
 
 :::note
 Note: This error can be identified without providing a Table Schema but only if the data has enough cells of the correct type in the column to infer the intended type.
