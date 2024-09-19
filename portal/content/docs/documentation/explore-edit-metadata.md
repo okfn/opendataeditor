@@ -8,7 +8,7 @@ To explore or edit the metadata, select a file from the menu on the left and cli
 
 ![Metadata Button](./assets/explore-edit-metadata/metadata-button.png)
 
-The ODE will then show the **Metadata panel**:
+The ODE will then display the **Metadata panel**:
 
 ![Metadata panel](./assets/explore-edit-metadata/metadata-panel.png)
 
