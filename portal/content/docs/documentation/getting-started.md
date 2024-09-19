@@ -8,7 +8,7 @@ The Open Data Editor (ODE) is a tool for non-technical data practitioners to exp
 
 ODE is powered by [Frictionless](https://framework.frictionlessdata.io/), a toolkit created by the Open Knowledge Foundation (OKFN) to help data practitioners find errors in data in an easier way.
 
-In October 2023, the OKFN team released an beta version of the ODE for early adopters. Since then, and thanks to the support of [McGovern Foundation](https://www.mcgovern.org/), in March 2024 our team started working on a new product vision for the app which focused on reducing the number of features available to users to transform the app into a validation tool for tables.
+In October 2023, the OKFN team released a beta version of the ODE for early adopters. Since then, and thanks to the support of [McGovern Foundation](https://www.mcgovern.org/), in March 2024 our team started working on a new product vision for the app which focused on reducing the number of features available to users to transform the app into a validation tool for tables.
 
 This user guide has then been updated to adapt its content for the ODE pre-release in September 2024.
 
