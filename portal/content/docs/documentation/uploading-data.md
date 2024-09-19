@@ -30,7 +30,7 @@ Once the ingestion process concludes, the ODE will add your data on the sidebar 
 
 ![Uploading data sidebar](./assets/uploading-data/uploading-data-sidebar.png)
 
-Note that while uploading your data the tool checks your files or folders to find errors according to the validation rules provided by [Frictionless](https://framework.frictionlessdata.io/). Please, check the [Full list of table errors that the ODE detects](https://52898492.opendataeditor.pages.dev/documentation/table-error-list/) in this guide to learn more.
+Note that while uploading your data the tool checks your files or folders to find errors according to the validation rules provided by [Frictionless](https://framework.frictionlessdata.io/). Please, check the [Full list of table errors that the ODE detects](/documentation/table-error-list) in this guide to learn more.
 
 👉🏼 If your file has **NO ERRORS**, the ODE will add a green dot 🟢 before the name of your file.
 
