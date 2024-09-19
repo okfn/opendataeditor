@@ -4,7 +4,7 @@ sidebar:
   order: 2
 ---
 
-This section explains how to upload files, folders and online data to the ODE. The tool also ingest other types of format files like PDF, JPEG, etc.. However, take into account that, since the ODE main objective is to detect errors on tabular files, the application will ONLY show previews for tables.
+This section explains how to upload tabular files, folders with tables and online data to the ODE. The tool also ingests other types of format files like PDF, JPEG, etc. However, take into account that, since the ODE main objective is to detect errors on tabular files, the application will **ONLY** show previews for tables.
 
 Uploading data to the ODE is easy! After installing the app and once you open the application on your laptop, you will see this screen:
 
