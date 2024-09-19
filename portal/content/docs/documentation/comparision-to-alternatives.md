@@ -6,7 +6,7 @@ sidebar:
 
 There are several alternatives available with their own pros and cons. Let's comapre them with **Open Data Editor** to have a better understanding of the Data IDE field.
 
-![OPEN DATA EDITOR](./assets/working-with-tables/table.png)
+<img width="1238" alt="Captura de pantalla 2024-09-18 a la(s) 3 29 21 p  m" src="https://github.com/user-attachments/assets/c47aaf3a-576d-44e0-b383-e46b7bce54f3">
 
 ## Data Curator
 
