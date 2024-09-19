@@ -7,14 +7,14 @@ sidebar:
 Here we describe the list of errors that the ODE can detect after users upload tables to the app. All the examples are based on CSV files.
 
 :::note
-It is possible to reproduce a subset of these errors using other formats like Excel, but some errors might not be applicable to other formats. For example, it is not possible to have an extra-cell in Excel as it always has a rectangular structure.
+It is possible to reproduce a subset of these errors using other formats like Excel, but some errors might not be applicable to other formats.
 :::
 
 
-To explain and understand errors, we need to explain some key elements that are part of tables:
- - A regular table contains one header row (where names of columns are listed) rows and cells.
- - Cells describing names of columns are also called labels.
- - Rows contain cells called values.
+To explain and understand errors, we need to illustrate some key elements that are part of tables:
+ - A regular table contains one **header row** (where names of columns are listed), **rows** and **cells**.
+ - **Cells describing names of columns** are also called **labels**.
+ - Rows contain **cells** called **values**.
 
 Table example is represented as follows:
 
@@ -26,16 +26,18 @@ Table example is represented as follows:
 
 ## Errors detected automatically
 
-This type of error occurs when the structure of the data is not as expected. For example, the number of columns in a row is different from the number of columns in the header.
+**This type of error occurs when the structure of the data is not as expected.** For example, the number of columns in a row is different from the number of columns in the header.
 
 ### Header missing
 
-This error occurs when the header row is empty. The header row should contain the names of the columns:
+**This error occurs when the header row is empty**. The header row should contain the names of the columns:
 
 ```
 ,
 1,2
 3,4
+
+File to reproduce the error
 ```
 
 :::note
@@ -46,19 +48,21 @@ For instance, if a user opens a csv with this structure:
 1,2
 3,4
 ```
-File to reproduce this scenario
+File to reproduce this scenario.
 
 The ODE will consider values 1 and 2 as column names.
 :::
 
 ### Column name missing
 
-This error occurs when one or more column names are missing:
+**This error occurs when one or more column names are missing:**
 
 ```
 col1,
 1,2
 3,4
+
+File to reproduce the error
 ```
 
 This is how the ODE will show the error:
