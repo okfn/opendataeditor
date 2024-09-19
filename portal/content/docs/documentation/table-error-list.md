@@ -36,8 +36,6 @@ Table example is represented as follows:
 ,
 1,2
 3,4
-
-File to reproduce the error
 ```
 
 [File to reproduce the error](../../../public/table-error-list/header-missing.csv)
@@ -61,8 +59,6 @@ The ODE will consider values 1 and 2 as column names.
 col1,
 1,2
 3,4
-
-File to reproduce the error
 ```
 
 [File to reproduce the error](../../../public/table-error-list/column-name-missing.csv)
