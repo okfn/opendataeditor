@@ -115,7 +115,7 @@ schema/fields/maximum:
 schema/fields/enum:
   - Enum
   - https://specs.frictionlessdata.io/table-schema/#constraints
-  - The value of the field must exactly match a value in the enum array.
+  - Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.
 
 schema/fields/required:
   - Required
