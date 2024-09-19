@@ -699,17 +699,31 @@ function Pattern() {
 
 function Enum() {
   const updateField = useStore((state) => state.updateField)
+  const descriptor = useStore((state) => state.descriptor)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
+  const [value, setValue] = React.useState('')
+
+  React.useEffect(() => {
+    const initialValue = constraints?.enum?.join(', ') || ''
+    setValue(initialValue)
+  }, [descriptor])
+
+  const handleChange = (value: string) => {
+    setValue(value)
+    const items = value.split(',').map((v) => v.trim())
+    const enumValue = items.some(Boolean) ? items : undefined
+    updateField({ constraints: { ...constraints, enum: enumValue } })
+  }
+
   return (
     <InputField
       type="string"
       label="Enum"
-      value={(constraints?.enum || []).join(',')}
+      value={value}
       onFocus={() => updateHelp('schema/fields/enum')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, enum: value.split(',') } })
-      }
+      onChange={handleChange}
     />
   )
 }
