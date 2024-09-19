@@ -14,12 +14,6 @@ Data Curator application has features to describe, validate and publish data. Th
 
 ![DATA CURATOR](./assets/alternative-data-editors/alternatives-data-curator.png)
 
-## Datasette
-
-Datasette is an open source web application tool that allows users to explore and publish data. It provides various features to filter and query the data to understand the characteristics of the data. It also has a feature to publish the data. There are various plugins available for datasette such as datasette-leaflet, datasette-json-html etc. Datasette also provides an installable application for macOs. More information about Datasette can be found [here](https://datasette.io).
-
-![DATASETTE](./assets/alternative-data-editors/alternatives-datasette.png)
-
 ### Excel Viewer
 
 ![EXCEL VIEWER](./assets/alternative-data-editors/alternatives-vscode-excelviewer.png)
