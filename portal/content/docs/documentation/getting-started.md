@@ -10,7 +10,7 @@ ODE is powered by [Frictionless](https://framework.frictionlessdata.io/), a tool
 
 In October 2023, the OKFN team released a beta version of the ODE for early adopters. Since then, and thanks to the support of [McGovern Foundation](https://www.mcgovern.org/), in March 2024 our team started working on a new product vision for the app which focused on reducing the number of features available to users to transform the app into a validation tool for tables.
 
-This user guide has then been updated to adapt its content for the ODE pre-release in September 2024.
+This user guide has been updated to adapt its content for the ODE pre-release in September 2024.
 
 :::tip
 Please be aware that our team is working on making improvements to the ODE for its stable release in December 2024. Therefore, you may encounter some actions that are not performing as expected. If you come across such issues, please let us know by creating an [issue on GitHub](https://github.com/okfn/opendataeditor/issues/new) or [sending us an email](mailto:info@okfn.org).
