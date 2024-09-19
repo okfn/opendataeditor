@@ -21,7 +21,7 @@ Please be aware that our team is working on making improvements to the ODE for i
 To download the ODE app, please, [click here](https://github.com/okfn/opendataeditor/releases)
 
 Open Data Editor is available on all major platforms:
-- For Windows: Download the most recent EXE file.
+- **For Windows**: Download the most recent **EXE file**.
 - For MacOS: Download the most recent DMG file.
 - For Linux: Download the most recent AppImage or DEB file.
 
