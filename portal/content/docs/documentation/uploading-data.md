@@ -54,11 +54,11 @@ The ODE also allows users to upload online tables. You can upload files from ope
 
 To upload online tables, first click the **Upload your data** button and then select the **Add external data** section:
 
-TODO: ADD SCREENSHOT
+![Upload online tables](./assets/uploading-data/tables-published-online.png)
 
 Now, write or paste the URL to the table. The ADD button will turn blue:
 
-TODO: ADD SCREENSHOT
+![Upload online table URL input](./assets/uploading-data/tables-published-online-2.png)
 
 After that, the ODE will start reviewing your file in the background to detect possible errors and data will be displayed on the main screen.
 
