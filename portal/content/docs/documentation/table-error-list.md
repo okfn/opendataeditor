@@ -40,6 +40,8 @@ Table example is represented as follows:
 File to reproduce the error
 ```
 
+[File to reproduce the error](../../../public/table-error-list/header-missing.csv)
+
 :::note
 If the header row in the csv is completely empty this error won’t be reproduced as the ODE interprets that the header is in the second row.
 For instance, if a user opens a csv with this structure:
@@ -48,8 +50,6 @@ For instance, if a user opens a csv with this structure:
 1,2
 3,4
 ```
-File to reproduce this scenario.
-
 The ODE will consider values 1 and 2 as column names.
 :::
 
@@ -65,7 +65,7 @@ col1,
 File to reproduce the error
 ```
 
-This is how the ODE will show the error:
+[File to reproduce the error](../../../public/table-error-list/column-name-missing.csv)
 
 ### Duplicate column name
 
@@ -76,6 +76,8 @@ col1,col1
 1,2
 3,4
 ```
+
+[File to reproduce the error](../../../public/table-error-list/duplicate-column-name.csv)
 
 ### Empty Row
 
@@ -88,6 +90,8 @@ col1,col2
 3,4
 ```
 
+[File to reproduce the error](../../../public/table-error-list/empty-row.csv)
+
 ### Extra cell
 
 This error occurs when a row has more cells than the header. Each row should have the same number of cells as the header.
@@ -98,6 +102,8 @@ col1,col2
 3,4
 5,6,7
 ```
+
+[File to reproduce the error](../../../public/table-error-list/extra-cell.csv)
 
 ### Wrong data type
 
@@ -117,6 +123,8 @@ col1,col2
 19,20
 21,bad
 ```
+
+[File to reproduce the error](../../../public/table-error-list/wrong-data-type.csv)
 
 :::note
 Note: This error can be identified without providing a Table Schema but only if the data has enough cells of the correct type in the column to infer the intended type.
