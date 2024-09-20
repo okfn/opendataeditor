@@ -16,8 +16,6 @@ export interface FileTreeProps {
   files: types.IFile[]
   event?: types.IEvent
   selected?: string
-  //selectedMultiple?: string[]
-  //onSelect: (paths: string[]) => void
   onSelect: (paths: string) => void
   defaultExpanded?: string[]
 }
@@ -35,14 +33,14 @@ export default function FileTree(props: FileTreeProps) {
       : props.defaultExpanded || []
     setExpanded([...new Set([...expanded, ...defaultExpanded])])
   }, [props.event, props.defaultExpanded])
-  // const selectedMultiple = props.selectedMultiple || []
+  
   const selected = props.selected || ''
+
   return (
     <Context.Provider value={{ event: props.event }}>
       <ScrollBox sx={{ padding: 0, height: 'calc(100vh - 300px)'}} >
         <Stack alignItems="stretch" height="100%">
           <TreeView
-            // multiSelect
             selected={selected}
             expanded={expanded}
             onNodeSelect={(_event, nodeIds) => props.onSelect(nodeIds as string)}
