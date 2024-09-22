@@ -6,6 +6,8 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
 import Columns from '../Grids/Columns'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 export interface ConfirmDialogProps {
   open?: boolean
@@ -46,6 +48,18 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
         if ((!props.ctrlEnter || event.ctrlKey) && event.key === 'Enter') handleConfirm()
       }}
     >
+      <IconButton
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogTitle
         id="dialog-title"
         sx={{
@@ -71,16 +85,6 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 1 }}>
         <Columns spacing={2}>
-          <SimpleButton
-            fullWidth
-            label={props.cancelLabel || 'Cancel'}
-            sx={{ my: 0.5 }}
-            onClick={handleCancel}
-            aria-label="cancel"
-            color="warning"
-            variant="contained"
-            disabled={props.loading}
-          />
           <SimpleButton
             fullWidth
             label={props.label || 'Confirm'}
