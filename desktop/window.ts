@@ -15,7 +15,6 @@ export async function createWindow() {
 
   var loadingWindow = new BrowserWindow({
     resizable: false,
-    autoHideMenuBar: true,
     frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
