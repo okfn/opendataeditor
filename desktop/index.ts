@@ -56,3 +56,5 @@ process.on('unhandledRejection', async (error: any) => {
 
 // Configure logger to write to the app directory
 log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
+
+Menu.setApplicationMenu(mainMenu)
