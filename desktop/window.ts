@@ -15,6 +15,7 @@ export async function createWindow() {
 
   var loadingWindow = new BrowserWindow({
     resizable: false,
+    autoHideMenuBar: true,
     frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -24,7 +25,6 @@ export async function createWindow() {
 
   const mainWindow = new BrowserWindow({
     show: false,
-    autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
