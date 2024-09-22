@@ -2,7 +2,6 @@ import LightTooltip from '../../Parts/Tooltips/Light'
 import type { TypeColumn } from '@inovua/reactdatagrid-community/types'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import { useTheme } from '@mui/material/styles'
 
 // TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
 
@@ -10,7 +9,8 @@ export function createColumns(
   schema: types.ISchema,
   report?: types.IReport,
   history?: types.IHistory,
-  selection?: types.ITableSelection
+  selection?: types.ITableSelection,
+  colorPalette?: any
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
@@ -35,7 +35,6 @@ export function createColumns(
     },
   }
 
-  const theme = useTheme()
   // Data columns
 
   const dataColumns: IColumn[] = []
@@ -84,7 +83,7 @@ export function createColumns(
         }
         if (change) {
           cellProps.style.color = 'black'
-          cellProps.style.border = '1px solid ' + theme.palette.OKFNBlue.main
+          cellProps.style.border = '1px solid ' + colorPalette.OKFNBlue.main
           return value
         }
 
@@ -99,7 +98,7 @@ export function createColumns(
           value = error.cell || value
           cellProps.style.color = 'white'
           cellProps.style.cursor = 'pointer'
-          cellProps.style.background = theme.palette.OKFNRed400.main
+          cellProps.style.background = colorPalette.OKFNRed400.main
           value = (
             <LightTooltip title={error.message}>
               <div>{value}</div>
