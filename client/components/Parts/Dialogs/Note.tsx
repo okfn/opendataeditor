@@ -5,6 +5,8 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
 import Columns from '../Grids/Columns'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 export interface NoteDialogProps {
   open?: boolean
@@ -35,6 +37,18 @@ export default function NoteDialog(props: NoteDialogProps) {
         if ((!props.ctrlEnter || event.ctrlKey) && event.key === 'Enter') handleConfirm()
       }}
     >
+      <IconButton
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogTitle
         id="dialog-title"
         sx={{
