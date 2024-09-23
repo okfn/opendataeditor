@@ -10,11 +10,11 @@ Here we describe the list of errors that the ODE can detect after users upload t
 It is possible to reproduce a subset of these errors using other formats like Excel, but some errors might not be applicable to other formats.
 :::
 
-
 To explain and understand errors, we need to illustrate some key elements that are part of tables:
- - A regular table contains one **header row** (where names of columns are listed), **rows** and **cells**.
- - **Cells describing names of columns** are also called **labels**.
- - Rows contain **cells** called **values**.
+
+- A regular table contains one **header row** (where names of columns are listed), **rows** and **cells**.
+- **Cells describing names of columns** are also called **labels**.
+- Rows contain **cells** called **values**.
 
 Table example is represented as follows:
 
@@ -52,6 +52,7 @@ For instance, if a user opens a csv with this structure:
 1,2
 3,4
 ```
+
 The ODE will consider values 1 and 2 as column names.
 
 ![First row as header](./assets/table-error-list/header-missing-2.png)
@@ -69,6 +70,9 @@ col1,
 
 [File to reproduce the error](../../../public/table-error-list/column-name-missing.csv)
 
+This is how the ODE will show the error:
+
+![Column name missing error](https://github.com/user-attachments/assets/a8546dbb-5f10-455f-8be9-9b4c7ac2a3ad)
 
 ### Duplicate column name
 
@@ -102,7 +106,6 @@ col1,col2
 This is how the ODE will show the error:
 
 ![Empty row error](./assets/table-error-list/empty-row.png)
-
 
 ### Missing cell
 
@@ -287,6 +290,7 @@ col1,col2
 
 Missing cell 4 in the second data row is required.
 ```
+
 The following constraints can be defined in the Table Schema and currently supported by Open Data Editor (please read the section above about unique constraint):
 
 - required
