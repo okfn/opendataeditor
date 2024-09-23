@@ -135,6 +135,10 @@ col1,col2
 
 [File to reproduce the error](../../../public/table-error-list/extra-cell.csv)
 
+This is how the ODE will show the error:
+
+![Extra cell error](./assets/table-error-list/extra-cell.png)
+
 ### Wrong data type
 
 This error occurs when a cell contains a value that is not of the expected type. For example, a cell in a column that should contain numbers contains a string.
