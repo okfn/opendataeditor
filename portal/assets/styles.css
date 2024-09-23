@@ -47,6 +47,10 @@ body {
   text-underline-offset: 0.1em;
 }
 
+[data-has-hero] h1 {
+  font-size: 48px;
+}
+
 .ph-banner {
   display: flex;
   align-items: center;
