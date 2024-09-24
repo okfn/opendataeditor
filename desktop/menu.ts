@@ -95,7 +95,7 @@ const template = [
             label: 'Report an issue',
             click: async () => {
                 const { shell } = require('electron')
-                await shell.openExternal('https://github.com/okfn/opendataeditor/issues')
+                await shell.openExternal('https://github.com/okfn/opendataeditor/')
             }
         }
     ] as MenuItemConstructorOptions[]
