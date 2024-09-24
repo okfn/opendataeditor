@@ -10,6 +10,8 @@ import { createColumns } from './columns'
 import * as settings from './settings'
 import * as types from '../../../types'
 import debounce from 'lodash/debounce'
+import './assets/styles.css'
+import { useTheme } from '@mui/material/styles'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
@@ -22,8 +24,12 @@ export interface TableEditorProps extends Partial<TypeDataGridProps> {
 
 export default function TableEditor(props: TableEditorProps) {
   const { source, schema, report, history, selection, ...others } = props
+
+  const theme = useTheme()
+  const colorPalette = theme.palette
+
   const columns = React.useMemo(
-    () => createColumns(schema, report, history, selection),
+    () => createColumns(schema, report, history, selection, colorPalette),
     [schema, report, history, selection]
   )
   const [rowsPerPage, setRowsPerPage] = React.useState(20)

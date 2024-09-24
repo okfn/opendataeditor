@@ -9,7 +9,8 @@ export function createColumns(
   schema: types.ISchema,
   report?: types.IReport,
   history?: types.IHistory,
-  selection?: types.ITableSelection
+  selection?: types.ITableSelection,
+  colorPalette?: any
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
@@ -53,8 +54,7 @@ export function createColumns(
       editable: !field.isExtra,
       headerProps:
         field.name in errorIndex.label
-          ? // It's not possible to use `useTheme` inside useMemo so we hard-code the color for now
-            { style: { color: 'white', background: '#FF7170' } }
+          ? { style: { color: 'white', background: colorPalette.OKFNRed400.main } }
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,
@@ -82,7 +82,8 @@ export function createColumns(
         }
         if (change) {
           cellProps.style.color = 'black'
-          cellProps.style.border = '2px solid gray'
+          cellProps.style.border = '1px solid ' + colorPalette.OKFNBlue.main
+          cellProps.style.backgroundColor = colorPalette.OKFNGray100.main
           return value
         }
 
@@ -97,7 +98,7 @@ export function createColumns(
           value = error.cell || value
           cellProps.style.color = 'white'
           cellProps.style.cursor = 'pointer'
-          cellProps.style.background = 'red'
+          cellProps.style.background = colorPalette.OKFNRed400.main
           value = (
             <LightTooltip title={error.message}>
               <div>{value}</div>

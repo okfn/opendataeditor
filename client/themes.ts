@@ -4,6 +4,7 @@ declare module '@mui/material/styles' {
   interface CustomPalette {
     OKFNCoolGray: SimplePaletteColorOptions
     OKFNCoolGray400: SimplePaletteColorOptions
+    OKFNGray100: SimplePaletteColorOptions
     OKFNGray500: SimplePaletteColorOptions
     OKFNBlue: SimplePaletteColorOptions
     OKFNRed400: SimplePaletteColorOptions
@@ -17,6 +18,7 @@ declare module '@mui/material/styles' {
 declare module '@mui/material/Button' {
   interface ButtonPropsColorOverrides {
     OKFNCoolGray: true
+    OKFNGray100: true
     OKFNGray500: true
     OKFNCoolGray400: true
     OKFNBlue: true
@@ -58,6 +60,9 @@ export const DEFAULT = createTheme({
     // LightGray
     OKFNCoolGray: {
       main: '#4C5564',
+    },
+    OKFNGray100: {
+      main: '#F4F4F$',
     },
     OKFNGray500: {
       main: '#717879',
