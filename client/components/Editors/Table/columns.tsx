@@ -84,6 +84,7 @@ export function createColumns(
         if (change) {
           cellProps.style.color = 'black'
           cellProps.style.border = '1px solid ' + colorPalette.OKFNBlue.main
+          cellProps.style.backgroundColor = colorPalette.OKFNGray100.main
           return value
         }
 
