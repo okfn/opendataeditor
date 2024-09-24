@@ -54,8 +54,7 @@ export function createColumns(
       editable: !field.isExtra,
       headerProps:
         field.name in errorIndex.label
-          ? // It's not possible to use `useTheme` inside useMemo so we hard-code the color for now
-            { style: { color: 'white', background: '#FF7170' } }
+          ? { style: { color: 'white', background: colorPalette.OKFNRed400.main } }
           : field.name === selection?.columnName
           ? { style: { color: '#ed6c02' } }
           : undefined,
