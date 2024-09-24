@@ -196,9 +196,7 @@ const StyledTreeItem = styled(
               {<img src={deleteIcon} alt="" />}
             </ListItemIcon>
             <ListItemText primaryTypographyProps={{
-              // disable temporarily until we find why the check is failing in CI
-              // @ts-ignore
-              color: (theme) => theme.palette.OKFNRed.main,
+              color: (theme) => theme.palette.OKFNRed500.main,
             }}
               primary={`Delete ${fileOrFolder}`} secondary="Only removes this element from the ODE folder" />
           </MenuItem>
