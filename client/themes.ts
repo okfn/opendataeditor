@@ -15,7 +15,6 @@ declare module '@mui/material/styles' {
 }
 
 declare module '@mui/material/Button' {
-  // <-- Added `/Button` here
   interface ButtonPropsColorOverrides {
     OKFNCoolGray: true
     OKFNGray500: true
