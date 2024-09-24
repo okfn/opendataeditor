@@ -58,9 +58,6 @@ const template = [
     {
         label: 'View',
         submenu: [
-        { role: 'reload' },
-        { role: 'forceReload' },
-        { type: 'separator' },
         {
             label: 'Metadata',
                 click: async () => {
