@@ -20,6 +20,7 @@ export default function MultiselectField(props: MultiselectFieldProps) {
   const options = props.options.map((option) =>
     typeof option === 'string' ? { label: option, value: option } : option
   )
+
   return (
     <TextField
       select
