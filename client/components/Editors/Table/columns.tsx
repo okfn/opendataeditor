@@ -41,16 +41,19 @@ export function createColumns(
   const dataFields = getDataFields({ schema, report })
   for (const field of dataFields) {
     let header = field.title ?? field.name
+    const type = ['integer', 'number'].includes(field.type) ? 'number' : 'string'
+
     const errors = errorIndex.label[field.name]
     if (errors) {
       const error = errors[0]
       // @ts-ignore
       if (error) header = error.label
     }
+
     dataColumns.push({
       name: field.name,
       header,
-      type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+      type,
       editable: !field.isExtra,
       headerProps:
         field.name in errorIndex.label
@@ -65,6 +68,11 @@ export function createColumns(
         const columnName = cellProps.id
         const rowKey = `${rowNumber}`
         const cellKey = `${rowNumber},${columnName}`
+
+        // Value
+        if (type === 'string') {
+          value = value?.toString()
+        }
 
         // Selection
         if (selection) {
