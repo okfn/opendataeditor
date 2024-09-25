@@ -55,9 +55,6 @@ export default function FileUploadDialog() {
     setValue(newValue)
   }
 
-  const inputFileRef = React.useRef<HTMLInputElement>(null)
-  const inputFolderRef = React.useRef<HTMLInputElement>(null)
-
   const onAddRemoteTextfieldChange = (url: string) => {
     if (errorMessage) {
       setErrorMessage('')
@@ -141,68 +138,7 @@ export default function FileUploadDialog() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Box ref={tabRefForHeight}>
-            <Columns columns={2} spacing={4}>
-              <FileSelectBox
-                sx={{
-                  ':hover': {
-                    borderColor: (theme) => theme.palette.primary.main,
-                  },
-                }}
-              >
-                <input
-                  type="file"
-                  multiple
-                  ref={inputFileRef}
-                  onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
-                    if (ev.target.files) {
-                      await store.addFiles(ev.target.files)
-                      store.openDialog('openLocation')
-                    }
-                  }}
-                />
-                <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                  <Box>
-                    <img src={iconUploadFileImg} alt="Icon Upload File" />
-                  </Box>
-                  <Box>Add one or more Excel or csv files </Box>
-                  <StyledSelectBox className="file-select__button">
-                    Select
-                  </StyledSelectBox>
-                </Box>
-              </FileSelectBox>
-              <FileSelectBox
-                sx={{
-                  ':hover': {
-                    borderColor: (theme) => theme.palette.primary.main,
-                  },
-                }}
-              >
-                <input
-                  type="file"
-                  multiple
-                  ref={inputFolderRef}
-                  onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-                    if (ev.target.files) {
-                      store.addFiles(ev.target.files)
-                      store.closeDialog()
-                    }
-                  }}
-                  // @ts-expect-error
-                  webkitdirectory=""
-                />
-                <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                  <Box>
-                    <img src={iconUploadFolderImg} alt="Icon Upload File" />
-                  </Box>
-                  <Box>Add one or more folders</Box>
-                  <StyledSelectBox className="file-select__button">
-                    Select
-                  </StyledSelectBox>
-                </Box>
-              </FileSelectBox>
-            </Columns>
-          </Box>
+          <LocalDataForm tabRefForHeight={tabRefForHeight} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Box sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: tabHeight }}>
@@ -243,6 +179,72 @@ export default function FileUploadDialog() {
         </CustomTabPanel>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function LocalDataForm(props: { tabRefForHeight: React.Ref<HTMLDivElement> }) {
+  const inputFileRef = React.useRef<HTMLInputElement>(null)
+  const inputFolderRef = React.useRef<HTMLInputElement>(null)
+
+  return (
+    <Box ref={props.tabRefForHeight}>
+      <Columns columns={2} spacing={4}>
+        <FileSelectBox
+          sx={{
+            ':hover': {
+              borderColor: (theme) => theme.palette.primary.main,
+            },
+          }}
+        >
+          <input
+            type="file"
+            multiple
+            ref={inputFileRef}
+            onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
+              if (ev.target.files) {
+                await store.addFiles(ev.target.files)
+                store.openDialog('openLocation')
+              }
+            }}
+          />
+          <Box sx={{ padding: '32px 48px 24px 48px' }}>
+            <Box>
+              <img src={iconUploadFileImg} alt="Icon Upload File" />
+            </Box>
+            <Box>Add one or more Excel or csv files </Box>
+            <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+          </Box>
+        </FileSelectBox>
+        <FileSelectBox
+          sx={{
+            ':hover': {
+              borderColor: (theme) => theme.palette.primary.main,
+            },
+          }}
+        >
+          <input
+            type="file"
+            multiple
+            ref={inputFolderRef}
+            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+              if (ev.target.files) {
+                store.addFiles(ev.target.files)
+                store.closeDialog()
+              }
+            }}
+            // @ts-expect-error
+            webkitdirectory=""
+          />
+          <Box sx={{ padding: '32px 48px 24px 48px' }}>
+            <Box>
+              <img src={iconUploadFolderImg} alt="Icon Upload File" />
+            </Box>
+            <Box>Add one or more folders</Box>
+            <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+          </Box>
+        </FileSelectBox>
+      </Columns>
+    </Box>
   )
 }
 
