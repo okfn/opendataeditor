@@ -50,7 +50,7 @@ export function createColumns(
       if (firstError) {
         return (
           <LightTooltip title={firstError.message}>
-            <Box sx={{ width: '80%', minHeight: '20px' }}>{label}</Box>
+            <Box sx={{ minWidth: '80%', minHeight: '20px' }}>{label}</Box>
           </LightTooltip>
         )
       }
@@ -101,7 +101,7 @@ export function createColumns(
         cellProps.style.background = colorPalette.OKFNRed400.main
         value = (
           <LightTooltip title={error.message}>
-            <Box>{value}</Box>
+            <Box sx={{ minWidth: '80%', minHeight: '20px' }}>{value}</Box>
           </LightTooltip>
         )
       }
