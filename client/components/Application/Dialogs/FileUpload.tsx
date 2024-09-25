@@ -20,17 +20,11 @@ import InputAdornment from '@mui/material/InputAdornment'
 import * as helpers from '../../../helpers'
 
 export default function FileUploadDialog() {
-  const [errorMessage, setErrorMessage] = React.useState('')
+  const [value, setValue] = React.useState(0)
 
   const handleClose = () => {
     store.closeDialog()
   }
-
-  const [value, setValue] = React.useState(0)
-
-  const [remoteUrlValue, setRemoteUrlValue] = React.useState('')
-
-  const [loading, setLoading] = React.useState(false)
 
   function a11yProps(index: number) {
     return {
@@ -53,43 +47,6 @@ export default function FileUploadDialog() {
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-  }
-
-  const onAddRemoteTextfieldChange = (url: string) => {
-    if (errorMessage) {
-      setErrorMessage('')
-    } else {
-      setRemoteUrlValue(url)
-    }
-  }
-
-  const onAddRemoteConfirm = async (url: string) => {
-    if (!url) {
-      setErrorMessage('The URL is blank')
-      return
-    }
-
-    if (!helpers.isUrlValid(url)) {
-      setErrorMessage('The URL is not valid')
-      return
-    }
-
-    try {
-      setLoading(true)
-      await store.fetchFile(url)
-      store.openDialog('openLocation')
-    } catch (error) {
-      if (url.includes('docs.google.com/spreadsheets')) {
-        setErrorMessage(
-          'The Google Sheets URL is not valid or the table is not publically available'
-        )
-      } else {
-        setErrorMessage('The URL is not associated with a table')
-      }
-      return
-    } finally {
-      setLoading(false)
-    }
   }
 
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
@@ -138,51 +95,17 @@ export default function FileUploadDialog() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <LocalDataForm tabRefForHeight={tabRefForHeight} />
+          <LocalFileForm tabRefForHeight={tabRefForHeight} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Box sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: tabHeight }}>
-            <Box
-              sx={{
-                fontSize: '14px',
-              }}
-            >
-              Link to the external table:
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              <AddRemoteTextfield
-                value={remoteUrlValue}
-                errorMessage={errorMessage}
-                onChange={onAddRemoteTextfieldChange}
-              />
-              {loading ? (
-                <CircularProgress
-                  size={'2rem'}
-                  sx={{
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: '#00D1FF',
-                    },
-                    padding: '10px',
-                  }}
-                />
-              ) : null}
-            </Box>
-            <SimpleButton
-              label={'Add'}
-              sx={{ my: 0.5, marginTop: '53px' }}
-              variant="contained"
-              aria-label="accept"
-              disabled={!remoteUrlValue}
-              onClick={() => onAddRemoteConfirm(remoteUrlValue)}
-            />
-          </Box>
+          <RemoteFileForm tabHeight={tabHeight} />
         </CustomTabPanel>
       </DialogContent>
     </Dialog>
   )
 }
 
-function LocalDataForm(props: { tabRefForHeight: React.Ref<HTMLDivElement> }) {
+function LocalFileForm(props: { tabRefForHeight: React.Ref<HTMLDivElement> }) {
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   const inputFolderRef = React.useRef<HTMLInputElement>(null)
 
@@ -248,6 +171,111 @@ function LocalDataForm(props: { tabRefForHeight: React.Ref<HTMLDivElement> }) {
   )
 }
 
+function RemoteFileForm(props: { tabHeight: number }) {
+  const [errorMessage, setErrorMessage] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [value, setValue] = React.useState('')
+
+  const handleChange = (value: string) => {
+    setValue(value)
+
+    if (errorMessage) {
+      setErrorMessage('')
+    }
+  }
+
+  const handleUpload = async () => {
+    if (!value) {
+      setErrorMessage('The URL is blank')
+      return
+    }
+
+    if (!helpers.isUrlValid(value)) {
+      setErrorMessage('The URL is not valid')
+      return
+    }
+
+    try {
+      setLoading(true)
+      await store.fetchFile(value)
+      store.openDialog('openLocation')
+    } catch (error) {
+      if (value.includes('docs.google.com/spreadsheets')) {
+        setErrorMessage(
+          'The Google Sheets URL is not valid or the table is not publically available'
+        )
+      } else {
+        setErrorMessage('The URL is not associated with a table')
+      }
+      return
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Box sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: props.tabHeight }}>
+      <Box
+        sx={{
+          fontSize: '14px',
+        }}
+      >
+        Link to the external table:
+      </Box>
+      <Box sx={{ display: 'flex' }}>
+        <StyledTextField
+          autoFocus
+          fullWidth
+          size="small"
+          error={!!errorMessage}
+          helperText={errorMessage || ' '}
+          placeholder="Enter or paste URL"
+          InputLabelProps={{
+            sx: {
+              fontSize: '14px',
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <img src={iconLinkTextField} alt="" />
+              </InputAdornment>
+            ),
+            sx: {
+              '& ::placeholder': {
+                color: '#D1D4DB',
+                opacity: 1, // otherwise firefox shows a lighter colorS
+                fontSize: '14px',
+              },
+            },
+          }}
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
+        />
+        {loading ? (
+          <CircularProgress
+            size={'2rem'}
+            sx={{
+              '& .MuiLinearProgress-bar': {
+                backgroundColor: '#00D1FF',
+              },
+              padding: '10px',
+            }}
+          />
+        ) : null}
+      </Box>
+      <SimpleButton
+        label={'Add'}
+        sx={{ my: 0.5, marginTop: '53px' }}
+        variant="contained"
+        aria-label="accept"
+        disabled={!value}
+        onClick={handleUpload}
+      />
+    </Box>
+  )
+}
+
 function CustomTabPanel(props: {
   children?: React.ReactNode
   index: number
@@ -263,45 +291,8 @@ function CustomTabPanel(props: {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      <Box sx={{ p: 3 }}>{children}</Box>
     </div>
-  )
-}
-
-function AddRemoteTextfield(props: {
-  errorMessage?: string
-  value: string
-  onChange(value: string): void
-}) {
-  return (
-    <StyledTextField
-      fullWidth
-      size="small"
-      error={!!props.errorMessage}
-      helperText={props.errorMessage || ' '}
-      placeholder="Enter or paste URL"
-      InputLabelProps={{
-        sx: {
-          fontSize: '14px',
-        },
-      }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <img src={iconLinkTextField} alt="" />
-          </InputAdornment>
-        ),
-        sx: {
-          '& ::placeholder': {
-            color: '#D1D4DB',
-            opacity: 1, // otherwise firefox shows a lighter colorS
-            fontSize: '14px',
-          },
-        },
-      }}
-      value={props.value}
-      onChange={(e) => props.onChange(e.target.value)}
-    />
   )
 }
 
