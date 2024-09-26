@@ -224,6 +224,7 @@ function RemoteFileForm(props: { tabHeight: number }) {
       </Box>
       <Box sx={{ display: 'flex' }}>
         <StyledTextField
+          id="remote-file-input"
           autoFocus
           fullWidth
           size="small"
