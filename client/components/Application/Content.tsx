@@ -30,6 +30,7 @@ export default function Content() {
 
 function FileContent() {
   const record = store.useStore((state) => state.record)
+  const dialog = store.useStore((state) => state.dialog)
   if (!record) return null
 
   const Controller = CONTROLLERS[record.type] || File
@@ -50,6 +51,13 @@ function FileContent() {
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
         onClickAway={(event) => {
+          // Generally speaking, it will be better to migrate away
+          // from using ClickAwayListener for this purpose. See this weird bug:
+          // https://github.com/okfn/opendataeditor/issues/559
+          // As alternative, store's actions just check for unsaved changes
+          // when the user does something that requires it.
+          if (dialog) return
+
           event.preventDefault()
           store.onFileLeave()
         }}
