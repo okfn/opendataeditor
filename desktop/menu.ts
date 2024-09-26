@@ -1,4 +1,4 @@
-import { app, Menu, MenuItemConstructorOptions } from 'electron'
+import { app, Menu, MenuItemConstructorOptions, BrowserWindow } from 'electron'
 
 const template = [
     {
@@ -23,7 +23,8 @@ const template = [
                         {
                             label: 'New folder',
                                 click: async () => {
-                                    // TODO
+                                    // console.log( BrowserWindow.getAllWindows()[0].webContents )
+                                    BrowserWindow.getAllWindows()[0].webContents.send('create-new-folder')
                                 }
                         },
                         {
