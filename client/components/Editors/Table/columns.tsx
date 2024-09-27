@@ -1,4 +1,5 @@
 import LightTooltip from '../../Parts/Tooltips/Light'
+import Box from '@mui/material/Box'
 import type { TypeColumn } from '@inovua/reactdatagrid-community/types'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
@@ -40,82 +41,91 @@ export function createColumns(
   const dataColumns: IColumn[] = []
   const dataFields = getDataFields({ schema, report })
   for (const field of dataFields) {
-    let header = field.title ?? field.name
-    const type = ['integer', 'number'].includes(field.type) ? 'number' : 'string'
+    const labelErrors = errorIndex.label[field.name]
+    const columnType = ['integer', 'number'].includes(field.type) ? 'number' : 'string'
 
-    const errors = errorIndex.label[field.name]
-    if (errors) {
-      const error = errors[0]
-      // @ts-ignore
-      if (error) header = error.label
+    const renderHeader: IColumn['header'] = () => {
+      const firstError = labelErrors?.[0]
+      const label = firstError ? firstError.label : field.title ?? field.name
+
+      if (firstError) {
+        return (
+          <LightTooltip title={firstError.message}>
+            <Box sx={{ minWidth: '80%', minHeight: '20px' }}>{label}</Box>
+          </LightTooltip>
+        )
+      }
+
+      return label
+    }
+
+    const renderRow: IColumn['render'] = (context) => {
+      const { cellProps, data } = context
+      let { value } = context
+      const rowNumber = data._rowNumber
+      const columnName = cellProps.id
+      const rowKey = `${rowNumber}`
+      const cellKey = `${rowNumber},${columnName}`
+
+      // Value
+      if (columnType === 'string') {
+        value = value?.toString()
+      }
+
+      // Selection
+      if (selection) {
+        if (rowNumber === selection.rowNumber || columnName === selection.columnName) {
+          cellProps.style.color = '#ed6c02'
+        }
+      }
+
+      // Changes
+      let change: types.IChange | undefined
+      if (rowKey in changeIndex.row) {
+        change = changeIndex.row[rowKey]
+      } else if (cellKey in changeIndex.cell) {
+        change = changeIndex.cell[cellKey]
+      }
+      if (change) {
+        cellProps.style.color = 'black'
+        cellProps.style.border = '1px solid ' + colorPalette.OKFNBlue.main
+        cellProps.style.backgroundColor = colorPalette.OKFNGray100.main
+        return value
+      }
+
+      // Errors
+      let error: types.IError | undefined
+      if (rowKey in errorIndex.row) {
+        error = errorIndex.row[rowKey][0]
+      } else if (cellKey in errorIndex.cell) {
+        error = errorIndex.cell[cellKey][0]
+      }
+      if (error) {
+        value = error.cell || value
+        cellProps.style.color = 'white'
+        cellProps.style.cursor = 'pointer'
+        cellProps.style.background = colorPalette.OKFNRed400.main
+        value = (
+          <LightTooltip title={error.message}>
+            <Box sx={{ minWidth: '80%', minHeight: '20px' }}>{value}</Box>
+          </LightTooltip>
+        )
+      }
+
+      return value
     }
 
     dataColumns.push({
       name: field.name,
-      header,
-      type,
+      header: renderHeader,
+      type: columnType,
       editable: !field.isExtra,
-      headerProps:
-        field.name in errorIndex.label
-          ? { style: { color: 'white', background: colorPalette.OKFNRed400.main } }
-          : field.name === selection?.columnName
-          ? { style: { color: '#ed6c02' } }
-          : undefined,
-      render: (context) => {
-        const { cellProps, data } = context
-        let { value } = context
-        const rowNumber = data._rowNumber
-        const columnName = cellProps.id
-        const rowKey = `${rowNumber}`
-        const cellKey = `${rowNumber},${columnName}`
-
-        // Value
-        if (type === 'string') {
-          value = value?.toString()
-        }
-
-        // Selection
-        if (selection) {
-          if (rowNumber === selection.rowNumber || columnName === selection.columnName) {
-            cellProps.style.color = '#ed6c02'
-          }
-        }
-
-        // Changes
-        let change: types.IChange | undefined
-        if (rowKey in changeIndex.row) {
-          change = changeIndex.row[rowKey]
-        } else if (cellKey in changeIndex.cell) {
-          change = changeIndex.cell[cellKey]
-        }
-        if (change) {
-          cellProps.style.color = 'black'
-          cellProps.style.border = '1px solid ' + colorPalette.OKFNBlue.main
-          cellProps.style.backgroundColor = colorPalette.OKFNGray100.main
-          return value
-        }
-
-        // Errors
-        let error: types.IError | undefined
-        if (rowKey in errorIndex.row) {
-          error = errorIndex.row[rowKey][0]
-        } else if (cellKey in errorIndex.cell) {
-          error = errorIndex.cell[cellKey][0]
-        }
-        if (error) {
-          value = error.cell || value
-          cellProps.style.color = 'white'
-          cellProps.style.cursor = 'pointer'
-          cellProps.style.background = colorPalette.OKFNRed400.main
-          value = (
-            <LightTooltip title={error.message}>
-              <div>{value}</div>
-            </LightTooltip>
-          )
-        }
-
-        return value
-      },
+      headerProps: labelErrors
+        ? { style: { color: 'white', background: colorPalette.OKFNRed400.main } }
+        : field.name === selection?.columnName
+        ? { style: { color: '#ed6c02' } }
+        : undefined,
+      render: renderRow,
     })
   }
 

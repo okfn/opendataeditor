@@ -8,6 +8,7 @@ export interface IError {
   fieldNumber?: number
   fieldName?: string
   labels?: string[]
+  label?: string
   cells?: string[]
   cell?: any
 }
