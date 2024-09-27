@@ -42,6 +42,7 @@ export function createColumns(
   const dataFields = getDataFields({ schema, report })
   for (const field of dataFields) {
     const labelErrors = errorIndex.label[field.name]
+    const columnType = ['integer', 'number'].includes(field.type) ? 'number' : 'string'
 
     const renderHeader: IColumn['header'] = () => {
       const firstError = labelErrors?.[0]
@@ -65,6 +66,11 @@ export function createColumns(
       const columnName = cellProps.id
       const rowKey = `${rowNumber}`
       const cellKey = `${rowNumber},${columnName}`
+
+      // Value
+      if (columnType === 'string') {
+        value = value?.toString()
+      }
 
       // Selection
       if (selection) {
@@ -112,7 +118,7 @@ export function createColumns(
     dataColumns.push({
       name: field.name,
       header: renderHeader,
-      type: ['integer', 'number'].includes(field.type) ? 'number' : 'string',
+      type: columnType,
       editable: !field.isExtra,
       headerProps: labelErrors
         ? { style: { color: 'white', background: colorPalette.OKFNRed400.main } }
