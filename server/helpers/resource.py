@@ -22,6 +22,7 @@ def index_resource(project: Project, resource: Resource, table_name: str):
             database=db.engine,
             table_name=table_name,
             with_metadata=True,
+            ignore_constraints=True,
         )
         report = indexer.index()
 
