@@ -416,6 +416,7 @@ function Required() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <YesNoField
       label="Required"
@@ -661,15 +662,17 @@ function MinLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
-      type="number"
+      type="integer"
       label="Min Length"
       value={constraints?.minLength || ''}
       onFocus={() => updateHelp('schema/fields/minLength')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const minLength = value ? parseInt(value) : undefined
+        updateField({ constraints: { ...constraints, minLength } })
+      }}
     />
   )
 }
@@ -678,15 +681,17 @@ function MaxLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
-      type="number"
+      type="integer"
       label="Max Length"
       value={constraints?.maxLength || ''}
       onFocus={() => updateHelp('schema/fields/maxLength')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const maxLength = value ? parseInt(value) : undefined
+        updateField({ constraints: { ...constraints, maxLength } })
+      }}
     />
   )
 }
@@ -695,13 +700,17 @@ function Pattern() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
       type="string"
       label="Pattern"
       value={constraints?.pattern || ''}
       onFocus={() => updateHelp('schema/fields/pattern')}
-      onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
+      onChange={(value) => {
+        const pattern = value || undefined
+        updateField({ constraints: { ...constraints, pattern } })
+      }}
     />
   )
 }
