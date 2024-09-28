@@ -595,12 +595,14 @@ function MinimumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMinimumNumber())
+
   function isValidMinimumNumber() {
     if (!constraints) return true
     return constraints.minimum
       ? validator.isNumeric(constraints.minimum.toString())
       : true
   }
+
   return (
     <InputField
       error={!isValid}
@@ -611,9 +613,10 @@ function MinimumNumber() {
       onBlur={() => {
         setIsValid(isValidMinimumNumber())
       }}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const minimum = value || undefined
+        updateField({ constraints: { ...constraints, minimum } })
+      }}
       helperText={!isValid ? 'Minimum value is not valid.' : ''}
     />
   )
@@ -624,12 +627,14 @@ function MaximumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMaximumNumber())
+
   function isValidMaximumNumber() {
     if (!constraints) return true
     return constraints.maximum
       ? validator.isNumeric(constraints.maximum.toString())
       : true
   }
+
   return (
     <InputField
       error={!isValid}
@@ -640,9 +645,10 @@ function MaximumNumber() {
       onBlur={() => {
         setIsValid(isValidMaximumNumber())
       }}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const maximum = value || undefined
+        updateField({ constraints: { ...constraints, maximum } })
+      }}
       helperText={!isValid ? 'Maximum value is not valid.' : ''}
     />
   )
