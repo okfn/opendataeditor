@@ -24,7 +24,7 @@ const template = [
                             label: 'New folder',
                                 click: async () => {
                                     // console.log( BrowserWindow.getAllWindows()[0].webContents )
-                                    BrowserWindow.getAllWindows()[0].webContents.send('create-new-folder')
+                                    BrowserWindow.getAllWindows()[0].webContents.send('menu-clicked', 'add-new-folder')
                                 }
                         },
                         {
