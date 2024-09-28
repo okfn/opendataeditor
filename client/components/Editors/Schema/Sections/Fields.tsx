@@ -421,7 +421,10 @@ function Required() {
       label="Required"
       onFocus={() => updateHelp('schema/fields/required')}
       value={constraints?.required || false}
-      onChange={(required) => updateField({ constraints: { ...constraints, required } })}
+      onChange={(value) => {
+        const required = value || undefined
+        updateField({ constraints: { ...constraints, required } })
+      }}
     />
   )
 }
