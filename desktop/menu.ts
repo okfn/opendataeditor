@@ -1,103 +1,97 @@
-import { app, Menu, MenuItemConstructorOptions, BrowserWindow } from 'electron'
+import { app, shell, Menu, MenuItemConstructorOptions, BrowserWindow } from 'electron'
 
-const template = [
+export function createMenu(mainWindow: BrowserWindow) {
+  return Menu.buildFromTemplate([
     {
-        label: app.name,
-        submenu: [
-            { role: 'about' },
-            { role: 'quit' }
-        ] as MenuItemConstructorOptions[]
+      label: app.name,
+      submenu: [{ role: 'about' }, { role: 'quit' }],
     },
     {
-        label: 'File',
-        submenu: [
+      label: 'File',
+      submenu: [
+        {
+          label: 'Add',
+          submenu: [
             {
-                label: 'Add',
-                    submenu: [
-                        {
-                            label: 'New file',
-                                click: async () => {
-                                    // TODO
-                                }
-                        },
-                        {
-                            label: 'New folder',
-                                click: async () => {
-                                    // console.log( BrowserWindow.getAllWindows()[0].webContents )
-                                    BrowserWindow.getAllWindows()[0].webContents.send('menu-clicked', 'add-new-folder')
-                                }
-                        },
-                        {
-                            label: 'External data',
-                                click: async () => {
-                                    // TODO
-                                }
-                        },
-                    ]
+              label: 'New file',
+              click: async () => {
+                mainWindow.webContents.send('menuAddNewFile')
+              },
             },
             {
-                label: 'Delete',
-                    click: async () => {
-                        // TODO
-                    }
+              label: 'New folder',
+              click: async () => {
+                // TODO
+              },
             },
             {
-                label: 'Publish',
-                    click: async () => {
-                        // TODO
-                    }
+              label: 'External data',
+              click: async () => {
+                // TODO
+              },
             },
-        ] as MenuItemConstructorOptions[]
+          ],
+        },
+        {
+          label: 'Delete',
+          click: async () => {
+            // TODO
+          },
+        },
+        {
+          label: 'Publish',
+          click: async () => {
+            // TODO
+          },
+        },
+      ],
     },
     {
-        label: 'Edit',
-        submenu: [
-            { role: 'undo' },
-            { role: 'redo' },
-        ] as MenuItemConstructorOptions[]
+      label: 'Edit',
+      submenu: [{ role: 'undo' }, { role: 'redo' }],
     },
     {
-        label: 'View',
-        submenu: [
+      label: 'View',
+      submenu: [
         {
-            label: 'Metadata',
-                click: async () => {
-                    // TODO
-                }
+          label: 'Metadata',
+          click: async () => {
+            // TODO
+          },
         },
         {
-            label: 'Errors panel',
-                click: async () => {
-                    // TODO
-                }
+          label: 'Errors panel',
+          click: async () => {
+            // TODO
+          },
         },
         {
-            label: 'Source',
-                click: async () => {
-                    // TODO
-                }
+          label: 'Source',
+          click: async () => {
+            // TODO
+          },
         },
-        ] as MenuItemConstructorOptions[]
+      ] as MenuItemConstructorOptions[],
     },
     {
-    label: 'Help',
-    submenu: [
+      label: 'Help',
+      submenu: [
         {
-            label: 'ODE User guide',
-            click: async () => {
-                const { shell } = require('electron')
-                await shell.openExternal('https://opendataeditor.okfn.org/documentation/getting-started/')
-            }
+          label: 'ODE User guide',
+          click: async () => {
+            await shell.openExternal(
+              'https://opendataeditor.okfn.org/documentation/getting-started/'
+            )
+          },
         },
         {
-            label: 'Report an issue',
-            click: async () => {
-                const { shell } = require('electron')
-                await shell.openExternal('https://github.com/okfn/opendataeditor/')
-            }
-        }
-    ] as MenuItemConstructorOptions[]
+          label: 'Report an issue',
+          click: async () => {
+            await shell.openExternal('https://github.com/okfn/opendataeditor/')
+          },
+        },
+      ],
     },
-]
+  ])
+}
 
-export default Menu.buildFromTemplate(template)
