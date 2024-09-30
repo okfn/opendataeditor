@@ -97,14 +97,30 @@ function FieldItemMain() {
 
 function Name() {
   const name = useStore(select(selectors.field, (field) => field.name))
+  const index = useStore((state) => state.fieldState.index)
+  const descriptor = useStore((state) => state.descriptor)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateField = useStore((state) => state.updateField)
+
+  const [value, setValue] = React.useState('')
+
+  React.useEffect(() => {
+    setValue(name)
+  }, [descriptor])
+
+  const handleChange = (value: string) => {
+    setValue(value)
+    const name = value || `field${index}`
+    updateField({ name })
+  }
+
   return (
     <InputField
       label="Name"
-      value={name}
+      value={value}
+      error={!value}
       onFocus={() => updateHelp('schema/fields/name')}
-      onChange={(value) => updateField({ name: value || undefined })}
+      onChange={handleChange}
     />
   )
 }
