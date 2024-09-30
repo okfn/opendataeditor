@@ -104,3 +104,11 @@ make docs
 ```
 
 It will be automatically published on CloudFlare when merged to the `main` branch with previews available for pull requests.
+
+## Releasing
+
+> You need to be a maintainer to release a new version
+
+- Update the version in `package.json` according to SemVer
+- Create a pull request with the changes and get it approved and merged
+- Run `make release` locally to create a new release
