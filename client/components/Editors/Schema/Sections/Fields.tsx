@@ -432,12 +432,16 @@ function Required() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <YesNoField
       label="Required"
       onFocus={() => updateHelp('schema/fields/required')}
       value={constraints?.required || false}
-      onChange={(required) => updateField({ constraints: { ...constraints, required } })}
+      onChange={(value) => {
+        const required = value || undefined
+        updateField({ constraints: { ...constraints, required } })
+      }}
     />
   )
 }
@@ -611,12 +615,14 @@ function MinimumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMinimumNumber())
+
   function isValidMinimumNumber() {
     if (!constraints) return true
     return constraints.minimum
       ? validator.isNumeric(constraints.minimum.toString())
       : true
   }
+
   return (
     <InputField
       error={!isValid}
@@ -627,9 +633,10 @@ function MinimumNumber() {
       onBlur={() => {
         setIsValid(isValidMinimumNumber())
       }}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minimum: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const minimum = value || undefined
+        updateField({ constraints: { ...constraints, minimum } })
+      }}
       helperText={!isValid ? 'Minimum value is not valid.' : ''}
     />
   )
@@ -640,12 +647,14 @@ function MaximumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMaximumNumber())
+
   function isValidMaximumNumber() {
     if (!constraints) return true
     return constraints.maximum
       ? validator.isNumeric(constraints.maximum.toString())
       : true
   }
+
   return (
     <InputField
       error={!isValid}
@@ -656,9 +665,10 @@ function MaximumNumber() {
       onBlur={() => {
         setIsValid(isValidMaximumNumber())
       }}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, maximum: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const maximum = value || undefined
+        updateField({ constraints: { ...constraints, maximum } })
+      }}
       helperText={!isValid ? 'Maximum value is not valid.' : ''}
     />
   )
@@ -668,15 +678,17 @@ function MinLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
-      type="number"
+      type="integer"
       label="Min Length"
       value={constraints?.minLength || ''}
       onFocus={() => updateHelp('schema/fields/minLength')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, minLength: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const minLength = value ? parseInt(value) : undefined
+        updateField({ constraints: { ...constraints, minLength } })
+      }}
     />
   )
 }
@@ -685,15 +697,17 @@ function MaxLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
-      type="number"
+      type="integer"
       label="Max Length"
       value={constraints?.maxLength || ''}
       onFocus={() => updateHelp('schema/fields/maxLength')}
-      onChange={(value) =>
-        updateField({ constraints: { ...constraints, maxLength: parseInt(value) } })
-      }
+      onChange={(value) => {
+        const maxLength = value ? parseInt(value) : undefined
+        updateField({ constraints: { ...constraints, maxLength } })
+      }}
     />
   )
 }
@@ -702,13 +716,17 @@ function Pattern() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <InputField
       type="string"
       label="Pattern"
       value={constraints?.pattern || ''}
       onFocus={() => updateHelp('schema/fields/pattern')}
-      onChange={(pattern) => updateField({ constraints: { ...constraints, pattern } })}
+      onChange={(value) => {
+        const pattern = value || undefined
+        updateField({ constraints: { ...constraints, pattern } })
+      }}
     />
   )
 }
