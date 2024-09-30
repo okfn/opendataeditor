@@ -10,7 +10,8 @@ import { loadFiles } from './file'
 
 export async function onAppStart() {
   // @ts-ignore
-  const sendFatalError = window?.opendataeditor?.sendFatalError
+  const bridge = window?.opendataeditor
+  const sendFatalError = bridge?.sendFatalError
 
   let ready = false
   let attempt = 0
@@ -38,6 +39,7 @@ export async function onAppStart() {
   }
 
   // Setup project sync polling
+
   setInterval(async () => {
     const result = await client.projectSync({})
 
@@ -58,8 +60,8 @@ export async function onAppStart() {
 
   // Register on windows close event handler (only Desktop env)
   // to prevent closing the app when there are unsaved changes
-  // @ts-ignore
-  if (window?.opendataeditor?.closeDesktopApp) {
+
+  if (bridge?.closeDesktopApp) {
     window.onbeforeunload = (event) => {
       const isUpdated = getIsFileOrResourceUpdated(store.getState())
       if (isUpdated) {
@@ -68,9 +70,17 @@ export async function onAppStart() {
       }
     }
   }
+
+  // Register menu events
+
+  bridge?.onMenuAddNewFile(() => {
+    openDialog('fileUpload')
+  })
 }
 
 export function closeDesktopApp() {
   // @ts-ignore
-  window?.opendataeditor?.closeDesktopApp()
+  const bridge = window?.opendataeditor
+
+  bridge?.closeDesktopApp()
 }

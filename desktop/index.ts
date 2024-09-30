@@ -1,4 +1,4 @@
-import { app, dialog, BrowserWindow, Menu } from 'electron'
+import { app, dialog, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import { createBridge } from './bridge'
@@ -17,8 +17,7 @@ app.whenReady().then(async () => {
   log.info('## Start client')
   createBridge()
   const mainWindow = await createWindow()
-  const mainMenu = createMenu(mainWindow)
-  Menu.setApplicationMenu(mainMenu)
+  createMenu(mainWindow)
 })
 
 // Default open or close DevTools by F12 in development
