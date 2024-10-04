@@ -75,6 +75,12 @@ jobs:
   # Build
   # For GNU/Linux we need to build our application in the oldest version we want to support.
   # https://pyinstaller.org/en/stable/usage.html?highlight=glibc#making-gnu-linux-apps-forward-compatible
+  # 
+  # The reason we chose macos-13 as the minimum version:
+  # https://forums.developer.apple.com/forums/thread/739988
+  # "macOS 14 introduced a new container data protection feature. To learn more about that, 
+  # see the link in Trusted Execution Resources.The solution here is to sign your code with a stable signing identity. 
+  # For day-to-day development, that should be your Apple Development signing identity."
   build:
     strategy:
       matrix:
