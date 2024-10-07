@@ -13,7 +13,7 @@
 The Open Data Editor (ODE) is a **no-code application** to **explore, validate and publish data** in a simple way. Forever free and **open source project** powered by the **Frictionless Framework**.
 
 
- 📩 [Send us feedback/Report a problem (email)](info@okfn.org) 
+ 📩 [Send us feedback/Report a problem (email)](mailto:info@okfn.org) 
  🪲 [Create an issue on GitHub](https://github.com/okfn/opendataeditor/issues) 
  🤔 [Suggest a new feature](https://github.com/okfn/opendataeditor/issues) 
  
@@ -45,7 +45,4 @@ Go to [RELEASES](https://github.com/okfn/opendataeditor/releases)
 * For **Linux**:Download the most recent **AppImage** or **DEB** file.
 
 
-_**Open Data Editor (beta)** for early adopters has been released on **Oct 2, 2023**_
-
-
-
+**Open Data Editor (beta 1.1)** has been released on **Sept., 2024**.
