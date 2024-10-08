@@ -22,7 +22,6 @@ export function createMenu(mainWindow: BrowserWindow) {
               {
                 label: 'New folder',
                 click: async () => {
-                  // TODO
                 },
               },
               {
@@ -36,13 +35,13 @@ export function createMenu(mainWindow: BrowserWindow) {
           {
             label: 'Delete',
             click: async () => {
-              // TODO
+              mainWindow.webContents.send('menuDeleteFile')
             },
           },
           {
             label: 'Publish',
             click: async () => {
-              // TODO
+              mainWindow.webContents.send('menuPublishFile')
             },
           },
         ],
@@ -57,7 +56,7 @@ export function createMenu(mainWindow: BrowserWindow) {
           {
             label: 'Metadata',
             click: async () => {
-              // TODO
+              mainWindow.webContents.send('menuToggleMetadata')
             },
           },
           {

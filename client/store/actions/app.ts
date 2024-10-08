@@ -1,4 +1,5 @@
 import * as store from '../store'
+import { togglePanel } from '@client/store'
 import isEqual from 'fast-deep-equal'
 import delay from 'delay'
 import { openDialog } from './dialog'
@@ -75,6 +76,18 @@ export async function onAppStart() {
 
   bridge?.onMenuAddNewFile(() => {
     openDialog('fileUpload')
+  })
+
+  bridge?.onDeleteFile(() => {
+    openDialog('deleteFilesFolders')
+  })
+
+  bridge?.onPublishFile(() => {
+    openDialog('publish')
+  })
+
+  bridge?.onToggleMetadata(() => {
+    togglePanel('metadata')
   })
 }
 

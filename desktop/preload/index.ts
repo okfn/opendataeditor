@@ -14,4 +14,13 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   onMenuAddNewFile: (callback: () => void) => {
     ipcRenderer.on('menuAddNewFile', callback)
   },
+  onDeleteFile: (callback: () => void) => {
+    ipcRenderer.on('menuDeleteFile', callback)
+  },
+  onPublishFile: (callback: () => void) => {
+    ipcRenderer.on('menuPublishFile', callback)
+  },
+  onToggleMetadata: (callback: () => void) => {
+    ipcRenderer.on('menuToggleMetadata', callback)
+  },
 })
