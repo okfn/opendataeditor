@@ -1,11 +1,11 @@
-import { app, dialog, BrowserWindow, Menu } from 'electron'
-import { electronApp, optimizer } from '@electron-toolkit/utils'  
+import { app, dialog, BrowserWindow } from 'electron'
+import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import { createBridge } from './bridge'
 import { join } from 'path'
 import log from 'electron-log'
 import * as settings from './settings'
-import mainMenu from './menu'
+import { createMenu } from './menu'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -16,7 +16,8 @@ app.whenReady().then(async () => {
 
   log.info('## Start client')
   createBridge()
-  await createWindow()
+  const mainWindow = await createWindow()
+  createMenu(mainWindow)
 })
 
 // Default open or close DevTools by F12 in development
@@ -56,5 +57,3 @@ process.on('unhandledRejection', async (error: any) => {
 
 // Configure logger to write to the app directory
 log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
-
-Menu.setApplicationMenu(mainMenu)
