@@ -91,7 +91,7 @@ npm run start
 
 > It requires the server to be running
 
-Running descktop application:
+Running desktop application:
 
 ```bash
 make desktop
