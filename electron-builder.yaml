@@ -7,7 +7,6 @@ artifactName: opendataeditor-${os}-${version}.${ext}
 publish:
   provider: github
   owner: okfn
-  releaseType: release
 files:
   - 'build/client/**/*'
   - 'build/desktop/**/*'

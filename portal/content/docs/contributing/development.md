@@ -77,6 +77,8 @@ hatch run start <data-folder> # optionally provide a data folder path
 
 ### Client
 
+> It requires the server to be running
+
 Running the client in isolation:
 
 ```bash
@@ -87,12 +89,14 @@ npm run start
 
 ### Desktop
 
-Previewing descript application:
+> It requires the server to be running
+
+Running descktop application:
 
 ```bash
-make preview
+make desktop
 # OR
-npm run preview
+npm run desktop
 ```
 
 ## Documentation
@@ -110,5 +114,7 @@ It will be automatically published on CloudFlare when merged to the `main` branc
 > You need to be a maintainer to release a new version
 
 - Update the version in `package.json` according to SemVer
-- Create a pull request with the changes and get it approved and merged
-- Run `make release` locally to create a new release
+- Create a pull request with the change and get it approved and merged
+- GitHub Actions will automatically create a [release draft](https://github.com/okfn/opendataeditor/releases) with build artifacts to be tested and published
+- Until the draft realease is published, every new pull request merged will update the draft with new artifacts
+- Review, edit, and publish the draft release when it is ready
