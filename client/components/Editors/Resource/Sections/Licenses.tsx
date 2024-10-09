@@ -68,7 +68,7 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
 
   return (
     <Box>
-      <Dialog disableEscapeKeyDown open={props.open} onClose={props.onClose}>
+      <Dialog open={props.open} onClose={props.onClose}>
         <DialogTitle>Select the license</DialogTitle>
         <DialogContent>
           <Box component="form">
