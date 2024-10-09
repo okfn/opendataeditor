@@ -23,4 +23,16 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   onToggleMetadata: (callback: () => void) => {
     ipcRenderer.on('menuToggleMetadata', callback)
   },
+  onToggleErrorsReport: (callback: () => void) => {
+    ipcRenderer.on('menuToggleErrorsReport', callback)
+  },
+  onToggleSource: (callback: () => void) => {
+    ipcRenderer.on('menuToggleSource', callback)
+  },
+  onUndo: (callback: () => void) => {
+    ipcRenderer.on('menuUndo', callback)
+  },
+  onRedo: (callback: () => void) => {
+    ipcRenderer.on('menuRedo', callback)
+  },
 })

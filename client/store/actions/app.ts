@@ -1,5 +1,6 @@
 import * as store from '../store'
 import { togglePanel } from '@client/store'
+import { undoTableChange, redoTableChange } from '@client/store'
 import isEqual from 'fast-deep-equal'
 import delay from 'delay'
 import { openDialog } from './dialog'
@@ -88,6 +89,22 @@ export async function onAppStart() {
 
   bridge?.onToggleMetadata(() => {
     togglePanel('metadata')
+  })
+
+  bridge?.onToggleErrorsReport(() => {
+    togglePanel('report')
+  })
+
+  bridge?.onToggleErrorsReport(() => {
+    togglePanel('source')
+  })
+
+  bridge?.onUndo(() => {
+    undoTableChange()
+  })
+
+  bridge?.onRedo(() => {
+    redoTableChange()
   })
 }
 

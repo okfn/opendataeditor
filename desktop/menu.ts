@@ -48,27 +48,37 @@ export function createMenu(mainWindow: BrowserWindow) {
       },
       {
         label: 'Edit',
-        submenu: [{ role: 'undo' }, { role: 'redo' }],
+        submenu: [{
+          label: 'Undo',
+          click: async () => {
+            mainWindow.webContents.send('menuUndo')
+          },
+        }, {
+          label: 'Redo',
+          click: async () => {
+            mainWindow.webContents.send('menuRedo')
+          },
+        }],
       },
       {
         label: 'View',
         submenu: [
           {
-            label: 'Metadata',
+            label: 'Toggle Metadata Panel',
             click: async () => {
               mainWindow.webContents.send('menuToggleMetadata')
             },
           },
           {
-            label: 'Errors panel',
+            label: 'Toggle Errors Panel',
             click: async () => {
-              // TODO
+              mainWindow.webContents.send('menuToggleErrorsReport')
             },
           },
           {
-            label: 'Source',
+            label: 'Toggle Source Panel',
             click: async () => {
-              // TODO
+              mainWindow.webContents.send('menuToggleSource')
             },
           },
         ],
