@@ -55,5 +55,12 @@ process.on('unhandledRejection', async (error: any) => {
   app.quit()
 })
 
+app.setAboutPanelOptions({
+  applicationName: 'Open Data Editor',
+  applicationVersion: '1.0.0',
+  website: 'https://opendataeditor.okfn.org/',
+  iconPath: './client/assets/ODE_sidebar_logo.svg'
+})
+
 // Configure logger to write to the app directory
 log.transports.file.resolvePath = () => join(settings.APP_HOME, 'logger', 'main.log')
