@@ -42,7 +42,7 @@ interface State {
   updateLicenseState: (patch: Partial<ISectionState>) => void
   updateLicense: (patch: Partial<types.ILicense>) => void
   removeLicense: (index: number) => void
-  addLicense: () => void
+  addLicense: (props: { name: string; title: string }) => void
 
   // Sources
 
@@ -107,10 +107,10 @@ export function makeStore(props: ResourceProps) {
       updateDescriptor({ licenses })
     },
     // TODO: scroll to newly created license
-    addLicense: () => {
+    addLicense: (props: { name: string; title: string }) => {
       const { descriptor, updateDescriptor } = get()
       const licenses = [...(descriptor.licenses || [])]
-      licenses.push({ name: 'MIT' })
+      licenses.push(props)
       updateDescriptor({ licenses })
     },
 

@@ -1,4 +1,7 @@
 import * as React from 'react'
+// https://licenses.opendefinition.org/licenses/groups/all.json
+import openDefinitionLicenses from './licenses.json'
+import { find, last } from 'lodash'
 import Box from '@mui/material/Box'
 import Columns from '../../../Parts/Grids/Columns'
 import InputField from '../../../Parts/Fields/Input'
@@ -50,14 +53,16 @@ function LicenseList() {
 function LicenseDialog(props: { open: boolean; onClose: () => void }) {
   const addLicense = useStore((state) => state.addLicense)
 
-  const licenses = [
-    { name: 'ODC-By-1.0', title: 'Open Data Commons Attribution License' },
-    { name: 'ODbL-1.0', title: 'Open Data Commons Open Database License' },
-    { name: 'PDDL-1.0', title: 'Open Data Commons Public Domain Dedication and Licence' },
-    { name: 'Custom', title: 'I will add a license manually' },
-  ]
+  const licenses = Object.values(openDefinitionLicenses).map((license) => ({
+    name: license.id,
+    path: license.url,
+    title: license.title,
+  }))
 
   const handleSelect = (event: SelectChangeEvent) => {
+    const name = event.target.value
+    const license = find(licenses, { name }) || last(licenses)!
+    addLicense(license)
     props.onClose()
   }
 
@@ -76,7 +81,7 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
                 label="License"
                 onChange={handleSelect}
               >
-                {licenses.map((license) => (
+                {Object.values(licenses).map((license) => (
                   <MenuItem key={license.name} value={license.name}>
                     {license.title}
                   </MenuItem>
@@ -119,17 +124,19 @@ function Name() {
   const name = useStore(select(selectors.license, (license) => license.name))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
-  const [isValid, setIsValid] = React.useState(isValidName())
-  function isValidName() {
-    return name ? validator.isSlug(name) : false
+  const [isValid, setIsValid] = React.useState(isValidLicenseName())
+
+  function isValidLicenseName() {
+    return Object.keys(openDefinitionLicenses).includes(name)
   }
+
   return (
     <InputField
       label="Name"
       value={name}
       onFocus={() => updateHelp('resource/licenses/name')}
       onBlur={() => {
-        setIsValid(isValidName())
+        setIsValid(isValidLicenseName())
       }}
       onChange={(value) => updateLicense({ name: value || 'name' })}
       helperText={!isValid ? 'Name is not valid.' : ''}
