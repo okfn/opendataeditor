@@ -12,8 +12,7 @@ const loadingEvents = new EventEmitter()
 import icon from './assets/icon.png?asset'
 
 export async function createWindow() {
-
-  var loadingWindow = new BrowserWindow({
+  const loadingWindow = new BrowserWindow({
     resizable: false,
     autoHideMenuBar: true,
     frame: false,
@@ -21,14 +20,14 @@ export async function createWindow() {
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
     },
-  });
+  })
 
   const mainWindow = new BrowserWindow({
     show: false,
-    autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, 'preload', 'index.js'),
+      contextIsolation: true,
     },
   })
 
@@ -38,7 +37,7 @@ export async function createWindow() {
   })
 
   loadingEvents.on('finished', () => {
-    loadingWindow.close();
+    loadingWindow.close()
     log.info('Opening index.html')
     // HMR for renderer base on electron-vite cli.
     // Load the remote URL for development or the local html file for production.
@@ -59,10 +58,12 @@ export async function createWindow() {
 
   if (!is.dev) await server.runServer()
 
-  const serverStarted = await server.pollServer();
+  const serverStarted = await server.pollServer()
   if (!serverStarted) {
-    throw new Error('Failed to start FastAPI server');
+    throw new Error('Failed to start FastAPI server')
   }
 
   loadingEvents.emit('finished')
+
+  return mainWindow
 }
