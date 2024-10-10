@@ -26,7 +26,9 @@ export default function FileUploadDialog() {
     store.closeDialog()
   }
 
-  const [value, setValue] = React.useState(0)
+  const dialogTab = store.useStore((state) => state.dialogTab)
+
+  const [value, setValue] = React.useState(dialogTab ? dialogTab : 0)
 
   const [remoteUrlValue, setRemoteUrlValue] = React.useState('')
 

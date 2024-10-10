@@ -14,6 +14,9 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   onMenuAddNewFile: (callback: () => void) => {
     ipcRenderer.on('menuAddNewFile', callback)
   },
+  onMenuAddExternalFile: (callback: () => void) => {
+    ipcRenderer.on('menuAddExternalFile', callback)
+  },
   onDeleteFile: (callback: () => void) => {
     ipcRenderer.on('menuDeleteFile', callback)
   },

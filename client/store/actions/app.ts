@@ -76,7 +76,11 @@ export async function onAppStart() {
   // Register menu events
 
   bridge?.onMenuAddNewFile(() => {
-    openDialog('fileUpload')
+    openDialog('fileUpload', 0)
+  })
+
+  bridge?.onMenuAddExternalFile(() => {
+    openDialog('fileUpload', 1)
   })
 
   bridge?.onDeleteFile(() => {

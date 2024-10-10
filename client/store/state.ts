@@ -74,6 +74,11 @@ export type IState = {
   dialog?: IDialog
 
   /**
+   * Keeps track of the displayed dialog's tab
+   **/
+  dialogTab?: number
+
+  /**
    * Will be opened when the main `dialog` is closed (for dialog chains)
    **/
   nextDialog?: IDialog

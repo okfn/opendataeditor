@@ -27,7 +27,7 @@ export function createMenu(mainWindow: BrowserWindow) {
               {
                 label: 'External data',
                 click: async () => {
-                  // TODO
+                  mainWindow.webContents.send('menuAddExternalFile')
                 },
               },
             ],
