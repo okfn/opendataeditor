@@ -60,8 +60,8 @@ export default function TableEditor(props: TableEditorProps) {
       menuProps.items.push({
         itemId: 'rename',
         label: 'Rename',
+        disabled: history?.changes.length,
         onClick: () => {
-          console.log(context.cellProps)
           setDialog({
             type: 'columnRename',
             name: context.cellProps.name,
@@ -71,7 +71,7 @@ export default function TableEditor(props: TableEditorProps) {
       })
       return undefined
     },
-    []
+    [history?.changes.length]
   )
 
   function resizeTable() {
