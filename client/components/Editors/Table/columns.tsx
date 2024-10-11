@@ -46,7 +46,7 @@ export function createColumns(
 
     const renderHeader: IColumn['header'] = () => {
       const firstError = labelErrors?.[0]
-      const label = firstError ? firstError.label : field.title ?? field.name
+      const label = firstError ? firstError.label : field.name
 
       if (firstError) {
         return (
