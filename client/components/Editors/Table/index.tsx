@@ -91,6 +91,7 @@ export default function TableEditor(props: TableEditorProps) {
     <>
       <ColumnRenameDialog
         dialog={dialog}
+        schema={schema}
         onClose={() => setDialog(undefined)}
         onColumnRename={onColumnRename}
       />
@@ -128,21 +129,33 @@ type IColumnRenameDialog = {
 function ColumnRenameDialog(props: {
   dialog?: IDialog
   onClose: () => void
-  onColumnRename?: React.ComponentProps<typeof TableEditor>['onColumnRename']
+  schema: types.ISchema
+  onColumnRename: React.ComponentProps<typeof TableEditor>['onColumnRename']
 }) {
   if (props.dialog?.type !== 'columnRename') return null
 
   const [name, setName] = React.useState(props.dialog.name)
 
+  const isUpdated = name !== props.dialog.name
+  const isUnique = !props.schema.fields.map((field) => field.name).includes(name)
+
+  let errorMessage = ''
+  if (!name) {
+    errorMessage = 'Name must not be blank'
+  } else if (isUpdated && !isUnique) {
+    errorMessage = 'Name must be unique'
+  }
+
   return (
     <InputDialog
       open={true}
       value={name}
-      description="Edit the column name"
+      description="Enter a new column name:"
       onChange={setName}
-      title="Rename Column"
+      title={`Rename Column "${props.dialog.name}"`}
       onCancel={props.onClose}
-      disabled={!name || name === props.dialog.name}
+      disabled={!isUpdated || !!errorMessage}
+      errorMessage={errorMessage}
       onConfirm={() => {
         props.onColumnRename?.({
           index: props.dialog!.index,

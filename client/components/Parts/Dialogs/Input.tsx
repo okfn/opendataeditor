@@ -26,7 +26,7 @@ export default function InputDialog(props: InputDialogProps) {
     >
       <TextField
         error={!!errorMessage}
-        helperText={errorMessage}
+        helperText={errorMessage || ' '}
         autoFocus
         fullWidth
         size="small"
@@ -42,7 +42,6 @@ export default function InputDialog(props: InputDialogProps) {
             <InputAdornment position="start">{prefix}</InputAdornment>
           ) : undefined,
         }}
-        sx={{ marginBottom: 1 }}
       />
       {props.children}
     </ConfirmDialog>
