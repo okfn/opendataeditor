@@ -28,13 +28,12 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
-  const addField = useStore((state) => state.addField)
   const removeField = useStore((state) => state.removeField)
+
   return (
     <EditorList
       kind="field"
       query={query}
-      onAddClick={() => addField()}
       SearchInput={
         <EditorSearch
           value={query || ''}
