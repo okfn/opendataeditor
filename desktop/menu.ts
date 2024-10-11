@@ -22,6 +22,8 @@ export function createMenu(mainWindow: BrowserWindow) {
               {
                 label: 'New folder',
                 click: async () => {
+                  // Adding the same as Add New File, because it's the same dialog
+                  mainWindow.webContents.send('menuAddNewFile')
                 },
               },
               {
