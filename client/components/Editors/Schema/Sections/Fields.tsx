@@ -28,7 +28,6 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
-  const removeField = useStore((state) => state.removeField)
 
   return (
     <EditorList
@@ -48,7 +47,6 @@ function FieldList() {
           name={field.title || field.name}
           type={field.type}
           onClick={() => updateFieldState({ index })}
-          onRemoveClick={() => removeField(index)}
         />
       ))}
     </EditorList>
