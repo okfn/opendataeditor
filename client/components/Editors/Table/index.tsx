@@ -2,6 +2,7 @@ import '@inovua/reactdatagrid-community/index.css'
 import * as React from 'react'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import Box from '@mui/material/Box'
+import InputDialog from '../../Parts/Dialogs/Input'
 import Typography from '@mui/material/Typography'
 import InovuaDatagrid from '@inovua/reactdatagrid-community'
 import { TypeDataGridProps } from '@inovua/reactdatagrid-community/types'
@@ -24,6 +25,7 @@ export interface TableEditorProps extends Partial<TypeDataGridProps> {
 
 export default function TableEditor(props: TableEditorProps) {
   const { source, schema, report, history, selection, ...others } = props
+  const [dialog, setDialog] = React.useState<IDialog | undefined>()
 
   const theme = useTheme()
   const colorPalette = theme.palette
@@ -53,9 +55,21 @@ export default function TableEditor(props: TableEditorProps) {
   })
 
   const renderColumnContextMenu = React.useCallback(
-    (menuProps: { items: any[] }): React.ReactNode => {
+    (menuProps: { items: any[] }, context: any) => {
       menuProps.items = menuProps.items.filter((x) => x.label !== 'Columns' && x !== '-')
-      return
+      menuProps.items.push({
+        itemId: 'rename',
+        label: 'Rename',
+        onClick: () => {
+          console.log(context.cellProps)
+          setDialog({
+            type: 'columnRename',
+            name: context.cellProps.name,
+            index: context.cellProps.columnIndex,
+          })
+        },
+      })
+      return undefined
     },
     []
   )
@@ -72,24 +86,53 @@ export default function TableEditor(props: TableEditorProps) {
   }
 
   return (
-    <InovuaDatagrid
-      onReady={resizeTable}
-      idProperty="_rowNumber"
-      dataSource={source}
-      columns={columns}
-      pagination={true}
-      loadingText={<Typography>Loading...</Typography>}
-      renderLoadMask={LoadMask}
-      defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
-      style={{ height: '100%', border: 'none' }}
-      limit={rowsPerPage}
-      onLimitChange={setRowsPerPage}
-      rowHeight={rowHeight}
-      showColumnMenuLockOptions={false}
-      showColumnMenuGroupOptions={false}
-      enableColumnAutosize={false}
-      renderColumnContextMenu={renderColumnContextMenu}
-      {...others}
+    <>
+      <ColumnRenameDialog dialog={dialog} onClose={() => setDialog(undefined)} />
+      <InovuaDatagrid
+        onReady={resizeTable}
+        idProperty="_rowNumber"
+        dataSource={source}
+        columns={columns}
+        pagination={true}
+        loadingText={<Typography>Loading...</Typography>}
+        renderLoadMask={LoadMask}
+        defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
+        style={{ height: '100%', border: 'none' }}
+        limit={rowsPerPage}
+        onLimitChange={setRowsPerPage}
+        rowHeight={rowHeight}
+        showColumnMenuLockOptions={false}
+        showColumnMenuGroupOptions={false}
+        enableColumnAutosize={false}
+        renderColumnContextMenu={renderColumnContextMenu}
+        {...others}
+      />
+    </>
+  )
+}
+
+type IDialog = IColumnRenameDialog
+
+type IColumnRenameDialog = {
+  type: 'columnRename'
+  name: string
+  index: number
+}
+
+function ColumnRenameDialog(props: { dialog?: IDialog; onClose: () => void }) {
+  if (props.dialog?.type !== 'columnRename') return null
+
+  const [name, setName] = React.useState(props.dialog.name)
+
+  return (
+    <InputDialog
+      open={true}
+      value={name}
+      description="Edit the column name"
+      onChange={setName}
+      title="Rename Column"
+      onCancel={props.onClose}
+      disabled={!name || name === props.dialog.name}
     />
   )
 }
