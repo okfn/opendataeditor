@@ -116,6 +116,7 @@ function Name() {
 
   return (
     <InputField
+      disabled
       label="Name"
       value={value}
       error={!value}
