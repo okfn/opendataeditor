@@ -44,7 +44,7 @@ function FieldList() {
         <EditorListItem
           key={index}
           kind="field"
-          name={field.title || field.name}
+          name={field.name}
           type={field.type}
           onClick={() => updateFieldState({ index })}
         />
