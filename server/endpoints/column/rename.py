@@ -13,6 +13,7 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
+    index: int
     oldName: str
     newName: str
 
@@ -49,7 +50,12 @@ def action(project: Project, props: Props) -> Result:
         resource = TableResource(path=db.database_url, control=control)
         resource.write_table(path=str(target))
 
-    # Reset record
+    # Patch/reset record
+    resource = TableResource.from_descriptor(record.resource)
+    for index, field in enumerate(resource.schema.fields):
+        if index == props.index:
+            field.name = props.newName
+    helpers.patch_record(project, path=props.path, resource=resource.to_dict())
     helpers.reset_record(project, path=props.path)
 
     return Result()

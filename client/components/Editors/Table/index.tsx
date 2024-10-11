@@ -21,10 +21,11 @@ export interface TableEditorProps extends Partial<TypeDataGridProps> {
   report?: types.IReport
   history?: types.IHistory
   selection?: types.ITableSelection
+  onColumnRename?: (props: { index: number; oldName: string; newName: string }) => void
 }
 
 export default function TableEditor(props: TableEditorProps) {
-  const { source, schema, report, history, selection, ...others } = props
+  const { source, schema, report, history, selection, onColumnRename, ...others } = props
   const [dialog, setDialog] = React.useState<IDialog | undefined>()
 
   const theme = useTheme()
@@ -65,7 +66,8 @@ export default function TableEditor(props: TableEditorProps) {
           setDialog({
             type: 'columnRename',
             name: context.cellProps.name,
-            index: context.cellProps.columnIndex,
+            // first column is the row number column
+            index: context.cellProps.columnIndex - 1,
           })
         },
       })
@@ -87,7 +89,11 @@ export default function TableEditor(props: TableEditorProps) {
 
   return (
     <>
-      <ColumnRenameDialog dialog={dialog} onClose={() => setDialog(undefined)} />
+      <ColumnRenameDialog
+        dialog={dialog}
+        onClose={() => setDialog(undefined)}
+        onColumnRename={onColumnRename}
+      />
       <InovuaDatagrid
         onReady={resizeTable}
         idProperty="_rowNumber"
@@ -119,7 +125,11 @@ type IColumnRenameDialog = {
   index: number
 }
 
-function ColumnRenameDialog(props: { dialog?: IDialog; onClose: () => void }) {
+function ColumnRenameDialog(props: {
+  dialog?: IDialog
+  onClose: () => void
+  onColumnRename?: React.ComponentProps<typeof TableEditor>['onColumnRename']
+}) {
   if (props.dialog?.type !== 'columnRename') return null
 
   const [name, setName] = React.useState(props.dialog.name)
@@ -133,6 +143,14 @@ function ColumnRenameDialog(props: { dialog?: IDialog; onClose: () => void }) {
       title="Rename Column"
       onCancel={props.onClose}
       disabled={!name || name === props.dialog.name}
+      onConfirm={() => {
+        props.onColumnRename?.({
+          index: props.dialog!.index,
+          oldName: props.dialog!.name,
+          newName: name,
+        })
+        props.onClose()
+      }}
     />
   )
 }
