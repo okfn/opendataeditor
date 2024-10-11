@@ -11,10 +11,9 @@ import EditorListItem from '../../Base/ListItem'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Autocomplete from '@mui/material/Autocomplete'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 
@@ -59,9 +58,9 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
     title: license.title,
   }))
 
-  const handleSelect = (event: SelectChangeEvent) => {
-    const name = event.target.value
-    const license = find(licenses, { name }) || last(licenses)!
+  const handleSelect = (_event: any, title: string | null) => {
+    if (!title) return
+    const license = find(licenses, { title }) || last(licenses)!
     addLicense(license)
     props.onClose()
   }
@@ -73,20 +72,12 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
         <DialogContent>
           <Box component="form">
             <FormControl sx={{ my: 1, minWidth: '30em' }}>
-              <InputLabel id="license-dialog-select-label-id">License</InputLabel>
-              <Select
-                value=""
-                labelId="demo-simple-select-label"
-                id="license-dialog-select-id"
-                label="License"
+              <Autocomplete
+                autoSelect
                 onChange={handleSelect}
-              >
-                {Object.values(licenses).map((license) => (
-                  <MenuItem key={license.name} value={license.name}>
-                    {license.title}
-                  </MenuItem>
-                ))}
-              </Select>
+                options={licenses.map((license) => license.title)}
+                renderInput={(params) => <TextField {...params} label="Type to search" />}
+              ></Autocomplete>
             </FormControl>
           </Box>
         </DialogContent>
