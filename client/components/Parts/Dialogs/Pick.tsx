@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import Divider from '@mui/material/Divider'
-import ConfirmDialog, { ConfirmDialogProps } from './Confirm'
+import ConfirmDialog, { ConfirmDialogProps } from './OneButton'
 
 interface PickDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
   items: string[]

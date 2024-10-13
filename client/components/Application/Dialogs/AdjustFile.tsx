@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import ConfirmDialog from '../../Parts/Dialogs/OneButton'
 import SelectField from '../../Parts/Fields/Select'
 import InputField from '../../Parts/Fields/Input'
 import * as store from '@client/store'

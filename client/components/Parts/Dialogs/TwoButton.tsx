@@ -5,7 +5,6 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
-import Columns from '../Grids/Columns'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -66,7 +65,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           paddingBottom: 1,
           marginBottom: 2,
           borderBottom: 'solid 1px #ddd',
-          backgroundColor: '#fafafa',
+          backgroundColor: (theme) => theme.palette.OKFNGray100.main,
         }}
       >
         {props.title || 'Dialog'}
@@ -83,18 +82,31 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           </Box>
         )}
       </DialogContent>
-      <Box sx={{ paddingX: 3, paddingY: 1 }}>
-        <Columns spacing={2}>
+      <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
+          { props.cancelLabel ? (
+            <Box sx={{ paddingRight: '12px' }}>
+              <SimpleButton
+                small
+                label={'Cancel'}
+                sx={{ my: 0.5 }}
+                onClick={handleCancel}
+                aria-label="cancel"
+                variant="contained"
+                disabled={props.disabled || props.loading}
+                color="OKFNWhite"
+              />
+            </Box>
+            ) : null }
           <SimpleButton
-            fullWidth
+            small
             label={props.label || 'Confirm'}
             sx={{ my: 0.5 }}
             onClick={handleConfirm}
             aria-label="accept"
             variant="contained"
+            color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
             disabled={props.disabled || props.loading}
           />
-        </Columns>
       </Box>
     </Dialog>
   )

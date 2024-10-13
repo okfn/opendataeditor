@@ -1,7 +1,7 @@
 import * as React from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import ConfirmDialog, { ConfirmDialogProps } from './Confirm'
+import OneButtonDialog, { ConfirmDialogProps } from './OneButton'
 
 export interface InputDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
   value?: string
@@ -19,11 +19,7 @@ export default function InputDialog(props: InputDialogProps) {
 
   const handleConfirm = () => onConfirm && onConfirm(value)
   return (
-    <ConfirmDialog
-      {...rest}
-      onConfirm={handleConfirm}
-      disabled={props.disabled || !value}
-    >
+    <OneButtonDialog {...rest} onConfirm={handleConfirm} disabled={!value}>
       <TextField
         error={!!errorMessage}
         helperText={errorMessage || ' '}
@@ -42,8 +38,21 @@ export default function InputDialog(props: InputDialogProps) {
             <InputAdornment position="start">{prefix}</InputAdornment>
           ) : undefined,
         }}
+        sx={{ marginBottom: 1,
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'gray',
+            },
+            '&:hover fieldset': {
+              borderColor: '#00D1FF',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#00D1FF',
+            },
+          },
+         }}
       />
       {props.children}
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }

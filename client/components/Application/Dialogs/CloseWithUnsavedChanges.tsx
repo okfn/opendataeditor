@@ -1,5 +1,5 @@
 import DangerousIcon from '@mui/icons-material/Dangerous'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import ConfirmDialog from '../../Parts/Dialogs/OneButton'
 import * as store from '@client/store'
 
 export default function CloseWithUnsavedChangesDialog() {
