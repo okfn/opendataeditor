@@ -7,19 +7,19 @@ interface SimpleButtonProps extends ButtonProps {
 }
 
 export default function SimpleButton(props: SimpleButtonProps) {
-  const { label, small, ...others } = props
+  const { label, ...others } = props
+
+  const buttonTextColor = props.color === 'OKFNWhite' ? 'gray': 'white'
   return (
     <Button
       fullWidth={!props.small}
       color={props.color}
       {...others}
     >
-      {small ? (
-        <Typography sx={{ fontWeight: 300, textTransform: 'capitalize' }}>
+      {(
+        <Typography sx={{ textTransform: 'capitalize', fontWeight: 600, color: buttonTextColor }}>
           {label}
         </Typography>
-      ) : (
-        label
       )}
     </Button>
   )

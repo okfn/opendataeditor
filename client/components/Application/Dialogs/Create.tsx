@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import ConfirmDialog from '../../Parts/Dialogs/OneButton'
 import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
 import Columns from '../../Parts/Grids/Columns'

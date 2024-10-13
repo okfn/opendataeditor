@@ -1,5 +1,5 @@
 import DangerousIcon from '@mui/icons-material/Dangerous'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
 
 export default function UnsavedChangesDialog() {
@@ -14,7 +14,7 @@ export default function UnsavedChangesDialog() {
   }
 
   return (
-    <ConfirmDialog
+    <TwoButtonDialog
       open={true}
       title="Unsaved Changes"
       cancelLabel="Discard"
