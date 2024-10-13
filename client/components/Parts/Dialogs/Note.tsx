@@ -4,7 +4,6 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
-import Columns from '../Grids/Columns'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -55,7 +54,7 @@ export default function NoteDialog(props: NoteDialogProps) {
           paddingBottom: 1,
           marginBottom: 2,
           borderBottom: 'solid 1px #ddd',
-          backgroundColor: '#fafafa',
+          backgroundColor: (theme) => theme.palette.OKFNGray100.main,
         }}
       >
         {props.title || 'Dialog'}
@@ -66,18 +65,17 @@ export default function NoteDialog(props: NoteDialogProps) {
         )}
         {props.children}
       </DialogContent>
-      <Box sx={{ paddingX: 3, paddingY: 1 }}>
-        <Columns spacing={2}>
-          <SimpleButton
-            fullWidth
-            color={props.color || 'info'}
-            label={props.label || 'Confirm'}
-            sx={{ my: 0.5 }}
-            onClick={handleConfirm}
-            aria-label="accept"
-            variant="contained"
-          />
-        </Columns>
+      <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <SimpleButton
+          fullWidth
+          label={props.label || 'Confirm'}
+          sx={{ my: 0.5 }}
+          onClick={handleConfirm}
+          aria-label="accept"
+          variant="contained"
+          color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
+          disabled={props.disabled || props.loading}
+        />
       </Box>
     </Dialog>
   )
