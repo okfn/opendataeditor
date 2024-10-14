@@ -99,7 +99,7 @@ export async function onAppStart() {
     togglePanel('report')
   })
 
-  bridge?.onToggleErrorsReport(() => {
+  bridge?.onToggleSource(() => {
     togglePanel('source')
   })
 
