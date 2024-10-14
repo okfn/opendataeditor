@@ -31,7 +31,7 @@
     "lint": "prettier --check \"client/**/*.ts*\" && eslint \"client/**/*.ts*\"",
     "prepare": "husky install",
     "preview": "electron-vite dev",
-    "release": "electron-builder",
+    "release": "electron-builder --publish always",
     "start": "vite --open --port 8080",
     "spec": "vitest run",
     "test": "npm run lint && npm run type && npm run spec",
