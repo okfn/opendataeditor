@@ -1,4 +1,4 @@
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
 
 export default function DeleteFilesFoldersDialog() {
@@ -22,7 +22,7 @@ export default function DeleteFilesFoldersDialog() {
   if (!path) return null
 
   return (
-    <ConfirmDialog
+    <TwoButtonDialog
       open={true}
       title="Delete File"
       description={
@@ -30,7 +30,7 @@ export default function DeleteFilesFoldersDialog() {
           ? 'Are you sure you want to delete these elements?'
           : `Are you sure you want to delete this ${isFolder ? 'folder' : 'file'}?`
       }
-      label="Yes"
+      label="Delete"
       cancelLabel="No"
       onCancel={store.closeDialog}
       onConfirm={async () => {

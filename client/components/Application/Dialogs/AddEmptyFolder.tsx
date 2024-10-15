@@ -8,7 +8,7 @@ export default function AddEmptyFolderDialog() {
     <InputDialog
       open={true}
       value={folderPath}
-      title="Create Folder"
+      title="Create new folder"
       label="Create"
       placholder="Name of the new folder"
       onCancel={store.closeDialog}
