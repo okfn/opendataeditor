@@ -17,7 +17,7 @@ export default function File() {
       }}
     >
       <Menu />
-      <ScrollBox sx={{ flexGrow: 1 }}>
+      <ScrollBox sx={{ flexGrow: 1, zIndex: 10 }}>
         <View />
       </ScrollBox>
       <Panel />

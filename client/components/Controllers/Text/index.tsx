@@ -16,7 +16,7 @@ export default function Text() {
       }}
     >
       <Menu />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, zIndex: 10 }}>
         <Editor />
       </Box>
       <Panel />
