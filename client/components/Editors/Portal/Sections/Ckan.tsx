@@ -2,15 +2,20 @@ import EditorSection from '../../Base/Section'
 import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
 import { useStore } from '../store'
+import Box from '@mui/material/Box'
 
 export default function CkanSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Ckan" onHeadingClick={() => updateHelp('ckan')}>
-      <Baseurl />
-      <Dataset />
-      <AllowUpdate />
-      <Apikey />
+      <Box sx={{ display: 'flex' }}>
+        <Baseurl />
+        <Dataset />
+      </Box>
+      <Box sx={{ display: 'flex' }}>
+        <AllowUpdate />
+        <Apikey />
+      </Box>
     </EditorSection>
   )
 }
