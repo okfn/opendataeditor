@@ -20,7 +20,7 @@ export default function UnsavedChangesDialog() {
       cancelLabel="Discard"
       label="Save"
       Icon={DangerousIcon}
-      description="There are unsaved changes. Please click Save or Discard"
+      description="There are unsaved changes."
       onCancel={onDiscard}
       onConfirm={onSave}
     />
