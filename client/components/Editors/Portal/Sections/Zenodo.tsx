@@ -2,15 +2,21 @@ import EditorSection from '../../Base/Section'
 import MultilineField from '../../../Parts/Fields/Multiline'
 import InputField from '../../../Parts/Fields/Input'
 import { useStore } from '../store'
+import Box from '@mui/material/Box'
 
 export default function ZenodoSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Zenodo" onHeadingClick={() => updateHelp('zenodo')}>
-      <Title />
-      <Description />
-      <Author />
-      <Apikey />
+      <Box sx={{ display: 'flex' }}>
+        {' '}
+        <Title />
+        <Description />
+      </Box>
+      <Box sx={{ display: 'flex' }}>
+        <Author />
+        <Apikey />
+      </Box>
     </EditorSection>
   )
 }
