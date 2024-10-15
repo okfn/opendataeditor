@@ -201,7 +201,8 @@ export function stopTableEditing() {
 
   requestAnimationFrame(() => {
     store.setState('stop-table-editing', (state) => {
-      state.table!.initialEditingValue = undefined
+      if (!state.table) return
+      state.table.initialEditingValue = undefined
     })
   })
 
