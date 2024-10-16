@@ -31,13 +31,13 @@ export default function InputField(props: InputFieldProps) {
   const onBlur = props.onBlur || noop
   return (
     <TextField
-      fullWidth
       name={props.name || props.label}
       type={props.type}
       margin="normal"
       label={props.label}
       value={props.value}
-      size={props.size || 'small'}
+      size={props.size || 'medium'}
+      style={{  width: '350px' }}
       disabled={props.disabled}
       inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value)}

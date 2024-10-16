@@ -8,11 +8,11 @@ export default function CkanSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Ckan" onHeadingClick={() => updateHelp('ckan')}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         <Baseurl />
         <Dataset />
       </Box>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         <AllowUpdate />
         <Apikey />
       </Box>

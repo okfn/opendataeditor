@@ -28,9 +28,10 @@ export default function MultilineField(props: MultilineFieldProps) {
       rows={props.rows}
       type={props.type}
       margin="normal"
+      style={{ width: '350px' }}
       label={props.label}
       value={props.value}
-      size={props.size || 'small'}
+      size={props.size || 'medium'}
       onChange={(ev) => props.onChange(ev.target.value as any)}
       onFocus={onFocus}
       autoFocus={props.autoFocus}
