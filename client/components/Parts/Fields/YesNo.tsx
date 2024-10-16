@@ -15,9 +15,9 @@ export default function YesNoField(props: YesNoFieldProps) {
   return (
     <TextField
       select
-      fullWidth
+      style= {{ width: '350px' }}
       margin="normal"
-      size={props.size || 'small'}
+      size={props.size || 'medium'}
       label={props.label}
       value={props.value ? 'yes' : 'no'}
       onChange={(ev) => props.onChange(ev.target.value === 'yes')}

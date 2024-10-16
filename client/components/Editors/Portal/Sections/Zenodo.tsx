@@ -8,12 +8,12 @@ export default function ZenodoSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection name="Zenodo" onHeadingClick={() => updateHelp('zenodo')}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         {' '}
         <Title />
         <Description />
       </Box>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         <Author />
         <Apikey />
       </Box>
