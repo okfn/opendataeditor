@@ -1,6 +1,6 @@
 import noop from 'lodash/noop'
-import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
+import { StyledTextField } from './Input'
 
 interface YesNoFieldProps {
   label: string
@@ -13,9 +13,9 @@ interface YesNoFieldProps {
 export default function YesNoField(props: YesNoFieldProps) {
   const onFocus = props.onFocus || noop
   return (
-    <TextField
+    <StyledTextField
       select
-      fullWidth
+      style= {{ maxWidth: '350px' }}
       margin="normal"
       size={props.size || 'small'}
       label={props.label}
@@ -25,6 +25,6 @@ export default function YesNoField(props: YesNoFieldProps) {
     >
       <MenuItem value={'yes'}>Yes</MenuItem>
       <MenuItem value={'no'}>No</MenuItem>
-    </TextField>
+    </StyledTextField>
   )
 }
