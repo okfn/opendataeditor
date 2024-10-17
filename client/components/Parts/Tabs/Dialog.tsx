@@ -36,13 +36,29 @@ export default function DialogTabs(props: any) {
             onChange={handleChange}
             aria-label="File Upload Tabs"
             centered
+            sx={{
+              '& .MuiTabs-indicator': {
+                backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+              },
+              '& .MuiButtonBase-root.MuiTab-root': {
+                color: (theme) => theme.palette.OKFNGray500.main,
+                transition: 'color 0.2s ease-in-out',
+                '&:hover': {
+                  opacity: 0.7,
+                },
+                '&.Mui-selected': {
+                  color: (theme) => theme.palette.OKFNBlue.main,
+                },
+              },
+            }}
           >
             {props.labels.map((label: string, index: number) => (
-                <Tab
-                    key={label}
-                    label={label}
-                    {...a11yProps(index)}
-                />
+              <Tab
+                key={label}
+                label={label}
+                sx={{ textTransform: 'capitalize' }}
+                {...a11yProps(index)}
+              />
           ))}
           </Tabs>
         </Box>
