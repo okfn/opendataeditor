@@ -39,9 +39,9 @@ export default function DialogTabs(props: any) {
           >
             {props.labels.map((label: string, index: number) => (
                 <Tab
-                key={label}
-                label={label}
-                {...a11yProps(index)}
+                    key={label}
+                    label={label}
+                    {...a11yProps(index)}
                 />
           ))}
           </Tabs>

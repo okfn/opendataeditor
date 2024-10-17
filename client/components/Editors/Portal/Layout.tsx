@@ -26,15 +26,15 @@ export default function Layout() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <DialogTabs labels={tabLabels}>
           <Box>
-            <EditorHelp helpItem={helpItem} />
+            <EditorHelp helpItem={helpItem} withIcon />
             <CkanSection />
           </Box>
           <Box>
-            <EditorHelp helpItem={helpItem} />
+            <EditorHelp helpItem={helpItem} withIcon />
             <GithubSection />
           </Box>
           <Box>
-            <EditorHelp helpItem={helpItem} />
+            <EditorHelp helpItem={helpItem} withIcon />
             <ZenodoSection />
           </Box>
         </DialogTabs>

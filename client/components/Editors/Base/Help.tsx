@@ -4,13 +4,19 @@ import * as types from '../../../types'
 
 interface EditorHelpProps {
   helpItem: types.IHelpItem
+  withIcon?: boolean
 }
 
 export default function EditorHelp(props: EditorHelpProps) {
-  const { helpItem } = props
+  const { helpItem, withIcon } = props
   return (
     <Box sx={{ height: '100%' }}>
-      <HelpCard title={helpItem.title} subtitle={helpItem.path} link={helpItem.link}>
+      <HelpCard
+        title={helpItem.title}
+        subtitle={helpItem.path}
+        link={helpItem.link}
+        withIcon={withIcon}
+      >
         {helpItem.description}
       </HelpCard>
     </Box>
