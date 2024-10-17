@@ -36,6 +36,7 @@ export default function TableEditor(props: TableEditorProps) {
     [schema, report, history, selection]
   )
   const [rowsPerPage, setRowsPerPage] = React.useState(20)
+  const [userRowsPerPage, setUserRowsPerPage] = React.useState<number | undefined>()
 
   const [rowHeight] = React.useState(40)
 
@@ -105,8 +106,8 @@ export default function TableEditor(props: TableEditorProps) {
         renderLoadMask={LoadMask}
         defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
         style={{ height: '100%', border: 'none' }}
-        limit={rowsPerPage}
-        onLimitChange={setRowsPerPage}
+        limit={userRowsPerPage || rowsPerPage}
+        onLimitChange={setUserRowsPerPage}
         rowHeight={rowHeight}
         showColumnMenuLockOptions={false}
         showColumnMenuGroupOptions={false}
