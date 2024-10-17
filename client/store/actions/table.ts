@@ -1,4 +1,5 @@
 import { client } from '@client/client'
+import invariant from 'tiny-invariant'
 import { mapValues, isNull } from 'lodash'
 import { onFileCreated, onFileUpdated } from './file'
 import { cloneDeep } from 'lodash'
@@ -274,6 +275,28 @@ export async function deleteMultipleCells(cells: types.ICellSelection) {
   })
 
   helpers.applyTableHistory({ changes: [change] }, grid.data)
+}
+
+export async function renameColumn(props: {
+  index: number
+  oldName: string
+  newName: string
+}) {
+  const { grid } = getRefs()
+  const { path } = store.getState()
+  invariant(grid)
+  invariant(path)
+
+  const result = await client.columnRename({ ...props, path })
+
+  if (result instanceof client.Error) {
+    return store.setState('rename-column-error', (state) => {
+      state.error = result
+    })
+  }
+
+  await onFileUpdated([path])
+  grid.reload()
 }
 
 // Loaders
