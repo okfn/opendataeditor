@@ -1,6 +1,6 @@
 import noop from 'lodash/noop'
 import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
+import { StyledTextField } from './Input'
 
 // TODO: rework? merge with SelectField?
 // TODO: handle different value types properly (string/number/etc)
@@ -22,7 +22,7 @@ export default function MultiselectField(props: MultiselectFieldProps) {
   )
 
   return (
-    <TextField
+    <StyledTextField
       select
       fullWidth
       label={props.label}
@@ -39,6 +39,6 @@ export default function MultiselectField(props: MultiselectFieldProps) {
           {option.label}
         </MenuItem>
       ))}
-    </TextField>
+    </StyledTextField>
   )
 }
