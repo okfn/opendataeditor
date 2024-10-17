@@ -50,6 +50,7 @@ export default function Editor() {
           onEditStop={store.stopTableEditing}
           defaultCellSelection={cellSelection}
           onCellSelectionChange={setCellSelection}
+          onColumnRename={store.renameColumn}
           handle={(ref) => store.setRefs({ grid: ref })}
         />
       </Box>

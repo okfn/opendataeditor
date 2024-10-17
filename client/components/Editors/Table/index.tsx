@@ -2,6 +2,7 @@ import '@inovua/reactdatagrid-community/index.css'
 import * as React from 'react'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import Box from '@mui/material/Box'
+import InputDialog from '../../Parts/Dialogs/Input'
 import Typography from '@mui/material/Typography'
 import InovuaDatagrid from '@inovua/reactdatagrid-community'
 import { TypeDataGridProps } from '@inovua/reactdatagrid-community/types'
@@ -20,10 +21,12 @@ export interface TableEditorProps extends Partial<TypeDataGridProps> {
   report?: types.IReport
   history?: types.IHistory
   selection?: types.ITableSelection
+  onColumnRename?: (props: { index: number; oldName: string; newName: string }) => void
 }
 
 export default function TableEditor(props: TableEditorProps) {
-  const { source, schema, report, history, selection, ...others } = props
+  const { source, schema, report, history, selection, onColumnRename, ...others } = props
+  const [dialog, setDialog] = React.useState<IDialog | undefined>()
 
   const theme = useTheme()
   const colorPalette = theme.palette
@@ -53,11 +56,24 @@ export default function TableEditor(props: TableEditorProps) {
   })
 
   const renderColumnContextMenu = React.useCallback(
-    (menuProps: { items: any[] }): React.ReactNode => {
+    (menuProps: { items: any[] }, context: any) => {
       menuProps.items = menuProps.items.filter((x) => x.label !== 'Columns' && x !== '-')
-      return
+      menuProps.items.push({
+        itemId: 'rename',
+        label: 'Rename',
+        disabled: history?.changes.length,
+        onClick: () => {
+          setDialog({
+            type: 'columnRename',
+            name: context.cellProps.name,
+            // first column is the row number column
+            index: context.cellProps.columnIndex - 1,
+          })
+        },
+      })
+      return undefined
     },
-    []
+    [history?.changes.length]
   )
 
   function resizeTable() {
@@ -72,24 +88,82 @@ export default function TableEditor(props: TableEditorProps) {
   }
 
   return (
-    <InovuaDatagrid
-      onReady={resizeTable}
-      idProperty="_rowNumber"
-      dataSource={source}
-      columns={columns}
-      pagination={true}
-      loadingText={<Typography>Loading...</Typography>}
-      renderLoadMask={LoadMask}
-      defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
-      style={{ height: '100%', border: 'none' }}
-      limit={rowsPerPage}
-      onLimitChange={setRowsPerPage}
-      rowHeight={rowHeight}
-      showColumnMenuLockOptions={false}
-      showColumnMenuGroupOptions={false}
-      enableColumnAutosize={false}
-      renderColumnContextMenu={renderColumnContextMenu}
-      {...others}
+    <>
+      <ColumnRenameDialog
+        dialog={dialog}
+        schema={schema}
+        onClose={() => setDialog(undefined)}
+        onColumnRename={onColumnRename}
+      />
+      <InovuaDatagrid
+        onReady={resizeTable}
+        idProperty="_rowNumber"
+        dataSource={source}
+        columns={columns}
+        pagination={true}
+        loadingText={<Typography>Loading...</Typography>}
+        renderLoadMask={LoadMask}
+        defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
+        style={{ height: '100%', border: 'none' }}
+        limit={rowsPerPage}
+        onLimitChange={setRowsPerPage}
+        rowHeight={rowHeight}
+        showColumnMenuLockOptions={false}
+        showColumnMenuGroupOptions={false}
+        enableColumnAutosize={false}
+        renderColumnContextMenu={renderColumnContextMenu}
+        {...others}
+      />
+    </>
+  )
+}
+
+type IDialog = IColumnRenameDialog
+
+type IColumnRenameDialog = {
+  type: 'columnRename'
+  name: string
+  index: number
+}
+
+function ColumnRenameDialog(props: {
+  dialog?: IDialog
+  onClose: () => void
+  schema: types.ISchema
+  onColumnRename: React.ComponentProps<typeof TableEditor>['onColumnRename']
+}) {
+  if (props.dialog?.type !== 'columnRename') return null
+
+  const [name, setName] = React.useState(props.dialog.name)
+
+  const isUpdated = name !== props.dialog.name
+  const isUnique = !props.schema.fields.map((field) => field.name).includes(name)
+
+  let errorMessage = ''
+  if (!name) {
+    errorMessage = 'Name must not be blank'
+  } else if (isUpdated && !isUnique) {
+    errorMessage = 'Name must be unique'
+  }
+
+  return (
+    <InputDialog
+      open={true}
+      value={name}
+      description="Enter a new column name:"
+      onChange={setName}
+      title={`Rename Column "${props.dialog.name}"`}
+      onCancel={props.onClose}
+      disabled={!isUpdated || !!errorMessage}
+      errorMessage={errorMessage}
+      onConfirm={() => {
+        props.onColumnRename?.({
+          index: props.dialog!.index,
+          oldName: props.dialog!.name,
+          newName: name,
+        })
+        props.onClose()
+      }}
     />
   )
 }

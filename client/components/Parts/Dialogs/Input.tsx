@@ -15,14 +15,18 @@ export interface InputDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> 
 
 export default function InputDialog(props: InputDialogProps) {
   const { prefix, placholder, spellcheck, onConfirm, errorMessage, ...rest } = props
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState(props.value || '')
 
   const handleConfirm = () => onConfirm && onConfirm(value)
   return (
-    <ConfirmDialog {...rest} onConfirm={handleConfirm} disabled={!value}>
+    <ConfirmDialog
+      {...rest}
+      onConfirm={handleConfirm}
+      disabled={props.disabled || !value}
+    >
       <TextField
         error={!!errorMessage}
-        helperText={errorMessage}
+        helperText={errorMessage || ' '}
         autoFocus
         fullWidth
         size="small"
@@ -38,7 +42,6 @@ export default function InputDialog(props: InputDialogProps) {
             <InputAdornment position="start">{prefix}</InputAdornment>
           ) : undefined,
         }}
-        sx={{ marginBottom: 1 }}
       />
       {props.children}
     </ConfirmDialog>

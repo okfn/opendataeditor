@@ -9,15 +9,17 @@ import HeadingBox from './Heading/Box'
 export interface EditorListProps {
   kind: string
   query?: string
-  onAddClick: () => void
+  onAddClick?: () => void
   // We accept search as a prop otherwise it loses focus
   SearchInput?: React.ReactNode
 }
 
 export default function EditorList(props: React.PropsWithChildren<EditorListProps>) {
   const AddButton = () => {
+    if (!props.onAddClick) return null
+
     return (
-      <Button title={`Add ${startCase(props.kind)}`} onClick={() => props.onAddClick()}>
+      <Button title={`Add ${startCase(props.kind)}`} onClick={() => props.onAddClick?.()}>
         Add {startCase(props.kind)}
       </Button>
     )

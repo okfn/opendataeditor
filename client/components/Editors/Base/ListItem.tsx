@@ -16,27 +16,37 @@ interface EditorListItemProps {
 
 export default function EditorListItem(props: EditorListItemProps) {
   const theme = useTheme()
+
+  const RemoveButton = () => {
+    if (!props.onRemoveClick) return null
+
+    return (
+      <Button
+        size="small"
+        color="warning"
+        component="span"
+        title={`Remove ${capitalize(props.kind)}`}
+        sx={{ marginLeft: 2, textDecoration: 'underline' }}
+        onClick={(ev) => {
+          ev.stopPropagation()
+          props.onRemoveClick?.()
+        }}
+      >
+        Remove
+      </Button>
+    )
+  }
+
   const EndIcon = () => {
     const label = (props.type || 'item').toUpperCase()
     return (
       <Box>
         <Typography component="span">{label}</Typography>
-        <Button
-          size="small"
-          color="warning"
-          component="span"
-          title={`Remove ${capitalize(props.kind)}`}
-          sx={{ marginLeft: 2, textDecoration: 'underline' }}
-          onClick={(ev) => {
-            ev.stopPropagation()
-            props.onRemoveClick && props.onRemoveClick()
-          }}
-        >
-          Remove
-        </Button>
+        <RemoveButton />
       </Box>
     )
   }
+
   return (
     <Button
       size="large"

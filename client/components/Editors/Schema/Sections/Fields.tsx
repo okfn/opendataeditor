@@ -28,13 +28,11 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
-  const addField = useStore((state) => state.addField)
-  const removeField = useStore((state) => state.removeField)
+
   return (
     <EditorList
       kind="field"
       query={query}
-      onAddClick={() => addField()}
       SearchInput={
         <EditorSearch
           value={query || ''}
@@ -46,10 +44,9 @@ function FieldList() {
         <EditorListItem
           key={index}
           kind="field"
-          name={field.title || field.name}
+          name={field.name}
           type={field.type}
           onClick={() => updateFieldState({ index })}
-          onRemoveClick={() => removeField(index)}
         />
       ))}
     </EditorList>
@@ -116,6 +113,7 @@ function Name() {
 
   return (
     <InputField
+      disabled
       label="Name"
       value={value}
       error={!value}
