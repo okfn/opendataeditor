@@ -39,7 +39,7 @@ export default function PublishDialog() {
       onCancel={handleClose}
       onConfirm={publishedUrl ? handleClose : handlePublish}
     >
-      <Box sx={{ marginLeft: -2, paddingBottom: 2 }}>
+      <Box sx={{ padding: '24px 24px 40px 24px' }}>
         <PortalEditor
           portal={portal}
           onChange={(portal) => {
