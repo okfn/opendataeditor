@@ -1,9 +1,9 @@
 import * as React from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import OneButtonDialog, { ConfirmDialogProps } from './OneButton'
+import OneButtonDialog, { OneButtonDialogProps } from './OneButton'
 
-export interface InputDialogProps extends Omit<ConfirmDialogProps, 'onConfirm'> {
+export interface InputDialogProps extends Omit<OneButtonDialogProps, 'onConfirm'> {
   value?: string
   prefix?: string
   placholder?: string

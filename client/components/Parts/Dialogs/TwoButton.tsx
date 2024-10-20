@@ -8,7 +8,7 @@ import SimpleButton from '../Buttons/SimpleButton'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 
-export interface ConfirmDialogProps {
+export interface TwoButtonDialogProps {
   open?: boolean
   title?: string
   description?: string
@@ -25,7 +25,7 @@ export interface ConfirmDialogProps {
   disableClosing?: boolean
 }
 
-export default function ConfirmDialog(props: ConfirmDialogProps) {
+export default function ConfirmDialog(props: TwoButtonDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
 
