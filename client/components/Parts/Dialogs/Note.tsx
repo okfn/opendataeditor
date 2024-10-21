@@ -4,8 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
+import Columns from '../Grids/Columns'
 
 export interface NoteDialogProps {
   open?: boolean
@@ -36,25 +35,13 @@ export default function NoteDialog(props: NoteDialogProps) {
         if ((!props.ctrlEnter || event.ctrlKey) && event.key === 'Enter') handleConfirm()
       }}
     >
-      <IconButton
-        aria-label="close"
-        onClick={handleClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
       <DialogTitle
         id="dialog-title"
         sx={{
           paddingBottom: 1,
           marginBottom: 2,
           borderBottom: 'solid 1px #ddd',
-          backgroundColor: (theme) => theme.palette.OKFNGray100.main,
+          backgroundColor: '#fafafa',
         }}
       >
         {props.title || 'Dialog'}
@@ -65,17 +52,18 @@ export default function NoteDialog(props: NoteDialogProps) {
         )}
         {props.children}
       </DialogContent>
-      <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
-        <SimpleButton
-          fullWidth
-          label={props.label || 'Confirm'}
-          sx={{ my: 0.5 }}
-          onClick={handleConfirm}
-          aria-label="accept"
-          variant="contained"
-          color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
-          disabled={props.disabled || props.loading}
-        />
+      <Box sx={{ paddingX: 3, paddingY: 1 }}>
+        <Columns spacing={2}>
+          <SimpleButton
+            fullWidth
+            color={props.color || 'info'}
+            label={props.label || 'Confirm'}
+            sx={{ my: 0.5 }}
+            onClick={handleConfirm}
+            aria-label="accept"
+            variant="contained"
+          />
+        </Columns>
       </Box>
     </Dialog>
   )

@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import Divider from '@mui/material/Divider'
-import ConfirmDialog, { OneButtonDialogProps } from './OneButton'
+import OneButtonDialog, { OneButtonDialogProps } from './OneButton'
 
 interface PickDialogProps extends Omit<OneButtonDialogProps, 'onConfirm'> {
   items: string[]
@@ -106,14 +106,14 @@ export default function PickDialog(props: PickDialogProps) {
   )
 
   return (
-    <ConfirmDialog
+    <OneButtonDialog
       {...rest}
       onConfirm={() =>
         onConfirm(propsItems.filter((_, index) => leftChecked.includes(index)))
       }
     >
       {customList('Items', available)}
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }
 

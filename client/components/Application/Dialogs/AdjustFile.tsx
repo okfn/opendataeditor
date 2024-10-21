@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
-import ConfirmDialog from '../../Parts/Dialogs/OneButton'
+import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 import SelectField from '../../Parts/Fields/Select'
 import InputField from '../../Parts/Fields/Input'
 import * as store from '@client/store'
@@ -17,7 +17,7 @@ export default function AdjustFileDialog() {
   const newType = record.type !== type ? type : undefined
 
   return (
-    <ConfirmDialog
+    <OneButtonDialog
       disabled={!newName && !newType}
       open={true}
       title="Adjust File"
@@ -39,6 +39,6 @@ export default function AdjustFileDialog() {
           onChange={setType}
         />
       </Box>
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }
