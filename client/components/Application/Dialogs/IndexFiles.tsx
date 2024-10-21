@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import ConfirmDialog from '../../Parts/Dialogs/OneButton'
 import LinearSensor from '../../Parts/Sensors/Linear'
 import * as store from '@client/store'
 import { client } from '@client/client'

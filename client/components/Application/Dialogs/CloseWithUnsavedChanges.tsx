@@ -1,5 +1,5 @@
 import DangerousIcon from '@mui/icons-material/Dangerous'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
 
 export default function CloseWithUnsavedChangesDialog() {
@@ -14,13 +14,13 @@ export default function CloseWithUnsavedChangesDialog() {
   }
 
   return (
-    <ConfirmDialog
+    <TwoButtonDialog
       open={true}
       title="Unsaved Changes"
       cancelLabel="Discard"
       label="Save"
       Icon={DangerousIcon}
-      description="There are unsaved changes. Please click Save or Discard"
+      description="There are unsaved changes."
       onCancel={onDiscard}
       onConfirm={onSave}
       disableClosing={true}

@@ -5,9 +5,10 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
-import Columns from '../Grids/Columns'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
-export interface ConfirmDialogProps {
+export interface OneButtonDialogProps {
   open?: boolean
   title?: string
   description?: string
@@ -24,7 +25,7 @@ export interface ConfirmDialogProps {
   disableClosing?: boolean
 }
 
-export default function ConfirmDialog(props: ConfirmDialogProps) {
+export default function OneButtonDialog(props: OneButtonDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
 
@@ -46,20 +47,32 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
         if ((!props.ctrlEnter || event.ctrlKey) && event.key === 'Enter') handleConfirm()
       }}
     >
+      <IconButton
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogTitle
         id="dialog-title"
         sx={{
           paddingBottom: 1,
           marginBottom: 2,
           borderBottom: 'solid 1px #ddd',
-          backgroundColor: '#fafafa',
+          backgroundColor: (theme) => theme.palette.OKFNGray100.main,
         }}
       >
         {props.title || 'Dialog'}
       </DialogTitle>
       <DialogContent sx={{ paddingTop: 0, paddingBottom: 0 }}>
         {props.description && (
-          <Box sx={{ marginBottom: 1, opacity: 0.6 }}>{props.description}</Box>
+          <Box sx={{ marginBottom: 0, opacity: 0.6 }}>{props.description}</Box>
         )}
         {props.children}
         {props.loading && (
@@ -69,28 +82,17 @@ export default function ConfirmDialog(props: ConfirmDialogProps) {
           </Box>
         )}
       </DialogContent>
-      <Box sx={{ paddingX: 3, paddingY: 1 }}>
-        <Columns spacing={2}>
-          <SimpleButton
-            fullWidth
-            label={props.cancelLabel || 'Cancel'}
-            sx={{ my: 0.5 }}
-            onClick={handleCancel}
-            aria-label="cancel"
-            color="warning"
-            variant="contained"
-            disabled={props.loading}
-          />
-          <SimpleButton
-            fullWidth
-            label={props.label || 'Confirm'}
-            sx={{ my: 0.5 }}
-            onClick={handleConfirm}
-            aria-label="accept"
-            variant="contained"
-            disabled={props.disabled || props.loading}
-          />
-        </Columns>
+      <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <SimpleButton
+          fullWidth
+          label={props.label || 'Confirm'}
+          sx={{ my: 0.5 }}
+          onClick={handleConfirm}
+          aria-label="accept"
+          variant="contained"
+          color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
+          disabled={props.disabled || props.loading}
+        />
       </Box>
     </Dialog>
   )

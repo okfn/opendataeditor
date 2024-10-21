@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Save'
-import ConfirmDialog from '../../Parts/Dialogs/Confirm'
+import ConfirmDialog from '../../Parts/Dialogs/OneButton'
 import ConfigEditor from '../../Editors/Config'
 import * as store from '@client/store'
 
