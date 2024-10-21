@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import LinearProgress from '@mui/material/LinearProgress'
 import CheckIcon from '@mui/icons-material/Check'
-import ConfirmDialog from '../../Parts/Dialogs/OneButton'
+import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 import PortalEditor from '../../Editors/Portal'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
@@ -29,7 +29,7 @@ export default function PublishDialog() {
   }
 
   return (
-    <ConfirmDialog
+    <OneButtonDialog
       open={true}
       disabled={!control}
       maxWidth="md"
@@ -62,6 +62,6 @@ export default function PublishDialog() {
           </Link>{' '}
         </Box>
       )}
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }

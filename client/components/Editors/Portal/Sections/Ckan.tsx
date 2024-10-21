@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 export default function CkanSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Ckan" onHeadingClick={() => updateHelp('ckan')}>
+    <EditorSection onHeadingClick={() => updateHelp('ckan')}>
       <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         <Baseurl />
         <Dataset />
