@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 export default function GithubSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Github" onHeadingClick={() => updateHelp('github')}>
+    <EditorSection onHeadingClick={() => updateHelp('github')}>
       <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         {' '}
         <User />

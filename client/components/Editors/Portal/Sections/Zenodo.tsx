@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 export default function ZenodoSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Zenodo" onHeadingClick={() => updateHelp('zenodo')}>
+    <EditorSection onHeadingClick={() => updateHelp('zenodo')}>
       <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         {' '}
         <Title />
