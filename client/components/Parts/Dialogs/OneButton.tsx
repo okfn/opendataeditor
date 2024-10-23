@@ -82,7 +82,7 @@ export default function OneButtonDialog(props: OneButtonDialogProps) {
           </Box>
         )}
       </DialogContent>
-      <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
+      <Box sx={{ marginX: props.title === 'Publish Dataset' ? '48px' : 'unset', paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
         <SimpleButton
           fullWidth
           label={props.label || 'Confirm'}
