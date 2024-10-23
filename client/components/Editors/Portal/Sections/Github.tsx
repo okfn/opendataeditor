@@ -1,15 +1,21 @@
 import EditorSection from '../../Base/Section'
 import InputField from '../../../Parts/Fields/Input'
 import { useStore } from '../store'
+import Box from '@mui/material/Box'
 
 export default function GithubSection() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Github" onHeadingClick={() => updateHelp('github')}>
-      <User />
-      <Repo />
-      <Email />
-      <Apikey />
+    <EditorSection onHeadingClick={() => updateHelp('github')}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        {' '}
+        <User />
+        <Repo />
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Email />
+        <Apikey />{' '}
+      </Box>
     </EditorSection>
   )
 }

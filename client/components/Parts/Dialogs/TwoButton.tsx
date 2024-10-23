@@ -25,7 +25,7 @@ export interface TwoButtonDialogProps {
   disableClosing?: boolean
 }
 
-export default function ConfirmDialog(props: TwoButtonDialogProps) {
+export default function TwoButtonDialog(props: TwoButtonDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
-import ConfirmDialog from '../../Parts/Dialogs/OneButton'
+import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 import MultilineField from '../../Parts/Fields/Multiline'
 import InputField from '../../Parts/Fields/Input'
 import Columns from '../../Parts/Grids/Columns'
@@ -85,7 +85,7 @@ export default function CreateDialog() {
   }
 
   return (
-    <ConfirmDialog
+    <OneButtonDialog
       ctrlEnter
       open={true}
       maxWidth="md"
@@ -139,6 +139,6 @@ export default function CreateDialog() {
           )}
         </Box>
       </Columns>
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }

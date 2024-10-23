@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import SaveIcon from '@mui/icons-material/Save'
-import ConfirmDialog from '../../Parts/Dialogs/OneButton'
+import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 import ConfigEditor from '../../Editors/Config'
 import * as store from '@client/store'
 
@@ -13,7 +13,7 @@ export default function ConfigDialog() {
   if (!newConfig) return null
 
   return (
-    <ConfirmDialog
+    <OneButtonDialog
       open={true}
       title="Config"
       label="Save"
@@ -32,6 +32,6 @@ export default function ConfigDialog() {
           defaultSection={dialog === 'configProject' ? 'project' : undefined}
         />
       </Box>
-    </ConfirmDialog>
+    </OneButtonDialog>
   )
 }

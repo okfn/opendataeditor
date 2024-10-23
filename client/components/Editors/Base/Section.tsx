@@ -5,7 +5,7 @@ import Columns from '../../Parts/Grids/Columns'
 import HeadingBox from './Heading/Box'
 
 export interface EditorItemProps {
-  name: string
+  name?: string
   onHeadingClick?: () => void
   onBackClick?: () => void
 }
@@ -26,7 +26,7 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     <React.Fragment>
       <HeadingBox onClick={() => props.onHeadingClick && props.onHeadingClick()}>
         <Columns spacing={1} layout={[6, 6]}>
-          <Box>{props.name}</Box>
+          {props.name ? <Box>{props.name}</Box> : null}
           <Box sx={{ float: 'right' }}>
             <BackButton />
           </Box>

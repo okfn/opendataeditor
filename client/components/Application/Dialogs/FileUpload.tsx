@@ -5,8 +5,6 @@ import IconButton from '@mui/material/IconButton'
 import DialogContent from '@mui/material/DialogContent'
 import CloseIcon from '@mui/icons-material/Close'
 import * as store from '@client/store'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
 import { styled } from '@mui/material/styles'
 import uploadFilesDialogImg from '../../../assets/dialog_upload_files.png'
 import iconUploadFileImg from '../../../assets/icon_upload_file.png'
@@ -18,6 +16,7 @@ import TextField from '@mui/material/TextField'
 import CircularProgress from '@mui/material/CircularProgress'
 import InputAdornment from '@mui/material/InputAdornment'
 import * as helpers from '../../../helpers'
+import DialogTabs from '../../Parts/Tabs/Dialog'
 
 export default function FileUploadDialog() {
   const [errorMessage, setErrorMessage] = React.useState('')
@@ -26,20 +25,9 @@ export default function FileUploadDialog() {
     store.closeDialog()
   }
 
-  const dialogTab = store.useStore((state) => state.dialogTab)
-
-  const [value, setValue] = React.useState(dialogTab ? dialogTab : 0)
-
   const [remoteUrlValue, setRemoteUrlValue] = React.useState('')
 
   const [loading, setLoading] = React.useState(false)
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    }
-  }
 
   // by default the height of the tabs is set by its content, to avoid the height jump
   // when changing the tabs we assign the second tab whatever is the height of the first one
@@ -49,13 +37,6 @@ export default function FileUploadDialog() {
   React.useEffect(() => {
     tabRefForHeight.current ? setTabHeight(tabRefForHeight.current.clientHeight) : null
   }, [tabRefForHeight])
-
-  // the event needs to be passed even if not used, disabling here so there's
-  // no unused variable error in the typescript check
-  // @ts-ignore
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
 
   const inputFileRef = React.useRef<HTMLInputElement>(null)
   const inputFolderRef = React.useRef<HTMLInputElement>(null)
@@ -97,6 +78,8 @@ export default function FileUploadDialog() {
     }
   }
 
+  const tabLabels = ['From your computer', 'Add external data']
+
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) return null
 
@@ -132,139 +115,110 @@ export default function FileUploadDialog() {
           <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="File Upload Tabs"
-            centered
-          >
-            <Tab label="From your computer" {...a11yProps(0)} />
-            <Tab label="Add external data" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <Box ref={tabRefForHeight}>
-            <Columns columns={2} spacing={4}>
-              <FileSelectBox
-                sx={{
-                  ':hover': {
-                    borderColor: (theme) => theme.palette.primary.main,
-                  },
-                }}
-              >
-                <input
-                  type="file"
-                  multiple
-                  ref={inputFileRef}
-                  onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
-                    if (ev.target.files) {
-                      await store.addFiles(ev.target.files)
-                      store.openDialog('openLocation')
-                    }
-                  }}
-                />
-                <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                  <Box>
-                    <img src={iconUploadFileImg} alt="Icon Upload File" />
-                  </Box>
-                  <Box>Add one or more Excel or csv files </Box>
-                  <StyledSelectBox className="file-select__button">
-                    Select
-                  </StyledSelectBox>
-                </Box>
-              </FileSelectBox>
-              <FileSelectBox
-                sx={{
-                  ':hover': {
-                    borderColor: (theme) => theme.palette.primary.main,
-                  },
-                }}
-              >
-                <input
-                  type="file"
-                  multiple
-                  ref={inputFolderRef}
-                  onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-                    if (ev.target.files) {
-                      store.addFiles(ev.target.files)
-                      store.closeDialog()
-                    }
-                  }}
-                  // @ts-expect-error
-                  webkitdirectory=""
-                />
-                <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                  <Box>
-                    <img src={iconUploadFolderImg} alt="Icon Upload File" />
-                  </Box>
-                  <Box>Add one or more folders</Box>
-                  <StyledSelectBox className="file-select__button">
-                    Select
-                  </StyledSelectBox>
-                </Box>
-              </FileSelectBox>
-            </Columns>
-          </Box>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <Box sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: tabHeight }}>
-            <Box
-              sx={{
-                fontSize: '14px',
-              }}
-            >
-              Link to the external table:
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              <AddRemoteTextfield
-                value={remoteUrlValue}
-                errorMessage={errorMessage}
-                onChange={onAddRemoteTextfieldChange}
-              />
-              {loading ? (
-                <CircularProgress
-                  size={'2rem'}
+          <DialogTabs labels={tabLabels}>
+            <Box ref={tabRefForHeight}>
+              <Columns columns={2} spacing={4}>
+                <FileSelectBox
                   sx={{
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: '#00D1FF',
+                    ':hover': {
+                      borderColor: (theme) => theme.palette.primary.main,
                     },
-                    padding: '10px',
                   }}
-                />
-              ) : null}
+                >
+                  <input
+                    type="file"
+                    multiple
+                    ref={inputFileRef}
+                    onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
+                      if (ev.target.files) {
+                        await store.addFiles(ev.target.files)
+                        store.openDialog('openLocation')
+                      }
+                    }}
+                  />
+                  <Box sx={{ padding: '32px 48px 24px 48px' }}>
+                    <Box>
+                      <img src={iconUploadFileImg} alt="Icon Upload File" />
+                    </Box>
+                    <Box>Add one or more Excel or csv files </Box>
+                    <StyledSelectBox className="file-select__button">
+                      Select
+                    </StyledSelectBox>
+                  </Box>
+                </FileSelectBox>
+                <FileSelectBox
+                  sx={{
+                    ':hover': {
+                      borderColor: (theme) => theme.palette.primary.main,
+                    },
+                  }}
+                >
+                  <input
+                    type="file"
+                    multiple
+                    ref={inputFolderRef}
+                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                      if (ev.target.files) {
+                        store.addFiles(ev.target.files)
+                        store.closeDialog()
+                      }
+                    }}
+                    // @ts-expect-error
+                    webkitdirectory=""
+                  />
+                  <Box sx={{ padding: '32px 48px 24px 48px' }}>
+                    <Box>
+                      <img src={iconUploadFolderImg} alt="Icon Upload File" />
+                    </Box>
+                    <Box>Add one or more folders</Box>
+                    <StyledSelectBox className="file-select__button">
+                      Select
+                    </StyledSelectBox>
+                  </Box>
+                </FileSelectBox>
+              </Columns>
             </Box>
-            <SimpleButton
-              label={'Add'}
-              sx={{ my: 0.5, marginTop: '53px' }}
-              variant="contained"
-              aria-label="accept"
-              disabled={!remoteUrlValue}
-              onClick={() => onAddRemoteConfirm(remoteUrlValue)}
-            />
-          </Box>
-        </CustomTabPanel>
+            <Box
+              sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: tabHeight }}
+            >
+              <Box
+                sx={{
+                  fontSize: '14px',
+                }}
+              >
+                Link to the external table:
+              </Box>
+              <Box sx={{ display: 'flex' }}>
+                <AddRemoteTextfield
+                  value={remoteUrlValue}
+                  errorMessage={errorMessage}
+                  onChange={onAddRemoteTextfieldChange}
+                />
+                {loading ? (
+                  <CircularProgress
+                    size={'2rem'}
+                    sx={{
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: '#00D1FF',
+                      },
+                      padding: '10px',
+                    }}
+                  />
+                ) : null}
+              </Box>
+              <SimpleButton
+                label={'Add'}
+                sx={{ my: 0.5, marginTop: '53px' }}
+                variant="contained"
+                aria-label="accept"
+                disabled={!remoteUrlValue}
+                onClick={() => onAddRemoteConfirm(remoteUrlValue)}
+              />
+            </Box>
+          </DialogTabs>
+        </Box>
       </DialogContent>
     </Dialog>
-  )
-}
-
-function CustomTabPanel(props: {
-  children?: React.ReactNode
-  index: number
-  value: number
-}) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
   )
 }
 
