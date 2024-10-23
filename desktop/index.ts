@@ -1,10 +1,11 @@
 import { app, dialog, BrowserWindow } from 'electron'
-import { electronApp, optimizer } from '@electron-toolkit/utils'  
+import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import { createBridge } from './bridge'
 import { join } from 'path'
 import log from 'electron-log'
 import * as settings from './settings'
+import { createMenu } from './menu'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -15,7 +16,8 @@ app.whenReady().then(async () => {
 
   log.info('## Start client')
   createBridge()
-  await createWindow()
+  const mainWindow = await createWindow()
+  createMenu(mainWindow)
 })
 
 // Default open or close DevTools by F12 in development
@@ -51,6 +53,13 @@ process.on('unhandledRejection', async (error: any) => {
     detail: error.toString(),
   })
   app.quit()
+})
+
+app.setAboutPanelOptions({
+  applicationName: 'Open Data Editor',
+  applicationVersion: '1.0.0',
+  website: 'https://opendataeditor.okfn.org/',
+  iconPath: './client/assets/ODE_sidebar_logo.svg'
 })
 
 // Configure logger to write to the app directory

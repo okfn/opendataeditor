@@ -10,9 +10,10 @@ export function toggleDialog(dialog: IDialog) {
   }
 }
 
-export function openDialog(dialog: IDialog) {
+export function openDialog(dialog: IDialog, dialogTab?: number) {
   store.setState('open-dialog', (state) => {
     state.dialog = dialog
+    state.dialogTab = dialogTab
   })
 }
 
