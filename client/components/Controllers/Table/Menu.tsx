@@ -12,6 +12,8 @@ export default function Menu() {
 
   const isTableUpdated = store.useStore(store.getIsTableOrResourceUpdated)
 
+  console.log('report', report)
+
   return (
     <menu.MenuBar fullWidth>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
@@ -19,6 +21,7 @@ export default function Menu() {
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
           <menu.MetadataButton
@@ -31,6 +34,7 @@ export default function Menu() {
             active={panel === 'report'}
             onClick={() => store.togglePanel('report')}
             color="OKFNCoolGray"
+            numberErrors={report?.stats.errors}
           />
           <menu.SourceButton
             disabled={!source?.text}
