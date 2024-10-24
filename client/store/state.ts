@@ -187,6 +187,7 @@ export type IDialog =
   | 'welcomeBanner'
   | 'fileUpload'
   | 'openLocation'
+  | 'renameFile'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
