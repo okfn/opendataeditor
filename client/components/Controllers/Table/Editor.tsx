@@ -19,6 +19,36 @@ export default function Editor() {
     store.deleteMultipleCells(cellSelection)
   })
 
+  useKeyPress(['alt+m'], () => {
+    store.togglePanel('metadata')
+  })
+
+  useKeyPress(['alt+r'], () => {
+    store.togglePanel('report')
+  })
+
+  useKeyPress(['alt+s'], () => {
+    store.togglePanel('source')
+  })
+
+  useKeyPress(['ctrl+z'], () => {
+    store.undoTableChange()
+  })
+
+  useKeyPress(['ctrl+y'], () => {
+    store.redoTableChange()
+  })
+
+  // TODO: find another shortcut, since this is the default shortcut for closing applicaations
+  // on linux and windows at least
+  // useKeyPress(['ctrl+q'], () => {
+  //   store.revertTable()
+  // })
+
+  useKeyPress(['ctrl+s'], () => {
+    store.saveTable()
+  })
+
   // Ensure that when the user interact with other parts on the application
   // e.g. Metadata editor the selection logic is not activated
   // also commit current table editing (https://github.com/okfn/opendataeditor/issues/495)
