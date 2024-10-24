@@ -14,6 +14,7 @@ import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
 import FileUploadDialog from './Dialogs/FileUpload'
 import OpenLocationDialog from './Dialogs/OpenLocation'
+import RenameFileDialog from './Dialogs/RenameFile'
 import * as store from '@client/store'
 
 export default function Dialog() {
@@ -45,4 +46,5 @@ const DIALOGS = {
   welcomeBanner: WelcomeBannerDialog,
   fileUpload: FileUploadDialog,
   openLocation: OpenLocationDialog,
+  renameFile: RenameFileDialog,
 } as const
