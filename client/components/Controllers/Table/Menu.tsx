@@ -12,8 +12,6 @@ export default function Menu() {
 
   const isTableUpdated = store.useStore(store.getIsTableOrResourceUpdated)
 
-  console.log('report', report)
-
   return (
     <menu.MenuBar fullWidth>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
