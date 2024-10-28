@@ -42,22 +42,16 @@ export async function selectFile(props: { path?: string; updated?: boolean }) {
   await openFile()
 }
 
-export async function selectFileWithoutOpening(props: {
-  path?: string
-  updated?: boolean
-}) {
-  const { path, record } = store.getState()
-  if (!props.updated && path === props.path) return
+export async function selectFileWithoutOpening(props: { path?: string }) {
+  const { path } = store.getState()
 
-  await closeFile()
+  if (path === props.path) return
 
   store.setState('select-file', (state) => {
     state.path = props.path
   })
 
   if (!props.path) return
-  if (getIsFolder(store.getState())) return
-  if (!props.updated && record?.path === props.path) return
 }
 
 async function openFile() {
