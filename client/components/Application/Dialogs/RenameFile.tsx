@@ -9,7 +9,7 @@ export default function RenameFileDialog() {
     <InputDialog
       open={true}
       value=""
-      title="Rename File"
+      title={`Rename ${isFolder ? 'folder' : 'file'}`}
       label="Save"
       placholder={`Name of new ${isFolder ? 'folder' : 'file'}`}
       onCancel={store.closeDialog}
