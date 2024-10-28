@@ -1,7 +1,6 @@
 import Chip from '@mui/material/Chip'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import LightTooltip from '../Tooltips/Light'
-import { useKeyPress } from 'ahooks'
 
 // TODO: create BaseChip / move concrete to appliction?
 
@@ -10,12 +9,9 @@ export interface CreateChipProps {
 }
 
 export default function CreateChip(props: CreateChipProps) {
-  useKeyPress(['ctrl.u'], (event) => {
-    event.preventDefault()
-    props.onClick()
-  })
+
   return (
-    <LightTooltip title="Create text, json, more [CTRL+U]">
+    <LightTooltip title="Create text, json, more">
       <Chip
         onClick={props.onClick}
         color="primary"

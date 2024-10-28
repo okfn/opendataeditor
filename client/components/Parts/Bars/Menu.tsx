@@ -15,7 +15,6 @@ import CodeIcon from '@mui/icons-material/Code'
 import TuneIcon from '@mui/icons-material/Tune'
 import IconButton from '../Buttons/Icon'
 import { useTheme } from '@mui/material/styles'
-import { useKeyPress } from 'ahooks'
 
 export interface MenuBarProps {
   fullWidth?: boolean
@@ -53,12 +52,7 @@ export interface ButtonProps {
 export function MetadataButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  useKeyPress(['alt.m'], (event) => {
-    event.preventDefault()
-    if (!props.enabled && !props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -86,12 +80,7 @@ export function MetadataButton(props: ButtonProps) {
 export function ReportButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  useKeyPress(['alt.r'], (event) => {
-    event.preventDefault()
-    if (!props.enabled && !props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -119,12 +108,7 @@ export function ReportButton(props: ButtonProps) {
 export function SourceButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
-  useKeyPress(['alt.s'], (event) => {
-    event.preventDefault()
-    if (!props.enabled && !props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -151,12 +135,7 @@ export function SourceButton(props: ButtonProps) {
 
 export function ChatButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.m'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -174,12 +153,7 @@ export function ChatButton(props: ButtonProps) {
 
 export function UndoButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.z'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -203,12 +177,7 @@ export function UndoButton(props: ButtonProps) {
 
 export function RedoButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.y'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -232,12 +201,7 @@ export function RedoButton(props: ButtonProps) {
 
 export function ClearButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.p'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -261,12 +225,7 @@ export function ClearButton(props: ButtonProps) {
 
 export function FixButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.i'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -290,12 +249,7 @@ export function FixButton(props: ButtonProps) {
 
 export function MinifyButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.y'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton
@@ -319,12 +273,7 @@ export function MinifyButton(props: ButtonProps) {
 
 export function PrettifyButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.b'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
       <Box>
         <IconButton

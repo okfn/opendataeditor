@@ -39,12 +39,6 @@ export default function Editor() {
     store.redoTableChange()
   })
 
-  // TODO: find another shortcut, since this is the default shortcut for closing applicaations
-  // on linux and windows at least
-  // useKeyPress(['ctrl+q'], () => {
-  //   store.revertTable()
-  // })
-
   useKeyPress(['ctrl+s'], () => {
     store.saveTable()
   })
