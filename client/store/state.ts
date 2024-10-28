@@ -177,8 +177,6 @@ export type IDialog =
   | 'create'
   | 'deleteFilesFolders'
   | 'indexFiles'
-  | 'moveFile'
-  | 'moveFolder'
   | 'start'
   | 'publish'
   | 'chat'

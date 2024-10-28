@@ -16,9 +16,9 @@ export default function RenameFileDialog() {
       onConfirm={async (newPath) => {
         if (currentFilePath)
           if (!isFolder) {
-            await store.moveFile(currentFilePath, newPath)
+            await store.renameFile(currentFilePath, newPath)
           } else {
-            await store.moveFolder(currentFilePath, newPath)
+            await store.renameFolder(currentFilePath, newPath)
           }
         store.closeDialog()
       }}

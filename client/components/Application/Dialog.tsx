@@ -7,8 +7,6 @@ import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateDialog from './Dialogs/Create'
 import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
 import IndexFilesDialog from './Dialogs/IndexFiles'
-import MoveFileDialog from './Dialogs/MoveFile'
-import MoveFolderDialog from './Dialogs/MoveFolder'
 import PublishDialog from './Dialogs/Publish'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
@@ -39,8 +37,6 @@ const DIALOGS = {
   create: CreateDialog,
   deleteFilesFolders: DeleteFilesFoldersDialog,
   indexFiles: IndexFilesDialog,
-  moveFile: MoveFileDialog,
-  moveFolder: MoveFolderDialog,
   publish: PublishDialog,
   unsavedChanges: UnsavedChangesDialog,
   welcomeBanner: WelcomeBannerDialog,
