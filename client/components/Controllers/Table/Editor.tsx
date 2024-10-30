@@ -31,15 +31,15 @@ export default function Editor() {
     store.togglePanel('source')
   })
 
-  useKeyPress(['ctrl+z'], () => {
+  useKeyPress(['ctrl+z', 'meta+z'], () => {
     store.undoTableChange()
   })
 
-  useKeyPress(['ctrl+y'], () => {
+  useKeyPress(['ctrl+y', 'meta+y'], () => {
     store.redoTableChange()
   })
 
-  useKeyPress(['ctrl+s'], () => {
+  useKeyPress(['ctrl+s', 'meta+s'], () => {
     store.saveTable()
   })
 
