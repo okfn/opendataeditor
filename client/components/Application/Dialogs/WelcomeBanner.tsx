@@ -8,6 +8,7 @@ import * as store from '@client/store'
 import * as React from 'react'
 import welcomescreenImg from './assets/welcomescreen.png'
 import { styled } from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles'
 
 export default function WelcomeBanner() {
   const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)
@@ -23,15 +24,17 @@ export default function WelcomeBanner() {
     store.closeDialog()
   }
 
+  const theme = useTheme()
+
   const StyledButton = styled(SimpleButton)({
     boxShadow: 'none',
     textTransform: 'none',
     fontSize: 16,
     padding: '18px 0',
     lineHeight: 1.5,
-    backgroundColor: '#00D1FF',
+    backgroundColor: theme.palette.OKFNBlack.main,
     '&:hover': {
-      backgroundColor: '#11E2FF',
+      backgroundColor: theme.palette.OKFNBlue.main,
     },
     '&:active': {
       boxShadow: 'none',
