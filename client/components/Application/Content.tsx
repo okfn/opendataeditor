@@ -92,6 +92,7 @@ function EmptyContent() {
             my: 0.5,
             width: '236px',
             textTransform: 'none',
+            backgroundColor: (theme) => theme.palette.OKFNBlack.main,
             '&:hover': {
               backgroundColor: (theme) => theme.palette.OKFNBlue.main,
             },
