@@ -31,7 +31,7 @@ linux:
 mac:
   hardenedRuntime: true
   entitlements: 'entitlements.mac.plist'
-  entitlementsInherit": 'entitlements.mac.plist'
+  entitlementsInherit: 'entitlements.mac.plist'
 
 # Windows
 # Variable ${name} doesn't work on windows
