@@ -26,9 +26,12 @@ linux:
     - deb
 
 # Macos
-
+# https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
+# https://www.electron.build/code-signing
 mac:
-  notarize: false
+  hardenedRuntime: true
+  entitlements: 'entitlements.mac.plist'
+  entitlementsInherit": 'entitlements.mac.plist'
 
 # Windows
 # Variable ${name} doesn't work on windows
