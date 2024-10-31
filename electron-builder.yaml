@@ -26,8 +26,11 @@ linux:
     - deb
 
 # Macos
+# Some resources to understand values and github secrets
 # https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
 # https://www.electron.build/code-signing
+# https://www.electron.build/app-builder-lib.interface.macconfiguration#notarize
+# https://github.com/electron/notarize
 mac:
   hardenedRuntime: true
   entitlements: 'entitlements.mac.plist'
