@@ -6,6 +6,7 @@ import MultilineField from '../../../Parts/Fields/Multiline'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
+import * as store from '@client/store'
 import validator from 'validator'
 
 export default function Resource() {
@@ -51,6 +52,8 @@ function Name() {
   function updateChanges(value: string) {
     if (isValidName(value)) {
       updateDescriptor({ name: value || undefined })
+    } else {
+      store.setResourceUpdatedFalse()
     }
   }
   return (

@@ -342,3 +342,9 @@ export const getIsTableOrResourceUpdated = store.createSelector((state) => {
 export const getIsTableUpdated = store.createSelector((state) => {
   return !!state.table?.history.changes.length
 })
+
+export function setResourceUpdatedFalse() {
+  store.setState('set-resource-update-false', (state) => {
+    state.isResourceUpdated = false
+  })
+}
