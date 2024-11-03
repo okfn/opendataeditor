@@ -39,12 +39,19 @@ export default function Resource() {
 }
 
 function Name() {
-  const name = useStore((state) => state.descriptor.name)
+  const originalName = useStore((state) => state.descriptor.name)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
-  const [isValid, setIsValid] = React.useState(isValidName())
-  function isValidName() {
-    return name ? validator.isSlug(name) : false
+  const [name, setName] = React.useState(originalName)
+  const [isValid, setIsValid] = React.useState(isValidName(name))
+
+  function isValidName(name: string) {
+    return name ? validator.matches(name, '^[0-9a-zA-Z-_.]+$', 'i') : false
+  }
+  function updateChanges(value: string) {
+    if (isValidName(value)) {
+      updateDescriptor({ name: value || undefined })
+    }
   }
   return (
     <InputField
@@ -52,10 +59,11 @@ function Name() {
       label="Name"
       value={name || ''}
       onFocus={() => updateHelp('resource/name')}
-      onBlur={() => {
-        setIsValid(isValidName())
+      onChange={(value) => {
+        setName(value)
+        setIsValid(isValidName(value))
+        updateChanges(value)
       }}
-      onChange={(value) => updateDescriptor({ name: value || undefined })}
       helperText={!isValid ? 'Name is not valid.' : ''}
     />
   )
