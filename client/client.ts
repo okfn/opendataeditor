@@ -84,7 +84,7 @@ export class Client {
     return await this.request<{ files: types.IFile[] }>('/file/list', props)
   }
 
-  async fileMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
+  async fileRename(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     return await this.request<{ path: string }>('/file/move', props)
   }
 
@@ -123,7 +123,7 @@ export class Client {
     return await this.request<{ path: string }>('/folder/delete', props)
   }
 
-  async folderMove(props: { path: string; toPath?: string; deduplicate?: boolean }) {
+  async folderRename(props: { path: string; toPath?: string; deduplicate?: boolean }) {
     return await this.request<{ path: string }>('/folder/move', props)
   }
 

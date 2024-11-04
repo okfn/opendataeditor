@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
 import deleteIcon from '../../../assets/delete_icon.svg'
+import renameIcon from '../../../assets/rename_icon.svg'
 import openFileLocationIcon from '../../../assets/open_file_location_icon.svg'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import IconButton from '../../Parts/Buttons/Icon'
@@ -119,6 +120,11 @@ const StyledTreeItem = styled(
       handleClose()
     }
 
+    const handleRename = () => {
+      store.openDialog('renameFile')
+      handleClose()
+    }
+
     const fileOrFolder = item.type === 'folder' ? 'folder': 'file'
     
     return (
@@ -177,11 +183,27 @@ const StyledTreeItem = styled(
             'aria-labelledby': 'file-context-menu-btn',
           }}
         >
+          <MenuItem onClick={() => handleRename()}>
+            <ListItemIcon sx={{ 
+                  paddingTop: '6px',
+                  alignSelf: 'flex-start',
+                  minWidth: '24px',
+                  '& img' : {
+                    width: '20px'
+                  }
+              }}>
+              {<img src={renameIcon} alt="" />}
+            </ListItemIcon>
+            <ListItemText primary="Rename" />
+          </MenuItem>
           <MenuItem onClick={() => handleOpenFileLocation(item.path)}>
             <ListItemIcon sx={{ 
                   paddingTop: '6px',
                   alignSelf: 'flex-start',
-                  minWidth: '24px'
+                  minWidth: '24px',
+                  '& img' : {
+                    width: '20px'
+                  }
               }}>
               {<img src={openFileLocationIcon} alt="" />}
             </ListItemIcon>
@@ -191,7 +213,10 @@ const StyledTreeItem = styled(
             <ListItemIcon sx={{ 
                   paddingTop: '6px',
                   alignSelf: 'flex-start',
-                  minWidth: '24px'
+                  minWidth: '24px',
+                  '& img' : {
+                    width: '20px'
+                  }
               }}>
               {<img src={deleteIcon} alt="" />}
             </ListItemIcon>

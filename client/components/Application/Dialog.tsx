@@ -7,13 +7,12 @@ import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateDialog from './Dialogs/Create'
 import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
 import IndexFilesDialog from './Dialogs/IndexFiles'
-import MoveFileDialog from './Dialogs/MoveFile'
-import MoveFolderDialog from './Dialogs/MoveFolder'
 import PublishDialog from './Dialogs/Publish'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
 import FileUploadDialog from './Dialogs/FileUpload'
 import OpenLocationDialog from './Dialogs/OpenLocation'
+import RenameFileDialog from './Dialogs/RenameFile'
 import * as store from '@client/store'
 
 export default function Dialog() {
@@ -38,11 +37,10 @@ const DIALOGS = {
   create: CreateDialog,
   deleteFilesFolders: DeleteFilesFoldersDialog,
   indexFiles: IndexFilesDialog,
-  moveFile: MoveFileDialog,
-  moveFolder: MoveFolderDialog,
   publish: PublishDialog,
   unsavedChanges: UnsavedChangesDialog,
   welcomeBanner: WelcomeBannerDialog,
   fileUpload: FileUploadDialog,
   openLocation: OpenLocationDialog,
+  renameFile: RenameFileDialog,
 } as const

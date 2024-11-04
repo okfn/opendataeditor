@@ -40,8 +40,8 @@ export async function deleteFolders(paths: string[]) {
   await onFileDeleted(paths)
 }
 
-export async function moveFolder(path: string, toPath: string) {
-  const result = await client.folderMove({ path, toPath, deduplicate: true })
+export async function renameFolder(path: string, toPath: string) {
+  const result = await client.folderRename({ path, toPath, deduplicate: true })
 
   if (result instanceof client.Error) {
     return store.setState('move-folder-error', (state) => {

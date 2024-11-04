@@ -177,8 +177,6 @@ export type IDialog =
   | 'create'
   | 'deleteFilesFolders'
   | 'indexFiles'
-  | 'moveFile'
-  | 'moveFolder'
   | 'start'
   | 'publish'
   | 'chat'
@@ -187,6 +185,7 @@ export type IDialog =
   | 'welcomeBanner'
   | 'fileUpload'
   | 'openLocation'
+  | 'renameFile'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 
