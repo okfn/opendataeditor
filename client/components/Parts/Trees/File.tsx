@@ -113,10 +113,9 @@ const StyledTreeItem = styled(
       handleClose()
     }
 
-    const handleOpenFileLocation = (relativePath: string) => {
-      const folderPath = relativePath.substring(0, relativePath.lastIndexOf('/') - 1)
+    const handleOpenFileLocation = (path: string) => {
       // @ts-ignore
-      window?.opendataeditor?.openPathInExplorer('/tmp/' + folderPath)
+      window?.opendataeditor?.openPathInExplorer(path)
       handleClose()
     }
 

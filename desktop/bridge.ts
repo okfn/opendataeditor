@@ -1,5 +1,6 @@
-import { ipcMain, dialog, app, shell } from 'electron'
+import { app, dialog, ipcMain, shell } from 'electron'
 import log from 'electron-log'
+import { dirname, join } from 'path'
 import * as settings from './settings'
 
 export function createBridge() {
@@ -26,8 +27,9 @@ export function createBridge() {
     }
   })
 
-  ipcMain.on('openPathInExplorer', (_event, path) => {
-    shell.openPath(settings.APP_HOME + path )
+  ipcMain.handle('openPathInExplorer', (_ev, path: string) => {
+    const folder = dirname(join(settings.APP_TMP, path))
+    shell.openPath(folder)
   })
 
   ipcMain.handle('closeDesktopApp', async () => {
