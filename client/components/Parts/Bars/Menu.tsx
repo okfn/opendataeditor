@@ -50,6 +50,10 @@ export interface ButtonProps {
   onClick?: () => void
 }
 
+interface ErrorsReportProps extends ButtonProps {
+  numberErrors?: number
+}
+
 export function MetadataButton(props: ButtonProps) {
   const theme = useTheme()
   const onClick = props.onClick || noop
@@ -83,7 +87,7 @@ export function MetadataButton(props: ButtonProps) {
   )
 }
 
-export function ReportButton(props: ButtonProps) {
+export function ReportButton(props: ErrorsReportProps ) {
   const theme = useTheme()
   const onClick = props.onClick || noop
   useKeyPress(['alt.r'], (event) => {
@@ -111,6 +115,7 @@ export function ReportButton(props: ButtonProps) {
               color: props.enabled ? theme.palette.info.main : undefined,
             },
           }}
+          extraInfo={props.numberErrors}
         />
       </Box>
   )

@@ -19,6 +19,7 @@ export default function Menu() {
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
           <menu.MetadataButton
@@ -31,6 +32,7 @@ export default function Menu() {
             active={panel === 'report'}
             onClick={() => store.togglePanel('report')}
             color="OKFNCoolGray"
+            numberErrors={report?.stats.errors}
           />
           <menu.SourceButton
             disabled={!source?.text}
