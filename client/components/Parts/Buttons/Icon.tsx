@@ -29,7 +29,7 @@ export default function IconButton(props: IconButtonProps) {
       {extraInfo ? (
         <Box sx={{ padding: '3px 5px', backgroundColor: '#FCF2F2', border: '1px solid #FECBCA', borderRadius: '3px', marginLeft: '5px' }}>
           <Typography sx={{ fontSize: '9px', fontWeight: 300, color: (theme) => theme.palette.OKFNRed500.main  }}>
-            {Number(extraInfo) >= 1000 ? '999+' : extraInfo}
+            {Number(extraInfo) >= 1000 ? '+999' : extraInfo}
           </Typography>
         </Box>
       ) : null}
