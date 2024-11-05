@@ -27,3 +27,18 @@ export function createErrorIndex(report?: types.IReport) {
   }
   return errorIndex
 }
+
+export function getErrorRowNumbers(report?: types.IReport) {
+  const rowNumbers = []
+
+  const task = report?.tasks?.[0]
+  if (task) {
+    for (const error of task.errors) {
+      if (error.rowNumber) {
+        rowNumbers.push(error.rowNumber)
+      }
+    }
+  }
+
+  return rowNumbers
+}

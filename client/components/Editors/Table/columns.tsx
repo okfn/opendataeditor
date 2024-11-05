@@ -1,8 +1,8 @@
-import LightTooltip from '../../Parts/Tooltips/Light'
-import Box from '@mui/material/Box'
 import type { TypeColumn } from '@inovua/reactdatagrid-community/types'
+import Box from '@mui/material/Box'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
+import LightTooltip from '../../Parts/Tooltips/Light'
 
 // TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
 
@@ -15,6 +15,7 @@ export function createColumns(
 ) {
   const errorIndex = helpers.createErrorIndex(report)
   const changeIndex = helpers.createChangeIndex(history)
+  const errorRowNumbers = helpers.getErrorRowNumbers(report)
 
   // Row number column
 
@@ -30,9 +31,15 @@ export function createColumns(
     headerAlign: 'center',
     headerProps: { style: { backgroundColor: '#c5cae0' } },
     onRender: (cellProps) => {
-      cellProps.style.background = '#EBEDF7'
-      // cellProps.style.fontWeight = 'bold'
+      const { value } = cellProps
+
       cellProps.style.color = '#aaa'
+      cellProps.style.background = '#EBEDF7'
+
+      if (errorRowNumbers.includes(value)) {
+        cellProps.style.color = 'white'
+        cellProps.style.background = colorPalette.OKFNRed400.main
+      }
     },
   }
 
