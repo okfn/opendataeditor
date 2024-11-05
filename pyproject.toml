@@ -73,7 +73,7 @@ lint = [
   "ruff check server",
 ]
 start = [
-  "watchfiles 'python -m server {args:tmp/project}' server",
+  "watchfiles 'python -m server {env:HOME}/.opendataeditor/tmp' server",
 ]
 test = [
   "hatch run lint",
