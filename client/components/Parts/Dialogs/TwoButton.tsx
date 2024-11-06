@@ -23,6 +23,7 @@ export interface TwoButtonDialogProps {
   ctrlEnter?: boolean
   children?: React.ReactNode
   disableClosing?: boolean
+  hoverBgButtonColor?: string
 }
 
 export default function TwoButtonDialog(props: TwoButtonDialogProps) {
@@ -104,7 +105,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
             onClick={handleConfirm}
             aria-label="accept"
             variant="contained"
-            hoverBgColor='OKFNBlue'
+            hoverBgColor={ props.hoverBgButtonColor ? props.hoverBgButtonColor : 'OKFNBlue'}
             color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
             disabled={props.disabled || props.loading}
           />

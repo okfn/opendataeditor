@@ -17,7 +17,7 @@ export default function SimpleButton(props: SimpleButtonProps) {
       color={props.color}
       {...others}
       sx={{ padding: '14px 24px', borderRadius: '9px', border: props.label === 'Cancel' ? '1px solid #D3D7D8' : 0, boxShadow: 'none', '&:hover': {
-        backgroundColor: (theme) => hoverBgColor === 'OKFNBlue' ? theme.palette.OKFNBlue.main : 'unset'
+        backgroundColor: (theme) => (hoverBgColor === 'OKFNBlue' || hoverBgColor === 'OKFNRed400' )? theme.palette[hoverBgColor].main : 'unset'
       } }}
     >
       {(
