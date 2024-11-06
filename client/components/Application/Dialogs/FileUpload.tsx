@@ -1,87 +1,29 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
-import Dialog from '@mui/material/Dialog'
-import IconButton from '@mui/material/IconButton'
-import DialogContent from '@mui/material/DialogContent'
-import CloseIcon from '@mui/icons-material/Close'
 import * as store from '@client/store'
+import CloseIcon from '@mui/icons-material/Close'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
+import * as React from 'react'
 import uploadFilesDialogImg from '../../../assets/dialog_upload_files.png'
-import iconUploadFileImg from '../../../assets/icon_upload_file.png'
 import iconUploadFolderImg from '../../../assets/folder-open-big-plus.png'
 import iconLinkTextField from '../../../assets/icon_link_textfield.svg'
-import Columns from '../../Parts/Grids/Columns'
-import SimpleButton from '../../Parts/Buttons/SimpleButton'
-import TextField from '@mui/material/TextField'
-import CircularProgress from '@mui/material/CircularProgress'
-import InputAdornment from '@mui/material/InputAdornment'
+import iconUploadFileImg from '../../../assets/icon_upload_file.png'
 import * as helpers from '../../../helpers'
+import SimpleButton from '../../Parts/Buttons/SimpleButton'
+import Columns from '../../Parts/Grids/Columns'
 import DialogTabs from '../../Parts/Tabs/Dialog'
 
 export default function FileUploadDialog() {
-  const [errorMessage, setErrorMessage] = React.useState('')
+  const tabLabels = ['From your computer', 'Add external data']
 
   const handleClose = () => {
     store.closeDialog()
   }
-
-  const [remoteUrlValue, setRemoteUrlValue] = React.useState('')
-
-  const [loading, setLoading] = React.useState(false)
-
-  // by default the height of the tabs is set by its content, to avoid the height jump
-  // when changing the tabs we assign the second tab whatever is the height of the first one
-  const tabRefForHeight = React.useRef<HTMLDivElement>(null)
-  const [tabHeight, setTabHeight] = React.useState(0)
-
-  React.useEffect(() => {
-    tabRefForHeight.current ? setTabHeight(tabRefForHeight.current.clientHeight) : null
-  }, [tabRefForHeight])
-
-  const inputFileRef = React.useRef<HTMLInputElement>(null)
-  const inputFolderRef = React.useRef<HTMLInputElement>(null)
-
-  const onAddRemoteTextfieldChange = (url: string) => {
-    if (errorMessage) {
-      setErrorMessage('')
-    } else {
-      setRemoteUrlValue(url)
-    }
-  }
-
-  const onAddRemoteConfirm = async (url: string) => {
-    if (!url) {
-      setErrorMessage('The URL is blank')
-      return
-    }
-
-    if (!helpers.isUrlValid(url)) {
-      setErrorMessage('The URL is not valid')
-      return
-    }
-
-    try {
-      setLoading(true)
-      await store.fetchFile(url)
-      store.openDialog('openLocation')
-    } catch (error) {
-      if (url.includes('docs.google.com/spreadsheets')) {
-        setErrorMessage(
-          'The Google Sheets URL is not valid or the table is not publically available'
-        )
-      } else {
-        setErrorMessage('The URL is not associated with a table')
-      }
-      return
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const tabLabels = ['From your computer', 'Add external data']
-
-  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
-  if (!isWebkitDirectorySupported) return null
 
   return (
     <Dialog
@@ -89,6 +31,7 @@ export default function FileUploadDialog() {
       open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
+      onClose={handleClose}
     >
       <IconButton
         aria-label="close"
@@ -116,109 +59,161 @@ export default function FileUploadDialog() {
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <DialogTabs labels={tabLabels}>
-            <Box ref={tabRefForHeight}>
+            <Box sx={{ minHeight: '15em' }}>
               <Columns columns={2} spacing={4}>
-                <FileSelectBox
-                  sx={{
-                    ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  <input
-                    type="file"
-                    multiple
-                    ref={inputFileRef}
-                    onChange={async (ev: React.ChangeEvent<HTMLInputElement>) => {
-                      if (ev.target.files) {
-                        await store.addFiles(ev.target.files)
-                        store.openDialog('openLocation')
-                      }
-                    }}
-                  />
-                  <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                    <Box>
-                      <img src={iconUploadFileImg} alt="Icon Upload File" />
-                    </Box>
-                    <Box>Add one or more Excel or csv files </Box>
-                    <StyledSelectBox className="file-select__button">
-                      Select
-                    </StyledSelectBox>
-                  </Box>
-                </FileSelectBox>
-                <FileSelectBox
-                  sx={{
-                    ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  <input
-                    type="file"
-                    multiple
-                    ref={inputFolderRef}
-                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-                      if (ev.target.files) {
-                        store.addFiles(ev.target.files)
-                        store.closeDialog()
-                      }
-                    }}
-                    // @ts-expect-error
-                    webkitdirectory=""
-                  />
-                  <Box sx={{ padding: '32px 48px 24px 48px' }}>
-                    <Box>
-                      <img src={iconUploadFolderImg} alt="Icon Upload File" />
-                    </Box>
-                    <Box>Add one or more folders</Box>
-                    <StyledSelectBox className="file-select__button">
-                      Select
-                    </StyledSelectBox>
-                  </Box>
-                </FileSelectBox>
+                <UploadFiles />
+                <UploadFolders />
               </Columns>
             </Box>
-            <Box
-              sx={{ paddingLeft: '140px', paddingRight: '140px', minHeight: tabHeight }}
-            >
-              <Box
-                sx={{
-                  fontSize: '14px',
-                }}
-              >
-                Link to the external table:
-              </Box>
-              <Box sx={{ display: 'flex' }}>
-                <AddRemoteTextfield
-                  value={remoteUrlValue}
-                  errorMessage={errorMessage}
-                  onChange={onAddRemoteTextfieldChange}
-                />
-                {loading ? (
-                  <CircularProgress
-                    size={'2rem'}
-                    sx={{
-                      '& .MuiLinearProgress-bar': {
-                        backgroundColor: '#00D1FF',
-                      },
-                      padding: '10px',
-                    }}
-                  />
-                ) : null}
-              </Box>
-              <SimpleButton
-                label={'Add'}
-                sx={{ my: 0.5, marginTop: '53px' }}
-                variant="contained"
-                aria-label="accept"
-                disabled={!remoteUrlValue}
-                onClick={() => onAddRemoteConfirm(remoteUrlValue)}
-              />
+            <Box sx={{ minHeight: '15em' }}>
+              <UploadRemoteFile />
             </Box>
           </DialogTabs>
         </Box>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function UploadFiles() {
+  const handleUpload = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (ev.target.files) {
+      await store.addFiles(ev.target.files)
+      store.openDialog('openLocation')
+    }
+  }
+
+  return (
+    <FileSelectBox
+      sx={{
+        ':hover': {
+          borderColor: (theme) => theme.palette.primary.main,
+        },
+      }}
+    >
+      <input type="file" multiple onChange={handleUpload} />
+      <Box sx={{ padding: '32px 48px 24px 48px' }}>
+        <Box>
+          <img src={iconUploadFileImg} alt="Icon Upload File" />
+        </Box>
+        <Box>Add one or more Excel or csv files </Box>
+        <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+      </Box>
+    </FileSelectBox>
+  )
+}
+
+function UploadFolders() {
+  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
+  if (!isWebkitDirectorySupported) {
+    return null
+  }
+
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (ev.target.files) {
+      store.addFiles(ev.target.files)
+      store.closeDialog()
+    }
+  }
+
+  return (
+    <FileSelectBox
+      sx={{
+        ':hover': {
+          borderColor: (theme) => theme.palette.primary.main,
+        },
+      }}
+    >
+      <input
+        type="file"
+        multiple
+        onChange={handleChange}
+        // @ts-expect-error
+        webkitdirectory=""
+      />
+      <Box sx={{ padding: '32px 48px 24px 48px' }}>
+        <Box>
+          <img src={iconUploadFolderImg} alt="Icon Upload File" />
+        </Box>
+        <Box>Add one or more folders</Box>
+        <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+      </Box>
+    </FileSelectBox>
+  )
+}
+
+function UploadRemoteFile() {
+  const [errorMessage, setErrorMessage] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [value, setValue] = React.useState('')
+
+  const handleChange = (url: string) => {
+    if (errorMessage) {
+      setErrorMessage('')
+    } else {
+      setValue(url)
+    }
+  }
+
+  const handleConfirm = async () => {
+    if (!value) {
+      setErrorMessage('The URL is blank')
+      return
+    }
+
+    if (!helpers.isUrlValid(value)) {
+      setErrorMessage('The URL is not valid')
+      return
+    }
+
+    try {
+      setLoading(true)
+      await store.fetchFile(value)
+      store.openDialog('openLocation')
+    } catch (error) {
+      if (value.includes('docs.google.com/spreadsheets')) {
+        setErrorMessage(
+          'The Google Sheets URL is not valid or the table is not publically available'
+        )
+      } else {
+        setErrorMessage('The URL is not associated with a table')
+      }
+      return
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Box sx={{ paddingLeft: '140px', paddingRight: '140px' }}>
+      <Box sx={{ fontSize: '14px' }}>Link to the external table:</Box>
+      <Box sx={{ display: 'flex' }}>
+        <AddRemoteTextfield
+          value={value}
+          errorMessage={errorMessage}
+          onChange={handleChange}
+        />
+        {loading ? (
+          <CircularProgress
+            size={'2rem'}
+            sx={{
+              '& .MuiLinearProgress-bar': {
+                backgroundColor: '#00D1FF',
+              },
+              padding: '10px',
+            }}
+          />
+        ) : null}
+      </Box>
+      <SimpleButton
+        label={'Add'}
+        sx={{ my: 0.5, marginTop: '53px' }}
+        variant="contained"
+        aria-label="accept"
+        disabled={!value}
+        onClick={handleConfirm}
+      />
+    </Box>
   )
 }
 
