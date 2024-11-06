@@ -1,14 +1,14 @@
-import * as store from '../store'
-import invariant from 'tiny-invariant'
 import { client } from '@client/client'
-import { openText, closeText, saveText, revertText, getIsTextUpdated } from './text'
-import { loadSource } from './source'
-import { cloneDeep } from 'lodash'
-import { openDialog } from './dialog'
-import { openTable, closeTable, saveTable, revertTable, getIsTableUpdated } from './table'
-import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
+import { cloneDeep } from 'lodash'
+import invariant from 'tiny-invariant'
+import * as store from '../store'
+import { openDialog } from './dialog'
+import { emitEvent } from './event'
+import { loadSource } from './source'
+import { closeTable, getIsTableUpdated, openTable, revertTable, saveTable } from './table'
+import { closeText, getIsTextUpdated, openText, revertText, saveText } from './text'
 
 export async function loadFiles(throwError?: boolean) {
   const result = await client.fileList()
@@ -141,7 +141,7 @@ export async function addFiles(files: FileList) {
     paths.push(result.path)
   }
 
-  await onFileCreated(paths)
+  onFileCreated(paths)
 }
 
 export async function fetchFile(url: string) {

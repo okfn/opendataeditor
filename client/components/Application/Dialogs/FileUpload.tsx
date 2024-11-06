@@ -1,11 +1,11 @@
 import * as store from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
+import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
 import * as React from 'react'
@@ -76,30 +76,36 @@ export default function FileUploadDialog() {
 }
 
 function UploadFiles() {
+  const [loading, setLoading] = React.useState(false)
+
   const handleUpload = async (ev: React.ChangeEvent<HTMLInputElement>) => {
     if (ev.target.files) {
+      setLoading(true)
       await store.addFiles(ev.target.files)
       store.openDialog('openLocation')
     }
   }
 
   return (
-    <FileSelectBox
-      sx={{
-        ':hover': {
-          borderColor: (theme) => theme.palette.primary.main,
-        },
-      }}
-    >
-      <input type="file" multiple onChange={handleUpload} />
-      <Box sx={{ padding: '32px 48px 24px 48px' }}>
-        <Box>
-          <img src={iconUploadFileImg} alt="Icon Upload File" />
+    <Box>
+      <FileSelectBox
+        sx={{
+          ':hover': {
+            borderColor: (theme) => theme.palette.primary.main,
+          },
+        }}
+      >
+        <input type="file" multiple onChange={handleUpload} />
+        <Box sx={{ padding: '32px 48px 24px 48px' }}>
+          <Box>
+            <img src={iconUploadFileImg} alt="Icon Upload File" />
+          </Box>
+          <Box>Add one or more Excel or csv files </Box>
+          <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
         </Box>
-        <Box>Add one or more Excel or csv files </Box>
-        <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
-      </Box>
-    </FileSelectBox>
+      </FileSelectBox>
+      {!!loading && <LoadingProgress />}
+    </Box>
   )
 }
 
@@ -193,17 +199,6 @@ function UploadRemoteFile() {
           errorMessage={errorMessage}
           onChange={handleChange}
         />
-        {loading ? (
-          <CircularProgress
-            size={'2rem'}
-            sx={{
-              '& .MuiLinearProgress-bar': {
-                backgroundColor: '#00D1FF',
-              },
-              padding: '10px',
-            }}
-          />
-        ) : null}
       </Box>
       <SimpleButton
         label={'Add'}
@@ -213,6 +208,7 @@ function UploadRemoteFile() {
         disabled={!value}
         onClick={handleConfirm}
       />
+      {!!loading && <LoadingProgress />}
     </Box>
   )
 }
@@ -251,6 +247,22 @@ function AddRemoteTextfield(props: {
       value={props.value}
       onChange={(e) => props.onChange(e.target.value)}
     />
+  )
+}
+
+function LoadingProgress() {
+  return (
+    <Box sx={{ py: '1em' }}>
+      <Box>Loading...</Box>
+      <LinearProgress
+        sx={{
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: '#00D1FF',
+          },
+          padding: '10px',
+        }}
+      />
+    </Box>
   )
 }
 

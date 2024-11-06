@@ -1,18 +1,20 @@
-import '@inovua/reactdatagrid-community/index.css'
-import * as React from 'react'
-import SpinnerCard from '../../Parts/Cards/Spinner'
-import Box from '@mui/material/Box'
-import InputDialog from '../../Parts/Dialogs/Input'
-import Typography from '@mui/material/Typography'
 import InovuaDatagrid from '@inovua/reactdatagrid-community'
-import { TypeDataGridProps } from '@inovua/reactdatagrid-community/types'
-import { TypeComputedProps } from '@inovua/reactdatagrid-community/types'
+import '@inovua/reactdatagrid-community/index.css'
+import {
+  TypeComputedProps,
+  TypeDataGridProps,
+} from '@inovua/reactdatagrid-community/types'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
+import debounce from 'lodash/debounce'
+import * as React from 'react'
+import * as types from '../../../types'
+import SpinnerCard from '../../Parts/Cards/Spinner'
+import InputDialog from '../../Parts/Dialogs/Input'
+import './assets/styles.css'
 import { createColumns } from './columns'
 import * as settings from './settings'
-import * as types from '../../../types'
-import debounce from 'lodash/debounce'
-import './assets/styles.css'
-import { useTheme } from '@mui/material/styles'
 
 export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {

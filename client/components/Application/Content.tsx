@@ -1,18 +1,18 @@
-import * as React from 'react'
+import * as store from '@client/store'
 import { ClickAwayListener } from '@mui/base'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
+import * as React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import emptyContentScreenImg from '../../assets/empty_screen.png'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
 import Text from '../Controllers/Text'
 import SpinnerCard from '../Parts/Cards/Spinner'
-import * as store from '@client/store'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
-import emptyContentScreenImg from '../../assets/empty_screen.png'
 
 export default function Content() {
   const record = store.useStore((state) => state.record)
@@ -111,7 +111,7 @@ function EmptyContent() {
 }
 
 function LoadingContent() {
-  return <SpinnerCard message="Loading" />
+  return <SpinnerCard message="Validating. It might take some time" />
 }
 
 // We still need to cover here and in the settings "chart" type and some other types
