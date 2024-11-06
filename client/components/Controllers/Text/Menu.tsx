@@ -1,4 +1,3 @@
-import * as React from 'react'
 import * as store from '@client/store'
 import * as menu from '../../Parts/Bars/Menu'
 import * as action from '../../Parts/Bars/Action'
@@ -6,7 +5,6 @@ import Box from '@mui/material/Box'
 
 export default function Menu() {
   const report = store.useStore((state) => state.report)
-  const language = store.useStore(store.getTextLanguage)
   const panel = store.useStore((state) => state.panel)
   const minimalVersion = store.useStore((state) => state.text?.minimalVersion)
   const currentVersion = store.useStore((state) => state.text?.currentVersion)
@@ -33,7 +31,7 @@ export default function Menu() {
             active={panel === 'report'}
             onClick={() => store.togglePanel('report')}
           />
-          <menu.SourceButton enabled />
+          <menu.SourceButton disabled />
           <menu.UndoButton
             onClick={store.undoText}
             disabled={currentVersion <= minimalVersion}
@@ -42,14 +40,6 @@ export default function Menu() {
             onClick={store.redoText}
             disabled={currentVersion >= maximalVersion}
           />
-          <menu.ClearButton onClick={store.clearText} />
-          {language === 'json' && (
-            <React.Fragment>
-              <menu.FixButton onClick={store.fixJson} />
-              <menu.MinifyButton onClick={store.minifyJson} />
-              <menu.PrettifyButton onClick={store.prettifyJson} />
-            </React.Fragment>
-          )}
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <action.PublishButton disabled />
