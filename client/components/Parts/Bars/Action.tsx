@@ -7,7 +7,6 @@ import CheckIcon from '@mui/icons-material/Check'
 import HistoryIcon from '@mui/icons-material/History'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../Grids/Columns'
-import { useKeyPress } from 'ahooks'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 
 export interface ActionBarProps {}
@@ -37,12 +36,7 @@ export interface ButtonProps {
 
 export function SaveAsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.j'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
     <Box>
       <IconButton
@@ -61,12 +55,7 @@ export function SaveAsButton(props: ButtonProps) {
 
 export function PublishButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.k'], (event) => {
-    event.preventDefault()
-    if (!props.disabled) {
-      onClick()
-    }
-  })
+
   return (
     <Box sx={{ marginRight: '20px' }}>
       <IconButton
@@ -85,12 +74,7 @@ export function PublishButton(props: ButtonProps) {
 
 export function RevertButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.q'], (event) => {
-    event.preventDefault()
-    if (props.updated) {
-      onClick()
-    }
-  })
+
   return (
     <Box>
       <IconButton
@@ -108,12 +92,7 @@ export function RevertButton(props: ButtonProps) {
 
 export function SaveButton(props: ButtonProps) {
   const onClick = props.onClick || noop
-  useKeyPress(['ctrl.s'], (event) => {
-    event.preventDefault()
-    if (props.updated) {
-      onClick()
-    }
-  })
+
   return (
     <Box>
       <IconButton
