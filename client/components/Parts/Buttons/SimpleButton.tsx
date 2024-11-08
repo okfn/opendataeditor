@@ -1,10 +1,17 @@
 import Typography from '@mui/material/Typography'
 import Button, { ButtonProps } from '@mui/material/Button'
 
+export const ButtonBgColor = {
+  OKFNRed600: 'OKFNRed600',
+  OKFNBlue: 'OKFNBlue',
+} as const;
+
+export type ButtonBgColorType = keyof typeof ButtonBgColor
+
 interface SimpleButtonProps extends ButtonProps {
   label?: string
   small?: boolean
-  hoverBgColor?: string
+  hoverBgColor?: ButtonBgColorType
 }
 
 export default function SimpleButton(props: SimpleButtonProps) {
@@ -17,7 +24,7 @@ export default function SimpleButton(props: SimpleButtonProps) {
       color={props.color}
       {...others}
       sx={{ padding: '14px 24px', borderRadius: '9px', border: props.label === 'Cancel' ? '1px solid #D3D7D8' : 0, boxShadow: 'none', '&:hover': {
-        backgroundColor: (theme) => (hoverBgColor === 'OKFNBlue' || hoverBgColor === 'OKFNRed400' )? theme.palette[hoverBgColor].main : 'unset'
+        backgroundColor: (theme) => hoverBgColor ? theme.palette[hoverBgColor].main : 'unset'
       } }}
     >
       {(

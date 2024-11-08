@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import { ButtonBgColorType } from '../Buttons/SimpleButton'
 
 export interface TwoButtonDialogProps {
   open?: boolean
@@ -23,7 +24,7 @@ export interface TwoButtonDialogProps {
   ctrlEnter?: boolean
   children?: React.ReactNode
   disableClosing?: boolean
-  hoverBgButtonColor?: string
+  hoverBgButtonColor?: ButtonBgColorType
 }
 
 export default function TwoButtonDialog(props: TwoButtonDialogProps) {
