@@ -121,7 +121,7 @@ export default function FileUploadDialog() {
                 <FileSelectBox
                   sx={{
                     ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
+                      borderColor: (theme) => theme.palette.OKFNBlue.main,
                     },
                   }}
                 >
@@ -149,7 +149,7 @@ export default function FileUploadDialog() {
                 <FileSelectBox
                   sx={{
                     ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
+                      borderColor: (theme) => theme.palette.OKFNBlue.main,
                     },
                   }}
                 >
