@@ -17,10 +17,12 @@ export default function Table() {
       }}
     >
       <Menu />
-      <ScrollBox sx={{ flexGrow: 1, zIndex: 10 }}>
-        <Editor />
-      </ScrollBox>
-      <Panel />
+      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10 }}>
+        <ScrollBox sx={{ flexGrow: 1 }}>
+          <Editor />
+        </ScrollBox>
+        <Panel />
+      </Box>
     </Box>
   )
 }
