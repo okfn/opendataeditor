@@ -19,6 +19,7 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import { fileMenuWidth } from '@client/components/Application/Layout'
 import * as store from '@client/store'
 
 export interface FileTreeProps {
@@ -147,12 +148,12 @@ const StyledTreeItem = styled(
               maxWidth: '172px',
             },
             '& > .MuiTreeItem-content:hover': {
-              width: '290px',
+              width: `${fileMenuWidth}px`,
             },
             '& > .MuiTreeItem-content.Mui-selected, & > .MuiTreeItem-content.Mui-selected.Mui-focused': {
               zIndex: 0,
               position: 'relative',
-              width: '290px'
+              width: `${fileMenuWidth}px`
             },
             '& + button': {
               position: 'sticky',
