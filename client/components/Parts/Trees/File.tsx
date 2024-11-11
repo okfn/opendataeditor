@@ -146,6 +146,14 @@ const StyledTreeItem = styled(
             '& > .MuiTreeItem-content .MuiTreeItem-label': {
               maxWidth: '172px',
             },
+            '& > .MuiTreeItem-content:hover': {
+              width: '290px',
+            },
+            '& > .MuiTreeItem-content.Mui-selected, & > .MuiTreeItem-content.Mui-selected.Mui-focused': {
+              zIndex: 0,
+              position: 'relative',
+              width: '290px'
+            },
             '& + button': {
               position: 'sticky',
               right: 0
