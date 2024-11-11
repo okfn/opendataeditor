@@ -5,7 +5,7 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   openDirectoryDialog: () => ipcRenderer.invoke('openDirectoryDialog'),
   ensureLogs: (callback: any) =>
     ipcRenderer.on('ensureLogs', (_event, message: string) => callback(message)),
-  openPathInExplorer: (path: string) => ipcRenderer.send('openPathInExplorer', path),
+  openPathInExplorer: (path: string) => ipcRenderer.invoke('openPathInExplorer', path),
   getAppPath: () => ipcRenderer.send('getAppPath'),
   closeDesktopApp: () => ipcRenderer.invoke('closeDesktopApp'),
 
