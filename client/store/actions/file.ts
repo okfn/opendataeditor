@@ -124,25 +124,6 @@ export async function selectMultipleFiles(paths: string[]) {
   })
 }
 
-export async function adjustFile(name?: string, type?: string) {
-  const { path } = store.getState()
-  if (!path) return
-
-  const result = await client.filePatch({ path, name, type })
-
-  if (result instanceof client.Error) {
-    return store.setState('adjust-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  store.setState('adjust-file-close', (state) => {
-    state.path = undefined
-  })
-
-  await onFileUpdated([result.path])
-}
-
 export async function copyFile(path: string, toPath: string) {
   const result = await client.fileCopy({ path, toPath, deduplicate: true })
 

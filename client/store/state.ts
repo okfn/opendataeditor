@@ -1,5 +1,5 @@
-import type * as types from '@client/types'
 import type { ClientError } from '@client/client'
+import type * as types from '@client/types'
 
 export type IState = {
   /**
@@ -169,7 +169,6 @@ export type ITextState = {
 
 export type IDialog =
   | 'addEmptyFolder'
-  | 'adjustFile'
   | 'config'
   | 'configProject'
   | 'copyFile'
