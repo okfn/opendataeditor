@@ -91,7 +91,7 @@ function UploadFiles() {
           multiple
           onChange={(ev) => {
             if (ev.target.files) {
-              store.uploadFiles({ files: ev.target.files })
+              store.uploadLocalFiles({ files: ev.target.files })
             }
           }}
         />
@@ -128,7 +128,7 @@ function UploadFolders() {
         multiple
         onChange={(ev) => {
           if (ev.target.files) {
-            store.uploadFolders({ files: ev.target.files })
+            store.uploadLocalFiles({ files: ev.target.files })
           }
         }}
         // @ts-expect-error
@@ -195,7 +195,7 @@ function UploadRemoteFile() {
     <Box sx={{ paddingLeft: '140px', paddingRight: '140px' }}>
       <Box sx={{ fontSize: '14px' }}>Link to the external table:</Box>
       <Box sx={{ display: 'flex' }}>
-        <AddRemoteTextfield
+        <AddRemoteTextField
           value={value}
           errorMessage={errorMessage}
           onChange={handleChange}
@@ -214,7 +214,7 @@ function UploadRemoteFile() {
   )
 }
 
-function AddRemoteTextfield(props: {
+function AddRemoteTextField(props: {
   errorMessage?: string
   value: string
   disabled?: boolean

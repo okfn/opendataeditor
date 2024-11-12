@@ -19,7 +19,7 @@ export function closeDialog() {
   }
 }
 
-export async function uploadFiles(props: { files: FileList }) {
+export async function uploadLocalFiles(props: { files: FileList }) {
   state.error = undefined
   state.action = 'loading'
 
@@ -52,9 +52,4 @@ export async function uploadFiles(props: { files: FileList }) {
   appStore.openDialog('openLocation')
 }
 
-export async function uploadFolders(props: { files: FileList }) {
-  appStore.addFiles(props.files)
-  appStore.closeDialog()
-}
-
-export async function uploadRemoteFiles(props: { url: string }) {}
+export async function uploadRemoteFile(props: { url: string }) {}
