@@ -111,7 +111,7 @@ function EmptyContent() {
 }
 
 function LoadingContent() {
-  return <SpinnerCard message="Validating. It might take some time" />
+  return <SpinnerCard message="Loading" />
 }
 
 // We still need to cover here and in the settings "chart" type and some other types
