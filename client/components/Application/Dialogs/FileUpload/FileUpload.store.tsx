@@ -9,9 +9,18 @@ class State {
   error?: string
   action?: 'loading' | 'validating'
   message?: string
+  remoteUrl?: string
 }
 
 export const { state, useState } = helpers.createState('FileUpload', new State())
+
+export function resetState() {
+  const initialState = new State()
+  for (const key of Object.keys(state)) {
+    // @ts-ignore
+    state[key] = initialState[key]
+  }
+}
 
 export function closeDialog() {
   if (!state.action) {
@@ -19,10 +28,15 @@ export function closeDialog() {
   }
 }
 
+export function setRemoteUrl(value: string) {
+  state.remoteUrl = value
+  state.error = undefined
+}
+
 export async function uploadLocalFiles(props: { files: FileList }) {
   state.error = undefined
-  state.action = 'loading'
 
+  state.action = 'loading'
   const paths = await appStore.uploadFiles(props.files)
   if (paths instanceof client.Error) {
     state.error = paths.detail
@@ -49,7 +63,49 @@ export async function uploadLocalFiles(props: { files: FileList }) {
   }
 
   state.action = undefined
+  state.remoteUrl = undefined
   appStore.openDialog('openLocation')
 }
 
-export async function uploadRemoteFile(props: { url: string }) {}
+export async function uploadRemoteFile() {
+  const url = state.remoteUrl
+
+  if (!url) {
+    state.error = 'The URL is blank'
+    return
+  }
+
+  if (!helpers.isUrlValid(url)) {
+    state.error = 'The URL is not valid'
+    return
+  }
+
+  state.action = 'loading'
+  const path = await appStore.fetchFile({ url })
+  if (path instanceof client.Error) {
+    if (url.includes('docs.google.com/spreadsheets')) {
+      state.error =
+        'The Google Sheets URL is not valid or the table is not publically available'
+    } else {
+      state.error = 'The URL is not associated with a table'
+    }
+
+    state.action = undefined
+    return
+  }
+
+  state.action = 'validating'
+  const index = await client.fileIndex({ path })
+  if (index instanceof client.Error) {
+    state.error = index.detail
+    state.action = undefined
+    return
+  }
+
+  await appStore.loadFiles()
+  appStore.emitEvent({ type: 'create', paths: [path] })
+  await appStore.selectFile({ path })
+
+  state.action = undefined
+  appStore.openDialog('openLocation')
+}

@@ -19,6 +19,7 @@ export default function DialogTabs(props: any) {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     if (!props.disabled) {
       setCurrentTabIndex(newValue)
+      props.onChange?.()
     }
   }
 

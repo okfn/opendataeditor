@@ -5,7 +5,6 @@ import iconUploadFileImg from '@client/assets/icon_upload_file.png'
 import DialogTabs from '@client/components//Parts/Tabs/Dialog'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
-import * as helpers from '@client/helpers'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -16,7 +15,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import { startCase } from 'lodash'
-import * as React from 'react'
 import * as store from './FileUpload.store'
 
 const TAB_LABELS = ['From your computer', 'Add external data']
@@ -57,15 +55,15 @@ export function FileUploadDialog() {
           <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <DialogTabs labels={TAB_LABELS} disabled={!!action}>
-            <Box sx={{ minHeight: '15em' }}>
+          <DialogTabs labels={TAB_LABELS} disabled={!!action} onChange={store.resetState}>
+            <Box sx={{ minHeight: '18em' }}>
               <Columns columns={2} spacing={4}>
-                <LocalFilesButton />
-                <LocalFilesButton isFolder />
+                <LocalFileForm />
+                <LocalFileForm isFolder />
               </Columns>
               <StatusIndicator />
             </Box>
-            <Box sx={{ minHeight: '15em' }}>
+            <Box sx={{ minHeight: '18em' }}>
               <RemoteFileForm />
               <StatusIndicator />
             </Box>
@@ -76,7 +74,7 @@ export function FileUploadDialog() {
   )
 }
 
-function LocalFilesButton(props: { isFolder?: boolean }) {
+function LocalFileForm(props: { isFolder?: boolean }) {
   const theme = useTheme()
   const { action } = store.useState()
 
@@ -116,58 +114,17 @@ function LocalFilesButton(props: { isFolder?: boolean }) {
 }
 
 function RemoteFileForm() {
-  const { action } = store.useState()
-
-  const [errorMessage, setErrorMessage] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
-  const [value, setValue] = React.useState('')
-
-  const handleChange = (url: string) => {
-    if (errorMessage) {
-      setErrorMessage('')
-    } else {
-      setValue(url)
-    }
-  }
-
-  const handleConfirm = async () => {
-    if (!value) {
-      setErrorMessage('The URL is blank')
-      return
-    }
-
-    if (!helpers.isUrlValid(value)) {
-      setErrorMessage('The URL is not valid')
-      return
-    }
-
-    try {
-      setLoading(true)
-      await store.fetchFile(value)
-      store.openDialog('openLocation')
-    } catch (error) {
-      if (value.includes('docs.google.com/spreadsheets')) {
-        setErrorMessage(
-          'The Google Sheets URL is not valid or the table is not publically available'
-        )
-      } else {
-        setErrorMessage('The URL is not associated with a table')
-      }
-      return
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { action, error, remoteUrl } = store.useState()
 
   return (
-    <Box sx={{ paddingLeft: '140px', paddingRight: '140px' }}>
+    <Box>
       <Box sx={{ fontSize: '14px' }}>Link to the external table:</Box>
       <Box sx={{ display: 'flex' }}>
         <AddRemoteTextField
-          value={value}
-          errorMessage={errorMessage}
-          onChange={handleChange}
+          value={remoteUrl}
+          invalid={!!error}
           disabled={!!action}
+          onChange={store.setRemoteUrl}
         />
       </Box>
       <SimpleButton
@@ -175,8 +132,8 @@ function RemoteFileForm() {
         sx={{ my: 0.5, marginTop: '53px' }}
         variant="contained"
         aria-label="accept"
-        disabled={!value}
-        onClick={handleConfirm}
+        disabled={!remoteUrl}
+        onClick={store.uploadRemoteFile}
       />
     </Box>
   )
@@ -213,8 +170,8 @@ function StatusIndicator() {
 }
 
 function AddRemoteTextField(props: {
-  errorMessage?: string
-  value: string
+  value?: string
+  invalid?: boolean
   disabled?: boolean
   onChange(value: string): void
 }) {
@@ -222,10 +179,12 @@ function AddRemoteTextField(props: {
     <StyledTextField
       fullWidth
       size="small"
+      value={props.value || ''}
       disabled={props.disabled}
-      error={!!props.errorMessage}
-      helperText={props.errorMessage || ' '}
+      error={props.invalid}
       placeholder="Enter or paste URL"
+      helperText=" "
+      onChange={(e) => props.onChange(e.target.value)}
       InputLabelProps={{
         sx: {
           fontSize: '14px',
@@ -245,8 +204,6 @@ function AddRemoteTextField(props: {
           },
         },
       }}
-      value={props.value}
-      onChange={(e) => props.onChange(e.target.value)}
     />
   )
 }
