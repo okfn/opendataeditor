@@ -6,7 +6,6 @@ import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
 import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
 import { FileUploadDialog } from './Dialogs/FileUpload'
-import IndexFilesDialog from './Dialogs/IndexFiles'
 import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
 import RenameFileDialog from './Dialogs/RenameFile'
@@ -32,7 +31,6 @@ const DIALOGS = {
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
   deleteFilesFolders: DeleteFilesFoldersDialog,
-  indexFiles: IndexFilesDialog,
   publish: PublishDialog,
   unsavedChanges: UnsavedChangesDialog,
   welcomeBanner: WelcomeBannerDialog,
