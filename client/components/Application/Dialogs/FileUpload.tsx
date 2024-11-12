@@ -1,4 +1,5 @@
 import { client } from '@client/client'
+import { createState } from '@client/helpers/store'
 import * as store from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
@@ -20,8 +21,19 @@ import SimpleButton from '../../Parts/Buttons/SimpleButton'
 import Columns from '../../Parts/Grids/Columns'
 import DialogTabs from '../../Parts/Tabs/Dialog'
 
+// We use component level state because dialog state
+// needs to be shared between multiple components
+// but it is not needed in the global state
+class State {
+  error?: string
+  action?: 'loading' | 'validating'
+}
+
+const { state, useState } = createState('FileUpload', new State())
+
 export default function FileUploadDialog() {
   const tabLabels = ['From your computer', 'Add external data']
+  const { action } = useState()
 
   const handleClose = () => {
     store.closeDialog()
@@ -33,11 +45,11 @@ export default function FileUploadDialog() {
       open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onClose={handleClose}
+      onClose={!action ? handleClose : undefined}
     >
       <IconButton
         aria-label="close"
-        onClick={handleClose}
+        onClick={!action ? handleClose : undefined}
         sx={{
           position: 'absolute',
           right: 8,
@@ -66,9 +78,11 @@ export default function FileUploadDialog() {
                 <UploadFiles />
                 <UploadFolders />
               </Columns>
+              <UploadingProgress />
             </Box>
             <Box sx={{ minHeight: '15em' }}>
               <UploadRemoteFile />
+              <UploadingProgress />
             </Box>
           </DialogTabs>
         </Box>
@@ -78,25 +92,28 @@ export default function FileUploadDialog() {
 }
 
 function UploadFiles() {
-  const [error, setError] = React.useState<string | undefined>()
-  const [state, setState] = React.useState<'loading' | 'validating' | undefined>()
+  const { action } = useState()
 
   const handleUpload = async (ev: React.ChangeEvent<HTMLInputElement>) => {
     if (!ev.target.files) return
 
-    setError(undefined)
-    setState('loading')
+    state.error = undefined
+    state.action = 'loading'
 
     const paths = await store.uploadFiles(ev.target.files)
     if (paths instanceof client.Error) {
-      return setError(paths.detail)
+      state.error = paths.detail
+      state.action = undefined
+      return
     }
 
-    setState('validating')
+    state.action = 'validating'
     for (const path of paths) {
       const index = await client.fileIndex({ path })
       if (index instanceof client.Error) {
-        return setError(index.detail)
+        state.error = index.detail
+        state.action = undefined
+        return
       }
     }
 
@@ -120,7 +137,7 @@ function UploadFiles() {
           },
         }}
       >
-        <input type="file" multiple onChange={handleUpload} />
+        <input disabled={!!action} type="file" multiple onChange={handleUpload} />
         <Box sx={{ padding: '32px 48px 24px 48px' }}>
           <Box>
             <img src={iconUploadFileImg} alt="Icon Upload File" />
@@ -129,12 +146,13 @@ function UploadFiles() {
           <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
         </Box>
       </FileSelectBox>
-      <UploadingProgress error={error} state={state} />
     </Box>
   )
 }
 
 function UploadFolders() {
+  const { action } = useState()
+
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) {
     return null
@@ -157,6 +175,7 @@ function UploadFolders() {
     >
       <input
         type="file"
+        disabled={!!action}
         multiple
         onChange={handleChange}
         // @ts-expect-error
@@ -174,6 +193,8 @@ function UploadFolders() {
 }
 
 function UploadRemoteFile() {
+  const { action } = useState()
+
   const [errorMessage, setErrorMessage] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const [value, setValue] = React.useState('')
@@ -223,6 +244,7 @@ function UploadRemoteFile() {
           value={value}
           errorMessage={errorMessage}
           onChange={handleChange}
+          disabled={!!action}
         />
       </Box>
       <SimpleButton
@@ -233,7 +255,6 @@ function UploadRemoteFile() {
         disabled={!value}
         onClick={handleConfirm}
       />
-      <UploadingProgress state={loading ? 'loading' : undefined} />
     </Box>
   )
 }
@@ -241,12 +262,14 @@ function UploadRemoteFile() {
 function AddRemoteTextfield(props: {
   errorMessage?: string
   value: string
+  disabled?: boolean
   onChange(value: string): void
 }) {
   return (
     <StyledTextField
       fullWidth
       size="small"
+      disabled={props.disabled}
       error={!!props.errorMessage}
       helperText={props.errorMessage || ' '}
       placeholder="Enter or paste URL"
@@ -275,22 +298,24 @@ function AddRemoteTextfield(props: {
   )
 }
 
-function UploadingProgress(props: { error?: string; state?: string }) {
-  if (!props.state) {
-    return null
-  }
+function UploadingProgress() {
+  const { error, action } = useState()
 
-  if (props.error) {
+  if (error) {
     return (
       <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{props.error}</Box>
+        <Box sx={{ color: 'red' }}>{error}</Box>
       </Box>
     )
   }
 
+  if (!action) {
+    return null
+  }
+
   return (
     <Box sx={{ py: '1em' }}>
-      <Box>{startCase(props.state)}...</Box>
+      <Box>{startCase(action)}...</Box>
       <LinearProgress
         sx={{
           '& .MuiLinearProgress-bar': {
