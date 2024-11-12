@@ -60,14 +60,14 @@ export function FileUploadDialog() {
           <DialogTabs labels={TAB_LABELS} disabled={!!action}>
             <Box sx={{ minHeight: '15em' }}>
               <Columns columns={2} spacing={4}>
-                <UploadFiles />
-                <UploadFolders />
+                <LocalFilesButton />
+                <LocalFilesButton isFolder />
               </Columns>
-              <UploadingStatus />
+              <StatusIndicator />
             </Box>
             <Box sx={{ minHeight: '15em' }}>
-              <UploadRemoteFile />
-              <UploadingStatus />
+              <RemoteFileForm />
+              <StatusIndicator />
             </Box>
           </DialogTabs>
         </Box>
@@ -76,19 +76,25 @@ export function FileUploadDialog() {
   )
 }
 
-function UploadFiles() {
+function LocalFilesButton(props: { isFolder?: boolean }) {
   const theme = useTheme()
   const { action } = store.useState()
 
   const borderColor = !action ? theme.palette.primary.main : undefined
+  const icon = props.isFolder ? iconUploadFolderImg : iconUploadFileImg
+  const text = props.isFolder
+    ? 'Add one or more folders'
+    : 'Add one or more Excel or csv files'
 
   return (
     <Box>
       <FileSelectBox sx={{ ':hover': { borderColor } }}>
         <input
-          disabled={!!action}
           type="file"
           multiple
+          disabled={!!action}
+          // @ts-expect-error
+          webkitdirectory={props.isFolder ? '' : undefined}
           onChange={(ev) => {
             if (ev.target.files) {
               store.uploadLocalFiles({ files: ev.target.files })
@@ -97,9 +103,9 @@ function UploadFiles() {
         />
         <Box sx={{ padding: '32px 48px 24px 48px' }}>
           <Box>
-            <img src={iconUploadFileImg} alt="Icon Upload File" />
+            <img src={icon} alt="Icon Upload File" />
           </Box>
-          <Box>Add one or more Excel or csv files </Box>
+          <Box>{text}</Box>
           <StyledSelectBox className={!action ? 'file-select__button' : undefined}>
             Select
           </StyledSelectBox>
@@ -109,45 +115,7 @@ function UploadFiles() {
   )
 }
 
-function UploadFolders() {
-  const theme = useTheme()
-  const { action } = store.useState()
-
-  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
-  if (!isWebkitDirectorySupported) {
-    return null
-  }
-
-  const borderColor = !action ? theme.palette.primary.main : undefined
-
-  return (
-    <FileSelectBox sx={{ ':hover': { borderColor } }}>
-      <input
-        type="file"
-        disabled={!!action}
-        multiple
-        onChange={(ev) => {
-          if (ev.target.files) {
-            store.uploadLocalFiles({ files: ev.target.files })
-          }
-        }}
-        // @ts-expect-error
-        webkitdirectory=""
-      />
-      <Box sx={{ padding: '32px 48px 24px 48px' }}>
-        <Box>
-          <img src={iconUploadFolderImg} alt="Icon Upload File" />
-        </Box>
-        <Box>Add one or more folders</Box>
-        <StyledSelectBox className={!action ? 'file-select__button' : undefined}>
-          Select
-        </StyledSelectBox>
-      </Box>
-    </FileSelectBox>
-  )
-}
-
-function UploadRemoteFile() {
+function RemoteFileForm() {
   const { action } = store.useState()
 
   const [errorMessage, setErrorMessage] = React.useState('')
@@ -214,6 +182,36 @@ function UploadRemoteFile() {
   )
 }
 
+function StatusIndicator() {
+  const { error, action } = store.useState()
+
+  if (error) {
+    return (
+      <Box sx={{ py: '1em' }}>
+        <Box sx={{ color: 'red' }}>{error}</Box>
+      </Box>
+    )
+  }
+
+  if (!action) {
+    return null
+  }
+
+  return (
+    <Box sx={{ py: '1em' }}>
+      <Box>{startCase(action)}...</Box>
+      <LinearProgress
+        sx={{
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: '#00D1FF',
+          },
+          padding: '10px',
+        }}
+      />
+    </Box>
+  )
+}
+
 function AddRemoteTextField(props: {
   errorMessage?: string
   value: string
@@ -250,36 +248,6 @@ function AddRemoteTextField(props: {
       value={props.value}
       onChange={(e) => props.onChange(e.target.value)}
     />
-  )
-}
-
-function UploadingStatus() {
-  const { error, action } = store.useState()
-
-  if (error) {
-    return (
-      <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{error}</Box>
-      </Box>
-    )
-  }
-
-  if (!action) {
-    return null
-  }
-
-  return (
-    <Box sx={{ py: '1em' }}>
-      <Box>{startCase(action)}...</Box>
-      <LinearProgress
-        sx={{
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#00D1FF',
-          },
-          padding: '10px',
-        }}
-      />
-    </Box>
   )
 }
 
