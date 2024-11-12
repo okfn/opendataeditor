@@ -16,10 +16,12 @@ export default function Text() {
       }}
     >
       <Menu />
-      <Box sx={{ flexGrow: 1, zIndex: 10 }}>
-        <Editor />
+      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10 }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Editor />
+        </Box>
+        <Panel />
       </Box>
-      <Panel />
     </Box>
   )
 }
