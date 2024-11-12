@@ -6,6 +6,8 @@ import Dialog from './Dialog'
 import Error from './Error'
 import * as store from '@client/store'
 
+export const fileMenuWidth = 284
+
 export default function Layout() {
   React.useEffect(() => {
     store.onAppStart().catch(console.error)
@@ -15,7 +17,7 @@ export default function Layout() {
     <React.Fragment>
       <Error />
       <Dialog />
-      <Box sx={{ display: 'grid', gridTemplateColumns: '284px 1fr' }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: `${fileMenuWidth}px 1fr` }}>
         <Sidebar />
         <Content />
       </Box>
