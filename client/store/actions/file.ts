@@ -184,29 +184,6 @@ export async function renameFile(path: string, toPath: string) {
   await onFileCreated([result.path])
 }
 
-export async function forkFile(toPath: string) {
-  const { path, resource } = store.getState()
-  if (!path) return
-
-  const result = await client.filePatch({ path, toPath, resource })
-
-  if (result instanceof client.Error) {
-    return store.setState('fork-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
-export async function locateFile(path: string) {
-  store.setState('locate-file-start', (state) => {
-    state.path = path
-  })
-
-  emitEvent({ type: 'locate', paths: [path] })
-}
-
 // Handlers
 
 export async function onFileCreated(paths: string[]) {
