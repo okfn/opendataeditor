@@ -5,7 +5,6 @@ import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
 import ConfigDialog from './Dialogs/Config'
 import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
-import CreateDialog from './Dialogs/Create'
 import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
 import { FileUploadDialog } from './Dialogs/FileUpload'
 import IndexFilesDialog from './Dialogs/IndexFiles'
@@ -34,7 +33,6 @@ const DIALOGS = {
   configProject: ConfigDialog,
   copyFile: CopyFileDialog,
   copyFolder: CopyFolderDialog,
-  create: CreateDialog,
   deleteFilesFolders: DeleteFilesFoldersDialog,
   indexFiles: IndexFilesDialog,
   publish: PublishDialog,
