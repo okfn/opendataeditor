@@ -124,7 +124,7 @@ export async function selectMultipleFiles(paths: string[]) {
   })
 }
 
-export async function addFiles(files: FileList) {
+export async function uploadFiles(files: FileList) {
   const folder = getFolderPath(store.getState())
   const paths: string[] = []
 
@@ -133,15 +133,13 @@ export async function addFiles(files: FileList) {
     const result = await client.fileCreate({ file, path, folder, deduplicate: true })
 
     if (result instanceof client.Error) {
-      return store.setState('add-files-error', (state) => {
-        state.error = result
-      })
+      return result
+    } else {
+      paths.push(result.path)
     }
-
-    paths.push(result.path)
   }
 
-  onFileCreated(paths)
+  return paths
 }
 
 export async function fetchFile(url: string) {

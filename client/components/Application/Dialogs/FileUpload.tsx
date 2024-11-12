@@ -1,3 +1,4 @@
+import { client } from '@client/client'
 import * as store from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
@@ -8,6 +9,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
+import { startCase } from 'lodash'
 import * as React from 'react'
 import uploadFilesDialogImg from '../../../assets/dialog_upload_files.png'
 import iconUploadFolderImg from '../../../assets/folder-open-big-plus.png'
@@ -76,14 +78,37 @@ export default function FileUploadDialog() {
 }
 
 function UploadFiles() {
-  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState<string | undefined>()
+  const [state, setState] = React.useState<'loading' | 'validating' | undefined>()
 
   const handleUpload = async (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (ev.target.files) {
-      setLoading(true)
-      await store.addFiles(ev.target.files)
-      store.openDialog('openLocation')
+    if (!ev.target.files) return
+
+    setError(undefined)
+    setState('loading')
+
+    const paths = await store.uploadFiles(ev.target.files)
+    if (paths instanceof client.Error) {
+      return setError(paths.detail)
     }
+
+    setState('validating')
+    for (const path of paths) {
+      const index = await client.fileIndex({ path })
+      if (index instanceof client.Error) {
+        return setError(index.detail)
+      }
+    }
+
+    await store.loadFiles()
+    store.emitEvent({ type: 'create', paths })
+
+    for (const path of paths) {
+      await store.selectFile({ path })
+      break
+    }
+
+    store.openDialog('openLocation')
   }
 
   return (
@@ -104,7 +129,7 @@ function UploadFiles() {
           <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
         </Box>
       </FileSelectBox>
-      {!!loading && <LoadingProgress />}
+      <UploadingProgress error={error} state={state} />
     </Box>
   )
 }
@@ -208,7 +233,7 @@ function UploadRemoteFile() {
         disabled={!value}
         onClick={handleConfirm}
       />
-      {!!loading && <LoadingProgress />}
+      <UploadingProgress state={loading ? 'loading' : undefined} />
     </Box>
   )
 }
@@ -250,10 +275,22 @@ function AddRemoteTextfield(props: {
   )
 }
 
-function LoadingProgress() {
+function UploadingProgress(props: { error?: string; state?: string }) {
+  if (!props.state) {
+    return null
+  }
+
+  if (props.error) {
+    return (
+      <Box sx={{ py: '1em' }}>
+        <Box sx={{ color: 'red' }}>{props.error}</Box>
+      </Box>
+    )
+  }
+
   return (
     <Box sx={{ py: '1em' }}>
-      <Box>Loading...</Box>
+      <Box>{startCase(props.state)}...</Box>
       <LinearProgress
         sx={{
           '& .MuiLinearProgress-bar': {
