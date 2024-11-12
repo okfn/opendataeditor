@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import { startCase } from 'lodash'
 import * as React from 'react'
 import * as store from './FileUpload.store'
@@ -22,6 +22,8 @@ import * as store from './FileUpload.store'
 const TAB_LABELS = ['From your computer', 'Add external data']
 
 export function FileUploadDialog() {
+  const { action } = store.useState()
+
   return (
     <Dialog
       fullWidth
@@ -55,17 +57,17 @@ export function FileUploadDialog() {
           <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <DialogTabs labels={TAB_LABELS}>
+          <DialogTabs labels={TAB_LABELS} disabled={!!action}>
             <Box sx={{ minHeight: '15em' }}>
               <Columns columns={2} spacing={4}>
                 <UploadFiles />
                 <UploadFolders />
               </Columns>
-              <UploadingProgress />
+              <UploadingStatus />
             </Box>
             <Box sx={{ minHeight: '15em' }}>
               <UploadRemoteFile />
-              <UploadingProgress />
+              <UploadingStatus />
             </Box>
           </DialogTabs>
         </Box>
@@ -75,17 +77,14 @@ export function FileUploadDialog() {
 }
 
 function UploadFiles() {
+  const theme = useTheme()
   const { action } = store.useState()
+
+  const borderColor = !action ? theme.palette.primary.main : undefined
 
   return (
     <Box>
-      <FileSelectBox
-        sx={{
-          ':hover': {
-            borderColor: (theme) => theme.palette.primary.main,
-          },
-        }}
-      >
+      <FileSelectBox sx={{ ':hover': { borderColor } }}>
         <input
           disabled={!!action}
           type="file"
@@ -101,7 +100,9 @@ function UploadFiles() {
             <img src={iconUploadFileImg} alt="Icon Upload File" />
           </Box>
           <Box>Add one or more Excel or csv files </Box>
-          <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+          <StyledSelectBox className={!action ? 'file-select__button' : undefined}>
+            Select
+          </StyledSelectBox>
         </Box>
       </FileSelectBox>
     </Box>
@@ -109,6 +110,7 @@ function UploadFiles() {
 }
 
 function UploadFolders() {
+  const theme = useTheme()
   const { action } = store.useState()
 
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
@@ -116,14 +118,10 @@ function UploadFolders() {
     return null
   }
 
+  const borderColor = !action ? theme.palette.primary.main : undefined
+
   return (
-    <FileSelectBox
-      sx={{
-        ':hover': {
-          borderColor: (theme) => theme.palette.primary.main,
-        },
-      }}
-    >
+    <FileSelectBox sx={{ ':hover': { borderColor } }}>
       <input
         type="file"
         disabled={!!action}
@@ -141,7 +139,9 @@ function UploadFolders() {
           <img src={iconUploadFolderImg} alt="Icon Upload File" />
         </Box>
         <Box>Add one or more folders</Box>
-        <StyledSelectBox className="file-select__button">Select</StyledSelectBox>
+        <StyledSelectBox className={!action ? 'file-select__button' : undefined}>
+          Select
+        </StyledSelectBox>
       </Box>
     </FileSelectBox>
   )
@@ -253,7 +253,7 @@ function AddRemoteTextfield(props: {
   )
 }
 
-function UploadingProgress() {
+function UploadingStatus() {
   const { error, action } = store.useState()
 
   if (error) {

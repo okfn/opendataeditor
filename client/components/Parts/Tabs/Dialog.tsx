@@ -17,11 +17,10 @@ export default function DialogTabs(props: any) {
   // no unused variable error in the typescript check
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTabIndex(newValue)
+    if (!props.disabled) {
+      setCurrentTabIndex(newValue)
+    }
   }
-
-  const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
-  if (!isWebkitDirectorySupported) return null
 
   return (
     <Box>
@@ -85,4 +84,3 @@ function CustomTabPanel(props: {
     </div>
   )
 }
-

@@ -8,6 +8,7 @@ import * as appStore from '@client/store'
 class State {
   error?: string
   action?: 'loading' | 'validating'
+  message?: string
 }
 
 export const { state, useState } = helpers.createState('FileUpload', new State())
@@ -47,6 +48,7 @@ export async function uploadFiles(props: { files: FileList }) {
     break
   }
 
+  state.action = undefined
   appStore.openDialog('openLocation')
 }
 
