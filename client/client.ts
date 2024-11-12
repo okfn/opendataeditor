@@ -57,7 +57,7 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string }>('/file/create', props)
+    return await this.request<{ path: string; size: number }>('/file/create', props)
   }
 
   async fileDelete(props: { path: string }) {
@@ -70,7 +70,7 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string }>('/file/fetch', props)
+    return await this.request<{ path: string; size: number }>('/file/fetch', props)
   }
 
   async fileIndex(props: { path: string }) {

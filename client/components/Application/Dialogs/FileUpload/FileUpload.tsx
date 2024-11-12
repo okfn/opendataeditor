@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import LinearProgress from '@mui/material/LinearProgress'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import { startCase } from 'lodash'
@@ -61,14 +62,14 @@ export function FileUploadDialog() {
             disabled={progress?.blocking}
             onChange={store.resetState}
           >
-            <Box sx={{ minHeight: '18em' }}>
+            <Box sx={{ minHeight: '20em' }}>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
               <ProgressIndicator />
             </Box>
-            <Box sx={{ minHeight: '18em' }}>
+            <Box sx={{ minHeight: '20em' }}>
               <RemoteFileForm />
               <ProgressIndicator />
             </Box>
@@ -163,7 +164,7 @@ function ProgressIndicator() {
   }
 
   return (
-    <Box sx={{ py: '1em' }}>
+    <Stack spacing={1} sx={{ mt: '1em' }}>
       <Box>{startCase(progress.type)}...</Box>
       <LinearProgress
         sx={{
@@ -173,8 +174,8 @@ function ProgressIndicator() {
           padding: '10px',
         }}
       />
-      <Box>{progress.message}</Box>
-    </Box>
+      <Box sx={{ color: 'gray' }}>{progress.message}</Box>
+    </Stack>
   )
 }
 

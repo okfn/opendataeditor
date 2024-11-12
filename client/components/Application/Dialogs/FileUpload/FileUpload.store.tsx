@@ -15,6 +15,11 @@ type IProgress = {
   blocking?: boolean
 }
 
+type IFile = {
+  path: string
+  size: number
+}
+
 export const { state, useState } = helpers.createState('FileUpload', new State())
 
 export function closeDialog() {
@@ -32,23 +37,23 @@ export function resetState() {
 }
 
 export async function ingestFiles(props: { source: FileList | string }) {
-  const paths =
+  const files =
     props.source instanceof FileList
-      ? await uploadLocalFiles({ files: props.source })
-      : await uploadRemoteFile({ url: props.source })
+      ? await uploadLocalFiles({ source: props.source })
+      : await uploadRemoteFile({ source: props.source })
 
-  if (paths) {
-    await validateAndSelectFiles({ paths })
+  if (files) {
+    await validateAndSelectFiles({ files })
   }
 }
 
-async function uploadLocalFiles(props: { files: FileList }) {
+async function uploadLocalFiles(props: { source: FileList }) {
   state.progress = { type: 'loading', blocking: true }
 
-  const paths: string[] = []
+  const files: IFile[] = []
   const folder = appStore.getFolderPath(appStore.getState())
 
-  for (const file of props.files) {
+  for (const file of props.source) {
     const path = file.webkitRelativePath
     const result = await client.fileCreate({ file, path, folder, deduplicate: true })
 
@@ -57,31 +62,31 @@ async function uploadLocalFiles(props: { files: FileList }) {
       return
     }
 
-    paths.push(result.path)
+    files.push(result)
   }
 
   state.progress = undefined
-  return paths
+  return files
 }
 
-async function uploadRemoteFile(props: { url: string }) {
+async function uploadRemoteFile(props: { source: string }) {
   state.progress = { type: 'loading', blocking: true }
 
-  if (!props.url) {
+  if (!props.source) {
     state.progress = { type: 'error', message: 'The URL is blank' }
     return
   }
 
-  if (!helpers.isUrlValid(props.url)) {
+  if (!helpers.isUrlValid(props.source)) {
     state.progress = { type: 'error', message: 'The URL is not valid' }
     return
   }
 
   const folder = appStore.getFolderPath(appStore.getState())
-  const result = await client.fileFetch({ folder, url: props.url, deduplicate: true })
+  const result = await client.fileFetch({ folder, url: props.source, deduplicate: true })
 
   if (result instanceof client.Error) {
-    const message = props.url.includes('docs.google.com/spreadsheets')
+    const message = props.source.includes('docs.google.com/spreadsheets')
       ? 'The Google Sheets URL is not valid or the table is not publically available'
       : 'The URL is not associated with a table'
     state.progress = { type: 'error', message }
@@ -89,14 +94,20 @@ async function uploadRemoteFile(props: { url: string }) {
   }
 
   state.progress = undefined
-  return [result.path]
+  return [result]
 }
 
-async function validateAndSelectFiles(props: { paths: string[] }) {
+async function validateAndSelectFiles(props: { files: IFile[] }) {
   state.progress = { type: 'validating', blocking: true }
 
-  for (const path of props.paths) {
-    const result = await client.fileIndex({ path })
+  const totalSize = props.files.reduce((acc, file) => acc + file.size, 0)
+  if (totalSize > 10_000_000) {
+    state.progress.message =
+      'The total size of the files exceeds 10MB. Validation might take some time...'
+  }
+
+  for (const file of props.files) {
+    const result = await client.fileIndex({ path: file.path })
     if (result instanceof client.Error) {
       state.progress = { type: 'error', message: result.detail }
       return
@@ -104,10 +115,13 @@ async function validateAndSelectFiles(props: { paths: string[] }) {
   }
 
   await appStore.loadFiles()
-  appStore.emitEvent({ type: 'create', paths: props.paths })
+  appStore.emitEvent({
+    type: 'create',
+    paths: props.files.map((file) => file.path),
+  })
 
-  for (const path of props.paths) {
-    await appStore.selectFile({ path })
+  for (const file of props.files) {
+    await appStore.selectFile({ path: file.path })
     break
   }
 
