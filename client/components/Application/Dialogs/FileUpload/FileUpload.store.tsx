@@ -6,13 +6,22 @@ import * as appStore from '@client/store'
 // needs to be shared between multiple components
 // but it is not needed in the global state
 class State {
-  error?: string
-  action?: 'loading' | 'validating'
+  progress?: IProgress
+}
+
+type IProgress = {
+  type: 'loading' | 'validating' | 'error'
   message?: string
-  remoteUrl?: string
+  blocking?: boolean
 }
 
 export const { state, useState } = helpers.createState('FileUpload', new State())
+
+export function closeDialog() {
+  if (!state.progress?.blocking) {
+    appStore.closeDialog()
+  }
+}
 
 export function resetState() {
   const initialState = new State()
@@ -22,90 +31,86 @@ export function resetState() {
   }
 }
 
-export function closeDialog() {
-  if (!state.action) {
-    appStore.closeDialog()
+export async function ingestFiles(props: { source: FileList | string }) {
+  const paths =
+    props.source instanceof FileList
+      ? await uploadLocalFiles({ files: props.source })
+      : await uploadRemoteFile({ url: props.source })
+
+  if (paths) {
+    await validateAndSelectFiles({ paths })
   }
 }
 
-export function setRemoteUrl(value: string) {
-  state.remoteUrl = value
-  state.error = undefined
+async function uploadLocalFiles(props: { files: FileList }) {
+  state.progress = { type: 'loading', blocking: true }
+
+  const paths: string[] = []
+  const folder = appStore.getFolderPath(appStore.getState())
+
+  for (const file of props.files) {
+    const path = file.webkitRelativePath
+    const result = await client.fileCreate({ file, path, folder, deduplicate: true })
+
+    if (result instanceof client.Error) {
+      state.progress = { type: 'error', message: result.detail }
+      return
+    }
+
+    paths.push(result.path)
+  }
+
+  state.progress = undefined
+  return paths
 }
 
-export async function uploadLocalFiles(props: { files: FileList }) {
-  state.error = undefined
+async function uploadRemoteFile(props: { url: string }) {
+  state.progress = { type: 'loading', blocking: true }
 
-  state.action = 'loading'
-  const paths = await appStore.uploadFiles(props.files)
-  if (paths instanceof client.Error) {
-    state.error = paths.detail
-    state.action = undefined
+  if (!props.url) {
+    state.progress = { type: 'error', message: 'The URL is blank' }
     return
   }
 
-  state.action = 'validating'
-  for (const path of paths) {
-    const index = await client.fileIndex({ path })
-    if (index instanceof client.Error) {
-      state.error = index.detail
-      state.action = undefined
+  if (!helpers.isUrlValid(props.url)) {
+    state.progress = { type: 'error', message: 'The URL is not valid' }
+    return
+  }
+
+  const folder = appStore.getFolderPath(appStore.getState())
+  const result = await client.fileFetch({ folder, url: props.url, deduplicate: true })
+
+  if (result instanceof client.Error) {
+    const message = props.url.includes('docs.google.com/spreadsheets')
+      ? 'The Google Sheets URL is not valid or the table is not publically available'
+      : 'The URL is not associated with a table'
+    state.progress = { type: 'error', message }
+    return
+  }
+
+  state.progress = undefined
+  return [result.path]
+}
+
+async function validateAndSelectFiles(props: { paths: string[] }) {
+  state.progress = { type: 'validating', blocking: true }
+
+  for (const path of props.paths) {
+    const result = await client.fileIndex({ path })
+    if (result instanceof client.Error) {
+      state.progress = { type: 'error', message: result.detail }
       return
     }
   }
 
   await appStore.loadFiles()
-  appStore.emitEvent({ type: 'create', paths })
+  appStore.emitEvent({ type: 'create', paths: props.paths })
 
-  for (const path of paths) {
+  for (const path of props.paths) {
     await appStore.selectFile({ path })
     break
   }
 
-  state.action = undefined
-  state.remoteUrl = undefined
-  appStore.openDialog('openLocation')
-}
-
-export async function uploadRemoteFile() {
-  const url = state.remoteUrl
-
-  if (!url) {
-    state.error = 'The URL is blank'
-    return
-  }
-
-  if (!helpers.isUrlValid(url)) {
-    state.error = 'The URL is not valid'
-    return
-  }
-
-  state.action = 'loading'
-  const path = await appStore.fetchFile({ url })
-  if (path instanceof client.Error) {
-    if (url.includes('docs.google.com/spreadsheets')) {
-      state.error =
-        'The Google Sheets URL is not valid or the table is not publically available'
-    } else {
-      state.error = 'The URL is not associated with a table'
-    }
-
-    state.action = undefined
-    return
-  }
-
-  state.action = 'validating'
-  const index = await client.fileIndex({ path })
-  if (index instanceof client.Error) {
-    state.error = index.detail
-    state.action = undefined
-    return
-  }
-
-  await appStore.loadFiles()
-  appStore.emitEvent({ type: 'create', paths: [path] })
-  await appStore.selectFile({ path })
-
-  state.action = undefined
+  state.progress = undefined
   appStore.openDialog('openLocation')
 }

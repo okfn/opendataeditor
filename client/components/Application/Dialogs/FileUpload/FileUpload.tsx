@@ -15,12 +15,13 @@ import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import { startCase } from 'lodash'
+import * as React from 'react'
 import * as store from './FileUpload.store'
 
 const TAB_LABELS = ['From your computer', 'Add external data']
 
 export function FileUploadDialog() {
-  const { action } = store.useState()
+  const { progress } = store.useState()
 
   return (
     <Dialog
@@ -55,17 +56,21 @@ export function FileUploadDialog() {
           <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <DialogTabs labels={TAB_LABELS} disabled={!!action} onChange={store.resetState}>
+          <DialogTabs
+            labels={TAB_LABELS}
+            disabled={progress?.blocking}
+            onChange={store.resetState}
+          >
             <Box sx={{ minHeight: '18em' }}>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
-              <StatusIndicator />
+              <ProgressIndicator />
             </Box>
             <Box sx={{ minHeight: '18em' }}>
               <RemoteFileForm />
-              <StatusIndicator />
+              <ProgressIndicator />
             </Box>
           </DialogTabs>
         </Box>
@@ -76,9 +81,9 @@ export function FileUploadDialog() {
 
 function LocalFileForm(props: { isFolder?: boolean }) {
   const theme = useTheme()
-  const { action } = store.useState()
+  const { progress } = store.useState()
 
-  const borderColor = !action ? theme.palette.primary.main : undefined
+  const borderColor = !progress?.blocking ? theme.palette.primary.main : undefined
   const icon = props.isFolder ? iconUploadFolderImg : iconUploadFileImg
   const text = props.isFolder
     ? 'Add one or more folders'
@@ -90,12 +95,12 @@ function LocalFileForm(props: { isFolder?: boolean }) {
         <input
           type="file"
           multiple
-          disabled={!!action}
+          disabled={progress?.blocking}
           // @ts-expect-error
           webkitdirectory={props.isFolder ? '' : undefined}
           onChange={(ev) => {
             if (ev.target.files) {
-              store.uploadLocalFiles({ files: ev.target.files })
+              store.ingestFiles({ source: ev.target.files })
             }
           }}
         />
@@ -104,7 +109,9 @@ function LocalFileForm(props: { isFolder?: boolean }) {
             <img src={icon} alt="Icon Upload File" />
           </Box>
           <Box>{text}</Box>
-          <StyledSelectBox className={!action ? 'file-select__button' : undefined}>
+          <StyledSelectBox
+            className={!progress?.blocking ? 'file-select__button' : undefined}
+          >
             Select
           </StyledSelectBox>
         </Box>
@@ -114,17 +121,18 @@ function LocalFileForm(props: { isFolder?: boolean }) {
 }
 
 function RemoteFileForm() {
-  const { action, error, remoteUrl } = store.useState()
+  const { progress } = store.useState()
+  const [url, setUrl] = React.useState('')
 
   return (
     <Box>
       <Box sx={{ fontSize: '14px' }}>Link to the external table:</Box>
       <Box sx={{ display: 'flex' }}>
         <AddRemoteTextField
-          value={remoteUrl}
-          invalid={!!error}
-          disabled={!!action}
-          onChange={store.setRemoteUrl}
+          value={url}
+          invalid={progress?.type === 'error'}
+          disabled={progress?.blocking}
+          onChange={setUrl}
         />
       </Box>
       <SimpleButton
@@ -132,31 +140,31 @@ function RemoteFileForm() {
         sx={{ my: 0.5, marginTop: '53px' }}
         variant="contained"
         aria-label="accept"
-        disabled={!remoteUrl}
-        onClick={store.uploadRemoteFile}
+        disabled={!url}
+        onClick={() => store.ingestFiles({ source: url })}
       />
     </Box>
   )
 }
 
-function StatusIndicator() {
-  const { error, action } = store.useState()
+function ProgressIndicator() {
+  const { progress } = store.useState()
 
-  if (error) {
+  if (!progress) {
+    return null
+  }
+
+  if (progress.type === 'error') {
     return (
       <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{error}</Box>
+        <Box sx={{ color: 'red' }}>{progress.message}</Box>
       </Box>
     )
   }
 
-  if (!action) {
-    return null
-  }
-
   return (
     <Box sx={{ py: '1em' }}>
-      <Box>{startCase(action)}...</Box>
+      <Box>{startCase(progress.type)}...</Box>
       <LinearProgress
         sx={{
           '& .MuiLinearProgress-bar': {
@@ -165,6 +173,7 @@ function StatusIndicator() {
           padding: '10px',
         }}
       />
+      <Box>{progress.message}</Box>
     </Box>
   )
 }

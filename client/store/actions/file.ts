@@ -124,40 +124,6 @@ export async function selectMultipleFiles(paths: string[]) {
   })
 }
 
-export async function uploadFiles(files: FileList) {
-  const folder = getFolderPath(store.getState())
-  const paths: string[] = []
-
-  for (const file of files) {
-    const path = file.webkitRelativePath || undefined
-    const result = await client.fileCreate({ file, path, folder, deduplicate: true })
-
-    if (result instanceof client.Error) {
-      return result
-    } else {
-      paths.push(result.path)
-    }
-  }
-
-  return paths
-}
-
-export async function fetchFile(props: { url: string }) {
-  const folder = getFolderPath(store.getState())
-
-  const result = await client.fileFetch({
-    folder,
-    url: props.url,
-    deduplicate: true,
-  })
-
-  if (result instanceof client.Error) {
-    return result
-  } else {
-    return result.path
-  }
-}
-
 export async function adjustFile(name?: string, type?: string) {
   const { path } = store.getState()
   if (!path) return
