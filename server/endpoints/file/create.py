@@ -22,6 +22,7 @@ class Props(BaseModel, extra="forbid"):
 
 class Result(BaseModel, extra="forbid"):
     path: str
+    size: int
 
 
 @router.post("/file/create")
@@ -56,4 +57,4 @@ def action(project: Project, props: Props) -> Result:
         project, path=path, bytes=props.bytes, deduplicate=props.deduplicate
     )
 
-    return Result(path=path)
+    return Result(path=path, size=len(props.bytes))
