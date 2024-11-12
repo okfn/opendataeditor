@@ -1,3 +1,4 @@
+import * as store from '@client/store'
 import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import AdjustFileDialog from './Dialogs/AdjustFile'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
@@ -6,14 +7,13 @@ import CopyFileDialog from './Dialogs/CopyFile'
 import CopyFolderDialog from './Dialogs/CopyFolder'
 import CreateDialog from './Dialogs/Create'
 import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
+import { FileUploadDialog } from './Dialogs/FileUpload'
 import IndexFilesDialog from './Dialogs/IndexFiles'
+import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
+import RenameFileDialog from './Dialogs/RenameFile'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
-import FileUploadDialog from './Dialogs/FileUpload'
-import OpenLocationDialog from './Dialogs/OpenLocation'
-import RenameFileDialog from './Dialogs/RenameFile'
-import * as store from '@client/store'
 
 export default function Dialog() {
   const dialog = store.useStore((state) => state.dialog)

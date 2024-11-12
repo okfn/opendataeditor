@@ -1,13 +1,13 @@
+import welcomescreenImg from '@client/assets/welcomescreen.png'
+import * as store from '@client/store'
 import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
-import SimpleButton from '../../Parts/Buttons/SimpleButton'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
-import * as store from '@client/store'
-import * as React from 'react'
-import welcomescreenImg from './assets/welcomescreen.png'
 import { styled } from '@mui/material/styles'
+import * as React from 'react'
+import SimpleButton from '../../Parts/Buttons/SimpleButton'
 
 export default function WelcomeBanner() {
   const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)

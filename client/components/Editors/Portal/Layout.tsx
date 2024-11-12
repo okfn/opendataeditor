@@ -1,9 +1,9 @@
+import publishDialogImg from '@client/assets/dialog_publish.png'
 import Box from '@mui/material/Box'
-import publishDialogImg from '../../Application/Dialogs/assets/dialog_publish.png'
+import DialogTabs from '../../Parts/Tabs/Dialog'
 import CkanSection from './Sections/Ckan'
 import GithubSection from './Sections/Github'
 import ZenodoSection from './Sections/Zenodo'
-import DialogTabs from '../../Parts/Tabs/Dialog'
 
 export default function Layout() {
   const tabLabels = ['Ckan', 'Github', 'Zenodo']

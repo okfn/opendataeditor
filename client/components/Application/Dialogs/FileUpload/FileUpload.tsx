@@ -1,6 +1,11 @@
-import { client } from '@client/client'
-import { createState } from '@client/helpers/store'
-import * as store from '@client/store'
+import uploadFilesDialogImg from '@client/assets/dialog_upload_files.png'
+import iconUploadFolderImg from '@client/assets/folder-open-big-plus.png'
+import iconLinkTextField from '@client/assets/icon_link_textfield.svg'
+import iconUploadFileImg from '@client/assets/icon_upload_file.png'
+import DialogTabs from '@client/components//Parts/Tabs/Dialog'
+import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
+import Columns from '@client/components/Parts/Grids/Columns'
+import * as helpers from '@client/helpers'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -12,44 +17,22 @@ import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
 import { startCase } from 'lodash'
 import * as React from 'react'
-import uploadFilesDialogImg from '../../../assets/dialog_upload_files.png'
-import iconUploadFolderImg from '../../../assets/folder-open-big-plus.png'
-import iconLinkTextField from '../../../assets/icon_link_textfield.svg'
-import iconUploadFileImg from '../../../assets/icon_upload_file.png'
-import * as helpers from '../../../helpers'
-import SimpleButton from '../../Parts/Buttons/SimpleButton'
-import Columns from '../../Parts/Grids/Columns'
-import DialogTabs from '../../Parts/Tabs/Dialog'
+import * as store from './FileUpload.store'
 
-// We use component level state because dialog state
-// needs to be shared between multiple components
-// but it is not needed in the global state
-class State {
-  error?: string
-  action?: 'loading' | 'validating'
-}
+const TAB_LABELS = ['From your computer', 'Add external data']
 
-const { state, useState } = createState('FileUpload', new State())
-
-export default function FileUploadDialog() {
-  const tabLabels = ['From your computer', 'Add external data']
-  const { action } = useState()
-
-  const handleClose = () => {
-    store.closeDialog()
-  }
-
+export function FileUploadDialog() {
   return (
     <Dialog
       fullWidth
       open={true}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onClose={!action ? handleClose : undefined}
+      onClose={store.closeDialog}
     >
       <IconButton
         aria-label="close"
-        onClick={!action ? handleClose : undefined}
+        onClick={store.closeDialog}
         sx={{
           position: 'absolute',
           right: 8,
@@ -72,7 +55,7 @@ export default function FileUploadDialog() {
           <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <DialogTabs labels={tabLabels}>
+          <DialogTabs labels={TAB_LABELS}>
             <Box sx={{ minHeight: '15em' }}>
               <Columns columns={2} spacing={4}>
                 <UploadFiles />
@@ -92,41 +75,7 @@ export default function FileUploadDialog() {
 }
 
 function UploadFiles() {
-  const { action } = useState()
-
-  const handleUpload = async (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (!ev.target.files) return
-
-    state.error = undefined
-    state.action = 'loading'
-
-    const paths = await store.uploadFiles(ev.target.files)
-    if (paths instanceof client.Error) {
-      state.error = paths.detail
-      state.action = undefined
-      return
-    }
-
-    state.action = 'validating'
-    for (const path of paths) {
-      const index = await client.fileIndex({ path })
-      if (index instanceof client.Error) {
-        state.error = index.detail
-        state.action = undefined
-        return
-      }
-    }
-
-    await store.loadFiles()
-    store.emitEvent({ type: 'create', paths })
-
-    for (const path of paths) {
-      await store.selectFile({ path })
-      break
-    }
-
-    store.openDialog('openLocation')
-  }
+  const { action } = store.useState()
 
   return (
     <Box>
@@ -137,7 +86,16 @@ function UploadFiles() {
           },
         }}
       >
-        <input disabled={!!action} type="file" multiple onChange={handleUpload} />
+        <input
+          disabled={!!action}
+          type="file"
+          multiple
+          onChange={(ev) => {
+            if (ev.target.files) {
+              store.uploadFiles({ files: ev.target.files })
+            }
+          }}
+        />
         <Box sx={{ padding: '32px 48px 24px 48px' }}>
           <Box>
             <img src={iconUploadFileImg} alt="Icon Upload File" />
@@ -151,18 +109,11 @@ function UploadFiles() {
 }
 
 function UploadFolders() {
-  const { action } = useState()
+  const { action } = store.useState()
 
   const isWebkitDirectorySupported = 'webkitdirectory' in document.createElement('input')
   if (!isWebkitDirectorySupported) {
     return null
-  }
-
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (ev.target.files) {
-      store.addFiles(ev.target.files)
-      store.closeDialog()
-    }
   }
 
   return (
@@ -177,7 +128,11 @@ function UploadFolders() {
         type="file"
         disabled={!!action}
         multiple
-        onChange={handleChange}
+        onChange={(ev) => {
+          if (ev.target.files) {
+            store.uploadFolders({ files: ev.target.files })
+          }
+        }}
         // @ts-expect-error
         webkitdirectory=""
       />
@@ -193,7 +148,7 @@ function UploadFolders() {
 }
 
 function UploadRemoteFile() {
-  const { action } = useState()
+  const { action } = store.useState()
 
   const [errorMessage, setErrorMessage] = React.useState('')
   const [loading, setLoading] = React.useState(false)
@@ -299,7 +254,7 @@ function AddRemoteTextfield(props: {
 }
 
 function UploadingProgress() {
-  const { error, action } = useState()
+  const { error, action } = store.useState()
 
   if (error) {
     return (
