@@ -179,6 +179,7 @@ function LoadMask(props: { visible: boolean; zIndex: number }) {
         opacity: 0.6,
         background: 'rgba(121, 134, 203, 0.25)',
         zIndex: props.zIndex,
+        position: 'absolute',
       }}
     >
       <SpinnerCard message="Loading" />
