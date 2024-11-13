@@ -1,6 +1,6 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
-import * as appStore from '@client/store'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import * as store from './Assistant.store'
 
 export function AssistantDialog() {
   return (
@@ -9,8 +9,9 @@ export function AssistantDialog() {
       maxWidth="md"
       title="AI Assistant"
       Icon={AutoFixHighIcon}
+      label="Confirm"
       cancelLabel="Cancel"
-      onCancel={appStore.closeDialog}
+      onCancel={store.closeDialog}
       onConfirm={console.log}
     >
       If you proceed, the Open Data Editor will only share the names of the columns in
