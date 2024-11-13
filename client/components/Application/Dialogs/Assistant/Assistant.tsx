@@ -73,7 +73,7 @@ function PromptStepDialog() {
     <StepDialog
       label="Confirm"
       cancelLabel="Cancel"
-      onConfirm={() => store.setPromptAndLoadResult({ prompt })}
+      onConfirm={() => store.setPromptAndFetchResult({ prompt })}
     >
       <Stack spacing={1}>
         <Box>Please enter your prompt to the AI assistant:</Box>
@@ -100,6 +100,7 @@ function ResultStepDialog() {
       disabled={state.progress?.blocking}
       onConfirm={store.closeDialog}
     >
+      {state.result}
       <ProgressIndicator />
     </StepDialog>
   )
