@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles'
 import { startCase } from 'lodash'
 import * as React from 'react'
 import { PropsWithChildren } from 'react'
+import Markdown from 'react-markdown'
 import * as store from './Assistant.store'
 
 const DEFAULT_PROMPT = `
@@ -57,6 +58,7 @@ function CredsStepDialog() {
           label="OpenAI API Key"
           variant="outlined"
           value={key}
+          inputProps={{ spellCheck: false }}
           onChange={(ev) => {
             setKey(ev.target.value)
           }}
@@ -100,7 +102,7 @@ function ResultStepDialog() {
       disabled={state.progress?.blocking}
       onConfirm={store.closeDialog}
     >
-      {state.result}
+      {state.result && <Markdown>{state.result}</Markdown>}
       <ProgressIndicator />
     </StepDialog>
   )
