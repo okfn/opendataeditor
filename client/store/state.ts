@@ -169,6 +169,7 @@ export type ITextState = {
 
 export type IDialog =
   | 'addEmptyFolder'
+  | 'assistant'
   | 'config'
   | 'configProject'
   | 'copyFile'

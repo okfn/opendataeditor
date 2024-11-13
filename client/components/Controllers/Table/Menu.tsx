@@ -1,7 +1,7 @@
-import * as menu from '../../Parts/Bars/Menu'
 import * as store from '@client/store'
 import Box from '@mui/material/Box'
 import * as action from '../../Parts/Bars/Action'
+import * as menu from '../../Parts/Bars/Menu'
 
 export default function Menu() {
   const panel = store.useStore((state) => state.panel)
@@ -52,6 +52,7 @@ export default function Menu() {
           />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <action.AssistantButton onClick={() => store.openDialog('assistant')} />
           <action.PublishButton
             disabled={isTableUpdated}
             onClick={() => store.openDialog('publish')}
