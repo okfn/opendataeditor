@@ -121,7 +121,7 @@ export default function FileUploadDialog() {
                 <FileSelectBox
                   sx={{
                     ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
+                      borderColor: (theme) => theme.palette.OKFNBlue.main,
                     },
                   }}
                 >
@@ -149,7 +149,7 @@ export default function FileUploadDialog() {
                 <FileSelectBox
                   sx={{
                     ':hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
+                      borderColor: (theme) => theme.palette.OKFNBlue.main,
                     },
                   }}
                 >
@@ -211,6 +211,8 @@ export default function FileUploadDialog() {
                 sx={{ my: 0.5, marginTop: '53px' }}
                 variant="contained"
                 aria-label="accept"
+                hoverBgColor="OKFNBlue"
+                color="OKFNBlack"
                 disabled={!remoteUrlValue}
                 onClick={() => onAddRemoteConfirm(remoteUrlValue)}
               />

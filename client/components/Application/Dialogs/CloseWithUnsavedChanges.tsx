@@ -20,7 +20,7 @@ export default function CloseWithUnsavedChangesDialog() {
       cancelLabel="Discard"
       label="Save"
       Icon={DangerousIcon}
-      description="There are unsaved changes."
+      description="There are unsaved changes. Please, click save or cancel."
       onCancel={onDiscard}
       onConfirm={onSave}
       disableClosing={true}

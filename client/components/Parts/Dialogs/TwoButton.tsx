@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent'
 import SimpleButton from '../Buttons/SimpleButton'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import { ButtonBgColorType } from '../Buttons/SimpleButton'
 
 export interface TwoButtonDialogProps {
   open?: boolean
@@ -23,6 +24,7 @@ export interface TwoButtonDialogProps {
   ctrlEnter?: boolean
   children?: React.ReactNode
   disableClosing?: boolean
+  hoverBgButtonColor?: ButtonBgColorType
 }
 
 export default function TwoButtonDialog(props: TwoButtonDialogProps) {
@@ -104,6 +106,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
             onClick={handleConfirm}
             aria-label="accept"
             variant="contained"
+            hoverBgColor={ props.hoverBgButtonColor ? props.hoverBgButtonColor : 'OKFNBlue'}
             color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
             disabled={props.disabled || props.loading}
           />

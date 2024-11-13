@@ -90,6 +90,7 @@ export default function OneButtonDialog(props: OneButtonDialogProps) {
           onClick={handleConfirm}
           aria-label="accept"
           variant="contained"
+          hoverBgColor='OKFNBlue'
           color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
           disabled={props.disabled || props.loading}
         />

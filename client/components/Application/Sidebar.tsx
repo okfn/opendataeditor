@@ -21,7 +21,16 @@ export default function Sidebar() {
       </Box>
       <Button
         variant="outlined"
-        sx={{ textTransform: 'none', marginBottom: '22px', mx: '24px' }}
+        sx={{
+          textTransform: 'none',
+          marginBottom: '22px',
+          mx: '24px',
+          '&:hover': {
+            color: 'white',
+            borderColor: (theme) => theme.palette.OKFNBlue.main,
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+        }}
         onClick={() => store.openDialog('fileUpload')}
       >
         Upload your data
