@@ -8,16 +8,33 @@ import * as appStore from '@client/store'
 class State {
   isTermsAccepted?: boolean
   openaiApiKey?: string
+
+  get step() {
+    if (this.openaiApiKey) return 'prompt'
+    if (this.isTermsAccepted) return 'creds'
+    return 'terms'
+  }
 }
 
 export const { state, useState } = helpers.createState('Assistant', new State())
 
-export function closeDialog() {
-  appStore.closeDialog()
+export function resetState() {
+  const initialState = new State()
+  for (const key of Object.keys(state)) {
+    // @ts-ignore
+    state[key] = initialState[key]
+  }
 }
 
-export async function nextStep() {
-  if (!state.isTermsAccepted) {
-    state.isTermsAccepted = true
-  }
+export function closeDialog() {
+  appStore.closeDialog()
+  resetState()
+}
+
+export function acceptTerms() {
+  state.isTermsAccepted = true
+}
+
+export function setApiKey(props: { key: string }) {
+  state.openaiApiKey = props.key
 }
