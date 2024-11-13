@@ -16,15 +16,10 @@ class State {
   }
 }
 
-export const { state, useState } = helpers.createState('Assistant', new State())
-
-export function resetState() {
-  const initialState = new State()
-  for (const key of Object.keys(state)) {
-    // @ts-ignore
-    state[key] = initialState[key]
-  }
-}
+export const { state, useState, resetState } = helpers.createState(
+  'Assistant',
+  new State()
+)
 
 export function closeDialog() {
   appStore.closeDialog()
