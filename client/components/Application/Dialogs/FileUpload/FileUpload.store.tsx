@@ -11,6 +11,7 @@ class State {
 
 type IProgress = {
   type: 'loading' | 'validating' | 'error'
+  title?: string
   message?: string
   blocking?: boolean
 }
@@ -98,12 +99,12 @@ async function uploadRemoteFile(props: { source: string }) {
 }
 
 async function validateAndSelectFiles(props: { files: IFile[] }) {
-  state.progress = { type: 'validating', blocking: true }
+  state.progress = { type: 'validating', title: 'Checking errors', blocking: true }
 
   const totalSize = props.files.reduce((acc, file) => acc + file.size, 0)
   if (totalSize > 10_000_000) {
     state.progress.message =
-      'The total size of the files exceeds 10MB. Validation might take some time...'
+      'The total size of the files exceeds 10MB. This operation might take some time...'
   }
 
   for (const file of props.files) {

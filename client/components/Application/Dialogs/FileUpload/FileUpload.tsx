@@ -165,7 +165,7 @@ function ProgressIndicator() {
 
   return (
     <Stack spacing={1} sx={{ mt: '1em' }}>
-      <Box>{startCase(progress.type)}...</Box>
+      <Box>{progress.title || startCase(progress.type)}...</Box>
       <LinearProgress
         sx={{
           '& .MuiLinearProgress-bar': {
