@@ -6,11 +6,11 @@ import * as appStore from '@client/store'
 // needs to be shared between multiple components
 // but it is not needed in the global state
 class State {
+  progress?: IProgress
   isTermsAccepted?: boolean
   openaiApiKey?: string
   prompt?: string
   result?: string
-  error?: string
 
   get step() {
     if (this.prompt) return 'result'
@@ -20,14 +20,22 @@ class State {
   }
 }
 
+type IProgress = {
+  type: 'generating' | 'error'
+  message?: string
+  blocking?: boolean
+}
+
 export const { state, useState, resetState } = helpers.createState(
   'AssistantDialog',
   new State()
 )
 
 export function closeDialog() {
-  appStore.closeDialog()
-  resetState()
+  if (!state.progress?.blocking) {
+    appStore.closeDialog()
+    resetState()
+  }
 }
 
 export function acceptTerms() {
@@ -38,6 +46,12 @@ export function setApiKey(props: { key: string }) {
   state.openaiApiKey = props.key
 }
 
-export function setPrompt(props: { prompt: string }) {
+export async function setPromptAndLoadResult(props: { prompt: string }) {
   state.prompt = props.prompt
+
+  state.progress = {
+    type: 'generating',
+    message: 'AI assistant is generating the response.',
+    blocking: true,
+  }
 }

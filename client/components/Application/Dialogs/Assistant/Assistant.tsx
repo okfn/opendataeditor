@@ -1,9 +1,11 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
+import { startCase } from 'lodash'
 import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import * as store from './Assistant.store'
@@ -71,7 +73,7 @@ function PromptStepDialog() {
     <StepDialog
       label="Confirm"
       cancelLabel="Cancel"
-      onConfirm={() => store.setPrompt({ prompt })}
+      onConfirm={() => store.setPromptAndLoadResult({ prompt })}
     >
       <Stack spacing={1}>
         <Box>Please enter your prompt to the AI assistant:</Box>
@@ -90,9 +92,15 @@ function PromptStepDialog() {
 }
 
 function ResultStepDialog() {
+  const state = store.useState()
+
   return (
-    <StepDialog label="OK" onConfirm={store.closeDialog}>
-      Result
+    <StepDialog
+      label="OK"
+      disabled={state.progress?.blocking}
+      onConfirm={store.closeDialog}
+    >
+      <ProgressIndicator />
     </StepDialog>
   )
 }
@@ -119,6 +127,38 @@ function StepDialog(
     >
       {props.children}
     </TwoButtonDialog>
+  )
+}
+
+// TODO: move to the common library
+function ProgressIndicator() {
+  const { progress } = store.useState()
+
+  if (!progress) {
+    return null
+  }
+
+  if (progress.type === 'error') {
+    return (
+      <Box sx={{ py: '1em' }}>
+        <Box sx={{ color: 'red' }}>{progress.message}</Box>
+      </Box>
+    )
+  }
+
+  return (
+    <Stack spacing={1} sx={{ mt: '1em' }}>
+      <Box>{startCase(progress.type)}...</Box>
+      <LinearProgress
+        sx={{
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: '#00D1FF',
+          },
+          padding: '10px',
+        }}
+      />
+      <Box sx={{ color: 'gray' }}>{progress.message}</Box>
+    </Stack>
   )
 }
 
