@@ -21,7 +21,7 @@ type IFile = {
 }
 
 export const { state, useState, resetState } = helpers.createState(
-  'FileUpload',
+  'FileUploadDialog',
   new State()
 )
 

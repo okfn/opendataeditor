@@ -8,6 +8,11 @@ import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import * as store from './Assistant.store'
 
+const DEFAULT_PROMPT = `
+suggest improvements to the names of the columns in the table 
+and provide descriptions for each of them
+`
+
 export function AssistantDialog() {
   const state = store.useState()
 
@@ -18,6 +23,8 @@ export function AssistantDialog() {
       return <CredsStepDialog />
     case 'prompt':
       return <PromptStepDialog />
+    case 'result':
+      return <ResultStepDialog />
   }
 }
 
@@ -44,9 +51,10 @@ function CredsStepDialog() {
       <Stack spacing={1}>
         <Box>Please enter your OpenAI API key:</Box>
         <StyledTextField
+          fullWidth
           label="OpenAI API Key"
           variant="outlined"
-          fullWidth
+          value={key}
           onChange={(ev) => {
             setKey(ev.target.value)
           }}
@@ -57,9 +65,34 @@ function CredsStepDialog() {
 }
 
 function PromptStepDialog() {
+  const [prompt, setPrompt] = React.useState(DEFAULT_PROMPT)
+
   return (
-    <StepDialog label="Confirm" cancelLabel="Cancel" onConfirm={console.log}>
-      Prompt
+    <StepDialog
+      label="Confirm"
+      cancelLabel="Cancel"
+      onConfirm={() => store.setPrompt({ prompt })}
+    >
+      <Stack spacing={1}>
+        <Box>Please enter your prompt to the AI assistant:</Box>
+        <StyledTextField
+          value={prompt}
+          label="OpenAI API Key"
+          variant="outlined"
+          fullWidth
+          onChange={(ev) => {
+            setPrompt(ev.target.value)
+          }}
+        />
+      </Stack>
+    </StepDialog>
+  )
+}
+
+function ResultStepDialog() {
+  return (
+    <StepDialog label="OK" onConfirm={store.closeDialog}>
+      Result
     </StepDialog>
   )
 }
@@ -67,9 +100,9 @@ function PromptStepDialog() {
 function StepDialog(
   props: PropsWithChildren<{
     label: string
-    cancelLabel: string
-    disabled?: boolean
     onConfirm: () => void
+    cancelLabel?: string
+    disabled?: boolean
   }>
 ) {
   return (

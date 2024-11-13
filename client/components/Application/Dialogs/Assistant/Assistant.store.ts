@@ -8,8 +8,12 @@ import * as appStore from '@client/store'
 class State {
   isTermsAccepted?: boolean
   openaiApiKey?: string
+  prompt?: string
+  result?: string
+  error?: string
 
   get step() {
+    if (this.prompt) return 'result'
     if (this.openaiApiKey) return 'prompt'
     if (this.isTermsAccepted) return 'creds'
     return 'terms'
@@ -17,7 +21,7 @@ class State {
 }
 
 export const { state, useState, resetState } = helpers.createState(
-  'Assistant',
+  'AssistantDialog',
   new State()
 )
 
@@ -32,4 +36,8 @@ export function acceptTerms() {
 
 export function setApiKey(props: { key: string }) {
   state.openaiApiKey = props.key
+}
+
+export function setPrompt(props: { prompt: string }) {
+  state.prompt = props.prompt
 }
