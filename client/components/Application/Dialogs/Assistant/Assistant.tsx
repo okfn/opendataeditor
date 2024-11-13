@@ -33,7 +33,12 @@ export function AssistantDialog() {
 
 function TermsStepDialog() {
   return (
-    <StepDialog label="Confirm" cancelLabel="Cancel" onConfirm={store.acceptTerms}>
+    <StepDialog
+      label="Confirm"
+      cancelLabel="Cancel"
+      transitionDuration={{ exit: 0 }}
+      onConfirm={store.acceptTerms}
+    >
       If you proceed, the Open Data Editor will only share the names of the columns in
       your table to suggest improvements to the titles and descriptions associated with
       them. Do you want to proceed?
@@ -49,6 +54,7 @@ function CredsStepDialog() {
       label="Confirm"
       cancelLabel="Cancel"
       disabled={!key}
+      transitionDuration={0}
       onConfirm={() => store.setApiKey({ key })}
     >
       <Stack spacing={1}>
@@ -75,6 +81,7 @@ function PromptStepDialog() {
     <StepDialog
       label="Confirm"
       cancelLabel="Cancel"
+      transitionDuration={0}
       onConfirm={() => store.setPromptAndFetchResult({ prompt })}
     >
       <Stack spacing={1}>
@@ -100,6 +107,7 @@ function ResultStepDialog() {
     <StepDialog
       label="OK"
       disabled={state.progress?.blocking}
+      transitionDuration={{ enter: 0 }}
       onConfirm={store.closeDialog}
     >
       {state.result && <Markdown>{state.result}</Markdown>}
@@ -114,6 +122,7 @@ function StepDialog(
     onConfirm: () => void
     cancelLabel?: string
     disabled?: boolean
+    transitionDuration?: number | { enter?: number; exit?: number }
   }>
 ) {
   return (
@@ -127,6 +136,7 @@ function StepDialog(
       cancelLabel={props.cancelLabel}
       onCancel={store.closeDialog}
       onConfirm={props.onConfirm}
+      transitionDuration={props.transitionDuration}
     >
       {props.children}
     </TwoButtonDialog>

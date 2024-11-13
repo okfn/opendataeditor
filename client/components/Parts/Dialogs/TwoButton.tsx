@@ -23,6 +23,7 @@ export interface TwoButtonDialogProps {
   ctrlEnter?: boolean
   children?: React.ReactNode
   disableClosing?: boolean
+  transitionDuration?: number | { enter?: number; exit?: number }
 }
 
 export default function TwoButtonDialog(props: TwoButtonDialogProps) {
@@ -37,6 +38,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
 
   return (
     <Dialog
+      transitionDuration={props.transitionDuration}
       fullWidth
       maxWidth={props.maxWidth}
       open={!!props.open}
