@@ -30,6 +30,8 @@ def endpoint(request: Request, props: Props) -> Result:
 
 
 def action(project: Project, props: Props) -> Result:
+    from ... import endpoints
+
     fs = project.filesystem
     db = project.database
 
@@ -91,5 +93,10 @@ def action(project: Project, props: Props) -> Result:
 
     # Reset record
     helpers.reset_record(project, path=props.path)
+
+    # Index record
+    endpoints.file.index.action(
+        project, props=endpoints.file.index.Props(path=props.path)
+    )
 
     return Result(path=record.path)
