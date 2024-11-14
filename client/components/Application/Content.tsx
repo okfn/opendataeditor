@@ -88,7 +88,15 @@ function EmptyContent() {
           The ODE supports Excel & csv files
         </Typography>
         <Button
-          sx={{ my: 0.5, width: '236px', textTransform: 'none' }}
+          sx={{
+            my: 0.5,
+            width: '236px',
+            textTransform: 'none',
+            backgroundColor: (theme) => theme.palette.OKFNBlack.main,
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+            },
+          }}
           variant="contained"
           aria-label="accept"
           onClick={() => store.openDialog('fileUpload')}

@@ -84,7 +84,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
   const theme = useTheme()
   const { progress } = store.useState()
 
-  const borderColor = !progress?.blocking ? theme.palette.primary.main : undefined
+  const borderColor = !progress?.blocking ? theme.palette.OKFNBlue.main : undefined
   const icon = props.isFolder ? iconUploadFolderImg : iconUploadFileImg
   const text = props.isFolder
     ? 'Add one or more folders'
@@ -141,6 +141,8 @@ function RemoteFileForm() {
         sx={{ my: 0.5, marginTop: '53px' }}
         variant="contained"
         aria-label="accept"
+        hoverBgColor="OKFNBlue"
+        color="OKFNBlack"
         disabled={!url}
         onClick={() => store.ingestFiles({ source: url })}
       />

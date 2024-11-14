@@ -31,6 +31,7 @@ export default function DeleteFilesFoldersDialog() {
           : `Are you sure you want to delete this ${isFolder ? 'folder' : 'file'}?`
       }
       label="Delete"
+      hoverBgButtonColor="OKFNRed600"
       cancelLabel="No"
       onCancel={store.closeDialog}
       onConfirm={async () => {

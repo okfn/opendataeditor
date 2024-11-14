@@ -61,11 +61,13 @@ export function PublishButton(props: ButtonProps) {
       <IconButton
         label={props.label || 'Publish'}
         Icon={ElectricBoltIcon}
-        variant="outlined"
+        variant={!props.disabled ? 'contained' : 'outlined'}
         disabled={props.disabled}
         onClick={() => onClick()}
-        sx={{ backgroundColor: 'white', textTransform: 'none', color: (theme) => theme.palette.OKFNCoolGray.main, borderColor: (theme) => theme.palette.OKFNCoolGray.main, '&:hover': {
-          borderColor: (theme) => theme.palette.OKFNCoolGray.main
+        sx={{ backgroundColor: (theme) => props.disabled ? 'white' : theme.palette.OKFNBlack.main, textTransform: 'none', color: (theme) => theme.palette.OKFNWhite.main, '&:hover': {
+          color: (theme) => theme.palette.OKFNWhite.main,
+          borderColor: (theme) => theme.palette.OKFNBlue.main,
+          backgroundColor: (theme) => theme.palette.OKFNBlue.main
         }  }}
       />
     </Box>
@@ -101,7 +103,9 @@ export function SaveButton(props: ButtonProps) {
         variant={props.updated ? 'contained' : 'outlined'}
         disabled={!props.updated}
         onClick={() => onClick()}
-        sx={{ backgroundColor: !props.updated ? 'white' : undefined, textTransform: 'none' }}
+        sx={{ backgroundColor: (theme) => !props.updated ? 'white' :  theme.palette.OKFNBlack.main, '&:hover': {
+          backgroundColor: (theme) => theme.palette.OKFNBlue.main
+        }, textTransform: 'none' }}
       />
     </Box>
   )

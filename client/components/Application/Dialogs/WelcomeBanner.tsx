@@ -5,7 +5,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import Link from '@mui/material/Link'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
 
@@ -23,15 +23,17 @@ export default function WelcomeBanner() {
     store.closeDialog()
   }
 
+  const theme = useTheme()
+
   const StyledButton = styled(SimpleButton)({
     boxShadow: 'none',
     textTransform: 'none',
     fontSize: 16,
     padding: '18px 0',
     lineHeight: 1.5,
-    backgroundColor: '#00D1FF',
+    backgroundColor: theme.palette.OKFNBlack.main,
     '&:hover': {
-      backgroundColor: '#11E2FF',
+      backgroundColor: theme.palette.OKFNBlue.main,
     },
     '&:active': {
       boxShadow: 'none',

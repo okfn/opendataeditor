@@ -17,10 +17,12 @@ export default function File() {
       }}
     >
       <Menu />
-      <ScrollBox sx={{ flexGrow: 1, zIndex: 10 }}>
-        <View />
-      </ScrollBox>
-      <Panel />
+      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10 }}>
+        <ScrollBox sx={{ flexGrow: 1 }}>
+          <View />
+        </ScrollBox>
+        <Panel />
+      </Box>
     </Box>
   )
 }
