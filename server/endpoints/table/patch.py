@@ -4,7 +4,7 @@ from typing import Optional
 
 import sqlalchemy as sa
 from fastapi import Request
-from frictionless import FrictionlessException, Schema
+from frictionless import Schema
 from frictionless.formats.sql import SqlControl
 from frictionless.resources import TableResource
 from pydantic import BaseModel
@@ -16,7 +16,6 @@ from ...router import router
 
 class Props(BaseModel, extra="forbid"):
     path: str
-    toPath: Optional[str] = None
     history: Optional[models.History] = None
     resource: Optional[types.IDescriptor] = None
 
@@ -34,25 +33,12 @@ def action(project: Project, props: Props) -> Result:
     fs = project.filesystem
     db = project.database
 
-    # Forbid overwriting
-    if props.toPath and helpers.test_file(project, path=props.toPath):
-        raise FrictionlessException("file already exists")
-
     # Patch record
     record = helpers.patch_record(
         project,
         path=props.path,
-        toPath=props.toPath,
         resource=props.resource,
     )
-
-    # Copy table
-    if props.toPath:
-        fromRecord = helpers.read_record_or_raise(project, path=props.path)
-        with db.engine.begin() as conn:
-            query = f'CREATE TABLE "{record.name}" AS SELECT * FROM "{fromRecord.name}"'
-            conn.execute(sa.text(query))
-            db.metadata.reflect(conn)
 
     # Patch table
     if props.history:
@@ -98,13 +84,12 @@ def action(project: Project, props: Props) -> Result:
                         )
 
         # Export database table
-        target = fs.get_fullpath(props.toPath or props.path)
+        target = fs.get_fullpath(props.path)
         control = SqlControl(table=record.name, with_metadata=True)
         resource = TableResource(path=db.database_url, control=control)
         resource.write_table(path=str(target))
 
     # Reset record
-    if not props.toPath:
-        helpers.reset_record(project, path=props.path)
+    helpers.reset_record(project, path=props.path)
 
     return Result(path=record.path)
