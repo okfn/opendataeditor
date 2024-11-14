@@ -31,6 +31,7 @@ export default function ReportGroup(props: ReportGroupProps) {
             collapsed: !isDetailsVisible,
             'd-flex': true,
             'align-items-center': true,
+            'button-report': true
           })}
           role="button"
           data-toggle="collapse"
