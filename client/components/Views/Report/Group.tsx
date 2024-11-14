@@ -1,4 +1,3 @@
-import { marked } from 'marked'
 import classNames from 'classnames'
 import { useState } from 'react'
 import Table from './Table'
@@ -26,31 +25,41 @@ export default function ReportGroup(props: ReportGroupProps) {
   return (
     <div className="result">
       {/* Heading */}
-      <div className="d-flex align-items-center">
-        <span className="count">{props.count} x</span>
-        <a
-          role="button"
+      <div className="error-summary">
+        <div
           className={classNames({
-            badge: true,
-            'badge-error': true,
             collapsed: !isDetailsVisible,
+            'd-flex': true,
+            'align-items-center': true,
           })}
+          role="button"
           data-toggle="collapse"
           onClick={() => setIsDetailsVisible(!isDetailsVisible)}
           aria-expanded="false"
         >
-          {props.title}
-        </a>
+          <span> {props.title} </span>
+          <span
+            className={classNames({
+              badge: true,
+              'badge-error': true,
+              count: true,
+            })}
+          >
+            {props.count}
+          </span>
+        </div>
+        <div>
+          {props.description && (
+            <div className="error-description">
+              <div>{props.description}</div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Error details */}
       <div className={classNames(['collapse', { show: isDetailsVisible }])}>
         <div className="error-details">
-          {props.description && (
-            <div className="error-description">
-              <div dangerouslySetInnerHTML={{ __html: marked(props.description) }} />
-            </div>
-          )}
           <div className="error-list">
             <p className="error-list-heading">The full list of error messages:</p>
             <ul>
