@@ -99,4 +99,8 @@ def action(project: Project, props: Props) -> Result:
         project, props=endpoints.file.index.Props(path=props.path)
     )
 
+    # TODO:
+    # So now we have merge the old error report into the new error report
+    # to keep the initial data indication
+
     return Result(path=record.path)
