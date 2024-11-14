@@ -72,31 +72,6 @@ export async function revertTable() {
   revertResource()
 }
 
-export async function saveTable() {
-  const { grid } = getRefs()
-  const { path, resource, table } = store.getState()
-  if (!path || !grid || !table) return
-
-  const state = store.getState()
-  const isTableUpdated = getIsTableUpdated(state)
-  const isResourceUpdated = state.isResourceUpdated
-
-  const result = await client.tablePatch({
-    path,
-    history: isTableUpdated ? table.history : undefined,
-    resource: isResourceUpdated ? resource : undefined,
-  })
-
-  if (result instanceof client.Error) {
-    return store.setState('save-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileUpdated([path])
-  grid.reload()
-}
-
 export function setTableSelection(selection: types.ITableSelection) {
   store.setState('set-table-selection', (state) => {
     state.table!.selection = selection
