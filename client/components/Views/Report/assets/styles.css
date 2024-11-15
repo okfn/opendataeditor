@@ -254,7 +254,7 @@
 }
 
 .frictionless-components-report .result .table-view table tr.fail td {
-    background-color: #F77170;
+    background-color: #FECBCA;
 }
 
 .frictionless-components-report .result .table-view table tr:first-child {
@@ -294,7 +294,7 @@
 }
 
 .frictionless-components-report .result .table-view table td.fail {
-    background-color: #f77170;
+    background-color: #FECBCA;
 }
 
 .frictionless-components-report .result .table-view table td.col-pass {
