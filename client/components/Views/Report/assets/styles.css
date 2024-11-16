@@ -133,10 +133,6 @@
     text-align: center !important;
 }
 
-.frictionless-components-report .result .button-report {
-    cursor: pointer;
-}
-
 .frictionless-components-report .result .align-items-center {
     -webkit-box-align: center !important;
     -ms-flex-align: center !important;
@@ -169,7 +165,6 @@
 .frictionless-components-report .result .badge.badge-error {
     position: relative;
     background-color: #F13C3F;
-    cursor: pointer;
     color: #fff;
     z-index: 2;
 }

@@ -19,7 +19,6 @@ export interface ReportGroupProps {
 }
 
 export default function ReportGroup(props: ReportGroupProps) {
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false)
   const [visibleRowsCount, setVisibleRowsCount] = useState(10)
   const rowNumbers = getRowNumbers(props)
   return (
@@ -28,15 +27,10 @@ export default function ReportGroup(props: ReportGroupProps) {
       <div className="error-summary">
         <div
           className={classNames({
-            collapsed: !isDetailsVisible,
             'd-flex': true,
             'align-items-center': true,
-            'button-report': true
+            'button-report': true,
           })}
-          role="button"
-          data-toggle="collapse"
-          onClick={() => setIsDetailsVisible(!isDetailsVisible)}
-          aria-expanded="false"
         >
           <span> {props.title} </span>
           <span
@@ -55,20 +49,6 @@ export default function ReportGroup(props: ReportGroupProps) {
               <div>{props.description}</div>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Error details */}
-      <div className={classNames(['collapse', { show: isDetailsVisible }])}>
-        <div className="error-details">
-          <div className="error-list">
-            <p className="error-list-heading">The full list of error messages:</p>
-            <ul>
-              {props.messages.map((message, index) => (
-                <li key={index}>{message}</li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
 
