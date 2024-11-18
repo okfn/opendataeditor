@@ -23,6 +23,7 @@ class Props(BaseModel, extra="forbid"):
 
 class Result(BaseModel, extra="forbid"):
     path: str
+    size: int
 
 
 @router.post("/file/fetch")
@@ -58,6 +59,7 @@ def action(project: Project, props: Props) -> Result:
     ).path
 
     # Index file
+    # TODO: it's a temporary solution; we should not index files here
     record = endpoints.file.index.action(
         project, endpoints.file.index.Props(path=path)
     ).record
@@ -69,7 +71,7 @@ def action(project: Project, props: Props) -> Result:
         endpoints.file.delete.action(project, endpoints.file.delete.Props(path=path))
         raise Exception("The file is not tabular")
 
-    return Result(path=path)
+    return Result(path=path, size=len(bytes))
 
 
 # We export Google Sheets to a temporary CSV file and read it

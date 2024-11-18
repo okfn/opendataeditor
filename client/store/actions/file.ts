@@ -1,14 +1,14 @@
-import * as store from '../store'
-import invariant from 'tiny-invariant'
 import { client } from '@client/client'
-import { openText, closeText, saveText, revertText, getIsTextUpdated } from './text'
-import { loadSource } from './source'
-import { cloneDeep } from 'lodash'
-import { openDialog } from './dialog'
-import { openTable, closeTable, saveTable, revertTable, getIsTableUpdated } from './table'
-import { emitEvent } from './event'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
+import { cloneDeep } from 'lodash'
+import invariant from 'tiny-invariant'
+import * as store from '../store'
+import { openDialog } from './dialog'
+import { emitEvent } from './event'
+import { loadSource } from './source'
+import { closeTable, getIsTableUpdated, openTable, revertTable, saveTable } from './table'
+import { closeText, getIsTextUpdated, openText, revertText, saveText } from './text'
 
 export async function loadFiles(throwError?: boolean) {
   const result = await client.fileList()
@@ -124,56 +124,6 @@ export async function selectMultipleFiles(paths: string[]) {
   })
 }
 
-export async function addFiles(files: FileList) {
-  const folder = getFolderPath(store.getState())
-  const paths: string[] = []
-
-  for (const file of files) {
-    const path = file.webkitRelativePath || undefined
-    const result = await client.fileCreate({ file, path, folder, deduplicate: true })
-
-    if (result instanceof client.Error) {
-      return store.setState('add-files-error', (state) => {
-        state.error = result
-      })
-    }
-
-    paths.push(result.path)
-  }
-
-  await onFileCreated(paths)
-}
-
-export async function fetchFile(url: string) {
-  const folder = getFolderPath(store.getState())
-
-  // Once UI components handle all the possible errors that the client/store can throw
-  // we can return to throwing errors in the client directly (see FileUpload dialog, AddRemoteFile tab)
-  const result = await client.fileFetch({ url, folder, deduplicate: true })
-  if (result instanceof client.Error) throw result
-
-  onFileCreated([result.path])
-}
-
-export async function adjustFile(name?: string, type?: string) {
-  const { path } = store.getState()
-  if (!path) return
-
-  const result = await client.filePatch({ path, name, type })
-
-  if (result instanceof client.Error) {
-    return store.setState('adjust-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  store.setState('adjust-file-close', (state) => {
-    state.path = undefined
-  })
-
-  await onFileUpdated([result.path])
-}
-
 export async function copyFile(path: string, toPath: string) {
   const result = await client.fileCopy({ path, toPath, deduplicate: true })
 
@@ -232,29 +182,6 @@ export async function renameFile(path: string, toPath: string) {
   }
 
   await onFileCreated([result.path])
-}
-
-export async function forkFile(toPath: string) {
-  const { path, resource } = store.getState()
-  if (!path) return
-
-  const result = await client.filePatch({ path, toPath, resource })
-
-  if (result instanceof client.Error) {
-    return store.setState('fork-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
-export async function locateFile(path: string) {
-  store.setState('locate-file-start', (state) => {
-    state.path = path
-  })
-
-  emitEvent({ type: 'locate', paths: [path] })
 }
 
 // Handlers

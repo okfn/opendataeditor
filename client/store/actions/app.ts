@@ -1,14 +1,10 @@
-import * as store from '../store'
-import { togglePanel } from '@client/store'
-import { undoTableChange, redoTableChange } from '@client/store'
-import isEqual from 'fast-deep-equal'
-import delay from 'delay'
-import { openDialog } from './dialog'
-import { getIsFileOrResourceUpdated } from './file'
-import * as settings from '@client/settings'
 import { client } from '@client/client'
+import { redoTableChange, togglePanel, undoTableChange } from '@client/store'
+import delay from 'delay'
+import * as store from '../store'
 import { loadConfig } from './config'
-import { loadFiles } from './file'
+import { openDialog } from './dialog'
+import { getIsFileOrResourceUpdated, loadFiles } from './file'
 
 export async function onAppStart() {
   // @ts-ignore
@@ -42,23 +38,24 @@ export async function onAppStart() {
 
   // Setup project sync polling
 
-  setInterval(async () => {
-    const result = await client.projectSync({})
+  // Polling is disabled because now users can't manually change to project dir
+  // setInterval(async () => {
+  // const result = await client.projectSync({})
 
-    // Here we ignore errors for now and just update the files on success
-    if (result instanceof client.Error) {
-      return
-    }
+  // // Here we ignore errors for now and just update the files on success
+  // if (result instanceof client.Error) {
+  // return
+  // }
 
-    // We update state only if there are changes to prevent unnecessary re-renders
-    // and simplify debugging in Redux Debugger
-    const state = store.getState()
-    if (!isEqual(state.files, result.files)) {
-      store.setState('sync-files', (state) => {
-        state.files = result.files
-      })
-    }
-  }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
+  // // We update state only if there are changes to prevent unnecessary re-renders
+  // // and simplify debugging in Redux Debugger
+  // const state = store.getState()
+  // if (!isEqual(state.files, result.files)) {
+  // store.setState('sync-files', (state) => {
+  // state.files = result.files
+  // })
+  // }
+  // }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 
   // Register on windows close event handler (only Desktop env)
   // to prevent closing the app when there are unsaved changes

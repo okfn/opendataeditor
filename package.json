@@ -112,6 +112,7 @@
     "ts-node": "^10.9.2",
     "typescript": "5.2.2",
     "validator": "13.9.0",
+    "valtio": "2.1.2",
     "vega": "5.25.0",
     "vega-lite": "5.14.1",
     "vite": "5.3.1",
