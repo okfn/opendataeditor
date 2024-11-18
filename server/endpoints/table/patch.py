@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
 
 import sqlalchemy as sa
 from fastapi import Request
@@ -42,48 +42,44 @@ def action(project: Project, props: Props) -> Result:
         resource=props.resource,
     )
 
+    # This data will help us to reconstruct the error report
+    # https://github.com/okfn/opendataeditor/issues/614
+    current_report = db.read_artifact(name=record.name, type="report")
+    updated_cells: List[models.Cell] = []
+
     # Patch table
     if props.history:
         table = db.metadata.tables[record.name]
         schema = Schema.from_descriptor(record.resource.get("schema", {}))
 
+        # Collect updated cells
+        for change in props.history.changes:
+            if change.type == "cell-update":
+                # TODO: it's better to sync types of "cell-update" and "multiple-cells-update"
+                updated_cells.append(models.Cell(**change.model_dump()))
+            elif change.type == "multiple-cells-update":
+                for cell in change.cells:
+                    updated_cells.append(cell)
+
         # Patch database table
-        with db.engine.begin() as conn:
-            for change in props.history.changes:
-                if change.type == "cell-update":
-                    # Skip virtual extra cells
-                    if change.fieldName.startswith("_"):
-                        continue
+        with db.engine.begin() as trx:
+            for cell in updated_cells:
+                # Skip virtual extra cells
+                if cell.fieldName.startswith("_"):
+                    continue
 
-                    # Prepare value
-                    value = change.value
-                    if schema.has_field(change.fieldName):
-                        field = schema.get_field(change.fieldName)
-                        value, _ = field.read_cell(value)
+                # Prepare value
+                value = cell.value
+                if schema.has_field(cell.fieldName):
+                    field = schema.get_field(cell.fieldName)
+                    value, _ = field.read_cell(cell.value)
 
-                    # Write value
-                    conn.execute(
-                        sa.update(table)
-                        .where(table.c._rowNumber == change.rowNumber)
-                        .values(**{change.fieldName: value})
-                    )
-                elif change.type == "multiple-cells-update":
-                    for cell in change.cells:
-                        # Skip virtual extra cells
-                        if cell.fieldName.startswith("_"):
-                            continue
-
-                        # Prepare value
-                        value = cell.value
-                        if schema.has_field(cell.fieldName):
-                            field = schema.get_field(cell.fieldName)
-                            value, _ = field.read_cell(value)
-                        # Write value
-                        conn.execute(
-                            sa.update(table)
-                            .where(table.c._rowNumber == cell.rowNumber)
-                            .values(**{cell.fieldName: value})
-                        )
+                # Write value
+                trx.execute(
+                    sa.update(table)
+                    .where(table.c._rowNumber == cell.rowNumber)
+                    .values(**{cell.fieldName: value})
+                )
 
         # Export database table
         target = fs.get_fullpath(props.path)
