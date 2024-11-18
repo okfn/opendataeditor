@@ -21,19 +21,14 @@ type IFile = {
   size: number
 }
 
-export const { state, useState } = helpers.createState('FileUpload', new State())
+export const { state, useState, resetState } = helpers.createState(
+  'FileUploadDialog',
+  new State()
+)
 
 export function closeDialog() {
   if (!state.progress?.blocking) {
     appStore.closeDialog()
-  }
-}
-
-export function resetState() {
-  const initialState = new State()
-  for (const key of Object.keys(state)) {
-    // @ts-ignore
-    state[key] = initialState[key]
   }
 }
 

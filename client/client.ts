@@ -240,6 +240,10 @@ export class Client {
     return await this.request<{ rows: types.IRow[] }>('/table/read', props)
   }
 
+  async tableSuggest(props: { path: string; prompt: string; apiKey: string }) {
+    return await this.request<{ text: string }>('/table/suggest', props)
+  }
+
   // Text
 
   async textCreate(props: {

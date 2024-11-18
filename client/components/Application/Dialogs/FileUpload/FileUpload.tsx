@@ -252,6 +252,7 @@ const StyledSelectBox = styled(Box)(() => ({
   boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.25)',
 }))
 
+// TODO: move to the common library
 const StyledTextField = styled(TextField)(() => ({
   marginTop: '8px',
   fontSize: '14px',
