@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import TextEditor from '../../../Editors/Text'
 import * as types from '../../../../types'
@@ -32,17 +31,15 @@ export function JsonSourcePanel(props: SourcePanelProps<types.IData>) {
 }
 
 export function TextSourcePanel(props: SourcePanelProps<string>) {
-  const theme = useTheme()
   if (props.value === undefined) return null
 
   return (
-    <Box>
+    <Box sx={{ height: '100%' }}>
       <TextEditor
         value={props.value}
         onChange={(value) => props.onChange?.(value || '')}
         language={props.language || 'plaintext'}
         options={{ readOnly: !props.onChange }}
-        height={theme.spacing(41)}
       />
     </Box>
   )
