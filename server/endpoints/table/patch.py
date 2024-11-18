@@ -44,7 +44,7 @@ def action(project: Project, props: Props) -> Result:
 
     # This data will help us to reconstruct the error report
     # https://github.com/okfn/opendataeditor/issues/614
-    current_report = db.read_artifact(name=record.name, type="report")
+    prev_report = db.read_artifact(name=record.name, type="report") or {}
     updated_cells: List[models.Cell] = []
 
     # Patch table
@@ -95,8 +95,42 @@ def action(project: Project, props: Props) -> Result:
         project, props=endpoints.file.index.Props(path=props.path)
     )
 
-    # TODO:
-    # So now we have merge the old error report into the new error report
-    # to keep the initial data indication
+    # Reconstruct previous errors
+    # Currently, we only recover errors if no metadata is changed
+    # otherwise it's basically not possible to reconstruct errors
+    # The data/metadata separation needs to be properly implemeted as per:
+    # https://github.com/okfn/opendataeditor/issues/494
+    if updated_cells and not props.resource:
+        next_report = db.read_artifact(name=record.name, type="report") or {}
+        not_fixed_errors_count = 0
+
+        prev_task = prev_report["tasks"][0]
+        next_task = next_report["tasks"][0]
+
+        for error in prev_task["errors"]:
+            type = error["type"]
+            if type not in ["type-error"]:
+                continue
+
+            rowNumber = error["rowNumber"]
+            fieldName = error["fieldName"]
+
+            fixed = False
+            for cell in updated_cells:
+                # The error was fixed so we don't need to recover it
+                if cell.rowNumber == rowNumber and cell.fieldName == fieldName:
+                    fixed = True
+                    break
+
+            if not fixed:
+                not_fixed_errors_count += 1
+                next_task["errors"].append(error)  # type: ignore
+
+        if not_fixed_errors_count:
+            next_task["valid"] = False
+            next_task["stats"]["errors"] += not_fixed_errors_count
+            next_report["valid"] = False
+            next_report["stats"]["errors"] += not_fixed_errors_count
+            db.write_artifact(name=record.name, type="report", descriptor=next_report)
 
     return Result(path=record.path)
