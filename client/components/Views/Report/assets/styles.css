@@ -283,7 +283,7 @@
 
 .frictionless-components-report .result .table-view table td {
     border-style: solid;
-    border-color: #B3B3B3;
+    border-color: #E6E7EB;
     border-width: 1px 0 0 1px;
     position: relative;
 }
@@ -376,10 +376,13 @@
     border-bottom: 2px solid #dee2e6;
 }
 
-.frictionless-components-report .result .table-view .result-row-index {
+.frictionless-components-report .result .table-view .result-row-index,
+.frictionless-components-report .result .table-view tr:first-child td:first-child {
     font-weight: normal;
     width: 2em;
     text-align: center;
+    background-color: #F3F4F6;
+    color: #A1A8A9;
 }
 
 .frictionless-components-report .result:not(:last-child) {
