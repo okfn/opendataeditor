@@ -129,6 +129,7 @@ function LoadingContent() {
 const StyledCard = styled(Card)(() => ({
   width: '100%',
   height: '100%',
+  minHeight: '95vh',
   border: 'none',
   boxShadow: 'none',
   borderRadius: 0,
