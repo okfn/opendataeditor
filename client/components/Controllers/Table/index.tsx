@@ -3,8 +3,13 @@ import ScrollBox from '../../Parts/Boxes/Scroll'
 import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
+import { useTheme } from '@mui/material/styles'
 
 export default function Table() {
+  const theme = useTheme()
+
+  const panelHeight = `calc(100vh - ${theme.spacing(8)})`
+
   return (
     <Box
       sx={{
@@ -17,7 +22,7 @@ export default function Table() {
       }}
     >
       <Menu />
-      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10 }}>
+      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10, maxHeight: panelHeight }}>
         <ScrollBox sx={{ flexGrow: 1 }}>
           <Editor />
         </ScrollBox>
