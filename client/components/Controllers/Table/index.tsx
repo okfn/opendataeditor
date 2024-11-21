@@ -4,11 +4,13 @@ import Editor from './Editor'
 import Menu from './Menu'
 import Panel from './Panel'
 import { useTheme } from '@mui/material/styles'
+import { fileMenuWidth } from '@client/components/Application/Layout'
 
 export default function Table() {
   const theme = useTheme()
 
   const panelHeight = `calc(100vh - ${theme.spacing(8)})`
+  const panelWidth = `calc(100vw - ${fileMenuWidth}px)`
 
   return (
     <Box
@@ -22,7 +24,15 @@ export default function Table() {
       }}
     >
       <Menu />
-      <Box sx={{ flexGrow: 1, display: 'flex', zIndex: 10, maxHeight: panelHeight }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          zIndex: 10,
+          maxHeight: panelHeight,
+          width: panelWidth,
+        }}
+      >
         <ScrollBox sx={{ flexGrow: 1 }}>
           <Editor />
         </ScrollBox>

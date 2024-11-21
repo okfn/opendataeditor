@@ -382,20 +382,6 @@
     text-align: center;
 }
 
-.frictionless-components-report .result .table-view:after {
-    content: '';
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    height: 30px;
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00FFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
-}
-
 .frictionless-components-report .result:not(:last-child) {
     padding-bottom: 20px;
 }
