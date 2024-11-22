@@ -119,7 +119,7 @@
 
 .frictionless-components-report .result {
     margin: 30px 0;
-    font-size: 12px;
+    font-size: 14px;
     position: relative;
 }
 
@@ -165,7 +165,6 @@
 .frictionless-components-report .result .badge.badge-error {
     position: relative;
     background-color: #F13C3F;
-    cursor: pointer;
     color: #fff;
     z-index: 2;
 }
@@ -177,12 +176,19 @@
     margin-top: -2px;
 }
 
-.frictionless-components-report .result .error-details .error-description {
-    padding: 15px;
+.frictionless-components-report .result .error-summary {
+    background-color: #FAFAFA;
+    border-radius: 4px;
+    border: 1px solid #F4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 10px 12px 10px;
+    font-size: 14px;
 }
 
-.frictionless-components-report .result .error-details .error-description :last-child {
-    margin-bottom: 0;
+.frictionless-components-report .result .error-summary .error-description {
+    padding-top: 10px;
 }
 
 .frictionless-components-report .result .error-details .error-description + .error-list {
@@ -243,7 +249,7 @@
 }
 
 .frictionless-components-report .result .table-view table tr.fail td {
-    background-color: #fde7e8;
+    background-color: #FECBCA;
 }
 
 .frictionless-components-report .result .table-view table tr:first-child {
@@ -277,13 +283,18 @@
 
 .frictionless-components-report .result .table-view table td {
     border-style: solid;
-    border-color: #B3B3B3;
+    border-color: #E6E7EB;
     border-width: 1px 0 0 1px;
     position: relative;
 }
 
+.frictionless-components-report .result .table-view table td .cell-content {
+    max-height: 90px;
+    overflow: hidden;
+}
+
 .frictionless-components-report .result .table-view table td.fail {
-    background-color: #fde7e8;
+    background-color: #FECBCA;
 }
 
 .frictionless-components-report .result .table-view table td.col-pass {
@@ -340,13 +351,11 @@
 }
 
 .frictionless-components-report .result .table-view table.table th {
-    padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
 
 .frictionless-components-report .result .table-view table.table td {
-    padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
@@ -356,11 +365,15 @@
 }
 
 .frictionless-components-report .result .table-view table.table-sm th {
-    padding: 0.3rem;
+    padding: 0.3em;
 }
 
 .frictionless-components-report .result .table-view table.table-sm td {
-    padding: 0.3rem;
+    padding: 16px;
+}
+
+.frictionless-components-report .result .table-view table.table-sm tr:first-child td {
+    text-transform: capitalize;
 }
 
 .frictionless-components-report .result .table-view table.table thead th {
@@ -368,24 +381,13 @@
     border-bottom: 2px solid #dee2e6;
 }
 
-.frictionless-components-report .result .table-view .result-row-index {
+.frictionless-components-report .result .table-view .result-row-index,
+.frictionless-components-report .result .table-view tr:first-child td:first-child {
     font-weight: normal;
     width: 2em;
     text-align: center;
-}
-
-.frictionless-components-report .result .table-view:after {
-    content: '';
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    height: 30px;
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 50%);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00FFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
+    background-color: #F3F4F6;
+    color: #A1A8A9;
 }
 
 .frictionless-components-report .result:not(:last-child) {
@@ -397,8 +399,8 @@
     position: absolute;
     left: 0px;
     right: 0px;
-    bottom: 0;
-    height: 10px;
+    bottom: -20px;
+    height: 40px;
     background-image: url(./zigzag.svg);
     background-position: center;
     background-repeat: repeat-x;
@@ -406,7 +408,7 @@
 }
 
 .frictionless-components-report .result .show-more {
-    color: #595959;
+    color: #52595A;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;

@@ -1,4 +1,3 @@
-import { marked } from 'marked'
 import classNames from 'classnames'
 import { useState } from 'react'
 import Table from './Table'
@@ -20,45 +19,36 @@ export interface ReportGroupProps {
 }
 
 export default function ReportGroup(props: ReportGroupProps) {
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false)
   const [visibleRowsCount, setVisibleRowsCount] = useState(10)
   const rowNumbers = getRowNumbers(props)
   return (
     <div className="result">
       {/* Heading */}
-      <div className="d-flex align-items-center">
-        <span className="count">{props.count} x</span>
-        <a
-          role="button"
+      <div className="error-summary">
+        <div
           className={classNames({
-            badge: true,
-            'badge-error': true,
-            collapsed: !isDetailsVisible,
+            'd-flex': true,
+            'align-items-center': true,
+            'button-report': true,
           })}
-          data-toggle="collapse"
-          onClick={() => setIsDetailsVisible(!isDetailsVisible)}
-          aria-expanded="false"
         >
-          {props.title}
-        </a>
-      </div>
-
-      {/* Error details */}
-      <div className={classNames(['collapse', { show: isDetailsVisible }])}>
-        <div className="error-details">
+          <span> {props.title} </span>
+          <span
+            className={classNames({
+              badge: true,
+              'badge-error': true,
+              count: true,
+            })}
+          >
+            {props.count}
+          </span>
+        </div>
+        <div>
           {props.description && (
             <div className="error-description">
-              <div dangerouslySetInnerHTML={{ __html: marked(props.description) }} />
+              <div>{props.description}</div>
             </div>
           )}
-          <div className="error-list">
-            <p className="error-list-heading">The full list of error messages:</p>
-            <ul>
-              {props.messages.map((message, index) => (
-                <li key={index}>{message}</li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
 

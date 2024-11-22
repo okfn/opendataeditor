@@ -27,7 +27,7 @@ export default function ReportTable(props: ReportTableProps) {
       <tbody>
         {props.labels && isHeaderVisible && (
           <tr className="before-fail">
-            <td className="text-center">1</td>
+            <td className="text-center">Row number</td>
             {props.labels.map((label, index) => (
               <td key={index}>{label}</td>
             ))}
@@ -37,7 +37,7 @@ export default function ReportTable(props: ReportTableProps) {
           (rowNumber, index) =>
             index < visibleRowsCount && (
               <tr key={index}>
-                <td className="result-row-index">{rowNumber || 1}</td>
+                <td className="result-row-index">{rowNumber || 'Row Number'}</td>
                 {props.data[rowNumber].values.map((value, innerIndex) => (
                   <td
                     key={innerIndex}
@@ -45,7 +45,7 @@ export default function ReportTable(props: ReportTableProps) {
                       fail: props.data[rowNumber].errors.has(innerIndex + 1),
                     })}
                   >
-                    {value}
+                    <div className="cell-content">{value}</div>
                   </td>
                 ))}
               </tr>
