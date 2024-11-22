@@ -288,6 +288,11 @@
     position: relative;
 }
 
+.frictionless-components-report .result .table-view table td .cell-content {
+    max-height: 90px;
+    overflow: hidden;
+}
+
 .frictionless-components-report .result .table-view table td.fail {
     background-color: #FECBCA;
 }

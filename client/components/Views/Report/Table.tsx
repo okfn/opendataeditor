@@ -45,7 +45,7 @@ export default function ReportTable(props: ReportTableProps) {
                       fail: props.data[rowNumber].errors.has(innerIndex + 1),
                     })}
                   >
-                    {value}
+                    <div className="cell-content">{value}</div>
                   </td>
                 ))}
               </tr>
