@@ -8,6 +8,7 @@ import Link from '@mui/material/Link'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
+import { useTranslation } from 'react-i18next'
 
 export default function WelcomeBanner() {
   const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)
@@ -24,6 +25,10 @@ export default function WelcomeBanner() {
   }
 
   const theme = useTheme()
+
+  const { t } = useTranslation()
+
+  console.log('t', t)
 
   const StyledButton = styled(SimpleButton)({
     boxShadow: 'none',
@@ -106,7 +111,7 @@ export default function WelcomeBanner() {
           >
             <StyledButton
               fullWidth
-              label={'Get started'}
+              label={t('getStarted')}
               sx={{ my: 0.5 }}
               onClick={handleGetStarted}
               variant="contained"
