@@ -7,7 +7,7 @@ i18next
         resources: {
             en: {
                 translation: {
-                    getStarted: 'Get Started'
+                    getStarted: 'Get started'
                 }
             }
         }
