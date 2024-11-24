@@ -111,7 +111,7 @@ export default function WelcomeBanner() {
           >
             <StyledButton
               fullWidth
-              label={t('getStarted')}
+              label={t('getStarted', { ns: 'welcomeBanner' })}
               sx={{ my: 0.5 }}
               onClick={handleGetStarted}
               variant="contained"

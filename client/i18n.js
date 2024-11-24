@@ -6,7 +6,7 @@ i18next
     .init({ fallbackLng : 'en',
         resources: {
             en: {
-                translation: {
+                welcomeBanner : {
                     getStarted: 'Get started'
                 }
             }
