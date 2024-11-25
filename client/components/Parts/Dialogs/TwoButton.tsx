@@ -17,6 +17,7 @@ export interface TwoButtonDialogProps {
   cancelLabel?: string
   loading?: boolean
   disabled?: boolean
+  confirmDisabled?: boolean
   maxWidth?: 'md' | 'xl'
   onCancel?: () => void
   onConfirm?: () => void
@@ -109,7 +110,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
           variant="contained"
           hoverBgColor={props.hoverBgButtonColor ? props.hoverBgButtonColor : 'OKFNBlue'}
           color={props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack'}
-          disabled={props.disabled || props.loading}
+          disabled={props.confirmDisabled || props.disabled || props.loading}
         />
       </Box>
     </Dialog>

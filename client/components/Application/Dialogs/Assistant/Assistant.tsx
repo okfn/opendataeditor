@@ -53,7 +53,7 @@ function CredsStepDialog() {
     <StepDialog
       label="Confirm"
       cancelLabel="Cancel"
-      disabled={!key}
+      confirmDisabled={!key}
       transitionDuration={0}
       onConfirm={() => store.setApiKey({ key })}
     >
@@ -81,6 +81,7 @@ function PromptStepDialog() {
     <StepDialog
       label="Confirm"
       cancelLabel="Cancel"
+      confirmDisabled={!prompt}
       transitionDuration={0}
       onConfirm={() => store.setPromptAndFetchResult({ prompt })}
     >
@@ -88,7 +89,7 @@ function PromptStepDialog() {
         <Box>Please enter your prompt to the AI assistant:</Box>
         <StyledTextField
           value={prompt}
-          label="OpenAI API Key"
+          label="Prompt"
           variant="outlined"
           fullWidth
           onChange={(ev) => {
@@ -122,6 +123,7 @@ function StepDialog(
     onConfirm: () => void
     cancelLabel?: string
     disabled?: boolean
+    confirmDisabled?: boolean
     transitionDuration?: number | { enter?: number; exit?: number }
   }>
 ) {
@@ -133,6 +135,7 @@ function StepDialog(
       Icon={AutoFixHighIcon}
       label={props.label}
       disabled={props.disabled}
+      confirmDisabled={props.confirmDisabled}
       cancelLabel={props.cancelLabel}
       onCancel={store.closeDialog}
       onConfirm={props.onConfirm}
