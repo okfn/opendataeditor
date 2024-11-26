@@ -25,15 +25,3 @@ export async function createFolder(path: string) {
 
   await onFileCreated([result.path])
 }
-
-export async function renameFolder(path: string, toPath: string) {
-  const result = await client.folderRename({ path, toPath, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('move-folder-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}

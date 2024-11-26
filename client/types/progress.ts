@@ -3,4 +3,5 @@ export type IProgress = {
   title?: string
   message?: string
   blocking?: boolean
+  hidden?: boolean
 }

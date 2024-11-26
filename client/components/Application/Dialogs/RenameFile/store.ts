@@ -8,7 +8,7 @@ class State {
 }
 
 export const { state, useState, resetState } = helpers.createState(
-  'DeleteFile',
+  'RenameFile',
   new State()
 )
 
@@ -18,7 +18,7 @@ export function closeDialog() {
   }
 }
 
-export async function deleteFile() {
+export async function renameFile(toPath: string) {
   const isFolder = appStore.getIsFolder(appStore.getState())
   const { path } = appStore.getState()
   if (!path) return
@@ -26,23 +26,24 @@ export async function deleteFile() {
   const target = isFolder ? 'folder' : 'file'
 
   state.progress = {
-    type: 'deleting',
-    title: `Deleting selected ${target}`,
+    type: 'renaming',
+    title: `Renaming selected ${target}`,
     blocking: true,
+    hidden: true,
   }
 
   const result = isFolder
-    ? await client.folderDelete({ path })
-    : await client.fileDelete({ path })
+    ? await client.folderRename({ path, toPath, deduplicate: true })
+    : await client.fileRename({ path, toPath, deduplicate: true })
 
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: `Error deleting ${target}`,
+      title: `Error renaming ${target}`,
       message: result.detail,
     }
   } else {
-    appStore.onFileDeleted([path])
+    appStore.onFileCreated([result.path])
   }
 
   state.progress = undefined

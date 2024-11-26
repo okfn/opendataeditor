@@ -7,7 +7,7 @@ import { startCase } from 'lodash'
 export function LinearProgress(props: { progress?: types.IProgress }) {
   const { progress } = props
 
-  if (!progress) {
+  if (!progress || progress.hidden) {
     return null
   }
 

@@ -157,18 +157,6 @@ export async function revertFile() {
   }
 }
 
-export async function renameFile(path: string, toPath: string) {
-  const result = await client.fileRename({ path, toPath, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('move-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
 // Handlers
 
 export async function onFileCreated(paths: string[]) {
