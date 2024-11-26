@@ -160,7 +160,7 @@ function ProgressIndicator() {
   if (progress.type === 'error') {
     return (
       <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{progress.message}</Box>
+        <Box sx={{ color: 'red' }}>Error: {progress.message}</Box>
       </Box>
     )
   }

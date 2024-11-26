@@ -1,54 +1,39 @@
-import omit from 'lodash/omit'
+import * as settings from '@client/settings'
+import { omit } from 'lodash'
 import * as types from './types'
 
 // https://fastapi.tiangolo.com/tutorial/handling-errors/
 export class ClientError {
-  constructor(
-    public status: number,
-    public detail: string
-  ) {}
+  constructor(public detail: string) {}
 }
 
 export class Client {
-  serverUrl?: string
-  Error: typeof ClientError
-
-  constructor() {
-    this.serverUrl = 'http://localhost:4040'
-    this.Error = ClientError
-  }
-
-  async request<T>(
-    path: string,
-    props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
-  ) {
-    return await makeRequest<T>(this.serverUrl + path, props)
-  }
+  Error = ClientError
 
   // Column
 
   async columnList() {
-    return await this.request<{ columns: types.IColumn[] }>('/column/list')
+    return await makeRequest<{ columns: types.IColumn[] }>('/column/list')
   }
 
   async columnRename(props: { path: string; oldName: string; newName: string }) {
-    return await this.request<Record<string, never>>('/column/rename', props)
+    return await makeRequest<Record<string, never>>('/column/rename', props)
   }
 
   // Config
 
   async configRead(props: Record<string, never> = {}) {
-    return await this.request<{ config: types.IConfig }>('/config/read', props)
+    return await makeRequest<{ config: types.IConfig }>('/config/read', props)
   }
 
   async configWrite(props: { config: types.IConfig }) {
-    return await this.request<{ config: types.IConfig }>('/config/write', props)
+    return await makeRequest<{ config: types.IConfig }>('/config/write', props)
   }
 
   // File
 
   async fileCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/file/copy', props)
+    return await makeRequest<{ path: string }>('/file/copy', props)
   }
 
   async fileCreate(props: {
@@ -57,11 +42,11 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string; size: number }>('/file/create', props)
+    return await makeRequest<{ path: string; size: number }>('/file/create', props)
   }
 
   async fileDelete(props: { path: string }) {
-    return await this.request<{ path: string }>('/file/delete', props)
+    return await makeRequest<{ path: string }>('/file/delete', props)
   }
 
   async fileFetch(props: {
@@ -70,22 +55,22 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string; size: number }>('/file/fetch', props)
+    return await makeRequest<{ path: string; size: number }>('/file/fetch', props)
   }
 
   async fileIndex(props: { path: string }) {
-    return await this.request<{
+    return await makeRequest<{
       record: types.IRecord
       report: types.IReport
     }>('/file/index', props)
   }
 
   async fileList(props: { folder?: string } = {}) {
-    return await this.request<{ files: types.IFile[] }>('/file/list', props)
+    return await makeRequest<{ files: types.IFile[] }>('/file/list', props)
   }
 
   async fileRename(props: { path: string; toPath?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/file/move', props)
+    return await makeRequest<{ path: string }>('/file/move', props)
   }
 
   async filePatch(props: {
@@ -95,15 +80,15 @@ export class Client {
     resource?: types.IResource
     toPath?: string
   }) {
-    return await this.request<{ path: string }>('/file/patch', props)
+    return await makeRequest<{ path: string }>('/file/patch', props)
   }
 
   async filePublish(props: { path: string; control: types.IControl }) {
-    return await this.request<{ url?: string }>('/file/publish', props)
+    return await makeRequest<{ url?: string }>('/file/publish', props)
   }
 
   async fileRead(props: { path: string; size?: number }) {
-    return await this.request<{ bytes: ArrayBuffer }>('/file/read', {
+    return await makeRequest<{ bytes: ArrayBuffer }>('/file/read', {
       ...props,
       isBytes: true,
     })
@@ -112,35 +97,35 @@ export class Client {
   // Folder
 
   async folderCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/folder/copy', props)
+    return await makeRequest<{ path: string }>('/folder/copy', props)
   }
 
   async folderCreate(props: { path: string; folder?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/folder/create', props)
+    return await makeRequest<{ path: string }>('/folder/create', props)
   }
 
   async folderDelete(props: { path: string }) {
-    return await this.request<{ path: string }>('/folder/delete', props)
+    return await makeRequest<{ path: string }>('/folder/delete', props)
   }
 
   async folderRename(props: { path: string; toPath?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/folder/move', props)
+    return await makeRequest<{ path: string }>('/folder/move', props)
   }
 
   // Image
 
   async imageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/image/create', props)
+    return await makeRequest<{ path: string }>('/image/create', props)
   }
 
   // Json
 
   async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/json/create', props)
+    return await makeRequest<{ path: string }>('/json/create', props)
   }
 
   async jsonEdit(props: { path: string; data: types.IData; prompt: string }) {
-    return await this.request<{ data: types.IData }>('/json/edit', props)
+    return await makeRequest<{ data: types.IData }>('/json/edit', props)
   }
 
   async jsonPatch(props: {
@@ -149,23 +134,23 @@ export class Client {
     toPath?: string
     resource?: types.IResource
   }) {
-    return await this.request<{ path: string }>('/json/patch', props)
+    return await makeRequest<{ path: string }>('/json/patch', props)
   }
 
   async jsonRead(props: { path: string }) {
-    return await this.request<{ data: any }>('/json/read', props)
+    return await makeRequest<{ data: any }>('/json/read', props)
   }
 
   // Map
 
   async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/map/create', props)
+    return await makeRequest<{ path: string }>('/map/create', props)
   }
 
   // Package
 
   async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/package/create', props)
+    return await makeRequest<{ path: string }>('/package/create', props)
   }
 
   async packageFetch(props: {
@@ -174,37 +159,37 @@ export class Client {
     folder?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string }>('/package/fetch', props)
+    return await makeRequest<{ path: string }>('/package/fetch', props)
   }
 
   async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
-    return await this.request<{ path: string }>('/package/patch', props)
+    return await makeRequest<{ path: string }>('/package/patch', props)
   }
 
   async packagePublish(props: { path: string; control: types.IControl }) {
-    return await this.request<{ url: string }>('/package/publish', props)
+    return await makeRequest<{ url: string }>('/package/publish', props)
   }
 
   // Project
 
   async projectOpen(props: { fullpath: string }) {
-    return await this.request<Record<string, never>>('/project/open', props)
+    return await makeRequest<Record<string, never>>('/project/open', props)
   }
 
   async projectSync(props: Record<string, never>) {
-    return await this.request<{ files: types.IFile[] }>('/project/sync', props)
+    return await makeRequest<{ files: types.IFile[] }>('/project/sync', props)
   }
 
   // Resource
 
   async resourcePatch(props: { path: string; data?: any; toPath?: string }) {
-    return await this.request<{ path: string }>('/resource/patch', props)
+    return await makeRequest<{ path: string }>('/resource/patch', props)
   }
 
   // Table
 
   async tableCount(props: { path: string; valid?: boolean }) {
-    return await this.request<{ count: number }>('/table/count', props)
+    return await makeRequest<{ count: number }>('/table/count', props)
   }
 
   async tableCreate(props: {
@@ -213,11 +198,11 @@ export class Client {
     tableSchema: types.ISchema
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string }>('/table/create', props)
+    return await makeRequest<{ path: string }>('/table/create', props)
   }
 
   async tableEdit(props: { path: string; text: string; prompt: string }) {
-    return await this.request<{ text: string }>('/table/edit', props)
+    return await makeRequest<{ text: string }>('/table/edit', props)
   }
 
   async tablePatch(props: {
@@ -226,7 +211,7 @@ export class Client {
     history?: types.IHistory
     resource?: types.IResource
   }) {
-    return await this.request<{ path: string }>('/table/patch', props)
+    return await makeRequest<{ path: string }>('/table/patch', props)
   }
 
   async tableRead(props: {
@@ -237,11 +222,14 @@ export class Client {
     order?: string
     desc?: boolean
   }) {
-    return await this.request<{ rows: types.IRow[] }>('/table/read', props)
+    return await makeRequest<{ rows: types.IRow[] }>('/table/read', props)
   }
 
   async tableSuggest(props: { path: string; prompt: string; apiKey: string }) {
-    return await this.request<{ text: string }>('/table/suggest', props)
+    return await makeRequest<{ text: string }>('/table/suggest', {
+      ...props,
+      timeoutMillis: 10_000,
+    })
   }
 
   // Text
@@ -252,11 +240,11 @@ export class Client {
     prompt?: string
     deduplicate?: boolean
   }) {
-    return await this.request<{ path: string }>('/text/create', props)
+    return await makeRequest<{ path: string }>('/text/create', props)
   }
 
   async textEdit(props: { path: string; text: string; prompt: string }) {
-    return await this.request<{ text: string }>('/text/edit', props)
+    return await makeRequest<{ text: string }>('/text/edit', props)
   }
 
   async textPatch(props: {
@@ -265,11 +253,11 @@ export class Client {
     resource?: types.IResource
     toPath?: string
   }) {
-    return await this.request<{ path: string }>('/text/patch', props)
+    return await makeRequest<{ path: string }>('/text/patch', props)
   }
 
   async textRead(props: { path: string; size?: number }) {
-    return await this.request<{ text: string }>('/text/read', props)
+    return await makeRequest<{ text: string }>('/text/read', props)
   }
 }
 
@@ -279,12 +267,20 @@ export const client = new Client()
 
 async function makeRequest<T>(
   path: string,
-  props: { [key: string]: any; file?: File; isBytes?: boolean } = {}
+  props: {
+    [key: string]: any
+    file?: File
+    isBytes?: boolean
+    timeoutMillis?: number
+  } = {}
 ) {
-  const { isBytes, ...options } = props
-  const method = 'POST'
-  let headers = {}
+  const { isBytes, timeoutMillis, ...options } = props
+
   let body
+  let headers = {}
+  const method = 'POST'
+  const url = settings.SERVER_URL + path
+  const signal = timeoutMillis ? AbortSignal.timeout(timeoutMillis) : undefined
 
   if (options.file) {
     body = new FormData()
@@ -298,25 +294,26 @@ async function makeRequest<T>(
     body = JSON.stringify(options)
   }
 
-  const response = await fetch(path, { method, headers, body })
-  const status = response.status
-
   try {
-    if (status === 200) {
+    const response = await fetch(url, { method, headers, body, signal })
+
+    // Success
+    if (response.status === 200) {
       const data = isBytes
         ? { bytes: await response.arrayBuffer() }
         : await response.json()
       return data as T
-    } else if (status === 400) {
-      const data = await response.json()
-      return new ClientError(status, data.detail)
-    } else {
-      return new ClientError(status, DEFAULT_ERROR_DETAIL)
     }
-  } catch (error) {
-    const detail = error instanceof Error ? error.toString() : DEFAULT_ERROR_DETAIL
-    return new ClientError(status, detail)
+
+    // Error
+    let data: any
+    try {
+      data = await response.json()
+    } catch {}
+    const message = data?.detail || `code (${response.status})`
+    throw new Error(message)
+  } catch (error: any) {
+    const detail = error?.message || error.toString()
+    return new ClientError(detail)
   }
 }
-
-const DEFAULT_ERROR_DETAIL = 'Unknown error'
