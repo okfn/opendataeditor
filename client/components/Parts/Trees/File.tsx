@@ -226,7 +226,7 @@ const StyledTreeItem = styled(
               {<img src={renameIcon} alt="" />}
             </ListItemIcon>
             <ListItemText
-              primary="Rename file"
+              primary={`Rename ${fileOrFolder}`}
               secondary="Only renames this element in the ODE folder"
             />
           </MenuItem>
