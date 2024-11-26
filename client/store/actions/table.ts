@@ -302,8 +302,11 @@ export async function renameColumn(props: {
 
 export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo }) => {
   const defaultResult = { data: [], count: 0 }
-  const { path, table } = store.getState()
-  if (!path || !table) return defaultResult
+  const { path, table, errorIndex } = store.getState()
+
+  if (!path || !table || !errorIndex) {
+    return defaultResult
+  }
 
   const result = await client.tableRead({
     path,
@@ -321,16 +324,18 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
     return defaultResult
   }
 
+  // Create requested data frame
   // convert null fields in db to empty strings to avoid errors
   // in table representation. InovuaDataGrid complains with null values
-  const rowsNotNull = []
+  const data = []
   for (const row of result.rows) {
-    rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
+    data.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
   }
 
-  helpers.applyTableHistory(table.history, rowsNotNull)
+  helpers.applyTableErrors(errorIndex, data)
+  helpers.applyTableHistory(table.history, data)
 
-  return { data: rowsNotNull, count: table.rowCount || 0 }
+  return { data, count: table.rowCount || 0 }
 }
 
 // Selectors

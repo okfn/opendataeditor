@@ -118,7 +118,6 @@ export function createColumns(props: {
         error = errorIndex.cell[cellKey][0]
       }
       if (error) {
-        value = error.cell || value
         cellProps.style.color = 'white'
         cellProps.style.cursor = 'pointer'
         cellProps.style.background = colorPalette.OKFNRed400.main
