@@ -1,7 +1,7 @@
+import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
-import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 
-export default function DeleteFilesFoldersDialog() {
+export function DeleteFilesDialog() {
   const path = store.useStore((state) => state.path)
   const isFolder = store.useStore(store.getIsFolder)
 

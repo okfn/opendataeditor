@@ -1,0 +1,1 @@
+export { DeleteFilesDialog } from './DeleteFiles'
