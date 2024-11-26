@@ -194,24 +194,6 @@ const StyledTreeItem = styled(
             'aria-labelledby': 'file-context-menu-btn',
           }}
         >
-          <MenuItem onClick={() => handleRename()}>
-            <ListItemIcon
-              sx={{
-                paddingTop: '6px',
-                alignSelf: 'flex-start',
-                minWidth: '24px',
-                '& img': {
-                  width: '20px',
-                },
-              }}
-            >
-              {<img src={renameIcon} alt="" />}
-            </ListItemIcon>
-            <ListItemText
-              primary="Rename"
-              secondary="Only renames this element in the ODE folder"
-            />
-          </MenuItem>
           <MenuItem onClick={() => handleOpenFileLocation(item.path)}>
             <ListItemIcon
               sx={{
@@ -228,6 +210,24 @@ const StyledTreeItem = styled(
             <ListItemText
               primary={`Open ${fileOrFolder} Location`}
               secondary={`The ODE folder where this ${fileOrFolder} exists`}
+            />
+          </MenuItem>
+          <MenuItem onClick={() => handleRename()}>
+            <ListItemIcon
+              sx={{
+                paddingTop: '6px',
+                alignSelf: 'flex-start',
+                minWidth: '24px',
+                '& img': {
+                  width: '20px',
+                },
+              }}
+            >
+              {<img src={renameIcon} alt="" />}
+            </ListItemIcon>
+            <ListItemText
+              primary="Rename file"
+              secondary="Only renames this element in the ODE folder"
             />
           </MenuItem>
           <MenuItem onClick={handleDelete}>
