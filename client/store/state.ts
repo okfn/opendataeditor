@@ -28,6 +28,16 @@ export type IState = {
   report?: types.IReport
 
   /**
+   * An error index derived from the validation report
+   **/
+  errorIndex?: types.IErrorIndex
+
+  /**
+   * An error row numbers derived from the validation report
+   **/
+  errorRowNumbers?: number[]
+
+  /**
    * A Data Resource descriptor for the current file
    * It can be edited by a metadata editor as a part of metadata adjustment
    * The original `record.resource` is immutable and can be compared

@@ -54,6 +54,7 @@ async function uploadLocalFiles(props: { source: FileList }) {
   const files: IFile[] = []
   const folder = appStore.getFolderPath(appStore.getState())
 
+  // @ts-ignore
   for (const file of props.source) {
     const path = file.webkitRelativePath
     const result = await client.fileCreate({ file, path, folder, deduplicate: true })
