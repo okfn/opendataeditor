@@ -8,7 +8,7 @@ import Link from '@mui/material/Link'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 
 export default function WelcomeBanner() {
   const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)
@@ -27,8 +27,6 @@ export default function WelcomeBanner() {
   const theme = useTheme()
 
   const { t } = useTranslation()
-
-  console.log('t', t)
 
   const StyledButton = styled(SimpleButton)({
     boxShadow: 'none',
@@ -74,7 +72,7 @@ export default function WelcomeBanner() {
               paddingBottom: '20px',
             }}
           >
-            <div>Welcome to the Open Data Editor!</div>
+            <div>{t('welcome-to-ODE')}</div>
           </Box>
           <Box
             sx={{
@@ -85,12 +83,7 @@ export default function WelcomeBanner() {
             }}
           >
             <div>
-              The ODE helps data practitioners with no coding skills to explore tabular
-              data and detect errors in an easier way. Advanced users can also edit
-              metadata and publish their work.
-              <br />
-              <br />
-              The OKFN team aims to add other data formats in the future.
+              <Trans i18nKey="welcomebanner-description" components={{ 1: <small /> }} />
               <b>
                 {' '}
                 <Link
@@ -99,7 +92,7 @@ export default function WelcomeBanner() {
                   color="inherit"
                   underline="none"
                 >
-                  Check our blog for updates
+                  {t('link-check-blog')}
                 </Link>
               </b>
             </div>
@@ -111,7 +104,7 @@ export default function WelcomeBanner() {
           >
             <StyledButton
               fullWidth
-              label={t('getStarted', { ns: 'welcomeBanner' })}
+              label={t('get-started')}
               sx={{ my: 0.5 }}
               onClick={handleGetStarted}
               variant="contained"
@@ -136,10 +129,10 @@ export default function WelcomeBanner() {
               checked={checked}
               onChange={handleChange}
             />{' '}
-            Don't show this screen on the next launch
+            {t('welcomebanner-dont-show-again')}
           </Box>
           <Box sx={{ textAlign: 'center', fontSize: '12px', color: '#BBB' }}>
-            This project is open source and powered by{' '}
+            {t('powered-by-frictionless')}{' '}
             <Link href="https://frictionlessdata.io/" target="_blank" underline="none">
               Frictionless
             </Link>

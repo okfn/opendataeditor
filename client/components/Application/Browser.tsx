@@ -5,6 +5,7 @@ import FileTree from '../Parts/Trees/File'
 import Button from '@mui/material/Button'
 import * as store from '@client/store'
 import createFolderIcon from '../../assets/create_folder_icon.svg'
+import { useTranslation, Trans } from 'react-i18next'
 
 export default function Browser() {
   const files = store.useStore((state) => state.files)
@@ -24,15 +25,17 @@ function DefaultBrowser() {
   const files = store.useStore((state) => state.files)
   const event = store.useStore((state) => state.event)
 
+  const { t } = useTranslation()
+
   return (
     <ErrorBoundary
       fallback={
         <Box sx={{ color: '#555' }}>
           <strong>Failed to open the project</strong>. Please{' '}
           <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
-            create an issue
+            {t('create-an-issue')}
           </a>{' '}
-          sharing the project details <small>(if possible)</small>
+          <Trans i18nKey="sharing-contents-if-possible" components={{ 1: <small /> }} />
         </Box>
       }
     >
@@ -42,7 +45,7 @@ function DefaultBrowser() {
         startIcon={<img src={createFolderIcon} alt="" />}
         onClick={() => store.openDialog('addEmptyFolder')}
       >
-        Create folder
+        {t('create-folder')}
       </Button>
       <FileTree
         files={files}
