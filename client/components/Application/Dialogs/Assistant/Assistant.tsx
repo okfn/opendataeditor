@@ -1,4 +1,5 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
+import * as appStore from '@client/store'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -18,6 +19,11 @@ and provide descriptions for each of them
 
 export function AssistantDialog() {
   const state = store.useState()
+  const dialog = appStore.useStore((state) => state.dialog)
+
+  React.useEffect(() => {
+    store.resetState()
+  }, [dialog])
 
   switch (state.step) {
     case 'terms':
@@ -61,6 +67,7 @@ function CredsStepDialog() {
         <Box>Please enter your OpenAI API key:</Box>
         <StyledTextField
           fullWidth
+          autoFocus
           label="OpenAI API Key"
           variant="outlined"
           value={key}
@@ -88,6 +95,7 @@ function PromptStepDialog() {
       <Stack spacing={1}>
         <Box>Please enter your prompt to the AI assistant:</Box>
         <StyledTextField
+          autoFocus
           value={prompt}
           label="Prompt"
           variant="outlined"

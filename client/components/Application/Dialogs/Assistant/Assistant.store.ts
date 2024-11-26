@@ -35,7 +35,6 @@ export const { state, useState, resetState } = helpers.createState(
 export function closeDialog() {
   if (!state.progress?.blocking) {
     appStore.closeDialog()
-    resetState()
   }
 }
 

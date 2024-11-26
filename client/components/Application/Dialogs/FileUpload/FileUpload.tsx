@@ -5,6 +5,7 @@ import iconUploadFileImg from '@client/assets/icon_upload_file.png'
 import DialogTabs from '@client/components//Parts/Tabs/Dialog'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
+import * as appStore from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -23,6 +24,11 @@ const TAB_LABELS = ['From your computer', 'Add external data']
 
 export function FileUploadDialog() {
   const { progress } = store.useState()
+  const dialog = appStore.useStore((state) => state.dialog)
+
+  React.useEffect(() => {
+    store.resetState()
+  }, [dialog])
 
   return (
     <Dialog
@@ -62,14 +68,14 @@ export function FileUploadDialog() {
             disabled={progress?.blocking}
             onChange={store.resetState}
           >
-            <Box sx={{ minHeight: '20em' }}>
+            <Box>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
               <ProgressIndicator />
             </Box>
-            <Box sx={{ minHeight: '20em' }}>
+            <Box>
               <RemoteFileForm />
               <ProgressIndicator />
             </Box>
@@ -191,6 +197,7 @@ function AddRemoteTextField(props: {
     <StyledTextField
       fullWidth
       size="small"
+      autoFocus
       value={props.value || ''}
       disabled={props.disabled}
       error={props.invalid}
