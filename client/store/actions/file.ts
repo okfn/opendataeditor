@@ -123,12 +123,6 @@ export async function deselectFile() {
   await selectFile({ path: undefined })
 }
 
-export async function selectMultipleFiles(paths: string[]) {
-  store.setState('select-multiple-files', (state) => {
-    state.selectedMultiplePaths = paths
-  })
-}
-
 export async function copyFile(path: string, toPath: string) {
   const result = await client.fileCopy({ path, toPath, deduplicate: true })
 
