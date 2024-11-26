@@ -13,6 +13,7 @@ export function DeleteFileDialog() {
     store.resetState()
   }, [dialog])
 
+  const title = isFolder ? 'Delete Folder' : 'Delete File'
   const description = !progress
     ? `Are you sure you want to delete this ${isFolder ? 'folder' : 'file'}?`
     : undefined
@@ -20,7 +21,7 @@ export function DeleteFileDialog() {
   return (
     <TwoButtonDialog
       open={true}
-      title="Delete File"
+      title={title}
       description={description}
       label="Delete"
       hoverBgButtonColor="OKFNRed600"

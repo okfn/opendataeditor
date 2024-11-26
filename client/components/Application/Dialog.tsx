@@ -1,7 +1,7 @@
 import * as store from '@client/store'
-import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
 import ConfigDialog from './Dialogs/Config'
+import { CreateFolderDialog } from './Dialogs/CreateFolder'
 import { DeleteFileDialog } from './Dialogs/DeleteFile'
 import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
@@ -23,7 +23,7 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
-  addEmptyFolder: AddEmptyFolderDialog,
+  addEmptyFolder: CreateFolderDialog,
   closeWithUnsavedChanges: CloseWithUnsavedChangesDialog,
   config: ConfigDialog,
   configProject: ConfigDialog,

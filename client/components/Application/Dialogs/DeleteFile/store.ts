@@ -8,7 +8,7 @@ class State {
 }
 
 export const { state, useState, resetState } = helpers.createState(
-  'DeleteFile',
+  'DeleteFileDialog',
   new State()
 )
 

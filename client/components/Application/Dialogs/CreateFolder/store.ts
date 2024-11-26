@@ -8,7 +8,7 @@ class State {
 }
 
 export const { state, useState, resetState } = helpers.createState(
-  'RenameFileDialog',
+  'CreateFolderDialog',
   new State()
 )
 
@@ -18,28 +18,20 @@ export function closeDialog() {
   }
 }
 
-export async function renameFile(toPath: string) {
-  const isFolder = appStore.getIsFolder(appStore.getState())
-  const { path } = appStore.getState()
-  if (!path) return
-
-  const target = isFolder ? 'folder' : 'file'
-
+export async function createFolder(path: string) {
   state.progress = {
-    type: 'renaming',
-    title: `Renaming selected ${target}`,
+    type: 'creating',
+    title: 'Creating a folder',
     blocking: true,
     hidden: true,
   }
 
-  const result = isFolder
-    ? await client.folderRename({ path, toPath, deduplicate: true })
-    : await client.fileRename({ path, toPath, deduplicate: true })
+  const result = await client.folderCreate({ path, deduplicate: true })
 
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: `Error renaming ${target}`,
+      title: `Error creating a folder`,
       message: result.detail,
     }
   } else {
