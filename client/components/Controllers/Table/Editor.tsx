@@ -1,10 +1,11 @@
-import TableEditor from '../../Editors/Table'
-import { ClickAwayListener } from '@mui/base'
-import Box from '@mui/material/Box'
-import * as React from 'react'
-import { useKeyPress } from 'ahooks'
+import { saveChangesDialog } from '@client/components/Application/Dialogs/SaveChanges'
 import * as store from '@client/store'
 import * as types from '@client/types'
+import { ClickAwayListener } from '@mui/base'
+import Box from '@mui/material/Box'
+import { useKeyPress } from 'ahooks'
+import * as React from 'react'
+import TableEditor from '../../Editors/Table'
 
 export default function Editor() {
   const schema = store.useStore((state) => state.record?.resource.schema)
@@ -40,7 +41,7 @@ export default function Editor() {
   })
 
   useKeyPress(['ctrl+s', 'meta+s'], () => {
-    store.saveTable()
+    saveChangesDialog.saveChanges()
   })
 
   // Ensure that when the user interact with other parts on the application
