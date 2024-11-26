@@ -21,6 +21,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { fileMenuWidth } from '@client/components/Application/Layout'
 import * as store from '@client/store'
+import { useTranslation } from 'react-i18next'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -124,8 +125,10 @@ const StyledTreeItem = styled(
       store.openDialog('renameFile')
       handleClose()
     }
+    
+    const { t } = useTranslation()
 
-    const fileOrFolder = item.type === 'folder' ? 'folder': 'file'
+    const fileOrFolder = item.type === 'folder' ? t('folder'): t('file')
     
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
@@ -202,7 +205,7 @@ const StyledTreeItem = styled(
               }}>
               {<img src={renameIcon} alt="" />}
             </ListItemIcon>
-            <ListItemText primary="Rename" />
+            <ListItemText primary={t('rename')} />
           </MenuItem>
           <MenuItem onClick={() => handleOpenFileLocation(item.path)}>
             <ListItemIcon sx={{ 
@@ -215,7 +218,7 @@ const StyledTreeItem = styled(
               }}>
               {<img src={openFileLocationIcon} alt="" />}
             </ListItemIcon>
-            <ListItemText primary={`Open ${fileOrFolder} Location`} secondary={`The ODE folder where this ${fileOrFolder} exists`} />
+            <ListItemText primary={t('open-fileorfolder-location', { fileOrFolder })} secondary={t('context-menu-openlocation-description', { fileOrFolder })} />
           </MenuItem>
           <MenuItem onClick={handleDelete}>
             <ListItemIcon sx={{ 
@@ -231,7 +234,7 @@ const StyledTreeItem = styled(
             <ListItemText primaryTypographyProps={{
               color: (theme) => theme.palette.OKFNRed500.main,
             }}
-              primary={`Delete ${fileOrFolder}`} secondary="Only removes this element from the ODE folder" />
+              primary={`${t('delete')} ${fileOrFolder}`} secondary={t('context-menu-delete-description')} />
           </MenuItem>
         </Menu>
       </Box>
