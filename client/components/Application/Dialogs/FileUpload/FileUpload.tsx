@@ -5,7 +5,6 @@ import iconUploadFileImg from '@client/assets/icon_upload_file.png'
 import DialogTabs from '@client/components//Parts/Tabs/Dialog'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
-import * as appStore from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
@@ -24,11 +23,6 @@ const TAB_LABELS = ['From your computer', 'Add external data']
 
 export function FileUploadDialog() {
   const { progress } = store.useState()
-  const dialog = appStore.useStore((state) => state.dialog)
-
-  React.useEffect(() => {
-    store.resetState()
-  }, [dialog])
 
   return (
     <Dialog
@@ -68,14 +62,14 @@ export function FileUploadDialog() {
             disabled={progress?.blocking}
             onChange={store.resetState}
           >
-            <Box>
+            <Box sx={{ minHeight: '20em' }}>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
               <ProgressIndicator />
             </Box>
-            <Box>
+            <Box sx={{ minHeight: '20em' }}>
               <RemoteFileForm />
               <ProgressIndicator />
             </Box>
@@ -166,7 +160,7 @@ function ProgressIndicator() {
   if (progress.type === 'error') {
     return (
       <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>Error: {progress.message}</Box>
+        <Box sx={{ color: 'red' }}>{progress.message}</Box>
       </Box>
     )
   }
@@ -197,7 +191,6 @@ function AddRemoteTextField(props: {
     <StyledTextField
       fullWidth
       size="small"
-      autoFocus
       value={props.value || ''}
       disabled={props.disabled}
       error={props.invalid}
@@ -259,7 +252,6 @@ const StyledSelectBox = styled(Box)(() => ({
   boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.25)',
 }))
 
-// TODO: move to the common library
 const StyledTextField = styled(TextField)(() => ({
   marginTop: '8px',
   fontSize: '14px',
