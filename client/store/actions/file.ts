@@ -123,18 +123,6 @@ export async function deselectFile() {
   await selectFile({ path: undefined })
 }
 
-export async function copyFile(path: string, toPath: string) {
-  const result = await client.fileCopy({ path, toPath, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('copy-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
 export async function saveFile() {
   const { record } = store.getState()
   invariant(record)
