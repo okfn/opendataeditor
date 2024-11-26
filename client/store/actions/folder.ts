@@ -1,6 +1,6 @@
-import * as store from '../store'
 import { client } from '@client/client'
-import { onFileCreated, onFileDeleted } from './file'
+import * as store from '../store'
+import { onFileCreated } from './file'
 
 export async function copyFolder(path: string, toPath: string) {
   const result = await client.folderCopy({ path, toPath, deduplicate: true })
@@ -24,20 +24,6 @@ export async function createFolder(path: string) {
   }
 
   await onFileCreated([result.path])
-}
-
-export async function deleteFolders(paths: string[]) {
-  for (const path of paths) {
-    const result = await client.folderDelete({ path })
-
-    if (result instanceof client.Error) {
-      return store.setState('delete-folder-error', (state) => {
-        state.error = result
-      })
-    }
-  }
-
-  await onFileDeleted(paths)
 }
 
 export async function renameFolder(path: string, toPath: string) {

@@ -157,20 +157,6 @@ export async function revertFile() {
   }
 }
 
-export async function deleteFiles(paths: string[]) {
-  for (const path of paths) {
-    const result = await client.fileDelete({ path })
-
-    if (result instanceof client.Error) {
-      return store.setState('delete-files-error', (state) => {
-        state.error = result
-      })
-    }
-  }
-
-  await onFileDeleted(paths)
-}
-
 export async function renameFile(path: string, toPath: string) {
   const result = await client.fileRename({ path, toPath, deduplicate: true })
 

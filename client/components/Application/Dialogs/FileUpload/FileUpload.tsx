@@ -5,19 +5,17 @@ import iconUploadFileImg from '@client/assets/icon_upload_file.png'
 import DialogTabs from '@client/components//Parts/Tabs/Dialog'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
+import { LinearProgress } from '@client/components/Parts/Progress/Linear'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import LinearProgress from '@mui/material/LinearProgress'
-import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
-import { startCase } from 'lodash'
 import * as React from 'react'
-import * as store from './FileUpload.store'
+import * as store from './store'
 
 const TAB_LABELS = ['From your computer', 'Add external data']
 
@@ -67,11 +65,11 @@ export function FileUploadDialog() {
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
-              <ProgressIndicator />
+              <LinearProgress progress={progress} />
             </Box>
             <Box sx={{ minHeight: '20em' }}>
               <RemoteFileForm />
-              <ProgressIndicator />
+              <LinearProgress progress={progress} />
             </Box>
           </DialogTabs>
         </Box>
@@ -147,37 +145,6 @@ function RemoteFileForm() {
         onClick={() => store.ingestFiles({ source: url })}
       />
     </Box>
-  )
-}
-
-function ProgressIndicator() {
-  const { progress } = store.useState()
-
-  if (!progress) {
-    return null
-  }
-
-  if (progress.type === 'error') {
-    return (
-      <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{progress.message}</Box>
-      </Box>
-    )
-  }
-
-  return (
-    <Stack spacing={1} sx={{ mt: '1em' }}>
-      <Box>{progress.title || startCase(progress.type)}...</Box>
-      <LinearProgress
-        sx={{
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#00D1FF',
-          },
-          padding: '10px',
-        }}
-      />
-      <Box sx={{ color: 'gray' }}>{progress.message}</Box>
-    </Stack>
   )
 }
 
