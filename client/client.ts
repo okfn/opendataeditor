@@ -313,7 +313,6 @@ async function makeRequest<T>(
     const message = data?.detail || `code (${response.status})`
     throw new Error(message)
   } catch (error: any) {
-    console.error(error)
     const detail = error?.message || error.toString()
     return new ClientError(detail)
   }
