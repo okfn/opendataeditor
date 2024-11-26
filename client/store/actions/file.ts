@@ -74,6 +74,8 @@ async function openFile() {
   store.setState('open-file-loaded', (state) => {
     state.record = result.record
     state.report = result.report
+    state.errorIndex = helpers.createErrorIndex(result.report)
+    state.errorRowNumbers = helpers.getErrorRowNumbers(result.report)
     state.resource = cloneDeep(result.record.resource)
   })
 
@@ -98,6 +100,8 @@ async function closeFile() {
   store.setState('close-file', (state) => {
     state.record = undefined
     state.report = undefined
+    state.errorIndex = undefined
+    state.errorRowNumbers = undefined
     state.resource = undefined
     state.isResourceUpdated = undefined
     state.source = undefined

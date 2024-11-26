@@ -40,5 +40,5 @@ export function getErrorRowNumbers(report?: types.IReport) {
     }
   }
 
-  return rowNumbers
+  return rowNumbers.toSorted((a, b) => a - b)
 }

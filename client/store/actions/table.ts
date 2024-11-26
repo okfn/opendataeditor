@@ -1,14 +1,13 @@
 import { client } from '@client/client'
-import invariant from 'tiny-invariant'
-import { mapValues, isNull } from 'lodash'
-import { onFileCreated, onFileUpdated } from './file'
-import { cloneDeep } from 'lodash'
-import { revertResource } from './resource'
-import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
 import * as types from '@client/types'
+import { cloneDeep, isNull, mapValues } from 'lodash'
+import invariant from 'tiny-invariant'
 import * as store from '../store'
+import { onFileCreated, onFileUpdated } from './file'
+import { getRefs } from './refs'
+import { revertResource } from './resource'
 
 export async function openTable() {
   const { path, record } = store.getState()
@@ -330,6 +329,7 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
   }
 
   helpers.applyTableHistory(table.history, rowsNotNull)
+
   return { data: rowsNotNull, count: table.rowCount || 0 }
 }
 

@@ -6,16 +6,26 @@ import LightTooltip from '../../Parts/Tooltips/Light'
 
 // TODO: remove colors hard-coding (declare them in settings.ts and use in theme/here)
 
-export function createColumns(
-  schema: types.ISchema,
-  report?: types.IReport,
-  history?: types.IHistory,
-  selection?: types.ITableSelection,
+export function createColumns(props: {
+  schema: types.ISchema
+  report: types.IReport
+  errorIndex: types.IErrorIndex
+  errorRowNumbers: number[]
+  history: types.IHistory
+  selection?: types.ITableSelection
   colorPalette?: any
-) {
-  const errorIndex = helpers.createErrorIndex(report)
+}) {
+  const {
+    schema,
+    report,
+    errorIndex,
+    errorRowNumbers,
+    history,
+    selection,
+    colorPalette,
+  } = props
+
   const changeIndex = helpers.createChangeIndex(history)
-  const errorRowNumbers = helpers.getErrorRowNumbers(report)
 
   // Row number column
 
