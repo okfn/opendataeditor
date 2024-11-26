@@ -10,9 +10,7 @@ export function DeleteFileDialog() {
   const { progress } = store.useState()
 
   React.useEffect(() => {
-    // TODO: rebase on resetState when it is available after merging:
-    // https://github.com/okfn/opendataeditor/pull/650
-    store.state.progress = undefined
+    store.resetState()
   }, [dialog])
 
   const description = !progress

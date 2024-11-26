@@ -13,6 +13,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
@@ -66,17 +67,17 @@ export function FileUploadDialog() {
             disabled={progress?.blocking}
             onChange={store.resetState}
           >
-            <Box>
+            <Stack spacing={2}>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
               <LinearProgress progress={progress} />
-            </Box>
-            <Box>
+            </Stack>
+            <Stack spacing={2}>
               <RemoteFileForm />
               <LinearProgress progress={progress} />
-            </Box>
+            </Stack>
           </DialogTabs>
         </Box>
       </DialogContent>
