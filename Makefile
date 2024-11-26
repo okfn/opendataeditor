@@ -42,9 +42,9 @@ lint:
 	hatch run lint
 	npm run lint
 
-## Runs the Electron application and the server with live reload.
+## Runs the Electron application with live reload (requires a running server).
 preview:
-	npx concurrently 'hatch run start' 'npm run preview'
+	npm run preview
 
 ## Runs electron-builder to release the app.
 release:
