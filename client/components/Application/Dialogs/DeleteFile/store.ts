@@ -7,7 +7,10 @@ class State {
   progress?: types.IProgress
 }
 
-export const { state, useState } = helpers.createState('DeleteFile', new State())
+export const { state, useState, resetState } = helpers.createState(
+  'DeleteFile',
+  new State()
+)
 
 export function closeDialog() {
   if (!state.progress?.blocking) {

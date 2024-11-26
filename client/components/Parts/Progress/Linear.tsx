@@ -12,7 +12,7 @@ export function LinearProgress(props: { progress?: types.IProgress }) {
   }
 
   if (progress.type === 'error') {
-    return <Box sx={{ color: 'red' }}>{progress.message}</Box>
+    return <Box sx={{ color: 'red' }}>Error: {progress.message}</Box>
   }
 
   return (

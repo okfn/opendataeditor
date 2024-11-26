@@ -7,7 +7,10 @@ class State {
   progress?: types.IProgress
 }
 
-export const { state, useState } = helpers.createState('SaveChangesDialog', new State())
+export const { state, useState, resetState } = helpers.createState(
+  'SaveChangesDialog',
+  new State()
+)
 
 export async function saveChanges() {
   const { grid } = appStore.getRefs()
