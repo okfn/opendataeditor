@@ -1,14 +1,13 @@
 import { client } from '@client/client'
-import invariant from 'tiny-invariant'
-import { mapValues, isNull } from 'lodash'
-import { onFileCreated, onFileUpdated } from './file'
-import { cloneDeep } from 'lodash'
-import { revertResource } from './resource'
-import { getRefs } from './refs'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
 import * as types from '@client/types'
+import { cloneDeep, isNull, mapValues } from 'lodash'
+import invariant from 'tiny-invariant'
 import * as store from '../store'
+import { onFileUpdated } from './file'
+import { getRefs } from './refs'
+import { revertResource } from './resource'
 
 export async function openTable() {
   const { path, record } = store.getState()
@@ -34,26 +33,6 @@ export async function closeTable() {
   store.setState('close-table', (state) => {
     state.table = undefined
   })
-}
-
-export async function forkTable(toPath: string) {
-  const { path, table, resource } = store.getState()
-  if (!path || !table) return
-
-  const result = await client.tablePatch({
-    path,
-    toPath,
-    history: table.history,
-    resource,
-  })
-
-  if (result instanceof client.Error) {
-    return store.setState('fork-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
 }
 
 export async function publishTable(control: types.IControl) {
@@ -91,31 +70,6 @@ export async function revertTable() {
   }
 
   revertResource()
-}
-
-export async function saveTable() {
-  const { grid } = getRefs()
-  const { path, resource, table } = store.getState()
-  if (!path || !grid || !table) return
-
-  const state = store.getState()
-  const isTableUpdated = getIsTableUpdated(state)
-  const isResourceUpdated = state.isResourceUpdated
-
-  const result = await client.tablePatch({
-    path,
-    history: isTableUpdated ? table.history : undefined,
-    resource: isResourceUpdated ? resource : undefined,
-  })
-
-  if (result instanceof client.Error) {
-    return store.setState('save-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileUpdated([path])
-  grid.reload()
 }
 
 export function setTableSelection(selection: types.ITableSelection) {
@@ -303,8 +257,11 @@ export async function renameColumn(props: {
 
 export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo }) => {
   const defaultResult = { data: [], count: 0 }
-  const { path, table } = store.getState()
-  if (!path || !table) return defaultResult
+  const { path, table, errorIndex } = store.getState()
+
+  if (!path || !table || !errorIndex) {
+    return defaultResult
+  }
 
   const result = await client.tableRead({
     path,
@@ -322,15 +279,18 @@ export const tableLoader: types.ITableLoader = async ({ skip, limit, sortInfo })
     return defaultResult
   }
 
+  // Create requested data frame
   // convert null fields in db to empty strings to avoid errors
   // in table representation. InovuaDataGrid complains with null values
-  const rowsNotNull = []
+  const data = []
   for (const row of result.rows) {
-    rowsNotNull.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
+    data.push(mapValues(row, (value) => (isNull(value) ? '' : value)))
   }
 
-  helpers.applyTableHistory(table.history, rowsNotNull)
-  return { data: rowsNotNull, count: table.rowCount || 0 }
+  helpers.applyTableErrors(errorIndex, data)
+  helpers.applyTableHistory(table.history, data)
+
+  return { data, count: table.rowCount || 0 }
 }
 
 // Selectors

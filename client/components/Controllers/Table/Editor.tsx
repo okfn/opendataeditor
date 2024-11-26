@@ -1,14 +1,17 @@
-import TableEditor from '../../Editors/Table'
-import { ClickAwayListener } from '@mui/base'
-import Box from '@mui/material/Box'
-import * as React from 'react'
-import { useKeyPress } from 'ahooks'
+import { saveChangesDialog } from '@client/components/Application/Dialogs/SaveChanges'
 import * as store from '@client/store'
 import * as types from '@client/types'
+import { ClickAwayListener } from '@mui/base'
+import Box from '@mui/material/Box'
+import { useKeyPress } from 'ahooks'
+import * as React from 'react'
+import TableEditor from '../../Editors/Table'
 
 export default function Editor() {
   const schema = store.useStore((state) => state.record?.resource.schema)
   const report = store.useStore((state) => state.report)
+  const errorIndex = store.useStore((state) => state.errorIndex)
+  const errorRowNumbers = store.useStore((state) => state.errorRowNumbers)
   const table = store.useStore((state) => state.table)
 
   // NOTE: It might be better to move it to the global store for easier debugging
@@ -40,7 +43,7 @@ export default function Editor() {
   })
 
   useKeyPress(['ctrl+s', 'meta+s'], () => {
-    store.saveTable()
+    saveChangesDialog.saveChanges()
   })
 
   // Ensure that when the user interact with other parts on the application
@@ -53,6 +56,8 @@ export default function Editor() {
 
   if (!schema) return null
   if (!report) return null
+  if (!errorIndex) return null
+  if (!errorRowNumbers) return null
   if (!table) return null
 
   return (
@@ -67,6 +72,8 @@ export default function Editor() {
           source={store.tableLoader}
           schema={schema}
           report={report}
+          errorIndex={errorIndex}
+          errorRowNumbers={errorRowNumbers}
           history={table.history}
           selection={table.selection}
           onEditStart={store.startTableEditing}

@@ -207,7 +207,6 @@ export class Client {
 
   async tablePatch(props: {
     path: string
-    toPath?: string
     history?: types.IHistory
     resource?: types.IResource
   }) {

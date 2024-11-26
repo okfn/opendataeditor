@@ -20,22 +20,43 @@ export type ITableEditor = TypeComputedProps | null
 export interface TableEditorProps extends Partial<TypeDataGridProps> {
   source: types.ITableLoader | types.IRow[]
   schema: types.ISchema
-  report?: types.IReport
-  history?: types.IHistory
+  report: types.IReport
+  errorIndex: types.IErrorIndex
+  errorRowNumbers: number[]
+  history: types.IHistory
   selection?: types.ITableSelection
   onColumnRename?: (props: { index: number; oldName: string; newName: string }) => void
 }
 
 export default function TableEditor(props: TableEditorProps) {
-  const { source, schema, report, history, selection, onColumnRename, ...others } = props
+  const {
+    source,
+    schema,
+    report,
+    errorIndex,
+    errorRowNumbers,
+    history,
+    selection,
+    onColumnRename,
+    ...others
+  } = props
   const [dialog, setDialog] = React.useState<IDialog | undefined>()
 
   const theme = useTheme()
   const colorPalette = theme.palette
 
   const columns = React.useMemo(
-    () => createColumns(schema, report, history, selection, colorPalette),
-    [schema, report, history, selection]
+    () =>
+      createColumns({
+        schema,
+        report,
+        errorIndex,
+        errorRowNumbers,
+        history,
+        selection,
+        colorPalette,
+      }),
+    [schema, report, errorIndex, history, selection]
   )
   const [rowsPerPage, setRowsPerPage] = React.useState(20)
   const [userRowsPerPage, setUserRowsPerPage] = React.useState<number | undefined>()

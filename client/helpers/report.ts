@@ -40,5 +40,18 @@ export function getErrorRowNumbers(report?: types.IReport) {
     }
   }
 
-  return rowNumbers
+  return rowNumbers.toSorted((a, b) => a - b)
+}
+
+export function applyTableErrors(errorIndex: types.IErrorIndex, rows: types.IRow[]) {
+  for (const row of rows) {
+    const rowNumber = row._rowNumber
+    for (const [columnName, cell] of Object.entries(row)) {
+      const cellKey = `${rowNumber},${columnName}`
+      if (cellKey in errorIndex.cell) {
+        const error = errorIndex.cell[cellKey][0]
+        row[columnName] = error?.cell || cell
+      }
+    }
+  }
 }

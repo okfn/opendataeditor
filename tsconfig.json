@@ -3,8 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
-    "target": "ES2021",
+    "target": "ES2022",
     "module": "commonjs",
+    "lib": ["ESNext", "ESNext.Array", "DOM"],
     "declaration": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

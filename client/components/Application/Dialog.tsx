@@ -10,6 +10,7 @@ import { FileUploadDialog } from './Dialogs/FileUpload'
 import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
 import RenameFileDialog from './Dialogs/RenameFile'
+import { SaveChangesDialog } from './Dialogs/SaveChanges'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
 
@@ -39,4 +40,5 @@ const DIALOGS = {
   fileUpload: FileUploadDialog,
   openLocation: OpenLocationDialog,
   renameFile: RenameFileDialog,
+  saveChanges: SaveChangesDialog,
 } as const

@@ -1,3 +1,4 @@
+import { saveChangesDialog } from '@client/components/Application/Dialogs/SaveChanges'
 import * as store from '@client/store'
 import Box from '@mui/material/Box'
 import * as action from '../../Parts/Bars/Action'
@@ -57,7 +58,10 @@ export default function Menu() {
             disabled={isTableUpdated}
             onClick={() => store.openDialog('publish')}
           />
-          <action.SaveButton updated={isTableUpdated} onClick={store.saveTable} />
+          <action.SaveButton
+            updated={isTableUpdated}
+            onClick={saveChangesDialog.saveChanges}
+          />
         </Box>
       </Box>
     </menu.MenuBar>

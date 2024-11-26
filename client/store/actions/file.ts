@@ -1,4 +1,5 @@
 import { client } from '@client/client'
+import { saveChangesDialog } from '@client/components/Application/Dialogs/SaveChanges'
 import * as helpers from '@client/helpers'
 import * as settings from '@client/settings'
 import { cloneDeep } from 'lodash'
@@ -7,7 +8,7 @@ import * as store from '../store'
 import { openDialog } from './dialog'
 import { emitEvent } from './event'
 import { loadSource } from './source'
-import { closeTable, getIsTableUpdated, openTable, revertTable, saveTable } from './table'
+import { closeTable, getIsTableUpdated, openTable, revertTable } from './table'
 import { closeText, getIsTextUpdated, openText, revertText, saveText } from './text'
 
 export async function loadFiles(throwError?: boolean) {
@@ -74,6 +75,8 @@ async function openFile() {
   store.setState('open-file-loaded', (state) => {
     state.record = result.record
     state.report = result.report
+    state.errorIndex = helpers.createErrorIndex(result.report)
+    state.errorRowNumbers = helpers.getErrorRowNumbers(result.report)
     state.resource = cloneDeep(result.record.resource)
   })
 
@@ -98,6 +101,8 @@ async function closeFile() {
   store.setState('close-file', (state) => {
     state.record = undefined
     state.report = undefined
+    state.errorIndex = undefined
+    state.errorRowNumbers = undefined
     state.resource = undefined
     state.isResourceUpdated = undefined
     state.source = undefined
@@ -141,7 +146,7 @@ export async function saveFile() {
   invariant(record)
 
   if (record.type === 'table') {
-    await saveTable()
+    await saveChangesDialog.saveChanges()
   } else if (record.type === 'text') {
     await saveText()
   }
