@@ -21,7 +21,7 @@ import * as store from './store'
 
 const TAB_LABELS = ['From your computer', 'Add external data']
 
-export function FileUploadDialog() {
+export function UploadFileDialog() {
   const dialog = appStore.useStore((state) => state.dialog)
   const { progress } = store.useState()
 
