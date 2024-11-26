@@ -194,6 +194,7 @@ export type IDialog =
   | 'fileUpload'
   | 'openLocation'
   | 'renameFile'
+  | 'saveChanges'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

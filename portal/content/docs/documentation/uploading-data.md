@@ -67,7 +67,13 @@ Before you upload your online table…
 
 👉🏼 If you are uploading a Google Sheets file, check the file is published online. If you don’t know how to do it, please, visit [this page](https://support.google.com/docs/answer/183965?hl=en&co=GENIE.Platform%3DDesktop) and follow the steps listed there.
 
-👉🏼 When exporting a file from Google Sheets in csv and you have columns with numbers, please, make sure to use “.” for decimals, instead of  commas. Otherwise, Frictionless, the code working behind the ODE will interpret the content of your cells with numbers as text.
+👉🏼 For Google Sheets, please make sure you are adding the public version of your file without the HTML term at the end. For example:
+
+✅ https://docs.google.com/spreadsheets/d/1dFVoF6f9VU5pjaGhyyvQaBN0n6ae-iLCtlvsO1N2jhA/edit?gid=0#gid=0
+
+❌ https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8w9yb7D-iYEbImb0WD4Kh53_Yp7H1VOi1bIMcicphWbkrrH9PobXCJhXt9frqyQ/pubhtml
+
+👉🏼 When exporting a file from Google Sheets in csv and you have columns with numbers, please, make sure to use “.” for decimals, instead of commas. Otherwise, Frictionless, the code working behind the ODE will interpret the content of your cells with numbers as text.
 
 For all tables…
 
@@ -75,4 +81,3 @@ For all tables…
 
 👉🏼 Check that the tabular data does not contain cells that are merged. Data producers from Governments, international organizations and internal reports usually add tiles, descriptions, graphs within sheets, like in this case. If there are extra elements in your file, the ODE will ingest your file and show you multiple errors.
 :::
-

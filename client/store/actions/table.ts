@@ -5,7 +5,7 @@ import * as types from '@client/types'
 import { cloneDeep, isNull, mapValues } from 'lodash'
 import invariant from 'tiny-invariant'
 import * as store from '../store'
-import { onFileCreated, onFileUpdated } from './file'
+import { onFileUpdated } from './file'
 import { getRefs } from './refs'
 import { revertResource } from './resource'
 
@@ -33,26 +33,6 @@ export async function closeTable() {
   store.setState('close-table', (state) => {
     state.table = undefined
   })
-}
-
-export async function forkTable(toPath: string) {
-  const { path, table, resource } = store.getState()
-  if (!path || !table) return
-
-  const result = await client.tablePatch({
-    path,
-    toPath,
-    history: table.history,
-    resource,
-  })
-
-  if (result instanceof client.Error) {
-    return store.setState('fork-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
 }
 
 export async function publishTable(control: types.IControl) {
@@ -90,31 +70,6 @@ export async function revertTable() {
   }
 
   revertResource()
-}
-
-export async function saveTable() {
-  const { grid } = getRefs()
-  const { path, resource, table } = store.getState()
-  if (!path || !grid || !table) return
-
-  const state = store.getState()
-  const isTableUpdated = getIsTableUpdated(state)
-  const isResourceUpdated = state.isResourceUpdated
-
-  const result = await client.tablePatch({
-    path,
-    history: isTableUpdated ? table.history : undefined,
-    resource: isResourceUpdated ? resource : undefined,
-  })
-
-  if (result instanceof client.Error) {
-    return store.setState('save-table-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileUpdated([path])
-  grid.reload()
 }
 
 export function setTableSelection(selection: types.ITableSelection) {
