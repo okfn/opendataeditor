@@ -164,19 +164,6 @@ export class Client {
 
   // Text
 
-  async textEdit(props: { path: string; text: string; prompt: string }) {
-    return await this.request<{ text: string }>('/text/edit', props)
-  }
-
-  async textPatch(props: {
-    path: string
-    text?: string
-    resource?: types.IResource
-    toPath?: string
-  }) {
-    return await this.request<{ path: string }>('/text/patch', props)
-  }
-
   async textRead(props: { path: string; size?: number }) {
     return await this.request<{ text: string }>('/text/read', props)
   }

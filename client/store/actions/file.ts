@@ -1,7 +1,6 @@
 import { client } from '@client/client'
 import { saveChangesDialog } from '@client/components/Application/Dialogs/SaveChanges'
 import * as helpers from '@client/helpers'
-import * as settings from '@client/settings'
 import { cloneDeep } from 'lodash'
 import invariant from 'tiny-invariant'
 import * as store from '../store'
@@ -9,7 +8,6 @@ import { openDialog } from './dialog'
 import { emitEvent } from './event'
 import { loadSource } from './source'
 import { closeTable, getIsTableUpdated, openTable, revertTable } from './table'
-import { closeText, getIsTextUpdated, openText, revertText, saveText } from './text'
 
 export async function loadFiles(throwError?: boolean) {
   const result = await client.fileList()
@@ -84,8 +82,6 @@ async function openFile() {
 
   if (result.record.type === 'table') {
     await openTable()
-  } else if (settings.TEXT_FILE_TYPES.includes(result.record.type)) {
-    await openText()
   }
 
   emitEvent({ type: 'open', paths: [path] })
@@ -114,8 +110,6 @@ async function closeFile() {
 
   if (record.type === 'table') {
     await closeTable()
-  } else if (settings.TEXT_FILE_TYPES.includes(record.type)) {
-    await closeText()
   }
 }
 
@@ -147,8 +141,6 @@ export async function saveFile() {
 
   if (record.type === 'table') {
     await saveChangesDialog.saveChanges()
-  } else if (record.type === 'text') {
-    await saveText()
   }
 }
 
@@ -158,8 +150,6 @@ export async function revertFile() {
 
   if (record.type === 'table') {
     await revertTable()
-  } else if (record.type === 'text') {
-    await revertText()
   }
 }
 
@@ -246,8 +236,6 @@ export const getIsFileOrResourceUpdated = store.createSelector((state) => {
 export const getIsFileUpdated = store.createSelector((state) => {
   if (state.record?.type === 'table') {
     return getIsTableUpdated(state)
-  } else if (state.record?.type === 'text') {
-    return getIsTextUpdated(state)
   } else {
     return false
   }
