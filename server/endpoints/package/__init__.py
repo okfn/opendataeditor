@@ -1,2 +1,2 @@
 # Register modules
-from . import fetch, patch, publish
+from . import fetch, publish

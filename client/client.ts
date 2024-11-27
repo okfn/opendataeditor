@@ -114,10 +114,6 @@ export class Client {
     return await this.request<{ path: string }>('/package/fetch', props)
   }
 
-  async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
-    return await this.request<{ path: string }>('/package/patch', props)
-  }
-
   async packagePublish(props: { path: string; control: types.IControl }) {
     return await this.request<{ url: string }>('/package/publish', props)
   }
