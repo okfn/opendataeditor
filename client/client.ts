@@ -105,10 +105,6 @@ export class Client {
 
   // Package
 
-  async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/package/create', props)
-  }
-
   async packageFetch(props: {
     url: string
     path?: string
