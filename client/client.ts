@@ -74,16 +74,6 @@ export class Client {
     return await this.request<{ path: string }>('/file/move', props)
   }
 
-  async filePatch(props: {
-    path: string
-    name?: string
-    type?: string
-    resource?: types.IResource
-    toPath?: string
-  }) {
-    return await this.request<{ path: string }>('/file/patch', props)
-  }
-
   async filePublish(props: { path: string; control: types.IControl }) {
     return await this.request<{ url?: string }>('/file/publish', props)
   }
