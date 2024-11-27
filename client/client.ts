@@ -172,15 +172,6 @@ export class Client {
 
   // Text
 
-  async textCreate(props: {
-    path: string
-    text: string
-    prompt?: string
-    deduplicate?: boolean
-  }) {
-    return await this.request<{ path: string }>('/text/create', props)
-  }
-
   async textEdit(props: { path: string; text: string; prompt: string }) {
     return await this.request<{ text: string }>('/text/edit', props)
   }
