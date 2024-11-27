@@ -103,29 +103,6 @@ export class Client {
     return await this.request<{ path: string }>('/folder/move', props)
   }
 
-  // Json
-
-  async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/json/create', props)
-  }
-
-  async jsonEdit(props: { path: string; data: types.IData; prompt: string }) {
-    return await this.request<{ data: types.IData }>('/json/edit', props)
-  }
-
-  async jsonPatch(props: {
-    path: string
-    data?: types.IData
-    toPath?: string
-    resource?: types.IResource
-  }) {
-    return await this.request<{ path: string }>('/json/patch', props)
-  }
-
-  async jsonRead(props: { path: string }) {
-    return await this.request<{ data: any }>('/json/read', props)
-  }
-
   // Map
 
   async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
