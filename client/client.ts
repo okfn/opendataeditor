@@ -27,10 +27,6 @@ export class Client {
 
   // Column
 
-  async columnList() {
-    return await this.request<{ columns: types.IColumn[] }>('/column/list')
-  }
-
   async columnRename(props: { path: string; oldName: string; newName: string }) {
     return await this.request<Record<string, never>>('/column/rename', props)
   }
