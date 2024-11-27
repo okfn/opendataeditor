@@ -103,12 +103,6 @@ export class Client {
     return await this.request<{ path: string }>('/folder/move', props)
   }
 
-  // Map
-
-  async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await this.request<{ path: string }>('/map/create', props)
-  }
-
   // Package
 
   async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {

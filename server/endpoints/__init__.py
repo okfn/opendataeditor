@@ -4,7 +4,6 @@ from . import (
     file,
     folder,
     health,
-    map,
     package,
     resource,
     table,
