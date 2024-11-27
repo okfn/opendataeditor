@@ -1,7 +1,6 @@
 # Register modules
 from . import (
     column,
-    config,
     file,
     folder,
     health,
@@ -9,7 +8,6 @@ from . import (
     json,
     map,
     package,
-    project,
     resource,
     table,
     text,

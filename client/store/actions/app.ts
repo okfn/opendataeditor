@@ -2,7 +2,6 @@ import { client } from '@client/client'
 import { redoTableChange, togglePanel, undoTableChange } from '@client/store'
 import delay from 'delay'
 import * as store from '../store'
-import { loadConfig } from './config'
 import { openDialog } from './dialog'
 import { getIsFileOrResourceUpdated, loadFiles } from './file'
 
@@ -22,7 +21,6 @@ export async function onAppStart() {
 
   while (!ready) {
     try {
-      await loadConfig(true)
       await loadFiles(true)
       ready = true
     } catch (error) {
@@ -35,27 +33,6 @@ export async function onAppStart() {
       await delay(delaySeconds * 1000)
     }
   }
-
-  // Setup project sync polling
-
-  // Polling is disabled because now users can't manually change to project dir
-  // setInterval(async () => {
-  // const result = await client.projectSync({})
-
-  // // Here we ignore errors for now and just update the files on success
-  // if (result instanceof client.Error) {
-  // return
-  // }
-
-  // // We update state only if there are changes to prevent unnecessary re-renders
-  // // and simplify debugging in Redux Debugger
-  // const state = store.getState()
-  // if (!isEqual(state.files, result.files)) {
-  // store.setState('sync-files', (state) => {
-  // state.files = result.files
-  // })
-  // }
-  // }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 
   // Register on windows close event handler (only Desktop env)
   // to prevent closing the app when there are unsaved changes
@@ -114,4 +91,16 @@ export function closeDesktopApp() {
   const bridge = window?.opendataeditor
 
   bridge?.closeDesktopApp()
+}
+
+export function setHideWelcomeScreen(hideWelcomeScreen: boolean) {
+  store.setState('hide-welcome-screen', (state) => {
+    state.hideWelcomeScreen = hideWelcomeScreen
+  })
+}
+
+export function setHideOpenLocationDialog(hideOpenLocationDialog: boolean) {
+  store.setState('hide-open-location-dialog', (state) => {
+    state.hideOpenLocationDialog = hideOpenLocationDialog
+  })
 }

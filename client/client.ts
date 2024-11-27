@@ -31,16 +31,6 @@ export class Client {
     return await this.request<Record<string, never>>('/column/rename', props)
   }
 
-  // Config
-
-  async configRead(props: Record<string, never> = {}) {
-    return await this.request<{ config: types.IConfig }>('/config/read', props)
-  }
-
-  async configWrite(props: { config: types.IConfig }) {
-    return await this.request<{ config: types.IConfig }>('/config/write', props)
-  }
-
   // File
 
   async fileCopy(props: { path: string; toPath?: string; deduplicate?: boolean }) {
@@ -179,16 +169,6 @@ export class Client {
 
   async packagePublish(props: { path: string; control: types.IControl }) {
     return await this.request<{ url: string }>('/package/publish', props)
-  }
-
-  // Project
-
-  async projectOpen(props: { fullpath: string }) {
-    return await this.request<Record<string, never>>('/project/open', props)
-  }
-
-  async projectSync(props: Record<string, never>) {
-    return await this.request<{ files: types.IFile[] }>('/project/sync', props)
   }
 
   // Resource
