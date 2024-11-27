@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
+const backend = require("i18next-electron-fs-backend");
 
 contextBridge.exposeInMainWorld('opendataeditor', {
   sendFatalError: (message: string) => ipcRenderer.invoke('sendFatalError', message),
@@ -38,4 +39,5 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   onRedo: (callback: () => void) => {
     ipcRenderer.on('menuRedo', callback)
   },
+  i18nextElectronBackend: backend.preloadBindings(ipcRenderer, process)
 })

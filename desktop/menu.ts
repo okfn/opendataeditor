@@ -1,4 +1,5 @@
 import { app, shell, Menu, BrowserWindow } from 'electron'
+import i18n from './i18n.mainconfig'
 
 export function createMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(
@@ -8,26 +9,26 @@ export function createMenu(mainWindow: BrowserWindow) {
         submenu: [{ role: 'about' }, { role: 'quit' }],
       },
       {
-        label: 'File',
+        label: i18n.t('File'),
         submenu: [
           {
-            label: 'Add',
+            label: i18n.t('Add'),
             submenu: [
               {
-                label: 'New file',
+                label: i18n.t('new-file'),
                 click: async () => {
                   mainWindow.webContents.send('menuAddNewFile')
                 },
               },
               {
-                label: 'New folder',
+                label: i18n.t('new-folder'),
                 click: async () => {
                   // Adding the same as Add New File, because it's the same dialog
                   mainWindow.webContents.send('menuAddNewFile')
                 },
               },
               {
-                label: 'External data',
+                label: i18n.t('external-data'),
                 click: async () => {
                   mainWindow.webContents.send('menuAddExternalFile')
                 },
@@ -35,13 +36,13 @@ export function createMenu(mainWindow: BrowserWindow) {
             ],
           },
           {
-            label: 'Delete',
+            label: i18n.t('delete'),
             click: async () => {
               mainWindow.webContents.send('menuDeleteFile')
             },
           },
           {
-            label: 'Publish',
+            label: i18n.t('publish'),
             click: async () => {
               mainWindow.webContents.send('menuPublishFile')
             },
@@ -49,36 +50,36 @@ export function createMenu(mainWindow: BrowserWindow) {
         ],
       },
       {
-        label: 'Edit',
+        label: i18n.t('edit'),
         submenu: [{
-          label: 'Undo',
+          label: i18n.t('undo'),
           click: async () => {
             mainWindow.webContents.send('menuUndo')
           },
         }, {
-          label: 'Redo',
+          label: i18n.t('redo'),
           click: async () => {
             mainWindow.webContents.send('menuRedo')
           },
         }],
       },
       {
-        label: 'View',
+        label: i18n.t('view'),
         submenu: [
           {
-            label: 'Toggle Metadata Panel',
+            label: i18n.t('toggle-metadata'),
             click: async () => {
               mainWindow.webContents.send('menuToggleMetadata')
             },
           },
           {
-            label: 'Toggle Errors Panel',
+            label: i18n.t('toggle-errors'),
             click: async () => {
               mainWindow.webContents.send('menuToggleErrorsReport')
             },
           },
           {
-            label: 'Toggle Source Panel',
+            label: i18n.t('toggle-source'),
             click: async () => {
               mainWindow.webContents.send('menuToggleSource')
             },
@@ -86,10 +87,10 @@ export function createMenu(mainWindow: BrowserWindow) {
         ],
       },
       {
-        label: 'Help',
+        label: i18n.t('help'),
         submenu: [
           {
-            label: 'ODE User guide',
+            label: i18n.t('ODE-user-guide'),
             click: async () => {
               await shell.openExternal(
                 'https://opendataeditor.okfn.org/documentation/getting-started/'
@@ -97,7 +98,7 @@ export function createMenu(mainWindow: BrowserWindow) {
             },
           },
           {
-            label: 'Report an issue',
+            label: i18n.t('report-an-issue'),
             click: async () => {
               await shell.openExternal('https://github.com/okfn/opendataeditor/')
             },

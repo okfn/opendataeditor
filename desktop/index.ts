@@ -1,4 +1,4 @@
-import { app, dialog, BrowserWindow } from 'electron'
+import { app, dialog, BrowserWindow, ipcMain } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { createWindow } from './window'
 import { createBridge } from './bridge'
@@ -6,6 +6,10 @@ import { join } from 'path'
 import log from 'electron-log'
 import * as settings from './settings'
 import { createMenu } from './menu'
+const backend = require("i18next-electron-fs-backend");
+import fs from 'fs'
+
+let mainWindow
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -16,8 +20,11 @@ app.whenReady().then(async () => {
 
   log.info('## Start client')
   createBridge()
-  const mainWindow = await createWindow()
+  mainWindow = await createWindow()
   createMenu(mainWindow)
+
+   // Sets up main.js bindings for our i18next backend
+   backend.mainBindings(ipcMain, mainWindow, fs)
 })
 
 // Default open or close DevTools by F12 in development
@@ -37,6 +44,7 @@ app.on('activate', function () {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  backend.clearMainBindings(ipcMain);
   if (process.platform !== 'darwin') {
     app.quit()
   }

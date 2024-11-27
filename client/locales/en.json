@@ -42,6 +42,17 @@
     "errors-report": "Errors report",
     "source": "Source",
     "chat-AI": "Chat AI",
-    "undo": "undo",
-    "redo": "redo"
+    "undo": "Undo",
+    "redo": "Redo",
+    "new-file": "New file",
+    "new-folder": "New folder",
+    "external-data": "External data",
+    "publish": "Publish",
+    "edit": "Edit",
+    "view": "View",
+    "toggle-metadata": "Toggle Metadata Panel",
+    "toggle-errors": "Toggle Errors Panel",
+    "toggle-source": "Toggle Source Panel",
+    "help": "Help",
+    "ODE-user-guide": "ODE User guide"
 }
