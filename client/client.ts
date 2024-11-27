@@ -118,12 +118,6 @@ export class Client {
     return await this.request<{ url: string }>('/package/publish', props)
   }
 
-  // Resource
-
-  async resourcePatch(props: { path: string; data?: any; toPath?: string }) {
-    return await this.request<{ path: string }>('/resource/patch', props)
-  }
-
   // Table
 
   async tableCount(props: { path: string; valid?: boolean }) {

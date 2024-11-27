@@ -5,7 +5,6 @@ from . import (
     folder,
     health,
     package,
-    resource,
     table,
     text,
 )
