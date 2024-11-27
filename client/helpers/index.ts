@@ -1,4 +1,3 @@
-export * from './column'
 export * from './file'
 export * from './folder'
 export * from './general'
