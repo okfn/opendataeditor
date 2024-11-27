@@ -1,9 +1,13 @@
 import { client } from '@client/client'
-import { redoTableChange, togglePanel, undoTableChange } from '@client/store'
+import type { ITableEditor } from '@client/components/Editors/Table'
+import type { ITextEditor } from '@client/components/Editors/Text'
+import type * as types from '@client/types'
 import delay from 'delay'
+import React from 'react'
+import { IDialog, IPanel } from '../state'
 import * as store from '../store'
-import { openDialog } from './dialog'
 import { getIsFileOrResourceUpdated, loadFiles } from './file'
+import { redoTableChange, undoTableChange } from './table'
 
 export async function onAppStart() {
   // @ts-ignore
@@ -103,4 +107,82 @@ export function setHideOpenLocationDialog(hideOpenLocationDialog: boolean) {
   store.setState('hide-open-location-dialog', (state) => {
     state.hideOpenLocationDialog = hideOpenLocationDialog
   })
+}
+
+export function toggleDialog(dialog: IDialog) {
+  const current = store.getState().dialog
+  if (current !== dialog) {
+    openDialog(dialog)
+  } else {
+    closeDialog()
+  }
+}
+
+export function openDialog(dialog: IDialog, dialogTab?: number) {
+  store.setState('open-dialog', (state) => {
+    state.dialog = dialog
+    state.dialogTab = dialogTab
+  })
+}
+
+export function closeDialog() {
+  store.setState('close-dialog', (state) => {
+    state.dialog = state.nextDialog
+    state.nextDialog = undefined
+  })
+}
+
+export function closeError() {
+  store.setState('remove-error', (state) => {
+    state.error = undefined
+  })
+}
+
+export async function emitEvent(event: types.IEvent) {
+  store.setState(`${event.type}-file-event-start`, (state) => {
+    state.event = event
+  })
+
+  await delay(500)
+
+  store.setState(`${event.type}-file-event-end`, (state) => {
+    state.event = undefined
+  })
+}
+
+export function togglePanel(panel: IPanel) {
+  const current = store.getState().panel
+  if (current !== panel) {
+    openPanel(panel)
+  } else {
+    closePanel()
+  }
+}
+
+export function openPanel(panel: IPanel) {
+  store.setState('open-panel', (state) => {
+    state.panel = panel
+  })
+}
+
+export function closePanel() {
+  store.setState('close-panel', (state) => {
+    state.panel = undefined
+  })
+}
+
+export function getRefs() {
+  return {
+    grid: refs.grid?.current,
+    editor: refs.editor?.current,
+  }
+}
+
+export function setRefs(patch: Partial<typeof refs>) {
+  Object.assign(refs, patch)
+}
+
+const refs = {
+  grid: React.createRef<ITableEditor | undefined>(),
+  editor: React.createRef<ITextEditor | undefined>(),
 }
