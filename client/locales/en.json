@@ -90,5 +90,7 @@
     "repo": "Repo",
     "email": "Email",
     "description": "Description",
-    "author": "Author"
+    "author": "Author",
+    "failed-open-project": "<strong>Failed to open the project</strong>. Please",
+    "preview-not-available": "Preview is not available for this file format"
 }

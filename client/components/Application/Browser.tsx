@@ -31,7 +31,7 @@ function DefaultBrowser() {
     <ErrorBoundary
       fallback={
         <Box sx={{ color: '#555' }}>
-          <strong>Failed to open the project</strong>. Please{' '}
+          <Trans i18nKey="failed-open-project" components={{ 1: <strong /> }} />{' '}
           <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
             {t('create-an-issue')}
           </a>{' '}
