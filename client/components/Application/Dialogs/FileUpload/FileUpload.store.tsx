@@ -37,14 +37,14 @@ export function resetState() {
   }
 }
 
-export async function ingestFiles(props: { source: FileList | string }) {
+export async function ingestFiles(props: { source: FileList | string }, t: any) {
   const files =
     props.source instanceof FileList
       ? await uploadLocalFiles({ source: props.source })
-      : await uploadRemoteFile({ source: props.source })
+      : await uploadRemoteFile({ source: props.source }, t)
 
   if (files) {
-    await validateAndSelectFiles({ files })
+    await validateAndSelectFiles({ files }, t)
   }
 }
 
@@ -70,16 +70,16 @@ async function uploadLocalFiles(props: { source: FileList }) {
   return files
 }
 
-async function uploadRemoteFile(props: { source: string }) {
+async function uploadRemoteFile(props: { source: string }, t: any) {
   state.progress = { type: 'loading', blocking: true }
 
   if (!props.source) {
-    state.progress = { type: 'error', message: 'The URL is blank' }
+    state.progress = { type: 'error', message: t('error-url-blank') }
     return
   }
 
   if (!helpers.isUrlValid(props.source)) {
-    state.progress = { type: 'error', message: 'The URL is not valid' }
+    state.progress = { type: 'error', message: t('error-url-not-valid') }
     return
   }
 
@@ -88,8 +88,8 @@ async function uploadRemoteFile(props: { source: string }) {
 
   if (result instanceof client.Error) {
     const message = props.source.includes('docs.google.com/spreadsheets')
-      ? 'The Google Sheets URL is not valid or the table is not publically available'
-      : 'The URL is not associated with a table'
+      ? t('error-google-sheets-address-invalid')
+      : t('error-url-not-table')
     state.progress = { type: 'error', message }
     return
   }
@@ -98,13 +98,12 @@ async function uploadRemoteFile(props: { source: string }) {
   return [result]
 }
 
-async function validateAndSelectFiles(props: { files: IFile[] }) {
-  state.progress = { type: 'validating', title: 'Checking errors', blocking: true }
+async function validateAndSelectFiles(props: { files: IFile[] }, t: any) {
+  state.progress = { type: 'validating', title: t('checking-errors'), blocking: true }
 
   const totalSize = props.files.reduce((acc, file) => acc + file.size, 0)
   if (totalSize > 10_000_000) {
-    state.progress.message =
-      'The total size of the files exceeds 10MB. This operation might take some time...'
+    state.progress.message = t('error-file-size-exceeds-10mb')
   }
 
   for (const file of props.files) {

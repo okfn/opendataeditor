@@ -102,7 +102,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
           webkitdirectory={props.isFolder ? '' : undefined}
           onChange={(ev) => {
             if (ev.target.files) {
-              store.ingestFiles({ source: ev.target.files })
+              store.ingestFiles({ source: ev.target.files }, t)
             }
           }}
         />
@@ -147,7 +147,7 @@ function RemoteFileForm() {
         hoverBgColor="OKFNBlue"
         color="OKFNBlack"
         disabled={!url}
-        onClick={() => store.ingestFiles({ source: url })}
+        onClick={() => store.ingestFiles({ source: url }, t)}
       />
     </Box>
   )
