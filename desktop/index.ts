@@ -6,8 +6,7 @@ import { join } from 'path'
 import log from 'electron-log'
 import * as settings from './settings'
 import { createMenu } from './menu'
-const backend = require("i18next-electron-fs-backend");
-import fs from 'fs'
+const backend = require("i18next-electron-fs-backend")
 
 let mainWindow
 
@@ -23,8 +22,6 @@ app.whenReady().then(async () => {
   mainWindow = await createWindow()
   createMenu(mainWindow)
 
-   // Sets up main.js bindings for our i18next backend
-   backend.mainBindings(ipcMain, mainWindow, fs)
 })
 
 // Default open or close DevTools by F12 in development

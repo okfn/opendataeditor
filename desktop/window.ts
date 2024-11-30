@@ -1,10 +1,11 @@
-import { shell, BrowserWindow } from 'electron'
-
+import { shell, BrowserWindow, ipcMain } from 'electron'
 import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import log from 'electron-log'
 import * as server from './server'
 import EventEmitter from 'events'
+import fs from 'fs'
+const backend = require("i18next-electron-fs-backend")
 
 const loadingEvents = new EventEmitter()
 
@@ -64,6 +65,9 @@ export async function createWindow() {
   }
 
   loadingEvents.emit('finished')
+
+  // Sets up main.js bindings for our i18next backend
+  backend.mainBindings(ipcMain, mainWindow, fs)
 
   return mainWindow
 }
