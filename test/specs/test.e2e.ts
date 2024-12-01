@@ -13,7 +13,7 @@ describe('ODE basic workflow', () => {
         const banner = await root.react$('WelcomeBanner')
         await expect(banner).toHaveText(expect.stringContaining('Welcome to the Open Data Editor!'))
 
-        const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get started'}})
+        const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get Started'}})
         const focusTrap = await root.react$('FocusTrap')
         const uploadYourDataButton = await $('.sidebar .MuiButton-outlined')
 
