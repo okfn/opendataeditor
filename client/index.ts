@@ -7,6 +7,7 @@ import '@fontsource-variable/hanken-grotesk'
 import { render } from './render'
 import { Client } from './client'
 import Application from './components/Application'
+import './i18n'
 
 const client = new Client()
 const element = document.getElementById('root')

@@ -8,6 +8,7 @@ import Link from '@mui/material/Link'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import SimpleButton from '../../Parts/Buttons/SimpleButton'
+import { useTranslation } from 'react-i18next'
 
 export default function WelcomeBanner() {
   const hideWelcomeScreen = store.useStore((state) => state.hideWelcomeScreen)
@@ -17,6 +18,8 @@ export default function WelcomeBanner() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked) // this is to be replaced by the store.
   }
+
+  const { t } = useTranslation()
 
   const handleGetStarted = () => {
     store.setHideWelcomeScreen(checked)
@@ -106,7 +109,7 @@ export default function WelcomeBanner() {
           >
             <StyledButton
               fullWidth
-              label={'Get started'}
+              label={t('get-started')}
               sx={{ my: 0.5 }}
               onClick={handleGetStarted}
               variant="contained"

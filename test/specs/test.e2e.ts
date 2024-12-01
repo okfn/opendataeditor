@@ -22,7 +22,7 @@ describe('ODE basic workflow', () => {
         simpleButton.click()
         await expect(focusTrap).not.toExist()
         await expect(uploadYourDataButton).toBeClickable()
-
+        browser.closeWindow()
     }),
     // TODO: re-enable when we find out why this is failing
     it.skip('uploads a csv file, file navigator adds an node, and the file content gets display', async() => {
