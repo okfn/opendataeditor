@@ -43,7 +43,9 @@
     "@electron-toolkit/utils": "2.0.1",
     "@fontsource-variable/hanken-grotesk": "^5.0.21",
     "electron-log": "4.4.8",
+    "i18next": "^24.0.2",
     "portfinder": "1.0.32",
+    "react-i18next": "^15.1.3",
     "toml": "3.0.0"
   },
   "devDependencies": {
