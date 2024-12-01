@@ -2,10 +2,14 @@ import { $, expect } from '@wdio/globals'
 import path from 'node:path'
 
 describe('ODE basic workflow', () => {
+
+    beforeEach(async () => {
+      // ODE has a Loading window and a main Window. We need to switch to the main one.
+      const handles = await browser.getWindowHandles()
+      await browser.switchToWindow(handles[0])
+    })
+
     it('displays welcoming screen and FocusTrap exist until user clicks Get Started', async () => {
-        // ODE has a Loading window and a main Window. We need to switch to the main one.
-        const handles = await browser.getWindowHandles()
-        await browser.switchToWindow(handles[0])
 
         // Calling browser.react$(...) will fail to find the root element. So we find it explicitly.
         // https://github.com/baruchvlz/resq/issues/31#issuecomment-493760156
@@ -22,16 +26,22 @@ describe('ODE basic workflow', () => {
         simpleButton.click()
         await expect(focusTrap).not.toExist()
         await expect(uploadYourDataButton).toBeClickable()
-        browser.closeWindow()
     }),
-    // TODO: re-enable when we find out why this is failing
     it.skip('uploads a csv file, file navigator adds an node, and the file content gets display', async() => {
       const filePath = path.join(__dirname, '../data/valid.csv')
       const remoteFilePath = await browser.uploadFile(filePath)
       const root = await $('#root')
 
-      await root.$('.sidebar .MuiButton-outlined').click()
-      await root.$('button#simple-tab-1').click()
+      const uploadYourDataButton = await root.$('.sidebar .MuiButton-outlined')
+      await uploadYourDataButton.click()
+
+      const fileUploadDialog = await root.react$('FileUploadDialog')
+      await expect(fileUploadDialog).toExist()
+      
+      // disabling test until we find out why this element can't be found
+      const addExternalDataTab = await root.$('button#simple-tab-1')
+      await addExternalDataTab.click()
+
       // Adding the file to the hidden input[type=file] will trigger a server upload
       await $('input.MuiOutlinedInput-input').addValue(remoteFilePath)
 
