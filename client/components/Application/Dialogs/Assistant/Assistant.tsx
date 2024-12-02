@@ -1,7 +1,7 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
 import * as appStore from '@client/store'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
-import Box from '@mui/material/Box'
+import { Box, Link } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
@@ -76,6 +76,20 @@ function CredsStepDialog() {
             setKey(ev.target.value)
           }}
         />
+        <Box>
+          Click{' '}
+          <Link
+            target="_blank"
+            href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key"
+          >
+            here
+          </Link>{' '}
+          to learn how to find your key. You can also check OpenAI terms and policies{' '}
+          <Link target="_blank" href="https://openai.com/policies/">
+            here
+          </Link>
+          .
+        </Box>
       </Stack>
     </StepDialog>
   )
