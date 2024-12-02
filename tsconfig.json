@@ -1,5 +1,5 @@
 {
-  "include": ["client/**/*"],
+  "include": ["client/**/*", "localization/i18n.config.js"],
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
