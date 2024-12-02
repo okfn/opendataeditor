@@ -1,5 +1,5 @@
-import { LinearProgress } from '@client/components/Library/LinearProgress'
 import NoButtonDialog from '@client/components/Parts/Dialogs/NoButton'
+import { LinearProgress } from '@client/components/Progress'
 import * as store from './store'
 
 export function SaveChangesDialog() {

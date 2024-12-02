@@ -1,5 +1,5 @@
-import { LinearProgress } from '@client/components/Library/LinearProgress'
 import InputDialog from '@client/components/Parts/Dialogs/Input'
+import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import * as React from 'react'
 import * as store from './store'

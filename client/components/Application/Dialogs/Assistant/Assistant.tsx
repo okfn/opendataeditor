@@ -1,16 +1,15 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
+import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import { Box, Link } from '@mui/material'
-import LinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material/styles'
-import { startCase } from 'lodash'
 import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import Markdown from 'react-markdown'
-import * as store from './Assistant.store'
+import * as store from './store'
 
 const DEFAULT_PROMPT = `
 suggest improvements to the names of the columns in the table 
@@ -134,7 +133,7 @@ function ResultStepDialog() {
       onConfirm={store.closeDialog}
     >
       {state.result && <Markdown>{state.result}</Markdown>}
-      <ProgressIndicator />
+      <LinearProgress progress={state.progress} />
     </StepDialog>
   )
 }
@@ -165,38 +164,6 @@ function StepDialog(
     >
       {props.children}
     </TwoButtonDialog>
-  )
-}
-
-// TODO: move to the common library
-function ProgressIndicator() {
-  const { progress } = store.useState()
-
-  if (!progress) {
-    return null
-  }
-
-  if (progress.type === 'error') {
-    return (
-      <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>Error: {progress.message}</Box>
-      </Box>
-    )
-  }
-
-  return (
-    <Stack spacing={1} sx={{ mt: '1em' }}>
-      <Box>{startCase(progress.type)}...</Box>
-      <LinearProgress
-        sx={{
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#00D1FF',
-          },
-          padding: '10px',
-        }}
-      />
-      <Box sx={{ color: 'gray' }}>{progress.message}</Box>
-    </Stack>
   )
 }
 
