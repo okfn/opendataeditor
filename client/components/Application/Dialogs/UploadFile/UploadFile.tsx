@@ -40,7 +40,7 @@ export function UploadFileDialog() {
       onClose={store.closeDialog}
     >
       <IconButton
-        aria-label="close"
+        aria-label={t('close')}
         onClick={store.closeDialog}
         sx={{
           position: 'absolute',
