@@ -1,6 +1,7 @@
 import DangerousIcon from '@mui/icons-material/Dangerous'
 import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
+import { useTranslation } from 'react-i18next'
 
 export default function CloseWithUnsavedChangesDialog() {
   const onSave = async () => {
@@ -13,14 +14,16 @@ export default function CloseWithUnsavedChangesDialog() {
     store.closeDesktopApp()
   }
 
+  const { t } = useTranslation()
+
   return (
     <TwoButtonDialog
       open={true}
-      title="Unsaved Changes"
-      cancelLabel="Discard"
-      label="Save"
+      title={t('unsaved-changes')}
+      cancelLabel={t('discard')}
+      label={t('save')}
       Icon={DangerousIcon}
-      description="There are unsaved changes. Please, click save or cancel."
+      description={t('unsaved-changes-dialog-description')}
       onCancel={onDiscard}
       onConfirm={onSave}
       disableClosing={true}

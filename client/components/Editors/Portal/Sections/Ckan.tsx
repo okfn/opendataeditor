@@ -3,6 +3,7 @@ import InputField from '../../../Parts/Fields/Input'
 import YesNoField from '../../../Parts/Fields/YesNo'
 import { useStore } from '../store'
 import Box from '@mui/material/Box'
+import { useTranslation } from 'react-i18next'
 
 export default function CkanSection() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -21,12 +22,13 @@ export default function CkanSection() {
 }
 
 function Baseurl() {
+  const { t } = useTranslation()
   const baseurl = useStore((state) => state.descriptor.ckan?.baseurl)
   const updateCkan = useStore((state) => state.updateCkan)
   return (
     <InputField
       required
-      label="Base Url"
+      label={t('base-url')}
       value={baseurl || ''}
       onChange={(value) => updateCkan({ baseurl: value || undefined })}
     />
@@ -36,10 +38,11 @@ function Baseurl() {
 function Dataset() {
   const dataset = useStore((state) => state.descriptor.ckan?.dataset)
   const updateCkan = useStore((state) => state.updateCkan)
+  const { t } = useTranslation()
   return (
     <InputField
       required
-      label="Dataset"
+      label={t('dataset')}
       value={dataset || ''}
       onChange={(value) => updateCkan({ dataset: value || undefined })}
     />
@@ -49,9 +52,10 @@ function Dataset() {
 function AllowUpdate() {
   const allowUpdate = useStore((state) => state.descriptor.ckan?.allowUpdate)
   const updateCkan = useStore((state) => state.updateCkan)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Allow Update"
+      label={t('allow-update')}
       value={allowUpdate || false}
       onChange={(value) => updateCkan({ allowUpdate: value })}
     />
@@ -61,11 +65,12 @@ function AllowUpdate() {
 function Apikey() {
   const apikey = useStore((state) => state.descriptor.ckan?.apikey)
   const updateCkan = useStore((state) => state.updateCkan)
+  const { t } = useTranslation()
   return (
     <InputField
       type="password"
       required
-      label="API Key"
+      label={t('api-key')}
       value={apikey || ''}
       onChange={(value) => updateCkan({ apikey: value || undefined })}
     />

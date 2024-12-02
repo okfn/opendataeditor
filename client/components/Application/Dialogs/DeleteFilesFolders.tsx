@@ -1,11 +1,15 @@
 import TwoButtonDialog from '../../Parts/Dialogs/TwoButton'
 import * as store from '@client/store'
+import { useTranslation } from 'react-i18next'
 
 export default function DeleteFilesFoldersDialog() {
   const path = store.useStore((state) => state.path)
   const files = store.useStore((state) => state.files)
   const selectedMultiplePaths = store.useStore((state) => state.selectedMultiplePaths)
   const isFolder = store.useStore(store.getIsFolder)
+
+  const { t } = useTranslation()
+  const fileOrFolder = isFolder ? t('folder') : t('file')
 
   const selectedFolders = files
     .filter((file) => {
@@ -24,15 +28,15 @@ export default function DeleteFilesFoldersDialog() {
   return (
     <TwoButtonDialog
       open={true}
-      title="Delete File"
+      title={t('delete-filefolder', { fileOrFolder })}
       description={
         selectedMultiplePaths
-          ? 'Are you sure you want to delete these elements?'
-          : `Are you sure you want to delete this ${isFolder ? 'folder' : 'file'}?`
+          ? t('are-you-sure-delete-elements')
+          : t('are-you-sure-delete-filefolder', { fileOrFolder })
       }
-      label="Delete"
+      label={t('delete')}
       hoverBgButtonColor="OKFNRed600"
-      cancelLabel="No"
+      cancelLabel={t('no')}
       onCancel={store.closeDialog}
       onConfirm={async () => {
         if (selectedMultiplePaths) {

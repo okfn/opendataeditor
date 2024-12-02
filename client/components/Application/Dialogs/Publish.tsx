@@ -8,6 +8,7 @@ import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 import PortalEditor from '../../Editors/Portal'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
+import { useTranslation } from 'react-i18next'
 
 type IState = 'form' | 'load' | 'done' | 'fail'
 
@@ -28,13 +29,15 @@ export default function PublishDialog() {
     setPublishedUrl(url)
   }
 
+  const { t } = useTranslation()
+
   return (
     <OneButtonDialog
       open={true}
       disabled={!control}
       maxWidth="md"
-      title="Publish Dataset"
-      label={publishedUrl ? 'OK' : 'Publish'}
+      title={t('publish-dataset')}
+      label={publishedUrl ? t('ok') : t('publish')}
       Icon={CheckIcon}
       onCancel={handleClose}
       onConfirm={publishedUrl ? handleClose : handlePublish}
@@ -50,13 +53,13 @@ export default function PublishDialog() {
       </Box>
       {state === 'load' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
-          Publishing
+          {t('publishing')}
           <LinearProgress />
         </Box>
       )}
       {state === 'done' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
-          Published:{' '}
+          {t('published')}:{' '}
           <Link href={publishedUrl} target="_blank">
             {publishedUrl}
           </Link>{' '}
