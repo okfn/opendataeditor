@@ -1,4 +1,4 @@
-import { client } from '@client/client'
+import * as settings from '@client/settings'
 import { redoTableChange, togglePanel, undoTableChange } from '@client/store'
 import delay from 'delay'
 import * as store from '../store'
@@ -28,7 +28,7 @@ export async function onAppStart() {
     } catch (error) {
       attempt += 1
       if (attempt >= maxAttempts) {
-        const serverUrl = client.serverUrl
+        const serverUrl = settings.SERVER_URL
         const message = `Client cannot connect to server on "${serverUrl}"`
         sendFatalError ? sendFatalError(message) : alert(message)
       }

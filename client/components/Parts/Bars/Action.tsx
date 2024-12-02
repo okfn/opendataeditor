@@ -1,13 +1,14 @@
-import * as React from 'react'
-import noop from 'lodash/noop'
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
+import CheckIcon from '@mui/icons-material/Check'
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
+import HistoryIcon from '@mui/icons-material/History'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import CheckIcon from '@mui/icons-material/Check'
-import HistoryIcon from '@mui/icons-material/History'
+import noop from 'lodash/noop'
+import * as React from 'react'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../Grids/Columns'
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 
 export interface ActionBarProps {}
 
@@ -45,9 +46,39 @@ export function SaveAsButton(props: ButtonProps) {
         variant="outlined"
         disabled={props.disabled}
         onClick={() => onClick()}
-        sx={{ backgroundColor: 'white', color: (theme) => theme.palette.OKFNCoolGray.main, borderColor: (theme) => theme.palette.OKFNCoolGray.main, '&:hover': {
-          borderColor: (theme) => theme.palette.OKFNCoolGray.main
-        } }}
+        sx={{
+          backgroundColor: 'white',
+          color: (theme) => theme.palette.OKFNCoolGray.main,
+          borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          '&:hover': {
+            borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          },
+        }}
+      />
+    </Box>
+  )
+}
+
+export function AssistantButton(props: ButtonProps) {
+  const onClick = props.onClick || noop
+
+  return (
+    <Box sx={{ marginRight: '20px' }}>
+      <IconButton
+        label={props.label || 'AI'}
+        Icon={AutoFixHighIcon}
+        variant="outlined"
+        disabled={props.disabled}
+        onClick={() => onClick()}
+        sx={{
+          backgroundColor: 'white',
+          textTransform: 'none',
+          color: (theme) => theme.palette.OKFNCoolGray.main,
+          borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          '&:hover': {
+            borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          },
+        }}
       />
     </Box>
   )
@@ -64,11 +95,17 @@ export function PublishButton(props: ButtonProps) {
         variant={!props.disabled ? 'contained' : 'outlined'}
         disabled={props.disabled}
         onClick={() => onClick()}
-        sx={{ backgroundColor: (theme) => props.disabled ? 'white' : theme.palette.OKFNBlack.main, textTransform: 'none', color: (theme) => theme.palette.OKFNWhite.main, '&:hover': {
+        sx={{
+          backgroundColor: (theme) =>
+            props.disabled ? 'white' : theme.palette.OKFNBlack.main,
+          textTransform: 'none',
           color: (theme) => theme.palette.OKFNWhite.main,
-          borderColor: (theme) => theme.palette.OKFNBlue.main,
-          backgroundColor: (theme) => theme.palette.OKFNBlue.main
-        }  }}
+          '&:hover': {
+            color: (theme) => theme.palette.OKFNWhite.main,
+            borderColor: (theme) => theme.palette.OKFNBlue.main,
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+        }}
       />
     </Box>
   )
@@ -103,9 +140,14 @@ export function SaveButton(props: ButtonProps) {
         variant={props.updated ? 'contained' : 'outlined'}
         disabled={!props.updated}
         onClick={() => onClick()}
-        sx={{ backgroundColor: (theme) => !props.updated ? 'white' :  theme.palette.OKFNBlack.main, '&:hover': {
-          backgroundColor: (theme) => theme.palette.OKFNBlue.main
-        }, textTransform: 'none' }}
+        sx={{
+          backgroundColor: (theme) =>
+            !props.updated ? 'white' : theme.palette.OKFNBlack.main,
+          '&:hover': {
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+          textTransform: 'none',
+        }}
       />
     </Box>
   )
