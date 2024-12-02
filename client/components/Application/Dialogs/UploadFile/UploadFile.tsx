@@ -3,26 +3,31 @@ import iconUploadFolderImg from '@client/assets/folder-open-big-plus.png'
 import iconLinkTextField from '@client/assets/icon_link_textfield.svg'
 import iconUploadFileImg from '@client/assets/icon_upload_file.png'
 import DialogTabs from '@client/components//Parts/Tabs/Dialog'
+import { LinearProgress } from '@client/components/Library/LinearProgress'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
+import * as appStore from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import LinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
-import { startCase } from 'lodash'
 import * as React from 'react'
-import * as store from './FileUpload.store'
+import * as store from './store'
 
 const TAB_LABELS = ['From your computer', 'Add external data']
 
-export function FileUploadDialog() {
+export function UploadFileDialog() {
+  const dialog = appStore.useStore((state) => state.dialog)
   const { progress } = store.useState()
+
+  React.useEffect(() => {
+    store.resetState()
+  }, [dialog])
 
   return (
     <Dialog
@@ -62,17 +67,17 @@ export function FileUploadDialog() {
             disabled={progress?.blocking}
             onChange={store.resetState}
           >
-            <Box sx={{ minHeight: '20em' }}>
+            <Stack spacing={2}>
               <Columns columns={2} spacing={4}>
                 <LocalFileForm />
                 <LocalFileForm isFolder />
               </Columns>
-              <ProgressIndicator />
-            </Box>
-            <Box sx={{ minHeight: '20em' }}>
+              <LinearProgress progress={progress} />
+            </Stack>
+            <Stack spacing={2}>
               <RemoteFileForm />
-              <ProgressIndicator />
-            </Box>
+              <LinearProgress progress={progress} />
+            </Stack>
           </DialogTabs>
         </Box>
       </DialogContent>
@@ -150,37 +155,6 @@ function RemoteFileForm() {
   )
 }
 
-function ProgressIndicator() {
-  const { progress } = store.useState()
-
-  if (!progress) {
-    return null
-  }
-
-  if (progress.type === 'error') {
-    return (
-      <Box sx={{ py: '1em' }}>
-        <Box sx={{ color: 'red' }}>{progress.message}</Box>
-      </Box>
-    )
-  }
-
-  return (
-    <Stack spacing={1} sx={{ mt: '1em' }}>
-      <Box>{progress.title || startCase(progress.type)}...</Box>
-      <LinearProgress
-        sx={{
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#00D1FF',
-          },
-          padding: '10px',
-        }}
-      />
-      <Box sx={{ color: 'gray' }}>{progress.message}</Box>
-    </Stack>
-  )
-}
-
 function AddRemoteTextField(props: {
   value?: string
   invalid?: boolean
@@ -191,6 +165,7 @@ function AddRemoteTextField(props: {
     <StyledTextField
       fullWidth
       size="small"
+      autoFocus
       value={props.value || ''}
       disabled={props.disabled}
       error={props.invalid}
@@ -252,6 +227,7 @@ const StyledSelectBox = styled(Box)(() => ({
   boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.25)',
 }))
 
+// TODO: move to the common library
 const StyledTextField = styled(TextField)(() => ({
   marginTop: '8px',
   fontSize: '14px',

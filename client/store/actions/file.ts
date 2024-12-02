@@ -123,24 +123,6 @@ export async function deselectFile() {
   await selectFile({ path: undefined })
 }
 
-export async function selectMultipleFiles(paths: string[]) {
-  store.setState('select-multiple-files', (state) => {
-    state.selectedMultiplePaths = paths
-  })
-}
-
-export async function copyFile(path: string, toPath: string) {
-  const result = await client.fileCopy({ path, toPath, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('copy-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
-}
-
 export async function saveFile() {
   const { record } = store.getState()
   invariant(record)
@@ -161,32 +143,6 @@ export async function revertFile() {
   } else if (record.type === 'text') {
     await revertText()
   }
-}
-
-export async function deleteFiles(paths: string[]) {
-  for (const path of paths) {
-    const result = await client.fileDelete({ path })
-
-    if (result instanceof client.Error) {
-      return store.setState('delete-files-error', (state) => {
-        state.error = result
-      })
-    }
-  }
-
-  await onFileDeleted(paths)
-}
-
-export async function renameFile(path: string, toPath: string) {
-  const result = await client.fileRename({ path, toPath, deduplicate: true })
-
-  if (result instanceof client.Error) {
-    return store.setState('move-file-error', (state) => {
-      state.error = result
-    })
-  }
-
-  await onFileCreated([result.path])
 }
 
 // Handlers

@@ -1,19 +1,10 @@
 import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
+import * as types from '@client/types'
 
-// We use component level state because dialog state
-// needs to be shared between multiple components
-// but it is not needed in the global state
 class State {
-  progress?: IProgress
-}
-
-type IProgress = {
-  type: 'loading' | 'validating' | 'error'
-  title?: string
-  message?: string
-  blocking?: boolean
+  progress?: types.IProgress
 }
 
 type IFile = {
@@ -21,19 +12,14 @@ type IFile = {
   size: number
 }
 
-export const { state, useState } = helpers.createState('FileUpload', new State())
+export const { state, useState, resetState } = helpers.createState(
+  'FileUploadDialog',
+  new State()
+)
 
 export function closeDialog() {
   if (!state.progress?.blocking) {
     appStore.closeDialog()
-  }
-}
-
-export function resetState() {
-  const initialState = new State()
-  for (const key of Object.keys(state)) {
-    // @ts-ignore
-    state[key] = initialState[key]
   }
 }
 
