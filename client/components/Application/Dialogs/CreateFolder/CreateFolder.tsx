@@ -3,6 +3,7 @@ import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import * as React from 'react'
 import * as store from './store'
+import { useTranslation } from 'react-i18next'
 
 export function CreateFolderDialog() {
   const folderPath = appStore.useStore(appStore.getFolderPath)
@@ -13,13 +14,15 @@ export function CreateFolderDialog() {
     store.resetState()
   }, [dialog])
 
+  const { t } = useTranslation()
+
   return (
     <InputDialog
       open={true}
       value={folderPath}
-      title="Create new folder"
-      label="Create"
-      placholder="Name of the new folder"
+      title={t('create-new-folder')}
+      label={t('create')}
+      placholder={t('name-new-folder')}
       onCancel={store.closeDialog}
       onConfirm={store.createFolder}
     >

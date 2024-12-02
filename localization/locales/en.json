@@ -95,5 +95,10 @@
     "author": "Author",
     "failed-open-project": "<strong>Failed to open the project</strong>. Please",
     "preview-not-available": "Preview is not available for this file format",
-    "accept": "accept"
+    "accept": "accept",
+    "enter-openAI-key": "Please enter your OpenAI API key:",
+    "open-AI-key": "OpenAI API Key",
+    "assistant-step-dialog": "If you proceed, the Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them. Do you want to proceed?",
+    "AI-assistant-enter-prompt": "Please enter your prompt to the AI assistant:",
+    "AI-assistant": "AI Assistant"
 }

@@ -3,29 +3,32 @@ import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import * as React from 'react'
 import * as store from './store'
+import { useTranslation } from 'react-i18next'
 
 export function DeleteFileDialog() {
   const isFolder = appStore.useStore(appStore.getIsFolder)
   const dialog = appStore.useStore((state) => state.dialog)
   const { progress } = store.useState()
 
+  const { t } = useTranslation()
+  const fileOrFolder = isFolder ? t('folder') : t('file')
+
   React.useEffect(() => {
     store.resetState()
   }, [dialog])
 
-  const title = isFolder ? 'Delete Folder' : 'Delete File'
   const description = !progress
-    ? `Are you sure you want to delete this ${isFolder ? 'folder' : 'file'}?`
+    ? t('are-you-sure-delete-filefolder', { fileOrFolder })
     : undefined
 
   return (
     <TwoButtonDialog
       open={true}
-      title={title}
+      title={t('delete-fileFolder', { fileOrFolder })}
       description={description}
-      label="Delete"
+      label={t('delete')}
       hoverBgButtonColor="OKFNRed600"
-      cancelLabel="No"
+      cancelLabel={t('no')}
       onCancel={store.closeDialog}
       onConfirm={store.deleteFile}
     >
