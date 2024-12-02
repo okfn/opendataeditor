@@ -57,6 +57,8 @@
     "new-folder": "New folder",
     "external-data": "External data",
     "publish": "Publish",
+    "publishing": "Publishing",
+    "published": "Published",
     "edit": "Edit",
     "view": "View",
     "toggle-metadata": "Toggle Metadata Panel",
@@ -92,5 +94,6 @@
     "description": "Description",
     "author": "Author",
     "failed-open-project": "<strong>Failed to open the project</strong>. Please",
-    "preview-not-available": "Preview is not available for this file format"
+    "preview-not-available": "Preview is not available for this file format",
+    "accept": "accept"
 }

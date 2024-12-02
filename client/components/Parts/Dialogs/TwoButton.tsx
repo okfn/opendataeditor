@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
 import * as React from 'react'
 import SimpleButton, { ButtonBgColorType } from '../Buttons/SimpleButton'
+import { useTranslation } from 'react-i18next'
 
 export interface TwoButtonDialogProps {
   open?: boolean
@@ -31,6 +32,8 @@ export interface TwoButtonDialogProps {
 export default function TwoButtonDialog(props: TwoButtonDialogProps) {
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
+  
+  const { t } = useTranslation()
 
   const handleClose = () => {
     if (props.loading) return
@@ -52,7 +55,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
       }}
     >
       <IconButton
-        aria-label="close"
+        aria-label={t('close')}
         onClick={handleClose}
         sx={{
           position: 'absolute',
@@ -72,7 +75,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
           backgroundColor: (theme) => theme.palette.OKFNGray100.main,
         }}
       >
-        {props.title || 'Dialog'}
+        {props.title || t('dialog')}
       </DialogTitle>
       <DialogContent sx={{ paddingTop: 0, paddingBottom: 0 }}>
         {props.description && (
@@ -81,37 +84,37 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
         {props.children}
         {props.loading && (
           <Box sx={{ paddingY: 1, marginY: 1 }}>
-            Loading
+            {t('loading')}
             <LinearProgress />
           </Box>
         )}
       </DialogContent>
       <Box sx={{ paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
-        {props.cancelLabel ? (
-          <Box sx={{ paddingRight: '12px' }}>
-            <SimpleButton
-              small
-              label={'Cancel'}
-              sx={{ my: 0.5 }}
-              onClick={handleCancel}
-              aria-label="cancel"
-              variant="contained"
-              disabled={props.disabled || props.loading}
-              color="OKFNWhite"
-            />
-          </Box>
-        ) : null}
-        <SimpleButton
-          small
-          label={props.label || 'Confirm'}
-          sx={{ my: 0.5 }}
-          onClick={handleConfirm}
-          aria-label="accept"
-          variant="contained"
-          hoverBgColor={props.hoverBgButtonColor ? props.hoverBgButtonColor : 'OKFNBlue'}
-          color={props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack'}
-          disabled={props.confirmDisabled || props.disabled || props.loading}
-        />
+          { props.cancelLabel ? (
+            <Box sx={{ paddingRight: '12px' }}>
+              <SimpleButton
+                small
+                label={t('cancel')}
+                sx={{ my: 0.5 }}
+                onClick={handleCancel}
+                aria-label={t('cancel')}
+                variant="contained"
+                disabled={props.disabled || props.loading}
+                color="OKFNWhite"
+              />
+            </Box>
+            ) : null }
+          <SimpleButton
+            small
+            label={props.label || t('confirm')}
+            sx={{ my: 0.5 }}
+            onClick={handleConfirm}
+            aria-label={t('accept')}
+            variant="contained"
+            hoverBgColor={ props.hoverBgButtonColor ? props.hoverBgButtonColor : 'OKFNBlue'}
+            color={ props.label === t('delete') ? 'OKFNRed500' : 'OKFNBlack' }
+            disabled={props.confirmDisabled || props.disabled || props.loading}
+          />
       </Box>
     </Dialog>
   )
