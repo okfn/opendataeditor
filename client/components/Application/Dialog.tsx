@@ -1,5 +1,4 @@
 import * as store from '@client/store'
-import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import { AssistantDialog } from './Dialogs/Assistant'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
 import ConfigDialog from './Dialogs/Config'
@@ -25,7 +24,7 @@ export default function Dialog() {
 }
 
 const DIALOGS = {
-  addEmptyFolder: AddEmptyFolderDialog,
+  addEmptyFolder: CreateFolderDialog,
   assistant: AssistantDialog,
   closeWithUnsavedChanges: CloseWithUnsavedChangesDialog,
   config: ConfigDialog,
