@@ -20,6 +20,7 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 import IconButton from '../../Parts/Buttons/Icon'
 import ScrollBox from '../Boxes/Scroll'
+import { useTranslation } from 'react-i18next'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -124,7 +125,9 @@ const StyledTreeItem = styled(
       handleClose()
     }
 
-    const fileOrFolder = item.type === 'folder' ? 'folder' : 'file'
+    const { t } = useTranslation()
+
+    const fileOrFolder = item.type === 'folder' ? t('folder'): t('file')
 
     return (
       <Box
@@ -207,7 +210,7 @@ const StyledTreeItem = styled(
             >
               {<img src={renameIcon} alt="" />}
             </ListItemIcon>
-            <ListItemText primary="Rename" />
+            <ListItemText primary={t('rename')} />
           </MenuItem>
           <MenuItem onClick={() => handleOpenFileLocation(item.path)}>
             <ListItemIcon
@@ -223,8 +226,8 @@ const StyledTreeItem = styled(
               {<img src={openFileLocationIcon} alt="" />}
             </ListItemIcon>
             <ListItemText
-              primary={`Open ${fileOrFolder} Location`}
-              secondary={`The ODE folder where this ${fileOrFolder} exists`}
+              primary={t('open-fileorfolder-location', { fileOrFolder })}
+              secondary={t('context-menu-openlocation-description', { fileOrFolder })}
             />
           </MenuItem>
           <MenuItem onClick={handleDelete}>
@@ -244,8 +247,7 @@ const StyledTreeItem = styled(
               primaryTypographyProps={{
                 color: (theme) => theme.palette.OKFNRed500.main,
               }}
-              primary={`Delete ${fileOrFolder}`}
-              secondary="Only removes this element from the ODE folder"
+              primary={`${t('delete')} ${fileOrFolder}`} secondary={t('context-menu-delete-description')}
             />
           </MenuItem>
         </Menu>

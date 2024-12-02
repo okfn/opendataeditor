@@ -1,7 +1,6 @@
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import CheckIcon from '@mui/icons-material/Check'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import HistoryIcon from '@mui/icons-material/History'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -9,6 +8,7 @@ import noop from 'lodash/noop'
 import * as React from 'react'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../Grids/Columns'
+import { useTranslation } from 'react-i18next'
 
 export interface ActionBarProps {}
 
@@ -37,11 +37,12 @@ export interface ButtonProps {
 
 export function SaveAsButton(props: ButtonProps) {
   const onClick = props.onClick || noop
+  const { t } = useTranslation()
 
   return (
     <Box>
       <IconButton
-        label={props.label || 'Save Changes'}
+        label={props.label || t('save-changes')}
         Icon={SaveAltIcon}
         variant="outlined"
         disabled={props.disabled}
@@ -61,11 +62,12 @@ export function SaveAsButton(props: ButtonProps) {
 
 export function AssistantButton(props: ButtonProps) {
   const onClick = props.onClick || noop
+  const { t } = useTranslation()
 
   return (
     <Box sx={{ marginRight: '20px' }}>
       <IconButton
-        label={props.label || 'AI'}
+        label={props.label || t('AI')}
         Icon={AutoFixHighIcon}
         variant="outlined"
         disabled={props.disabled}
@@ -86,11 +88,12 @@ export function AssistantButton(props: ButtonProps) {
 
 export function PublishButton(props: ButtonProps) {
   const onClick = props.onClick || noop
+  const { t } = useTranslation()
 
   return (
     <Box sx={{ marginRight: '20px' }}>
       <IconButton
-        label={props.label || 'Publish'}
+        label={props.label || t('publish')}
         Icon={ElectricBoltIcon}
         variant={!props.disabled ? 'contained' : 'outlined'}
         disabled={props.disabled}
@@ -111,31 +114,14 @@ export function PublishButton(props: ButtonProps) {
   )
 }
 
-export function RevertButton(props: ButtonProps) {
-  const onClick = props.onClick || noop
-
-  return (
-    <Box>
-      <IconButton
-        label={props.label || 'Revert'}
-        Icon={HistoryIcon}
-        color={props.updated ? 'warning' : undefined}
-        variant={props.updated ? 'contained' : 'outlined'}
-        disabled={!props.updated}
-        onClick={() => onClick()}
-        sx={{ backgroundColor: !props.updated ? 'white' : undefined }}
-      />
-    </Box>
-  )
-}
-
 export function SaveButton(props: ButtonProps) {
   const onClick = props.onClick || noop
+  const { t } = useTranslation()
 
   return (
     <Box>
       <IconButton
-        label={props.label || 'Save changes'}
+        label={props.label || t('save-changes')}
         Icon={CheckIcon}
         variant={props.updated ? 'contained' : 'outlined'}
         disabled={!props.updated}

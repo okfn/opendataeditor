@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import { useTranslation } from 'react-i18next'
 
 export interface MissingProps {
   format?: string
@@ -6,6 +7,7 @@ export interface MissingProps {
 
 export default function Missing(props: MissingProps) {
   if (!props.format) return null
+  const { t } = useTranslation()
   return (
     <Box
       sx={{
@@ -16,7 +18,7 @@ export default function Missing(props: MissingProps) {
         color: '#777',
       }}
     >
-      Preview is not available for this file format ({props.format})
+      {t('preview-not-available')} ({props.format})
     </Box>
   )
 }
