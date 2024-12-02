@@ -1,2 +1,2 @@
 export { SaveChangesDialog } from './SaveChanges'
-export * as saveChangesDialog from './SaveChanges.store'
+export * as saveChangesDialog from './store'

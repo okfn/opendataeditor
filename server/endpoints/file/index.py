@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from fastapi import Request
-from frictionless import FrictionlessException, Resource
+from frictionless import Dialect, FrictionlessException, Resource
 from pydantic import BaseModel
 
 from ... import helpers, models, types
@@ -51,7 +51,7 @@ def action(project: Project, props: Props) -> Result:
         path, basepath = fs.get_path_and_basepath(props.path)
         name = helpers.name_record(project, path=path)
         resource_obj = (
-            Resource(path=path, basepath=basepath)
+            Resource(path=path, basepath=basepath, dialect=Dialect(header_rows=[1]))
             if missing_record
             else Resource.from_descriptor(
                 record.resource,

@@ -3,15 +3,14 @@ import AddEmptyFolderDialog from './Dialogs/AddEmptyFolder'
 import { AssistantDialog } from './Dialogs/Assistant'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
 import ConfigDialog from './Dialogs/Config'
-import CopyFileDialog from './Dialogs/CopyFile'
-import CopyFolderDialog from './Dialogs/CopyFolder'
-import DeleteFilesFoldersDialog from './Dialogs/DeleteFilesFolders'
-import { FileUploadDialog } from './Dialogs/FileUpload'
+import { CreateFolderDialog } from './Dialogs/CreateFolder'
+import { DeleteFileDialog } from './Dialogs/DeleteFile'
 import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
-import RenameFileDialog from './Dialogs/RenameFile'
+import { RenameFileDialog } from './Dialogs/RenameFile'
 import { SaveChangesDialog } from './Dialogs/SaveChanges'
 import UnsavedChangesDialog from './Dialogs/UnsavedChanges'
+import { UploadFileDialog } from './Dialogs/UploadFile'
 import WelcomeBannerDialog from './Dialogs/WelcomeBanner'
 
 export default function Dialog() {
@@ -31,13 +30,11 @@ const DIALOGS = {
   closeWithUnsavedChanges: CloseWithUnsavedChangesDialog,
   config: ConfigDialog,
   configProject: ConfigDialog,
-  copyFile: CopyFileDialog,
-  copyFolder: CopyFolderDialog,
-  deleteFilesFolders: DeleteFilesFoldersDialog,
+  deleteFilesFolders: DeleteFileDialog,
   publish: PublishDialog,
   unsavedChanges: UnsavedChangesDialog,
   welcomeBanner: WelcomeBannerDialog,
-  fileUpload: FileUploadDialog,
+  fileUpload: UploadFileDialog,
   openLocation: OpenLocationDialog,
   renameFile: RenameFileDialog,
   saveChanges: SaveChangesDialog,
