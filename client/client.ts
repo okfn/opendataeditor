@@ -12,22 +12,8 @@ export class Client {
 
   // Column
 
-  async columnList() {
-    return await makeRequest<{ columns: types.IColumn[] }>('/column/list')
-  }
-
   async columnRename(props: { path: string; oldName: string; newName: string }) {
     return await makeRequest<Record<string, never>>('/column/rename', props)
-  }
-
-  // Config
-
-  async configRead(props: Record<string, never> = {}) {
-    return await makeRequest<{ config: types.IConfig }>('/config/read', props)
-  }
-
-  async configWrite(props: { config: types.IConfig }) {
-    return await makeRequest<{ config: types.IConfig }>('/config/write', props)
   }
 
   // File
@@ -73,16 +59,6 @@ export class Client {
     return await makeRequest<{ path: string }>('/file/move', props)
   }
 
-  async filePatch(props: {
-    path: string
-    name?: string
-    type?: string
-    resource?: types.IResource
-    toPath?: string
-  }) {
-    return await makeRequest<{ path: string }>('/file/patch', props)
-  }
-
   async filePublish(props: { path: string; control: types.IControl }) {
     return await makeRequest<{ url?: string }>('/file/publish', props)
   }
@@ -112,46 +88,7 @@ export class Client {
     return await makeRequest<{ path: string }>('/folder/move', props)
   }
 
-  // Image
-
-  async imageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await makeRequest<{ path: string }>('/image/create', props)
-  }
-
-  // Json
-
-  async jsonCreate(props: { path: string; data: types.IData; deduplicate?: boolean }) {
-    return await makeRequest<{ path: string }>('/json/create', props)
-  }
-
-  async jsonEdit(props: { path: string; data: types.IData; prompt: string }) {
-    return await makeRequest<{ data: types.IData }>('/json/edit', props)
-  }
-
-  async jsonPatch(props: {
-    path: string
-    data?: types.IData
-    toPath?: string
-    resource?: types.IResource
-  }) {
-    return await makeRequest<{ path: string }>('/json/patch', props)
-  }
-
-  async jsonRead(props: { path: string }) {
-    return await makeRequest<{ data: any }>('/json/read', props)
-  }
-
-  // Map
-
-  async mapCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await makeRequest<{ path: string }>('/map/create', props)
-  }
-
   // Package
-
-  async packageCreate(props: { path: string; prompt?: string; deduplicate?: boolean }) {
-    return await makeRequest<{ path: string }>('/package/create', props)
-  }
 
   async packageFetch(props: {
     url: string
@@ -162,28 +99,8 @@ export class Client {
     return await makeRequest<{ path: string }>('/package/fetch', props)
   }
 
-  async packagePatch(props: { path: string; data?: types.IData; toPath?: string }) {
-    return await makeRequest<{ path: string }>('/package/patch', props)
-  }
-
   async packagePublish(props: { path: string; control: types.IControl }) {
     return await makeRequest<{ url: string }>('/package/publish', props)
-  }
-
-  // Project
-
-  async projectOpen(props: { fullpath: string }) {
-    return await makeRequest<Record<string, never>>('/project/open', props)
-  }
-
-  async projectSync(props: Record<string, never>) {
-    return await makeRequest<{ files: types.IFile[] }>('/project/sync', props)
-  }
-
-  // Resource
-
-  async resourcePatch(props: { path: string; data?: any; toPath?: string }) {
-    return await makeRequest<{ path: string }>('/resource/patch', props)
   }
 
   // Table
@@ -232,28 +149,6 @@ export class Client {
   }
 
   // Text
-
-  async textCreate(props: {
-    path: string
-    text: string
-    prompt?: string
-    deduplicate?: boolean
-  }) {
-    return await makeRequest<{ path: string }>('/text/create', props)
-  }
-
-  async textEdit(props: { path: string; text: string; prompt: string }) {
-    return await makeRequest<{ text: string }>('/text/edit', props)
-  }
-
-  async textPatch(props: {
-    path: string
-    text?: string
-    resource?: types.IResource
-    toPath?: string
-  }) {
-    return await makeRequest<{ path: string }>('/text/patch', props)
-  }
 
   async textRead(props: { path: string; size?: number }) {
     return await makeRequest<{ text: string }>('/text/read', props)

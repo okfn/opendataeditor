@@ -11,7 +11,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import emptyContentScreenImg from '../../assets/empty_screen.png'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
-import Text from '../Controllers/Text'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import { useTranslation, Trans } from 'react-i18next'
 
@@ -153,19 +152,19 @@ const StyledCardContent = styled(CardContent)(() => ({
 export const CONTROLLERS: {
   [type: string]: React.ElementType
 } = {
-  article: Text,
-  chart: Text,
-  dialect: Text,
+  article: File,
+  chart: File,
+  dialect: File,
   file: File,
   image: File,
-  json: Text,
-  jsonschema: Text,
+  json: File,
+  jsonschema: File,
   map: File,
-  package: Text,
-  resource: Text,
-  schema: Text,
-  script: Text,
+  package: File,
+  resource: File,
+  schema: File,
+  script: File,
   table: Table,
-  text: Text,
-  view: Text,
+  text: File,
+  view: File,
 }

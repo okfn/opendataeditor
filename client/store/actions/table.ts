@@ -5,8 +5,8 @@ import * as types from '@client/types'
 import { cloneDeep, isNull, mapValues } from 'lodash'
 import invariant from 'tiny-invariant'
 import * as store from '../store'
+import { getRefs } from './app'
 import { onFileUpdated } from './file'
-import { getRefs } from './refs'
 import { revertResource } from './resource'
 
 export async function openTable() {

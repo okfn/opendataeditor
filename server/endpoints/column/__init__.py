@@ -1,2 +1,2 @@
 # Register modules
-from . import list, rename
+from . import rename

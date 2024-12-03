@@ -1,1 +1,0 @@
-// TODO: extract from Applications

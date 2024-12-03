@@ -1,4 +1,3 @@
-export * from './column'
 export * from './config'
 export * from './contributor'
 export * from './dialect'

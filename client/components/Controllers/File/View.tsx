@@ -1,20 +1,27 @@
-import Image from '../../Views/Image'
-import Map from '../../Views/Map'
-import Missing from '../../Views/Missing'
 import * as store from '@client/store'
+import { Box } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export default function View() {
-  const type = store.useStore((state) => state.record?.type)
+  const { t } = useTranslation()
   const format = store.useStore((state) => state.record?.resource.format)
-  const source = store.useStore((state) => state.source)
 
-  if (type === 'image' && source?.bytes) {
-    return <Image format={format} bytes={source.bytes} />
+  let message = t('preview-not-available')
+  if (format) {
+    message = [message, `(${format})`].join(' ')
   }
 
-  if (type === 'map' && source?.text) {
-    return <Map text={source.text} />
-  }
-
-  return <Missing format={format} />
+  return (
+    <Box
+      sx={{
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#fafafa',
+        padding: 2,
+        color: '#777',
+      }}
+    >
+      {message}
+    </Box>
+  )
 }

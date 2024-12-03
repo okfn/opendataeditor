@@ -59,11 +59,6 @@ export type IState = {
   indexing?: boolean
 
   /**
-   * Application config object
-   **/
-  config?: types.IConfig
-
-  /**
    * Currently active event for example, file creation or deletion (to show animation)
    **/
   event?: types.IEvent
@@ -175,8 +170,6 @@ export type ITextState = {
 export type IDialog =
   | 'addEmptyFolder'
   | 'assistant'
-  | 'config'
-  | 'configProject'
   | 'copyFile'
   | 'copyFolder'
   | 'create'
