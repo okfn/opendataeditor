@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, List
 
 import openai
 from frictionless.resources import FileResource
@@ -13,6 +13,25 @@ from .record import extract_records
 
 if TYPE_CHECKING:
     from ..project import Project
+
+
+def ask_chatgpt_simple(*, api_key: str, messages: List[Any]) -> str:
+    # Get response
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        api_key=api_key,
+        messages=messages,
+    )
+
+    # Get text
+    text = ""
+    for choice in response.choices:
+        text += choice.message.content
+
+    return text
+
+
+# Legacy
 
 
 def ask_dalle(project: Project, *, prompt: str, api_key: str) -> bytes:

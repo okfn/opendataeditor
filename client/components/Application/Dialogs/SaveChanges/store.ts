@@ -1,22 +1,16 @@
 import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
+import * as types from '@client/types'
 
-// We use component level state because dialog state
-// needs to be shared between multiple components
-// but it is not needed in the global state
 class State {
-  progress?: IProgress
+  progress?: types.IProgress
 }
 
-type IProgress = {
-  type: 'loading' | 'error'
-  title?: string
-  message?: string
-  blocking?: boolean
-}
-
-export const { state, useState } = helpers.createState('SaveChangesDialog', new State())
+export const { state, useState, resetState } = helpers.createState(
+  'SaveChangesDialog',
+  new State()
+)
 
 export async function saveChanges() {
   const { grid } = appStore.getRefs()

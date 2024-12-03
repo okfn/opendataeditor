@@ -1,10 +1,9 @@
-import { shell, BrowserWindow } from 'electron'
-
-import { resolve, join } from 'path'
 import { is } from '@electron-toolkit/utils'
+import { BrowserWindow, shell } from 'electron'
 import log from 'electron-log'
-import * as server from './server'
 import EventEmitter from 'events'
+import { join, resolve } from 'path'
+import * as server from './server'
 
 const loadingEvents = new EventEmitter()
 

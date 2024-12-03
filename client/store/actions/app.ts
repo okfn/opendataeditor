@@ -1,13 +1,13 @@
-import { client } from '@client/client'
 import type { ITableEditor } from '@client/components/Editors/Table'
 import type { ITextEditor } from '@client/components/Editors/Text'
+import * as settings from '@client/settings'
+import { redoTableChange, undoTableChange } from '@client/store'
 import type * as types from '@client/types'
 import delay from 'delay'
 import React from 'react'
 import { IDialog, IPanel } from '../state'
 import * as store from '../store'
 import { getIsFileOrResourceUpdated, loadFiles } from './file'
-import { redoTableChange, undoTableChange } from './table'
 
 export async function onAppStart() {
   // @ts-ignore
@@ -30,7 +30,7 @@ export async function onAppStart() {
     } catch (error) {
       attempt += 1
       if (attempt >= maxAttempts) {
-        const serverUrl = client.serverUrl
+        const serverUrl = settings.SERVER_URL
         const message = `Client cannot connect to server on "${serverUrl}"`
         sendFatalError ? sendFatalError(message) : alert(message)
       }

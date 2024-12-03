@@ -13,11 +13,6 @@ export type IState = {
   path?: string
 
   /**
-   * Keeps track of the selected multiple files/folders paths for deletion
-   **/
-  selectedMultiplePaths?: string[]
-
-  /**
    * A recored desribing currently selected file if any is selected
    **/
   record?: types.IRecord
@@ -174,6 +169,7 @@ export type ITextState = {
 
 export type IDialog =
   | 'addEmptyFolder'
+  | 'assistant'
   | 'copyFile'
   | 'copyFolder'
   | 'create'
