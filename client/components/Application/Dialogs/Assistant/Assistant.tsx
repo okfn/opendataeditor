@@ -10,6 +10,7 @@ import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import Markdown from 'react-markdown'
 import * as store from './store'
+import { useTranslation } from 'react-i18next'
 
 const DEFAULT_PROMPT = `
 suggest improvements to the names of the columns in the table 
@@ -37,37 +38,37 @@ export function AssistantDialog() {
 }
 
 function TermsStepDialog() {
+  const { t } = useTranslation()
   return (
     <StepDialog
-      label="Confirm"
-      cancelLabel="Cancel"
+      label={t('confirm')}
+      cancelLabel={t('cancel')}
       transitionDuration={{ exit: 0 }}
       onConfirm={store.acceptTerms}
     >
-      If you proceed, the Open Data Editor will only share the names of the columns in
-      your table to suggest improvements to the titles and descriptions associated with
-      them. Do you want to proceed?
+      {t('assistant-step-dialog')}
     </StepDialog>
   )
 }
 
 function CredsStepDialog() {
   const [key, setKey] = React.useState('')
+  const { t } = useTranslation()
 
   return (
     <StepDialog
-      label="Confirm"
-      cancelLabel="Cancel"
+      label={t('confirm')}
+      cancelLabel={t('cancel')}
       confirmDisabled={!key}
       transitionDuration={0}
       onConfirm={() => store.setApiKey({ key })}
     >
       <Stack spacing={1}>
-        <Box>Please enter your OpenAI API key:</Box>
+        <Box>{t('enter-openAI-key')}</Box>
         <StyledTextField
           fullWidth
           autoFocus
-          label="OpenAI API Key"
+          label={t('open-AI-key')}
           variant="outlined"
           value={key}
           inputProps={{ spellCheck: false }}
@@ -96,17 +97,18 @@ function CredsStepDialog() {
 
 function PromptStepDialog() {
   const [prompt, setPrompt] = React.useState(DEFAULT_PROMPT)
+  const { t } = useTranslation()
 
   return (
     <StepDialog
-      label="Confirm"
-      cancelLabel="Cancel"
+      label={t('confirm')}
+      cancelLabel={t('cancel')}
       confirmDisabled={!prompt}
       transitionDuration={0}
       onConfirm={() => store.setPromptAndFetchResult({ prompt })}
     >
       <Stack spacing={1}>
-        <Box>Please enter your prompt to the AI assistant:</Box>
+        <Box>{t('AI-assistant-enter-prompt')}</Box>
         <StyledTextField
           autoFocus
           value={prompt}
@@ -124,10 +126,11 @@ function PromptStepDialog() {
 
 function ResultStepDialog() {
   const state = store.useState()
+  const { t } = useTranslation()
 
   return (
     <StepDialog
-      label="OK"
+      label={t('ok')}
       disabled={state.progress?.blocking}
       transitionDuration={{ enter: 0 }}
       onConfirm={store.closeDialog}
@@ -148,11 +151,12 @@ function StepDialog(
     transitionDuration?: number | { enter?: number; exit?: number }
   }>
 ) {
+  const { t } = useTranslation()
   return (
     <TwoButtonDialog
       open={true}
       maxWidth="md"
-      title="AI Assistant"
+      title={t('AI-assistant')}
       Icon={AutoFixHighIcon}
       label={props.label}
       disabled={props.disabled}

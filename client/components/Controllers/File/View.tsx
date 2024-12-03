@@ -1,10 +1,12 @@
 import * as store from '@client/store'
 import { Box } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export default function View() {
+  const { t } = useTranslation()
   const format = store.useStore((state) => state.record?.resource.format)
 
-  let message = 'Preview is not available for this file format'
+  let message = t('preview-not-available')
   if (format) {
     message = [message, `(${format})`].join(' ')
   }

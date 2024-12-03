@@ -12,6 +12,7 @@ import emptyContentScreenImg from '../../assets/empty_screen.png'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
 import SpinnerCard from '../Parts/Cards/Spinner'
+import { useTranslation, Trans } from 'react-i18next'
 
 export default function Content() {
   const record = store.useStore((state) => state.record)
@@ -33,16 +34,17 @@ function FileContent() {
   if (!record) return null
 
   const Controller = CONTROLLERS[record.type] || File
+  const { t } = useTranslation()
 
   return (
     <ErrorBoundary
       fallback={
         <Box sx={{ padding: 2.5, color: '#555' }}>
-          <strong>Failed to open the file</strong>. Please{' '}
+          <Trans i18nKey="failed-open-project" components={{ 1: <strong /> }} />{' '}
           <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
-            create an issue
+            {t('create-an-issue')}
           </a>{' '}
-          sharing the file contents <small>(if possible)</small>
+          <Trans i18nKey="sharing-contents-if-possible" components={{ 1: <small /> }} />
         </Box>
       }
     >
@@ -70,6 +72,7 @@ function FileContent() {
 }
 
 function EmptyContent() {
+  const { t } = useTranslation()
   return (
     <StyledCard>
       <StyledCardContent>
@@ -84,7 +87,7 @@ function EmptyContent() {
             paddingBottom: '8px',
           }}
         >
-          The ODE supports Excel & csv files
+          {t('ODE-supports-CSV-Excel-files')}
         </Typography>
         <Button
           sx={{
@@ -100,7 +103,7 @@ function EmptyContent() {
           aria-label="accept"
           onClick={() => store.openDialog('fileUpload')}
         >
-          Upload your data
+          {t('upload-your-data')}
         </Button>
         <Typography
           sx={{
@@ -110,7 +113,7 @@ function EmptyContent() {
             fontSize: '12px',
           }}
         >
-          You can also add links to online tables
+          {t('links-online-tables')}
         </Typography>
       </StyledCardContent>
     </StyledCard>
@@ -118,7 +121,8 @@ function EmptyContent() {
 }
 
 function LoadingContent() {
-  return <SpinnerCard message="Loading" />
+  const { t } = useTranslation()
+  return <SpinnerCard message={t('loading')} />
 }
 
 // We still need to cover here and in the settings "chart" type and some other types

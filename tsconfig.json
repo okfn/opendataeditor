@@ -1,11 +1,11 @@
 {
-  "include": ["client/**/*"],
+  "include": ["client/**/*", "localization/i18n.config.js"],
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
     "target": "ES2022",
     "module": "commonjs",
-    "lib": ["ESNext", "ESNext.Array", "DOM"],
+    "lib": ["ESNext", "ESNext.Array", "DOM", "dom.iterable"],
     "declaration": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

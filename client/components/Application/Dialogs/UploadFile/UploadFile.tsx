@@ -18,12 +18,14 @@ import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import * as store from './store'
-
-const TAB_LABELS = ['From your computer', 'Add external data']
+import { useTranslation } from 'react-i18next'
 
 export function UploadFileDialog() {
   const dialog = appStore.useStore((state) => state.dialog)
   const { progress } = store.useState()
+  const { t } = useTranslation()
+
+  const TAB_LABELS = [t('from-your-computer'), t('add-external-data')]
 
   React.useEffect(() => {
     store.resetState()
@@ -38,7 +40,7 @@ export function UploadFileDialog() {
       onClose={store.closeDialog}
     >
       <IconButton
-        aria-label="close"
+        aria-label={t('close')}
         onClick={store.closeDialog}
         sx={{
           position: 'absolute',
@@ -88,12 +90,11 @@ export function UploadFileDialog() {
 function LocalFileForm(props: { isFolder?: boolean }) {
   const theme = useTheme()
   const { progress } = store.useState()
+  const { t } = useTranslation()
 
   const borderColor = !progress?.blocking ? theme.palette.OKFNBlue.main : undefined
   const icon = props.isFolder ? iconUploadFolderImg : iconUploadFileImg
-  const text = props.isFolder
-    ? 'Add one or more folders'
-    : 'Add one or more Excel or csv files'
+  const text = props.isFolder ? t('add-folders') : t('add-xsl-or-csv-files')
 
   return (
     <Box>
@@ -106,7 +107,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
           webkitdirectory={props.isFolder ? '' : undefined}
           onChange={(ev) => {
             if (ev.target.files) {
-              store.ingestFiles({ source: ev.target.files })
+              store.ingestFiles({ source: ev.target.files }, t)
             }
           }}
         />
@@ -130,9 +131,11 @@ function RemoteFileForm() {
   const { progress } = store.useState()
   const [url, setUrl] = React.useState('')
 
+  const { t } = useTranslation()
+
   return (
     <Box>
-      <Box sx={{ fontSize: '14px' }}>Link to the external table:</Box>
+      <Box sx={{ fontSize: '14px' }}>{t('link-external-table')}</Box>
       <Box sx={{ display: 'flex' }}>
         <AddRemoteTextField
           value={url}
@@ -142,14 +145,14 @@ function RemoteFileForm() {
         />
       </Box>
       <SimpleButton
-        label={'Add'}
+        label={t('add')}
         sx={{ my: 0.5, marginTop: '53px' }}
         variant="contained"
         aria-label="accept"
         hoverBgColor="OKFNBlue"
         color="OKFNBlack"
         disabled={!url}
-        onClick={() => store.ingestFiles({ source: url })}
+        onClick={() => store.ingestFiles({ source: url }, t)}
       />
     </Box>
   )
@@ -161,6 +164,7 @@ function AddRemoteTextField(props: {
   disabled?: boolean
   onChange(value: string): void
 }) {
+  const { t } = useTranslation()
   return (
     <StyledTextField
       fullWidth
@@ -169,7 +173,7 @@ function AddRemoteTextField(props: {
       value={props.value || ''}
       disabled={props.disabled}
       error={props.invalid}
-      placeholder="Enter or paste URL"
+      placeholder={t('enter-or-paste-url')}
       helperText=" "
       onChange={(e) => props.onChange(e.target.value)}
       InputLabelProps={{

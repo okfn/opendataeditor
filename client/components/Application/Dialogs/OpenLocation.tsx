@@ -13,6 +13,7 @@ import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import MobileStepper from '@mui/material/MobileStepper'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function OpenLocationDialog() {
   const handleClose = () => {
@@ -33,6 +34,8 @@ export default function OpenLocationDialog() {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
+
+  const { t } = useTranslation()
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
@@ -74,7 +77,7 @@ export default function OpenLocationDialog() {
           <img
             width="100%"
             src={openFileLocationDialogSlides[activeStep]}
-            alt={`Open File Location Slide ${activeStep}`}
+            alt={`${t('alt-open-file-location')} ${activeStep}`}
           />
           <MobileStepper
             variant="dots"
@@ -96,7 +99,7 @@ export default function OpenLocationDialog() {
                 onClick={handleNext}
                 disabled={activeStep === 2}
               >
-                Next
+                {t('next')}
                 {<KeyboardArrowRight />}
               </Button>
             }
@@ -108,7 +111,7 @@ export default function OpenLocationDialog() {
                 disabled={activeStep === 0}
               >
                 {<KeyboardArrowLeft />}
-                Back
+                {t('back')}
               </Button>
             }
           />
@@ -129,12 +132,8 @@ export default function OpenLocationDialog() {
               },
             }}
           >
-            <h1>How the ODE handles your imported files</h1>
-            <div>
-              The tool makes a copy of your selections into the ODE folder on your
-              Computer. Any changes will be made to these copies, while the original data
-              remains unchanged.
-            </div>
+            <h1>{t('how-ODE-handles-your-files')}</h1>
+            <div>{t('openlocationbanner-description')}</div>
           </Box>
           <Box
             sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '68px' }}
@@ -157,7 +156,7 @@ export default function OpenLocationDialog() {
                 checked={checked}
                 onChange={handleChange}
               />{' '}
-              <span>Don't show next time</span>
+              <span>{t('openlocation-dont-show-again')}</span>
             </Box>
             <Box>
               <Button
@@ -176,7 +175,7 @@ export default function OpenLocationDialog() {
                   window?.opendataeditor?.openPathInExplorer('/tmp')
                 }}
               >
-                Open File Location
+                {t('open-file-location')}
               </Button>
               <Button
                 variant="contained"
@@ -191,7 +190,7 @@ export default function OpenLocationDialog() {
                 }}
                 onClick={() => store.closeDialog()}
               >
-                Okay
+                {t('okay')}
               </Button>
             </Box>
           </Box>
