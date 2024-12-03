@@ -1,5 +1,5 @@
 ---
-title: Comparision to Alternatives
+title: Comparison to Alternatives
 sidebar:
   order: 11
 ---
