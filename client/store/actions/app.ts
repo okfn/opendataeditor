@@ -1,9 +1,12 @@
+import type { ITableEditor } from '@client/components/Editors/Table'
+import type { ITextEditor } from '@client/components/Editors/Text'
 import * as settings from '@client/settings'
-import { redoTableChange, togglePanel, undoTableChange } from '@client/store'
+import { redoTableChange, undoTableChange } from '@client/store'
+import type * as types from '@client/types'
 import delay from 'delay'
+import React from 'react'
+import { IDialog, IPanel } from '../state'
 import * as store from '../store'
-import { loadConfig } from './config'
-import { openDialog } from './dialog'
 import { getIsFileOrResourceUpdated, loadFiles } from './file'
 
 export async function onAppStart() {
@@ -22,7 +25,6 @@ export async function onAppStart() {
 
   while (!ready) {
     try {
-      await loadConfig(true)
       await loadFiles(true)
       ready = true
     } catch (error) {
@@ -35,27 +37,6 @@ export async function onAppStart() {
       await delay(delaySeconds * 1000)
     }
   }
-
-  // Setup project sync polling
-
-  // Polling is disabled because now users can't manually change to project dir
-  // setInterval(async () => {
-  // const result = await client.projectSync({})
-
-  // // Here we ignore errors for now and just update the files on success
-  // if (result instanceof client.Error) {
-  // return
-  // }
-
-  // // We update state only if there are changes to prevent unnecessary re-renders
-  // // and simplify debugging in Redux Debugger
-  // const state = store.getState()
-  // if (!isEqual(state.files, result.files)) {
-  // store.setState('sync-files', (state) => {
-  // state.files = result.files
-  // })
-  // }
-  // }, settings.PROJECT_SYNC_INTERVAL_MILLIS)
 
   // Register on windows close event handler (only Desktop env)
   // to prevent closing the app when there are unsaved changes
@@ -114,4 +95,94 @@ export function closeDesktopApp() {
   const bridge = window?.opendataeditor
 
   bridge?.closeDesktopApp()
+}
+
+export function setHideWelcomeScreen(hideWelcomeScreen: boolean) {
+  store.setState('hide-welcome-screen', (state) => {
+    state.hideWelcomeScreen = hideWelcomeScreen
+  })
+}
+
+export function setHideOpenLocationDialog(hideOpenLocationDialog: boolean) {
+  store.setState('hide-open-location-dialog', (state) => {
+    state.hideOpenLocationDialog = hideOpenLocationDialog
+  })
+}
+
+export function toggleDialog(dialog: IDialog) {
+  const current = store.getState().dialog
+  if (current !== dialog) {
+    openDialog(dialog)
+  } else {
+    closeDialog()
+  }
+}
+
+export function openDialog(dialog: IDialog, dialogTab?: number) {
+  store.setState('open-dialog', (state) => {
+    state.dialog = dialog
+    state.dialogTab = dialogTab
+  })
+}
+
+export function closeDialog() {
+  store.setState('close-dialog', (state) => {
+    state.dialog = state.nextDialog
+    state.nextDialog = undefined
+  })
+}
+
+export function closeError() {
+  store.setState('remove-error', (state) => {
+    state.error = undefined
+  })
+}
+
+export async function emitEvent(event: types.IEvent) {
+  store.setState(`${event.type}-file-event-start`, (state) => {
+    state.event = event
+  })
+
+  await delay(500)
+
+  store.setState(`${event.type}-file-event-end`, (state) => {
+    state.event = undefined
+  })
+}
+
+export function togglePanel(panel: IPanel) {
+  const current = store.getState().panel
+  if (current !== panel) {
+    openPanel(panel)
+  } else {
+    closePanel()
+  }
+}
+
+export function openPanel(panel: IPanel) {
+  store.setState('open-panel', (state) => {
+    state.panel = panel
+  })
+}
+
+export function closePanel() {
+  store.setState('close-panel', (state) => {
+    state.panel = undefined
+  })
+}
+
+export function getRefs() {
+  return {
+    grid: refs.grid?.current,
+    editor: refs.editor?.current,
+  }
+}
+
+export function setRefs(patch: Partial<typeof refs>) {
+  Object.assign(refs, patch)
+}
+
+const refs = {
+  grid: React.createRef<ITableEditor | undefined>(),
+  editor: React.createRef<ITextEditor | undefined>(),
 }
