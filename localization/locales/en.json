@@ -126,5 +126,8 @@
     "scheme": "Scheme",
     "format": "Format",
     "encoding": "Encoding",
-    "media-type": "Media type"
+    "media-type": "Media type",
+    "hash": "Hash",
+    "bytes": "Bytes",
+    "rows": "Rows"
 }
