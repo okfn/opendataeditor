@@ -13,6 +13,7 @@ import SourcesSection from './Sections/Sources'
 import ContributorsSection from './Sections/Contributors'
 import { useStore } from './store'
 import * as types from '../../../types'
+import { t } from 'i18next'
 
 export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
@@ -36,16 +37,16 @@ function LayoutWithMenu() {
   const onFieldSelected = useStore((state) => state.onFieldSelected)
 
   const MENU_ITEMS: types.IMenuItem[] = [
-    { section: 'resource', name: 'Resource' },
-    { section: 'resource/integrity', name: 'Integrity' },
-    { section: 'resource/licenses', name: 'Licenses' },
-    { section: 'resource/contributors', name: 'Contributors' },
-    { section: 'resource/sources', name: 'Sources' },
-    { section: 'dialect', name: 'Dialect', disabled: type !== 'table' },
-    { section: 'dialect/format', name: capitalize(format) || 'Format' },
-    { section: 'schema', name: 'Schema', disabled: type !== 'table' },
-    { section: 'schema/fields', name: 'Fields' },
-    { section: 'schema/foreignKeys', name: 'Foreign Keys' },
+    { section: 'resource', name: t('resource') },
+    { section: 'resource/integrity', name: t('integrity') },
+    { section: 'resource/licenses', name: t('licenses') },
+    { section: 'resource/contributors', name: t('contributors') },
+    { section: 'resource/sources', name: t('sources') },
+    { section: 'dialect', name: t('dialect'), disabled: type !== 'table' },
+    { section: 'dialect/format', name: capitalize(format) || t('format') },
+    { section: 'schema', name: t('schema'), disabled: type !== 'table' },
+    { section: 'schema/fields', name: t('fields') },
+    { section: 'schema/foreignKeys', name: t('foreign-keys') },
   ]
 
   // We use memo to avoid nested editors re-rerender
