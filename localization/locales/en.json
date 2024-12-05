@@ -178,5 +178,8 @@
     "min-length": "Min Length",
     "max-length": "Max Length",
     "pattern": "Pattern",
-    "enum": "Enum"
+    "enum": "Enum",
+    "source-field": "Source Field",
+    "target-field": "Target Field",
+    "target-resource": "Target Resource"
 }
