@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent'
 import iconInfoImg from '../../../assets/icon_info.png'
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
+import { t } from 'i18next'
 
 // TODO: review geometry porps/logic
 
@@ -40,7 +41,7 @@ export function HelpCardWithIcon(props: React.PropsWithChildren<HelpCardProps>){
           </Box>
         <Typography variant="body2" sx={{ paddingLeft: '12px', paddingRight: '80px' }}>{props.children}
           <Link href={props.link} target="_blank" underline="none">
-            {' '}Learn More
+            {' '}{t('learn-more')}
           </Link>
         </Typography>
       </CardContent>
@@ -61,7 +62,7 @@ export function HelpCardNoIcon(props: React.PropsWithChildren<HelpCardProps>){
           color="text.primary"
           gutterBottom
         >
-          Help
+          {t('help')}
           </Typography>
           <Typography variant="h5" component="div">
           {props.title}
@@ -73,7 +74,7 @@ export function HelpCardNoIcon(props: React.PropsWithChildren<HelpCardProps>){
         </CardContent>
         <CardActions sx={{ pt: 0 }}>
         <Button size="small" component="a" target="_blank" href={props.link}>
-          Learn More
+          {t('learn-more')}
         </Button>
       </CardActions>
     </Card>

@@ -181,5 +181,6 @@
     "enum": "Enum",
     "source-field": "Source Field",
     "target-field": "Target Field",
-    "target-resource": "Target Resource"
+    "target-resource": "Target Resource",
+    "learn-more": "Learn more"
 }
