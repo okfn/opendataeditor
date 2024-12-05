@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
+import { t } from 'i18next'
 
 interface EditorListItemProps {
   kind: string
@@ -25,14 +26,14 @@ export default function EditorListItem(props: EditorListItemProps) {
         size="small"
         color="warning"
         component="span"
-        title={`Remove ${capitalize(props.kind)}`}
+        title={`${t('remove')} ${capitalize(props.kind)}`}
         sx={{ marginLeft: 2, textDecoration: 'underline' }}
         onClick={(ev) => {
           ev.stopPropagation()
           props.onRemoveClick?.()
         }}
       >
-        Remove
+        {t('remove')}
       </Button>
     )
   }

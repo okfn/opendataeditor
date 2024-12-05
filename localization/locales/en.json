@@ -129,5 +129,8 @@
     "media-type": "Media type",
     "hash": "Hash",
     "bytes": "Bytes",
-    "rows": "Rows"
+    "rows": "Rows",
+    "select-license": "Select the license",
+    "type-to-search": "Type to search",
+    "remove": "Remove"
 }
