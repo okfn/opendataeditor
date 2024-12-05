@@ -5,6 +5,7 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 import YesNoField from '../../../../Parts/Fields/YesNo'
+import { t } from 'i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -29,7 +30,7 @@ function Keys() {
   const updateJson = useStore((state) => state.updateJson)
   return (
     <InputField
-      label="Keys"
+      label={t('keys')}
       value={keys}
       onFocus={() => updateHelp('dialect/format/keys')}
       onChange={(value) => updateJson({ keys: value ? value.split(',') : undefined })}
@@ -43,7 +44,7 @@ function Keyed() {
   const updateJson = useStore((state) => state.updateJson)
   return (
     <YesNoField
-      label="Keyed"
+      label={t('keyed')}
       value={keyed || settings.DEFAULT_KEYED}
       onFocus={() => updateHelp('dialect/format/keyed')}
       onChange={(keyed) => updateJson({ keyed })}
@@ -57,7 +58,7 @@ function Property() {
   const updateJson = useStore((state) => state.updateJson)
   return (
     <InputField
-      label="Property"
+      label={t('property')}
       value={property}
       onFocus={() => updateHelp('dialect/format/property')}
       onChange={(value) => updateJson({ property: value || undefined })}
