@@ -15,6 +15,7 @@
     "ok": "Ok",
     "next": "Next",
     "back": "Back",
+    "back-to-list": "Back to list",
     "alt-open-file-location": "Open File Location Slide",
     "open-file-location": "Open File Location",
     "upload-your-data": "Upload your data",
@@ -91,6 +92,7 @@
     "user": "User",
     "repo": "Repo",
     "email": "Email",
+    "email-not-valid": "Email is not valid.",
     "description": "Description",
     "author": "Author",
     "failed-open-project": "<strong>Failed to open the project</strong>. Please",
@@ -133,5 +135,11 @@
     "select-license": "Select the license",
     "type-to-search": "Type to search",
     "remove": "Remove",
-    "role": "Role"
+    "role": "Role",
+    "comment-char": "Comment Char",
+    "comment-rows": "Comment Rows",
+    "header": "Header",
+    "header-rows": "Header rows",
+    "header-join": "Header join",
+    "header-case": "Header case"
 }

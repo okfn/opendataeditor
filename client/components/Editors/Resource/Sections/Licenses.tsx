@@ -77,7 +77,9 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
                 autoSelect
                 onChange={handleSelect}
                 options={licenses.map((license) => license.title)}
-                renderInput={(params) => <TextField {...params} label={t('type-to-search')} />}
+                renderInput={(params) => (
+                  <TextField {...params} label={t('type-to-search')} />
+                )}
               ></Autocomplete>
             </FormControl>
           </Box>

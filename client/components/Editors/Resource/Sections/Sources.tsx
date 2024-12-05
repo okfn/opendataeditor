@@ -7,6 +7,7 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
+import { t } from 'i18next'
 
 export default function Sources() {
   const index = useStore((state) => state.sourceState.index)
@@ -68,7 +69,7 @@ function Title() {
   const updateSource = useStore((state) => state.updateSource)
   return (
     <InputField
-      label="Title"
+      label={t('title')}
       value={title}
       onFocus={() => updateHelp('resource/sources/title')}
       onChange={(title) => updateSource({ title })}
@@ -82,7 +83,7 @@ function Path() {
   const updateSource = useStore((state) => state.updateSource)
   return (
     <InputField
-      label="Path"
+      label={t('path')}
       value={path || ''}
       onFocus={() => updateHelp('resource/sources/path')}
       onChange={(value) => updateSource({ path: value || undefined })}
@@ -101,14 +102,14 @@ function Email() {
   return (
     <InputField
       error={!isValid}
-      label="Email"
+      label={t('email')}
       value={email || ''}
       onFocus={() => updateHelp('resource/sources/email')}
       onBlur={() => {
         setIsValid(isValidEmail())
       }}
       onChange={(value) => updateSource({ email: value || undefined })}
-      helperText={!isValid ? 'Email is not valid.' : ''}
+      helperText={!isValid ? t('email-not-valid') : ''}
     />
   )
 }

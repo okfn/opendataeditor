@@ -8,6 +8,7 @@ import DialectSection from './Sections/Dialect'
 import FormatSection from './Sections/Format'
 import { useStore } from './store'
 import * as types from '../../../types'
+import { t } from 'i18next'
 
 export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
@@ -24,8 +25,8 @@ function LayoutWithMenu() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const MENU_ITEMS: types.IMenuItem[] = [
-    { section: 'dialect', name: 'Dialect' },
-    { section: 'dialect/format', name: capitalize(format) || 'Format' },
+    { section: 'dialect', name: t('dialect') },
+    { section: 'dialect/format', name: capitalize(format) || t('format') },
   ]
   return (
     <Columns spacing={3} layout={[2, 8]} columns={10}>
