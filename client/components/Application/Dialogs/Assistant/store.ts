@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import invariant from 'tiny-invariant'
+import { t } from 'i18next'
 
 // We use component level state because dialog state
 // needs to be shared between multiple components
@@ -51,15 +52,15 @@ export async function setPromptAndFetchResult(props: { prompt: string }) {
 
   state.progress = {
     type: 'generating',
-    message: 'AI assistant is generating the response.',
+    message: t('generating-response'),
     blocking: true,
   }
 
   const { path } = appStore.getState()
   const { prompt, apiKey } = state
-  invariant(path, 'Path is required')
-  invariant(prompt, 'Prompt is required')
-  invariant(apiKey, 'API key is required')
+  invariant(path, t('path-required'))
+  invariant(prompt, t('prompt-required'))
+  invariant(apiKey, t('api-required'))
 
   const result = await client.tableSuggest({ path, prompt, apiKey })
   if (result instanceof client.Error) {

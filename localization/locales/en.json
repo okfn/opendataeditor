@@ -100,6 +100,7 @@
     "accept": "accept",
     "enter-openAI-key": "Please enter your OpenAI API key:",
     "open-AI-key": "OpenAI API Key",
+    "AI-assistant-default-prompt": "suggest improvements to the names of the columns in the table and provide descriptions for each of them",
     "assistant-step-dialog": "If you proceed, the Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them. Do you want to proceed?",
     "AI-assistant-enter-prompt": "Please enter your prompt to the AI assistant:",
     "AI-assistant": "AI Assistant",
@@ -125,6 +126,7 @@
     "title": "Title",
     "title-not-valid": "Title is not valid.",
     "path": "Path",
+    "path-required": "Path is required",
     "scheme": "Scheme",
     "format": "Format",
     "encoding": "Encoding",
@@ -182,5 +184,9 @@
     "source-field": "Source Field",
     "target-field": "Target Field",
     "target-resource": "Target Resource",
-    "learn-more": "Learn more"
+    "learn-more": "Learn more",
+    "generating-response": "AI assistant is generating the response.",
+    "prompt-required": "Prompt is required",
+    "api-required": "API key is required",
+    "AI-assistant-find-your-key": "Click <link1>here</link1> to learn how to find your key. You can also check OpenAI terms and policies <link2>here</link2>."
 }
