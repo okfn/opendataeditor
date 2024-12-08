@@ -7,11 +7,12 @@ import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
 import validator from 'validator'
+import { t } from 'i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
-    <EditorSection name="Schema" onHeadingClick={() => updateHelp('schema')}>
+    <EditorSection name={t('schema')} onHeadingClick={() => updateHelp('schema')}>
       <Columns spacing={3}>
         <Box>
           <Name />
@@ -38,14 +39,14 @@ function Name() {
   return (
     <InputField
       error={!isValid}
-      label="Name"
+      label={t('name')}
       value={name || ''}
       onFocus={() => updateHelp('schema/name')}
       onBlur={() => {
         setIsValid(isValidName())
       }}
       onChange={(value) => updateDescriptor({ name: value || undefined })}
-      helperText={!isValid ? 'Name is not valid.' : ''}
+      helperText={!isValid ? t('name-not-valid') : ''}
     />
   )
 }
@@ -56,7 +57,7 @@ function Title() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
-      label="Title"
+      label={t('title')}
       value={title || ''}
       onFocus={() => updateHelp('schema/title')}
       onChange={(value) => updateDescriptor({ title: value || undefined })}
@@ -70,7 +71,7 @@ function Description() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultilineField
-      label="Description"
+      label={t('description')}
       value={description || ''}
       onFocus={() => updateHelp('schema/description')}
       onChange={(value) => updateDescriptor({ description: value || undefined })}
@@ -85,7 +86,7 @@ function PrimaryKey() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <MultiselectField
-      label="Primary Key"
+      label={t('primary-key')}
       value={primaryKey || []}
       options={fieldNames}
       onFocus={() => updateHelp('schema/primaryKey')}
@@ -101,7 +102,7 @@ function MissingValues() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
-      label="Missing Values"
+      label={t('missing-values')}
       value={(missingValues || []).join(',')}
       onFocus={() => updateHelp('schema/missingValues')}
       onChange={(value) =>

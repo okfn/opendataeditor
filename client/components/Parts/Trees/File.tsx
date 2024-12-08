@@ -247,7 +247,7 @@ const StyledTreeItem = styled(
               primaryTypographyProps={{
                 color: (theme) => theme.palette.OKFNRed500.main,
               }}
-              primary={`${t('delete')} ${fileOrFolder}`} secondary={t('context-menu-delete-description')}
+              primary={`${t('delete-filefolder', { fileOrFolder })}`} secondary={t('context-menu-delete-description')}
             />
           </MenuItem>
         </Menu>

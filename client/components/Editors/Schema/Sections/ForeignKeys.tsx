@@ -6,6 +6,7 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
+import { t } from 'i18next'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
@@ -66,7 +67,7 @@ function SourceField() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
-      label="Source Field"
+      label={t('source-field')}
       value={fields[0]}
       options={fieldNames}
       onFocus={() => updateHelp('schema/foreignKey/sourceField')}
@@ -83,7 +84,7 @@ function TargetField() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <SelectField
-      label="Target Field"
+      label={t('target-field')}
       value={reference.fields[0]}
       options={reference.fields}
       onFocus={() => updateHelp('schema/foreignKey/targetField')}
@@ -102,7 +103,7 @@ function TargetResource() {
   return (
     <InputField
       disabled
-      label="Target Resource"
+      label={t('target-resource')}
       value={reference.resource}
       onChange={(resource) => updateForeignKey({ reference: { ...reference, resource } })}
     />

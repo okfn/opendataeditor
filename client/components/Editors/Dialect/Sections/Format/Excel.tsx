@@ -7,6 +7,7 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 // import validator from 'validator'
+import { t } from 'i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -40,14 +41,14 @@ function Sheet() {
   return (
     <InputField
       error={!isValid}
-      label="Sheet"
+      label={t('sheet')}
       value={sheet || settings.DEFAULT_SHEET}
       onFocus={() => updateHelp('dialect/format/sheet')}
       onBlur={() => {
         setIsValid(isValidSheet())
       }}
       onChange={(value) => updateExcel({ sheet: value || undefined })}
-      helperText={!isValid ? 'Sheet is not valid.' : ''}
+      helperText={!isValid ? t('sheet-not-valid') : ''}
     />
   )
 }
@@ -60,7 +61,7 @@ function FillMergedCells() {
   const updateExcel = useStore((state) => state.updateExcel)
   return (
     <YesNoField
-      label="Fill Merged Cells"
+      label={t('fill-merged-cells')}
       value={fillMergedCells || settings.DEFAULT_FILLED_MERGED_CELLS}
       onFocus={() => updateHelp('dialect/format/fillMergedCells')}
       onChange={(fillMergedCells) => updateExcel({ fillMergedCells })}
@@ -76,7 +77,7 @@ function PreserveFormatting() {
   const updateExcel = useStore((state) => state.updateExcel)
   return (
     <YesNoField
-      label="Preserve Formatting"
+      label={t('preserve-formatting')}
       value={preserveFormatting || settings.DEFAULT_PRESERVE_FORMATTING}
       onFocus={() => updateHelp('dialect/format/preserveFormatting')}
       onChange={(preserveFormatting) => updateExcel({ preserveFormatting })}
@@ -92,7 +93,7 @@ function AdjustFloatingPointError() {
   const updateExcel = useStore((state) => state.updateExcel)
   return (
     <YesNoField
-      label="Adjust Floating Point Error"
+      label={t('adjust-floating-point-error')}
       value={adjustFloatingPointError || false}
       onFocus={() => updateHelp('dialect/format/adjustFloatingPointError')}
       onChange={(adjustFloatingPointError) => updateExcel({ adjustFloatingPointError })}
@@ -106,7 +107,7 @@ function Stringified() {
   const updateExcel = useStore((state) => state.updateExcel)
   return (
     <YesNoField
-      label="Stringified"
+      label={t('stringified')}
       value={stringified || settings.DEFAULT_STRINGIFIED}
       onFocus={() => updateHelp('dialect/format/stringified')}
       onChange={(stringified) => updateExcel({ stringified })}

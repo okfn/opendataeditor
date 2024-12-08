@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../../Parts/Grids/Columns'
 import HeadingBox from './Heading/Box'
+import { t } from 'i18next'
 
 export interface EditorItemProps {
   name?: string
@@ -15,10 +16,10 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
     if (!props.onBackClick) return null
     return (
       <Button
-        title="Back to list"
+        title={t('back-to-list')}
         onClick={() => props.onBackClick && props.onBackClick()}
       >
-        Back to list
+        {t('back-to-list')}
       </Button>
     )
   }

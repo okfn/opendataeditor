@@ -10,12 +10,10 @@ import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import Markdown from 'react-markdown'
 import * as store from './store'
-import { useTranslation } from 'react-i18next'
+import { t } from 'i18next'
+import { Trans } from 'react-i18next'
 
-const DEFAULT_PROMPT = `
-suggest improvements to the names of the columns in the table 
-and provide descriptions for each of them
-`
+const DEFAULT_PROMPT = t('AI-assistant-default-prompt')
 
 export function AssistantDialog() {
   const state = store.useState()
@@ -38,7 +36,6 @@ export function AssistantDialog() {
 }
 
 function TermsStepDialog() {
-  const { t } = useTranslation()
   return (
     <StepDialog
       label={t('confirm')}
@@ -53,7 +50,6 @@ function TermsStepDialog() {
 
 function CredsStepDialog() {
   const [key, setKey] = React.useState('')
-  const { t } = useTranslation()
 
   return (
     <StepDialog
@@ -77,18 +73,24 @@ function CredsStepDialog() {
           }}
         />
         <Box>
-          Click{' '}
-          <Link
-            target="_blank"
-            href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key"
-          >
-            here
-          </Link>{' '}
-          to learn how to find your key. You can also check OpenAI terms and policies{' '}
-          <Link target="_blank" href="https://openai.com/policies/">
-            here
-          </Link>
-          .
+          <Trans
+            i18nKey="AI-assistant-find-your-key"
+            components={{
+              link1: (
+                <Link
+                  target="_blank"
+                  href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key"
+                >
+                  here
+                </Link>
+              ),
+              link2: (
+                <Link target="_blank" href="https://openai.com/policies/">
+                  here
+                </Link>
+              ),
+            }}
+          />
         </Box>
       </Stack>
     </StepDialog>
@@ -97,7 +99,6 @@ function CredsStepDialog() {
 
 function PromptStepDialog() {
   const [prompt, setPrompt] = React.useState(DEFAULT_PROMPT)
-  const { t } = useTranslation()
 
   return (
     <StepDialog
@@ -126,7 +127,6 @@ function PromptStepDialog() {
 
 function ResultStepDialog() {
   const state = store.useState()
-  const { t } = useTranslation()
 
   return (
     <StepDialog
@@ -151,7 +151,6 @@ function StepDialog(
     transitionDuration?: number | { enter?: number; exit?: number }
   }>
 ) {
-  const { t } = useTranslation()
   return (
     <TwoButtonDialog
       open={true}

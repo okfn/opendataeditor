@@ -11,3 +11,7 @@ i18next
             en: { main: locales.en },
         }
     })
+
+i18next.services.formatter.add('lowercase', (value, lng, options) => {
+    return value.toLowerCase();
+});

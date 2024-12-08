@@ -5,6 +5,7 @@ import YesNoField from '../../../../Parts/Fields/YesNo'
 import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
+import { t } from 'i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -33,7 +34,7 @@ function Delimiter() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
-      label="Delimiter"
+      label={t('delimiter')}
       value={delimiter || settings.DEFAULT_DELIMITER}
       onFocus={() => updateHelp('dialect/format/delimiter')}
       onChange={(delimiter) => updateCsv({ delimiter })}
@@ -47,7 +48,7 @@ function LineTerminator() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
-      label="Line Terminator"
+      label={t('line-terminator')}
       value={lineTerminator || settings.DEFAULT_LINE_TERMINATOR}
       onFocus={() => updateHelp('dialect/format/lineTerminator')}
       onChange={(lineTerminator) => updateCsv({ lineTerminator })}
@@ -61,7 +62,7 @@ function QuoteChar() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
-      label="Quote Char"
+      label={t('quote-char')}
       value={quoteChar || settings.DEFAULT_QUOTE_CHAR}
       onFocus={() => updateHelp('dialect/format/quoteChar')}
       onChange={(quoteChar) => updateCsv({ quoteChar })}
@@ -75,7 +76,7 @@ function DoubleQuote() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <YesNoField
-      label="Double Quote"
+      label={t('double-quote')}
       value={doubleQuote ?? settings.DEFAULT_DOUBLE_QUOTE}
       onFocus={() => updateHelp('dialect/format/doubleQuote')}
       onChange={(doubleQuote) => updateCsv({ doubleQuote })}
@@ -89,7 +90,7 @@ function EscapeChar() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
-      label="Escape Char"
+      label={t('escape-char')}
       value={escapeChar || settings.DEFAULT_ESCAPE_CHAR}
       onFocus={() => updateHelp('dialect/format/escapeChar')}
       onChange={(escapeChar) => updateCsv({ escapeChar })}
@@ -103,7 +104,7 @@ function NullSequence() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <InputField
-      label="Null Sequence"
+      label={t('null-sequence')}
       value={nullSequence || settings.DEFAULT_NULL_SEQUENCE}
       onFocus={() => updateHelp('dialect/format/nullSequence')}
       onChange={(nullSequence) => updateCsv({ nullSequence })}
@@ -117,7 +118,7 @@ function SkipInitialSpace() {
   const updateCsv = useStore((state) => state.updateCsv)
   return (
     <YesNoField
-      label="Skip Initial Space"
+      label={t('skip-initial-space')}
       value={skipInitialSpace || settings.DEFAULT_SKIP_INITIAL_SPACE}
       onFocus={() => updateHelp('csv/skipInitialSpace')}
       onChange={(skipInitialSpace) => updateCsv({ skipInitialSpace })}

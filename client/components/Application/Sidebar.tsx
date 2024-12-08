@@ -4,6 +4,7 @@ import LowerMenu from './LowerMenu'
 import sidebarLogo from '../../assets/ODE_sidebar_logo.svg'
 import Button from '@mui/material/Button'
 import * as store from '@client/store'
+import { t } from 'i18next'
 
 export default function Sidebar() {
   return (
@@ -33,7 +34,7 @@ export default function Sidebar() {
         }}
         onClick={() => store.openDialog('fileUpload')}
       >
-        Upload your data
+        {t('upload-your-data')}
       </Button>
       <Browser />
       <LowerMenu />

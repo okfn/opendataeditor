@@ -18,6 +18,7 @@ import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import TimePickerField from '../../../Parts/Fields/TimePicker'
 import validator from 'validator'
 import dayjs from 'dayjs'
+import { t } from 'i18next'
 
 export default function Fields() {
   const index = useStore((state) => state.fieldState.index)
@@ -114,7 +115,7 @@ function Name() {
   return (
     <InputField
       disabled
-      label="Name"
+      label={t('name')}
       value={value}
       error={!value}
       onFocus={() => updateHelp('schema/fields/name')}
@@ -129,7 +130,7 @@ function Type() {
   const type = useStore(select(selectors.field, (field) => field.type))
   return (
     <SelectField
-      label="Type"
+      label={t('type')}
       value={type}
       options={Object.keys(settings.FIELDS)}
       onFocus={() => updateHelp('schema/fields/type')}
@@ -148,14 +149,14 @@ function Format() {
   const isFree = FIELD.formats.includes('*')
   return isFree ? (
     <InputField
-      label="Format"
+      label={t('format')}
       value={format || ''}
       onFocus={() => updateHelp('schema/fields/format')}
       onChange={(value) => updateField({ format: value || undefined })}
     />
   ) : (
     <SelectField
-      label="Format"
+      label={t('format')}
       value={format || ''}
       options={FIELD.formats}
       onFocus={() => updateHelp('schema/field/format')}
@@ -170,7 +171,7 @@ function Title() {
   const title = useStore(select(selectors.field, (field) => field.title))
   return (
     <InputField
-      label="Title"
+      label={t('title')}
       value={title || ''}
       onFocus={() => updateHelp('schema/fields/title')}
       onChange={(value) => updateField({ title: value || undefined })}
@@ -184,7 +185,7 @@ function Description() {
   const descriptor = useStore(select(selectors.field, (field) => field.description))
   return (
     <MultilineField
-      label="Description"
+      label={t('description')}
       value={descriptor || ''}
       onFocus={() => updateHelp('schema/fields/description')}
       onChange={(value) => updateField({ description: value || undefined })}
@@ -198,7 +199,7 @@ function MissingValues() {
   const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
   return (
     <InputField
-      label="Missing Values"
+      label={t('missing-values')}
       value={(missingValues || []).join(',')}
       onFocus={() => updateHelp('schema/fields/missingValues')}
       onChange={(value) =>
@@ -214,7 +215,7 @@ function RdfType() {
   const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
   return (
     <InputField
-      label="RDF Type"
+      label={t('rdf-type')}
       value={rdfType || ''}
       onFocus={() => updateHelp('schema/fields/rdfType')}
       onChange={(value) => updateField({ rdfType: value || undefined })}
@@ -285,7 +286,7 @@ function ArrayItem() {
   return (
     <DescriptorField
       type="yaml"
-      label="Array Item"
+      label={t('array-item')}
       value={arrayItem}
       onFocus={() => updateHelp('schema/fields/arrayItem')}
       onChange={(value) => updateField({ arrayItem: value || undefined })}
@@ -299,7 +300,7 @@ function TrueValues() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
-      label="True Values"
+      label={t('true-values')}
       value={(trueValues || []).join(',')}
       onFocus={() => updateHelp('schema/fields/trueValues')}
       onChange={(value) =>
@@ -315,7 +316,7 @@ function FalseValues() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
-      label="False Values"
+      label={t('false-values')}
       value={(falseValues || []).join(',')}
       onFocus={() => updateHelp('schema/fields/falseValues')}
       onChange={(value) =>
@@ -331,7 +332,7 @@ function BareNumber() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
-      label="Bare Number"
+      label={t('bare-number')}
       value={bareNumber || settings.DEFAULT_BARE_NUMBER}
       onFocus={() => updateHelp('schema/fields/bareNumber')}
       onChange={(value) =>
@@ -347,7 +348,7 @@ function FloatNumber() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <YesNoField
-      label="Float Number"
+      label={t('float-number')}
       value={floatNumber || false}
       onFocus={() => updateHelp('schema/fields/floatNumber')}
       onChange={(value) => updateField({ floatNumber: value || undefined })}
@@ -361,7 +362,7 @@ function DecimalChar() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
-      label="Decimal Char"
+      label={t('decimal-char')}
       onFocus={() => updateHelp('schema/fields/decimalChar')}
       value={decimalChar || settings.DEFAULT_DECIMAL_CHAR}
       onChange={(value) => updateField({ decimalChar: value || undefined })}
@@ -375,7 +376,7 @@ function GroupChar() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <InputField
-      label="Group Char"
+      label={t('group-char')}
       onFocus={() => updateHelp('schema/fields/groupChar')}
       value={groupChar || settings.DEFAULT_GROUP_CHAR}
       onChange={(value) => updateField({ groupChar: value || undefined })}
@@ -433,7 +434,7 @@ function Required() {
 
   return (
     <YesNoField
-      label="Required"
+      label={t('required')}
       onFocus={() => updateHelp('schema/fields/required')}
       value={constraints?.required || false}
       onChange={(value) => {
@@ -481,7 +482,7 @@ function MinimumDate() {
   const value = constraints ? dayjs(constraints.minimum, format) : null
   return (
     <DatePickerField
-      label="Minimum"
+      label={t('minimum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/minimum')}
       onChange={(value) => {
@@ -502,7 +503,7 @@ function MaximumDate() {
   const value = constraints ? dayjs(constraints.maximum, format) : null
   return (
     <DatePickerField
-      label="Maximum"
+      label={t('maximum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/maximum')}
       onChange={(value) => {
@@ -523,14 +524,14 @@ function MinimumDateTime() {
   const value = constraints ? dayjs(constraints.minimum, format) : null
   return (
     <DateTimePickerField
-      label="Minimum"
+      label={t('minimum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/minimum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, minimum: value.format(format) } })
       }}
-      errorMessage={'Minimum value is not valid'}
+      errorMessage={t('minimum-not-valid')}
     />
   )
 }
@@ -544,14 +545,14 @@ function MaximumDateTime() {
   const value = constraints ? dayjs(constraints.maximum, format) : null
   return (
     <DateTimePickerField
-      label="Maximum"
+      label={t('maximum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/maximum')}
       onChange={(value) => {
         if (!value) return
         updateField({ constraints: { ...constraints, maximum: value.format(format) } })
       }}
-      errorMessage={'Maximum value is not valid'}
+      errorMessage={t('maximum-not-valid')}
     />
   )
 }
@@ -565,7 +566,7 @@ function MinimumTime() {
   const value = constraints ? dayjs(constraints.minimum, format) : null
   return (
     <TimePickerField
-      label="Minimum"
+      label={t('minimum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/minimum')}
       onChange={(value) => {
@@ -577,7 +578,7 @@ function MinimumTime() {
           },
         })
       }}
-      errorMessage={'Minimum value is not valid'}
+      errorMessage={t('minimum-not-valid')}
     />
   )
 }
@@ -591,7 +592,7 @@ function MaximumTime() {
   const value = constraints ? dayjs(constraints.maximum, format) : null
   return (
     <TimePickerField
-      label="Maximum"
+      label={t('maximum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/maximum')}
       onChange={(value) => {
@@ -603,7 +604,7 @@ function MaximumTime() {
           },
         })
       }}
-      errorMessage={'Maximum value is not valid'}
+      errorMessage={t('maximum-not-valid')}
     />
   )
 }
@@ -625,7 +626,7 @@ function MinimumNumber() {
     <InputField
       error={!isValid}
       type="number"
-      label="Minimum"
+      label={t('minimum')}
       value={constraints?.minimum || ''}
       onFocus={() => updateHelp('schema/fields/minimum')}
       onBlur={() => {
@@ -635,7 +636,7 @@ function MinimumNumber() {
         const minimum = value || undefined
         updateField({ constraints: { ...constraints, minimum } })
       }}
-      helperText={!isValid ? 'Minimum value is not valid.' : ''}
+      helperText={!isValid ? t('minimum-not-valid') : ''}
     />
   )
 }
@@ -657,7 +658,7 @@ function MaximumNumber() {
     <InputField
       error={!isValid}
       type="number"
-      label="Maximum"
+      label={t('maximum')}
       value={constraints?.maximum || ''}
       onFocus={() => updateHelp('schema/fields/maximum')}
       onBlur={() => {
@@ -667,7 +668,7 @@ function MaximumNumber() {
         const maximum = value || undefined
         updateField({ constraints: { ...constraints, maximum } })
       }}
-      helperText={!isValid ? 'Maximum value is not valid.' : ''}
+      helperText={!isValid ? t('maximum-not-valid') : ''}
     />
   )
 }
@@ -680,7 +681,7 @@ function MinLength() {
   return (
     <InputField
       type="integer"
-      label="Min Length"
+      label={t('min-length')}
       value={constraints?.minLength || ''}
       onFocus={() => updateHelp('schema/fields/minLength')}
       onChange={(value) => {
@@ -699,7 +700,7 @@ function MaxLength() {
   return (
     <InputField
       type="integer"
-      label="Max Length"
+      label={t('max-length')}
       value={constraints?.maxLength || ''}
       onFocus={() => updateHelp('schema/fields/maxLength')}
       onChange={(value) => {
@@ -718,7 +719,7 @@ function Pattern() {
   return (
     <InputField
       type="string"
-      label="Pattern"
+      label={t('pattern')}
       value={constraints?.pattern || ''}
       onFocus={() => updateHelp('schema/fields/pattern')}
       onChange={(value) => {
@@ -752,7 +753,7 @@ function Enum() {
   return (
     <InputField
       type="string"
-      label="Enum"
+      label={t('enum')}
       value={value}
       onFocus={() => updateHelp('schema/fields/enum')}
       onChange={handleChange}

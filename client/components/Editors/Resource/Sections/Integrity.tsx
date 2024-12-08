@@ -3,12 +3,13 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
+import { t } from 'i18next'
 
 export default function Integrity() {
   const updateHelp = useStore((state) => state.updateHelp)
   return (
     <EditorSection
-      name="Integrity"
+      name={t('integrity')}
       onHeadingClick={() => updateHelp('resource/integrity')}
     >
       <Columns spacing={3}>
@@ -31,7 +32,7 @@ function Hash() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
-      label="Hash"
+      label={t('hash')}
       value={hash || ''}
       onFocus={() => updateHelp('resource/integrity/hash')}
       onChange={(value) => updateDescriptor({ hash: value || undefined })}
@@ -45,7 +46,7 @@ function Bytes() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   return (
     <InputField
-      label="Bytes"
+      label={t('bytes')}
       value={bytes || ''}
       onFocus={() => updateHelp('resource/integrity/bytes')}
       onChange={(value) => updateDescriptor({ bytes: parseInt(value) || undefined })}
@@ -62,7 +63,7 @@ function Fields() {
   if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      label="Fields"
+      label={t('fields')}
       value={fields || ''}
       onFocus={() => updateHelp('resource/integrity/fields')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
@@ -79,7 +80,7 @@ function Rows() {
   if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      label="Rows"
+      label={t('rows')}
       value={rows || ''}
       onFocus={() => updateHelp('resource/integrity/rows')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
