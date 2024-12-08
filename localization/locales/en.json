@@ -3,6 +3,7 @@
     "detect-errors-generate-report": "Detect errors and generate a report",
     "save-download-work": "Save & download your work",
     "welcome-to-ODE": "Welcome to the Open Data Editor!",
+    "alt-welcome-screen-image": "Welcome Scree Image",
     "welcomebanner-description": "The ODE helps data practitioners with no coding skills to explore tabular data and detect errors in an easier way. Advanced users can also edit metadata and publish their work.<br /><br /> The OKFN team aims to add other data formats in the future.",
     "link-check-blog": "Check our blog for updates",
     "get-started": "Get Started",
