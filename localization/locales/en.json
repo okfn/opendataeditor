@@ -250,6 +250,114 @@
         "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
         "description": "Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA."
     },
+    "help-resource/integrity" : {
+        "path": "resource/integrity",
+        "title": "Integrity",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "Checksum details  of this resource."
+    },
+    "help-resource/integrity/hash" : {
+        "path": "resource/integrity/hash",
+        "title": "Hash",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "The MD5 hash for this resource."
+    },
+    "help-resource/integrity/bytes" : {
+        "path": "resource/integrity/bytes",
+        "title": "Bytes",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "Size of the resource file in bytes."
+    },
+    "help-resource/integrity/fields" : {
+        "path": "resource/integrity/fields",
+        "title": "Fields",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "Total fiels in this resource."
+    },
+    "help-resource/integrity/rows" : {
+        "path": "resource/integrity/rows",
+        "title": "Rows",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "Total rows in this resource."
+    },
+    "help-resource/licenses" : {
+        "path": "resource/licenses",
+        "title": "Licenses",
+        "link": "https://specs.frictionlessdata.io/data-package/#licenses",
+        "description": "The license(s) under which the resource is provided."
+    },
+    "help-resource/licenses/name" : {
+        "path": "resource/licenses/name",
+        "title": "Name",
+        "link": "https://specs.frictionlessdata.io/data-package/#licenses",
+        "description": "The name MUST be an Open Definition license ID e.g. ODC-BY-1.0"
+    },
+    "help-resource/licenses/path" : {
+        "path": "resource/licenses/path",
+        "title": "Path",
+        "link": "https://specs.frictionlessdata.io/data-package/#licenses",
+        "description": "A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path for this license."
+    },
+    "help-resource/licenses/title" : {
+        "path": "resource/licenses/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/data-package/#licenses",
+        "description": "A human-readable title or label for this license e.g. 'Open Data Commons Public Domain Dedication and License v1.0'."
+    },
+    "help-resource/contributors" : {
+        "path": "resource/contributors",
+        "title": "Contributors",
+        "link": "https://specs.frictionlessdata.io/data-package/#contributors",
+        "description": "A name/title of the contributor (name for person, name/title of organization)."
+    },
+    "help-resource/contributors/title" : {
+        "path": "resource/contributors/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/data-package/#contributors",
+        "description": "Title of the source (e.g. document or organization name)."
+    },
+    "help-resource/contributors/email" : {
+        "path": "resource/contributors/email",
+        "title": "Email",
+        "link": "https://specs.frictionlessdata.io/data-package/#contributors",
+        "description": "An email address"
+    },
+    "help-resource/contributors/path" : {
+        "path": "resource/contributors/path",
+        "title": "Path",
+        "link": "https://specs.frictionlessdata.io/data-package/#contributors",
+        "description": "A fully qualified http URL pointing to a relevant location online for the contributor."
+    },
+    "help-resource/contributors/role" : {
+        "path": "resource/contributors/role",
+        "title": "Role",
+        "link": "https://specs.frictionlessdata.io/data-package/#contributors",
+        "description": "A string describing the role of the contributor."
+    },
+    "help-resource/sources" : {
+        "path": "resource/sources",
+        "title": "Sources",
+        "link": "https://specs.frictionlessdata.io/data-package/#sources",
+        "description": "Raw sources for the data resource."
+    },
+    "help-resource/sources/title" : {
+        "path": "resource/sources/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/data-package/#sources",
+        "description": "Title of the source (e.g. document or organization name)"
+    },
+    "help-resource/sources/path" : {
+        "path": "resource/sources/path",
+        "title": "Path",
+        "link": "https://specs.frictionlessdata.io/data-package/#sources",
+        "description": "A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path."
+    },
+    "help-resource/sources/email" : {
+        "path": "resource/sources/email",
+        "title": "Email",
+        "link": "https://specs.frictionlessdata.io/data-package/#sources",
+        "description": "An email address."
+    },
     "help-dialect": {
         "path": "dialect",
         "title": "Dialect",
