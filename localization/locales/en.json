@@ -249,5 +249,161 @@
         "title": "Encoding",
         "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
         "description": "Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA."
+    },
+    "help-dialect": {
+        "path": "dialect",
+        "title": "Dialect",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html",
+        "description": "File dialect concept give us an ability to manage table header and any details related to specific formats."
+    },
+    "help-dialect/title": {
+        "path": "dialect/title",
+        "title": "Title",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html",
+        "description": "A human-readable title for this dialect."
+    },
+    "help-dialect/description": {
+        "path": "dialect/description",
+        "title": "Description",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html",
+        "description": "A brief description of the dialect."
+    },
+    "help-dialect/type": {
+        "path": "dialect/type",
+        "title": "Type",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/",
+        "description": "CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner."
+    },
+    "help-dialect/type/header": {
+        "path": "dialect/type/header",
+        "title": "Header",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#header",
+        "description": "It's a boolean flag which defaults to True indicating whether the data has a header row or not."
+    },
+    "help-dialect/type/headerRows": {
+        "path": "dialect/type/headerRows",
+        "title": "Header Rows",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#header-rows",
+        "description": "It specifies the header row or rows for multiline header."
+    },
+    "help-dialect/type/commentChar": {
+        "path": "dialect/type/commentChar",
+        "title": "Comment Char",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-char",
+        "description": "It specifies the char to use to comment the rows."
+    },
+    "help-dialect/type/headerJoin": {
+        "path": "dialect/type/headerJoin",
+        "title": "Header Join",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#header-join",
+        "description": "It specifies the header rows to combine, if there are multiple header rows."
+    },
+    "help-dialect/type/commentRows": {
+        "path": "dialect/type/commentRows",
+        "title": "Comment Rows",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#comment-rows",
+        "description": "It specifies list of rows to ignore."
+    },
+    "help-dialect/type/headerCase": {
+        "path": "dialect/type/headerCase",
+        "title": "Header Case",
+        "link": "https://framework.frictionlessdata.io/docs/framework/dialect.html#header-case",
+        "description": "It specifies case sensitivity mode. Header is case sensitive by default."
+    },
+    "help-dialect/format": {
+        "path": "dialect/format",
+        "title": "Format",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/",
+        "description": "CSV Dialect defines a simple format to describe the various dialects of CSV files in a language agnostic manner."
+    },
+    "help-dialect/format/delimiter": {
+        "path": "dialect/format/delimiter",
+        "title": "Delimiter",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies the character sequence which should separate fields. (default ',')"
+    },
+    "help-dialect/format/lineTerminator": {
+        "path": "dialect/format/lineTerminator",
+        "title": "Line Terminator",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies the line terminator for the csv file while reading/writing. (default '\r\n')"
+    },
+    "help-dialect/format/quoteChar": {
+        "path": "dialect/format/quoteChar",
+        "title": "Quote Char",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies a one-character string to use as the quoting character. (default '\"')"
+    },
+    "help-dialect/format/doubleQuote": {
+        "path": "dialect/format/doubleQuote",
+        "title": "Double Quote",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Controls the handling of quotes inside fields. (default true)"
+    },
+    "help-dialect/format/escapeChar": {
+        "path": "dialect/format/escapeChar",
+        "title": "Escape Char",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies a one-character string to use for escaping."
+    },
+    "help-dialect/format/nullSequence": {
+        "path": "dialect/format/nullSequence",
+        "title": "Null Sequence",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies the null sequence."
+    },
+    "help-dialect/format/skipInitialSpace": {
+        "path": "dialect/format/skipInitialSpace",
+        "title": "Skip Initial Space",
+        "link": "https://specs.frictionlessdata.io/csv-dialect/#specification",
+        "description": "Specifies how to interpret whitespace which immediately follows a delimiter. (default false)"
+    },
+    "help-dialect/format/sheet": {
+        "path": "dialect/format/sheet",
+        "title": "Sheet",
+        "link": "https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration",
+        "description": "Specifies name of the sheet from where to read or write data. (default 1)"
+    },
+    "help-dialect/format/fillMergedCells": {
+        "path": "dialect/format/fillMergedCells",
+        "title": "Fill Merged Cells",
+        "link": "https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration",
+        "description": "Specifies to unmerge and fill all merged cells by the visible value. (default false)"
+    },
+    "help-dialect/format/preserveFormatting": {
+        "path": "dialect/format/preserveFormatting",
+        "title": "Preserve Formatting",
+        "link": "https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration",
+        "description": "Specifies to preserve text formatting for numeric and temporal cells. (default false)"
+    },
+    "help-dialect/format/adjustFloatingPointError": {
+        "path": "dialect/format/adjustFloatingPointError",
+        "title": "Adjust Floating Point Error",
+        "link": "https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration",
+        "description": "Specifies to ajust the Excel behavior regarding floating point numbers."
+    },
+    "help-dialect/format/stringified": {
+        "path": "dialect/format/stringified",
+        "title": "Stringified",
+        "link": "https://framework.frictionlessdata.io/docs/formats/excel.html?query=excel#configuration",
+        "description": "Specifies to stringify all cell values. (default false)"
+    },
+    "help-dialect/format/keys": {
+        "path": "dialect/format/keys",
+        "title": "keys",
+        "link": "https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration",
+        "description": "Specifies the keys/columns to read from the json resource."
+    },
+    "help-dialect/format/keyed": {
+        "path": "dialect/format/keyed",
+        "title": "Keyed",
+        "link": "https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration",
+        "description": "Specifies to return the data as 'key:value' pair. (default false)"
+    },
+    "help-dialect/format/property": {
+        "path": "dialect/format/property",
+        "title": "Property",
+        "link": "https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration",
+        "description": "Specifies the path to the attribute in a json file, if it has nested fields."
     }
 }

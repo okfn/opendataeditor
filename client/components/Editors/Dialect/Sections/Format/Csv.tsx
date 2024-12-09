@@ -127,7 +127,7 @@ function SkipInitialSpace() {
     <YesNoField
       label={t('skip-initial-space')}
       value={skipInitialSpace || settings.DEFAULT_SKIP_INITIAL_SPACE}
-      onFocus={() => updateHelp('csv/skipInitialSpace')}
+      onFocus={() => updateHelp('dialect/format/skipInitialSpace')}
       onChange={(skipInitialSpace) => updateCsv({ skipInitialSpace })}
     />
   )
