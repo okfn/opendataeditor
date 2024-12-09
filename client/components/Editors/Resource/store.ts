@@ -11,7 +11,6 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 import { t } from 'i18next'
 
-const DEFAULT_HELP_ITEM = t('help-resource', { returnObjects: true }) as types.IHelpItem
 const MEDIA_TYPES: { [key: string]: string } = {
   csv: 'text/csv',
   json: 'application/json',
@@ -62,6 +61,8 @@ interface State {
 }
 
 export function makeStore(props: ResourceProps) {
+  const DEFAULT_HELP_ITEM = t('help-resource', { returnObjects: true }) as types.IHelpItem
+
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
     externalMenu: props.externalMenu,

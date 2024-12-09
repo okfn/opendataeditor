@@ -63,7 +63,7 @@ function LayoutWithoutMenu() {
           <FormatSection />
         </Box>
       </Box>
-      {helpItem ? <EditorHelp helpItem={helpItem} /> : null}
+      <EditorHelp helpItem={helpItem} />
     </Columns>
   )
 }

@@ -64,7 +64,7 @@ function LayoutWithoutMenu() {
           <ForeignKeysSection />
         </Box>
       </Box>
-      <EditorHelp helpItem={helpItem} />
+      {helpItem ? <EditorHelp helpItem={helpItem} /> : null}
     </Columns>
   )
 }

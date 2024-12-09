@@ -114,7 +114,7 @@ function LayoutWithoutMenu() {
   if (!section) return null
   return (
     <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box>
+      <Box sx={{ flexGrow: 1 }}>
         <Box hidden={section !== 'resource'}>
           <ResourceSection />
         </Box>
@@ -131,7 +131,7 @@ function LayoutWithoutMenu() {
           <SourcesSection />
         </Box>
       </Box>
-      {helpItem ? <EditorHelp helpItem={helpItem} /> : null}
+      <EditorHelp helpItem={helpItem} />
     </Columns>
   )
 }

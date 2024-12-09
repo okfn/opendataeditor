@@ -513,5 +513,191 @@
         "title": "Property",
         "link": "https://framework.frictionlessdata.io/docs/formats/json.html?query=json#configuration",
         "description": "Specifies the path to the attribute in a json file, if it has nested fields."
+    },
+    "help-schema": {
+        "path": "schema",
+        "title": "Schema",
+        "link": "https://specs.frictionlessdata.io/table-schema/",
+        "description": "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column."
+    },
+    "help-schema/title": {
+        "path": "schema/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/table-schema/",
+        "description": "A human-readable title."
+    },
+    "help-schema/description": {
+        "path": "schema/description",
+        "title": "Description",
+        "link": "https://specs.frictionlessdata.io/table-schema/",
+        "description": "A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown."
+    },
+    "help-schema/primaryKey": {
+        "path": "schema/primaryKey",
+        "title": "Primary Key",
+        "link": "https://specs.frictionlessdata.io/table-schema/#primary-key",
+        "description": "A primary key is a field or set of fields that uniquely identifies each row in the table."
+    },
+    "help-schema/missingValues": {
+        "path": "schema/missingValues",
+        "title": "Missing Values",
+        "link": "https://specs.frictionlessdata.io/table-schema/#missing-values",
+        "description": "Many datasets arrive with missing data values, either because a value was not collected or it never existed."
+    },
+    "help-schema/fields": {
+        "path": "schema/fields",
+        "title": "Fields",
+        "link": "https://specs.frictionlessdata.io/table-schema/#descriptor",
+        "description": "Fields MUST be an array where each entry in the array is a field descriptor (as defined below)."
+    },
+    "help-schema/fields/name": {
+        "path": "schema/fields/name",
+        "title": "Name",
+        "link": "https://specs.frictionlessdata.io/table-schema/#name",
+        "description": "The field descriptor MUST contain a name property. This property SHOULD correspond to the name of field/column in the data file (if it has a name)"
+    },
+    "help-schema/fields/type": {
+        "path": "schema/fields/type",
+        "title": "Type",
+        "link": "https://specs.frictionlessdata.io/table-schema/#types-and-formats",
+        "description": "String indicating the type of this field."
+    },
+    "help-schema/fields/format": {
+        "path": "schema/fields/format",
+        "title": "Format",
+        "link": "https://specs.frictionlessdata.io/table-schema/#types-and-formats",
+        "description": "String indicating the format of this field."
+    },
+    "help-schema/fields/missingValues": {
+        "path": "schema/fields/missingValues",
+        "title": "Missing Values",
+        "link": "https://specs.frictionlessdata.io/table-schema/#missing-values",
+        "description": "Specifies which string values should be treated as null values."
+    },
+    "help-schema/fields/rdfType": {
+        "path": "schema/fields/rdfType",
+        "title": "RDF Type",
+        "link": "https://specs.frictionlessdata.io/table-schema/#rich-types",
+        "description": "Indicates whether the field is of RDF type."
+    },
+    "help-schema/fields/title": {
+        "path": "schema/fields/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/table-schema/#title",
+        "description": "A human-readable title."
+    },
+    "help-schema/fields/bareNumber": {
+        "path": "schema/fields/bareNumber",
+        "title": "Bare Number",
+        "link": "https://specs.frictionlessdata.io/table-schema/#types-and-formats",
+        "description": "A boolean field with a default of true."
+    },
+    "help-schema/fields/description": {
+        "path": "schema/fields/description",
+        "title": "Description",
+        "link": "https://specs.frictionlessdata.io/table-schema/#description",
+        "description": "A description of the field."
+    },
+    "help-schema/fields/groupChar": {
+        "path": "schema/fields/groupChar",
+        "title": "Group Char",
+        "link": "https://specs.frictionlessdata.io/table-schema/#types-and-formats",
+        "description": "A string whose value is used to group digits within the number."
+    },
+    "help-schema/fields/arrayItem": {
+        "path": "schema/fields/arrayItem",
+        "title": "Array Item",
+        "link": "https://specs.frictionlessdata.io/table-schema/#array",
+        "description": "A dictionary that specifies the type and other constraints for the data that will be read in this data type field."
+    },
+    "help-schema/fields/trueValues": {
+        "path": "schema/fields/trueValues",
+        "title": "True Values",
+        "link": "https://specs.frictionlessdata.io/table-schema/#boolean",
+        "description": "Specifies which string values should be treated as true values."
+    },
+    "help-schema/fields/falseValues": {
+        "path": "schema/fields/falseValues",
+        "title": "False Values",
+        "link": "https://specs.frictionlessdata.io/table-schema/#boolean",
+        "description": "Specifies which string values should be treated as false values."
+    },
+    "help-schema/fields/floatNumber": {
+        "path": "schema/fields/floatNumber",
+        "title": "Float Number",
+        "link": "https://specs.frictionlessdata.io/table-schema/#number",
+        "description": "It specifies that the value is a float number."
+    },
+    "help-schema/fields/decimalChar": {
+        "path": "schema/fields/decimalChar",
+        "title": "Float Number",
+        "link": "https://specs.frictionlessdata.io/table-schema/#number",
+        "description": "It specifies the char to be used as decimal character. The default value is '.'"
+    },
+    "help-schema/fields/minimum": {
+        "path": "schema/fields/minimum",
+        "title": "Float Minimum",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "It specifies a minimum value for a field."
+    },
+    "help-schema/fields/maximum": {
+        "path": "schema/fields/maximum",
+        "title": "Float Maximum",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "It specifies a maximum value for a field."
+    },
+    "help-schema/fields/enum": {
+        "path": "schema/fields/enum",
+        "title": "Enum",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values."
+    },
+    "help-schema/fields/required": {
+        "path": "schema/fields/required",
+        "title": "Required",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "Indicates whether this field cannot be null."
+    },
+    "help-schema/fields/unique": {
+        "path": "schema/fields/unique",
+        "title": "Unique",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "Specifies all the values for that field MUST be unique."
+    },
+    "help-schema/fields/minLength": {
+        "path": "schema/fields/minLength",
+        "title": "Min Length",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "An integer that specifies the minimum length of a value."
+    },
+    "help-schema/fields/maxLength": {
+        "path": "schema/fields/maxLength",
+        "title": "Max Length",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "An integer that specifies the maximum length of a value."
+    },
+    "help-schema/fields/pattern": {
+        "path": "schema/fields/pattern",
+        "title": "Target Field",
+        "link": "https://specs.frictionlessdata.io/table-schema/#foreign-keys",
+        "description": "Name of the referenced field in destination resource."
+    },
+    "help-schema/foreignKeys": {
+        "path": "schema/foreignKeys",
+        "title": "Foreign Keys",
+        "link": "https://specs.frictionlessdata.io/table-schema/#foreign-keys",
+        "description": "A foreign key is a reference where values in a field (or fields) on the table described by this Table Schema connect to values a field (or fields) on this or a separate table"
+    },
+    "help-schema/foreignKey/sourceField": {
+        "path": "schema/foreignKey/sourceField",
+        "title": "Source Field",
+        "link": "https://specs.frictionlessdata.io/table-schema/#foreign-keys",
+        "description": "Name of the field in this resource that form the source part of the foreign key."
+    },
+    "help-schema/foreignKey/targetField": {
+        "path": "schema/foreignKey/targetField",
+        "title": "Max Length",
+        "link": "https://specs.frictionlessdata.io/table-schema/#constraints",
+        "description": "A regular expression that can be used to test field values."
     }
 }

@@ -10,8 +10,6 @@ import * as settings from '../../../settings'
 import * as types from '../../../types'
 import { t } from 'i18next'
 
-const DEFAULT_HELP_ITEM = t('help-dialect', { returnObjects: true }) as types.IHelpItem
-
 interface State {
   format: string
   section: string
@@ -31,6 +29,8 @@ interface State {
 }
 
 export function makeStore(props: DialectProps) {
+  const DEFAULT_HELP_ITEM = t('help-dialect', { returnObjects: true }) as types.IHelpItem
+
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     externalMenu: props.externalMenu,
