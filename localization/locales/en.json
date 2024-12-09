@@ -189,5 +189,65 @@
     "generating-response": "AI assistant is generating the response.",
     "prompt-required": "Prompt is required",
     "api-required": "API key is required",
-    "AI-assistant-find-your-key": "Click <link1>here</link1> to learn how to find your key. You can also check OpenAI terms and policies <link2>here</link2>."
+    "AI-assistant-find-your-key": "Click <link1>here</link1> to learn how to find your key. You can also check OpenAI terms and policies <link2>here</link2>.",
+    "help-resource": {
+        "path": "resource",
+        "title": "Resource",
+        "link" : "https://specs.frictionlessdata.io/data-resource/",
+        "description": "A simple format to describe and package a single data resource such as a individual table or file."
+    },
+    "help-resource/name": {
+        "path": "resource/name",
+        "title": "Name",
+        "link": "https://specs.frictionlessdata.io/data-resource/#name",
+        "description": "A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data."
+    },
+    "help-resource/type": {
+        "path": "resource/type",
+        "title": "Type",
+        "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
+        "description": "Specifies the type of this resource."
+    },
+    "help-resource/title": {
+        "path": "resource/title",
+        "title": "Title",
+        "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
+        "description": "A human-readable title or label for this resource e.g. 'Sales Data'."
+    },
+    "help-resource/description": {
+        "path": "resource/description",
+        "title": "Description",
+        "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
+        "description": "A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown."
+    },
+    "help-resource/mediaType": {
+        "path": "resource/mediaType",
+        "title": "Media Type",
+        "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
+        "description": "Specifies the media type/mime type of this resource e.g 'text/csv', 'application/vnd.ms-excel' etc."
+    },
+    "help-resource/path": {
+        "path": "resource/path",
+        "title": "Path",
+        "link": "https://specs.frictionlessdata.io/data-resource/#path-data-in-files",
+        "description": "Specifies the path of this resource. It MUST either be a URL or a POSIX path."
+    },
+    "help-resource/scheme": {
+        "path": "resource/scheme",
+        "title": "Scheme",
+        "link": "https://specs.frictionlessdata.io/data-resource/#url-or-path",
+        "description": "Specifies the scheme for loading the file (file, http, ...)."
+    },
+    "help-resource/format": {
+        "path": "resource/format",
+        "title": "Format",
+        "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
+        "description": "Specifies the standard file extension for this resource e.g. 'csv', 'xls', 'json' etc"
+    },
+    "help-resource/encoding" : {
+        "path": "resource/encoding",
+        "title": "Encoding",
+        "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
+        "description": "Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA."
+    }
 }
