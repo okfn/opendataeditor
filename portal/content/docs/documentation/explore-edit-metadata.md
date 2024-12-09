@@ -1,7 +1,7 @@
 ---
 title: How to explore and edit metadata
 sidebar:
-  order: 9
+  order: 10
 ---
 
 To explore or edit the metadata, select a file from the menu on the left and click on the **Metadata button** located at the top left of the datagrid.
