@@ -5,7 +5,7 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 import YesNoField from '../../../../Parts/Fields/YesNo'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -28,6 +28,7 @@ function Keys() {
   const keys = useStore(select(selectors.json, (json) => json.keys || ''))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('keys')}
@@ -42,6 +43,7 @@ function Keyed() {
   const keyed = useStore(select(selectors.json, (json) => json.keyed))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('keyed')}
@@ -56,6 +58,7 @@ function Property() {
   const property = useStore(select(selectors.json, (json) => json.property || ''))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('property')}

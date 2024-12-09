@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 interface EditorListItemProps {
   kind: string
@@ -17,6 +17,8 @@ interface EditorListItemProps {
 
 export default function EditorListItem(props: EditorListItemProps) {
   const theme = useTheme()
+
+  const { t } = useTranslation()
 
   const RemoveButton = () => {
     if (!props.onRemoveClick) return null

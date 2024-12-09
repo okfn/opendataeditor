@@ -6,7 +6,7 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
@@ -65,6 +65,7 @@ function SourceField() {
   const fieldNames = useStore(selectors.fieldNames)
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <SelectField
       label={t('source-field')}
@@ -82,6 +83,7 @@ function TargetField() {
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <SelectField
       label={t('target-field')}
@@ -100,6 +102,7 @@ function TargetResource() {
     select(selectors.foreignKey, (foreignKey) => foreignKey.reference)
   )
   const updateForeignKey = useStore((state) => state.updateForeignKey)
+  const { t } = useTranslation()
   return (
     <InputField
       disabled

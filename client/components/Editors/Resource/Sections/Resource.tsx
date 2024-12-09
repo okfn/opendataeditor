@@ -8,11 +8,12 @@ import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
 import * as store from '@client/store'
 import validator from 'validator'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
   const onBackClick = useStore((state) => state.onBackClick)
+  const { t } = useTranslation()
 
   return (
     <EditorSection
@@ -47,6 +48,7 @@ function Name() {
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [name, setName] = React.useState(originalName)
   const [isValid, setIsValid] = React.useState(isValidName(name))
+  const { t } = useTranslation()
 
   function isValidName(name: string) {
     return name ? validator.matches(name, '^[0-9a-zA-Z-_.]+$', 'i') : false
@@ -78,6 +80,7 @@ function Type() {
   const type = useStore((state) => state.descriptor.type)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
 
   return (
     <SelectField
@@ -95,6 +98,7 @@ function Title() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidTitle())
+  const { t } = useTranslation()
   function isValidTitle() {
     return title ? !validator.isNumeric(title) : true
   }
@@ -117,6 +121,7 @@ function Description() {
   const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <MultilineField
       label={t('description')}
@@ -132,6 +137,7 @@ function Path() {
   const path = useStore((state) => state.descriptor.path)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       disabled
@@ -147,6 +153,7 @@ function Scheme() {
   const scheme = useStore((state) => state.descriptor.scheme)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('scheme')}
@@ -161,6 +168,7 @@ function Format() {
   const format = useStore((state) => state.descriptor.format)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('format')}
@@ -175,6 +183,7 @@ function Encoding() {
   const encoding = useStore((state) => state.descriptor.encoding)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('encoding')}
@@ -189,6 +198,7 @@ function MediaType() {
   const mediatype = useStore(selectors.mediaType)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('media-type')}

@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent'
 import iconInfoImg from '../../../assets/icon_info.png'
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 // TODO: review geometry porps/logic
 
@@ -27,6 +27,7 @@ export default function HelpCard(props: React.PropsWithChildren<HelpCardProps>) 
 }
 
 export function HelpCardWithIcon(props: React.PropsWithChildren<HelpCardProps>){
+  const { t } = useTranslation()
   return (
     <Card
       variant="outlined"
@@ -50,6 +51,7 @@ export function HelpCardWithIcon(props: React.PropsWithChildren<HelpCardProps>){
 }
 
 export function HelpCardNoIcon(props: React.PropsWithChildren<HelpCardProps>){
+ const { t } = useTranslation()
  return (
     <Card
       variant="outlined"

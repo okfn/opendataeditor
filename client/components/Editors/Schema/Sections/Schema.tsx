@@ -7,10 +7,11 @@ import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
 import validator from 'validator'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <EditorSection name={t('schema')} onHeadingClick={() => updateHelp('schema')}>
       <Columns spacing={3}>
@@ -33,6 +34,7 @@ function Name() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidName())
+  const { t } = useTranslation()
   function isValidName() {
     return name ? validator.isSlug(name) : true
   }
@@ -55,6 +57,7 @@ function Title() {
   const title = useStore((state) => state.descriptor.title)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('title')}
@@ -69,6 +72,7 @@ function Description() {
   const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <MultilineField
       label={t('description')}
@@ -84,6 +88,7 @@ function PrimaryKey() {
   const primaryKey = useStore((state) => state.descriptor.primaryKey)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <MultiselectField
       label={t('primary-key')}
@@ -100,6 +105,7 @@ function MissingValues() {
   const missingValues = useStore((state) => state.descriptor.missingValues)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('missing-values')}

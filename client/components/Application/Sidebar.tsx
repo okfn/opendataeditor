@@ -4,9 +4,10 @@ import LowerMenu from './LowerMenu'
 import sidebarLogo from '../../assets/ODE_sidebar_logo.svg'
 import Button from '@mui/material/Button'
 import * as store from '@client/store'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Sidebar() {
+  const { t } = useTranslation()
   return (
     <Box
       className="sidebar"

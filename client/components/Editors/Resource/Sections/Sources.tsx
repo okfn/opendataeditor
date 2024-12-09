@@ -7,7 +7,7 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Sources() {
   const index = useStore((state) => state.sourceState.index)
@@ -67,6 +67,7 @@ function Title() {
   const title = useStore(select(selectors.source, (source) => source.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('title')}
@@ -81,6 +82,7 @@ function Path() {
   const path = useStore(select(selectors.source, (source) => source.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('path')}
@@ -96,6 +98,7 @@ function Email() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
   const [isValid, setIsValid] = React.useState(isValidEmail())
+  const { t } = useTranslation()
   function isValidEmail() {
     return email ? validator.isEmail(email) : true
   }

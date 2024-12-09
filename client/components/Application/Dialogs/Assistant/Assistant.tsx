@@ -10,10 +10,7 @@ import * as React from 'react'
 import { PropsWithChildren } from 'react'
 import Markdown from 'react-markdown'
 import * as store from './store'
-import { t } from 'i18next'
-import { Trans } from 'react-i18next'
-
-const DEFAULT_PROMPT = t('AI-assistant-default-prompt')
+import { useTranslation, Trans } from 'react-i18next'
 
 export function AssistantDialog() {
   const state = store.useState()
@@ -36,6 +33,7 @@ export function AssistantDialog() {
 }
 
 function TermsStepDialog() {
+  const { t } = useTranslation()
   return (
     <StepDialog
       label={t('confirm')}
@@ -50,7 +48,7 @@ function TermsStepDialog() {
 
 function CredsStepDialog() {
   const [key, setKey] = React.useState('')
-
+  const { t } = useTranslation()
   return (
     <StepDialog
       label={t('confirm')}
@@ -98,6 +96,8 @@ function CredsStepDialog() {
 }
 
 function PromptStepDialog() {
+  const { t } = useTranslation()
+  const DEFAULT_PROMPT = t('AI-assistant-default-prompt')
   const [prompt, setPrompt] = React.useState(DEFAULT_PROMPT)
 
   return (
@@ -127,7 +127,7 @@ function PromptStepDialog() {
 
 function ResultStepDialog() {
   const state = store.useState()
-
+  const { t } = useTranslation()
   return (
     <StepDialog
       label={t('ok')}
@@ -151,6 +151,7 @@ function StepDialog(
     transitionDuration?: number | { enter?: number; exit?: number }
   }>
 ) {
+  const { t } = useTranslation()
   return (
     <TwoButtonDialog
       open={true}

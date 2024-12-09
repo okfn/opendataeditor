@@ -16,7 +16,7 @@ import FormControl from '@mui/material/FormControl'
 import Autocomplete from '@mui/material/Autocomplete'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
@@ -52,6 +52,7 @@ function LicenseList() {
 
 function LicenseDialog(props: { open: boolean; onClose: () => void }) {
   const addLicense = useStore((state) => state.addLicense)
+  const { t } = useTranslation()
 
   const licenses = Object.values(openDefinitionLicenses).map((license) => ({
     name: license.id,
@@ -119,6 +120,7 @@ function Name() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   const [isValid, setIsValid] = React.useState(isValidLicenseName())
+  const { t } = useTranslation()
 
   function isValidLicenseName() {
     return Object.keys(openDefinitionLicenses).includes(name)
@@ -143,6 +145,7 @@ function Title() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   const [isValid, setIsValid] = React.useState(isValidTitle())
+  const { t } = useTranslation()
   function isValidTitle() {
     return title ? !validator.isNumeric(title) : true
   }
@@ -164,6 +167,7 @@ function Path() {
   const path = useStore(select(selectors.license, (license) => license.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('path')}

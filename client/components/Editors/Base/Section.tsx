@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Columns from '../../Parts/Grids/Columns'
 import HeadingBox from './Heading/Box'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export interface EditorItemProps {
   name?: string
@@ -14,6 +14,7 @@ export interface EditorItemProps {
 export default function EditorItem(props: React.PropsWithChildren<EditorItemProps>) {
   const BackButton = () => {
     if (!props.onBackClick) return null
+    const { t } = useTranslation()
     return (
       <Button
         title={t('back-to-list')}

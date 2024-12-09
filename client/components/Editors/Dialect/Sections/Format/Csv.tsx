@@ -5,7 +5,7 @@ import YesNoField from '../../../../Parts/Fields/YesNo'
 import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -32,6 +32,7 @@ function Delimiter() {
   const delimiter = useStore(select(selectors.csv, (csv) => csv.delimiter))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('delimiter')}
@@ -46,6 +47,7 @@ function LineTerminator() {
   const lineTerminator = useStore(select(selectors.csv, (csv) => csv.lineTerminator))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('line-terminator')}
@@ -60,6 +62,7 @@ function QuoteChar() {
   const quoteChar = useStore(select(selectors.csv, (csv) => csv.quoteChar))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('quote-char')}
@@ -74,6 +77,7 @@ function DoubleQuote() {
   const doubleQuote = useStore(select(selectors.csv, (csv) => csv.doubleQuote))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('double-quote')}
@@ -88,6 +92,7 @@ function EscapeChar() {
   const escapeChar = useStore(select(selectors.csv, (csv) => csv.escapeChar))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('escape-char')}
@@ -102,6 +107,7 @@ function NullSequence() {
   const nullSequence = useStore(select(selectors.csv, (csv) => csv.nullSequence))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('null-sequence')}
@@ -116,6 +122,7 @@ function SkipInitialSpace() {
   const skipInitialSpace = useStore(select(selectors.csv, (csv) => csv.skipInitialSpace))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateCsv = useStore((state) => state.updateCsv)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('skip-initial-space')}

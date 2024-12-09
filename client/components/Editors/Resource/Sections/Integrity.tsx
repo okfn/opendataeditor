@@ -3,10 +3,11 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Integrity() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <EditorSection
       name={t('integrity')}
@@ -30,6 +31,7 @@ function Hash() {
   const hash = useStore((state) => state.descriptor.hash)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('hash')}
@@ -44,6 +46,7 @@ function Bytes() {
   const bytes = useStore((state) => state.descriptor.bytes)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('bytes')}
@@ -59,6 +62,7 @@ function Fields() {
   const fields = useStore((state) => state.descriptor.fields)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
   return (
@@ -76,6 +80,7 @@ function Rows() {
   const rows = useStore((state) => state.descriptor.rows)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
   return (

@@ -18,7 +18,7 @@ import DateTimePickerField from '../../../Parts/Fields/DateTimePicker'
 import TimePickerField from '../../../Parts/Fields/TimePicker'
 import validator from 'validator'
 import dayjs from 'dayjs'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Fields() {
   const index = useStore((state) => state.fieldState.index)
@@ -101,6 +101,7 @@ function Name() {
   const updateField = useStore((state) => state.updateField)
 
   const [value, setValue] = React.useState('')
+  const { t } = useTranslation()
 
   React.useEffect(() => {
     setValue(name)
@@ -128,6 +129,7 @@ function Type() {
   const updateField = useStore((state) => state.updateField)
   const updateHelp = useStore((state) => state.updateHelp)
   const type = useStore(select(selectors.field, (field) => field.type))
+  const { t } = useTranslation()
   return (
     <SelectField
       label={t('type')}
@@ -147,6 +149,7 @@ function Format() {
   // TODO: remove any
   const FIELD = (settings.FIELDS as any)[type]
   const isFree = FIELD.formats.includes('*')
+  const { t } = useTranslation()
   return isFree ? (
     <InputField
       label={t('format')}
@@ -169,6 +172,7 @@ function Title() {
   const updateField = useStore((state) => state.updateField)
   const updateHelp = useStore((state) => state.updateHelp)
   const title = useStore(select(selectors.field, (field) => field.title))
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('title')}
@@ -183,6 +187,7 @@ function Description() {
   const updateField = useStore((state) => state.updateField)
   const updateHelp = useStore((state) => state.updateHelp)
   const descriptor = useStore(select(selectors.field, (field) => field.description))
+  const { t } = useTranslation()
   return (
     <MultilineField
       label={t('description')}
@@ -197,6 +202,7 @@ function MissingValues() {
   const updateField = useStore((state) => state.updateField)
   const updateHelp = useStore((state) => state.updateHelp)
   const missingValues = useStore(select(selectors.field, (field) => field.missingValues))
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('missing-values')}
@@ -213,6 +219,7 @@ function RdfType() {
   const updateField = useStore((state) => state.updateField)
   const updateHelp = useStore((state) => state.updateHelp)
   const rdfType = useStore(select(selectors.field, (field) => field.rdfType))
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('rdf-type')}
@@ -283,6 +290,7 @@ function ArrayItem() {
   const updateField = useStore((state) => state.updateField)
   const arrayItem = useStore(select(selectors.field, (field) => field.arrayItem))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <DescriptorField
       type="yaml"
@@ -298,6 +306,7 @@ function TrueValues() {
   const updateField = useStore((state) => state.updateField)
   const trueValues = useStore(select(selectors.field, (field) => field.trueValues))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('true-values')}
@@ -314,6 +323,7 @@ function FalseValues() {
   const updateField = useStore((state) => state.updateField)
   const falseValues = useStore(select(selectors.field, (field) => field.falseValues))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('false-values')}
@@ -330,6 +340,7 @@ function BareNumber() {
   const updateField = useStore((state) => state.updateField)
   const bareNumber = useStore(select(selectors.field, (field) => field.bareNumber))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('bare-number')}
@@ -346,6 +357,7 @@ function FloatNumber() {
   const updateField = useStore((state) => state.updateField)
   const floatNumber = useStore(select(selectors.field, (field) => field.floatNumber))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('float-number')}
@@ -360,6 +372,7 @@ function DecimalChar() {
   const updateField = useStore((state) => state.updateField)
   const decimalChar = useStore(select(selectors.field, (field) => field.decimalChar))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('decimal-char')}
@@ -374,6 +387,7 @@ function GroupChar() {
   const updateField = useStore((state) => state.updateField)
   const groupChar = useStore(select(selectors.field, (field) => field.groupChar))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('group-char')}
@@ -431,6 +445,7 @@ function Required() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
 
   return (
     <YesNoField
@@ -480,6 +495,7 @@ function MinimumDate() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_DATE_FORMAT
   const value = constraints ? dayjs(constraints.minimum, format) : null
+  const { t } = useTranslation()
   return (
     <DatePickerField
       label={t('minimum')}
@@ -501,6 +517,7 @@ function MaximumDate() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_DATE_FORMAT
   const value = constraints ? dayjs(constraints.maximum, format) : null
+  const { t } = useTranslation()
   return (
     <DatePickerField
       label={t('maximum')}
@@ -522,6 +539,7 @@ function MinimumDateTime() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_DATETIME_FORMAT
   const value = constraints ? dayjs(constraints.minimum, format) : null
+  const { t } = useTranslation()
   return (
     <DateTimePickerField
       label={t('minimum')}
@@ -543,6 +561,7 @@ function MaximumDateTime() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_DATETIME_FORMAT
   const value = constraints ? dayjs(constraints.maximum, format) : null
+  const { t } = useTranslation()
   return (
     <DateTimePickerField
       label={t('maximum')}
@@ -564,6 +583,7 @@ function MinimumTime() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_TIME_FORMAT
   const value = constraints ? dayjs(constraints.minimum, format) : null
+  const { t } = useTranslation()
   return (
     <TimePickerField
       label={t('minimum')}
@@ -590,6 +610,7 @@ function MaximumTime() {
   const updateHelp = useStore((state) => state.updateHelp)
   const format = field.format || settings.DEFUALT_TIME_FORMAT
   const value = constraints ? dayjs(constraints.maximum, format) : null
+  const { t } = useTranslation()
   return (
     <TimePickerField
       label={t('maximum')}
@@ -614,6 +635,7 @@ function MinimumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMinimumNumber())
+  const { t } = useTranslation()
 
   function isValidMinimumNumber() {
     if (!constraints) return true
@@ -646,6 +668,7 @@ function MaximumNumber() {
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
   const [isValid, setIsValid] = React.useState(isValidMaximumNumber())
+  const { t } = useTranslation()
 
   function isValidMaximumNumber() {
     if (!constraints) return true
@@ -677,6 +700,7 @@ function MinLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
 
   return (
     <InputField
@@ -696,6 +720,7 @@ function MaxLength() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
 
   return (
     <InputField
@@ -715,6 +740,7 @@ function Pattern() {
   const updateField = useStore((state) => state.updateField)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
 
   return (
     <InputField
@@ -735,6 +761,7 @@ function Enum() {
   const descriptor = useStore((state) => state.descriptor)
   const constraints = useStore(select(selectors.field, (field) => field.constraints))
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
 
   const [value, setValue] = React.useState('')
 

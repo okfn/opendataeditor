@@ -5,7 +5,7 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Contributors() {
   const index = useStore((state) => state.contributorState.index)
@@ -70,6 +70,7 @@ function Title() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('title')}
@@ -86,6 +87,7 @@ function Email() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('email')}
@@ -100,6 +102,7 @@ function Path() {
   const path = useStore(select(selectors.contributor, (contributor) => contributor.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('path')}
@@ -114,6 +117,7 @@ function Role() {
   const role = useStore(select(selectors.contributor, (contributor) => contributor.role))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('role')}

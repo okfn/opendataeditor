@@ -13,7 +13,7 @@ import SourcesSection from './Sections/Sources'
 import ContributorsSection from './Sections/Contributors'
 import { useStore } from './store'
 import * as types from '../../../types'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function Layout() {
   const externalMenu = useStore((state) => state.externalMenu)
@@ -35,6 +35,7 @@ function LayoutWithMenu() {
   const updateState = useStore((state) => state.updateState)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
+  const { t } = useTranslation()
 
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: t('resource') },

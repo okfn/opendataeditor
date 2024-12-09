@@ -9,10 +9,11 @@ import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 import validator from 'validator'
 import * as settings from '../../../../settings'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <EditorSection name={t('dialect')} onHeadingClick={() => updateHelp('dialect')}>
       <Columns spacing={3}>
@@ -41,6 +42,7 @@ function Title() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const [isValid, setIsValid] = React.useState(isValidTitle())
+  const { t } = useTranslation()
   function isValidTitle() {
     return title ? !validator.isNumeric(title) : true
   }
@@ -63,6 +65,7 @@ function Description() {
   const description = useStore((state) => state.descriptor.description)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <MultilineField
       label={t('description')}
@@ -78,6 +81,7 @@ function Format() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
   const externalMenu = useStore((state) => state.externalMenu)
+  const { t } = useTranslation()
   return (
     <SelectField
       label={t('format')}
@@ -94,6 +98,7 @@ function CommentChar() {
   const commentChar = useStore((state) => state.descriptor.commentChar)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('comment-char')}
@@ -108,6 +113,7 @@ function CommentRows() {
   const commentRows = useStore((state) => state.descriptor.commentRows)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('comment-rows')}
@@ -126,6 +132,7 @@ function Header() {
   const header = useStore((state) => state.descriptor.header)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('header')}
@@ -140,6 +147,7 @@ function HeaderRows() {
   const headerRows = useStore((state) => state.descriptor.headerRows)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
       label={t('header-rows')}
@@ -158,9 +166,10 @@ function HeaderJoin() {
   const headerJoin = useStore((state) => state.descriptor.headerJoin)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Header Join"
+      label={t('header-join')}
       value={headerJoin}
       onFocus={() => updateHelp('dialect/type/headerJoin')}
       onChange={(value) => updateDescriptor({ headerJoin: value || undefined })}
@@ -172,6 +181,7 @@ function HeaderCase() {
   const headerCase = useStore((state) => state.descriptor.headerCase)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <YesNoField
       label={t('header-case')}
