@@ -1,5 +1,5 @@
 ---
-title: Comparison to Alternatives
+title: Similar tools
 sidebar:
   order: 11
 ---
