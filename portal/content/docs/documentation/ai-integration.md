@@ -5,15 +5,15 @@ sidebar:
 ---
 The ODE has an AI component to help users improve column names and descriptions. To use the AI feature, please first ingest or select a file from the sidebar. Then click on the AI button located on the top right corner of the app:
 
-(image 1)
+![AI Integration button is located in the top panel](./assets/ai-integration/ai-integration-1.png)
 
 The tool will then display a dialog to inform the user that by confirming the action, the app will only share column names with OpenAI. If the user accepts, the next step is to add the OpenAI key. The dialog also includes a link to check OpenAI terms and conditions:
 
-(Image 2)
+![OpenAI key dialog](./assets/ai-integration/ai-integration-2.png)
 
 After pasting your OpenAI key, the ODE will show you a predefined prompt:
 
-Image 3
+![OpenAI Prompt dialog](./assets/ai-integration/ai-integration-3.png)
 
 Finally, clicking on confirm will generate the response.
 
