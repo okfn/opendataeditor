@@ -21,7 +21,7 @@
     "open-file-location": "Open File Location",
     "upload-your-data": "Upload your data",
     "create-an-issue": "create an issue",
-    "sharing-contents-if-possible": "sharing the file contents <small>(if possible)</small>",
+    "sharing-contents-if-possible": "sharing the file contents <1>(if possible)</1>",
     "ODE-supports-CSV-Excel-files" : "The ODE supports Excel & csv files",
     "links-online-tables" : "You can also add links to online tables",
     "create-folder": "Create folder",

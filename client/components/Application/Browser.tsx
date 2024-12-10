@@ -35,7 +35,10 @@ function DefaultBrowser() {
           <a href="https://github.com/okfn/opendataeditor/issues" target="_blank">
             {t('create-an-issue')}
           </a>{' '}
-          <Trans i18nKey="sharing-contents-if-possible" components={{ 1: <small /> }} />
+          <Trans
+            i18nKey="sharing-contents-if-possible"
+            components={{ 1: <small>(if possible)</small> }}
+          />
         </Box>
       }
     >
