@@ -42,9 +42,8 @@ export function makeStore(props: DialectProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
-      const helpItem =
-        (t(`help-${path}`, { returnObjects: true }) as types.IHelpItem) ||
-        DEFAULT_HELP_ITEM
+      let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
+      if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })
     },
     updateDescriptor: (patch) => {

@@ -75,10 +75,9 @@ export function makeStore(props: ResourceProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
-      const helpItem =
-        (t(`help-${path}`, { returnObjects: true }) as types.IHelpItem) ||
-        DEFAULT_HELP_ITEM
-      if (helpItem) set({ helpItem })
+      let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
+      if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
+      set({ helpItem })
     },
     updateDescriptor: (patch) => {
       const { descriptor, onChange } = get()
