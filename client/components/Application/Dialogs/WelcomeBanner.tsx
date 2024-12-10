@@ -1,4 +1,6 @@
-import welcomescreenImg from '@client/assets/welcomescreen.png'
+import welcomescreenImg1 from '@client/assets/welcome_banner_1.png'
+import welcomescreenImg2 from '@client/assets/welcome_banner_2.png'
+import welcomescreenImg3 from '@client/assets/welcome_banner_3.png'
 import * as store from '@client/store'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -60,8 +62,30 @@ export default function WelcomeBanner() {
           paddingBottom: '0',
         }}
       >
-        <Box sx={{ backgroundColor: '#F3F4F6', padding: '56px 52px' }}>
-          <img src={welcomescreenImg} alt="Welcome Screen" />
+        <Box
+          sx={{
+            backgroundColor: '#F3F4F6',
+            padding: '56px 52px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <ImageWithText
+            image={welcomescreenImg1}
+            text={t('open-explore-tables')}
+            alt={`${t('welcome-screen-image')} 1`}
+          />
+          <ImageWithText
+            image={welcomescreenImg2}
+            text={t('detect-errors-generate-report')}
+            alt={`${t('welcome-screen-image')} 2`}
+          />
+          <ImageWithText
+            image={welcomescreenImg3}
+            text={t('save-download-work')}
+            alt={`${t('welcome-screen-image')} 3`}
+          />
         </Box>
         <Box sx={{ padding: '32px' }}>
           <Box
@@ -140,5 +164,25 @@ export default function WelcomeBanner() {
         </Box>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function ImageWithText(props: { image: string; text: string; alt: string }) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        fontSize: '12px',
+        flexDirection: 'column',
+        textAlign: 'center',
+      }}
+    >
+      <Box sx={{ paddingBottom: '20px' }}>
+        <img src={props.image} alt={props.alt} />
+      </Box>
+      <Box sx={{ maxWidth: '100px' }}>
+        <span>{props.text}</span>
+      </Box>
+    </Box>
   )
 }

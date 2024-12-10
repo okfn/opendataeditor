@@ -5,6 +5,7 @@ import EditorItem from '../../Base/Item'
 import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
+import { useTranslation } from 'react-i18next'
 
 export default function Contributors() {
   const index = useStore((state) => state.contributorState.index)
@@ -69,9 +70,10 @@ function Title() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Title"
+      label={t('title')}
       value={title || ''}
       onFocus={() => updateHelp('resource/contributors/title')}
       onChange={(value) => updateContributor({ title: value })}
@@ -85,9 +87,10 @@ function Email() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Email"
+      label={t('email')}
       value={email || ''}
       onFocus={() => updateHelp('resource/contributors/email')}
       onChange={(value) => updateContributor({ email: value || undefined })}
@@ -99,9 +102,10 @@ function Path() {
   const path = useStore(select(selectors.contributor, (contributor) => contributor.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Path"
+      label={t('path')}
       value={path || ''}
       onFocus={() => updateHelp('resource/contributors/path')}
       onChange={(value) => updateContributor({ path: value || undefined })}
@@ -113,9 +117,10 @@ function Role() {
   const role = useStore(select(selectors.contributor, (contributor) => contributor.role))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateContributor = useStore((state) => state.updateContributor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Role"
+      label={t('role')}
       value={role || ''}
       onFocus={() => updateHelp('resource/contributors/role')}
       onChange={(value) => updateContributor({ role: value || undefined })}

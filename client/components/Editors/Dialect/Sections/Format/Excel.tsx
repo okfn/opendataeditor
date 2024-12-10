@@ -7,6 +7,7 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 // import validator from 'validator'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -32,6 +33,7 @@ function Sheet() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
   const [isValid, setIsValid] = React.useState(isValidSheet())
+  const { t } = useTranslation()
   function isValidSheet() {
     // Sheet can be both string/number for now
     // return sheet ? validator.isNumeric(sheet) : true
@@ -40,14 +42,14 @@ function Sheet() {
   return (
     <InputField
       error={!isValid}
-      label="Sheet"
+      label={t('sheet')}
       value={sheet || settings.DEFAULT_SHEET}
       onFocus={() => updateHelp('dialect/format/sheet')}
       onBlur={() => {
         setIsValid(isValidSheet())
       }}
       onChange={(value) => updateExcel({ sheet: value || undefined })}
-      helperText={!isValid ? 'Sheet is not valid.' : ''}
+      helperText={!isValid ? t('sheet-not-valid') : ''}
     />
   )
 }
@@ -58,9 +60,10 @@ function FillMergedCells() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Fill Merged Cells"
+      label={t('fill-merged-cells')}
       value={fillMergedCells || settings.DEFAULT_FILLED_MERGED_CELLS}
       onFocus={() => updateHelp('dialect/format/fillMergedCells')}
       onChange={(fillMergedCells) => updateExcel({ fillMergedCells })}
@@ -74,9 +77,10 @@ function PreserveFormatting() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Preserve Formatting"
+      label={t('preserve-formatting')}
       value={preserveFormatting || settings.DEFAULT_PRESERVE_FORMATTING}
       onFocus={() => updateHelp('dialect/format/preserveFormatting')}
       onChange={(preserveFormatting) => updateExcel({ preserveFormatting })}
@@ -90,9 +94,10 @@ function AdjustFloatingPointError() {
   )
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Adjust Floating Point Error"
+      label={t('adjust-floating-point-error')}
       value={adjustFloatingPointError || false}
       onFocus={() => updateHelp('dialect/format/adjustFloatingPointError')}
       onChange={(adjustFloatingPointError) => updateExcel({ adjustFloatingPointError })}
@@ -104,9 +109,10 @@ function Stringified() {
   const stringified = useStore(select(selectors.excel, (excel) => excel.stringified))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateExcel = useStore((state) => state.updateExcel)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Stringified"
+      label={t('stringified')}
       value={stringified || settings.DEFAULT_STRINGIFIED}
       onFocus={() => updateHelp('dialect/format/stringified')}
       onChange={(stringified) => updateExcel({ stringified })}

@@ -9,9 +9,8 @@ import { ResourceProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import help from './help.yaml'
+import { t } from 'i18next'
 
-const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'resource')!
 const MEDIA_TYPES: { [key: string]: string } = {
   csv: 'text/csv',
   json: 'application/json',
@@ -62,6 +61,8 @@ interface State {
 }
 
 export function makeStore(props: ResourceProps) {
+  const DEFAULT_HELP_ITEM = t('help-resource', { returnObjects: true }) as types.IHelpItem
+
   return createStore<State>((set, get) => ({
     descriptor: props.resource || cloneDeep(settings.INITIAL_RESOURCE),
     externalMenu: props.externalMenu,
@@ -74,7 +75,8 @@ export function makeStore(props: ResourceProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
-      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
+      if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })
     },
     updateDescriptor: (patch) => {

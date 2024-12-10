@@ -7,6 +7,7 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
+import { useTranslation } from 'react-i18next'
 
 export default function Sources() {
   const index = useStore((state) => state.sourceState.index)
@@ -66,9 +67,10 @@ function Title() {
   const title = useStore(select(selectors.source, (source) => source.title))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Title"
+      label={t('title')}
       value={title}
       onFocus={() => updateHelp('resource/sources/title')}
       onChange={(title) => updateSource({ title })}
@@ -80,9 +82,10 @@ function Path() {
   const path = useStore(select(selectors.source, (source) => source.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Path"
+      label={t('path')}
       value={path || ''}
       onFocus={() => updateHelp('resource/sources/path')}
       onChange={(value) => updateSource({ path: value || undefined })}
@@ -95,20 +98,21 @@ function Email() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateSource = useStore((state) => state.updateSource)
   const [isValid, setIsValid] = React.useState(isValidEmail())
+  const { t } = useTranslation()
   function isValidEmail() {
     return email ? validator.isEmail(email) : true
   }
   return (
     <InputField
       error={!isValid}
-      label="Email"
+      label={t('email')}
       value={email || ''}
       onFocus={() => updateHelp('resource/sources/email')}
       onBlur={() => {
         setIsValid(isValidEmail())
       }}
       onChange={(value) => updateSource({ email: value || undefined })}
-      helperText={!isValid ? 'Email is not valid.' : ''}
+      helperText={!isValid ? t('email-not-valid') : ''}
     />
   )
 }
