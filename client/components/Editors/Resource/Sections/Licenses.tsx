@@ -16,6 +16,7 @@ import FormControl from '@mui/material/FormControl'
 import Autocomplete from '@mui/material/Autocomplete'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
+import { useTranslation } from 'react-i18next'
 
 export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
@@ -51,6 +52,7 @@ function LicenseList() {
 
 function LicenseDialog(props: { open: boolean; onClose: () => void }) {
   const addLicense = useStore((state) => state.addLicense)
+  const { t } = useTranslation()
 
   const licenses = Object.values(openDefinitionLicenses).map((license) => ({
     name: license.id,
@@ -68,7 +70,7 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
   return (
     <Box>
       <Dialog open={props.open} onClose={props.onClose}>
-        <DialogTitle>Select the license</DialogTitle>
+        <DialogTitle>{t('select-license')}</DialogTitle>
         <DialogContent>
           <Box component="form">
             <FormControl sx={{ my: 1, minWidth: '30em' }}>
@@ -76,7 +78,9 @@ function LicenseDialog(props: { open: boolean; onClose: () => void }) {
                 autoSelect
                 onChange={handleSelect}
                 options={licenses.map((license) => license.title)}
-                renderInput={(params) => <TextField {...params} label="Type to search" />}
+                renderInput={(params) => (
+                  <TextField {...params} label={t('type-to-search')} />
+                )}
               ></Autocomplete>
             </FormControl>
           </Box>
@@ -116,6 +120,7 @@ function Name() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   const [isValid, setIsValid] = React.useState(isValidLicenseName())
+  const { t } = useTranslation()
 
   function isValidLicenseName() {
     return Object.keys(openDefinitionLicenses).includes(name)
@@ -123,7 +128,7 @@ function Name() {
 
   return (
     <InputField
-      label="Name"
+      label={t('name')}
       value={name}
       onFocus={() => updateHelp('resource/licenses/name')}
       onBlur={() => {
@@ -140,13 +145,14 @@ function Title() {
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
   const [isValid, setIsValid] = React.useState(isValidTitle())
+  const { t } = useTranslation()
   function isValidTitle() {
     return title ? !validator.isNumeric(title) : true
   }
   return (
     <InputField
       error={!isValid}
-      label="Title"
+      label={t('title')}
       value={title || ''}
       onFocus={() => updateHelp('resource/licenses/title')}
       onBlur={() => {
@@ -161,9 +167,10 @@ function Path() {
   const path = useStore(select(selectors.license, (license) => license.path))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateLicense = useStore((state) => state.updateLicense)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Path"
+      label={t('path')}
       value={path || ''}
       onFocus={() => updateHelp('resource/licenses/path')}
       onChange={(value) => updateLicense({ path: value || undefined })}

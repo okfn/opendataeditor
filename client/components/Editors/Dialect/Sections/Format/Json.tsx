@@ -5,6 +5,7 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 import YesNoField from '../../../../Parts/Fields/YesNo'
+import { useTranslation } from 'react-i18next'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
@@ -27,9 +28,10 @@ function Keys() {
   const keys = useStore(select(selectors.json, (json) => json.keys || ''))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Keys"
+      label={t('keys')}
       value={keys}
       onFocus={() => updateHelp('dialect/format/keys')}
       onChange={(value) => updateJson({ keys: value ? value.split(',') : undefined })}
@@ -41,9 +43,10 @@ function Keyed() {
   const keyed = useStore(select(selectors.json, (json) => json.keyed))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <YesNoField
-      label="Keyed"
+      label={t('keyed')}
       value={keyed || settings.DEFAULT_KEYED}
       onFocus={() => updateHelp('dialect/format/keyed')}
       onChange={(keyed) => updateJson({ keyed })}
@@ -55,9 +58,10 @@ function Property() {
   const property = useStore(select(selectors.json, (json) => json.property || ''))
   const updateHelp = useStore((state) => state.updateHelp)
   const updateJson = useStore((state) => state.updateJson)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Property"
+      label={t('property')}
       value={property}
       onFocus={() => updateHelp('dialect/format/property')}
       onChange={(value) => updateJson({ property: value || undefined })}

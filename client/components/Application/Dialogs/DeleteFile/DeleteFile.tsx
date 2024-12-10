@@ -24,7 +24,7 @@ export function DeleteFileDialog() {
   return (
     <TwoButtonDialog
       open={true}
-      title={t('delete-fileFolder', { fileOrFolder })}
+      title={t('delete-filefolder', { fileOrFolder })}
       description={description}
       label={t('delete')}
       hoverBgButtonColor="OKFNRed600"

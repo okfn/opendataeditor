@@ -61,7 +61,7 @@ export function UploadFileDialog() {
             paddingBottom: '33px',
           }}
         >
-          <img src={uploadFilesDialogImg} alt="Image Folder Dialog" />
+          <img src={uploadFilesDialogImg} alt={t('alt-image-folder-dialog')} />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <DialogTabs
@@ -113,7 +113,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
         />
         <Box sx={{ padding: '32px 48px 24px 48px' }}>
           <Box>
-            <img src={icon} alt="Icon Upload File" />
+            <img src={icon} alt={t('alt-icon-upload-file')} />
           </Box>
           <Box>{text}</Box>
           <StyledSelectBox

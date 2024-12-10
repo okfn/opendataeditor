@@ -3,12 +3,14 @@ import InputField from '../../../Parts/Fields/Input'
 import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
+import { useTranslation } from 'react-i18next'
 
 export default function Integrity() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const { t } = useTranslation()
   return (
     <EditorSection
-      name="Integrity"
+      name={t('integrity')}
       onHeadingClick={() => updateHelp('resource/integrity')}
     >
       <Columns spacing={3}>
@@ -29,9 +31,10 @@ function Hash() {
   const hash = useStore((state) => state.descriptor.hash)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Hash"
+      label={t('hash')}
       value={hash || ''}
       onFocus={() => updateHelp('resource/integrity/hash')}
       onChange={(value) => updateDescriptor({ hash: value || undefined })}
@@ -43,9 +46,10 @@ function Bytes() {
   const bytes = useStore((state) => state.descriptor.bytes)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   return (
     <InputField
-      label="Bytes"
+      label={t('bytes')}
       value={bytes || ''}
       onFocus={() => updateHelp('resource/integrity/bytes')}
       onChange={(value) => updateDescriptor({ bytes: parseInt(value) || undefined })}
@@ -58,11 +62,12 @@ function Fields() {
   const fields = useStore((state) => state.descriptor.fields)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      label="Fields"
+      label={t('fields')}
       value={fields || ''}
       onFocus={() => updateHelp('resource/integrity/fields')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}
@@ -75,11 +80,12 @@ function Rows() {
   const rows = useStore((state) => state.descriptor.rows)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
+  const { t } = useTranslation()
   // Until standards@2 we use a safer check
   if (['file', 'text', 'json'].includes(type)) return null
   return (
     <InputField
-      label="Rows"
+      label={t('rows')}
       value={rows || ''}
       onFocus={() => updateHelp('resource/integrity/rows')}
       onChange={(value) => updateDescriptor({ fields: parseInt(value) || undefined })}

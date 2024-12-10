@@ -7,11 +7,8 @@ import { createStore } from 'zustand/vanilla'
 import { createSelector } from 'reselect'
 import { DialectProps } from './index'
 import * as settings from '../../../settings'
-import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import help from './help.yaml'
-
-const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'dialect')!
+import { t } from 'i18next'
 
 interface State {
   format: string
@@ -32,6 +29,8 @@ interface State {
 }
 
 export function makeStore(props: DialectProps) {
+  const DEFAULT_HELP_ITEM = t('help-dialect', { returnObjects: true }) as types.IHelpItem
+
   return createStore<State>((set, get) => ({
     descriptor: props.dialect || cloneDeep(settings.INITIAL_DIALECT),
     externalMenu: props.externalMenu,
@@ -43,7 +42,8 @@ export function makeStore(props: DialectProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
-      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
+      if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })
     },
     updateDescriptor: (patch) => {

@@ -9,9 +9,7 @@ import { SchemaProps } from './index'
 import * as settings from '../../../settings'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import help from './help.yaml'
-
-const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'schema')!
+import { t } from 'i18next'
 
 interface ISectionState {
   query?: string
@@ -48,6 +46,8 @@ interface State {
 }
 
 export function makeStore(props: SchemaProps) {
+  const DEFAULT_HELP_ITEM = t('help-schema', { returnObjects: true }) as types.IHelpItem
+
   return createStore<State>((set, get) => ({
     descriptor: props.schema || cloneDeep(settings.INITIAL_SCHEMA),
     externalMenu: props.externalMenu,
@@ -59,7 +59,8 @@ export function makeStore(props: SchemaProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
-      const helpItem = helpers.readHelpItem(help, path) || DEFAULT_HELP_ITEM
+      let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
+      if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })
     },
     updateDescriptor: (patch) => {
