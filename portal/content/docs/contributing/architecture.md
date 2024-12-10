@@ -50,7 +50,7 @@ The context bridge is a feature of Electron that allows the renderer process to 
 
 Currently, the desktop component is not tested. The main reason for this is that the desktop component is a thin layer that starts the client and server components and does not contain any business logic. The client and server components are tested independently.
 
-On the other hand, once [Bootstrap e2e testing](https://github.com/okfn/opendataeditor/issues/131) is setup it will be great to add at least some basic e2e coverage. The best case scinario would be having some unit testings as well for the main process and context bridge. In-general, the testing will require seting up a testing environment for the Electron app on different platforms.
+On the other hand, once [Bootstrap e2e testing](https://github.com/okfn/opendataeditor/issues/131) is set up it will be great to add at least some basic e2e coverage. The best case scenario would be having some unit testing as well for the main process and context bridge. In-general, the testing will require setting up a testing environment for the Electron app on different platforms.
 
 ### Client
 
@@ -69,7 +69,7 @@ The main technologies used in the client component are:
 
 #### Components
 
-The client uses a component-based architecture. Each component is responsible for rendering a specific part of the user interface. The components are nested and have different level of abstraction. Most of high-level components uses `Zustand` for shared state management while low-level components are stateless or use local `React.useState`.
+The client uses a component-based architecture. Each component is responsible for rendering a specific part of the user interface. The components are nested and have different levels of abstraction. Most high-level components use `Zustand` for shared state management while low-level components are stateless or use local `React.useState`.
 
 Components that are required to have access to the server use the `Client` class singleton to access the server. The `Client` class is a wrapper around the `fetch` function that is used to send requests to the API. The `Client` class is responsible for providing client-side types information and error handling. Components get the `client` singleton instance as a prop as a part of dependency injection pattern.
 
@@ -77,7 +77,7 @@ Components that are required to have access to the server use the `Client` class
 
 > Application USE `Zustand` for shared state management
 
-The `components/Application` component is the root component of the application. It is responsible for rendering the main layout of the application and managing the file browser, the routing and controllers. The underlaying component are described in the sections belows and here is an examplar structure of the `Application` component for a tabular data source:
+The `components/Application` component is the root component of the application. It is responsible for rendering the main layout of the application and managing the file browser, the routing and controllers. The underlying components are described in the sections below and here is an exemplar structure of the `Application` component for a tabular data source:
 
 ![Layout](./assets/layout.png)
 
@@ -85,7 +85,7 @@ The `components/Application` component is the root component of the application.
 
 > Controllers usually USE `Zustand` for shared state management
 
-In the `components/controllers` folder there are components that are responsible for rendering a full data source representation including all the underlaying editors, views, and parts. Controllers are split by the file type e.g.:
+In the `components/controllers` folder there are components that are responsible for rendering a full data source representation including all the underlying editors, views, and parts. Controllers are split by the file type e.g.:
 
 - table
 - text
@@ -102,13 +102,13 @@ In the `components/Editors` folder there are components that are responsible for
 
 > Views usually DON'T USE `Zustand` for shared state management
 
-In the `components/Views` folder there are components that are responsible for rendering different data and metadata sources without an ability to edit the source. The most promenent example of a view is a `Report` that takes a [Frictionless Validation Report](https://framework.frictionlessdata.io/docs/framework/report.html) as one of the props and renders it to a visual representation.
+In the `components/Views` folder there are components that are responsible for rendering different data and metadata sources without an ability to edit the source. The most prominent example of a view is a `Report` that takes a [Frictionless Validation Report](https://framework.frictionlessdata.io/docs/framework/report.html) as one of the props and renders it to a visual representation.
 
 ##### Parts
 
 > Parts usually DON'T USE `Zustand` for shared state management
 
-In the `components/Parts` folder there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically a application-specific library of components that are mostly based on `MUI` primitives.
+In the `components/Parts` folder there are components that are used in multiple places in the application. They are usually low-level components such as dialogs or buttons that are used to build more complex components. Parts are basically an application-specific library of components that are mostly based on `MUI` primitives.
 
 #### Testing
 
@@ -142,7 +142,7 @@ The server component is built using the FastAPI framework. Currently, it uses sy
 The server component consists of a set of endpoints that are responsible for handling requests from the client. Each endpoint is responsible for a specific part of the application, such as managing projects, data sources, and metadata entities.
 
 :::note
-API doesn't use full REST API approach for simplicity. The main reason for this is that the API is designed to be used by the Open Data Editor client and not by external clients.
+API doesn't use the full REST API approach for simplicity. The main reason for this is that the API is designed to be used by the Open Data Editor client and not by external clients.
 :::
 
 All calls need to be `POST`. All the endpoints use `Pydantic` based `Props` and `Result` models. The endpoints routing is `subj/verb` based, for example, there are following endpoints:
@@ -178,7 +178,7 @@ The server component consists of a set of services that are responsible for inte
 
 ##### Frictionless
 
-The Frictionless service is a [frictionless-py](https://framework.frictionlessdata.io/) library. The server uses the library direclty via its Python interface. The core Frictionless usage is:
+The Frictionless service is a [frictionless-py](https://framework.frictionlessdata.io/) library. The server uses the library directly via its Python interface. The core Frictionless usage is:
 
 - describing data sources i.e. inferring its metadata
 - validating data sources i.e. checking its quality
@@ -195,15 +195,15 @@ The OpenAPI service uses the official [OpenAI](https://pypi.org/project/openai/)
 The application creates a set of artifacts that are stored in the user and project directories:
 
 - `$HOME/.opendataeditor` - this directory contains system files i.e. Python virtual environment, logs, and user configuration
-- `$PROJECT/.opendataeditor` - this directory contains project specific configration and artifacts. In also includes `.gitignore` file to exclude subset of artifacts from the version control system
+- `$PROJECT/.opendataeditor` - this directory contains project specific configuration and artifacts. In also includes `.gitignore` file to exclude subset of artifacts from the version control system
 
 The core artifacts are:
 
 ##### `config.json`
 
-> The project-level `config.json` file is not meant to be checked into the version control system. It's included into `.gitignore` by default.
+> The project-level `config.json` file is not meant to be checked into the version control system. It's included in `.gitignore` by default.
 
-The configration exists both in the user and project directories. The user configuration is used to store the user settings and the project configuration is used to store the project settings.
+The configuration exists both in the user and project directories. The user configuration is used to store the user settings and the project configuration is used to store the project settings.
 
 Structure reference:
 
@@ -211,7 +211,7 @@ Structure reference:
 
 ##### `metadata.json`
 
-> The `metadata.json` file is meant to be checked into the version control system for projects that requires multiple user collaboration. It's excluded from `.gitignore` by default.
+> The `metadata.json` file is meant to be checked into the version control system for projects that require multiple user collaboration. It's excluded from `.gitignore` by default.
 
 The metadata is stored in the project directory. The metadata is used to store all the information about fields in the projects.
 
@@ -261,7 +261,7 @@ Example:
 
 ##### `database.db`
 
-> The `database.db` file is not meant to be checked into the version control system. It's included into `.gitignore` by default. Note that table and column names are escaped by `sqlalchemy` but they are not changed from the user perspective e.g. comapred to a CSV file header.
+> The `database.db` file is not meant to be checked into the version control system. It's included in `.gitignore` by default. Note that table and column names are escaped by `sqlalchemy` but they are not changed from the user perspective e.g. compared to a CSV file header.
 
 The database is stored in the project directory. The database is used to store indexed tabular data sources in a SQLite database.
 
@@ -280,7 +280,7 @@ Structure reference:
 
 Most of the endpoints are tested as isolated functions as they are written as plain Python functions and then wrapped by FastAPI. The tests are written using the `pytest` framework. The tests are located in the `__spec__` folders in the server component.
 
-As the `server` is the most stable part of the appliction and the endpoints are plain Python functions, it is highly recommended to use test driven development (TDD) approach for any new features or bug fixes.
+As the `server` is the most stable part of the application and the endpoints are plain Python functions, it is highly recommended to use test driven development (TDD) approach for any new features or bug fixes.
 
 ## Workflows
 
@@ -288,13 +288,13 @@ This section describes a few main workflows of the Open Data Editor project:
 
 ### Adding a Local File
 
-1. The user click on the "Add" and "Local File" buttons in the Open Data Editor client.
-2. The webrowser opens a file dialog and the user selects a file, for example, `players.csv`.
+1. The user clicks on the "Add" and "Local File" buttons in the Open Data Editor client.
+2. The web browser opens a file dialog and the user selects a file, for example, `players.csv`.
 3. The `Application` component sends a request to the `file/create` endpoint with the file content.
 4. The `Application` component reloads the file list and the `players.csv` file is now visible in the file browser.
-5. The `Application` component set `players.csv` to be a selected file.
+5. The `Application` component sets `players.csv` to be a selected file.
 
-> The "Opening a Tabular File" workflow is triggered automatically as the file is a tabular data source. The rest of the worklow is the same as described in the "Opening a Tabular File" section.
+> The "Opening a Tabular File" workflow is triggered automatically as the file is a tabular data source. The rest of the workflow is the same as described in the "Opening a Tabular File" section.
 
 ### Opening a Tabular File
 
@@ -303,8 +303,8 @@ This section describes a few main workflows of the Open Data Editor project:
 3. The `file/index` endpoint checks existing artifacts and if there are missing artifacts it ensures that all the artifacts are in-place. It uses `frictionless-py` to infer the metadata, get a validation report, and index the tabular data source.
 4. The `file/index` endpoint returns the `record` and the `measure` objects to the client.
 5. The `Application` component updates the file status and file list as `cars.csv` is now indexed and validated (i.e. the icon becomes green if valid).
-6. The `Application` component fires a `open` event for provide animation and sets the `record` object of the `cars.csv` to be an active one.
-7. The `Application` component selects appropriate controller for the `record` object and renders the `Controllers/Table` component in this case.
+6. The `Application` component fires an `open` event to provide animation and sets the `record` object of the `cars.csv` to be an active one.
+7. The `Application` component selects the appropriate controller for the `record` object and renders the `Controllers/Table` component in this case.
    8 . The `Controllers/Table` component renders the `Editors/Table` component that is responsible for viewing and editing the tabular data source.
 8. The `Editors/Table` component uses the `types.ITableLoader` provided as a prop to access the table via API. Note that the data loader is injected into the editor and actual API calls are made by the controller.
 9. The `types.ITableLoader` implementation uses the `table/read(path=cars.csv)` to get the tabular data source, paginate and filter it.
@@ -323,7 +323,7 @@ Although the Open Data Editor project is designed after complex programming IDE,
 
 ### Consistency
 
-The Open Data Editor project uses a consistent dialogs, editors, views, and menus for all file types. For example, in dialogs, the rejecting action is always on the left, and the approving is on the right (see "Shortcuts" and "Color Coding" as well). One of the main user challenges of working with IDEs is to remember the controls locations. The Open Data Editor project tries to solve this problem by using a consistent layout for all file types making buttons enabled and disabled based on available functionality.
+The Open Data Editor project uses consistent dialogs, editors, views, and menus for all file types. For example, in dialogs, the rejecting action is always on the left, and the approving is on the right (see "Shortcuts" and "Color Coding" as well). One of the main user challenges of working with IDEs is to remember the controls locations. The Open Data Editor project tries to solve this problem by using a consistent layout for all file types making buttons enabled and disabled based on available functionality.
 
 ## Shortcuts
 
@@ -331,7 +331,7 @@ Using keyboard shortcuts is a key practice for making advanced users productive.
 
 ## Color Coding
 
-The Open Data Editor project uses consistent color coding system accross the application. The main colors are:
+The Open Data Editor project uses a consistent color coding system across the application. The main colors are:
 
 - **blue**: actions
 - **yellow**: visual selections
@@ -346,12 +346,12 @@ Here are the list of some potential weaknesses of the Open Data Editor architect
 
 ### Python Dependency
 
-Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is battle-tested library it has its own limitations regarding perfomance, maintance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture.
+Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is a battle-tested library it has its own limitations regarding performance, maintenance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture.
 
-Using `frictionless-py` also brings the whole Python environment to be installed and used for Open Data Editor to work properly. This is a significant limitation for the project as it makes the project less portable and more complex to setup. It creates a lot of issues with the Electron environment and makes the project less stable and not possible to be run without the Internet on the initialization stage.
+Using `frictionless-py` also brings the whole Python environment to be installed and used for Open Data Editor to work properly. This is a significant limitation for the project as it makes the project less portable and more complex to set up. It creates a lot of issues with the Electron environment and makes the project less stable and not possible to be run without the Internet on the initialization stage.
 
 ### Client Maturity
 
-The client component is still not really mature. The client component is not fully tested and state management are work in progress, generally speaking, as the team tried different approaches to improve the workflows during the first development phase. The client component is also not fully optimized for accessibility.
+The client component is still not really mature. The client component is not fully tested and state management is work in progress, generally speaking, as the team tried different approaches to improve the workflows during the first development phase. The client component is also not fully optimized for accessibility.
 
-The error handling is also not fully implemented in the client component making application crash on edge cases without an ability to recover the UI for the user.
+The error handling is also not fully implemented in the client component making the application crash on edge cases without an ability to recover the UI for the user.
