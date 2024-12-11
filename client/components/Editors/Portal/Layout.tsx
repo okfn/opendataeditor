@@ -1,6 +1,6 @@
 import publishDialogImg from '@client/assets/dialog_publish.png'
 import Box from '@mui/material/Box'
-import DialogTabs from '../../Parts/Tabs/Dialog'
+import SimpleTabs from '../../Parts/Tabs/SimpleTabs'
 import CkanSection from './Sections/Ckan'
 import GithubSection from './Sections/Github'
 import ZenodoSection from './Sections/Zenodo'
@@ -21,7 +21,7 @@ export default function Layout() {
         <img src={publishDialogImg} alt="Image Publish Dialog" />
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <DialogTabs labels={tabLabels}>
+        <SimpleTabs labels={tabLabels} centered>
           <Box>
             <CkanSection />
           </Box>
@@ -31,7 +31,7 @@ export default function Layout() {
           <Box>
             <ZenodoSection />
           </Box>
-        </DialogTabs>
+        </SimpleTabs>
       </Box>
     </Box>
   )

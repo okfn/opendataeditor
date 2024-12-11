@@ -3,7 +3,7 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import * as React from 'react'
 
-export default function DialogTabs(props: any) {
+export default function SimpleTabs(props: any) {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
 
   function a11yProps(index: number) {
@@ -30,7 +30,7 @@ export default function DialogTabs(props: any) {
           value={currentTabIndex}
           onChange={handleChange}
           aria-label="File Upload Tabs"
-          centered
+          centered={props.centered}
           sx={{
             '& .MuiTabs-indicator': {
               backgroundColor: (theme) => theme.palette.OKFNBlue.main,
