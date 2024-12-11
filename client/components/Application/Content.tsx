@@ -163,7 +163,6 @@ export const CONTROLLERS: {
   json: File,
   jsonschema: File,
   map: File,
-  package: File,
   resource: File,
   schema: File,
   script: File,

@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from frictionless import FrictionlessException, Indexer, Report
-from frictionless.resources import PackageResource, ResourceResource, TableResource
+from frictionless.resources import ResourceResource, TableResource
 
 if TYPE_CHECKING:
     from frictionless import Resource
@@ -27,7 +27,7 @@ def index_resource(project: Project, resource: Resource, table_name: str):
         report = indexer.index()
 
     # Container resource
-    if isinstance(resource, (ResourceResource, PackageResource)):
+    if isinstance(resource, (ResourceResource)):
         try:
             errors = []
             resource.read_metadata()

@@ -8,8 +8,6 @@ export function exportDescriptor(descriptor: object) {
 // TODO: cloneDeep here?
 export function getInitialDescriptor(type?: string) {
   switch (type) {
-    case 'package':
-      return settings.INITIAL_PACKAGE
     case 'resource':
       return settings.INITIAL_RESOURCE
     case 'dialect':
