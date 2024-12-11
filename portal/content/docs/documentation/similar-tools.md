@@ -1,7 +1,7 @@
 ---
 title: Similar tools
 sidebar:
-  order: 11
+  order: 12
 ---
 
 There are several alternatives available with their own pros and cons. Let's comapre them with **Open Data Editor** to have a better understanding of the Data IDE field.
