@@ -11,10 +11,9 @@ import * as types from '../../../types'
 import { useTranslation } from 'react-i18next'
 
 export default function Layout() {
-  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: '100%' }}>
-      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
+      <LayoutWithMenu />
     </Box>
   )
 }

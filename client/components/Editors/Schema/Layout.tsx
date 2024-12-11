@@ -10,10 +10,9 @@ import { useStore } from './store'
 import * as types from '../../../types'
 
 export default function Layout() {
-  const externalMenu = useStore((state) => state.externalMenu)
   return (
     <Box sx={{ height: '100%' }}>
-      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
+      <LayoutWithMenu />
     </Box>
   )
 }
