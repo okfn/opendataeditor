@@ -1,7 +1,7 @@
 ---
 title: Publishing your data
 sidebar:
-  order: 10
+  order: 11
 ---
 
 You can publish a file using the **Publish** feature located at the top right of the datagrid:
