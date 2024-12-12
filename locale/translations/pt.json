@@ -1,4 +1,8 @@
 {
+    "rename-column": "Renomear coluna",
+    "enter-new-column-name": "Digite o novo nome da coluna:",
+    "name-must-not-be-blank": "O nome não deve estar em branco",
+    "name-must-be-unique": "O nome deve ser único",
     "name-not-vald": "Nome não é válido",
     "ai": "IA",
     "keys": "Chaves",

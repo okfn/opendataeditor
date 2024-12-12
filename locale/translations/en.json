@@ -1,4 +1,8 @@
 {
+    "rename-column": "Rename column",
+    "enter-new-column-name": "Enter new column name:",
+    "name-must-not-be-blank": "Name must not be blank",
+    "name-must-be-unique": "Name must be unique",
     "name-not-vald": "Name is not valid",
     "ai": "AI",
     "keys": "Keys",
