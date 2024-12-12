@@ -26,9 +26,9 @@
         "skipLibCheck": true,
         "jsx": "react-jsx",
         "paths": {
-            "@client/*": [
-                "./client/*"
-            ]
+            "@client/*": ["./client/*"],
+            "@desktop/*": ["./desktop/*"],
+            "@locale/*": ["./locale/*"],
         }
     }
 }

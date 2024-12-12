@@ -1,0 +1,1 @@
+export { initLocale } from './locale'
