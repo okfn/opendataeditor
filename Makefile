@@ -63,6 +63,10 @@ test:
 	hatch run test
 	npm run test
 
+## Runs the translation script to update the translation files.
+translate:
+	npm run translate
+
 ## Runs the E2E suite of tests (requires make dist for an application bundle)
 test-e2e:
 	npm run wdio
