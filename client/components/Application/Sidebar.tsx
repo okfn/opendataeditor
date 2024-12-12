@@ -135,6 +135,8 @@ function LanguageSelect() {
         >
           <MenuItem value="en">English</MenuItem>
           <MenuItem value="es">Spanish</MenuItem>
+          <MenuItem value="fr">French</MenuItem>
+          <MenuItem value="pt">Portuguese</MenuItem>
         </Select>
       </FormControl>
     </Stack>
