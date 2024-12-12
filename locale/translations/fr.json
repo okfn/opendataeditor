@@ -1,4 +1,6 @@
 {
+    "test": "Texte de test",
+    "test2": "Texte de test qui est meilleur",
     "open-explore-tables": "Ouvrir et explorer les tables",
     "detect-errors-generate-report": "Détecter les erreurs et générer un rapport",
     "save-download-work": "Enregistrer et télécharger votre travail",

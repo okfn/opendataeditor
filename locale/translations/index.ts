@@ -11,4 +11,3 @@ declare module 'i18next' {
     resources: { main: typeof en }
   }
 }
-

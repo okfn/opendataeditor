@@ -1,9 +1,10 @@
+import { translations } from '@locale'
 import { syncLocales } from 'i18next-locales-sync'
 import fs from 'node:fs'
 import OpenAI from 'openai'
-import * as locales from '../locales'
 
 const spaces = 4
+const localesFolder = 'locale/translations'
 const primaryLanguage = 'en'
 const secondaryLanguages = ['es', 'fr', 'pt']
 
@@ -13,7 +14,7 @@ syncLocales({
   // @ts-ignore
   primaryLanguage,
   secondaryLanguages,
-  localesFolder: 'locales',
+  localesFolder,
   useEmptyString: true,
   spaces,
 })
@@ -21,7 +22,7 @@ syncLocales({
 // Translate missing keys
 
 for (const languageId of secondaryLanguages) {
-  const path = `locales/${languageId}.json`
+  const path = `${localesFolder}/${languageId}.json`
   const translation = (await import(path)).default
   const missingKeys = Object.keys(translation).filter((key) => !translation[key])
   if (missingKeys.length) {
@@ -35,26 +36,18 @@ for (const languageId of secondaryLanguages) {
 // Helpers
 
 async function translateKeys(props: { languageId: string; keys: string[] }) {
+  const reference = Object.fromEntries(
+    props.keys.map((key) => [key, translations[primaryLanguage][key]])
+  )
+
   const text = await generateResponse({
     json: true,
     messages: [
       {
-        role: 'system',
-        content: `
-          Provide translation ONLY for the provided keys and keep letter case the same
-      `,
-      },
-      {
-        role: 'system',
-        content: `
-          Use english translation as a reference: ${JSON.stringify(locales.en)}
-      `,
-      },
-      {
         role: 'user',
         content: `
-          Write i18next translations json to "${props.languageId}" language
-          for these keys: ${props.keys.join(',')}
+          Translate this i18next json to "${props.languageId}" language 
+          "${JSON.stringify(reference)}"
         `,
       },
     ],
