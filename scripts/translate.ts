@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import OpenAI from 'openai'
 import * as locales from '../locales'
 
+const spaces = 4
 const primaryLanguage = 'en'
 const secondaryLanguages = ['es', 'fr', 'pt']
 
@@ -14,6 +15,7 @@ syncLocales({
   secondaryLanguages,
   localesFolder: 'locales',
   useEmptyString: true,
+  spaces,
 })
 
 // Translate missing keys
@@ -25,7 +27,7 @@ for (const languageId of secondaryLanguages) {
   if (missingKeys.length) {
     const update = await translateKeys({ languageId, keys: missingKeys })
     Object.assign(translation, update)
-    fs.writeFileSync(path, JSON.stringify(translation, null, 2))
+    fs.writeFileSync(path, JSON.stringify(translation, null, spaces))
     console.log(`Updated: ${path}`)
   }
 }
@@ -82,7 +84,7 @@ async function generateResponse(props: {
   })
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: 'gpt-4o',
     messages: props.messages,
     response_format: props.json ? { type: 'json_object' } : props.responseFormat,
   })
