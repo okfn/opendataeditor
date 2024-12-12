@@ -1,4 +1,6 @@
 {
+    "user-guide": "User guide",
+    "report-issue": "Report an issue",
     "rename-column": "Rename column",
     "enter-new-column-name": "Enter new column name:",
     "name-must-not-be-blank": "Name must not be blank",

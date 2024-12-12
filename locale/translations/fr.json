@@ -1,4 +1,6 @@
 {
+    "user-guide": "Guide utilisateur",
+    "report-issue": "Signaler un problème",
     "rename-column": "Renommer la colonne",
     "enter-new-column-name": "Entrez le nouveau nom de la colonne :",
     "name-must-not-be-blank": "Le nom ne doit pas être vide",
@@ -36,7 +38,6 @@
     "create-folder": "Créer un dossier",
     "create-new-folder": "Créer un nouveau dossier",
     "Create": "Créer",
-    "user-guide": "Guide utilisateur",
     "report-an-issue": "Signaler un problème",
     "from-your-computer": "Depuis votre ordinateur",
     "add-external-data": "Ajouter des données externes",

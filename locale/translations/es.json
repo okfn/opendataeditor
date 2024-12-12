@@ -1,4 +1,6 @@
 {
+    "user-guide": "Guía del usuario",
+    "report-issue": "Informar un problema",
     "rename-column": "Renombrar columna",
     "enter-new-column-name": "Ingrese el nuevo nombre de la columna:",
     "name-must-not-be-blank": "El nombre no debe estar en blanco",
@@ -36,7 +38,6 @@
     "create-folder": "Crear carpeta",
     "create-new-folder": "Crear nueva carpeta",
     "Create": "Crear",
-    "user-guide": "Guía del usuario",
     "report-an-issue": "Reportar un problema",
     "from-your-computer": "Desde tu computadora",
     "add-external-data": "Agregar datos externos",

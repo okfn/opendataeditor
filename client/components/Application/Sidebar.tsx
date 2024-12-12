@@ -81,6 +81,8 @@ function SidebarMenu() {
 }
 
 function UserGuideLink() {
+  const { t } = useTranslation()
+
   return (
     <Button
       href="https://opendataeditor.okfn.org/documentation/getting-started/"
@@ -89,12 +91,14 @@ function UserGuideLink() {
       sx={{ textTransform: 'none' }}
       startIcon={<img src={userGuideIcon} alt="" />}
     >
-      User guide
+      {t('user-guide')}
     </Button>
   )
 }
 
 function ReportIssueLink() {
+  const { t } = useTranslation()
+
   return (
     <Button
       href="https://github.com/okfn/opendataeditor"
@@ -103,7 +107,7 @@ function ReportIssueLink() {
       sx={{ textTransform: 'none' }}
       startIcon={<img src={reportIssueIcon} alt="" />}
     >
-      Report an issue
+      {t('report-issue')}
     </Button>
   )
 }
