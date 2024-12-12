@@ -1,5 +1,11 @@
 {
-    "user-guide": "User guide",
+    "sort-ascending": "Sort ascending",
+    "sort-descending": "Sort descending",
+    "unsort": "Unsort",
+    "pagination-page": "Page",
+    "pagination-of": "of",
+    "pagination-per-page": "Results per page",
+    "pagination-showing": "Showing",
     "report-issue": "Report an issue",
     "rename-column": "Rename column",
     "enter-new-column-name": "Enter new column name:",

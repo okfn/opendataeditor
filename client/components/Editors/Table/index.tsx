@@ -83,7 +83,14 @@ export default function TableEditor(props: TableEditorProps) {
 
   const renderColumnContextMenu = React.useCallback(
     (menuProps: { items: any[] }, context: any) => {
-      menuProps.items = menuProps.items.filter((x) => x.label !== 'Columns' && x !== '-')
+      menuProps.items = menuProps.items.filter(
+        (item) => item.label !== 'Columns' && item !== '-'
+      )
+      menuProps.items.forEach((item: any) => {
+        if (item.label === 'Sort ascending') item.label = t('sort-ascending')
+        if (item.label === 'Sort descending') item.label = t('sort-descending')
+        if (item.label === 'Unsort') item.label = t('unsort')
+      })
       menuProps.items.push({
         itemId: 'rename',
         label: t('rename'),
@@ -101,6 +108,14 @@ export default function TableEditor(props: TableEditorProps) {
     },
     [history?.changes.length]
   )
+
+  const renderPaginationToolbar = React.useCallback((paginationProps: any) => {
+    paginationProps.pageText = t('pagination-page')
+    paginationProps.ofText = t('pagination-of')
+    paginationProps.perPageText = t('pagination-per-page')
+    paginationProps.showingText = t('pagination-showing')
+    return undefined
+  }, [])
 
   function resizeTable() {
     // using a query selector here and not a ref because the tableRef selects the whole
@@ -138,6 +153,7 @@ export default function TableEditor(props: TableEditorProps) {
         showColumnMenuGroupOptions={false}
         enableColumnAutosize={false}
         renderColumnContextMenu={renderColumnContextMenu}
+        renderPaginationToolbar={renderPaginationToolbar}
         {...others}
       />
     </>
