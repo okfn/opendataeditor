@@ -7,6 +7,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
+import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 import sidebarLogo from '../../assets/ODE_sidebar_logo.svg'
 import reportIssueIcon from '../../assets/report_issue_icon.svg'
@@ -107,6 +108,12 @@ function ReportIssueLink() {
 }
 
 function LanguageSelect() {
+  const { i18n } = useTranslation()
+
+  const handleChange = (languageId: string) => {
+    i18next.changeLanguage(languageId)
+  }
+
   return (
     <Stack
       direction="row"
@@ -123,11 +130,11 @@ function LanguageSelect() {
         <Select
           label="Language"
           labelId="language-select-label"
-          value={'en'}
-          onChange={console.log}
+          value={i18n.language}
+          onChange={(event) => handleChange(event.target.value as string)}
         >
           <MenuItem value="en">English</MenuItem>
-          <MenuItem value="spanish">Spanish</MenuItem>
+          <MenuItem value="es">Spanish</MenuItem>
         </Select>
       </FormControl>
     </Stack>
