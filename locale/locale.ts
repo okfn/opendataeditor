@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import { languages } from './data'
 import * as translations from './translations'
 
 export function initLocale(props: { useReact?: boolean }) {
@@ -10,12 +11,9 @@ export function initLocale(props: { useReact?: boolean }) {
   i18next.init({
     fallbackLng: 'en',
     defaultNS: 'main',
-    resources: {
-      en: { main: translations.en },
-      es: { main: translations.es },
-      fr: { main: translations.fr },
-      pt: { main: translations.pt },
-    },
+    resources: Object.fromEntries(
+      languages.map((language) => [language.code, { main: translations[language.code] }])
+    ),
   })
 
   i18next.services.formatter?.add('lowercase', (value) => {

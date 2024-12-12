@@ -1,4 +1,5 @@
 import * as store from '@client/store'
+import { languages } from '@locale/index'
 import TranslateIcon from '@mui/icons-material/Translate'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -110,8 +111,8 @@ function ReportIssueLink() {
 function LanguageSelect() {
   const { i18n } = useTranslation()
 
-  const handleChange = (languageId: string) => {
-    i18next.changeLanguage(languageId)
+  const handleChange = (code: string) => {
+    i18next.changeLanguage(code)
   }
 
   return (
@@ -133,10 +134,11 @@ function LanguageSelect() {
           value={i18n.language}
           onChange={(event) => handleChange(event.target.value as string)}
         >
-          <MenuItem value="en">English</MenuItem>
-          <MenuItem value="es">Spanish</MenuItem>
-          <MenuItem value="fr">French</MenuItem>
-          <MenuItem value="pt">Portuguese</MenuItem>
+          {languages.map((language) => (
+            <MenuItem key={language.code} value={language.code}>
+              {language.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Stack>

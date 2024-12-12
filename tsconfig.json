@@ -1,6 +1,8 @@
 {
     "include": [
-        "client/**/*"
+        "client/**/*",
+        "locale/**/*",
+        "desktop/**/*"
     ],
     "compilerOptions": {
         "strict": true,
