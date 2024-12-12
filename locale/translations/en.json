@@ -1,4 +1,9 @@
 {
+    "name-not-vald": "Name is not valid",
+    "ai": "AI",
+    "keys": "Keys",
+    "welcome-screen-image": "Welcome Screen Image",
+    "create": "Create",
     "open-explore-tables": "Open & explore tables",
     "detect-errors-generate-report": "Detect errors and generate a report",
     "save-download-work": "Save & download your work",

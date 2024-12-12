@@ -1,4 +1,9 @@
 {
+    "name-not-vald": "Nome não é válido",
+    "ai": "IA",
+    "keys": "Chaves",
+    "welcome-screen-image": "Imagem da Tela de Boas-Vindas",
+    "create": "Criar",
     "open-explore-tables": "Abrir e explorar tabelas",
     "detect-errors-generate-report": "Detectar erros e gerar um relatório",
     "save-download-work": "Salvar e baixar seu trabalho",

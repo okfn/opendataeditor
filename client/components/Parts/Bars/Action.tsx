@@ -6,9 +6,9 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import noop from 'lodash/noop'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import IconButton from '../../Parts/Buttons/Icon'
 import Columns from '../Grids/Columns'
-import { useTranslation } from 'react-i18next'
 
 export interface ActionBarProps {}
 
@@ -67,7 +67,7 @@ export function AssistantButton(props: ButtonProps) {
   return (
     <Box sx={{ marginRight: '20px' }}>
       <IconButton
-        label={props.label || t('AI')}
+        label={props.label || t('ai')}
         Icon={AutoFixHighIcon}
         variant="outlined"
         disabled={props.disabled}

@@ -1,15 +1,15 @@
-import * as React from 'react'
-import * as zustand from 'zustand'
-import { assert } from 'ts-essentials'
-import noop from 'lodash/noop'
-import cloneDeep from 'lodash/cloneDeep'
-import { createStore } from 'zustand/vanilla'
-import { createSelector } from 'reselect'
-import { ResourceProps } from './index'
-import * as settings from '../../../settings'
-import * as helpers from '../../../helpers'
-import * as types from '../../../types'
 import { t } from 'i18next'
+import cloneDeep from 'lodash/cloneDeep'
+import noop from 'lodash/noop'
+import * as React from 'react'
+import { createSelector } from 'reselect'
+import { assert } from 'ts-essentials'
+import * as zustand from 'zustand'
+import { createStore } from 'zustand/vanilla'
+import * as helpers from '../../../helpers'
+import * as settings from '../../../settings'
+import * as types from '../../../types'
+import { ResourceProps } from './index'
 
 const MEDIA_TYPES: { [key: string]: string } = {
   csv: 'text/csv',
@@ -75,6 +75,7 @@ export function makeStore(props: ResourceProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
+      // @ts-ignore
       let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
       if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })

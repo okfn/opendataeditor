@@ -1,4 +1,9 @@
 {
+    "name-not-vald": "El nombre no es válido",
+    "ai": "IA",
+    "keys": "Claves",
+    "welcome-screen-image": "Imagen de la pantalla de bienvenida",
+    "create": "Crear",
     "open-explore-tables": "Abrir y explorar tablas",
     "detect-errors-generate-report": "Detectar errores y generar un informe",
     "save-download-work": "Guardar y descargar tu trabajo",
@@ -122,7 +127,7 @@
     "add-foreign-key": "Agregar clave foránea",
     "search": "Buscar",
     "name": "Nombre",
-    "name-not-valid": "El nombre no es válido.",
+    "name-not-valid": "El nombre no es válido",
     "type": "Tipo",
     "title": "Título",
     "title-not-valid": "El título no es válido.",
