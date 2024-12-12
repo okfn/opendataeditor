@@ -1,14 +1,9 @@
-import en from './en.json'
-import es from './es.json'
-import fr from './fr.json'
-import pt from './pt.json'
+import type en from './en.json'
 
-export const resources = {
-  en: { main: en },
-  es: { main: es },
-  fr: { main: fr },
-  pt: { main: pt },
-}
+export { default as en } from './en.json'
+export { default as es } from './es.json'
+export { default as fr } from './fr.json'
+export { default as pt } from './pt.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
