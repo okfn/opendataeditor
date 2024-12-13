@@ -1,4 +1,4 @@
-import { app, shell, Menu, BrowserWindow } from 'electron'
+import { BrowserWindow, Menu, app, shell } from 'electron'
 
 export function createMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(
@@ -50,17 +50,20 @@ export function createMenu(mainWindow: BrowserWindow) {
       },
       {
         label: 'Edit',
-        submenu: [{
-          label: 'Undo',
-          click: async () => {
-            mainWindow.webContents.send('menuUndo')
+        submenu: [
+          {
+            label: 'Undo',
+            click: async () => {
+              mainWindow.webContents.send('menuUndo')
+            },
           },
-        }, {
-          label: 'Redo',
-          click: async () => {
-            mainWindow.webContents.send('menuRedo')
+          {
+            label: 'Redo',
+            click: async () => {
+              mainWindow.webContents.send('menuRedo')
+            },
           },
-        }],
+        ],
       },
       {
         label: 'View',
@@ -107,4 +110,3 @@ export function createMenu(mainWindow: BrowserWindow) {
     ])
   )
 }
-

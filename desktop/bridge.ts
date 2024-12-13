@@ -1,5 +1,6 @@
 import { app, dialog, ipcMain, shell } from 'electron'
 import log from 'electron-log'
+import i18next from 'i18next'
 import { dirname, join } from 'path'
 import * as settings from './settings'
 
@@ -34,5 +35,10 @@ export function createBridge() {
 
   ipcMain.handle('closeDesktopApp', async () => {
     app.quit()
+  })
+
+  ipcMain.handle('changeLanguage', (_ev, code: string) => {
+    console.log(code)
+    i18next.changeLanguage(code)
   })
 }

@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import { languages } from './data'
 import * as translations from './translations'
 
-export function initLocale(props: { useReact?: boolean }) {
+export function initLocale(props: { useReact?: boolean } = {}) {
   if (props.useReact) {
     i18next.use(initReactI18next)
   }
