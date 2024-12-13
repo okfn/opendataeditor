@@ -17,8 +17,8 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { styled, useTheme } from '@mui/material/styles'
 import * as React from 'react'
-import * as store from './store'
 import { useTranslation } from 'react-i18next'
+import * as store from './store'
 
 export function UploadFileDialog() {
   const dialog = appStore.useStore((state) => state.dialog)
@@ -119,7 +119,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
           <StyledSelectBox
             className={!progress?.blocking ? 'file-select__button' : undefined}
           >
-            Select
+            {t('select')}
           </StyledSelectBox>
         </Box>
       </FileSelectBox>

@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import * as types from '@client/types'
+import { t } from 'i18next'
 
 class State {
   progress?: types.IProgress
@@ -21,7 +22,7 @@ export function closeDialog() {
 export async function createFolder(path: string) {
   state.progress = {
     type: 'creating',
-    title: 'Creating a folder',
+    title: t('creating-folder'),
     blocking: true,
     hidden: true,
   }
@@ -31,13 +32,13 @@ export async function createFolder(path: string) {
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: `Error creating a folder`,
+      title: t('error-creating-folder'),
       message: result.detail,
     }
-  } else {
-    appStore.onFileCreated([result.path])
+    return
   }
 
+  appStore.onFileCreated([result.path])
   state.progress = undefined
   closeDialog()
 }

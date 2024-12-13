@@ -1,10 +1,10 @@
-import * as React from 'react'
-import startCase from 'lodash/startCase'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import Columns from '../../Parts/Grids/Columns'
-import EditorListItem from './ListItem'
 import HeadingBox from './Heading/Box'
+import EditorListItem from './ListItem'
 
 export interface EditorListProps {
   kind: string
@@ -15,15 +15,22 @@ export interface EditorListProps {
 }
 
 export default function EditorList(props: React.PropsWithChildren<EditorListProps>) {
+  const { t } = useTranslation()
   const AddButton = () => {
     if (!props.onAddClick) return null
 
+    // @ts-ignore
+    const title = t(`add-${props.kind}`) as any
+
     return (
-      <Button title={`Add ${startCase(props.kind)}`} onClick={() => props.onAddClick?.()}>
-        Add {startCase(props.kind)}
+      <Button title={title} onClick={() => props.onAddClick?.()}>
+        {title}
       </Button>
     )
   }
+
+  // @ts-ignore
+  const title = t(`${props.kind}s`) as any
 
   // TODO: we can make HeadingBox (or with Tabs/Help) "sticky" with CSS:
   // https://developer.mozilla.org/en-US/docs/Web/CSS/position
@@ -31,7 +38,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
     <React.Fragment>
       <HeadingBox>
         <Columns spacing={1} layout={props.SearchInput ? [4, 5, 3] : [6, 6]}>
-          <Box sx={{ whiteSpace: 'nowrap' }}>{startCase(props.kind)}s</Box>
+          <Box sx={{ whiteSpace: 'nowrap' }}>{title}</Box>
           <Box sx={{ float: 'right' }}>
             <AddButton />
           </Box>
@@ -44,7 +51,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
         <EditorListItem
           disabled
           kind={props.kind}
-          name={`No ${props.kind}s ${props.query ? 'found' : 'added'}`}
+          name={`No ${title.toLowerCase()} ${props.query ? t('found') : t('added')}`}
         />
       )}
     </React.Fragment>

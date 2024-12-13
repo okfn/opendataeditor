@@ -1,14 +1,15 @@
 import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
-import invariant from 'tiny-invariant'
+import * as types from '@client/types'
 import { t } from 'i18next'
+import invariant from 'tiny-invariant'
 
 // We use component level state because dialog state
 // needs to be shared between multiple components
 // but it is not needed in the global state
 class State {
-  progress?: IProgress
+  progress?: types.IProgress
   isTermsAccepted?: boolean
   apiKey?: string
   prompt?: string
@@ -20,12 +21,6 @@ class State {
     if (this.isTermsAccepted) return 'creds'
     return 'terms'
   }
-}
-
-type IProgress = {
-  type: 'generating' | 'error'
-  message?: string
-  blocking?: boolean
 }
 
 export const { state, useState, resetState } = helpers.createState(
@@ -52,6 +47,7 @@ export async function setPromptAndFetchResult(props: { prompt: string }) {
 
   state.progress = {
     type: 'generating',
+    title: t('generating'),
     message: t('generating-response'),
     blocking: true,
   }

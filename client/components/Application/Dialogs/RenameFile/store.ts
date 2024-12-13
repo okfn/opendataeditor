@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import * as types from '@client/types'
+import { t } from 'i18next'
 
 class State {
   progress?: types.IProgress
@@ -27,7 +28,7 @@ export async function renameFile(toPath: string) {
 
   state.progress = {
     type: 'renaming',
-    title: `Renaming selected ${target}`,
+    title: `${t('renaming-selected')} ${target}`,
     blocking: true,
     hidden: true,
   }
@@ -39,13 +40,13 @@ export async function renameFile(toPath: string) {
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: `Error renaming ${target}`,
+      title: `${t('error-renaming')} ${target}`,
       message: result.detail,
     }
-  } else {
-    appStore.onFileCreated([result.path])
+    return
   }
 
+  appStore.onFileCreated([result.path])
   state.progress = undefined
   closeDialog()
 }

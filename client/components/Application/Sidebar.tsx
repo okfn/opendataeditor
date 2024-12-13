@@ -120,7 +120,7 @@ function LanguageSelect() {
     const bridge = window?.opendataeditor
 
     i18next.changeLanguage(code)
-    bridge.changeLanguage(code)
+    bridge?.changeLanguage(code)
   }
 
   return (

@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import * as types from '@client/types'
+import { t } from 'i18next'
 
 class State {
   progress?: types.IProgress
@@ -35,7 +36,7 @@ export async function ingestFiles(props: { source: FileList | string }, t: any) 
 }
 
 async function uploadLocalFiles(props: { source: FileList }) {
-  state.progress = { type: 'loading', blocking: true }
+  state.progress = { type: 'loading', title: t('loading'), blocking: true }
 
   const files: IFile[] = []
   const folder = appStore.getFolderPath(appStore.getState())
@@ -57,7 +58,7 @@ async function uploadLocalFiles(props: { source: FileList }) {
 }
 
 async function uploadRemoteFile(props: { source: string }, t: any) {
-  state.progress = { type: 'loading', blocking: true }
+  state.progress = { type: 'loading', title: t('loading'), blocking: true }
 
   if (!props.source) {
     state.progress = { type: 'error', message: t('error-url-blank') }

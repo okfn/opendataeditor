@@ -3,8 +3,10 @@ import Box from '@mui/material/Box'
 import MuiLinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import { startCase } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 export function LinearProgress(props: { progress?: types.IProgress }) {
+  const { t } = useTranslation()
   const { progress } = props
 
   if (!progress || progress.hidden) {
@@ -12,7 +14,11 @@ export function LinearProgress(props: { progress?: types.IProgress }) {
   }
 
   if (progress.type === 'error') {
-    return <Box sx={{ color: 'red' }}>Error: {progress.message}</Box>
+    return (
+      <Box sx={{ color: 'red' }}>
+        {t('error')}: {progress.message}
+      </Box>
+    )
   }
 
   return (

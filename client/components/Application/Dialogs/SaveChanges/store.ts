@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import * as types from '@client/types'
+import { t } from 'i18next'
 
 class State {
   progress?: types.IProgress
@@ -20,8 +21,8 @@ export async function saveChanges() {
   appStore.openDialog('saveChanges')
   state.progress = {
     type: 'loading',
-    title: 'Saving the updated table',
-    message: 'If the file is large, this may take some time...',
+    title: t('saving-updated-table'),
+    message: `${t('file-too-large')}...`,
     blocking: true,
   }
 
@@ -38,14 +39,14 @@ export async function saveChanges() {
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: 'Error saving changes',
+      title: t('error-saving-changes'),
       message: result.detail,
     }
+    return
   }
 
   await appStore.onFileUpdated([path])
   grid.reload()
-
   state.progress = undefined
   closeDialog()
 }
