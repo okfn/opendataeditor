@@ -2,7 +2,6 @@ import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import log from 'electron-log'
 import i18next from 'i18next'
 import { dirname, join } from 'path'
-import { createContextMenu } from './context'
 import { createMenu } from './menu'
 import * as settings from './settings'
 
@@ -44,7 +43,6 @@ export function createBridge() {
 
     if (window) {
       i18next.changeLanguage(code)
-      createContextMenu(window)
       createMenu(window)
     }
   })

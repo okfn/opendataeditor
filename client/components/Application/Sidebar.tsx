@@ -113,7 +113,7 @@ function ReportIssueLink() {
 }
 
 function LanguageSelect() {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const handleChange = (code: string) => {
     // @ts-ignore
@@ -135,9 +135,9 @@ function LanguageSelect() {
     >
       <TranslateIcon sx={{ fontSize: '20px', marginLeft: '4px' }} />
       <FormControl size="small">
-        <InputLabel id="language-select-label">Language</InputLabel>
+        <InputLabel id="language-select-label">{t('language')}</InputLabel>
         <Select
-          label="Language"
+          label={t('language')}
           labelId="language-select-label"
           value={i18n.language}
           onChange={(event) => handleChange(event.target.value as string)}
