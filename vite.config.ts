@@ -4,17 +4,17 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig } from 'vite'
 
+// TODO: Rebase on useTsconfigPath plugin
+const alias = {
+  '@client': path.resolve(__dirname, 'client'),
+  '@desktop': path.resolve(__dirname, 'desktop'),
+  '@locale': path.resolve(__dirname, 'locale'),
+}
+
 export default defineConfig({
   root: 'client',
   plugins: [react(), yaml()],
-  // TODO: Rebase on useTsconfigPath plugin
-  resolve: {
-    alias: {
-      '@client': path.resolve(__dirname, 'client'),
-      '@desktop': path.resolve(__dirname, 'desktop'),
-      '@locale': path.resolve(__dirname, 'locale'),
-    },
-  },
+  resolve: { alias },
   test: {
     include: ['**/__spec__/*.(ts|tsx)'],
     environment: 'jsdom',

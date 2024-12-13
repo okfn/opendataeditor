@@ -1,4 +1,9 @@
 {
+    "about": "About",
+    "quit": "Quit",
+    "copy": "Copy",
+    "cut": "Cut",
+    "paste": "Paste",
     "sort-ascending": "Sort ascending",
     "sort-descending": "Sort descending",
     "unsort": "Unsort",

@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('opendataeditor', {
   openPathInExplorer: (path: string) => ipcRenderer.invoke('openPathInExplorer', path),
   getAppPath: () => ipcRenderer.send('getAppPath'),
   closeDesktopApp: () => ipcRenderer.invoke('closeDesktopApp'),
-  changeLanguage: () => ipcRenderer.invoke('changeLanguage'),
+  changeLanguage: (code: string) => ipcRenderer.invoke('changeLanguage', code),
 
   // Menu events
 

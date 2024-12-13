@@ -1,4 +1,9 @@
 {
+    "about": "Sobre",
+    "quit": "Sair",
+    "copy": "Copiar",
+    "cut": "Cortar",
+    "paste": "Colar",
     "sort-ascending": "Ordenar Ascendente",
     "sort-descending": "Ordenar Descendente",
     "unsort": "Desfazer Ordenação",

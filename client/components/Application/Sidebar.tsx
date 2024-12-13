@@ -116,7 +116,11 @@ function LanguageSelect() {
   const { i18n } = useTranslation()
 
   const handleChange = (code: string) => {
+    // @ts-ignore
+    const bridge = window?.opendataeditor
+
     i18next.changeLanguage(code)
+    bridge.changeLanguage(code)
   }
 
   return (
