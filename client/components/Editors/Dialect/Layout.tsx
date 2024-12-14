@@ -15,12 +15,14 @@ export default function Layout() {
   const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   const MENU_ITEMS: types.IMenuItem[] = [
-    { section: 'dialect', name: t('dialect') },
+    { section: 'dialect', name: t('default') },
     { section: 'dialect/format', name: capitalize(format) || t('format') },
   ]
-  const MENU_LABELS = [t('dialect'), t('format')]
+
+  const MENU_LABELS = MENU_ITEMS.map((item) => item.name)
+
   return (
-    <Box sx={{ height: '100%', padding: 2 }}>
+    <Box sx={{ height: '100%' }}>
       <SimpleTabs
         labels={MENU_LABELS}
         orientation="vertical"
