@@ -5,7 +5,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function SimpleTabs(props: any) {
-  const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = React.useState(props.selectedIndex || 0)
 
   function a11yProps(index: number) {
     return {
