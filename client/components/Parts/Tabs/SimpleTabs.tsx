@@ -4,7 +4,17 @@ import Tabs from '@mui/material/Tabs'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function SimpleTabs(props: any) {
+interface SimpleTabsProps {
+  selectedIndex?: number
+  disabled? : boolean
+  onChange?: () => void
+  centered?: boolean,
+  labels: Array<string>
+  children: React.ReactNode
+  orientation?: 'horizontal' | 'vertical'
+}
+
+export default function SimpleTabs(props: SimpleTabsProps) {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(props.selectedIndex || 0)
 
   function a11yProps(index: number) {
@@ -33,6 +43,7 @@ export default function SimpleTabs(props: any) {
           onChange={handleChange}
           aria-label={t('aria-tabs-compoment')}
           centered={props.centered}
+          orientation={props.orientation}
           sx={{
             '& .MuiTabs-indicator': {
               backgroundColor: (theme) => theme.palette.OKFNBlue.main,
