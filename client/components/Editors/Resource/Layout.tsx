@@ -27,20 +27,14 @@ export default function Layout() {
   const TOP_TAB_LABELS = [t('resource'), t('dialect'), t('schema')]
 
   const RESOURCE_MENU_ITEMS: types.IMenuItem[] = [
-    { section: 'resource', name: t('resource') },
+    { section: 'resource', name: t('default') },
     { section: 'resource/integrity', name: t('integrity') },
     { section: 'resource/licenses', name: t('licenses') },
     { section: 'resource/contributors', name: t('contributors') },
     { section: 'resource/sources', name: t('sources') },
   ]
 
-  const MENU_LABELS = [
-    t('resource'),
-    t('integrity'),
-    t('licenses'),
-    t('contributors'),
-    t('sources'),
-  ]
+  const MENU_LABELS = RESOURCE_MENU_ITEMS.map((item) => item.name)
 
   // We use memo to avoid nested editors re-rerender
   const handleDialectChange = React.useMemo(() => {
