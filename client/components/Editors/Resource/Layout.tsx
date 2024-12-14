@@ -1,8 +1,6 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Columns from '../../Parts/Grids/Columns'
 import EditorHelp from '../Base/Help'
-import MenuTree from '../../Parts/Trees/Menu'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import ResourceSection from './Sections/Resource'
@@ -16,17 +14,6 @@ import { useTranslation } from 'react-i18next'
 import SimpleTabs from '../../Parts/Tabs/SimpleTabs'
 
 export default function Layout() {
-  const externalMenu = useStore((state) => state.externalMenu)
-  return (
-    <Box sx={{ height: '100%' }}>
-      {!externalMenu ? <LayoutWithMenu /> : <LayoutWithoutMenu />}
-    </Box>
-  )
-}
-
-// TODO: improve menu implementation (move some state to store / reduce re-renders)
-function LayoutWithMenu() {
-  const section = useStore((state) => state.section)
   const format = useStore((state) => state.descriptor.format)
   const dialect = useStore((state) => state.descriptor.dialect)
   const schema = useStore((state) => state.descriptor.schema)
@@ -34,9 +21,10 @@ function LayoutWithMenu() {
   const updateState = useStore((state) => state.updateState)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
 
-  const TAB_LABELS = [t('resource'), t('dialect'), t('schema')]
+  const TOP_TAB_LABELS = [t('resource'), t('dialect'), t('schema')]
 
   const RESOURCE_MENU_ITEMS: types.IMenuItem[] = [
     { section: 'resource', name: t('resource') },
@@ -44,6 +32,14 @@ function LayoutWithMenu() {
     { section: 'resource/licenses', name: t('licenses') },
     { section: 'resource/contributors', name: t('contributors') },
     { section: 'resource/sources', name: t('sources') },
+  ]
+
+  const MENU_LABELS = [
+    t('resource'),
+    t('integrity'),
+    t('licenses'),
+    t('contributors'),
+    t('sources'),
   ]
 
   // We use memo to avoid nested editors re-rerender
@@ -55,55 +51,44 @@ function LayoutWithMenu() {
   }, [])
 
   return (
-    <SimpleTabs labels={TAB_LABELS}>
-      <Columns spacing={3} layout={[2, 8]} columns={10}>
-        <Box sx={{ flexGrow: 1 }}>
-          <MenuTree
-            menuItems={RESOURCE_MENU_ITEMS}
-            selected={section}
-            defaultExpanded={['resource']}
-            onSelect={(section) => {
-              updateHelp(section)
-              updateState({ section })
-            }}
-          />
-        </Box>
-        <LayoutWithoutMenu />
-      </Columns>
-      <Dialect format={format} dialect={dialect} onChange={handleDialectChange} />
-      <Schema
-        schema={schema}
-        onChange={handleSchemaChange}
-        onFieldSelected={onFieldSelected}
-      />
-    </SimpleTabs>
-  )
-}
-
-function LayoutWithoutMenu() {
-  const section = useStore((state) => state.externalMenu?.section || state.section)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const helpItem = useStore((state) => state.helpItem)
-  React.useEffect(() => updateHelp(section), [section])
-  if (!section) return null
-  return (
-    <Box sx={{ maxWidth: '720px' }}>
-      <EditorHelp helpItem={helpItem} withIcon />
-      <Box hidden={section !== 'resource'}>
-        <ResourceSection />
-      </Box>
-      <Box hidden={section !== 'resource/integrity'}>
-        <IntegritySection />
-      </Box>
-      <Box hidden={section !== 'resource/licenses'}>
-        <LicensesSection />
-      </Box>
-      <Box hidden={section !== 'resource/contributors'}>
-        <ContributorsSection />
-      </Box>
-      <Box hidden={section !== 'resource/sources'}>
-        <SourcesSection />
-      </Box>
+    <Box sx={{ height: '100%', padding: 2 }}>
+      <SimpleTabs labels={TOP_TAB_LABELS}>
+        <SimpleTabs
+          labels={MENU_LABELS}
+          orientation="vertical"
+          onChange={(newValue: number) => {
+            updateHelp(RESOURCE_MENU_ITEMS[newValue].section)
+            updateState({ section: RESOURCE_MENU_ITEMS[newValue].section })
+          }}
+        >
+          <div>
+            <EditorHelp helpItem={helpItem} withIcon />
+            <ResourceSection />
+          </div>
+          <div>
+            <EditorHelp helpItem={helpItem} withIcon />
+            <IntegritySection />
+          </div>
+          <div>
+            <EditorHelp helpItem={helpItem} withIcon />
+            <LicensesSection />
+          </div>
+          <div>
+            <EditorHelp helpItem={helpItem} withIcon />
+            <ContributorsSection />
+          </div>
+          <div>
+            <EditorHelp helpItem={helpItem} withIcon />
+            <SourcesSection />
+          </div>
+        </SimpleTabs>
+        <Dialect format={format} dialect={dialect} onChange={handleDialectChange} />
+        <Schema
+          schema={schema}
+          onChange={handleSchemaChange}
+          onFieldSelected={onFieldSelected}
+        />
+      </SimpleTabs>
     </Box>
   )
 }
