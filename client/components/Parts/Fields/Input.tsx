@@ -1,5 +1,6 @@
 import noop from 'lodash/noop'
 import TextField from '@mui/material/TextField'
+import InputLabel from '@mui/material/InputLabel'
 import { styled } from '@mui/material/styles'
 
 // TODO: rework all the fields wrappign props (see buttons)
@@ -31,14 +32,18 @@ export default function InputField(props: InputFieldProps) {
   const onFocus = props.onFocus || noop
   const onBlur = props.onBlur || noop
   return (
+    <div>
+      <InputLabel
+        shrink={false}>
+          {props.label}
+    </InputLabel>
     <StyledTextField
       name={props.name || props.label}
       type={props.type}
       margin="normal"
-      label={props.label}
       value={props.value}
       size={props.size || 'small'}
-      style={{  maxWidth: '350px' }}
+      style={{  maxWidth: '350px', marginTop: '5px' }}
       disabled={props.disabled}
       inputProps={props.inputProps}
       onChange={(ev) => onChange(ev.target.value)}
@@ -51,6 +56,7 @@ export default function InputField(props: InputFieldProps) {
       onBlur={onBlur}
       autoFocus={props.autoFocus}
     />
+    </div>
   )
 }
 
