@@ -19,7 +19,6 @@ import TimePickerField from '../../../Parts/Fields/TimePicker'
 import validator from 'validator'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
-import EditorHelp from '../../Base/Help'
 
 export default function Fields() {
   const index = useStore((state) => state.fieldState.index)
@@ -30,32 +29,28 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
-  const helpItem = useStore((state) => state.helpItem)
 
   return (
-    <div>
-      <EditorHelp helpItem={helpItem} withIcon />
-      <EditorList
-        kind="field"
-        query={query}
-        SearchInput={
-          <EditorSearch
-            value={query || ''}
-            onChange={(query) => updateFieldState({ query })}
-          />
-        }
-      >
-        {fieldItems.map(({ index, field }) => (
-          <EditorListItem
-            key={index}
-            kind="field"
-            name={field.name}
-            type={field.type}
-            onClick={() => updateFieldState({ index })}
-          />
-        ))}
-      </EditorList>
-    </div>
+    <EditorList
+      kind="field"
+      query={query}
+      SearchInput={
+        <EditorSearch
+          value={query || ''}
+          onChange={(query) => updateFieldState({ query })}
+        />
+      }
+    >
+      {fieldItems.map(({ index, field }) => (
+        <EditorListItem
+          key={index}
+          kind="field"
+          name={field.name}
+          type={field.type}
+          onClick={() => updateFieldState({ index })}
+        />
+      ))}
+    </EditorList>
   )
 }
 

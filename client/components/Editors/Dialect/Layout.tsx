@@ -1,66 +1,41 @@
-import * as React from 'react'
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
-import Columns from '../../Parts/Grids/Columns'
-import MenuTree from '../../Parts/Trees/Menu'
 import EditorHelp from '../Base/Help'
 import DialectSection from './Sections/Dialect'
 import FormatSection from './Sections/Format'
 import { useStore } from './store'
 import * as types from '../../../types'
 import { useTranslation } from 'react-i18next'
+import SimpleTabs from '../../Parts/Tabs/SimpleTabs'
 
 export default function Layout() {
-  return (
-    <Box sx={{ height: '100%' }}>
-      <LayoutWithMenu />
-    </Box>
-  )
-}
-
-function LayoutWithMenu() {
   const format = useStore((state) => state.format)
-  const section = useStore((state) => state.section)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'dialect', name: t('dialect') },
     { section: 'dialect/format', name: capitalize(format) || t('format') },
   ]
+  const MENU_LABELS = [t('dialect'), t('format')]
   return (
-    <Columns spacing={3} layout={[2, 8]} columns={10}>
-      <Box sx={{ padding: 2, borderRight: 'solid 1px #ddd', height: '100%' }}>
-        <MenuTree
-          menuItems={MENU_ITEMS}
-          selected={section}
-          defaultExpanded={['dialect']}
-          onSelect={(section) => {
-            updateHelp(section)
-            updateState({ section })
-          }}
-        />
-      </Box>
-      <LayoutWithoutMenu />
-    </Columns>
-  )
-}
-
-function LayoutWithoutMenu() {
-  const section = useStore((state) => state.externalMenu?.section || state.section)
-  const updateHelp = useStore((state) => state.updateHelp)
-  const helpItem = useStore((state) => state.helpItem)
-  React.useEffect(() => updateHelp(section), [section])
-  if (!section) return null
-  return (
-    <Box sx={{ maxWidth: '720px' }}>
-      <EditorHelp helpItem={helpItem} withIcon />
-      <Box hidden={section !== 'dialect'}>
-        <DialectSection />
-      </Box>
-      <Box hidden={section !== 'dialect/format'}>
-        <FormatSection />
-      </Box>
+    <Box sx={{ height: '100%', padding: 2 }}>
+      <SimpleTabs
+        labels={MENU_LABELS}
+        orientation="vertical"
+        onChange={(newValue: number) => {
+          updateHelp(MENU_ITEMS[newValue].section)
+          updateState({ section: MENU_ITEMS[newValue].section })
+        }}
+      >
+        <div>
+          <EditorHelp helpItem={helpItem} withIcon /> <DialectSection />{' '}
+        </div>
+        <div>
+          <EditorHelp helpItem={helpItem} withIcon /> <FormatSection />
+        </div>
+      </SimpleTabs>
     </Box>
   )
 }

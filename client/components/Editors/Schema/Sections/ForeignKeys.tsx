@@ -39,6 +39,7 @@ function ForeignKeyItem() {
   const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
+
   return (
     <EditorItem
       kind="foreignKey"
