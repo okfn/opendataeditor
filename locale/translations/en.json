@@ -230,6 +230,7 @@
     "generating-response": "AI assistant is generating the response.",
     "prompt-required": "Prompt is required",
     "api-required": "API key is required",
+    "default": "Default",
     "AI-assistant-find-your-key": "Click <link1>here</link1> to learn how to find your key. You can also check OpenAI terms and policies <link2>here</link2>.",
     "help-resource": {
         "path": "resource",
