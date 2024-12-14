@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function SimpleTabs(props: any) {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0)
@@ -23,13 +24,14 @@ export default function SimpleTabs(props: any) {
     }
   }
 
+  const { t } = useTranslation()
   return (
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={currentTabIndex}
           onChange={handleChange}
-          aria-label="File Upload Tabs"
+          aria-label={t('aria-tabs-compoment')}
           centered={props.centered}
           sx={{
             '& .MuiTabs-indicator': {
