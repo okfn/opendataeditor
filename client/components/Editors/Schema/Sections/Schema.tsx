@@ -8,12 +8,15 @@ import Columns from '../../../Parts/Grids/Columns'
 import { useStore, selectors } from '../store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   return (
     <EditorSection name={t('schema')} onHeadingClick={() => updateHelp('schema')}>
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <Name />
