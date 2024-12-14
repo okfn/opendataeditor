@@ -53,16 +53,14 @@ function LayoutWithoutMenu() {
   React.useEffect(() => updateHelp(section), [section])
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box>
-        <Box hidden={section !== 'dialect'}>
-          <DialectSection />
-        </Box>
-        <Box hidden={section !== 'dialect/format'}>
-          <FormatSection />
-        </Box>
+    <Box sx={{ maxWidth: '720px' }}>
+      <EditorHelp helpItem={helpItem} withIcon />
+      <Box hidden={section !== 'dialect'}>
+        <DialectSection />
       </Box>
-      <EditorHelp helpItem={helpItem} />
-    </Columns>
+      <Box hidden={section !== 'dialect/format'}>
+        <FormatSection />
+      </Box>
+    </Box>
   )
 }

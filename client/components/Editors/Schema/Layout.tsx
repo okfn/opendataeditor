@@ -51,19 +51,17 @@ function LayoutWithoutMenu() {
   React.useEffect(() => updateHelp(section), [section])
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box>
-        <Box hidden={section !== 'schema'}>
-          <SchemaSection />
-        </Box>
-        <Box hidden={section !== 'schema/fields'}>
-          <FieldsSection />
-        </Box>
-        <Box hidden={section !== 'schema/foreignKeys'}>
-          <ForeignKeysSection />
-        </Box>
+    <Box sx={{ maxWidth: '720px' }}>
+      <EditorHelp helpItem={helpItem} withIcon />
+      <Box hidden={section !== 'schema'}>
+        <SchemaSection />
       </Box>
-      {helpItem ? <EditorHelp helpItem={helpItem} /> : null}
-    </Columns>
+      <Box hidden={section !== 'schema/fields'}>
+        <FieldsSection />
+      </Box>
+      <Box hidden={section !== 'schema/foreignKeys'}>
+        <ForeignKeysSection />
+      </Box>
+    </Box>
   )
 }
