@@ -54,33 +54,21 @@ function LayoutWithMenu() {
     return (schema: types.ISchema) => updateDescriptor({ schema })
   }, [])
 
-  // We use memo to avoid nested editors re-rerender
-  const externalMenu = React.useMemo(() => {
-    return { section }
-  }, [])
-
   return (
-    <SimpleTabs
-      labels={TAB_LABELS}
-      onChange={(section: string) => {
-        updateHelp(section)
-        updateState({ section })
-        externalMenu.section = section
-      }}
-    >
-      <Columns spacing={3} layout={[3, 5]} columns={8}>
+    <SimpleTabs labels={TAB_LABELS}>
+      <Columns spacing={3} layout={[2, 8]} columns={10}>
         <Box sx={{ flexGrow: 1 }}>
           <MenuTree
             menuItems={RESOURCE_MENU_ITEMS}
             selected={section}
-            defaultExpanded={['resources']}
+            defaultExpanded={['resource']}
             onSelect={(section) => {
               updateHelp(section)
               updateState({ section })
             }}
           />
-          <LayoutWithoutMenu />
         </Box>
+        <LayoutWithoutMenu />
       </Columns>
       <Dialect format={format} dialect={dialect} onChange={handleDialectChange} />
       <Schema
@@ -99,25 +87,23 @@ function LayoutWithoutMenu() {
   React.useEffect(() => updateHelp(section), [section])
   if (!section) return null
   return (
-    <Columns spacing={3} layout={[5, 3]} columns={8}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Box hidden={section !== 'resource'}>
-          <ResourceSection />
-        </Box>
-        <Box hidden={section !== 'resource/integrity'}>
-          <IntegritySection />
-        </Box>
-        <Box hidden={section !== 'resource/licenses'}>
-          <LicensesSection />
-        </Box>
-        <Box hidden={section !== 'resource/contributors'}>
-          <ContributorsSection />
-        </Box>
-        <Box hidden={section !== 'resource/sources'}>
-          <SourcesSection />
-        </Box>
+    <Box sx={{ maxWidth: '720px' }}>
+      <EditorHelp helpItem={helpItem} withIcon />
+      <Box hidden={section !== 'resource'}>
+        <ResourceSection />
       </Box>
-      <EditorHelp helpItem={helpItem} />
-    </Columns>
+      <Box hidden={section !== 'resource/integrity'}>
+        <IntegritySection />
+      </Box>
+      <Box hidden={section !== 'resource/licenses'}>
+        <LicensesSection />
+      </Box>
+      <Box hidden={section !== 'resource/contributors'}>
+        <ContributorsSection />
+      </Box>
+      <Box hidden={section !== 'resource/sources'}>
+        <SourcesSection />
+      </Box>
+    </Box>
   )
 }
