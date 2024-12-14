@@ -35,6 +35,7 @@
     "add-xsl-or-csv-files": "Add one or more Excel or csv files",
     "link-external-table": "Link to the external table:",
     "add": "Add",
+    "aria-tabs-component": "Tabs Component",
     "enter-or-paste-url": "Enter or paste URL",
     "error-url-blank": "The URL is blank",
     "error-url-not-valid": "The URL is not valid",
