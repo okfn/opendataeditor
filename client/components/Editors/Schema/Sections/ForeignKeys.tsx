@@ -24,7 +24,11 @@ function ForeignKeyList() {
   const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   return (
-    <EditorList kind="foreign key" query={query}>
+    <EditorList
+      kind="foreign key"
+      query={query}
+      onAddClick={foreignKeyItems.length > 0 ? addForeignKey : null}
+    >
       <EditorHelp helpItem={helpItem} withIcon />
       {foreignKeyItems.length > 0 ? (
         foreignKeyItems.map(({ index, foreignKey }) => (

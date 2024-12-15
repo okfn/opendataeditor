@@ -24,7 +24,11 @@ function ContributorList() {
   const { t } = useTranslation()
 
   return (
-    <EditorList kind="contributor" query={query}>
+    <EditorList
+      kind="contributor"
+      query={query}
+      onAddClick={contributorItems.length > 0 ? addContributor : null}
+    >
       <EditorHelp helpItem={helpItem} withIcon />
       {contributorItems.length > 0 ? (
         contributorItems.map(({ index, contributor }) => (

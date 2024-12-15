@@ -37,18 +37,29 @@ function LicenseList() {
 
   return (
     <>
-      <EditorList kind="license" query={query} onAddClick={() => setDialogOpen(true)}>
+      <EditorList
+        kind="license"
+        query={query}
+        onAddClick={licenseItems.length > 0 ? () => setDialogOpen(true) : null}
+      >
         <EditorHelp helpItem={helpItem} withIcon />
-        {licenseItems.length > 0 ? licenseItems.map(({ index, license }) => (
-          <EditorListItem
-            key={index}
-            kind="license"
-            name={license.name}
-            type="license"
-            onClick={() => updateLicenseState({ index })}
-            onRemoveClick={() => removeLicense(index)}
+        {licenseItems.length > 0 ? (
+          licenseItems.map(({ index, license }) => (
+            <EditorListItem
+              key={index}
+              kind="license"
+              name={license.name}
+              type="license"
+              onClick={() => updateLicenseState({ index })}
+              onRemoveClick={() => removeLicense(index)}
+            />
+          ))
+        ) : (
+          <NothingToSee
+            buttonText={t('add-license')}
+            onAddClick={() => setDialogOpen(true)}
           />
-        )) : <NothingToSee buttonText={t('add-license')} onAddClick={() => setDialogOpen(true)} />}
+        )}
       </EditorList>
       <LicenseDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
     </>
