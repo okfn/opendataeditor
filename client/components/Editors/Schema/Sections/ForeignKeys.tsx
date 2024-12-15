@@ -7,6 +7,7 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
@@ -19,8 +20,10 @@ function ForeignKeyList() {
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   const addForeignKey = useStore((state) => state.addForeignKey)
   const removeForeignKey = useStore((state) => state.removeForeignKey)
+  const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorList kind="foreign key" query={query} onAddClick={() => addForeignKey()}>
+      <EditorHelp helpItem={helpItem} withIcon />
       {foreignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem
           key={index}

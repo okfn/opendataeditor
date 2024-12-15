@@ -19,6 +19,7 @@ import TimePickerField from '../../../Parts/Fields/TimePicker'
 import validator from 'validator'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function Fields() {
   const index = useStore((state) => state.fieldState.index)
@@ -29,6 +30,7 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
+  const helpItem = useStore((state) => state.helpItem)
 
   return (
     <EditorList
@@ -41,6 +43,7 @@ function FieldList() {
         />
       }
     >
+      <EditorHelp helpItem={helpItem} withIcon />
       {fieldItems.map(({ index, field }) => (
         <EditorListItem
           key={index}
@@ -58,12 +61,13 @@ function FieldItem() {
   const name = useStore(select(selectors.field, (field) => field.name))
   const isExtras = useStore((state) => state.fieldState.isExtras)
   const updateFieldState = useStore((state) => state.updateFieldState)
+  const { t } = useTranslation()
   return (
     <EditorItem
       kind="field"
       name={name}
       isExtras={isExtras}
-      extrasName="constraints"
+      extrasName={t('constraints')}
       onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
       onBackClick={() => updateFieldState({ index: undefined, isExtras: false })}
     >
