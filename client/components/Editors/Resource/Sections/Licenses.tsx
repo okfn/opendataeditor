@@ -18,6 +18,7 @@ import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
 import EditorHelp from '../../Base/Help'
+import NothingToSee from '@client/components/Parts/Cards/NothingToSee'
 
 export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
@@ -32,12 +33,13 @@ function LicenseList() {
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const removeLicense = useStore((state) => state.removeLicense)
   const helpItem = useStore((state) => state.helpItem)
+  const { t } = useTranslation()
 
   return (
     <>
       <EditorList kind="license" query={query} onAddClick={() => setDialogOpen(true)}>
         <EditorHelp helpItem={helpItem} withIcon />
-        {licenseItems.map(({ index, license }) => (
+        {licenseItems.length > 0 ? licenseItems.map(({ index, license }) => (
           <EditorListItem
             key={index}
             kind="license"
@@ -46,7 +48,7 @@ function LicenseList() {
             onClick={() => updateLicenseState({ index })}
             onRemoveClick={() => removeLicense(index)}
           />
-        ))}
+        )) : <NothingToSee buttonText={t('add-license')} onAddClick={() => setDialogOpen(true)} />}
       </EditorList>
       <LicenseDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
     </>
