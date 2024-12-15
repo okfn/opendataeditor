@@ -9,10 +9,12 @@ import { useStore, selectors } from '../store'
 import * as store from '@client/store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function Resource() {
   const updateHelp = useStore((state) => state.updateHelp)
   const onBackClick = useStore((state) => state.onBackClick)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
 
   return (
@@ -21,6 +23,7 @@ export default function Resource() {
       onHeadingClick={() => updateHelp('resource')}
       onBackClick={onBackClick}
     >
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <Name />

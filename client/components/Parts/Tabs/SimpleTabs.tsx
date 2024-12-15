@@ -41,7 +41,7 @@ export default function SimpleTabs(props: SimpleTabsProps) {
   const { t } = useTranslation()
   return (
     <Box sx={{ display: orientation === 'vertical' ? 'flex' : '' }}>
-      <Box sx={{ borderBottom: orientation === 'vertical' ? 0 : 1, borderColor: 'divider', width: orientation === 'vertical' ? '250px': 'unset' }}>
+      <Box sx={{ borderBottom: orientation === 'vertical' ? 0 : 1, borderColor: 'divider', width: orientation === 'vertical' ? '250px': 'unset', marginTop: orientation === 'vertical' ? '16px' : 0 }}>
         <Tabs
           value={currentTabIndex}
           onChange={handleChange}

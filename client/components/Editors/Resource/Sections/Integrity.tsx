@@ -4,15 +4,18 @@ import EditorSection from '../../Base/Section'
 import Columns from '../../../Parts/Grids/Columns'
 import { useStore } from '../store'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function Integrity() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   return (
     <EditorSection
       name={t('integrity')}
       onHeadingClick={() => updateHelp('resource/integrity')}
     >
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <Hash />

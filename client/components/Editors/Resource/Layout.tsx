@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import EditorHelp from '../Base/Help'
 import Dialect from '../Dialect'
 import Schema from '../Schema'
 import ResourceSection from './Sections/Resource'
@@ -21,7 +20,6 @@ export default function Layout() {
   const updateState = useStore((state) => state.updateState)
   const updateDescriptor = useStore((state) => state.updateDescriptor)
   const onFieldSelected = useStore((state) => state.onFieldSelected)
-  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
 
   const TOP_TAB_LABELS = [t('resource'), t('dialect'), t('schema')]
@@ -55,26 +53,11 @@ export default function Layout() {
             updateState({ section: RESOURCE_MENU_ITEMS[newValue].section })
           }}
         >
-          <div>
-            <EditorHelp helpItem={helpItem} withIcon />
-            <ResourceSection />
-          </div>
-          <div>
-            <EditorHelp helpItem={helpItem} withIcon />
-            <IntegritySection />
-          </div>
-          <div>
-            <EditorHelp helpItem={helpItem} withIcon />
-            <LicensesSection />
-          </div>
-          <div>
-            <EditorHelp helpItem={helpItem} withIcon />
-            <ContributorsSection />
-          </div>
-          <div>
-            <EditorHelp helpItem={helpItem} withIcon />
-            <SourcesSection />
-          </div>
+          <ResourceSection />
+          <IntegritySection />
+          <LicensesSection />
+          <ContributorsSection />
+          <SourcesSection />
         </SimpleTabs>
         <Dialect format={format} dialect={dialect} onChange={handleDialectChange} />
         <Schema
