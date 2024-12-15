@@ -26,7 +26,11 @@ function SourceList() {
   const { t } = useTranslation()
 
   return (
-    <EditorList kind="source" query={query}>
+    <EditorList
+      kind="source"
+      query={query}
+      onAddClick={sourceItems.length > 0 ? addSource : null}
+    >
       <EditorHelp helpItem={helpItem} withIcon />
       {sourceItems.length > 0 ? (
         sourceItems.map(({ index, source }) => (

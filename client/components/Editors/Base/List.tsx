@@ -9,7 +9,7 @@ import EditorListItem from './ListItem'
 export interface EditorListProps {
   kind: string
   query?: string
-  onAddClick?: () => void
+  onAddClick?: (() => void) | null
   // We accept search as a prop otherwise it loses focus
   SearchInput?: React.ReactNode
 }
