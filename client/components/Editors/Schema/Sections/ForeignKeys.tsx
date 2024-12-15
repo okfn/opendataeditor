@@ -8,6 +8,7 @@ import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import { useTranslation } from 'react-i18next'
 import EditorHelp from '../../Base/Help'
+import NothingToSee from '@client/components/Parts/Cards/NothingToSee'
 
 export default function ForeignKey() {
   const index = useStore((state) => state.foreignKeyState.index)
@@ -20,18 +21,25 @@ function ForeignKeyList() {
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   const addForeignKey = useStore((state) => state.addForeignKey)
   const removeForeignKey = useStore((state) => state.removeForeignKey)
+  const helpItem = useStore((state) => state.helpItem)
+  const { t } = useTranslation()
   return (
-    <EditorList kind="foreign key" query={query} onAddClick={() => addForeignKey()}>
-      {foreignKeyItems.map(({ index, foreignKey }) => (
-        <EditorListItem
-          key={index}
-          kind="foreign key"
-          name={foreignKey.fields.join(',')}
-          type="fk"
-          onClick={() => updateForeignKeyState({ index })}
-          onRemoveClick={() => removeForeignKey(index)}
-        />
-      ))}
+    <EditorList kind="foreign key" query={query}>
+      <EditorHelp helpItem={helpItem} withIcon />
+      {foreignKeyItems.length > 0 ? (
+        foreignKeyItems.map(({ index, foreignKey }) => (
+          <EditorListItem
+            key={index}
+            kind="foreign key"
+            name={foreignKey.fields.join(',')}
+            type="fk"
+            onClick={() => updateForeignKeyState({ index })}
+            onRemoveClick={() => removeForeignKey(index)}
+          />
+        ))
+      ) : (
+        <NothingToSee buttonText={t('add-foreign-key')} onAddClick={addForeignKey} />
+      )}
     </EditorList>
   )
 }
@@ -40,6 +48,7 @@ function ForeignKeyItem() {
   const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
+  const updateHelp = useStore((state) => state.updateHelp)
   const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorItem
@@ -47,7 +56,10 @@ function ForeignKeyItem() {
       name={fields.join(',')}
       isExtras={isExtras}
       onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
-      onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}
+      onBackClick={() => {
+        updateForeignKeyState({ index: undefined, isExtras: false })
+        updateHelp('schema/foreignKeys')
+      }}
     >
       <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>

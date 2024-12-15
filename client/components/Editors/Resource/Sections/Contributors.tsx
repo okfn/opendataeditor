@@ -7,6 +7,7 @@ import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import { useTranslation } from 'react-i18next'
 import EditorHelp from '../../Base/Help'
+import NothingToSee from '@client/components/Parts/Cards/NothingToSee'
 
 export default function Contributors() {
   const index = useStore((state) => state.contributorState.index)
@@ -20,22 +21,27 @@ function ContributorList() {
   const addContributor = useStore((state) => state.addContributor)
   const removeContributor = useStore((state) => state.removeContributor)
   const helpItem = useStore((state) => state.helpItem)
+  const { t } = useTranslation()
 
   return (
-    <EditorList kind="contributor" query={query} onAddClick={() => addContributor()}>
+    <EditorList kind="contributor" query={query}>
       <EditorHelp helpItem={helpItem} withIcon />
-      {contributorItems.map(({ index, contributor }) => (
-        <EditorListItem
-          key={index}
-          kind="contributor"
-          name={contributor.title}
-          type="contributor"
-          onClick={() => {
-            updateContributorState({ index })
-          }}
-          onRemoveClick={() => removeContributor(index)}
-        />
-      ))}
+      {contributorItems.length > 0 ? (
+        contributorItems.map(({ index, contributor }) => (
+          <EditorListItem
+            key={index}
+            kind="contributor"
+            name={contributor.title}
+            type="contributor"
+            onClick={() => {
+              updateContributorState({ index })
+            }}
+            onRemoveClick={() => removeContributor(index)}
+          />
+        ))
+      ) : (
+        <NothingToSee buttonText={t('add-contributor')} onAddClick={addContributor} />
+      )}
     </EditorList>
   )
 }
@@ -46,13 +52,18 @@ function ContributorItem() {
   )
   const isExtras = useStore((state) => state.contributorState.isExtras)
   const updateContributorState = useStore((state) => state.updateContributorState)
+  const updateHelp = useStore((state) => state.updateHelp)
+
   return (
     <EditorItem
       kind="contributor"
       name={title}
       isExtras={isExtras}
       onExtrasClick={() => updateContributorState({ isExtras: !isExtras })}
-      onBackClick={() => updateContributorState({ index: undefined, isExtras: false })}
+      onBackClick={() => {
+        updateContributorState({ index: undefined, isExtras: false })
+        updateHelp('resource/contributors')
+      }}
     >
       <Columns spacing={3}>
         <Box>

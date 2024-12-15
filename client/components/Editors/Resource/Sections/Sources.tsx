@@ -9,6 +9,7 @@ import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
 import EditorHelp from '../../Base/Help'
+import NothingToSee from '@client/components/Parts/Cards/NothingToSee'
 
 export default function Sources() {
   const index = useStore((state) => state.sourceState.index)
@@ -22,22 +23,27 @@ function SourceList() {
   const addSource = useStore((state) => state.addSource)
   const removeSource = useStore((state) => state.removeSource)
   const helpItem = useStore((state) => state.helpItem)
+  const { t } = useTranslation()
 
   return (
-    <EditorList kind="source" query={query} onAddClick={() => addSource()}>
+    <EditorList kind="source" query={query}>
       <EditorHelp helpItem={helpItem} withIcon />
-      {sourceItems.map(({ index, source }) => (
-        <EditorListItem
-          key={index}
-          kind="source"
-          name={source.title}
-          type="source"
-          onClick={() => {
-            updateSourceState({ index })
-          }}
-          onRemoveClick={() => removeSource(index)}
-        />
-      ))}
+      {sourceItems.length > 0 ? (
+        sourceItems.map(({ index, source }) => (
+          <EditorListItem
+            key={index}
+            kind="source"
+            name={source.title}
+            type="source"
+            onClick={() => {
+              updateSourceState({ index })
+            }}
+            onRemoveClick={() => removeSource(index)}
+          />
+        ))
+      ) : (
+        <NothingToSee buttonText={t('add-source')} onAddClick={addSource} />
+      )}
     </EditorList>
   )
 }
