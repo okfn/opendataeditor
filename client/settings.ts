@@ -17,10 +17,9 @@ import TableViewIcon from '@mui/icons-material/TableView'
 import GridOnIcon from '@mui/icons-material/GridOn'
 import * as types from './types'
 
-// Genearl
+// General
 
 export const SERVER_URL = 'http://localhost:4040'
-export const PACKAGE_PATH = 'datapackage.json'
 export const HASHINGS = ['md5', 'sha256']
 export const ENCODINGS = ['utf-8', 'iso-8859-1']
 export const MISSING_VALUES = ['""', 'n/a', 'na', 'N/A', 'NA']
@@ -54,7 +53,6 @@ export const FILE_TYPES = [
   'image',
   'json',
   'map',
-  'package',
   'resource',
   'schema',
   'script',
@@ -67,7 +65,6 @@ export const TEXT_FILE_TYPES = [
   'chart',
   'dialect',
   'json',
-  'package',
   'resource',
   'schema',
   'script',
@@ -113,7 +110,6 @@ export const INITIAL_CONFIG: types.IConfig = { system: {}, project: {}, folder: 
 export const INITIAL_SCHEMA: types.ISchema = { fields: [] }
 export const INITIAL_DIALECT: types.IDialect = {}
 export const INITIAL_CONTROL: Partial<types.IControl> = { type: 'ckan' }
-export const INITIAL_PACKAGE: types.IPackage = { resources: [] }
 export const INITIAL_PORTAL: types.IPortal = { type: 'ckan' }
 export const INITIAL_HISTORY: types.IHistory = { changes: [] }
 export const INITIAL_RESOURCE: types.IResource = {
@@ -134,7 +130,6 @@ export const TYPE_ICONS: { [key: string]: React.ElementType } = {
   folder: FolderIcon,
   image: ImageIcon,
   map: MapIcon,
-  package: [SourceIcon, WidgetsIcon][0],
   pipeline: AccountTree,
   resource: DescriptionIcon,
   schema: DescriptionIcon,

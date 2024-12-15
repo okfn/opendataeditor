@@ -278,8 +278,6 @@ function TreeItemIcon(props: { nodeId: string; item: types.IFileTreeItem }) {
       : theme.palette.OKFNGreenBlue.main
 
   const fontWeight = 'normal'
-  // When data package is enabled consider highlighting it
-  // const fontWeight = props.item.type === 'package' ? 'bold' : 'normal'
 
   return (
     <Box

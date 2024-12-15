@@ -88,21 +88,6 @@ export class Client {
     return await makeRequest<{ path: string }>('/folder/move', props)
   }
 
-  // Package
-
-  async packageFetch(props: {
-    url: string
-    path?: string
-    folder?: string
-    deduplicate?: boolean
-  }) {
-    return await makeRequest<{ path: string }>('/package/fetch', props)
-  }
-
-  async packagePublish(props: { path: string; control: types.IControl }) {
-    return await makeRequest<{ url: string }>('/package/publish', props)
-  }
-
   // Table
 
   async tableCount(props: { path: string; valid?: boolean }) {
