@@ -30,7 +30,6 @@ function FieldList() {
   const query = useStore((state) => state.fieldState.query)
   const fieldItems = useStore(selectors.fieldItems)
   const updateFieldState = useStore((state) => state.updateFieldState)
-  const helpItem = useStore((state) => state.helpItem)
 
   return (
     <EditorList
@@ -43,7 +42,6 @@ function FieldList() {
         />
       }
     >
-      <EditorHelp helpItem={helpItem} withIcon />
       {fieldItems.map(({ index, field }) => (
         <EditorListItem
           key={index}
@@ -61,6 +59,7 @@ function FieldItem() {
   const name = useStore(select(selectors.field, (field) => field.name))
   const isExtras = useStore((state) => state.fieldState.isExtras)
   const updateFieldState = useStore((state) => state.updateFieldState)
+  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
   return (
     <EditorItem
@@ -71,6 +70,7 @@ function FieldItem() {
       onExtrasClick={() => updateFieldState({ isExtras: !isExtras })}
       onBackClick={() => updateFieldState({ index: undefined, isExtras: false })}
     >
+      <EditorHelp helpItem={helpItem} withIcon />
       {isExtras ? <FieldItemExtras /> : <FieldItemMain />}
     </EditorItem>
   )

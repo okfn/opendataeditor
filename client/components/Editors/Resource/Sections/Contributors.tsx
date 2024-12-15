@@ -6,6 +6,7 @@ import EditorList from '../../Base/List'
 import EditorListItem from '../../Base/ListItem'
 import { useStore, selectors, select } from '../store'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function Contributors() {
   const index = useStore((state) => state.contributorState.index)
@@ -18,8 +19,11 @@ function ContributorList() {
   const updateContributorState = useStore((state) => state.updateContributorState)
   const addContributor = useStore((state) => state.addContributor)
   const removeContributor = useStore((state) => state.removeContributor)
+  const helpItem = useStore((state) => state.helpItem)
+
   return (
     <EditorList kind="contributor" query={query} onAddClick={() => addContributor()}>
+      <EditorHelp helpItem={helpItem} withIcon />
       {contributorItems.map(({ index, contributor }) => (
         <EditorListItem
           key={index}

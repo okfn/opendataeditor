@@ -1,6 +1,5 @@
 import capitalize from 'lodash/capitalize'
 import Box from '@mui/material/Box'
-import EditorHelp from '../Base/Help'
 import DialectSection from './Sections/Dialect'
 import FormatSection from './Sections/Format'
 import { useStore } from './store'
@@ -12,8 +11,8 @@ export default function Layout() {
   const format = useStore((state) => state.format)
   const updateHelp = useStore((state) => state.updateHelp)
   const updateState = useStore((state) => state.updateState)
-  const helpItem = useStore((state) => state.helpItem)
   const { t } = useTranslation()
+
   const MENU_ITEMS: types.IMenuItem[] = [
     { section: 'dialect', name: t('default') },
     { section: 'dialect/format', name: capitalize(format) || t('format') },
@@ -31,12 +30,8 @@ export default function Layout() {
           updateState({ section: MENU_ITEMS[newValue].section })
         }}
       >
-        <div>
-          <EditorHelp helpItem={helpItem} withIcon /> <DialectSection />{' '}
-        </div>
-        <div>
-          <EditorHelp helpItem={helpItem} withIcon /> <FormatSection />
-        </div>
+        <DialectSection />
+        <FormatSection />
       </SimpleTabs>
     </Box>
   )

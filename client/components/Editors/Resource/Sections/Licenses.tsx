@@ -17,6 +17,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
 
 export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
@@ -30,10 +31,12 @@ function LicenseList() {
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const removeLicense = useStore((state) => state.removeLicense)
+  const helpItem = useStore((state) => state.helpItem)
 
   return (
     <>
       <EditorList kind="license" query={query} onAddClick={() => setDialogOpen(true)}>
+        <EditorHelp helpItem={helpItem} withIcon />
         {licenseItems.map(({ index, license }) => (
           <EditorListItem
             key={index}

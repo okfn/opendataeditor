@@ -20,10 +20,8 @@ function ForeignKeyList() {
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
   const addForeignKey = useStore((state) => state.addForeignKey)
   const removeForeignKey = useStore((state) => state.removeForeignKey)
-  const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorList kind="foreign key" query={query} onAddClick={() => addForeignKey()}>
-      <EditorHelp helpItem={helpItem} withIcon />
       {foreignKeyItems.map(({ index, foreignKey }) => (
         <EditorListItem
           key={index}
@@ -42,7 +40,7 @@ function ForeignKeyItem() {
   const fields = useStore(select(selectors.foreignKey, (foreignKey) => foreignKey.fields))
   const isExtras = useStore((state) => state.foreignKeyState.isExtras)
   const updateForeignKeyState = useStore((state) => state.updateForeignKeyState)
-
+  const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorItem
       kind="foreignKey"
@@ -51,6 +49,7 @@ function ForeignKeyItem() {
       onExtrasClick={() => updateForeignKeyState({ isExtras: !isExtras })}
       onBackClick={() => updateForeignKeyState({ index: undefined, isExtras: false })}
     >
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <SourceField />
