@@ -109,6 +109,13 @@ make docs
 
 It will be automatically published on CloudFlare when merged to the `main` branch with previews available for pull requests.
 
+## Translations
+
+Use approptriate `t` function to translate strings in the codebase. TypeScript will check if the key exists in the primary translation file. To add a new translation key:
+
+- add it to the `locale/translations/en.json` file
+- run `OPENAI_API_KEY=<YOUR-KEY> make translate` to update the secondary translation files
+
 ## Releasing
 
 > You need to be a maintainer to release a new version

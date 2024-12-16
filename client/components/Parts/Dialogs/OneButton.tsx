@@ -1,12 +1,13 @@
-import * as React from 'react'
-import LinearProgress from '@mui/material/LinearProgress'
+import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import SimpleButton from '../Buttons/SimpleButton'
+import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
+import LinearProgress from '@mui/material/LinearProgress'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
+import SimpleButton from '../Buttons/SimpleButton'
 
 export interface OneButtonDialogProps {
   open?: boolean
@@ -26,6 +27,7 @@ export interface OneButtonDialogProps {
 }
 
 export default function OneButtonDialog(props: OneButtonDialogProps) {
+  const { t } = useTranslation()
   const handleCancel = () => props.onCancel && props.onCancel()
   const handleConfirm = () => props.onConfirm && props.onConfirm()
 
@@ -82,16 +84,24 @@ export default function OneButtonDialog(props: OneButtonDialogProps) {
           </Box>
         )}
       </DialogContent>
-      <Box sx={{ marginX: props.title === 'Publish Dataset' ? '48px' : 'unset', paddingX: 3, paddingY: 2, display: 'flex', justifyContent: 'flex-end' }}>
+      <Box
+        sx={{
+          marginX: props.title === 'Publish Dataset' ? '48px' : 'unset',
+          paddingX: 3,
+          paddingY: 2,
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
         <SimpleButton
           fullWidth
-          label={props.label || 'Confirm'}
+          label={props.label || t('confirm')}
           sx={{ my: 0.5 }}
           onClick={handleConfirm}
           aria-label="accept"
           variant="contained"
-          hoverBgColor='OKFNBlue'
-          color={ props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack' }
+          hoverBgColor="OKFNBlue"
+          color={props.label === 'Delete' ? 'OKFNRed500' : 'OKFNBlack'}
           disabled={props.disabled || props.loading}
         />
       </Box>

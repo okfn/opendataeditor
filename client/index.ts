@@ -1,8 +1,11 @@
 import '@fontsource-variable/hanken-grotesk'
+// --- (keep import order using comments) ---
+import Application from '@client/components/Application'
+import { initLocale } from '@locale/index'
 import * as React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
-import Application from './components/Application'
-import '../localization/i18n.config'
+
+initLocale({ useReact: true })
 
 const element = document.getElementById('root')
 const node = React.createElement(Application, {}, null)

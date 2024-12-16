@@ -1,14 +1,14 @@
-import * as React from 'react'
-import * as zustand from 'zustand'
-import { assert } from 'ts-essentials'
-import noop from 'lodash/noop'
+import { t } from 'i18next'
 import cloneDeep from 'lodash/cloneDeep'
-import { createStore } from 'zustand/vanilla'
+import noop from 'lodash/noop'
+import * as React from 'react'
 import { createSelector } from 'reselect'
-import { DialectProps } from './index'
+import { assert } from 'ts-essentials'
+import * as zustand from 'zustand'
+import { createStore } from 'zustand/vanilla'
 import * as settings from '../../../settings'
 import * as types from '../../../types'
-import { t } from 'i18next'
+import { DialectProps } from './index'
 
 interface State {
   format: string
@@ -42,6 +42,7 @@ export function makeStore(props: DialectProps) {
       set({ ...patch })
     },
     updateHelp: (path) => {
+      // @ts-ignore
       let helpItem = t(`help-${path}`, { returnObjects: true }) as types.IHelpItem
       if (typeof helpItem !== 'object') helpItem = DEFAULT_HELP_ITEM
       set({ helpItem })

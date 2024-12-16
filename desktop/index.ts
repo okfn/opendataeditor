@@ -1,4 +1,5 @@
 import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { initLocale } from '@locale/index'
 import { BrowserWindow, app, dialog } from 'electron'
 import log from 'electron-log'
 import { join } from 'path'
@@ -12,6 +13,8 @@ import { createWindow } from './window'
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+  initLocale()
+
   log.info('# Start application')
   electronApp.setAppUserModelId(settings.APP_USER_MODEL_ID)
 

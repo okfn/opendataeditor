@@ -2,6 +2,7 @@ import { client } from '@client/client'
 import * as helpers from '@client/helpers'
 import * as appStore from '@client/store'
 import * as types from '@client/types'
+import { t } from 'i18next'
 
 class State {
   progress?: types.IProgress
@@ -27,7 +28,7 @@ export async function deleteFile() {
 
   state.progress = {
     type: 'deleting',
-    title: `Deleting selected ${target}`,
+    title: `${t('deleting-selected')} ${target}`,
     blocking: true,
   }
 
@@ -38,13 +39,13 @@ export async function deleteFile() {
   if (result instanceof client.Error) {
     state.progress = {
       type: 'error',
-      title: `Error deleting ${target}`,
+      title: `${t('error-deleting')} ${target}`,
       message: result.detail,
     }
-  } else {
-    appStore.onFileDeleted([path])
+    return
   }
 
+  appStore.onFileDeleted([path])
   state.progress = undefined
   closeDialog()
 }

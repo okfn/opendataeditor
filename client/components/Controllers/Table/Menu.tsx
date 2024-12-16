@@ -15,7 +15,13 @@ export default function Menu() {
 
   return (
     <menu.MenuBar fullWidth>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',

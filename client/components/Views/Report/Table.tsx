@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 export interface ReportTableProps {
   tags: string[]
@@ -14,6 +15,7 @@ export interface ReportTableProps {
 }
 
 export default function ReportTable(props: ReportTableProps) {
+  const { t } = useTranslation()
   const { visibleRowsCount, rowNumbers } = props
   const isHeaderVisible = props.tags.includes('#row')
   let afterFailRowNumber = 1
@@ -27,7 +29,7 @@ export default function ReportTable(props: ReportTableProps) {
       <tbody>
         {props.labels && isHeaderVisible && (
           <tr className="before-fail">
-            <td className="text-center">Row number</td>
+            <td className="text-center">{t('row-number')}</td>
             {props.labels.map((label, index) => (
               <td key={index}>{label}</td>
             ))}
@@ -37,7 +39,7 @@ export default function ReportTable(props: ReportTableProps) {
           (rowNumber, index) =>
             index < visibleRowsCount && (
               <tr key={index}>
-                <td className="result-row-index">{rowNumber || 'Row Number'}</td>
+                <td className="result-row-index">{rowNumber || t('row-number')}</td>
                 {props.data[rowNumber].values.map((value, innerIndex) => (
                   <td
                     key={innerIndex}

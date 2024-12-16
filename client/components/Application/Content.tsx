@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import * as React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Trans, useTranslation } from 'react-i18next'
 import emptyContentScreenImg from '../../assets/empty_screen.png'
 import File from '../Controllers/File'
 import Table from '../Controllers/Table'
 import SpinnerCard from '../Parts/Cards/Spinner'
-import { useTranslation, Trans } from 'react-i18next'
 
 export default function Content() {
   const record = store.useStore((state) => state.record)

@@ -1,4 +1,42 @@
 {
+    "row-number": "Row Number",
+    "found": "found",
+    "added": "added",
+    "creating-folder": "Creating a folder",
+    "error-creating-folder": "Error creating folder",
+    "saving-updated-table": "Saving the updated table",
+    "file-too-large": "If the file is large, this may take some time",
+    "error-saving-changes": "Error saving changes",
+    "deleting-selected": "Deleting selected",
+    "error-deleting": "Error deleting",
+    "renaming-selected": "Renaming selected",
+    "error-renaming": "Error renaming",
+    "select": "Select",
+    "generating": "Generating",
+    "error": "Error",
+    "language": "Language",
+    "about": "About",
+    "quit": "Quit",
+    "copy": "Copy",
+    "cut": "Cut",
+    "paste": "Paste",
+    "sort-ascending": "Sort ascending",
+    "sort-descending": "Sort descending",
+    "unsort": "Unsort",
+    "pagination-page": "Page",
+    "pagination-of": "of",
+    "pagination-per-page": "Results per page",
+    "pagination-showing": "Showing",
+    "report-issue": "Report an issue",
+    "rename-column": "Rename column",
+    "enter-new-column-name": "Enter new column name:",
+    "name-must-not-be-blank": "Name must not be blank",
+    "name-must-be-unique": "Name must be unique",
+    "name-not-vald": "Name is not valid",
+    "ai": "AI",
+    "keys": "Keys",
+    "welcome-screen-image": "Welcome Screen Image",
+    "create": "Create",
     "open-explore-tables": "Open & explore tables",
     "detect-errors-generate-report": "Detect errors and generate a report",
     "save-download-work": "Save & download your work",
@@ -10,7 +48,7 @@
     "welcomebanner-dont-show-again": "Don't show this screen on the next launch",
     "powered-by-frictionless": "This project is open source and powered by",
     "how-ODE-handles-your-files": "How the ODE handles your imported files",
-    "openlocationbanner-description" : "The tool makes a copy of your selections into the ODE folder on your Computer. Any changes will be made to these copies, while the original data remains unchanged.",
+    "openlocationbanner-description": "The tool makes a copy of your selections into the ODE folder on your Computer. Any changes will be made to these copies, while the original data remains unchanged.",
     "openlocation-dont-show-again": "Don't show next time",
     "okay": "Okay",
     "ok": "Ok",
@@ -22,8 +60,8 @@
     "upload-your-data": "Upload your data",
     "create-an-issue": "create an issue",
     "sharing-contents-if-possible": "sharing the file contents <1>(if possible)</1>",
-    "ODE-supports-CSV-Excel-files" : "The ODE supports Excel & csv files",
-    "links-online-tables" : "You can also add links to online tables",
+    "ODE-supports-CSV-Excel-files": "The ODE supports Excel & csv files",
+    "links-online-tables": "You can also add links to online tables",
     "create-folder": "Create folder",
     "create-new-folder": "Create new folder",
     "Create": "Create",
@@ -47,7 +85,7 @@
     "folder": "Folder",
     "delete": "Delete",
     "open-fileorfolder-location": "Open {{fileOrFolder, lowercase}} Location",
-    "context-menu-delete-description":"Only removes this element from the ODE folder",
+    "context-menu-delete-description": "Only removes this element from the ODE folder",
     "context-menu-openlocation-description": "The ODE folder where this {{fileOrFolder}} exists",
     "metadata": "Metadata",
     "errors-report": "Errors report",
@@ -119,7 +157,8 @@
     "schema": "Schema",
     "fields": "Fields",
     "foreign-keys": "Foreign Keys",
-    "add-foreign-key": "Add foreign key",
+    "foreign keys": "Foreign Keys",
+    "add-foreign key": "Add foreign key",
     "search": "Search",
     "name": "Name",
     "name-not-valid": "Name is not valid.",
@@ -161,7 +200,7 @@
     "sheet-not-valid": "Sheet is not valid.",
     "fill-merged-cells": "Fill Merged Cells",
     "preserve-formatting": "Preserve Formatting",
-    "adjust-floating-point-error" :"Adjust Floating Point Error",
+    "adjust-floating-point-error": "Adjust Floating Point Error",
     "stringified": "Stringified",
     "primary-key": "Primary Key",
     "missing-values": "Missing Values",
@@ -193,7 +232,7 @@
     "help-resource": {
         "path": "resource",
         "title": "Resource",
-        "link" : "https://specs.frictionlessdata.io/data-resource/",
+        "link": "https://specs.frictionlessdata.io/data-resource/",
         "description": "A simple format to describe and package a single data resource such as a individual table or file."
     },
     "help-resource/name": {
@@ -244,115 +283,115 @@
         "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
         "description": "Specifies the standard file extension for this resource e.g. 'csv', 'xls', 'json' etc"
     },
-    "help-resource/encoding" : {
+    "help-resource/encoding": {
         "path": "resource/encoding",
         "title": "Encoding",
         "link": "https://specs.frictionlessdata.io/data-resource/#optional-properties",
         "description": "Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA."
     },
-    "help-resource/integrity" : {
+    "help-resource/integrity": {
         "path": "resource/integrity",
         "title": "Integrity",
         "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
         "description": "Checksum details  of this resource."
     },
-    "help-resource/integrity/hash" : {
+    "help-resource/integrity/hash": {
         "path": "resource/integrity/hash",
         "title": "Hash",
         "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
         "description": "The MD5 hash for this resource."
     },
-    "help-resource/integrity/bytes" : {
+    "help-resource/integrity/bytes": {
         "path": "resource/integrity/bytes",
         "title": "Bytes",
         "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
         "description": "Size of the resource file in bytes."
     },
-    "help-resource/integrity/fields" : {
+    "help-resource/integrity/fields": {
         "path": "resource/integrity/fields",
         "title": "Fields",
         "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
         "description": "Total fiels in this resource."
     },
-    "help-resource/integrity/rows" : {
+    "help-resource/integrity/rows": {
         "path": "resource/integrity/rows",
         "title": "Rows",
         "link": "https://specs.frictionlessdata.io/data-resource/#metadata-properties",
         "description": "Total rows in this resource."
     },
-    "help-resource/licenses" : {
+    "help-resource/licenses": {
         "path": "resource/licenses",
         "title": "Licenses",
         "link": "https://specs.frictionlessdata.io/data-package/#licenses",
         "description": "The license(s) under which the resource is provided."
     },
-    "help-resource/licenses/name" : {
+    "help-resource/licenses/name": {
         "path": "resource/licenses/name",
         "title": "Name",
         "link": "https://specs.frictionlessdata.io/data-package/#licenses",
         "description": "The name MUST be an Open Definition license ID e.g. ODC-BY-1.0"
     },
-    "help-resource/licenses/path" : {
+    "help-resource/licenses/path": {
         "path": "resource/licenses/path",
         "title": "Path",
         "link": "https://specs.frictionlessdata.io/data-package/#licenses",
         "description": "A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path for this license."
     },
-    "help-resource/licenses/title" : {
+    "help-resource/licenses/title": {
         "path": "resource/licenses/title",
         "title": "Title",
         "link": "https://specs.frictionlessdata.io/data-package/#licenses",
         "description": "A human-readable title or label for this license e.g. 'Open Data Commons Public Domain Dedication and License v1.0'."
     },
-    "help-resource/contributors" : {
+    "help-resource/contributors": {
         "path": "resource/contributors",
         "title": "Contributors",
         "link": "https://specs.frictionlessdata.io/data-package/#contributors",
         "description": "A name/title of the contributor (name for person, name/title of organization)."
     },
-    "help-resource/contributors/title" : {
+    "help-resource/contributors/title": {
         "path": "resource/contributors/title",
         "title": "Title",
         "link": "https://specs.frictionlessdata.io/data-package/#contributors",
         "description": "Title of the source (e.g. document or organization name)."
     },
-    "help-resource/contributors/email" : {
+    "help-resource/contributors/email": {
         "path": "resource/contributors/email",
         "title": "Email",
         "link": "https://specs.frictionlessdata.io/data-package/#contributors",
         "description": "An email address"
     },
-    "help-resource/contributors/path" : {
+    "help-resource/contributors/path": {
         "path": "resource/contributors/path",
         "title": "Path",
         "link": "https://specs.frictionlessdata.io/data-package/#contributors",
         "description": "A fully qualified http URL pointing to a relevant location online for the contributor."
     },
-    "help-resource/contributors/role" : {
+    "help-resource/contributors/role": {
         "path": "resource/contributors/role",
         "title": "Role",
         "link": "https://specs.frictionlessdata.io/data-package/#contributors",
         "description": "A string describing the role of the contributor."
     },
-    "help-resource/sources" : {
+    "help-resource/sources": {
         "path": "resource/sources",
         "title": "Sources",
         "link": "https://specs.frictionlessdata.io/data-package/#sources",
         "description": "Raw sources for the data resource."
     },
-    "help-resource/sources/title" : {
+    "help-resource/sources/title": {
         "path": "resource/sources/title",
         "title": "Title",
         "link": "https://specs.frictionlessdata.io/data-package/#sources",
         "description": "Title of the source (e.g. document or organization name)"
     },
-    "help-resource/sources/path" : {
+    "help-resource/sources/path": {
         "path": "resource/sources/path",
         "title": "Path",
         "link": "https://specs.frictionlessdata.io/data-package/#sources",
         "description": "A url-or-path string, that is a fully qualified HTTP address, or a relative POSIX path."
     },
-    "help-resource/sources/email" : {
+    "help-resource/sources/email": {
         "path": "resource/sources/email",
         "title": "Email",
         "link": "https://specs.frictionlessdata.io/data-package/#sources",

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import debounce from 'lodash/debounce'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import * as types from '../../../types'
 import SpinnerCard from '../../Parts/Cards/Spinner'
 import InputDialog from '../../Parts/Dialogs/Input'
@@ -40,6 +41,7 @@ export default function TableEditor(props: TableEditorProps) {
     onColumnRename,
     ...others
   } = props
+  const { t } = useTranslation()
   const [dialog, setDialog] = React.useState<IDialog | undefined>()
 
   const theme = useTheme()
@@ -81,10 +83,17 @@ export default function TableEditor(props: TableEditorProps) {
 
   const renderColumnContextMenu = React.useCallback(
     (menuProps: { items: any[] }, context: any) => {
-      menuProps.items = menuProps.items.filter((x) => x.label !== 'Columns' && x !== '-')
+      menuProps.items = menuProps.items.filter(
+        (item) => item.label !== 'Columns' && item !== '-'
+      )
+      menuProps.items.forEach((item: any) => {
+        if (item.label === 'Sort ascending') item.label = t('sort-ascending')
+        if (item.label === 'Sort descending') item.label = t('sort-descending')
+        if (item.label === 'Unsort') item.label = t('unsort')
+      })
       menuProps.items.push({
         itemId: 'rename',
-        label: 'Rename',
+        label: t('rename'),
         disabled: history?.changes.length,
         onClick: () => {
           setDialog({
@@ -99,6 +108,14 @@ export default function TableEditor(props: TableEditorProps) {
     },
     [history?.changes.length]
   )
+
+  const renderPaginationToolbar = React.useCallback((paginationProps: any) => {
+    paginationProps.pageText = t('pagination-page')
+    paginationProps.ofText = t('pagination-of')
+    paginationProps.perPageText = t('pagination-per-page')
+    paginationProps.showingText = t('pagination-showing')
+    return undefined
+  }, [])
 
   function resizeTable() {
     // using a query selector here and not a ref because the tableRef selects the whole
@@ -125,7 +142,7 @@ export default function TableEditor(props: TableEditorProps) {
         dataSource={source}
         columns={columns}
         pagination={true}
-        loadingText={<Typography>Loading...</Typography>}
+        loadingText={<Typography>{t('loading')}...</Typography>}
         renderLoadMask={LoadMask}
         defaultActiveCell={settings.DEFAULT_ACTIVE_CELL}
         style={{ height: '100%', border: 'none' }}
@@ -136,12 +153,14 @@ export default function TableEditor(props: TableEditorProps) {
         showColumnMenuGroupOptions={false}
         enableColumnAutosize={false}
         renderColumnContextMenu={renderColumnContextMenu}
+        renderPaginationToolbar={renderPaginationToolbar}
         {...others}
       />
     </>
   )
 }
 
+// TODO: move this dialog to global dialogs
 type IDialog = IColumnRenameDialog
 
 type IColumnRenameDialog = {
@@ -149,34 +168,36 @@ type IColumnRenameDialog = {
   name: string
   index: number
 }
-
 function ColumnRenameDialog(props: {
   dialog?: IDialog
   onClose: () => void
   schema: types.ISchema
   onColumnRename: React.ComponentProps<typeof TableEditor>['onColumnRename']
 }) {
-  if (props.dialog?.type !== 'columnRename') return null
+  const { t } = useTranslation()
+  const [name, setName] = React.useState(props.dialog?.name || '')
 
-  const [name, setName] = React.useState(props.dialog.name)
+  if (props.dialog?.type !== 'columnRename') {
+    return null
+  }
 
   const isUpdated = name !== props.dialog.name
   const isUnique = !props.schema.fields.map((field) => field.name).includes(name)
 
   let errorMessage = ''
   if (!name) {
-    errorMessage = 'Name must not be blank'
+    errorMessage = t('name-must-not-be-blank')
   } else if (isUpdated && !isUnique) {
-    errorMessage = 'Name must be unique'
+    errorMessage = t('name-must-be-unique')
   }
 
   return (
     <InputDialog
       open={true}
       value={name}
-      description="Enter a new column name:"
+      description={t('enter-new-column-name')}
       onChange={setName}
-      title={`Rename Column "${props.dialog.name}"`}
+      title={`${t('rename-column')} "${props.dialog.name}"`}
       onCancel={props.onClose}
       disabled={!isUpdated || !!errorMessage}
       errorMessage={errorMessage}
@@ -193,7 +214,9 @@ function ColumnRenameDialog(props: {
 }
 
 function LoadMask(props: { visible: boolean; zIndex: number }) {
+  const { t } = useTranslation()
   if (!props.visible) return null
+
   return (
     <Box
       sx={{
@@ -205,7 +228,7 @@ function LoadMask(props: { visible: boolean; zIndex: number }) {
         position: 'absolute',
       }}
     >
-      <SpinnerCard message="Loading" />
+      <SpinnerCard message={t('loading')} />
     </Box>
   )
 }
