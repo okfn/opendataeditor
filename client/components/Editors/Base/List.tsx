@@ -19,7 +19,19 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
     if (!props.onAddClick) return null
 
     return (
-      <Button title={`Add ${startCase(props.kind)}`} onClick={() => props.onAddClick?.()}>
+      <Button
+        sx={{
+          textTransform: 'capitalize',
+          backgroundColor: (theme) => theme.palette.OKFNGray700.main,
+          color: 'white',
+          padding: '4px 10px',
+          '&:hover': {
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+        }}
+        title={`Add ${startCase(props.kind)}`}
+        onClick={() => props.onAddClick?.()}
+      >
         Add {startCase(props.kind)}
       </Button>
     )

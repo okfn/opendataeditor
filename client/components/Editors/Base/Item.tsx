@@ -60,10 +60,10 @@ export default function EditorItem(props: React.PropsWithChildren<EditorItemProp
   }
   return (
     <React.Fragment>
-      <Box>
+      <Box sx={{ paddingBottom: '10px' }}>
         <Columns spacing={1}>
           <BackButton />
-          <Box sx={{ whiteSpace: 'nowrap' }}>
+          <Box sx={{ whiteSpace: 'nowrap', alignSelf: 'center' }}>
             <Typography variant="inherit" display="inline" sx={{ color: 'grey' }}>
               <Link onClick={props.onBackClick} sx={{ cursor: 'pointer' }}>
                 {startCase(props.kind)}s

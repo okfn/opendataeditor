@@ -10,15 +10,12 @@ export default function NothingToSee(props: any){
         if (!props.onAddClick) return null
     
         return (
-        //   <Button title={props.buttonText} onClick={() => props.onAddClick?.()}>
-        //     {props.buttonText}
-        //   </Button>
         <Button title={props.buttonText} onClick={() =>  props.onAddClick?.()} sx={{ backgroundColor: 'black', color: 'white', '&.MuiButton-root': {
             textTransform: 'capitalize',
             marginTop: '10px',
             '&:hover': {
-            color: 'black',
-            border: '1px solid black'
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+            color: 'white'
             }
         } }}>
             {props.buttonText}

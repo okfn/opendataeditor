@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
+import deleteIcon from '../../../assets/delete_icon.svg'
 
 interface EditorListItemProps {
   kind: string
@@ -29,27 +30,30 @@ export default function EditorListItem(props: EditorListItemProps) {
         color="warning"
         component="span"
         title={`${t('remove')} ${capitalize(props.kind)}`}
-        sx={{ marginLeft: 2, textDecoration: 'underline' }}
+        sx={{
+          '& img': {
+            width: '22px',
+          },
+        }}
         onClick={(ev) => {
           ev.stopPropagation()
           props.onRemoveClick?.()
         }}
       >
-        {t('remove')}
+        <img src={deleteIcon} alt="" />
       </Button>
     )
   }
 
   const EndIcon = () => {
-    const label = (props.type || 'item').toUpperCase()
     return (
       <Box>
-        <Typography component="span">{label}</Typography>
         <RemoveButton />
       </Box>
     )
   }
 
+  const label = props.type || 'item'
   return (
     <Button
       size="large"
@@ -59,28 +63,46 @@ export default function EditorListItem(props: EditorListItemProps) {
       disabled={props.disabled}
       title={props.title || `Edit ${capitalize(props.kind)}`}
       sx={{
-        height: theme.spacing(5),
         width: '100%',
-        marginRight: 0,
+        margin: '8px 0',
         justifyContent: 'space-between',
-        textTransform: 'initial',
-        padding: [2, 2],
-        marginTop: 2,
-        marginBottom: 1,
+        textTransform: 'capitalize',
+        padding: '12px 16px',
         whiteSpace: 'nowrap',
+        borderColor: '#E6E7EB',
+        '&:hover': {
+          borderColor: (theme) => theme.palette.OKFNBlue.main,
+        },
       }}
     >
       <span
         style={{
-          width: '70%',
           textAlign: 'left',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
+          color: theme.palette.OKFNGray700.main,
+          fontWeight: 600,
         }}
       >
         {props.name}
       </span>
+      <Typography
+        sx={{
+          backgroundColor: '#FAFAFA',
+          border: '1px solid #D3D7D8',
+          padding: '4px 10px',
+          fontSize: '14px',
+          color: (theme) => theme.palette.OKFNGray700.main,
+          marginRight: 'auto',
+          marginLeft: '10px',
+        }}
+        component="span"
+      >
+        {props.kind === 'foreign key' || props.kind === 'field'
+          ? label.toUpperCase()
+          : label}
+      </Typography>
     </Button>
   )
 }
