@@ -9,19 +9,17 @@ interface YesNoFieldProps {
   size?: 'small' | 'medium'
   onChange: (value: boolean) => void
   onFocus?: () => void
+  width?: string
 }
 
 export default function YesNoField(props: YesNoFieldProps) {
   const onFocus = props.onFocus || noop
   return (
-    <div>
-    <InputLabel
-          shrink={false}>
-            {props.label}
-      </InputLabel>
+    <div style={{ flexGrow: 1, width: '100%'}}>
+      <InputLabel shrink={false}>{props.label}</InputLabel>
       <StyledTextField
         select
-        style= {{ maxWidth: '350px', marginTop: '5px' }}
+        style= {{ flexGrow: 1, maxWidth: '350px', marginTop: '5px', width: props.width ? props.width: '100%' }}
         margin="normal"
         size={props.size || 'small'}
         value={props.value ? 'yes' : 'no'}

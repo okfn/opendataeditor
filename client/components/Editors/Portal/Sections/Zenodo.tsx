@@ -46,6 +46,7 @@ function Description() {
       label={t('description')}
       value={description || ''}
       onChange={(value) => updateZenodo({ description: value || undefined })}
+      width="350px"
     />
   )
 }
