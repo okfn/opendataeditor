@@ -9,7 +9,6 @@ interface YesNoFieldProps {
   size?: 'small' | 'medium'
   onChange: (value: boolean) => void
   onFocus?: () => void
-  width?: string
 }
 
 export default function YesNoField(props: YesNoFieldProps) {
@@ -19,7 +18,7 @@ export default function YesNoField(props: YesNoFieldProps) {
       <InputLabel shrink={false}>{props.label}</InputLabel>
       <StyledTextField
         select
-        style= {{ flexGrow: 1, maxWidth: '350px', marginTop: '5px', width: props.width ? props.width: '100%' }}
+        style= {{ flexGrow: 1, maxWidth: '350px', marginTop: '5px' }}
         margin="normal"
         size={props.size || 'small'}
         value={props.value ? 'yes' : 'no'}

@@ -24,7 +24,6 @@ interface InputFieldProps {
   onKeyDown?: () => void
   placeholder?: string
   autoFocus?: boolean
-  width?: string
 }
 
 export default function InputField(props: InputFieldProps) {
@@ -33,7 +32,7 @@ export default function InputField(props: InputFieldProps) {
   const onFocus = props.onFocus || noop
   const onBlur = props.onBlur || noop
   return (
-    <div style={{ flexGrow: 1, width: props.width ? props.width : '100%' }}>
+    <div style={{ flexGrow: 1, width: '100%' }}>
       <InputLabel shrink={false}>{props.label}</InputLabel>
       <StyledTextField
         name={props.name || props.label}
@@ -41,7 +40,7 @@ export default function InputField(props: InputFieldProps) {
         margin="normal"
         value={props.value}
         size={props.size || 'small'}
-        style={{  maxWidth: '350px', marginTop: '5px', width: props.width ? props.width : '100%' }}
+        style={{  maxWidth: '350px', marginTop: '5px' }}
         disabled={props.disabled}
         inputProps={props.inputProps}
         onChange={(ev) => onChange(ev.target.value)}

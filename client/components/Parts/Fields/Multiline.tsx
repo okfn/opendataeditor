@@ -16,7 +16,6 @@ interface MultilineFieldProps {
   placeholder?: string
   autoFocus?: boolean
   required?: boolean
-  width?: string
 }
 
 export default function MultilineField(props: MultilineFieldProps) {
