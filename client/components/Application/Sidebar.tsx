@@ -18,6 +18,7 @@ import Browser from './Browser'
 export default function Sidebar() {
   return (
     <Stack
+      id="sidebar"
       sx={{
         height: '100vh',
         borderRight: 'solid 1px #ddd',

@@ -19,7 +19,7 @@ describe('ODE basic workflow', () => {
 
         const simpleButton = await root.react$('SimpleButton', {props: {label: 'Get Started'}})
         const focusTrap = await root.react$('FocusTrap')
-        const uploadYourDataButton = await $('.sidebar .MuiButton-outlined')
+        const uploadYourDataButton = await $('#sidebar .MuiButton-outlined')
 
         await expect(focusTrap).toExist()
         await expect(uploadYourDataButton).not.toBeClickable()
@@ -32,7 +32,7 @@ describe('ODE basic workflow', () => {
       const remoteFilePath = await browser.uploadFile(filePath)
       const root = await $('#root')
 
-      const uploadYourDataButton = await root.$('.sidebar .MuiButton-outlined')
+      const uploadYourDataButton = await root.$('#sidebar .MuiButton-outlined')
       await uploadYourDataButton.click()
 
       const fileUploadDialog = await root.react$('FileUploadDialog')
