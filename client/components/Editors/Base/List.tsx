@@ -40,7 +40,7 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   }
 
   // @ts-ignore
-  const title = t(`${props.kind}s`) as any
+  const title = t(`${props.kind.replace(' ', '-')}s`) as any
 
   // TODO: we can make HeadingBox (or with Tabs/Help) "sticky" with CSS:
   // https://developer.mozilla.org/en-US/docs/Web/CSS/position
