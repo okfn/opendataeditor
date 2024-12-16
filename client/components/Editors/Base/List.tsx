@@ -20,9 +20,6 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   const AddButton = () => {
     if (!props.onAddClick) return null
 
-    // @ts-ignore
-    const title = t(`add-${props.kind}`) as any
-
     return (
       <Button
         sx={{
