@@ -2,7 +2,7 @@ import uploadFilesDialogImg from '@client/assets/dialog_upload_files.png'
 import iconUploadFolderImg from '@client/assets/folder-open-big-plus.png'
 import iconLinkTextField from '@client/assets/icon_link_textfield.svg'
 import iconUploadFileImg from '@client/assets/icon_upload_file.png'
-import DialogTabs from '@client/components//Parts/Tabs/Dialog'
+import SimpleTabs from '@client/components/Parts/Tabs/SimpleTabs'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
 import { LinearProgress } from '@client/components/Progress'
@@ -64,10 +64,11 @@ export function UploadFileDialog() {
           <img src={uploadFilesDialogImg} alt={t('alt-image-folder-dialog')} />
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <DialogTabs
+          <SimpleTabs
             labels={TAB_LABELS}
             disabled={progress?.blocking}
             onChange={store.resetState}
+            centered
           >
             <Stack spacing={2}>
               <Columns columns={2} spacing={4}>
@@ -80,7 +81,7 @@ export function UploadFileDialog() {
               <RemoteFileForm />
               <LinearProgress progress={progress} />
             </Stack>
-          </DialogTabs>
+          </SimpleTabs>
         </Box>
       </DialogContent>
     </Dialog>

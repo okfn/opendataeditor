@@ -1,5 +1,6 @@
 import noop from 'lodash/noop'
 import { StyledTextField } from './Input'
+import InputLabel from '@mui/material/InputLabel'
 
 // TODO: shall we open a modal editor for this field?
 
@@ -20,6 +21,11 @@ interface MultilineFieldProps {
 export default function MultilineField(props: MultilineFieldProps) {
   const onFocus = props.onFocus || noop
   return (
+    <div>
+    <InputLabel
+          shrink={false}>
+            {props.label}
+      </InputLabel>
     <StyledTextField
       multiline
       fullWidth
@@ -28,8 +34,7 @@ export default function MultilineField(props: MultilineFieldProps) {
       rows={props.rows}
       type={props.type}
       margin="normal"
-      style={{ maxWidth: '350px' }}
-      label={props.label}
+      style={{ maxWidth: '350px', marginTop: '5px' }}
       value={props.value}
       size={props.size || 'small'}
       onChange={(ev) => props.onChange(ev.target.value as any)}
@@ -37,5 +42,6 @@ export default function MultilineField(props: MultilineFieldProps) {
       autoFocus={props.autoFocus}
       required={props.required}
     />
+    </div>
   )
 }

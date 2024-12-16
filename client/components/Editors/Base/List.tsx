@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next'
 import Columns from '../../Parts/Grids/Columns'
 import HeadingBox from './Heading/Box'
 import EditorListItem from './ListItem'
+import startCase from 'lodash/startCase'
 
 export interface EditorListProps {
   kind: string
   query?: string
-  onAddClick?: () => void
+  onAddClick?: (() => void) | null
   // We accept search as a prop otherwise it loses focus
   SearchInput?: React.ReactNode
 }
@@ -19,18 +20,27 @@ export default function EditorList(props: React.PropsWithChildren<EditorListProp
   const AddButton = () => {
     if (!props.onAddClick) return null
 
-    // @ts-ignore
-    const title = t(`add-${props.kind}`) as any
-
     return (
-      <Button title={title} onClick={() => props.onAddClick?.()}>
-        {title}
+      <Button
+        sx={{
+          textTransform: 'capitalize',
+          backgroundColor: (theme) => theme.palette.OKFNGray700.main,
+          color: 'white',
+          padding: '4px 10px',
+          '&:hover': {
+            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+        }}
+        title={`Add ${startCase(props.kind)}`}
+        onClick={() => props.onAddClick?.()}
+      >
+        Add {startCase(props.kind)}
       </Button>
     )
   }
 
   // @ts-ignore
-  const title = t(`${props.kind}s`) as any
+  const title = t(`${props.kind.replace(' ', '-')}s`) as any
 
   // TODO: we can make HeadingBox (or with Tabs/Help) "sticky" with CSS:
   // https://developer.mozilla.org/en-US/docs/Web/CSS/position

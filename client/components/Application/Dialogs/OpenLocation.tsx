@@ -55,7 +55,7 @@ export default function OpenLocationDialog() {
       aria-describedby="dialog-description"
     >
       <IconButton
-        aria-label="close"
+        aria-label={t('close')}
         onClick={handleClose}
         sx={{
           position: 'absolute',

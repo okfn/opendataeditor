@@ -8,11 +8,14 @@ import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 // import validator from 'validator'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../../Base/Help'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorSection name="Excel" onHeadingClick={() => updateHelp('dialect/format')}>
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <Sheet />

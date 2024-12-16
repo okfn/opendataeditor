@@ -6,11 +6,14 @@ import EditorSection from '../../../Base/Section'
 import * as settings from '../../../../../settings'
 import { useStore, selectors, select } from '../../store'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../../Base/Help'
 
 export default function General() {
   const updateHelp = useStore((state) => state.updateHelp)
+  const helpItem = useStore((state) => state.helpItem)
   return (
     <EditorSection name="Csv" onHeadingClick={() => updateHelp('dialect/format')}>
+      <EditorHelp helpItem={helpItem} withIcon />
       <Columns spacing={3}>
         <Box>
           <Delimiter />

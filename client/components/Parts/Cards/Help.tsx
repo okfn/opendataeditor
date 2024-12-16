@@ -32,7 +32,7 @@ export function HelpCardWithIcon(props: React.PropsWithChildren<HelpCardProps>){
     <Card
       variant="outlined"
       square={true}
-      sx={{ height: '100%', border: '1px solid #00D1FF', borderRadius: '8px', marginLeft: '12px', marginRight: '12px', marginBottom: '15px', backgroundColor: '#F5FDFE' }}
+      sx={{ height: '100%', border: '1px solid #00D1FF', borderRadius: '8px', marginBottom: '15px', backgroundColor: '#F5FDFE' }}
     >
       <CardContent sx={{ display: 'flex', 
         padding: '18px !important'

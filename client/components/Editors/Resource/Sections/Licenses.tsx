@@ -17,6 +17,8 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { useStore, selectors, select } from '../store'
 import validator from 'validator'
 import { useTranslation } from 'react-i18next'
+import EditorHelp from '../../Base/Help'
+import NothingToSee from '@client/components/Parts/Cards/NothingToSee'
 
 export default function Licenses() {
   const index = useStore((state) => state.licenseState.index)
@@ -30,20 +32,30 @@ function LicenseList() {
   const licenseItems = useStore(selectors.licenseItems)
   const updateLicenseState = useStore((state) => state.updateLicenseState)
   const removeLicense = useStore((state) => state.removeLicense)
+  const helpItem = useStore((state) => state.helpItem)
+  const { t } = useTranslation()
 
   return (
     <>
-      <EditorList kind="license" query={query} onAddClick={() => setDialogOpen(true)}>
-        {licenseItems.map(({ index, license }) => (
-          <EditorListItem
-            key={index}
-            kind="license"
-            name={license.name}
-            type="license"
-            onClick={() => updateLicenseState({ index })}
-            onRemoveClick={() => removeLicense(index)}
+      <EditorList kind="license" query={query}>
+        <EditorHelp helpItem={helpItem} withIcon />
+        {licenseItems.length > 0 ? (
+          licenseItems.map(({ index, license }) => (
+            <EditorListItem
+              key={index}
+              kind="license"
+              name={license.name}
+              type="license"
+              onClick={() => updateLicenseState({ index })}
+              onRemoveClick={() => removeLicense(index)}
+            />
+          ))
+        ) : (
+          <NothingToSee
+            buttonText={t('add-license')}
+            onAddClick={() => setDialogOpen(true)}
           />
-        ))}
+        )}
       </EditorList>
       <LicenseDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
     </>
