@@ -37,11 +37,7 @@ function LicenseList() {
 
   return (
     <>
-      <EditorList
-        kind="license"
-        query={query}
-        onAddClick={licenseItems.length > 0 ? () => setDialogOpen(true) : null}
-      >
+      <EditorList kind="license" query={query}>
         <EditorHelp helpItem={helpItem} withIcon />
         {licenseItems.length > 0 ? (
           licenseItems.map(({ index, license }) => (
