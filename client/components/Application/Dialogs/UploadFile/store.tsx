@@ -74,9 +74,10 @@ async function uploadRemoteFile(props: { source: string }) {
   const result = await client.fileFetch({ folder, url: props.source, deduplicate: true })
 
   if (result instanceof client.Error) {
+    console.log(result)
     const message = props.source.includes('docs.google.com/spreadsheets')
       ? t('error-google-sheets-address-invalid')
-      : t('error-url-not-table')
+      : t(result.detail as any)
     state.progress = { type: 'error', message }
     return
   }
