@@ -24,14 +24,14 @@ export function closeDialog() {
   }
 }
 
-export async function ingestFiles(props: { source: FileList | string }, t: any) {
+export async function ingestFiles(props: { source: FileList | string }) {
   const files =
     props.source instanceof FileList
       ? await uploadLocalFiles({ source: props.source })
-      : await uploadRemoteFile({ source: props.source }, t)
+      : await uploadRemoteFile({ source: props.source })
 
   if (files) {
-    await validateAndSelectFiles({ files }, t)
+    await validateAndSelectFiles({ files })
   }
 }
 
@@ -57,7 +57,7 @@ async function uploadLocalFiles(props: { source: FileList }) {
   return files
 }
 
-async function uploadRemoteFile(props: { source: string }, t: any) {
+async function uploadRemoteFile(props: { source: string }) {
   state.progress = { type: 'loading', title: t('loading'), blocking: true }
 
   if (!props.source) {
@@ -85,7 +85,7 @@ async function uploadRemoteFile(props: { source: string }, t: any) {
   return [result]
 }
 
-async function validateAndSelectFiles(props: { files: IFile[] }, t: any) {
+async function validateAndSelectFiles(props: { files: IFile[] }) {
   state.progress = { type: 'validating', title: t('checking-errors'), blocking: true }
 
   const totalSize = props.files.reduce((acc, file) => acc + file.size, 0)
