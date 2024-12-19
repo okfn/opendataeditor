@@ -2,9 +2,9 @@ import uploadFilesDialogImg from '@client/assets/dialog_upload_files.png'
 import iconUploadFolderImg from '@client/assets/folder-open-big-plus.png'
 import iconLinkTextField from '@client/assets/icon_link_textfield.svg'
 import iconUploadFileImg from '@client/assets/icon_upload_file.png'
-import SimpleTabs from '@client/components/Parts/Tabs/SimpleTabs'
 import SimpleButton from '@client/components/Parts/Buttons/SimpleButton'
 import Columns from '@client/components/Parts/Grids/Columns'
+import SimpleTabs from '@client/components/Parts/Tabs/SimpleTabs'
 import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import CloseIcon from '@mui/icons-material/Close'
@@ -108,7 +108,7 @@ function LocalFileForm(props: { isFolder?: boolean }) {
           webkitdirectory={props.isFolder ? '' : undefined}
           onChange={(ev) => {
             if (ev.target.files) {
-              store.ingestFiles({ source: ev.target.files }, t)
+              store.ingestFiles({ source: ev.target.files })
             }
           }}
         />
@@ -153,7 +153,7 @@ function RemoteFileForm() {
         hoverBgColor="OKFNBlue"
         color="OKFNBlack"
         disabled={!url}
-        onClick={() => store.ingestFiles({ source: url }, t)}
+        onClick={() => store.ingestFiles({ source: url })}
       />
     </Box>
   )

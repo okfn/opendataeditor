@@ -25,6 +25,11 @@ class Result(BaseModel, extra="forbid"):
     size: int
 
 
+# TODO: this operation needs to be atomic (has to include file creation and table validation)
+# it will allow proper clean-ups in case of errors and better error messages
+# (see "/file/fetch" as an example)
+
+
 @router.post("/file/create")
 async def endpoint(
     request: Request,

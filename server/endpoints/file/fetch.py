@@ -31,6 +31,10 @@ def server_file_read(request: Request, props: Props) -> Result:
     return action(request.app.get_project(), props)
 
 
+# TODO: implement proper cleanup in case of failed uploading
+# currently, it only cleanups if the file is not a table
+
+
 def action(project: Project, props: Props) -> Result:
     from ... import endpoints
 
@@ -65,11 +69,11 @@ def action(project: Project, props: Props) -> Result:
     ).record
 
     # Ensure tabular
-    # Currently, we support only fetching tabular files because otherwise
-    # it's not possible to differentiate between HTML documents (wrong links) and data files
     if record.type != "table":
         endpoints.file.delete.action(project, endpoints.file.delete.Props(path=path))
-        raise Exception("The file is not tabular")
+        # TODO: currently, we just use a tranlation key here
+        # later it might need to be migrated to proper error codes
+        raise Exception("error-url-not-table")
 
     return Result(path=path, size=len(bytes))
 
