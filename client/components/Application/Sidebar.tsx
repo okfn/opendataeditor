@@ -24,9 +24,13 @@ export default function Sidebar() {
         borderRight: 'solid 1px #ddd',
       }}
     >
-      <SidebarLogo />
-      <SidebarControls />
-      <Browser />
+      <Stack sx={{ flexGrow: 1 }}>
+        <SidebarLogo />
+        <SidebarControls />
+        <Box sx={{ flexGrow: 1 }}>
+          <Browser />
+        </Box>
+      </Stack>
       <SidebarMenu />
     </Stack>
   )

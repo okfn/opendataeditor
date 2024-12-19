@@ -11,6 +11,7 @@ import { alpha, styled, useTheme } from '@mui/material/styles'
 import { keyframes } from '@mui/system'
 import { TreeItem, TreeItemProps, TreeView, treeItemClasses } from '@mui/x-tree-view'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
 import deleteIcon from '../../../assets/delete_icon.svg'
 import openFileLocationIcon from '../../../assets/open_file_location_icon.svg'
@@ -20,7 +21,6 @@ import * as helpers from '../../../helpers'
 import * as types from '../../../types'
 import IconButton from '../../Parts/Buttons/Icon'
 import ScrollBox from '../Boxes/Scroll'
-import { useTranslation } from 'react-i18next'
 
 export interface FileTreeProps {
   files: types.IFile[]
@@ -48,7 +48,7 @@ export default function FileTree(props: FileTreeProps) {
 
   return (
     <Context.Provider value={{ event: props.event }}>
-      <ScrollBox sx={{ padding: 0, height: 'calc(100vh - 300px)', overflowX: 'hidden' }}>
+      <ScrollBox sx={{ padding: 0, height: '100%', overflowX: 'hidden' }}>
         <Stack alignItems="stretch" height="100%">
           <TreeView
             selected={selected}
@@ -127,7 +127,7 @@ const StyledTreeItem = styled(
 
     const { t } = useTranslation()
 
-    const fileOrFolder = item.type === 'folder' ? t('folder'): t('file')
+    const fileOrFolder = item.type === 'folder' ? t('folder') : t('file')
 
     return (
       <Box
@@ -247,7 +247,8 @@ const StyledTreeItem = styled(
               primaryTypographyProps={{
                 color: (theme) => theme.palette.OKFNRed500.main,
               }}
-              primary={`${t('delete-filefolder', { fileOrFolder })}`} secondary={t('context-menu-delete-description')}
+              primary={`${t('delete-filefolder', { fileOrFolder })}`}
+              secondary={t('context-menu-delete-description')}
             />
           </MenuItem>
         </Menu>
