@@ -21,27 +21,23 @@ interface MultilineFieldProps {
 export default function MultilineField(props: MultilineFieldProps) {
   const onFocus = props.onFocus || noop
   return (
-    <div>
-    <InputLabel
-          shrink={false}>
-            {props.label}
-      </InputLabel>
-    <StyledTextField
-      multiline
-      fullWidth
-      placeholder={props.placeholder}
-      name={props.name || props.label}
-      rows={props.rows}
-      type={props.type}
-      margin="normal"
-      style={{ maxWidth: '350px', marginTop: '5px' }}
-      value={props.value}
-      size={props.size || 'small'}
-      onChange={(ev) => props.onChange(ev.target.value as any)}
-      onFocus={onFocus}
-      autoFocus={props.autoFocus}
-      required={props.required}
-    />
+    <div style={{ flexGrow: 1, width: '100%'}}>
+      <InputLabel shrink={false}>{props.label}</InputLabel>
+      <StyledTextField
+        multiline
+        placeholder={props.placeholder}
+        name={props.name || props.label}
+        rows={props.rows}
+        type={props.type}
+        margin="normal"
+        style={{ maxWidth: '350px', marginTop: '5px' }}
+        value={props.value}
+        size={props.size || 'small'}
+        onChange={(ev) => props.onChange(ev.target.value as any)}
+        onFocus={onFocus}
+        autoFocus={props.autoFocus}
+        required={props.required}
+      />
     </div>
   )
 }
