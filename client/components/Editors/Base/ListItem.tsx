@@ -70,6 +70,15 @@ export default function EditorListItem(props: EditorListItemProps) {
         padding: '12px 16px',
         whiteSpace: 'nowrap',
         borderColor: '#E6E7EB',
+        animation: 'highlight 3s ease-in-out',
+        '@keyframes highlight': {
+          '0%': {
+            borderColor: (theme) => theme.palette.OKFNBlue.main,
+          },
+          '100%': {
+            borderColor: '#E6E7EB',
+          },
+        },
         '&:hover': {
           borderColor: (theme) => theme.palette.OKFNBlue.main,
         },
