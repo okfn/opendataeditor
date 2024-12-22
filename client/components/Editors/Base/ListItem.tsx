@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
-import deleteIcon from '../../../assets/delete_icon.svg'
+import DeleteIcon from '../../Parts/Icons/DeleteIcon'
 
 interface EditorListItemProps {
   kind: string
@@ -31,8 +31,11 @@ export default function EditorListItem(props: EditorListItemProps) {
         component="span"
         title={`${t('remove')} ${capitalize(props.kind)}`}
         sx={{
-          '& img': {
+          '& svg': {
             width: '22px',
+            '&:hover': {
+              fill: (theme) => theme.palette.OKFNRed500.main,
+            },
           },
         }}
         onClick={(ev) => {
@@ -40,7 +43,7 @@ export default function EditorListItem(props: EditorListItemProps) {
           props.onRemoveClick?.()
         }}
       >
-        <img src={deleteIcon} alt="" />
+        <DeleteIcon color="OKFNGray700" />
       </Button>
     )
   }

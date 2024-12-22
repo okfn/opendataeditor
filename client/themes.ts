@@ -35,6 +35,12 @@ declare module '@mui/material/Button' {
     OKFNGray700: true
   }
 }
+declare module './components/Parts/Icons/DeleteIcon' {
+  interface SvgIconPropsColorOverrides {
+    OKFNRed500: true
+    OKFNGray700: true
+  }
+}
 
 export const DEFAULT = createTheme({
   typography: {
