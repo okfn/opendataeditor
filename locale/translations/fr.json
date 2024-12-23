@@ -80,6 +80,7 @@
     "error-url-not-table": "L'URL n'est pas associée à une table",
     "error-file-size-exceeds-10mb": "La taille totale des fichiers dépasse 10 Mo. Cette opération pourrait prendre du temps...",
     "checking-errors": "Vérification des erreurs",
+    "file-upload-dialog-description": "Ici, vous pouvez coller des liens à partir de feuilles de calcul Google publiques et des URL à partir de fichiers csv dans des portails de données ouverts et GitHub.",
     "rename": "Renommer",
     "file": "Fichier",
     "folder": "Dossier",
