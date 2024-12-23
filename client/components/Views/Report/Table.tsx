@@ -50,8 +50,11 @@ export default function ReportTable(props: ReportTableProps) {
                     })}
                   >
                     {value.length > 50 ? (
-                      <LightTooltip title={value}>
-                        <div className="cell-content" style={{ lineClamp: 1 }}>
+                      <LightTooltip title={truncate(value, { length: 1000 })}>
+                        <div
+                          className="cell-content"
+                          style={{ lineClamp: 1, cursor: 'pointer' }}
+                        >
                           {truncate(value, { length: 50 })}
                         </div>
                       </LightTooltip>

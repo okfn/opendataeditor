@@ -8,10 +8,10 @@ interface AllTooltipProps extends TooltipProps {
 export default styled(({ className, ...props }: AllTooltipProps) => (
   <Tooltip
     arrow
-    {...props}
     classes={{ popper: className }}
     TransitionProps={{ timeout: 0 }}
     placement="bottom"
+    {...props}
   />
 ))(({ theme, type }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
@@ -20,7 +20,7 @@ export default styled(({ className, ...props }: AllTooltipProps) => (
     color: type == 'fileMenu' ? theme.palette.common.white : 'rgba(0, 0, 0, 0.87)',
     boxShadow: theme.shadows[1],
     fontSize: 16,
-    maxWidth: '50dvw',
+    maxWidth: '50vw',
   },
   [`& .${tooltipClasses.arrow}`]: {
     color: theme.palette.OKFNCoolGray.main,
