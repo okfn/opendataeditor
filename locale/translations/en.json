@@ -1,4 +1,7 @@
 {
+    "select-metadata-format": "Select metadata format to export information about the table",
+    "data-resource-json": "Data Resource (JSON)",
+    "table-schema-json": "Table Schema (JSON)",
     "export": "Export",
     "row-number": "Row Number",
     "found": "found",
