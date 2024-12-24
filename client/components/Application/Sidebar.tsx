@@ -21,6 +21,7 @@ export default function Sidebar() {
       id="sidebar"
       sx={{
         height: '100vh',
+        overflow: 'hidden',
         borderRight: 'solid 1px #ddd',
       }}
     >
