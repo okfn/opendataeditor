@@ -60,7 +60,7 @@ export default function Menu() {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <action.AssistantButton onClick={() => store.openDialog('assistant')} />
-          <action.ExportButton onClick={console.log} />
+          <action.ExportButton onClick={() => store.openDialog('exporter')} />
           <action.PublishButton
             disabled={isTableUpdated}
             onClick={() => store.openDialog('publish')}

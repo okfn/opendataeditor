@@ -3,6 +3,7 @@ import { AssistantDialog } from './Dialogs/Assistant'
 import CloseWithUnsavedChangesDialog from './Dialogs/CloseWithUnsavedChanges'
 import { CreateFolderDialog } from './Dialogs/CreateFolder'
 import { DeleteFileDialog } from './Dialogs/DeleteFile'
+import { ExportDialog } from './Dialogs/Export'
 import OpenLocationDialog from './Dialogs/OpenLocation'
 import PublishDialog from './Dialogs/Publish'
 import { RenameFileDialog } from './Dialogs/RenameFile/index'
@@ -34,4 +35,5 @@ const DIALOGS = {
   openLocation: OpenLocationDialog,
   renameFile: RenameFileDialog,
   saveChanges: SaveChangesDialog,
+  exporter: ExportDialog,
 } as const
