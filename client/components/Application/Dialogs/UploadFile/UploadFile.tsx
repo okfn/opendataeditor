@@ -137,17 +137,20 @@ function RemoteFileForm() {
   return (
     <Box>
       <Box sx={{ fontSize: '14px' }}>{t('link-external-table')}</Box>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <AddRemoteTextField
           value={url}
           invalid={progress?.type === 'error'}
           disabled={progress?.blocking}
           onChange={setUrl}
         />
+        <Box sx={{ fontSize: '14px', fontStyle: 'italic', my: 1 }}>
+          {t('file-upload-dialog-description')}
+        </Box>
       </Box>
       <SimpleButton
         label={t('add')}
-        sx={{ my: 0.5, marginTop: '53px' }}
+        sx={{ marginTop: '23px' }}
         variant="contained"
         aria-label="accept"
         hoverBgColor="OKFNBlue"
@@ -175,7 +178,6 @@ function AddRemoteTextField(props: {
       disabled={props.disabled}
       error={props.invalid}
       placeholder={t('enter-or-paste-url')}
-      helperText=" "
       onChange={(e) => props.onChange(e.target.value)}
       InputLabelProps={{
         sx: {

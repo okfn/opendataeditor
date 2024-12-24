@@ -81,6 +81,7 @@
     "error-url-not-table": "The URL is not associated with a table",
     "error-file-size-exceeds-10mb": "The total size of the files exceeds 10MB. This operation might take some time...",
     "checking-errors": "Checking errors",
+    "file-upload-dialog-description": "Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.",
     "rename": "Rename",
     "file": "File",
     "folder": "Folder",

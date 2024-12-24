@@ -80,6 +80,7 @@
     "error-url-not-table": "A URL não está associada a uma tabela",
     "error-file-size-exceeds-10mb": "O tamanho total dos arquivos excede 10MB. Esta operação pode levar algum tempo...",
     "checking-errors": "Verificando erros",
+    "file-upload-dialog-description": "Aqui pode colar links de folhas de cálculo públicas do Google e URLs de ficheiros csv em portais de dados abertos e GitHub.",
     "rename": "Renomear",
     "file": "Arquivo",
     "folder": "Pasta",
