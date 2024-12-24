@@ -13,7 +13,7 @@ import { TreeItem, TreeItemProps, TreeView, treeItemClasses } from '@mui/x-tree-
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import closedFolderIcon from '../../../assets/closed_folder_icon.svg'
-import deleteIcon from '../../../assets/delete_icon.svg'
+import DeleteIcon from '../Icons/DeleteIcon'
 import openFileLocationIcon from '../../../assets/open_file_location_icon.svg'
 import openFolderIcon from '../../../assets/open_folder_icon.svg'
 import renameIcon from '../../../assets/rename_icon.svg'
@@ -233,15 +233,15 @@ const StyledTreeItem = styled(
           <MenuItem onClick={handleDelete}>
             <ListItemIcon
               sx={{
-                paddingTop: '6px',
+                paddingTop: '3px',
                 alignSelf: 'flex-start',
                 minWidth: '24px',
-                '& img': {
-                  width: '20px',
+                '& svg': {
+                  width: '22px'
                 },
               }}
             >
-              {<img src={deleteIcon} alt="" />}
+              <DeleteIcon color="OKFNRed500" />
             </ListItemIcon>
             <ListItemText
               primaryTypographyProps={{

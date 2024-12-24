@@ -14,8 +14,8 @@ export default function NothingToSee(props: any){
             textTransform: 'capitalize',
             marginTop: '10px',
             '&:hover': {
-            backgroundColor: (theme) => theme.palette.OKFNBlue.main,
-            color: 'white'
+                backgroundColor: (theme) => theme.palette.OKFNBlue.main,
+                color: 'white'
             }
         } }}>
             {props.buttonText}
