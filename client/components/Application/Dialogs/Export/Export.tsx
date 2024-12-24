@@ -1,4 +1,5 @@
 import TwoButtonDialog from '@client/components/Parts/Dialogs/TwoButton'
+import { LinearProgress } from '@client/components/Progress'
 import * as appStore from '@client/store'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -11,7 +12,7 @@ import { IFormat } from './types'
 
 export function ExportDialog() {
   const { t } = useTranslation()
-  const { format } = store.useState()
+  const { format, progress } = store.useState()
   const dialog = appStore.useStore((state) => state.dialog)
 
   React.useEffect(() => {
@@ -33,7 +34,7 @@ export function ExportDialog() {
       label={t('export')}
       cancelLabel={t('cancel')}
       onCancel={store.closeDialog}
-      onConfirm={store.closeDialog}
+      onConfirm={store.performExport}
     >
       <Stack>
         <SelectField
@@ -45,6 +46,7 @@ export function ExportDialog() {
         <Typography sx={{ fontStyle: 'italic' }}>
           {t('select-metadata-format')}.
         </Typography>
+        <LinearProgress progress={progress} />
       </Stack>
     </TwoButtonDialog>
   )
