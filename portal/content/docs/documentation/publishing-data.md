@@ -18,7 +18,7 @@ To be able to publish, you have to set the required credentials to connect to a 
 
 ## Zenodo
 
-:::note
+:::tip
 Open Data Editor will create a new draft on Zenodo. You will need to go to Zenodo to complete the publication process.
 :::
 
@@ -48,4 +48,15 @@ To publish your data on GitHub, you need to provide the following information:
   - Select the `repo` scope
   - Click on the `Generate token` button
   - Copy the token, securely save it
+
+## CKAN
+
+To publish your data on CKAN, you need to provide the following information:
+
+- **Base Url**: Endpoint url for CKAN instance. e.g. https://dados.gov.br
+- **Dataset**: The dataset name where the data will be published.
+- **Allow Update**: If checked, it will overwrite the selected dataset (use with caution!).
+- **API Key**: Your CKAN API key. You can find it in your CKAN account settings:
+  - Go to the API key page in the CKAN instance settings
+  - Copy the API key, securely save it
 
