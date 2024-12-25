@@ -19,7 +19,7 @@ To be able to publish, you have to set the required credentials to connect to a 
 ## Zenodo
 
 :::note
-For testing purposes, you can use the Zenodo sandbox environment. To do so, set the Zenodo URL to `https://sandbox.zenodo.org`.
+Open Data Editor will create a new draft on Zenodo. You will need to go to Zenodo to complete the publication process.
 :::
 
 To publish your data on Zenodo, you need to provide the following information:
@@ -28,9 +28,24 @@ To publish your data on Zenodo, you need to provide the following information:
 - **Description**: A description of the dataset.
 - **Author**: The author of the dataset.
 - **API Key**: Your Zenodo API key. You can find it in your Zenodo account settings:
-  - Go to the token creation page: [Production](https://zenodo.org/account/settings/applications/tokens/new/) OR [Sandbox](https://sandbox.zenodo.org/account/settings/applications/tokens/new/)
+  - Go to the [token creation page](https://zenodo.org/account/settings/applications/tokens/new/)
   - Set the name of the token (e.g. ODE)
   - Set scopes to `deposit:write`
   - Click on the `Create` button
-  - Copy the token, securely save it, and paste it in the API Key field.
+  - Copy the token, securely save it
+
+## GitHub
+
+To publish your data on GitHub, you need to provide the following information:
+
+- **User**: Your GitHub username.
+- **Repo**: A new repository where the data will be published.
+- **Email**: Your email address.
+- **API Key**: Your GitHub API key. You can find it in your GitHub account settings:
+  - Go to the [token creation page](https://github.com/settings/tokens/new)
+  - Set the note for the token (e.g. ODE)
+  - Set expiration date
+  - Select the `repo` scope
+  - Click on the `Generate token` button
+  - Copy the token, securely save it
 
