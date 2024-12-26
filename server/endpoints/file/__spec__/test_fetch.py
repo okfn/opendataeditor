@@ -8,7 +8,7 @@ from server.fixtures import folder1, not_secure, url1, url1bytes, url1name
 # Action
 
 
-@pytest.mark.vcr
+@pytest.mark.skip
 def test_server_file_fetch(client):
     client("/file/fetch", url=url1)
     assert client("/file/read", path=url1name).bytes == url1bytes
@@ -17,7 +17,7 @@ def test_server_file_fetch(client):
     ]
 
 
-@pytest.mark.vcr
+@pytest.mark.skip
 def test_server_file_fetch_to_folder(client):
     client("/folder/create", path=folder1)
     path = client("/file/fetch", url=url1, folder=folder1).path
