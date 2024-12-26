@@ -1,15 +1,15 @@
-import * as React from 'react'
-import * as zustand from 'zustand'
-import { assert } from 'ts-essentials'
-import noop from 'lodash/noop'
 import cloneDeep from 'lodash/cloneDeep'
-import { createStore } from 'zustand/vanilla'
+import noop from 'lodash/noop'
+import * as React from 'react'
 import { createSelector } from 'reselect'
-import { PortalProps } from './index'
-import * as settings from '../../../settings'
+import { assert } from 'ts-essentials'
+import * as zustand from 'zustand'
+import { createStore } from 'zustand/vanilla'
 import * as helpers from '../../../helpers'
+import * as settings from '../../../settings'
 import * as types from '../../../types'
 import help from './help.yaml'
+import { PortalProps } from './index'
 
 const DEFAULT_HELP_ITEM = helpers.readHelpItem(help, 'ckan')!
 
@@ -53,6 +53,7 @@ export function makeStore(props: PortalProps) {
 
     updateCkan: (patch) => {
       const { descriptor, updateDescriptor } = get()
+      descriptor.type = 'ckan'
       descriptor.ckan = descriptor.ckan || {}
       Object.assign(descriptor.ckan, patch)
       updateDescriptor(descriptor)
@@ -60,6 +61,7 @@ export function makeStore(props: PortalProps) {
 
     updateGithub: (patch) => {
       const { descriptor, updateDescriptor } = get()
+      descriptor.type = 'github'
       descriptor.github = descriptor.github || {}
       Object.assign(descriptor.github, patch)
       updateDescriptor(descriptor)
@@ -67,6 +69,7 @@ export function makeStore(props: PortalProps) {
 
     updateZenodo: (patch) => {
       const { descriptor, updateDescriptor } = get()
+      descriptor.type = 'zenodo'
       descriptor.zenodo = descriptor.zenodo || {}
       Object.assign(descriptor.zenodo, patch)
       updateDescriptor(descriptor)

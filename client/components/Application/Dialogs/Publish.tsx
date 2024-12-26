@@ -1,14 +1,14 @@
-import * as React from 'react'
 import * as store from '@client/store'
-import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
-import LinearProgress from '@mui/material/LinearProgress'
 import CheckIcon from '@mui/icons-material/Check'
-import OneButtonDialog from '../../Parts/Dialogs/OneButton'
-import PortalEditor from '../../Editors/Portal'
+import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
+import Link from '@mui/material/Link'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import * as helpers from '../../../helpers'
 import * as types from '../../../types'
-import { useTranslation } from 'react-i18next'
+import PortalEditor from '../../Editors/Portal'
+import OneButtonDialog from '../../Parts/Dialogs/OneButton'
 
 type IState = 'form' | 'load' | 'done' | 'fail'
 
@@ -46,6 +46,7 @@ export default function PublishDialog() {
         <PortalEditor
           portal={portal}
           onChange={(portal) => {
+            console.log('portal', portal)
             setPortal(portal)
             setControl(helpers.makeControl(portal))
           }}
@@ -53,13 +54,13 @@ export default function PublishDialog() {
       </Box>
       {state === 'load' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
-          {t('publishing')}
+          {t('uploading')}
           <LinearProgress />
         </Box>
       )}
       {state === 'done' && (
         <Box sx={{ borderTop: 'solid 1px #ddd', padding: 2 }}>
-          {t('published')}:{' '}
+          {t('uploaded')}:{' '}
           <Link href={publishedUrl} target="_blank">
             {publishedUrl}
           </Link>{' '}
