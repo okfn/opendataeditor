@@ -1,4 +1,6 @@
 {
+    "uploading": "Téléchargement",
+    "uploaded": "Téléversé",
     "export-error": "Erreur d'exportation",
     "export-error-message": "Une erreur s'est produite lors de l'exportation de la table",
     "select-metadata-format": "Sélectionner le format des métadonnées pour exporter des informations sur la table",
