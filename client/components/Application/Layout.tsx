@@ -17,7 +17,14 @@ export default function Layout() {
     <React.Fragment>
       <Error />
       <Dialog />
-      <Box sx={{ display: 'grid', gridTemplateColumns: `${fileMenuWidth}px 1fr` }}>
+      <Box
+        sx={{
+          height: '100vh',
+          overflow: 'hidden',
+          display: 'grid',
+          gridTemplateColumns: `${fileMenuWidth}px 1fr`,
+        }}
+      >
         <Sidebar />
         <Content />
       </Box>

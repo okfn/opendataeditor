@@ -184,6 +184,7 @@ export type IDialog =
   | 'openLocation'
   | 'renameFile'
   | 'saveChanges'
+  | 'exporter'
 
 export type IPanel = 'metadata' | 'report' | 'changes' | 'source'
 

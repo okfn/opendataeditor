@@ -19,12 +19,18 @@ export default function Content() {
   const indexing = store.useStore((state) => state.indexing)
   const path = store.useStore((state) => state.path)
 
-  return indexing ? (
-    <LoadingContent />
-  ) : record && path ? (
-    <FileContent />
-  ) : (
-    <EmptyContent />
+  const Content = indexing ? LoadingContent : record && path ? FileContent : EmptyContent
+
+  return (
+    <Box
+      id="content"
+      sx={{
+        height: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      <Content />
+    </Box>
   )
 }
 
@@ -66,9 +72,7 @@ function FileContent() {
           store.onFileLeave()
         }}
       >
-        <Box>
-          <Controller />
-        </Box>
+        <Controller />
       </ClickAwayListener>
     </ErrorBoundary>
   )

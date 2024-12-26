@@ -1,5 +1,7 @@
 import classNames from 'classnames'
+import { truncate } from 'lodash'
 import { useTranslation } from 'react-i18next'
+import LightTooltip from '../../Parts/Tooltips/Light'
 
 export interface ReportTableProps {
   tags: string[]
@@ -47,7 +49,18 @@ export default function ReportTable(props: ReportTableProps) {
                       fail: props.data[rowNumber].errors.has(innerIndex + 1),
                     })}
                   >
-                    <div className="cell-content">{value}</div>
+                    {value.length > 50 ? (
+                      <LightTooltip title={truncate(value, { length: 1000 })}>
+                        <div
+                          className="cell-content"
+                          style={{ lineClamp: 1, cursor: 'pointer' }}
+                        >
+                          {truncate(value, { length: 50 })}
+                        </div>
+                      </LightTooltip>
+                    ) : (
+                      <div className="cell-content">{value}</div>
+                    )}
                   </td>
                 ))}
               </tr>
