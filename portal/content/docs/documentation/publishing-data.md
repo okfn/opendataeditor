@@ -18,7 +18,7 @@ To be able to publish, you have to set the required credentials to connect to a 
 
 ## Zenodo
 
-:::tip
+:::note
 Open Data Editor will create a new draft on Zenodo. You will need to go to Zenodo to complete the publication process.
 :::
 
@@ -35,6 +35,10 @@ To publish your data on Zenodo, you need to provide the following information:
   - Copy the token, securely save it
 
 ## GitHub
+
+:::note
+Currently, Open Data Editor requires the `repo` scope to publish data on GitHub. The ODE team will review this scope in the future.
+:::
 
 To publish your data on GitHub, you need to provide the following information:
 
@@ -59,4 +63,3 @@ To publish your data on CKAN, you need to provide the following information:
 - **API Key**: Your CKAN API key. You can find it in your CKAN account settings:
   - Go to the API key page in the CKAN instance settings
   - Copy the API key, securely save it
-
