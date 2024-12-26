@@ -30,7 +30,7 @@ export function ExportDialog() {
   return (
     <TwoButtonDialog
       open={true}
-      title={t('export')}
+      title={t('export-metadata')}
       label={t('export')}
       cancelLabel={t('cancel')}
       onCancel={store.closeDialog}

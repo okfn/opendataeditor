@@ -5,6 +5,7 @@
     "data-resource-json": "Recurso de Datos (JSON)",
     "table-schema-json": "Esquema de Tabla (JSON)",
     "export": "Exportar",
+    "export-metadata": "Exportar metadatos",
     "row-number": "Número de fila",
     "found": "encontrado",
     "added": "añadido",
