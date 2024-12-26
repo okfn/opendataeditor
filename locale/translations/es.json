@@ -1,4 +1,6 @@
 {
+    "uploading": "Subiendo",
+    "uploaded": "Subido",
     "export-error": "Error de exportación",
     "export-error-message": "Se produjo un error al exportar la tabla",
     "select-metadata-format": "Seleccione el formato de metadatos para exportar información sobre la tabla",
