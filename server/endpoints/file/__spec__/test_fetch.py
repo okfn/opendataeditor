@@ -7,6 +7,7 @@ from server.fixtures import folder1, not_secure, url1, url1bytes, url1name
 
 # Action
 
+
 @pytest.mark.skip(reason="Pytest-vcr new version bug")
 @pytest.mark.vcr
 def test_server_file_fetch(client):
@@ -15,6 +16,7 @@ def test_server_file_fetch(client):
     assert client("/file/list").files == [
         models.File(path=url1name, type="table", name="table", errors=0),
     ]
+
 
 @pytest.mark.skip(reason="Pytest-vcr new version bug")
 @pytest.mark.vcr
