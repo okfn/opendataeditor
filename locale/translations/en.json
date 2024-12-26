@@ -1,4 +1,11 @@
 {
+    "export-error": "Export error",
+    "export-error-message": "An error occurred while exporting the table",
+    "select-metadata-format": "Select metadata format to export information about the table",
+    "data-resource-json": "Data Resource (JSON)",
+    "table-schema-json": "Table Schema (JSON)",
+    "export": "Export",
+    "export-metadata": "Export Metadata",
     "row-number": "Row Number",
     "found": "found",
     "added": "added",

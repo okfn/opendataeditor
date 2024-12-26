@@ -1,6 +1,7 @@
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import CheckIcon from '@mui/icons-material/Check'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -69,6 +70,32 @@ export function AssistantButton(props: ButtonProps) {
       <IconButton
         label={props.label || t('ai')}
         Icon={AutoFixHighIcon}
+        variant="outlined"
+        disabled={props.disabled}
+        onClick={() => onClick()}
+        sx={{
+          backgroundColor: 'white',
+          textTransform: 'none',
+          color: (theme) => theme.palette.OKFNCoolGray.main,
+          borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          '&:hover': {
+            borderColor: (theme) => theme.palette.OKFNCoolGray.main,
+          },
+        }}
+      />
+    </Box>
+  )
+}
+
+export function ExportButton(props: ButtonProps) {
+  const onClick = props.onClick || noop
+  const { t } = useTranslation()
+
+  return (
+    <Box sx={{ marginRight: '20px' }}>
+      <IconButton
+        label={props.label || t('export')}
+        Icon={FileDownloadIcon}
         variant="outlined"
         disabled={props.disabled}
         onClick={() => onClick()}
