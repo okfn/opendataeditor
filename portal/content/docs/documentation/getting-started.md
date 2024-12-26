@@ -45,11 +45,11 @@ Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and downlo
 
 Go to the [RELEASES](https://github.com/okfn/opendataeditor/releases) and download the most recent **DMG** file.
 
-1. If you encounter security message, click on the question mark and then click the link in the first section.
+1. If you encounter a security message, click on the question mark and then click the link in the first section.
 
 ![DOWNLOAD SECURITY](./assets/getting-started/gs-macos-download.png)
 
-2. Change settings to allow app to execute.
+2. Change settings to allow the app to execute.
 
 ![DOWNLOAD SETTINGS](./assets/getting-started/gs-macos-download-step2.png)
 

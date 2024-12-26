@@ -95,7 +95,7 @@ export default function TwoButtonDialog(props: TwoButtonDialogProps) {
               <SimpleButton
                 small
                 label={t('cancel')}
-                sx={{ my: 0.5 }}
+                sx={{ my: 0.5, border: (theme) => `1px solid ${theme.palette.OKFNCoolGray400.main}`}}
                 onClick={handleCancel}
                 aria-label={t('cancel')}
                 variant="contained"

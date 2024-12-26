@@ -1,22 +1,22 @@
+import * as store from '@client/store'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Trans, useTranslation } from 'react-i18next'
+import createFolderIcon from '../../assets/create_folder_icon.svg'
 import SpinnerCard from '../Parts/Cards/Spinner'
 import FileTree from '../Parts/Trees/File'
-import Button from '@mui/material/Button'
-import * as store from '@client/store'
-import createFolderIcon from '../../assets/create_folder_icon.svg'
-import { useTranslation, Trans } from 'react-i18next'
 
 export default function Browser() {
   const files = store.useStore((state) => state.files)
   const loading = store.useStore((state) => state.loading)
 
-  return loading ? (
-    <LoadingBrowser />
-  ) : files.length ? (
-    <DefaultBrowser />
-  ) : (
-    <EmptyBrowser />
+  const Browser = loading ? LoadingBrowser : files.length ? DefaultBrowser : EmptyBrowser
+
+  return (
+    <Box sx={{ height: '100%' }}>
+      <Browser />
+    </Box>
   )
 }
 

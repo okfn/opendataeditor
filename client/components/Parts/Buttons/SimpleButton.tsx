@@ -15,7 +15,7 @@ interface SimpleButtonProps extends ButtonProps {
 }
 
 export default function SimpleButton(props: SimpleButtonProps) {
-  const { label, small, hoverBgColor, ...others } = props
+  const { label, small, hoverBgColor, sx, ...others } = props
 
   const buttonTextColor = props.color === 'OKFNWhite' ? 'gray' : 'white'
   return (
@@ -24,13 +24,14 @@ export default function SimpleButton(props: SimpleButtonProps) {
       color={props.color}
       {...others}
       sx={{
+        ...sx,
         padding: '14px 24px',
         borderRadius: '9px',
-        border: props.label === 'Cancel' ? '1px solid #D3D7D8' : 0,
         boxShadow: 'none',
         '&:hover': {
           backgroundColor: (theme) =>
             hoverBgColor ? theme.palette[hoverBgColor].main : 'unset',
+            borderColor: 'white'
         },
       }}
     >

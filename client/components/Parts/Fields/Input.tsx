@@ -32,42 +32,43 @@ export default function InputField(props: InputFieldProps) {
   const onFocus = props.onFocus || noop
   const onBlur = props.onBlur || noop
   return (
-    <div>
-      <InputLabel
-        shrink={false}>
-          {props.label}
-    </InputLabel>
-    <StyledTextField
-      name={props.name || props.label}
-      type={props.type}
-      margin="normal"
-      value={props.value}
-      size={props.size || 'small'}
-      style={{  maxWidth: '350px', marginTop: '5px' }}
-      disabled={props.disabled}
-      inputProps={props.inputProps}
-      onChange={(ev) => onChange(ev.target.value)}
-      error={props.error}
-      required={props.required}
-      helperText={props.helperText}
-      onKeyDown={onKeyDown}
-      placeholder={props.placeholder}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      autoFocus={props.autoFocus}
-    />
+    <div style={{ flexGrow: 1, width: '100%' }}>
+      <InputLabel shrink={false}>{props.label}</InputLabel>
+      <StyledTextField
+        name={props.name || props.label}
+        type={props.type}
+        margin="normal"
+        value={props.value}
+        size={props.size || 'small'}
+        style={{  maxWidth: '350px', marginTop: '5px' }}
+        disabled={props.disabled}
+        inputProps={props.inputProps}
+        onChange={(ev) => onChange(ev.target.value)}
+        error={props.error}
+        required={props.required}
+        helperText={props.helperText}
+        onKeyDown={onKeyDown}
+        placeholder={props.placeholder}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        autoFocus={props.autoFocus}
+      />
     </div>
   )
 }
 
 
-export const StyledTextField = styled(TextField)(() => ({
-  width: '100%', 
+export const StyledTextField = styled(TextField, {
+})(() => ({
+  width: '100%',
   '& label.Mui-focused': {
     color: '#00D1FF',
   },
   '& .MuiInput-underline:after': {
     borderBottomColor: '#00D1FF',
+  },
+  '& .MuiTextField-root': {
+    width: '100%'
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
