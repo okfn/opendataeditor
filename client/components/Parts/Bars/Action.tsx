@@ -1,8 +1,8 @@
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh'
 import CheckIcon from '@mui/icons-material/Check'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import ShareIcon from '@mui/icons-material/Share'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import noop from 'lodash/noop'
@@ -95,7 +95,7 @@ export function ExportButton(props: ButtonProps) {
     <Box sx={{ marginRight: '20px' }}>
       <IconButton
         label={props.label || t('export')}
-        Icon={ShareIcon}
+        Icon={FileDownloadIcon}
         variant="outlined"
         disabled={props.disabled}
         onClick={() => onClick()}
