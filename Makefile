@@ -1,19 +1,40 @@
-.PHONY: all docs install start
+.PHONY: docs install start _check_virtual_env
 
-all:
-	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
+## Show this output
+help: _showhelp
 
 ## Runs Astro dev server to serve documentation.
 docs:
 	cd portal && npm start
 
-## Install application and documentation npm dependencies.
-install:
-	echo "This will install Python Dependencies."
+## Install application requirements and documentation npm dependencies.
+install: _check_virtualenv
+	pip install wheel
+	pip install -r requirements.txt
+	cd portal && npm install
 
-## Runs the React client (:8080) and the Uvicorn server (:4040) concurrently.
-start:
-	echo "This will run the application."
+## Runs the application for development mode.
+start: _check_virtualenv
+	python src/main.py
+
+## Create/update all the translation files (.ts) for the supported languages: es, fr, pt
+update-translations:
+	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/es.ts -target-language es
+	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/fr.ts -target-language fr
+	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/pt.ts -target-language pt
+
+## Compile all the translation files (.ts) to .qm files.
+compile-translations:
+	pyside6-lrelease src/assets/translations/es.ts -qm src/assets/translations/es.qm
+	pyside6-lrelease src/assets/translations/fr.ts -qm src/assets/translations/fr.qm
+	pyside6-lrelease src/assets/translations/pt.ts -qm src/assets/translations/pt.qm
+
+# Private target
+_check_virtualenv:
+	@if [ -z "$(VIRTUAL_ENV)" ]; then \
+		echo "You need to first activate your virtual environment by running: source venv/bin/activate"; \
+		exit 1; \
+	fi
 
 ## Show help
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -22,7 +43,7 @@ WHITE  := $(shell tput -Txterm setaf 7)
 RESET  := $(shell tput -Txterm sgr0)
 TARGET_MAX_CHAR_NUM := 20
 
-help:
+_showhelp:
 	@echo ''
 	@echo 'Usage:'
 	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
