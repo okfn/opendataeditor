@@ -1,84 +1,19 @@
-.PHONY: all build client desktop dist docs format install lint preview release server start test type version
-
-
-VERSION := $(shell node -p -e "require('./package.json').version")
-
+.PHONY: all docs install start
 
 all:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
-
-build:
-	hatch run build
-	npm run build
-
-## Runs the React client in isolation (:8080)
-client:
-	npm run start
-
-## Runs the Electron application with live reload (requires a running server).
-desktop:
-	npm run desktop
-
-## Runs electron-builder to package and build a ready for distribution app.
-dist:
-	npm run dist
 
 ## Runs Astro dev server to serve documentation.
 docs:
 	cd portal && npm start
 
-## Runs ruff linter (including imports), ruff formater, prettier and eslint.
-format:
-	hatch run format
-	npm run format
-
 ## Install application and documentation npm dependencies.
 install:
-	npm install
-	cd portal && npm install
-
-## Checks ruff linter (including imports), ruff formater, prettier and eslint.
-lint:
-	hatch run lint
-	npm run lint
-
-## Runs the Electron application and the server with live reload.
-preview:
-	npx concurrently 'hatch run start' 'npm run preview'
-
-## Runs electron-builder to release the app.
-release:
-	npm run release
-
-## Runs the FastAPI server in isolation (:4040).
-server:
-	hatch run start
+	echo "This will install Python Dependencies."
 
 ## Runs the React client (:8080) and the Uvicorn server (:4040) concurrently.
 start:
-	npx concurrently 'hatch run start' 'npm run start'
-
-## Runs the whole suit of tests for server and client.
-test:
-	hatch run test
-	npm run test
-
-## Runs the translation script to update the translation files.
-translate:
-	npm run translate
-
-## Runs the E2E suite of tests (requires make dist for an application bundle)
-test-e2e:
-	npm run wdio
-
-## Checks types with pyright and typescript
-type:
-	hatch run type
-	npm run type
-
-version:
-	@echo $(VERSION)
-
+	echo "This will run the application."
 
 ## Show help
 GREEN  := $(shell tput -Txterm setaf 2)
