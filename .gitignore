@@ -1,7 +1,8 @@
 venv
 data/
 __pycache__
-
+build/
+dist/
 
 # Astro 
 node_modules/

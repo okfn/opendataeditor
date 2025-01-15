@@ -13,11 +13,11 @@ from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
-from paths import Paths
-from errors_widget import ErrorsWidget
-from metadata_widget import FrictionlessResourceMetadataWidget
-from data_widget import FrictionlessTableModel
-from ai_widget import ChatGPTDialog
+from ode.paths import Paths
+from ode.errors_widget import ErrorsWidget
+from ode.metadata_widget import FrictionlessResourceMetadataWidget
+from ode.data_widget import FrictionlessTableModel
+from ode.ai_widget import ChatGPTDialog
 
 
 class MainWindow(QMainWindow):

@@ -15,7 +15,7 @@ install: _check_virtualenv
 
 ## Runs the application for development mode.
 start: _check_virtualenv
-	python src/main.py
+	python -m ode.main
 
 ## Create/update all the translation files (.ts) for the supported languages: es, fr, pt
 update-translations:

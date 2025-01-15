@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
 from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
 
-from paths import Paths
+from ode.paths import Paths
 
 _RESOURCE_METADATA = {
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
