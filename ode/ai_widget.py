@@ -92,18 +92,14 @@ class ChatGPTDialog(QDialog):
 
     def retranslateUI(self):
         self.api_key_label.setText(self.tr("Please enter your OpenAI API Key: "))
-        self.api_key_help_text.setText(self.tr(
-            ("Click <a href='https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key'>here</a> to learn how to find your key. "
-             "You can also check OpenAI terms and policies <a href='https://openai.com/policies/'>here</a>.")
-        ))
+        self.api_key_help_text.setText(self.tr("""Click <a href='https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key'>here</a> to learn how to find your key.
+You can also check OpenAI terms and policies <a href='https://openai.com/policies/'>here</a>."""))
         self.prompt_label.setText(self.tr("Please enter your prompt to the AI assistant: "))
         self.result_label.setText(self.tr("Result: "))
         self.submit_button.setText(self.tr("Submit"))
         self.note_group.setTitle(self.tr("Data Privacy"))
-        self.note_label.setText(self.tr(
-            ("Open Data Editor will only share the names of the columns in your table to suggest "
-             "improvements to the titles and descriptions associated with them.")
-        ))
+        self.note_label.setText(self.tr("""Open Data Editor will only share the names of the columns in your table to suggest
+improvements to the titles and descriptions associated with them."""))
 
 
 if __name__ == "__main__":

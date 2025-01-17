@@ -240,7 +240,8 @@ class MainWindow(QMainWindow):
         self.menu_view.setTitle(self.tr("View"))
         self.menu_help.setTitle(self.tr("Help"))
 
-        # TODO: Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
+        # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
+        self.ai_widget.retranslateUI()
 
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.

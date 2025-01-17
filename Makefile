@@ -19,15 +19,15 @@ start: _check_virtualenv
 
 ## Create/update all the translation files (.ts) for the supported languages: es, fr, pt
 update-translations:
-	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/es.ts -target-language es
-	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/fr.ts -target-language fr
-	pyside6-lupdate -extensions py -recursive src -ts src/assets/translations/pt.ts -target-language pt
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt
 
 ## Compile all the translation files (.ts) to .qm files.
 compile-translations:
-	pyside6-lrelease src/assets/translations/es.ts -qm src/assets/translations/es.qm
-	pyside6-lrelease src/assets/translations/fr.ts -qm src/assets/translations/fr.qm
-	pyside6-lrelease src/assets/translations/pt.ts -qm src/assets/translations/pt.qm
+	pyside6-lrelease ode/assets/translations/es.ts -qm ode/assets/translations/es.qm
+	pyside6-lrelease ode/assets/translations/fr.ts -qm ode/assets/translations/fr.qm
+	pyside6-lrelease ode/assets/translations/pt.ts -qm ode/assets/translations/pt.qm
 
 ## Open PySide6 Linguistic application
 linguist:
