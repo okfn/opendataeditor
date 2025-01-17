@@ -48,7 +48,7 @@ create-dmg \
   --window-pos 200 120 \
   --window-size 800 400 \
   --icon-size 100 \
-  --icon "opendataeditor.app" 200 190 \
+  --icon "opendataeditor" 200 190 \
   --hide-extension "opendataeditor" \
   --app-drop-link 600 185 \
   $FILENAME \
