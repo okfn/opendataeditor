@@ -22,6 +22,8 @@
 [ -e build ] && rm -r build
 [ -e dist ] && rm -r dist
 python build.py
+ls dist
+ls dist/*/
 
 # Codesign the executable created by pyinstaller
 echo "Codesigning the executable created by PyInstaller"
