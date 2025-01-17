@@ -1,0 +1,33 @@
+name: Create DMG
+on: [push]
+
+jobs:
+  on-push:
+    runs-on: macos-13
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+          brew install create-dmg
+      - name: Build and notarize the dmg file
+        env:
+          CSC_LINK: ${{ secrets.MAC_P12_BASE64_CERTIFICATE }}
+          CSC_LINK_PASSWORD: ${{ secrets.MAC_P12_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.MAC_TEAM_ID }}
+          APPLE_ID: ${{ secrets.MAC_APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.MAC_APP_SPECIFIC_PASSWORD }}
+        run: |
+          ./create-dmg.sh
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-files-macos
+          path: |
+            *.dmg
+          retention-days: 14
