@@ -3,6 +3,7 @@ data/
 __pycache__
 build/
 dist/
+tmp/
 
 # Astro 
 node_modules/

@@ -1,6 +1,7 @@
 import collections
 import sys
 import shutil
+import ode
 
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
@@ -335,6 +336,8 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setApplicationName("Open Data Editor")
+    app.setApplicationVersion(ode.__version__)
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
