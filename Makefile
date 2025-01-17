@@ -29,6 +29,10 @@ compile-translations:
 	pyside6-lrelease src/assets/translations/fr.ts -qm src/assets/translations/fr.qm
 	pyside6-lrelease src/assets/translations/pt.ts -qm src/assets/translations/pt.qm
 
+## Open PySide6 Linguistic application
+linguist:
+	pyside6-linguist
+
 # Private target
 _check_virtualenv:
 	@if [ -z "$(VIRTUAL_ENV)" ]; then \
