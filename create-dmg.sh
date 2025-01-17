@@ -22,8 +22,6 @@
 [ -e build ] && rm -r build
 [ -e dist ] && rm -r dist
 python build.py
-ls dist
-ls dist/*/
 
 # Codesign the executable created by pyinstaller
 echo "Codesigning the executable created by PyInstaller"
@@ -32,12 +30,12 @@ security create-keychain -p thisisatemporarypass build.keychain
 security default-keychain -s build.keychain
 security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
-security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k $CSC_KEY_PASSWORD build.keychain
+security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
 /usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp dist/opendataeditor/opendataeditor.app
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
-cp "dist/opendataeditor/opendataeditor.app" "dist/dmg"
+cp "dist/opendataeditor/opendataeditor" "dist/dmg"
 
 # Create the dmg file
 VERSION=$(python -c "import ode; print(ode.__version__)")
