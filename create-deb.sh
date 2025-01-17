@@ -14,7 +14,7 @@
 #  - https://fpm.readthedocs.io/en/latest/packages/dir.html#dir-local-files
 #
 # Create folders
-[ -e package ] && rm -r tmp
+[ -e tmp ] && rm -r tmp
 mkdir -p tmp/opt
 mkdir -p tmp/usr/share/applications
 mkdir -p tmp/usr/share/icons/hicolor/scalable/apps
@@ -41,5 +41,5 @@ chmod +x tmp/opt/opendataeditor/opendataeditor
 # Create the deb package
 VERSION=$(python -c "import ode; print(ode.__version__)")
 FILENAME=opendataeditor-linux-$VERSION.deb
-[ -e $FILENAME ] && rm $FILENAME
+[ -e dist/$FILENAME ] && rm dist/$FILENAME
 fpm -C tmp -s dir -t deb -n "opendataeditor" -v $VERSION  -p dist/$FILENAME
