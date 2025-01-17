@@ -18,11 +18,11 @@ jobs:
           brew install create-dmg
       - name: Build and notarize the dmg file
         env:
-          CSC_LINK: ${{ secrets.MAC_P12_BASE64_CERTIFICATE }}
-          CSC_LINK_PASSWORD: ${{ secrets.MAC_P12_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.MAC_TEAM_ID }}
-          APPLE_ID: ${{ secrets.MAC_APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.MAC_APP_SPECIFIC_PASSWORD }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_LINK_PASSWORD: ${{ secrets.CSC_LINK_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
         run: |
           chmod +x create-dmg.sh
           ./create-dmg.sh
