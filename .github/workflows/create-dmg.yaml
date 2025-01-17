@@ -14,6 +14,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip3 install -r requirements.txt
+          pip3 install pyinstaller==6.11.1
           brew install create-dmg
       - name: Build and notarize the dmg file
         env:
@@ -23,6 +24,7 @@ jobs:
           APPLE_ID: ${{ secrets.MAC_APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.MAC_APP_SPECIFIC_PASSWORD }}
         run: |
+          chmod +x create-dmg.sh
           ./create-dmg.sh
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
