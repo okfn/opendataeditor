@@ -73,38 +73,42 @@ class DataImportDialog(QDialog):
         # From Your Computer Tab
         from_computer_tab = QWidget()
         from_computer_layout = QHBoxLayout()
+        from_computer_tab.setLayout(from_computer_layout)
 
-        # File Select Widget for Excel/CSV Files
         file_select_widget = FileSelectWidget(
             Paths.asset("icons/upload-file.png"), "Add one or more Excel or csv files"
         )
         file_select_widget.connect_select_action(self.add_files)
-        from_computer_layout.addWidget(file_select_widget)
-
-        # File Select Widget for Folders
         folder_select_widget = FileSelectWidget(
             Paths.asset("icons/upload-folder.png"), "Add one or more folders"
         )
         folder_select_widget.connect_select_action(self.add_folders)
-        from_computer_layout.addWidget(folder_select_widget)
 
-        from_computer_tab.setLayout(from_computer_layout)
+        from_computer_layout.addWidget(file_select_widget)
+        from_computer_layout.addWidget(folder_select_widget)
 
         # Add External Data Tab
         external_data_tab = QWidget()
         external_data_layout = QVBoxLayout()
-
-        google_spreadsheet_label = QLabel("Paste Google Spreadsheet URL:")
-        external_data_layout.addWidget(google_spreadsheet_label)
-
-        self.google_spreadsheet_input = QLineEdit()
-        external_data_layout.addWidget(self.google_spreadsheet_input)
-
-        paste_button = QPushButton("Paste and Load")
-        paste_button.clicked.connect(self.load_google_spreadsheet)
-        external_data_layout.addWidget(paste_button)
-
         external_data_tab.setLayout(external_data_layout)
+
+        google_spreadsheet_label = QLabel("Link to the external table: ")
+        self.google_spreadsheet_input = QLineEdit()
+        self.google_spreadsheet_input.setPlaceholderText("Enter or paste URL")
+        help_text = QLabel("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.")
+        help_text.setWordWrap(True)
+        help_text.setStyleSheet("font-style:italic; font-size: 15px;")
+        paste_button = QPushButton("Add")
+        paste_button.clicked.connect(self.load_google_spreadsheet)
+        self.error_text = QLabel()
+        self.error_text.setWordWrap(True)
+        self.error_text.setStyleSheet("color: red; font-style: italic; font-size: 15px;")
+
+        external_data_layout.addWidget(google_spreadsheet_label)
+        external_data_layout.addWidget(self.google_spreadsheet_input)
+        external_data_layout.addWidget(help_text)
+        external_data_layout.addWidget(paste_button)
+        external_data_layout.addWidget(self.error_text)
 
         # Add Tabs to Tab Widget
         tab_widget.addTab(from_computer_tab, "From Your Computer")
@@ -146,9 +150,10 @@ class DataImportDialog(QDialog):
                 print(f"Spreadsheet data successfully written to {csv_filename}")
                 self.close()
             except Exception as e:
-                print(f"An error occurred: {e}")
+                error = f"An error occurred: {e}"
+                self.error_text.setText(error)
         else:
-            print("Please paste a valid Google Spreadsheet URL.")
+            self.error_text.setText("Please paste a valid URL.")
 
     def _read_google_sheets_title(self, url):
         """ Return the name of the spreadsheet.
