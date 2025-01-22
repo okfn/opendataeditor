@@ -93,19 +93,19 @@ class DataImportDialog(QDialog):
         external_data_tab.setLayout(external_data_layout)
 
         google_spreadsheet_label = QLabel("Link to the external table: ")
-        self.google_spreadsheet_input = QLineEdit()
-        self.google_spreadsheet_input.setPlaceholderText("Enter or paste URL")
+        self.url_input = QLineEdit()
+        self.url_input.setPlaceholderText("Enter or paste URL")
         help_text = QLabel("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.")
         help_text.setWordWrap(True)
         help_text.setStyleSheet("font-style:italic; font-size: 15px;")
         paste_button = QPushButton("Add")
-        paste_button.clicked.connect(self.load_google_spreadsheet)
+        paste_button.clicked.connect(self.load_table_from_url)
         self.error_text = QLabel()
         self.error_text.setWordWrap(True)
         self.error_text.setStyleSheet("color: red; font-style: italic; font-size: 15px;")
 
         external_data_layout.addWidget(google_spreadsheet_label)
-        external_data_layout.addWidget(self.google_spreadsheet_input)
+        external_data_layout.addWidget(self.url_input)
         external_data_layout.addWidget(help_text)
         external_data_layout.addWidget(paste_button)
         external_data_layout.addWidget(self.error_text)
@@ -138,28 +138,41 @@ class DataImportDialog(QDialog):
             shutil.copytree(source_folder, target_folder, dirs_exist_ok=True)
         self.close()
 
-    def load_google_spreadsheet(self):
-        url = self.google_spreadsheet_input.text()
-        if url:
-            try:
-                table = TableResource(path=url)
-                filename = self._read_google_sheets_title(url)
-                csv_filename = os.path.join(Paths.PROJECT_PATH, filename + ".csv")
-                with open(csv_filename, mode='w') as file:
-                    table.write(file.name)
-                print(f"Spreadsheet data successfully written to {csv_filename}")
-                self.close()
-            except Exception as e:
-                error = f"An error occurred: {e}"
-                self.error_text.setText(error)
-        else:
+    def load_table_from_url(self):
+        """Load a Table file from a public URL.
+
+        This method uses frictionless to read a remote URL. Currently we support
+        Google Spreadsheets and any other URL pointing to a csv file.
+        """
+        url = self.url_input.text()
+        if not url:
             self.error_text.setText("Please paste a valid URL.")
+            return
+        if not url.startswith(("http://", "https://")):
+            self.error_text.setText("Please paste a valid URL starting with http:// or https://.")
+            return
 
-    def _read_google_sheets_title(self, url):
-        """ Return the name of the spreadsheet.
+        table = TableResource(path=url)
+        filename = table.name
+        if table.format == "gsheets":
+            filename = self._read_url_html_title(url)
+        file_path = os.path.join(Paths.PROJECT_PATH, filename + '.csv')
 
-        We use public HTML to extract the title of the document, else we set
-        the name of the file as `google-sheets.csv`.
+        try:
+            with open(file_path, mode='w') as file:
+                table.write(file.name)
+            self.url_input.setText("")
+            self.error_text.setText("")
+            self.close()
+        except Exception as e:
+            error = f"An error occurred: {e}"
+            self.error_text.setText(error)
+
+    def _read_url_html_title(self, url):
+        """ Return the title of HTML document.
+
+        We use public HTML to extract the title of the document for google spreadsheets, 
+        if we fail to get the title we return `google-sheets.csv`.
         """
         file = FileResource(path=url)
         text = file.read_text(size=10000)
@@ -167,8 +180,8 @@ class DataImportDialog(QDialog):
         if match:
             title = match.group(1)
             title = title.rsplit("- Google", 1)[0].strip()
-            return f"{title}.csv"
-        return "google-sheets.csv"
+            return f"{title}"
+        return "google-sheets"
 
 
 if __name__ == "__main__":
