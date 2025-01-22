@@ -19,6 +19,7 @@ from ode.errors_widget import ErrorsWidget
 from ode.metadata_widget import FrictionlessResourceMetadataWidget
 from ode.data_widget import FrictionlessTableModel
 from ode.ai_widget import ChatGPTDialog
+from ode.dialogs.upload import DataImportDialog
 
 
 class MainWindow(QMainWindow):
@@ -47,6 +48,7 @@ class MainWindow(QMainWindow):
         icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
         sidebar_layout.addWidget(icon_label)
 
+        self.upload_dialog = DataImportDialog(self)
         self.button_upload = QPushButton(objectName="button_upload")
         self.button_upload.clicked.connect(self.on_button_upload_click)
 
@@ -206,6 +208,9 @@ class MainWindow(QMainWindow):
         qss_content = QTextStream(qss_file).readAll()
         self.setStyleSheet(qss_content)
 
+    def on_upload_click(self):
+        self.upload_dialog.show()
+
     def on_ai_click(self):
         self.ai_widget.show()
 
@@ -267,18 +272,19 @@ class MainWindow(QMainWindow):
 
     def on_button_upload_click(self):
         """Copy data file to the project folder of ode."""
-        filters = [
-                "All supported files (*.csv *.xlsx *.xls)",
-                "Comma Separated Values (*.csv)",
-                "Excel 2007-365 (*.xlsx)",
-                "Excel 97-2003 (*.xls)",
-        ]
-        filename, _ = QFileDialog.getOpenFileName(self, "Open file", filter=";;".join(filters))
-
-        if not filename:
-            return
-
-        shutil.copy(filename, Paths.PROJECT_PATH)
+        self.upload_dialog.show()
+        # filters = [
+        #         "All supported files (*.csv *.xlsx *.xls)",
+        #         "Comma Separated Values (*.csv)",
+        #         "Excel 2007-365 (*.xlsx)",
+        #         "Excel 97-2003 (*.xls)",
+        # ]
+        # filename, _ = QFileDialog.getOpenFileName(self, "Open file", filter=";;".join(filters))
+        #
+        # if not filename:
+        #     return
+        #
+        # shutil.copy(filename, Paths.PROJECT_PATH)
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
