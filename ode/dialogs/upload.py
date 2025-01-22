@@ -17,7 +17,7 @@ from ode.paths import Paths
 
 class SelectWidget(QWidget):
     """Widget to render the File/Folder upload buttons."""
-    def __init__(self, icon_path, text, parent=None):
+    def __init__(self, icon_path, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout()
 
@@ -27,12 +27,12 @@ class SelectWidget(QWidget):
         icon_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(icon_label)
 
-        text_label = QLabel(text)
-        text_label.setAlignment(Qt.AlignCenter)
-        text_label.setWordWrap(True)
-        layout.addWidget(text_label)
+        self.text_label = QLabel()
+        self.text_label.setAlignment(Qt.AlignCenter)
+        self.text_label.setWordWrap(True)
+        layout.addWidget(self.text_label)
 
-        self.select_button = QPushButton("Select")
+        self.select_button = QPushButton()
         layout.addWidget(self.select_button)
 
         self.setLayout(layout)
@@ -52,7 +52,6 @@ class DataImportDialog(QDialog):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self.setWindowTitle("Import Data")
         self.setFixedHeight(500)
         self.setFixedWidth(500)
 
@@ -67,54 +66,51 @@ class DataImportDialog(QDialog):
         main_layout.addWidget(image_label)
 
         # Tab Widget
-        tab_widget = QTabWidget()
-        main_layout.addWidget(tab_widget)
+        self.tab_widget = QTabWidget()
+        main_layout.addWidget(self.tab_widget)
 
         # From Your Computer Tab
         from_computer_tab = QWidget()
         from_computer_layout = QHBoxLayout()
         from_computer_tab.setLayout(from_computer_layout)
 
-        file_select_widget = SelectWidget(
-            Paths.asset("icons/upload-file.png"), "Add one or more Excel or csv files"
-        )
-        file_select_widget.connect_select_action(self.add_files)
-        folder_select_widget = SelectWidget(
-            Paths.asset("icons/upload-folder.png"), "Add one or more folders"
-        )
-        folder_select_widget.connect_select_action(self.add_folders)
+        self.file_select_widget = SelectWidget(Paths.asset("icons/upload-file.png"))
+        self.file_select_widget.connect_select_action(self.add_files)
+        self.folder_select_widget = SelectWidget(Paths.asset("icons/upload-folder.png"))
+        self.folder_select_widget.connect_select_action(self.add_folders)
 
-        from_computer_layout.addWidget(file_select_widget)
-        from_computer_layout.addWidget(folder_select_widget)
+        from_computer_layout.addWidget(self.file_select_widget)
+        from_computer_layout.addWidget(self.folder_select_widget)
 
         # Add External Data Tab
         external_data_tab = QWidget()
         external_data_layout = QVBoxLayout()
         external_data_tab.setLayout(external_data_layout)
 
-        url_label = QLabel("Link to the external table: ")
+        self.url_label = QLabel()
         self.url_input = QLineEdit()
-        self.url_input.setPlaceholderText("Enter or paste URL")
-        help_text = QLabel("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.")
-        help_text.setWordWrap(True)
-        help_text.setStyleSheet("font-style:italic; font-size: 15px;")
-        paste_button = QPushButton("Add")
-        paste_button.clicked.connect(self.load_table_from_url)
+        self.help_text = QLabel()
+        self.help_text.setWordWrap(True)
+        self.help_text.setStyleSheet("font-style:italic; font-size: 15px;")
+        self.paste_button = QPushButton()
+        self.paste_button.clicked.connect(self.load_table_from_url)
         self.error_text = QLabel()
         self.error_text.setWordWrap(True)
         self.error_text.setStyleSheet("color: red; font-style: italic; font-size: 15px;")
 
-        external_data_layout.addWidget(url_label)
+        external_data_layout.addWidget(self.url_label)
         external_data_layout.addWidget(self.url_input)
-        external_data_layout.addWidget(help_text)
-        external_data_layout.addWidget(paste_button)
+        external_data_layout.addWidget(self.help_text)
+        external_data_layout.addWidget(self.paste_button)
         external_data_layout.addWidget(self.error_text)
 
         # Add Tabs to Tab Widget
-        tab_widget.addTab(from_computer_tab, "From Your Computer")
-        tab_widget.addTab(external_data_tab, "Add External Data")
+        self.tab_widget.addTab(from_computer_tab, "")
+        self.tab_widget.addTab(external_data_tab, "")
 
         self.setLayout(main_layout)
+
+        self.retranslateUI()
 
     def add_files(self):
         """Copy the selected file to the project path."""
@@ -124,7 +120,7 @@ class DataImportDialog(QDialog):
                 "Excel 2007-365 (*.xlsx)",
                 "Excel 97-2003 (*.xls)",
         ]
-        filename, _ = QFileDialog.getOpenFileName(self, "Open file", filter=";;".join(filters))
+        filename, _ = QFileDialog.getOpenFileName(self, filter=";;".join(filters))
 
         if not filename:
             return
@@ -134,7 +130,7 @@ class DataImportDialog(QDialog):
 
     def add_folders(self):
         """Copy the selected folder and all its content to the project path."""
-        source_folder = QFileDialog.getExistingDirectory(self, "Select Folder")
+        source_folder = QFileDialog.getExistingDirectory(self)
         if source_folder:
             folder_name = os.path.basename(source_folder)
             target_folder = os.path.join(Paths.PROJECT_PATH, folder_name)
@@ -149,10 +145,10 @@ class DataImportDialog(QDialog):
         """
         url = self.url_input.text()
         if not url:
-            self.error_text.setText("Please paste a valid URL.")
+            self.error_text.setText(self.tr("Please paste a valid URL."))
             return
         if not url.startswith(("http://", "https://")):
-            self.error_text.setText("Please paste a valid URL starting with http:// or https://.")
+            self.error_text.setText(self.tr("Please paste a valid URL starting with http:// or https://."))
             return
 
         table = TableResource(path=url)
@@ -164,11 +160,12 @@ class DataImportDialog(QDialog):
         try:
             with open(file_path, mode='w') as file:
                 table.write(file.name)
+            # Reset the form fields for next time the user clicks on upload data.
             self.url_input.setText("")
             self.error_text.setText("")
             self.close()
         except Exception as e:
-            error = f"An error occurred: {e}"
+            error = f"Error: {e}"
             self.error_text.setText(error)
 
     def _read_url_html_title(self, url):
@@ -185,6 +182,17 @@ class DataImportDialog(QDialog):
             title = title.rsplit("- Google", 1)[0].strip()
             return f"{title}"
         return "google-sheets"
+
+    def retranslateUI(self):
+        self.setWindowTitle(self.tr("Upload your data"))
+        self.file_select_widget.text_label.setText(self.tr("Add one or more Excel or csv files"))
+        self.folder_select_widget.text_label.setText(self.tr("Add one or more folders"))
+        self.url_label.setText(self.tr("Link to the external table: "))
+        self.url_input.setPlaceholderText(self.tr("Enter or paste URL"))
+        self.help_text.setText(self.tr("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."))
+        self.paste_button.setText(self.tr("Add"))
+        self.tab_widget.setTabText(0, self.tr("From Your Computer"))
+        self.tab_widget.setTabText(1, self.tr("Add External Data"))
 
 
 if __name__ == "__main__":

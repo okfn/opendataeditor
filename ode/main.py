@@ -1,6 +1,5 @@
 import collections
 import sys
-import shutil
 import ode
 
 from PySide6.QtWidgets import (
@@ -208,9 +207,6 @@ class MainWindow(QMainWindow):
         qss_content = QTextStream(qss_file).readAll()
         self.setStyleSheet(qss_content)
 
-    def on_upload_click(self):
-        self.upload_dialog.show()
-
     def on_ai_click(self):
         self.ai_widget.show()
 
@@ -247,6 +243,7 @@ class MainWindow(QMainWindow):
 
         # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
         self.ai_widget.retranslateUI()
+        self.upload_dialog.retranslateUI()
 
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
@@ -273,18 +270,6 @@ class MainWindow(QMainWindow):
     def on_button_upload_click(self):
         """Copy data file to the project folder of ode."""
         self.upload_dialog.show()
-        # filters = [
-        #         "All supported files (*.csv *.xlsx *.xls)",
-        #         "Comma Separated Values (*.csv)",
-        #         "Excel 2007-365 (*.xlsx)",
-        #         "Excel 97-2003 (*.xls)",
-        # ]
-        # filename, _ = QFileDialog.getOpenFileName(self, "Open file", filter=";;".join(filters))
-        #
-        # if not filename:
-        #     return
-        #
-        # shutil.copy(filename, Paths.PROJECT_PATH)
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
