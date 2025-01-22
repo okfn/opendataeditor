@@ -96,31 +96,37 @@ improvements to the titles and descriptions associated with them.</source>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="190"/>
-        <source>Link to the external table: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../dialogs/upload.py" line="191"/>
-        <source>Enter or paste URL</source>
+        <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="192"/>
-        <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
+        <source>Link to the external table: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="193"/>
-        <source>Add</source>
+        <source>Enter or paste URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="194"/>
-        <source>From Your Computer</source>
+        <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="195"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/upload.py" line="196"/>
+        <source>From Your Computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/upload.py" line="197"/>
         <source>Add External Data</source>
         <translation type="unfinished"></translation>
     </message>

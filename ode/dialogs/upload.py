@@ -187,6 +187,8 @@ class DataUploadDialog(QDialog):
         self.setWindowTitle(self.tr("Upload your data"))
         self.file_select_widget.text_label.setText(self.tr("Add one or more Excel or csv files"))
         self.folder_select_widget.text_label.setText(self.tr("Add one or more folders"))
+        self.file_select_widget.select_button.setText(self.tr("Select"))
+        self.folder_select_widget.select_button.setText(self.tr("Select"))
         self.url_label.setText(self.tr("Link to the external table: "))
         self.url_input.setPlaceholderText(self.tr("Enter or paste URL"))
         self.help_text.setText(self.tr("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."))
