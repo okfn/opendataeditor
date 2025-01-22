@@ -1,7 +1,7 @@
 from frictionless import validate, Resource, system
 
 from PySide6.QtGui import QColor
-from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
+from PySide6.QtCore import Qt, QAbstractTableModel
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -14,6 +14,8 @@ class FrictionlessTableModel(QAbstractTableModel):
         self._setReport()
         self._setData()
         self._setErrors()
+        self._row_count = self._set_row_count()
+        self._column_count = self._set_column_count()
 
     def _setErrors(self):
         if self.report.valid:
@@ -62,10 +64,10 @@ class FrictionlessTableModel(QAbstractTableModel):
             result = error.row_number - 1
         return result
 
-    def rowCount(self, parent=QModelIndex()):
+    def _set_row_count(self):
         return len(self._data)
 
-    def columnCount(self, parent=QModelIndex()):
+    def _set_column_count(self):
         """Set the amout of columns.
 
         We are expecting malformed CSVs, so the amout of columns should always
@@ -75,6 +77,14 @@ class FrictionlessTableModel(QAbstractTableModel):
             return max(map(len, self._data))
         except ValueError:
             return 0
+
+    def rowCount(self, parent=None):
+        """Returning from a pre-calculated private attribute for performance improvements."""
+        return self._row_count
+
+    def columnCount(self, parent=None):
+        """Returning from a pre-calculated private attribute for performance improvements."""
+        return self._column_count
 
     def data(self, index, role):
         if not index.isValid():
