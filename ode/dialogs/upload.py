@@ -41,12 +41,12 @@ class SelectWidget(QWidget):
         self.select_button.clicked.connect(action)
 
 
-class DataImportDialog(QDialog):
+class DataUploadDialog(QDialog):
     """Dialog to Upload File, Folders or URLs.
 
     The goal of this Dialog is to have an intuitive UX for people to add
-    files, folders or URLs. For external URLs we rely on frictionless-py
-    TableResource method to read and write CSV hosted in the web and Google
+    files, folders or URLs. For external URLs we rely on frictionless's
+    TableResource to read and write tables hosted in the web or Google
     Spreadsheets.
     """
 
@@ -197,6 +197,6 @@ class DataImportDialog(QDialog):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dialog = DataImportDialog()
+    dialog = DataUploadDialog()
     dialog.exec()
     sys.exit(app.exec())

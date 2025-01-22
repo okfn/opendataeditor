@@ -68,7 +68,7 @@ improvements to the titles and descriptions associated with them.</source>
     </message>
 </context>
 <context>
-    <name>DataImportDialog</name>
+    <name>DataUploadDialog</name>
     <message>
         <location filename="../../dialogs/upload.py" line="148"/>
         <source>Please paste a valid URL.</source>

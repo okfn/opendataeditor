@@ -18,7 +18,7 @@ from ode.errors_widget import ErrorsWidget
 from ode.metadata_widget import FrictionlessResourceMetadataWidget
 from ode.data_widget import FrictionlessTableModel
 from ode.ai_widget import ChatGPTDialog
-from ode.dialogs.upload import DataImportDialog
+from ode.dialogs.upload import DataUploadDialog
 
 
 class MainWindow(QMainWindow):
@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
         sidebar_layout.addWidget(icon_label)
 
-        self.upload_dialog = DataImportDialog(self)
+        self.upload_dialog = DataUploadDialog(self)
         self.button_upload = QPushButton(objectName="button_upload")
         self.button_upload.clicked.connect(self.on_button_upload_click)
 
