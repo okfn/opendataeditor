@@ -1,6 +1,9 @@
 import os
+import re
 import sys
 import shutil
+
+from frictionless.resources import FileResource, TableResource
 
 from PySide6.QtWidgets import (
         QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
@@ -134,9 +137,33 @@ class DataImportDialog(QDialog):
     def load_google_spreadsheet(self):
         url = self.google_spreadsheet_input.text()
         if url:
-            print("Loading Google Spreadsheet from URL:", url)
+            try:
+                table = TableResource(path=url)
+                filename = self._read_google_sheets_title(url)
+                csv_filename = os.path.join(Paths.PROJECT_PATH, filename + ".csv")
+                with open(csv_filename, mode='w') as file:
+                    table.write(file.name)
+                print(f"Spreadsheet data successfully written to {csv_filename}")
+                self.close()
+            except Exception as e:
+                print(f"An error occurred: {e}")
         else:
             print("Please paste a valid Google Spreadsheet URL.")
+
+    def _read_google_sheets_title(self, url):
+        """ Return the name of the spreadsheet.
+
+        We use public HTML to extract the title of the document, else we set
+        the name of the file as `google-sheets.csv`.
+        """
+        file = FileResource(path=url)
+        text = file.read_text(size=10000)
+        match = re.search(r"<title>(.*?)</title>", text)
+        if match:
+            title = match.group(1)
+            title = title.rsplit("- Google", 1)[0].strip()
+            return f"{title}.csv"
+        return "google-sheets.csv"
 
 
 if __name__ == "__main__":
