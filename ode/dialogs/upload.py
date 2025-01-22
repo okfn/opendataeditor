@@ -15,28 +15,23 @@ from PySide6.QtCore import Qt
 from ode.paths import Paths
 
 
-class FileSelectWidget(QWidget):
+class SelectWidget(QWidget):
+    """Widget to render the File/Folder upload buttons."""
     def __init__(self, icon_path, text, parent=None):
         super().__init__(parent)
-        self.initUI(icon_path, text)
-
-    def initUI(self, icon_path, text):
         layout = QVBoxLayout()
 
-        # Icon
         icon_label = QLabel(self)
         pixmap = QPixmap(icon_path)
         icon_label.setPixmap(pixmap)
         icon_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(icon_label)
 
-        # Text
         text_label = QLabel(text)
         text_label.setAlignment(Qt.AlignCenter)
         text_label.setWordWrap(True)
         layout.addWidget(text_label)
 
-        # Select Button
         self.select_button = QPushButton("Select")
         layout.addWidget(self.select_button)
 
@@ -47,11 +42,16 @@ class FileSelectWidget(QWidget):
 
 
 class DataImportDialog(QDialog):
+    """Dialog to Upload File, Folders or URLs.
+
+    The goal of this Dialog is to have an intuitive UX for people to add
+    files, folders or URLs. For external URLs we rely on frictionless-py
+    TableResource method to read and write CSV hosted in the web and Google
+    Spreadsheets.
+    """
+
     def __init__(self, parent):
         super().__init__(parent)
-        self.initUI()
-
-    def initUI(self):
         self.setWindowTitle("Import Data")
         self.setFixedHeight(500)
         self.setFixedWidth(500)
@@ -75,11 +75,11 @@ class DataImportDialog(QDialog):
         from_computer_layout = QHBoxLayout()
         from_computer_tab.setLayout(from_computer_layout)
 
-        file_select_widget = FileSelectWidget(
+        file_select_widget = SelectWidget(
             Paths.asset("icons/upload-file.png"), "Add one or more Excel or csv files"
         )
         file_select_widget.connect_select_action(self.add_files)
-        folder_select_widget = FileSelectWidget(
+        folder_select_widget = SelectWidget(
             Paths.asset("icons/upload-folder.png"), "Add one or more folders"
         )
         folder_select_widget.connect_select_action(self.add_folders)
@@ -92,7 +92,7 @@ class DataImportDialog(QDialog):
         external_data_layout = QVBoxLayout()
         external_data_tab.setLayout(external_data_layout)
 
-        google_spreadsheet_label = QLabel("Link to the external table: ")
+        url_label = QLabel("Link to the external table: ")
         self.url_input = QLineEdit()
         self.url_input.setPlaceholderText("Enter or paste URL")
         help_text = QLabel("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.")
@@ -104,7 +104,7 @@ class DataImportDialog(QDialog):
         self.error_text.setWordWrap(True)
         self.error_text.setStyleSheet("color: red; font-style: italic; font-size: 15px;")
 
-        external_data_layout.addWidget(google_spreadsheet_label)
+        external_data_layout.addWidget(url_label)
         external_data_layout.addWidget(self.url_input)
         external_data_layout.addWidget(help_text)
         external_data_layout.addWidget(paste_button)
@@ -117,6 +117,7 @@ class DataImportDialog(QDialog):
         self.setLayout(main_layout)
 
     def add_files(self):
+        """Copy the selected file to the project path."""
         filters = [
                 "All supported files (*.csv *.xlsx *.xls)",
                 "Comma Separated Values (*.csv)",
@@ -127,10 +128,12 @@ class DataImportDialog(QDialog):
 
         if not filename:
             return
+
         shutil.copy(filename, Paths.PROJECT_PATH)
         self.close()
 
     def add_folders(self):
+        """Copy the selected folder and all its content to the project path."""
         source_folder = QFileDialog.getExistingDirectory(self, "Select Folder")
         if source_folder:
             folder_name = os.path.basename(source_folder)
@@ -139,7 +142,7 @@ class DataImportDialog(QDialog):
         self.close()
 
     def load_table_from_url(self):
-        """Load a Table file from a public URL.
+        """Load a tabular file from a public URL.
 
         This method uses frictionless to read a remote URL. Currently we support
         Google Spreadsheets and any other URL pointing to a csv file.
@@ -171,8 +174,8 @@ class DataImportDialog(QDialog):
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.
 
-        We use public HTML to extract the title of the document for google spreadsheets, 
-        if we fail to get the title we return `google-sheets.csv`.
+        We use the `title` attribute of the Google Spreadshet's HTML as name of the file.
+        This attribute is the same as the name of the spreadsheet.
         """
         file = FileResource(path=url)
         text = file.read_text(size=10000)
