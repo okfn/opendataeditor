@@ -1,11 +1,12 @@
 import collections
 import sys
 import ode
+import os
 
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QTreeView, QPushButton, QLabel, QFrame, QStackedLayout, QTableView,
-    QFileDialog, QComboBox, QMenu
+    QComboBox, QMenu, QMessageBox, QInputDialog
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
@@ -51,13 +52,16 @@ class MainWindow(QMainWindow):
         self.button_upload = QPushButton(objectName="button_upload")
         self.button_upload.clicked.connect(self.on_button_upload_click)
 
-        file_navigator = QTreeView()
-        file_model = QFileSystemModel()
-        file_navigator.setModel(file_model)
-        file_navigator.setRootIndex(file_model.setRootPath(str(Paths.PROJECT_PATH)))
-        self._show_only_name_column_in_file_navigator(file_model, file_navigator)
-        file_navigator.setHeaderHidden(True)
-        file_navigator.clicked.connect(self.on_tree_click)
+        self.file_navigator = QTreeView()
+        self.file_model = QFileSystemModel()
+        self.file_navigator.setModel(self.file_model)
+        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
+        self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
+        self.file_navigator.setHeaderHidden(True)
+        self.file_navigator.clicked.connect(self.on_tree_click)
+        self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.file_navigator.customContextMenuRequested.connect(self._show_context_menu)
+        self._setup_file_navigator_context_menu()
 
         self.user_guide = QPushButton()
         self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
@@ -87,7 +91,7 @@ class MainWindow(QMainWindow):
         self.language.activated.connect(self.on_language_change)
 
         sidebar_layout.addWidget(self.button_upload)
-        sidebar_layout.addWidget(file_navigator)
+        sidebar_layout.addWidget(self.file_navigator)
         sidebar_layout.addWidget(self.user_guide)
         sidebar_layout.addWidget(self.report_issue)
         sidebar_layout.addWidget(self.language)
@@ -177,6 +181,84 @@ class MainWindow(QMainWindow):
         self.retranslateUI()
 
         self.apply_stylesheet()
+
+    def _setup_file_navigator_context_menu(self):
+        """Create the context menu for the file navigator."""
+        self.context_menu = QMenu(self)
+
+        self.rename_action = QAction("Rename", self)
+        self.open_location_action = QAction("Open File in Location", self)
+        self.delete_action = QAction("Delete", self)
+
+        self.rename_action.triggered.connect(self._rename_file_navigator_item)
+        self.open_location_action.triggered.connect(self._open_file_navigator_location)
+        self.delete_action.triggered.connect(self._delete_file_navitagor_item)
+
+        self.context_menu.addAction(self.rename_action)
+        self.context_menu.addAction(self.open_location_action)
+        self.context_menu.addAction(self.delete_action)
+
+    def _show_context_menu(self, position):
+        """Show the context menu for a specific index at the specific position."""
+        index = self.file_navigator.indexAt(position)
+        if index.isValid():
+            global_pos = self.file_navigator.viewport().mapToGlobal(position)
+            self.context_menu.exec(global_pos)
+
+    def _rename_file_navigator_item(self):
+        """Ask user for the new name for the selected file/folder."""
+        index = self.file_navigator.currentIndex()
+        if index.isValid():
+            file_path = self.file_model.filePath(index)
+
+            new_name, ok = QInputDialog.getText(
+                self, "Rename", "Enter new name:", text=os.path.basename(file_path)
+            )
+            if ok and new_name:
+                new_path = os.path.join(os.path.dirname(file_path), new_name)
+                try:
+                    os.rename(file_path, new_path)
+                except IsADirectoryError:
+                    QMessageBox.warning(self, "Error", "Source is a file but destination a directory.")
+                except NotADirectoryError:
+                    QMessageBox.warning(self, "Error", "Source is a directory but destination a file.")
+                except PermissionError:
+                    # Since we have a managed PROJECT_PATH this should never happen.
+                    QMessageBox.warning(self, "Error", "Operation not permitted.")
+                except OSError as e:
+                    QMessageBox.warning(self, "Error", f"Error: {e}")
+
+    def _open_file_navigator_location(self):
+        """Open the folder where the file lives using the OS application."""
+        index = self.file_navigator.currentIndex()
+        if index.isValid():
+            path = self.file_model.filePath(index)
+            folder = os.path.dirname(path)
+            if sys.platform == "win32":
+                os.system(f'explorer.exe "{folder}"')
+            elif sys.platform == "darwin":
+                os.system(f'open "{folder}"')
+            else:
+                os.system(f'xdg-open "{folder}"')
+
+    def _delete_file_navitagor_item(self):
+        """Delete a file/folder from the file navigator (and the OS)."""
+        index = self.file_navigator.currentIndex()
+        if index.isValid():
+            file_path = self.file_model.filePath(index)
+
+            confirm = QMessageBox.question(
+                self, "Delete", "Are you sure you want to delete this?",
+                QMessageBox.Yes | QMessageBox.No
+            )
+            if confirm == QMessageBox.Yes:
+                try:
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                    elif os.path.isdir(file_path):
+                        os.rmdir(file_path)
+                except OSError as e:
+                    QMessageBox.warning(self, "Error", f"Failed to delete: {e}")
 
     def _menu_bar(self):
         """Creates the menu bar and assign all its actions.
