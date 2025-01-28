@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es">
+<TS version="2.1" language="es_ES">
 <context>
     <name>ChatGPTDialog</name>
     <message>
@@ -38,7 +38,8 @@
         <location filename="../../ai_widget.py" line="96"/>
         <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.
 You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Haz click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;aquí&lt;/a&gt; para aprender cómo obtener tu clave.
+También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aquí&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../../ai_widget.py" line="97"/>
@@ -64,7 +65,8 @@ You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com
         <location filename="../../ai_widget.py" line="102"/>
         <source>Open Data Editor will only share the names of the columns in your table to suggest
 improvements to the titles and descriptions associated with them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Open Data Editor solo va a compartir los nombres de las columnas de tu tabla para sugerir 
+mejoras a los títulos y descriptiones asociadas a ellas.</translation>
     </message>
 </context>
 <context>
@@ -72,141 +74,202 @@ improvements to the titles and descriptions associated with them.</source>
     <message>
         <location filename="../../dialogs/upload.py" line="148"/>
         <source>Please paste a valid URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor ingresa una URL válida.</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="151"/>
         <source>Please paste a valid URL starting with http:// or https://.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor ingresa una URL válida que empiece con http:// o https://.</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="187"/>
         <source>Upload your data</source>
-        <translation type="unfinished">Carga tus archivos</translation>
+        <translation>Carga tus archivos</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="188"/>
         <source>Add one or more Excel or csv files</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrega uno o más archivos Excel of CSV</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="189"/>
         <source>Add one or more folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrega una o más carpetas</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="190"/>
         <location filename="../../dialogs/upload.py" line="191"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="192"/>
         <source>Link to the external table: </source>
-        <translation type="unfinished"></translation>
+        <translation>Enlace a la tabla externa: </translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="193"/>
         <source>Enter or paste URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduce o pega la URL</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="194"/>
         <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquí puedes pegar enlaces de hojas de cálculo públicas de Google y URL de archivos csv en portales de datos abiertos y GitHub.</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="195"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="196"/>
         <source>From Your Computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Desde tu Computadora</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="197"/>
         <source>Add External Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar Datos Externos</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="226"/>
+        <location filename="../../main.py" line="215"/>
+        <location filename="../../main.py" line="330"/>
+        <source>Rename</source>
+        <translation>Renombrar</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="215"/>
+        <source>Enter new name:</source>
+        <translation>Ingresa el nuevo nombre:</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="223"/>
+        <location filename="../../main.py" line="227"/>
+        <location filename="../../main.py" line="230"/>
+        <location filename="../../main.py" line="232"/>
+        <location filename="../../main.py" line="264"/>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="224"/>
+        <source>Source is a file but destination a directory.</source>
+        <translation>El origen es un archivo pero el destino es un directorio.</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="227"/>
+        <source>Source is a directory but destination a file.</source>
+        <translation>El origen es un directorio pero el destino es un archivo.</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="230"/>
+        <source>Operation not permitted.</source>
+        <translation>Operación no permitida.</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="232"/>
+        <source>Error: {e}</source>
+        <translation>Error: {e}</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="254"/>
+        <location filename="../../main.py" line="332"/>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="254"/>
+        <source>Are you sure you want to delete this?</source>
+        <translation>Estás seguro que quieres eliminar esto?</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="264"/>
+        <source>Failed to delete: {e}</source>
+        <translation>Error al borrar: {e}</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="311"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="227"/>
+        <location filename="../../main.py" line="312"/>
         <source>User guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="228"/>
+        <location filename="../../main.py" line="313"/>
         <source>Report an issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="229"/>
+        <location filename="../../main.py" line="314"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="230"/>
+        <location filename="../../main.py" line="315"/>
         <source>Metadata</source>
         <translation>Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="231"/>
+        <location filename="../../main.py" line="316"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="232"/>
+        <location filename="../../main.py" line="317"/>
         <source>Source</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="233"/>
+        <location filename="../../main.py" line="318"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="234"/>
+        <location filename="../../main.py" line="319"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="235"/>
+        <location filename="../../main.py" line="320"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="238"/>
+        <location filename="../../main.py" line="323"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="239"/>
+        <location filename="../../main.py" line="324"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="240"/>
+        <location filename="../../main.py" line="325"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="241"/>
+        <location filename="../../main.py" line="326"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="242"/>
+        <location filename="../../main.py" line="327"/>
         <source>Help</source>
         <translation>Ayuda</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="331"/>
+        <source>Open File in Location</source>
+        <translation>Abrir la ubicacion de archivo</translation>
     </message>
 </context>
 </TS>

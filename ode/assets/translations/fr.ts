@@ -134,78 +134,139 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="226"/>
-        <source>Upload your data</source>
+        <location filename="../../main.py" line="215"/>
+        <location filename="../../main.py" line="330"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="215"/>
+        <source>Enter new name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="223"/>
+        <location filename="../../main.py" line="227"/>
+        <location filename="../../main.py" line="230"/>
+        <location filename="../../main.py" line="232"/>
+        <location filename="../../main.py" line="264"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="224"/>
+        <source>Source is a file but destination a directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../main.py" line="227"/>
-        <source>User guide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="228"/>
-        <source>Report an issue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="229"/>
-        <source>Data</source>
+        <source>Source is a directory but destination a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../main.py" line="230"/>
-        <source>Metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="231"/>
-        <source>Errors Report</source>
+        <source>Operation not permitted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../main.py" line="232"/>
+        <source>Error: {e}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="254"/>
+        <location filename="../../main.py" line="332"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="254"/>
+        <source>Are you sure you want to delete this?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="264"/>
+        <source>Failed to delete: {e}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="311"/>
+        <source>Upload your data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="312"/>
+        <source>User guide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="313"/>
+        <source>Report an issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="314"/>
+        <source>Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="315"/>
+        <source>Metadata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="316"/>
+        <source>Errors Report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="317"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="233"/>
+        <location filename="../../main.py" line="318"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="234"/>
+        <location filename="../../main.py" line="319"/>
         <source>Save changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="235"/>
+        <location filename="../../main.py" line="320"/>
         <source>AI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="238"/>
+        <location filename="../../main.py" line="323"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="239"/>
+        <location filename="../../main.py" line="324"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="240"/>
+        <location filename="../../main.py" line="325"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="241"/>
+        <location filename="../../main.py" line="326"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="242"/>
+        <location filename="../../main.py" line="327"/>
         <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="331"/>
+        <source>Open File in Location</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

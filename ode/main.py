@@ -186,9 +186,9 @@ class MainWindow(QMainWindow):
         """Create the context menu for the file navigator."""
         self.context_menu = QMenu(self)
 
-        self.rename_action = QAction("Rename", self)
-        self.open_location_action = QAction("Open File in Location", self)
-        self.delete_action = QAction("Delete", self)
+        self.rename_action = QAction()
+        self.open_location_action = QAction()
+        self.delete_action = QAction()
 
         self.rename_action.triggered.connect(self._rename_file_navigator_item)
         self.open_location_action.triggered.connect(self._open_file_navigator_location)
@@ -212,21 +212,24 @@ class MainWindow(QMainWindow):
             file_path = self.file_model.filePath(index)
 
             new_name, ok = QInputDialog.getText(
-                self, "Rename", "Enter new name:", text=os.path.basename(file_path)
+                self, self.tr("Rename"), self.tr("Enter new name:"), text=os.path.basename(file_path)
             )
             if ok and new_name:
                 new_path = os.path.join(os.path.dirname(file_path), new_name)
                 try:
                     os.rename(file_path, new_path)
                 except IsADirectoryError:
-                    QMessageBox.warning(self, "Error", "Source is a file but destination a directory.")
+                    QMessageBox.warning(
+                        self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
+                    )
                 except NotADirectoryError:
-                    QMessageBox.warning(self, "Error", "Source is a directory but destination a file.")
+                    QMessageBox.warning(
+                        self, self.tr("Error"), self.tr("Source is a directory but destination a file."))
                 except PermissionError:
                     # Since we have a managed PROJECT_PATH this should never happen.
-                    QMessageBox.warning(self, "Error", "Operation not permitted.")
+                    QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
                 except OSError as e:
-                    QMessageBox.warning(self, "Error", f"Error: {e}")
+                    QMessageBox.warning(self, self.tr("Error"), self.tr("Error: {e}").format(e))
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -248,7 +251,7 @@ class MainWindow(QMainWindow):
             file_path = self.file_model.filePath(index)
 
             confirm = QMessageBox.question(
-                self, "Delete", "Are you sure you want to delete this?",
+                self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
                 QMessageBox.Yes | QMessageBox.No
             )
             if confirm == QMessageBox.Yes:
@@ -258,7 +261,7 @@ class MainWindow(QMainWindow):
                     elif os.path.isdir(file_path):
                         os.rmdir(file_path)
                 except OSError as e:
-                    QMessageBox.warning(self, "Error", f"Failed to delete: {e}")
+                    QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
 
     def _menu_bar(self):
         """Creates the menu bar and assign all its actions.
@@ -322,6 +325,11 @@ class MainWindow(QMainWindow):
         self.menu_edit.setTitle(self.tr("Edit"))
         self.menu_view.setTitle(self.tr("View"))
         self.menu_help.setTitle(self.tr("Help"))
+
+        # Update text for file navitagor context menu
+        self.rename_action.setText(self.tr("Rename"))
+        self.open_location_action.setText(self.tr("Open File in Location"))
+        self.delete_action.setText(self.tr("Delete"))
 
         # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
         self.ai_widget.retranslateUI()
