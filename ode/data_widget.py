@@ -43,19 +43,18 @@ class DataWorker(QRunnable):
         errors = []
         if not report.valid:
             try:
-                # self.report.error is only available for single error report
+                # report.error is only available for single error report
                 errors.append(report.error)
             except Exception:
                 errors = report.tasks[0].errors
 
-        self.signals.finished.emit((self.filepath, data, report, errors))
+        self.signals.finished.emit((self.filepath, data, errors))
 
 
 class FrictionlessTableModel(QAbstractTableModel):
-    def __init__(self, data=[], report=[], errors=[]):
+    def __init__(self, data=[], errors=[]):
         super().__init__()
         self._data = data
-        self.report = report
         self.errors = errors
         self._row_count = self._set_row_count()
         self._column_count = self._set_column_count()

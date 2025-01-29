@@ -383,9 +383,8 @@ class MainWindow(QMainWindow):
         This method is connected to the data widget Worker's signal and it will
         receive the data, the frictionless report and a list of errors.
         """
-        path, data, report, errors = worker_data
-        print(report)
-        self.table_model = FrictionlessTableModel(data, report, errors)
+        path, data, errors = worker_data
+        self.table_model = FrictionlessTableModel(data, errors)
         self.data_view.setModel(self.table_model)
         self.errors_view.remove_all_errors()
         errors_list = self._sort_frictionless_errors(errors)
