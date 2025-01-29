@@ -398,7 +398,7 @@ class MainWindow(QMainWindow):
 
         This method will be triggered when the user clicks on a file in the
         QTreeView. It will create a Worker to read data in the background and display
-        a ProgressDialog if it is taking more than 4 seconds. Reading with a worker is
+        a ProgressDialog if it is taking too long. Reading with a worker is
         a requirement to display a proper QProgressDialog.
         """
         path = self.sender().model().filePath(index)
@@ -406,8 +406,12 @@ class MainWindow(QMainWindow):
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(path)
             worker.signals.finished.connect(self.update_views)
-            self.progress_dialog = QProgressDialog("The total size of the files exceeds 10MB. This operation might take some time...", None, 0, 0, self)
+            self.progress_dialog = QProgressDialog(
+                self.tr("Given the file size this operation might take some time..."), None, 0, 0, self
+            )
             self.progress_dialog.setWindowModality(Qt.WindowModal)
+            self.progress_dialog.setValue(0)               # Start counting and,
+            self.progress_dialog.setMinimumDuration(1000)  # show only if task takes more than 1000ms
             self.threadpool.start(worker)
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
