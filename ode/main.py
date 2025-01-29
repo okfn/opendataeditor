@@ -17,7 +17,7 @@ from PySide6.QtWidgets import QFileSystemModel
 from ode.paths import Paths
 from ode.errors_widget import ErrorsWidget
 from ode.metadata_widget import FrictionlessResourceMetadataWidget
-from ode.data_widget import FrictionlessTableModel, Worker
+from ode.data_widget import FrictionlessTableModel, DataWorker
 from ode.ai_widget import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 
@@ -384,6 +384,7 @@ class MainWindow(QMainWindow):
         receive the data, the frictionless report and a list of errors.
         """
         path, data, report, errors = worker_data
+        print(report)
         self.table_model = FrictionlessTableModel(data, report, errors)
         self.data_view.setModel(self.table_model)
         self.errors_view.remove_all_errors()
@@ -404,8 +405,8 @@ class MainWindow(QMainWindow):
         path = self.sender().model().filePath(index)
         info = QFileInfo(path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
-            worker = Worker(path)
-            worker.signals.data.connect(self.update_views)
+            worker = DataWorker(path)
+            worker.signals.finished.connect(self.update_views)
             self.progress_dialog = QProgressDialog("The total size of the files exceeds 10MB. This operation might take some time...", None, 0, 0, self)
             self.progress_dialog.setWindowModality(Qt.WindowModal)
             self.threadpool.start(worker)

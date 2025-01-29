@@ -4,25 +4,35 @@ from PySide6.QtGui import QColor
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 
 
-class WorkerSignals(QObject):
-    """Define the signals for the File Reader worker."""
-    data = Signal(tuple)
+class DataWorkerSignals(QObject):
+    """Define the signals for the DataWorker."""
+    finished = Signal(tuple)
 
 
-class Worker(QRunnable):
+class DataWorker(QRunnable):
+    """Worker to execute all the reading and validation tasks.
+
+    This worker will allow us to read and validate the data (that can take several
+    seconds) in the background. By moving this logic to a Worker we can avoid the
+    application to get freeze while reading and instead display proper messages to
+    the user.
+    """
     def __init__(self, filepath):
         super().__init__()
         self.filepath = filepath
-        self.signals = WorkerSignals()
+        self.signals = DataWorkerSignals()
 
     @Slot()
     def run(self):
-        """Sets the two dimension array of data.
+        """Reads and validates the data.
 
         We are using Resource.read_cells() because we want to read the data
         as is in the file in order to properly show data errors.
 
         We are using the system context to allow us to read from non-relative paths.
+
+        This method emits a finished signal with all the data that the main UI requires to
+        display the table and the errors.
         """
         with system.use_context(trusted=True):
             data = Resource(self.filepath).read_cells()
@@ -33,11 +43,12 @@ class Worker(QRunnable):
         errors = []
         if not report.valid:
             try:
+                # self.report.error is only available for single error report
                 errors.append(report.error)
             except Exception:
-                # self.report.error is only available for single error report
                 errors = report.tasks[0].errors
-        self.signals.data.emit((self.filepath, data, report, errors))
+
+        self.signals.finished.emit((self.filepath, data, report, errors))
 
 
 class FrictionlessTableModel(QAbstractTableModel):
