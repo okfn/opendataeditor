@@ -6,18 +6,18 @@ import os
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QTreeView, QPushButton, QLabel, QFrame, QStackedLayout, QTableView,
-    QComboBox, QMenu, QMessageBox, QInputDialog
+    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
-from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream
+from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool, Slot
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
 from ode.paths import Paths
 from ode.errors_widget import ErrorsWidget
 from ode.metadata_widget import FrictionlessResourceMetadataWidget
-from ode.data_widget import FrictionlessTableModel
+from ode.data_widget import FrictionlessTableModel, Worker
 from ode.ai_widget import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 
@@ -30,6 +30,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Open Data Editor")
         icon = QIcon(Paths.asset('icons/icon.png'))
         self.setWindowIcon(icon)
+
+        self.threadpool = QThreadPool()
 
         # Main widget
         main_widget = QWidget()
@@ -374,22 +376,39 @@ class MainWindow(QMainWindow):
         self.table_model.layoutChanged.emit()
         self.metadata_widget.save_metadata_to_descriptor_file()
 
+    @Slot(tuple)
+    def update_views(self, worker_data):
+        """Update all the main views with the data provided by the read worker.
+
+        This method is connected to the data widget Worker's signal and it will
+        receive the data, the frictionless report and a list of errors.
+        """
+        path, data, report, errors = worker_data
+        self.table_model = FrictionlessTableModel(data, report, errors)
+        self.data_view.setModel(self.table_model)
+        self.errors_view.remove_all_errors()
+        errors_list = self._sort_frictionless_errors(errors)
+        for error in errors_list:
+            self.errors_view.add_error(error, self.table_model)
+        self.metadata_widget.populate_all_forms(path)
+        self.progress_dialog.close()
+
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
 
         This method will be triggered when the user clicks on a file in the
-        QTreeView. It will load the file and update our table_model and data_view.
+        QTreeView. It will create a Worker to read data in the background and display
+        a ProgressDialog if it is taking more than 4 seconds. Reading with a worker is
+        a requirement to display a proper QProgressDialog.
         """
         path = self.sender().model().filePath(index)
         info = QFileInfo(path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
-            self.table_model = FrictionlessTableModel(path)
-            self.data_view.setModel(self.table_model)
-            self.errors_view.remove_all_errors()
-            errors_list = self._sort_frictionless_errors(self.table_model.errors)
-            for error in errors_list:
-                self.errors_view.add_error(error, self.table_model)
-            self.metadata_widget.populate_all_forms(path)
+            worker = Worker(path)
+            worker.signals.data.connect(self.update_views)
+            self.progress_dialog = QProgressDialog("The total size of the files exceeds 10MB. This operation might take some time...", None, 0, 0, self)
+            self.progress_dialog.setWindowModality(Qt.WindowModal)
+            self.threadpool.start(worker)
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""

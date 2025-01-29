@@ -1,33 +1,22 @@
 from frictionless import validate, Resource, system
 
 from PySide6.QtGui import QColor
-from PySide6.QtCore import Qt, QAbstractTableModel
+from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 
 
-class FrictionlessTableModel(QAbstractTableModel):
+class WorkerSignals(QObject):
+    """Define the signals for the File Reader worker."""
+    data = Signal(tuple)
+
+
+class Worker(QRunnable):
     def __init__(self, filepath):
         super().__init__()
         self.filepath = filepath
-        self._data = []
-        self.report = None
-        self.errors = []
-        self._setReport()
-        self._setData()
-        self._setErrors()
-        self._row_count = self._set_row_count()
-        self._column_count = self._set_column_count()
+        self.signals = WorkerSignals()
 
-    def _setErrors(self):
-        if self.report.valid:
-            return
-        try:
-            self.errors.append(self.report.error)
-        except Exception:
-            # self.report.error is only available for single error report
-            pass
-        self.errors = self.report.tasks[0].errors
-
-    def _setData(self):
+    @Slot()
+    def run(self):
         """Sets the two dimension array of data.
 
         We are using Resource.read_cells() because we want to read the data
@@ -36,21 +25,35 @@ class FrictionlessTableModel(QAbstractTableModel):
         We are using the system context to allow us to read from non-relative paths.
         """
         with system.use_context(trusted=True):
-            self._data = Resource(self.filepath).read_cells()
+            data = Resource(self.filepath).read_cells()
+
+        with system.use_context(trusted=True):
+            report = validate(self.filepath)
+
+        errors = []
+        if not report.valid:
+            try:
+                errors.append(report.error)
+            except Exception:
+                # self.report.error is only available for single error report
+                errors = report.tasks[0].errors
+        self.signals.data.emit((self.filepath, data, report, errors))
+
+
+class FrictionlessTableModel(QAbstractTableModel):
+    def __init__(self, data=[], report=[], errors=[]):
+        super().__init__()
+        self._data = data
+        self.report = report
+        self.errors = errors
+        self._row_count = self._set_row_count()
+        self._column_count = self._set_column_count()
 
     def write_data(self):
         """Writes data back to the file."""
         with system.use_context(trusted=True):
             source = Resource(self._data)
             source.write(self.filepath)
-
-    def _setReport(self):
-        """Set the errors report
-
-        We are using the system context to allow us to read from non-relative paths.
-        """
-        with system.use_context(trusted=True):
-            self.report = validate(self.filepath)
 
     def _get_error_row_number(self, error):
         """Return the row number from the Error object
