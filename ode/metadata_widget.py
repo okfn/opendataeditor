@@ -327,10 +327,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.setLayout(self.layout)
 
     def _get_file_record_path(self, filepath):
-        """Returns the path to the descriptor of the given file
+        """Returns the path to the record of the given file.
 
-        We are storing the descriptor in hidden files so they do not polute
-        the tree view.
+        Record is a term we use to refer to a JSON object that stores the file metadata.
+        It stores both the Fricionless Metadata and any other metadata required by the ODE.
+        All records are going to be stored in a `.metadata` folder mimicing the names and
+        structure of the project folder.
 
         Example 1:
           - Given: /home/user/.opendataeditor/tmp/valid.csv
