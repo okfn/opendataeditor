@@ -300,7 +300,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         for form in self.forms:
             self.forms_layout.addWidget(form)
         if filepath:
-            self.resource = self.get_or_create_record(filepath).get("resource")
+            self.resource = self.get_or_create_metadata(filepath).get("resource")
             for form in self.forms:
                 form.populate(self.resource)
 
@@ -326,21 +326,20 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.layout)
 
-    def _get_file_record_path(self, filepath):
-        """Returns the path to the record of the given file.
+    def _get_file_metadata_path(self, filepath):
+        """Returns the path to the metadata file of the given file.
 
-        Record is a term we use to refer to a JSON object that stores the file metadata.
-        It stores both the Fricionless Metadata and any other metadata required by the ODE.
-        All records are going to be stored in a `.metadata` folder mimicing the names and
-        structure of the project folder.
+        Metadata is a JSON object that stores Fricionless Metadata and any other
+        metadata required by ODE. All metadata files are going to be stored in a
+        `.metadata` folder mimicing the names and structure of the project folder.
 
         Example 1:
-          - Given: /home/user/.opendataeditor/tmp/valid.csv
-          - Returns: /home/user/.opendataeditor/.metadata/valid.csv.metadata.json
+          - File: Paths.PROJECT_FOLDER / 'valid.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/valid.csv.metadata.json'
 
         Example 2 (subfolder):
-          - Given: /home/user/.opendataeditor/tmp/subfolder/invalid.csv
-          - Returns: /home/user/.opendataeditor/tmp/.metadata/subfolder/invalid.csv.metadata.json
+          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid.csv.metadata.json'
 
         """
         file = Path(filepath).relative_to(Paths.PROJECT_PATH)
@@ -364,42 +363,40 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
 
-    def get_or_create_record(self, filepath):
-        """Get or create a record for the Resource.
+    def get_or_create_metadata(self, filepath):
+        """Get or create a metadata object for the Resource.
 
-        Record is a dict containing the Frictionless Metadata plus other metadata
+        Metadata is a dict containing the Frictionless Metadata plus other metadata
         that ODE could require.
 
         Example:
         {
-          "name": "valid.csv",
-          "path": "subfolder/valid.csv",
-          "type": "<ode-type>"
           "resource": "{...frictionless descriptor...}"
+          "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
-        result = dict()
-        record_path = self._get_file_record_path(filepath)
+        metadata = dict()
+        metadata_path = self._get_file_metadata_path(filepath)
         try:
-            with open(record_path) as file:
-                result = json.load(file)
+            with open(metadata_path) as file:
+                metadata = json.load(file)
             with system.use_context(trusted=True):
-                resource = TableResource(result["resource"])
-                result["resource"] = resource
+                resource = TableResource(metadata["resource"])
+                metadata["resource"] = resource
         except FileNotFoundError:
-            print("Record not found. Creating one.")
+            print("Metadata file not found. Creating one.")
             with system.use_context(trusted=True):
                 resource = TableResource(path=filepath)
                 resource.infer(stats=True)
-                result["resource"] = resource.to_descriptor()
-                with open(record_path, "w") as f:
-                    json.dump(result, f)
-                result["resource"] = resource
-        return result
+                metadata["resource"] = resource.to_descriptor()
+                with open(metadata_path, "w") as f:
+                    json.dump(metadata, f)
+                metadata["resource"] = resource
+        return metadata
 
     def populate_all_forms(self, filepath):
         """Populates the form with the content of the descriptor."""
-        self.resource = self.get_or_create_record(filepath).get("resource")
+        self.resource = self.get_or_create_metadata(filepath).get("resource")
         for form in self.forms:
             form.populate(self.resource)
 
@@ -446,12 +443,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        record_path = self._get_file_record_path(self.resource.path)
-        record = self.get_or_create_record(self.resource.path)
-        record["resource"] = self.resource.to_descriptor()
-        with open(record_path, "w") as f:
-            print(f"Saving record {record_path}")
-            json.dump(record, f)
+        metadata_path = self._get_file_metadata_path(self.resource.path)
+        metadata = self.get_or_create_metadata(self.resource.path)
+        metadata["resource"] = self.resource.to_descriptor()
+        with open(metadata_path, "w") as f:
+            print(f"Saving metadata {metadata_path}")
+            json.dump(metadata, f)
 
 
 if __name__ == "__main__":
