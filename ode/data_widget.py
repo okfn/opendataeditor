@@ -59,11 +59,11 @@ class FrictionlessTableModel(QAbstractTableModel):
         self._row_count = self._set_row_count()
         self._column_count = self._set_column_count()
 
-    def write_data(self):
+    def write_data(self, filepath):
         """Writes data back to the file."""
         with system.use_context(trusted=True):
             source = Resource(self._data)
-            source.write(self.filepath)
+            source.write(filepath)
 
     def _get_error_row_number(self, error):
         """Return the row number from the Error object

@@ -33,6 +33,8 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(icon)
 
         self.threadpool = QThreadPool()
+        # TODO: Review this decision
+        self.selected_file_path = ""
 
         # Main widget
         main_widget = QWidget()
@@ -373,7 +375,7 @@ class MainWindow(QMainWindow):
         if not hasattr(self, 'table_model'):
             # TODO: Define behaviour of Save Button
             return
-        self.table_model.write_data()
+        self.table_model.write_data(self.selected_file_path)
         self.table_model.layoutChanged.emit()
         self.metadata_widget.save_metadata_to_descriptor_file()
 
@@ -402,10 +404,10 @@ class MainWindow(QMainWindow):
         a ProgressDialog if it is taking too long. Reading with a worker is
         a requirement to display a proper QProgressDialog.
         """
-        path = self.sender().model().filePath(index)
-        info = QFileInfo(path)
+        self.selected_file_path = self.sender().model().filePath(index)
+        info = QFileInfo(self.selected_file_path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
-            worker = DataWorker(path)
+            worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
             self.progress_dialog = QProgressDialog(
                 self.tr("Given the file size this operation might take some time..."), None, 0, 0, self
