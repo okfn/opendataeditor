@@ -12,6 +12,7 @@ class Paths:
     # it will be hardcoded to the home folder of the user until
     # we define how to properly handle projects in Open Data Editor.
     PROJECT_PATH = Path.home() / '.opendataeditor/tmp'
+    METADATA_PATH = PROJECT_PATH / '.metadata'
 
     @classmethod
     def asset(cls, filename):

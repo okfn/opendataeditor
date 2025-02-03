@@ -31,7 +31,7 @@ def migrate_metadata_store():
 
     for record_id, record_data in records.items():
         file_path = record_data['path']
-        json_file_path = metadata_dir / f"{file_path}.json"
+        json_file_path = metadata_dir / f"{file_path}.metadata.json"
         # Ensure the directory structure exists
         json_file_path.parent.mkdir(parents=True, exist_ok=True)
 

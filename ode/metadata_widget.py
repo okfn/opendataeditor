@@ -1,10 +1,11 @@
 import json
 import sys
+from pathlib import Path
 
 from frictionless.resources import TableResource
 from frictionless import system
 
-from PySide6.QtCore import Qt, QFileInfo
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
         QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedLayout, QApplication, QPushButton,
         QSpinBox, QMessageBox, QScrollArea
@@ -299,7 +300,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         for form in self.forms:
             self.forms_layout.addWidget(form)
         if filepath:
-            self.resource = self.get_or_create_descriptor(filepath)
+            self.resource = self.get_or_create_record(filepath).get("resource")
             for form in self.forms:
                 form.populate(self.resource)
 
@@ -325,17 +326,24 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.layout)
 
-    def _get_file_descriptor_path(self, filepath):
+    def _get_file_record_path(self, filepath):
         """Returns the path to the descriptor of the given file
 
         We are storing the descriptor in hidden files so they do not polute
         the tree view.
+
+        Example 1:
+          - Given: /home/user/.opendataeditor/tmp/valid.csv
+          - Returns: /home/user/.opendataeditor/.metadata/valid.csv.metadata.json
+
+        Example 2 (subfolder):
+          - Given: /home/user/.opendataeditor/tmp/subfolder/invalid.csv
+          - Returns: /home/user/.opendataeditor/tmp/.metadata/subfolder/invalid.csv.metadata.json
+
         """
-        info = QFileInfo(filepath)
-        filename = "." + info.fileName() + ".descriptor.json"
-        # TODO: use pathlib
-        path = info.absolutePath() + "/" + filename
-        return path
+        file = Path(filepath).relative_to(Paths.PROJECT_PATH)
+        metadata_path = Paths.METADATA_PATH / file
+        return str(metadata_path) + '.metadata.json'
 
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""
@@ -354,30 +362,47 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
 
-    def get_or_create_descriptor(self, filepath):
-        """Get or create a frictionless Resource.
+    def get_or_create_record(self, filepath):
+        """Get or create a record for the Resource.
 
-        In order to persist Frictionless Metadata we read the resource from
-        a descriptor file.
+        Record is a dict containing the Frictionless Metadata plus other metadata
+        that ODE could require.
+
+        Example:
+        {
+          "name": "valid.csv",
+          "path": "subfolder/valid.csv",
+          "type": "<ode-type>"
+          "resource": "{...frictionless descriptor...}"
+        }
         """
-        descriptor_path = self._get_file_descriptor_path(filepath)
+        result = dict()
+        record_path = self._get_file_record_path(filepath)
         try:
-            with open(descriptor_path) as descriptor:
-                resource_dict = json.load(descriptor)
+            with open(record_path) as file:
+                result = json.load(file)
             with system.use_context(trusted=True):
-                resource = TableResource(resource_dict)
+                resource = TableResource(result["resource"])
+                if not resource.hash:
+                    # This resource comes from before migration to PySide6 where
+                    # ODE did not infer stats, because they are mandatory, we patch them here.
+                    # This can be safely remove after a couple of minor versions from v1.3.0.
+                    resource.infer(starts=True)
+                result["resource"] = resource
         except FileNotFoundError:
-            print("Resource descriptor not found. Creating one.")
+            print("Record not found. Creating one.")
             with system.use_context(trusted=True):
                 resource = TableResource(path=filepath)
                 resource.infer(stats=True)
-                with open(descriptor_path, "w") as f:
-                    json.dump(resource.to_descriptor(), f)
-        return resource
+                result["resource"] = resource.to_descriptor()
+                with open(record_path, "w") as f:
+                    json.dump(result, f)
+                result["resource"] = resource
+        return result
 
     def populate_all_forms(self, filepath):
         """Populates the form with the content of the descriptor."""
-        self.resource = self.get_or_create_descriptor(filepath)
+        self.resource = self.get_or_create_record(filepath).get("resource")
         for form in self.forms:
             form.populate(self.resource)
 
@@ -424,10 +449,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        descriptor_path = self._get_file_descriptor_path(self.resource.path)
-        with open(descriptor_path, "w") as f:
-            print(f"Saving descriptor {descriptor_path}")
-            json.dump(self.resource.to_descriptor(), f)
+        record_path = self._get_file_record_path(self.resource.path)
+        record = self.get_or_create_record(self.resource.path)
+        record["resource"] = self.resource.to_descriptor()
+        with open(record_path, "w") as f:
+            print(f"Saving record {record_path}")
+            json.dump(record, f)
 
 
 if __name__ == "__main__":
