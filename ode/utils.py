@@ -38,13 +38,18 @@ def migrate_metadata_store():
 
     for _, record_data in records.items():
         path = record_data['path']
-        # Infer Frictionless Statistics, it is mandatory for the newest version of ODE.
-        with system.use_context(trusted=True):
-            resource = TableResource(record_data.get("resource"))
-            # Patch the original resource path with the absolute path to the file.
-            resource.path = str(Paths.PROJECT_PATH / path)
-            resource.infer(stats=True)
-            record_data["resource"] = resource.to_descriptor()
+        try:
+            # Infer Frictionless Statistics, it is mandatory for the newest version of ODE.
+            with system.use_context(trusted=True):
+                resource = TableResource(record_data.get("resource"))
+                # Patch the original resource path with the absolute path to the file.
+                resource.path = str(Paths.PROJECT_PATH / path)
+                resource.infer(stats=True)
+                record_data["resource"] = resource.to_descriptor()
+        except Exception as e:
+            # This should happen only if the user did file/metadata editing outside ODE.
+            print(f"Error when creating TableResource: {e}")
+            continue
 
         # Set metadata file name as <filename>.json
         # Example: my-file.csv -> my-file.json
