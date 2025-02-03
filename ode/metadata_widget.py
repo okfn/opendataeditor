@@ -326,7 +326,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.layout)
 
-    def _get_file_metadata_path(self, absolute_filepath):
+    def _get_path_to_metadata_file(self, absolute_filepath):
         """Returns the path to the metadata file of the given file.
 
         Metadata is a JSON object that stores Fricionless Metadata and any other
@@ -375,7 +375,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         }
         """
         metadata = dict()
-        metadata_path = self._get_file_metadata_path(filepath)
+        metadata_path = self._get_path_to_metadata_file(filepath)
         try:
             with open(metadata_path) as file:
                 metadata = json.load(file)
@@ -442,7 +442,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        metadata_path = self._get_file_metadata_path(self.resource.path)
+        metadata_path = self._get_path_to_metadata_file(self.resource.path)
         metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
         with open(metadata_path, "w") as f:
