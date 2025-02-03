@@ -326,7 +326,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.layout)
 
-    def _get_file_metadata_path(self, filepath):
+    def _get_file_metadata_path(self, absolute_filepath):
         """Returns the path to the metadata file of the given file.
 
         Metadata is a JSON object that stores Fricionless Metadata and any other
@@ -334,17 +334,16 @@ class FrictionlessResourceMetadataWidget(QWidget):
         `.metadata` folder mimicing the names and structure of the project folder.
 
         Example 1:
-          - File: Paths.PROJECT_FOLDER / 'valid.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/valid.csv.metadata.json'
+          - File: Paths.PROJECT_FOLDER / 'myfile.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/myfile.json'
 
         Example 2 (subfolder):
-          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid.csv.metadata.json'
-
+          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
         """
-        file = Path(filepath).relative_to(Paths.PROJECT_PATH)
-        metadata_path = Paths.METADATA_PATH / file
-        return str(metadata_path) + '.metadata.json'
+        filename = str(Path(absolute_filepath).relative_to(Paths.PROJECT_PATH)).rsplit(".", 1)[0]
+        metadata_path = Paths.METADATA_PATH / filename
+        return str(metadata_path) + '.json'
 
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""

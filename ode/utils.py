@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from frictionless.resources import TableResource
 from frictionless import system
@@ -37,21 +38,26 @@ def migrate_metadata_store():
 
     for _, record_data in records.items():
         path = record_data['path']
-        record_file_path = new_metadata_dir / f"{path}.metadata.json"
-        file_path = Paths.PROJECT_PATH / path
-
-        # Infer Frictionless Statistics.
-        # It is mandatory for the newest version of ODE.
+        # Infer Frictionless Statistics, it is mandatory for the newest version of ODE.
         with system.use_context(trusted=True):
             resource = TableResource(record_data.get("resource"))
-            resource.path = str(file_path)
+            # Patch the original resource path with the absolute path to the file.
+            resource.path = str(Paths.PROJECT_PATH / path)
             resource.infer(stats=True)
             record_data["resource"] = resource.to_descriptor()
 
-        # Ensure the directory structure exists
-        record_file_path.parent.mkdir(parents=True, exist_ok=True)
+        # Set metadata file name as <filename>.json
+        # Example: my-file.csv -> my-file.json
+        # Example: subfolder/my-file.csv -> subfolder/my-file.json
+        filename = path.rsplit(".", 1)[0]
+        metadata_filename = str(new_metadata_dir / filename) + ".json"
 
-        with open(record_file_path, 'w') as json_file:
+        # Ensure the directory structure exists
+        # Example: if we are migrating a file located in a subfolder, we need to create
+        # it before the json.dump file.
+        Path(metadata_filename).parent.mkdir(parents=True, exist_ok=True)
+
+        with open(metadata_filename, 'w') as json_file:
             json.dump(record_data, json_file, indent=4)
 
     print("Migration completed successfully!")
