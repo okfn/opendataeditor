@@ -385,11 +385,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 result = json.load(file)
             with system.use_context(trusted=True):
                 resource = TableResource(result["resource"])
-                if not resource.hash:
-                    # This resource comes from before migration to PySide6 where
-                    # ODE did not infer stats, because they are mandatory, we patch them here.
-                    # This can be safely remove after a couple of minor versions from v1.3.0.
-                    resource.infer(starts=True)
                 result["resource"] = resource
         except FileNotFoundError:
             print("Record not found. Creating one.")
