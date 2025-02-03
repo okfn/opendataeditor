@@ -20,6 +20,7 @@ from ode.metadata_widget import FrictionlessResourceMetadataWidget
 from ode.data_widget import FrictionlessTableModel, DataWorker
 from ode.ai_widget import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
+from ode.utils import migrate_metadata_store
 
 
 class MainWindow(QMainWindow):
@@ -443,6 +444,10 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("Open Data Editor")
     app.setApplicationVersion(ode.__version__)
+
+    # Migration to ODE 1.4
+    migrate_metadata_store()
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
