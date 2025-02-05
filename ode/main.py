@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.showMaximized()
         self.setWindowTitle("Open Data Editor")
         icon = QIcon(Paths.asset('icons/icon.png'))
         self.setWindowIcon(icon)
@@ -451,5 +450,6 @@ if __name__ == "__main__":
     migrate_metadata_store()
 
     window = MainWindow()
+    window.showMaximized()
     window.show()
     sys.exit(app.exec())
