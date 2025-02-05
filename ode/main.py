@@ -393,6 +393,8 @@ class MainWindow(QMainWindow):
         for error in errors_list:
             self.errors_view.add_error(error, self.table_model)
         self.metadata_widget.populate_all_forms(path)
+        # Always focus back to the data view.
+        self.stacked_layout.setCurrentIndex(0)
         self.progress_dialog.close()
 
     def on_tree_click(self, index):
