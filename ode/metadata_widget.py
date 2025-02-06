@@ -341,9 +341,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
           - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
           - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
         """
-        filename = str(Path(absolute_filepath).relative_to(Paths.PROJECT_PATH)).rsplit(".", 1)[0]
-        metadata_path = Paths.METADATA_PATH / filename
-        return str(metadata_path) + '.json'
+        file_folder = Path(absolute_filepath).parent
+        relative_folder = file_folder.relative_to(Paths.PROJECT_PATH)
+        metadata_path = Paths.METADATA_PATH / relative_folder
+        return metadata_path
 
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""
@@ -374,23 +375,32 @@ class FrictionlessResourceMetadataWidget(QWidget):
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
+        filepath = Path(filepath)
+        relative_path = filepath.parent.relative_to(Paths.PROJECT_PATH)
+        metadata_path = Paths.METADATA_PATH / relative_path
+        metadata_file = metadata_path / (filepath.stem + '.json')
         metadata = dict()
-        metadata_path = self._get_path_to_metadata_file(filepath)
-        try:
-            with open(metadata_path) as file:
-                metadata = json.load(file)
+
+        if not metadata_file.exists():
+            print("Metadata file not found. Creating and empty one.")
+            metadata_path.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
-                resource = TableResource(metadata["resource"])
-                metadata["resource"] = resource
-        except FileNotFoundError:
-            print("Metadata file not found. Creating one.")
-            with system.use_context(trusted=True):
-                resource = TableResource(path=filepath)
+                resource = TableResource(filepath)
                 resource.infer(stats=True)
+            with open(metadata_file, "w") as f:
                 metadata["resource"] = resource.to_descriptor()
-                with open(metadata_path, "w") as f:
-                    json.dump(metadata, f)
-                metadata["resource"] = resource
+                json.dump(metadata, f)
+            metadata["resource"] = resource
+            return metadata
+
+        with open(metadata_file) as file:
+            metadata = json.load(file)
+
+        with system.use_context(trusted=True):
+            resource = TableResource(metadata["resource"])
+            resource.infer(stats=True)
+            metadata["resource"] = resource
+
         return metadata
 
     def populate_all_forms(self, filepath):
