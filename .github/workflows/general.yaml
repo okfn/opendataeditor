@@ -53,7 +53,8 @@ jobs:
           python-version: '3.11'
       - name: Install Dependencies
         run: |
-          apt-get install ruby ruby-dev rubygems build-essential
+          sudo apt-get update
+          sudo apt-get install ruby ruby-dev rubygems build-essential
           gem install --no-ri --no-rdoc fpm
           fpm --version
           pip3 install -r requirements.txt
