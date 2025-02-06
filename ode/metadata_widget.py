@@ -326,26 +326,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.layout)
 
-    def _get_path_to_metadata_file(self, absolute_filepath):
-        """Returns the path to the metadata file of the given file.
-
-        Metadata is a JSON object that stores Fricionless Metadata and any other
-        metadata required by ODE. All metadata files are going to be stored in a
-        `.metadata` folder mimicing the names and structure of the project folder.
-
-        Example 1:
-          - File: Paths.PROJECT_FOLDER / 'myfile.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/myfile.json'
-
-        Example 2 (subfolder):
-          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
-        """
-        file_folder = Path(absolute_filepath).parent
-        relative_folder = file_folder.relative_to(Paths.PROJECT_PATH)
-        metadata_path = Paths.METADATA_PATH / relative_folder
-        return metadata_path
-
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""
         # This order is the order in which we add the forms to the stacked layout in the
@@ -363,6 +343,28 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
 
+    def _get_path_to_metadata_file(self, filepath):
+        """Returns the path to the metadata file of the given file.
+
+        Metadata is a JSON object that stores Fricionless Metadata and any other
+        metadata required by ODE. All metadata files are going to be stored in a
+        `.metadata` folder mimicing the file name and the structure of the project
+        folder.
+
+        Example 1:
+          - File: Paths.PROJECT_FOLDER / 'myfile.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/myfile.json'
+
+        Example 2 (subfolder):
+          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
+        """
+        filepath = Path(filepath)
+        relative_path = filepath.parent.relative_to(Paths.PROJECT_PATH)
+        metadata_path = Paths.METADATA_PATH / relative_path
+        metadata_filepath = metadata_path / (filepath.stem + '.json')
+        return metadata_filepath
+
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
 
@@ -375,25 +377,24 @@ class FrictionlessResourceMetadataWidget(QWidget):
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
-        filepath = Path(filepath)
-        relative_path = filepath.parent.relative_to(Paths.PROJECT_PATH)
-        metadata_path = Paths.METADATA_PATH / relative_path
-        metadata_file = metadata_path / (filepath.stem + '.json')
+        metadata_filepath = self._get_path_to_metadata_file(filepath)
         metadata = dict()
 
-        if not metadata_file.exists():
+        if not metadata_filepath.exists():
             print("Metadata file not found. Creating and empty one.")
-            metadata_path.mkdir(parents=True, exist_ok=True)
+            metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(filepath)
                 resource.infer(stats=True)
-            with open(metadata_file, "w") as f:
+            with open(metadata_filepath, "w") as f:
+                # Resource is not serializable, converting to dict before writing.
                 metadata["resource"] = resource.to_descriptor()
                 json.dump(metadata, f)
+            # We want to return a Frictionless object, so we are plugging it back.
             metadata["resource"] = resource
             return metadata
 
-        with open(metadata_file) as file:
+        with open(metadata_filepath) as file:
             metadata = json.load(file)
 
         with system.use_context(trusted=True):
@@ -452,11 +453,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        metadata_path = self._get_path_to_metadata_file(self.resource.path)
+        metadata_filepath = self._get_path_to_metadata_file(self.resource.path)
         metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
-        with open(metadata_path, "w") as f:
-            print(f"Saving metadata {metadata_path}")
+        with open(metadata_filepath, "w") as f:
+            print(f"Saving metadata {metadata_filepath}")
             json.dump(metadata, f)
 
 
