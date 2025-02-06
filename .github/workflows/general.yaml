@@ -56,8 +56,12 @@ jobs:
           sudo apt-get update
           sudo gem install fpm
           fpm --version
+      - name: Install Qt Dependencies
+        run: |
+          # https://forum.qt.io/post/769050
           # Fix PyInstaller warnings of Qt Dependencies missing
-          sudo apt-get install libxcb libxkbcommon-x11-0
+          sudo apt-get install synaptic
+          sudo apt-get install libxcb-icccm4 libxcb-image libxcb-keysyms libxcb-render-util0 libxcb-xkb libxcb-xinerama libxkbcommon-x11-0
       - name: Install Dependencies
         run: |
           pip3 install -r requirements.txt
