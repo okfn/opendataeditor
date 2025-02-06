@@ -55,8 +55,8 @@ class FrictionlessTableModel(QAbstractTableModel):
     def __init__(self, data=[], errors=[]):
         super().__init__()
         self._data = data
-        self.errors = errors
         self._row_count = self._set_row_count()
+        self.errors = self._get_errors(errors)
         self._column_count = self._set_column_count()
 
     def write_data(self, filepath):
@@ -66,15 +66,32 @@ class FrictionlessTableModel(QAbstractTableModel):
             source.write(filepath)
 
     def _get_error_row_number(self, error):
-        """Return the row number from the Error object
-
-        Errors objects in frictionless-py do not have a consistent API. This method
-        encapsulates the logic to retrieve them. It also moves from 1-index to 0-index.
-        """
         if error.type == 'blank-label':
             result = error.row_numbers[0] - 1
         else:
             result = error.row_number - 1
+        return result
+
+    def _get_errors(self, errors):
+        """Return an array with errors information to use when rendering the table.
+
+        The array has same lenght as our data with None or a Tuple:
+          [None, None, (3, 'blank-label', 'error mesage to be displayed'), None]
+
+        Main actions:
+         - Moves from Frictionless' 1-index to 0-index
+         - Handles inconsistency in Fricionless Error Object API
+         - Builds an array for easy access to error information to render performant tables.
+        """
+        result = [None] * self._row_count
+        for error in errors:
+            if error.type == 'blank-label':
+                # https://github.com/frictionlessdata/frictionless-py/issues/1710
+                row = error.row_numbers[0] - 1
+            else:
+                row = error.row_number - 1
+            column = error.field_number - 1
+            result[row] = (column, error.type, error.message)
         return result
 
     def _set_row_count(self):
@@ -100,6 +117,13 @@ class FrictionlessTableModel(QAbstractTableModel):
         return self._column_count
 
     def data(self, index, role):
+        """Returns information to be used to render the Data Table View.
+
+        For each cell we return:
+         - The value to be displayed in the cell
+         - If there is an error in that cell, a red color for the Background.
+         - If there is an error in that cell, a message for the tooltip.
+        """
         if not index.isValid():
             return None
 
@@ -112,25 +136,23 @@ class FrictionlessTableModel(QAbstractTableModel):
                 return None
             return value
         if role == Qt.ItemDataRole.BackgroundRole:
-            for error in self.errors:
-                error_row = self._get_error_row_number(error)
-                if error_row == index.row():
-                    if error.type == 'blank-row':
-                        # BlankRowError does not have field_number, we paint all the cells.
-                        return QColor('red')
-                    error_column = error.field_number - 1
-                    if error_column == index.column():
-                        return QColor('red')
+            if not self.errors[index.row()]:
+                return
+            error_column, error_type, error_message = self.errors[index.row()]
+            if error_type == 'blank-row':
+                # BlankRowError does not have field_number, we paint all the cells.
+                return QColor('red')
+            if error_column == index.column():
+                return QColor('red')
         if role == Qt.ItemDataRole.ToolTipRole:
-            for error in self.errors:
-                error_row = self._get_error_row_number(error)
-                if error_row == index.row():
-                    if error.type == 'blank-row':
-                        # BlankRowError does not have field_number, we add tooltip to all the cells.
-                        return error.message
-                    error_column = error.field_number - 1
-                    if error_column == index.column():
-                        return error.message
+            if not self.errors[index.row()]:
+                return
+            error_column, error_type, error_message = self.errors[index.row()]
+            if error_type == 'blank-row':
+                # BlankRowError does not have field_number, we add tooltip to all the cells.
+                return error_message
+            if error_column == index.column():
+                return error_message
 
     def flags(self, index):
         """Enable edition mode"""
