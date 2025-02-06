@@ -18,6 +18,7 @@ from ode.paths import Paths
 from ode.errors_widget import ErrorsWidget
 from ode.metadata_widget import FrictionlessResourceMetadataWidget
 from ode.data_widget import FrictionlessTableModel, DataWorker
+from ode.source_widget import SourceViewer
 from ode.ai_widget import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 from ode.utils import migrate_metadata_store
@@ -159,16 +160,19 @@ class MainWindow(QMainWindow):
         self.data_view = QTableView()
         self.metadata_widget = FrictionlessResourceMetadataWidget()
         self.errors_view = ErrorsWidget()
+        self.source_view = SourceViewer()
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.metadata_widget)
         self.stacked_layout.addWidget(self.errors_view)
+        self.stacked_layout.addWidget(self.source_view)
 
         main_content_layout.addLayout(self.stacked_layout)
 
         self.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
         self.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
         self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
+        self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
 
         # Main content frame
         main_content_frame = QFrame()
@@ -338,6 +342,7 @@ class MainWindow(QMainWindow):
         # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
         self.ai_widget.retranslateUI()
         self.upload_dialog.retranslateUI()
+        self.source_view.retranslateUI()
 
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
@@ -385,14 +390,15 @@ class MainWindow(QMainWindow):
         This method is connected to the data widget Worker's signal and it will
         receive the data, the frictionless report and a list of errors.
         """
-        path, data, errors = worker_data
+        filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.data_view.setModel(self.table_model)
         self.errors_view.remove_all_errors()
         errors_list = self._sort_frictionless_errors(errors)
         for error in errors_list:
             self.errors_view.add_error(error, self.table_model)
-        self.metadata_widget.populate_all_forms(path)
+        self.metadata_widget.populate_all_forms(filepath)
+        self.source_view.open_csv_file(filepath)
         # Always focus back to the data view.
         self.stacked_layout.setCurrentIndex(0)
         self.progress_dialog.close()
