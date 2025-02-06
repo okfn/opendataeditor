@@ -53,9 +53,7 @@ jobs:
           python-version: '3.11'
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install ruby ruby-dev rubygems build-essential
-          gem install fpm
+          sudo gem install fpm
           fpm --version
           pip3 install -r requirements.txt
           pip3 install pyinstaller==6.11.1
