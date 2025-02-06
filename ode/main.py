@@ -340,6 +340,7 @@ class MainWindow(QMainWindow):
         self.delete_action.setText(self.tr("Delete"))
 
         # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
+        self.errors_view.retranslateUI()
         self.ai_widget.retranslateUI()
         self.upload_dialog.retranslateUI()
         self.source_view.retranslateUI()

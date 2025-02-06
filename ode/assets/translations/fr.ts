@@ -132,6 +132,14 @@ improvements to the titles and descriptions associated with them.</source>
     </message>
 </context>
 <context>
+    <name>ErrorsWidget</name>
+    <message>
+        <location filename="../../errors_widget.py" line="116"/>
+        <source>No errors to show.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../main.py" line="223"/>
@@ -270,7 +278,7 @@ improvements to the titles and descriptions associated with them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="420"/>
+        <location filename="../../main.py" line="421"/>
         <source>Given the file size this operation might take some time...</source>
         <translation type="unfinished"></translation>
     </message>

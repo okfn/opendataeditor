@@ -1,3 +1,4 @@
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
 
 
@@ -89,7 +90,8 @@ class ErrorsWidget(QWidget):
         super().__init__(*args, **kwargs)
         self.layout = QVBoxLayout()
 
-        self.label = QLabel("No errors to show")
+        self.label = QLabel()
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.layout.addWidget(self.label)
 
         self.setLayout(self.layout)
@@ -109,3 +111,6 @@ class ErrorsWidget(QWidget):
         while (self.layout.count() != 0):
             errorReport = self.layout.takeAt(0)
             errorReport.widget().deleteLater()
+
+    def retranslateUI(self):
+        self.label.setText(self.tr("No errors to show."))

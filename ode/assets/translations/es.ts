@@ -134,6 +134,14 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
     </message>
 </context>
 <context>
+    <name>ErrorsWidget</name>
+    <message>
+        <location filename="../../errors_widget.py" line="116"/>
+        <source>No errors to show.</source>
+        <translation>No hay errores para mostrar.</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../main.py" line="223"/>
@@ -272,7 +280,7 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
         <translation>Abrir la ubicacion de archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="420"/>
+        <location filename="../../main.py" line="421"/>
         <source>Given the file size this operation might take some time...</source>
         <translation>Dado el tamaño del archivo esta operación puede demorar un poco...</translation>
     </message>
