@@ -55,7 +55,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ruby ruby-dev rubygems build-essential
-          gem install --no-ri --no-rdoc fpm
+          gem install fpm
           fpm --version
           pip3 install -r requirements.txt
           pip3 install pyinstaller==6.11.1
