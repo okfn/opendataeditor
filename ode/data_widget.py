@@ -55,22 +55,15 @@ class FrictionlessTableModel(QAbstractTableModel):
     def __init__(self, data=[], errors=[]):
         super().__init__()
         self._data = data
-        self._row_count = self._set_row_count()
+        self._row_count = self._get_row_count()
         self.errors = self._get_errors(errors)
-        self._column_count = self._set_column_count()
+        self._column_count = self._get_column_count()
 
     def write_data(self, filepath):
         """Writes data back to the file."""
         with system.use_context(trusted=True):
             source = Resource(self._data)
             source.write(filepath)
-
-    def _get_error_row_number(self, error):
-        if error.type == 'blank-label':
-            result = error.row_numbers[0] - 1
-        else:
-            result = error.row_number - 1
-        return result
 
     def _get_errors(self, errors):
         """Return an array with errors information to use when rendering the table.
@@ -94,11 +87,11 @@ class FrictionlessTableModel(QAbstractTableModel):
             result[row] = (column, error.type, error.message)
         return result
 
-    def _set_row_count(self):
+    def _get_row_count(self):
         return len(self._data)
 
-    def _set_column_count(self):
-        """Set the amout of columns.
+    def _get_column_count(self):
+        """Get the amout of columns.
 
         We are expecting malformed CSVs, so the amout of columns should always
         be the size of the longest row.
