@@ -86,7 +86,7 @@ class ChatGPTDialog(QDialog):
             for choice in response.choices:
                 text += choice.message.content
 
-            self.result_display.setText(text)
+            self.result_display.setMarkdown(text)
         except Exception as e:
             QMessageBox.critical(self, self.tr("API Error"), self.tr(f"Error: {str(e)}"))
 
