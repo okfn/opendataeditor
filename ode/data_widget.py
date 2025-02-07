@@ -78,7 +78,10 @@ class FrictionlessTableModel(QAbstractTableModel):
         """
         result = [None] * self._row_count
         for error in errors:
-            if error.type == 'blank-label':
+            if error.type == 'source-error':
+                # SourceError happens with files that cannot be read and do not have row_number nor field_number.
+                return result
+            elif error.type == 'blank-label':
                 # https://github.com/frictionlessdata/frictionless-py/issues/1710
                 row = error.row_numbers[0] - 1
             else:

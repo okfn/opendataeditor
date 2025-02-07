@@ -79,6 +79,9 @@ class ErrorReport(QWidget):
         """
         if error.type == 'blank-label':
             result = error.row_numbers[0] - 1
+        elif error.type == 'source-error':
+            # SourceError means file cannot be read. We do not display a table.
+            result = 0
         else:
             result = error.row_number - 1
         return result
