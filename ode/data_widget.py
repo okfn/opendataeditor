@@ -84,9 +84,14 @@ class FrictionlessTableModel(QAbstractTableModel):
             elif error.type == 'blank-label':
                 # https://github.com/frictionlessdata/frictionless-py/issues/1710
                 row = error.row_numbers[0] - 1
+                column = error.field_number - 1
+            elif error.type == 'blank-row':
+                row = error.row_number - 1
+                # BlankRow error does not have field_number
+                column = 0
             else:
                 row = error.row_number - 1
-            column = error.field_number - 1
+                column = error.field_number - 1
             result[row] = (column, error.type, error.message)
         return result
 
