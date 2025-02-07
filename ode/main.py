@@ -406,7 +406,7 @@ class MainWindow(QMainWindow):
         for error in errors_list:
             self.errors_view.add_error(error, self.table_model)
         self.metadata_widget.populate_all_forms(filepath)
-        self.source_view.open_csv_file(filepath)
+        self.source_view.open_file(filepath)
         # Always focus back to the data view.
         self.stacked_layout.setCurrentIndex(0)
         self.progress_dialog.close()

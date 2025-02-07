@@ -1,4 +1,5 @@
 import sys
+
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QLabel
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QFileInfo
@@ -7,8 +8,9 @@ from PySide6.QtCore import Qt, QFileInfo
 class SourceViewer(QWidget):
     """Widget to display files as they are (raw).
 
-    For now it only displays CSV files but it can be easily modify to also show
-    other types of non-binary data like TSV, JSON, etc.
+    This class needs to properly detect the enconding of a file. For now
+    UTF-8 and ISO-8859-1 will cover most of our scenarios but we will fail
+    to display source of minority languages.
     """
     def __init__(self):
         super().__init__()
@@ -27,18 +29,30 @@ class SourceViewer(QWidget):
         layout.addWidget(self.label)
         layout.addWidget(self.text_edit)
 
-    def open_csv_file(self, filepath):
+    def open_file(self, filepath):
+        """Reads the file and sets the QPlainText."""
         info = QFileInfo(filepath)
         if not info.isFile() or not info.suffix() in ['csv']:
             self.label.show()
             self.text_edit.hide()
             return
 
-        with open(filepath, 'r') as file:
-            csv_content = file.read()
-            self.label.hide()
-            self.text_edit.show()
-            self.text_edit.setPlainText(csv_content)
+        content = ""
+        try:
+            with open(filepath, 'r', encoding="utf-8") as file:
+                content = file.read()
+        except Exception as e:
+            content = f"Error while reading the file: {e}"
+
+        try:
+            with open(filepath, 'r', encoding="iso-8859-1") as file:
+                content = file.read()
+        except Exception as e:
+            content += f"\nError while reading the file: {e}"
+
+        self.label.hide()
+        self.text_edit.show()
+        self.text_edit.setPlainText(content)
 
     def retranslateUI(self):
         self.label.setText(self.tr("Source view not available for this file."))
