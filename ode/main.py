@@ -3,6 +3,7 @@ import sys
 import ode
 import os
 
+from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QTreeView, QPushButton, QLabel, QFrame, QStackedLayout, QTableView,
@@ -217,13 +218,19 @@ class MainWindow(QMainWindow):
         """Ask user for the new name for the selected file/folder."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = self.file_model.filePath(index)
+            file_path = Path(self.file_model.filePath(index))
+            if file_path.is_file():
+                name = file_path.stem
+                extension = file_path.suffix
+            elif file_path.is_dir():
+                name = file_path.name
+                extension = ""
 
             new_name, ok = QInputDialog.getText(
-                self, self.tr("Rename"), self.tr("Enter new name:"), text=os.path.basename(file_path)
+                self, self.tr("Rename"), self.tr("Enter new name:"), text=name
             )
             if ok and new_name:
-                new_path = os.path.join(os.path.dirname(file_path), new_name)
+                new_path = os.path.join(os.path.dirname(file_path), new_name + extension)
                 try:
                     os.rename(file_path, new_path)
                 except IsADirectoryError:
