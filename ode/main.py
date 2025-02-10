@@ -16,11 +16,11 @@ from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream
 from PySide6.QtWidgets import QFileSystemModel
 
 from ode.paths import Paths
-from ode.widgets.errors import ErrorsWidget
-from ode.widgets.metadata import FrictionlessResourceMetadataWidget
-from ode.widgets.data import FrictionlessTableModel, DataWorker
-from ode.widgets.source import SourceViewer
-from ode.widgets.ai import ChatGPTDialog
+from ode.panels.errors import ErrorsWidget
+from ode.panels.metadata import FrictionlessResourceMetadataWidget
+from ode.panels.data import FrictionlessTableModel, DataWorker
+from ode.panels.source import SourceViewer
+from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 from ode.utils import migrate_metadata_store
 
