@@ -37,16 +37,16 @@ class MainWindow(QMainWindow):
         # TODO: Review this decision
         self.selected_file_path = ""
 
-        main_widget = QWidget()
-        main_layout = QGridLayout()
-        main_widget.setLayout(main_layout)
-        self.setCentralWidget(main_widget)
+        central_widget = QWidget()
+        layout = QGridLayout()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
 
         self.sidebar = self._create_sidebar()
-        main_layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
+        layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
 
         self.toolbar = self._create_toolbar()
-        main_layout.addWidget(self.toolbar, 0, 1)
+        layout.addWidget(self.toolbar, 0, 1)
 
         # Main content
         self.content = QWidget()
@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
         self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
         self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
 
-        main_layout.addWidget(self.content, 1, 1)
+        layout.addWidget(self.content, 1, 1)
 
         self._menu_bar()
 
@@ -79,10 +79,15 @@ class MainWindow(QMainWindow):
         self.apply_stylesheet()
 
     def _create_sidebar(self):
-        """Creates the sidebar and assigns all its actions."""
+        """Creates the sidebar and assigns all its actions.
+
+        Sidebar is the widget containing the File navigator and other buttons. The click
+        event in the QTreeView is the main action that will trigger reading and updating
+        other widgets of the application.
+        """
         sidebar = QWidget()
-        layout = QVBoxLayout()
         sidebar.setFixedWidth(300)
+        layout = QVBoxLayout()
 
         icon_label = QLabel()
         pixmap = QPixmap(Paths.asset("logo.svg"))
@@ -142,6 +147,12 @@ class MainWindow(QMainWindow):
         return sidebar
 
     def _create_toolbar(self):
+        """Creates the toolbar and assigns all of its actions.
+
+        The toolbar contains all the buttons that allow the user to navigate between
+        the panels (Data, Metadata, Errors, Source, etc) plus some buttons for the main
+        actions like AI, Publish and Save.
+        """
         toolbar = QWidget()
         layout = QHBoxLayout()
         layout.setSpacing(10)
