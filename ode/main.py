@@ -46,66 +46,7 @@ class MainWindow(QMainWindow):
         main_widget.setLayout(main_layout)
 
         # Sidebar layout
-        sidebar_layout = QVBoxLayout()
-
-        icon_label = QLabel()
-        pixmap = QPixmap(Paths.asset("logo.svg"))
-        icon_label.setPixmap(pixmap)
-        icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        sidebar_layout.addWidget(icon_label)
-
-        self.upload_dialog = DataUploadDialog(self)
-        self.button_upload = QPushButton(objectName="button_upload")
-        self.button_upload.clicked.connect(self.on_button_upload_click)
-
-        self.file_navigator = QTreeView()
-        self.file_model = QFileSystemModel()
-        self.file_navigator.setModel(self.file_model)
-        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
-        self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
-        self.file_navigator.setHeaderHidden(True)
-        self.file_navigator.clicked.connect(self.on_tree_click)
-        self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.file_navigator.customContextMenuRequested.connect(self._show_context_menu)
-        self._setup_file_navigator_context_menu()
-
-        self.user_guide = QPushButton()
-        self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
-        self.user_guide.setIconSize(QSize(20, 20))
-        self.user_guide.setStyleSheet("text-align: left;")
-        self.user_guide.clicked.connect(self.open_user_guide)
-
-        self.report_issue = QPushButton()
-        self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
-        self.report_issue.setIconSize(QSize(20, 20))
-        self.report_issue.setStyleSheet("text-align: left;")
-        self.report_issue.clicked.connect(self.open_report_issue)
-
-        self.language = QComboBox()
-        options = [
-            ("English", ""),
-            ("Français", "fr"),
-            ("Español", "es"),
-            ("Português", "pt"),
-        ]
-        language_icon = QIcon(Paths.asset("icons/24/language.svg"))
-        for i, (text, locale) in enumerate(options):
-            self.language.addItem(text)
-            self.language.setItemData(i, locale)
-            self.language.setItemIcon(i, language_icon)
-        self.language.setStyleSheet("text-align: left;")
-        self.language.activated.connect(self.on_language_change)
-
-        sidebar_layout.addWidget(self.button_upload)
-        sidebar_layout.addWidget(self.file_navigator)
-        sidebar_layout.addWidget(self.user_guide)
-        sidebar_layout.addWidget(self.report_issue)
-        sidebar_layout.addWidget(self.language)
-
-        sidebar_frame = QFrame()
-        sidebar_frame.setLayout(sidebar_layout)
-        sidebar_frame.setFixedWidth(300)  # Set fixed width of 300 pixels
-        sidebar_frame.setObjectName("sidebar")
+        self._sidebar()
 
         # Main content area
         main_content_layout = QVBoxLayout()
@@ -180,7 +121,7 @@ class MainWindow(QMainWindow):
         main_content_frame.setLayout(main_content_layout)
 
         # Add sidebar and main content to main layout
-        main_layout.addWidget(sidebar_frame)
+        main_layout.addWidget(self.sidebar)
         main_layout.addWidget(main_content_frame)
 
         self._menu_bar()
@@ -190,6 +131,68 @@ class MainWindow(QMainWindow):
         self.retranslateUI()
 
         self.apply_stylesheet()
+
+    def _sidebar(self):
+        """Creates the sidebar and assigns all its actions."""
+        self.sidebar = QWidget()
+        layout = QVBoxLayout()
+        self.sidebar.setFixedWidth(300)
+
+        icon_label = QLabel()
+        pixmap = QPixmap(Paths.asset("logo.svg"))
+        icon_label.setPixmap(pixmap)
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+
+        self.upload_dialog = DataUploadDialog(self)
+        self.button_upload = QPushButton(objectName="button_upload")
+        self.button_upload.clicked.connect(self.on_button_upload_click)
+
+        self.file_navigator = QTreeView()
+        self.file_model = QFileSystemModel()
+        self.file_navigator.setModel(self.file_model)
+        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
+        self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
+        self.file_navigator.setHeaderHidden(True)
+        self.file_navigator.clicked.connect(self.on_tree_click)
+        self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.file_navigator.customContextMenuRequested.connect(self._show_context_menu)
+        self._setup_file_navigator_context_menu()
+
+        self.user_guide = QPushButton()
+        self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
+        self.user_guide.setIconSize(QSize(20, 20))
+        self.user_guide.setStyleSheet("text-align: left;")
+        self.user_guide.clicked.connect(self.open_user_guide)
+
+        self.report_issue = QPushButton()
+        self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
+        self.report_issue.setIconSize(QSize(20, 20))
+        self.report_issue.setStyleSheet("text-align: left;")
+        self.report_issue.clicked.connect(self.open_report_issue)
+
+        self.language = QComboBox()
+        options = [
+            ("English", ""),
+            ("Français", "fr"),
+            ("Español", "es"),
+            ("Português", "pt"),
+        ]
+        language_icon = QIcon(Paths.asset("icons/24/language.svg"))
+        for i, (text, locale) in enumerate(options):
+            self.language.addItem(text)
+            self.language.setItemData(i, locale)
+            self.language.setItemIcon(i, language_icon)
+        self.language.setStyleSheet("text-align: left;")
+        self.language.activated.connect(self.on_language_change)
+
+        layout.addWidget(icon_label)
+        layout.addWidget(self.button_upload)
+        layout.addWidget(self.file_navigator)
+        layout.addWidget(self.user_guide)
+        layout.addWidget(self.report_issue)
+        layout.addWidget(self.language)
+
+        self.sidebar.setLayout(layout)
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
