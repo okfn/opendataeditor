@@ -5,8 +5,8 @@ import os
 
 from pathlib import Path
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QTreeView, QPushButton, QLabel, QFrame, QStackedLayout, QTableView,
+    QApplication, QMainWindow, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout,
+    QTreeView, QPushButton, QLabel, QStackedLayout, QTableView,
     QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
 )
 
@@ -37,67 +37,21 @@ class MainWindow(QMainWindow):
         # TODO: Review this decision
         self.selected_file_path = ""
 
-        # Main widget
         main_widget = QWidget()
+        main_layout = QGridLayout()
+        main_widget.setLayout(main_layout)
         self.setCentralWidget(main_widget)
 
-        # Main layout
-        main_layout = QHBoxLayout()
-        main_widget.setLayout(main_layout)
+        self.sidebar = self._create_sidebar()
+        main_layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
 
-        # Sidebar layout
-        self._sidebar()
+        self.toolbar = self._create_toolbar()
+        main_layout.addWidget(self.toolbar, 0, 1)
 
-        # Main content area
-        main_content_layout = QVBoxLayout()
-
-        # Toolbar layout for buttons
-        toolbar_layout = QHBoxLayout()
-
-        # Buttons on the left
-        self.button_data = QPushButton()
-        self.button_metadata = QPushButton()
-        self.button_metadata.setIcon(QIcon(Paths.asset("icons/24/tune.svg")))
-        self.button_metadata.setIconSize(QSize(20, 20))
-        self.button_errors = QPushButton()
-        self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_errors.setIconSize(QSize(20, 20))
-        self.button_source = QPushButton()
-        self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
-        self.button_source.setIconSize(QSize(20, 20))
-        toolbar_layout.addWidget(self.button_data)
-        toolbar_layout.addWidget(self.button_metadata)
-        toolbar_layout.addWidget(self.button_errors)
-        toolbar_layout.addWidget(self.button_source)
-
-        # Spacer to push right-side buttons to the end
-        toolbar_layout.addStretch()
-        toolbar_layout.setSpacing(10)
-        # Buttons on the right
-        self.button_ai = QPushButton()
-        self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
-        self.button_ai.setIconSize(QSize(20, 20))
-        self.ai_widget = ChatGPTDialog(self)
-        self.button_publish = QPushButton(objectName="button_publish")
-        self.button_publish.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
-        self.button_publish.setIconSize(QSize(20, 20))
-        self.button_save = QPushButton(objectName="button_save")
-        self.button_save.setMinimumSize(QSize(117, 35))
-        self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
-        self.button_save.setIconSize(QSize(20, 20))
-        self.button_save.clicked.connect(self.on_save_click)
-        self.button_ai.clicked.connect(self.on_ai_click)
-        # update_qss_button = QPushButton("QSS")
-        # update_qss_button.clicked.connect(self.apply_stylesheet)
-        # toolbar_layout.addWidget(update_qss_button)
-        toolbar_layout.addWidget(self.button_ai)
-        toolbar_layout.addWidget(self.button_publish)
-        toolbar_layout.addWidget(self.button_save)
-
-        main_content_layout.addLayout(toolbar_layout)
-
-        # Main content (stacked layout)
+        # Main content
+        self.content = QWidget()
         self.stacked_layout = QStackedLayout()
+        self.content.setLayout(self.stacked_layout)
 
         self.data_view = QTableView()
         self.metadata_widget = FrictionlessResourceMetadataWidget()
@@ -109,20 +63,12 @@ class MainWindow(QMainWindow):
         self.stacked_layout.addWidget(self.errors_view)
         self.stacked_layout.addWidget(self.source_view)
 
-        main_content_layout.addLayout(self.stacked_layout)
-
         self.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
         self.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
         self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
         self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
 
-        # Main content frame
-        main_content_frame = QFrame()
-        main_content_frame.setLayout(main_content_layout)
-
-        # Add sidebar and main content to main layout
-        main_layout.addWidget(self.sidebar)
-        main_layout.addWidget(main_content_frame)
+        main_layout.addWidget(self.content, 1, 1)
 
         self._menu_bar()
 
@@ -132,11 +78,11 @@ class MainWindow(QMainWindow):
 
         self.apply_stylesheet()
 
-    def _sidebar(self):
+    def _create_sidebar(self):
         """Creates the sidebar and assigns all its actions."""
-        self.sidebar = QWidget()
+        sidebar = QWidget()
         layout = QVBoxLayout()
-        self.sidebar.setFixedWidth(300)
+        sidebar.setFixedWidth(300)
 
         icon_label = QLabel()
         pixmap = QPixmap(Paths.asset("logo.svg"))
@@ -192,7 +138,56 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.report_issue)
         layout.addWidget(self.language)
 
-        self.sidebar.setLayout(layout)
+        sidebar.setLayout(layout)
+        return sidebar
+
+    def _create_toolbar(self):
+        toolbar = QWidget()
+        layout = QHBoxLayout()
+        layout.setSpacing(10)
+
+        # Buttons on the left
+        self.button_data = QPushButton()
+        self.button_metadata = QPushButton()
+        self.button_metadata.setIcon(QIcon(Paths.asset("icons/24/tune.svg")))
+        self.button_metadata.setIconSize(QSize(20, 20))
+        self.button_errors = QPushButton()
+        self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
+        self.button_errors.setIconSize(QSize(20, 20))
+        self.button_source = QPushButton()
+        self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
+        self.button_source.setIconSize(QSize(20, 20))
+        layout.addWidget(self.button_data)
+        layout.addWidget(self.button_metadata)
+        layout.addWidget(self.button_errors)
+        layout.addWidget(self.button_source)
+
+        # Spacer to push right-side buttons to the end
+        layout.addStretch()
+
+        # Buttons on the right
+        self.button_ai = QPushButton()
+        self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
+        self.button_ai.setIconSize(QSize(20, 20))
+        self.ai_widget = ChatGPTDialog(self)
+        self.button_publish = QPushButton(objectName="button_publish")
+        self.button_publish.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
+        self.button_publish.setIconSize(QSize(20, 20))
+        self.button_save = QPushButton(objectName="button_save")
+        self.button_save.setMinimumSize(QSize(117, 35))
+        self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
+        self.button_save.setIconSize(QSize(20, 20))
+        self.button_save.clicked.connect(self.on_save_click)
+        self.button_ai.clicked.connect(self.on_ai_click)
+        # update_qss_button = QPushButton("QSS")
+        # update_qss_button.clicked.connect(self.apply_stylesheet)
+        # layout.addWidget(update_qss_button)
+        layout.addWidget(self.button_ai)
+        layout.addWidget(self.button_publish)
+        layout.addWidget(self.button_save)
+
+        toolbar.setLayout(layout)
+        return toolbar
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
