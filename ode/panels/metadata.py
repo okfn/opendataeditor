@@ -8,10 +8,10 @@ from frictionless import system
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
         QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedLayout, QApplication, QPushButton,
-        QSpinBox, QMessageBox, QScrollArea
+        QSpinBox, QMessageBox, QScrollArea, QGroupBox
 )
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
-from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
+from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox, QTabWidget
 
 from ode.paths import Paths
 
@@ -25,6 +25,7 @@ _RESOURCE_METADATA = {
 class LicensesForm(QWidget):
     def __init__(self):
         super().__init__()
+
         layout = QVBoxLayout()
         self.licenses = self.get_list_of_licenses()
         # License selection
@@ -105,7 +106,17 @@ class LicensesForm(QWidget):
 class SingleFieldForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        form_layout = QVBoxLayout()
+
+        label_layout = QHBoxLayout()
         layout = QFormLayout()
+        form_layout.addLayout(label_layout)
+        form_layout.addLayout(layout)
+
+        label = QLabel("SingleField")
+        label_layout.addWidget(label)
+
         self.name = QLineEdit()
         layout.addRow("Name: ", self.name)
         self.types = QComboBox()
@@ -124,7 +135,7 @@ class SingleFieldForm(QWidget):
         layout.addRow("Missing Values: ", self.missing_values)
         self.rdf_type = QLineEdit()
         layout.addRow("RDF Type: ", self.rdf_type)
-        self.setLayout(layout)
+        self.setLayout(form_layout)
 
     def populate(self, field):
         self.name.setText(field.name)
@@ -147,8 +158,20 @@ class FieldsForm(QWidget):
         self.scroll_area.setWidgetResizable(True)
 
         self.container_widget = QWidget()
+        self.form_layout = QVBoxLayout()
+
+        # TODO
+        # Add search bar and "Add field" button to
+        # label layout as they're on the same level
+        self.label_layout = QHBoxLayout()
         self.container_layout = QVBoxLayout()
-        self.container_widget.setLayout(self.container_layout)
+        self.form_layout.addLayout(self.label_layout)
+        self.form_layout.addLayout(self.container_layout)
+
+        label = QLabel("Fields")
+        self.label_layout.addWidget(label)
+
+        self.container_widget.setLayout(self.form_layout)
         self.scroll_area.setWidget(self.container_widget)
         self.field_forms = []
 
@@ -184,7 +207,17 @@ class FieldsForm(QWidget):
 class SchemaForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        form_layout = QVBoxLayout()
+
+        label_layout = QHBoxLayout()
         layout = QFormLayout()
+        form_layout.addLayout(label_layout)
+        form_layout.addLayout(layout)
+
+        label = QLabel("Schema")
+        label_layout.addWidget(label)
+
         self.name = QLineEdit()
         self.name.setEnabled(False)
         layout.addRow("Name: ", self.name)
@@ -200,7 +233,8 @@ class SchemaForm(QWidget):
         self.description = QLineEdit()
         self.description.setEnabled(False)
         layout.addRow("Description: ", self.description)
-        self.setLayout(layout)
+
+        self.setLayout(form_layout)
 
     def populate(self, resource):
         # TODO: Implement, logic of Schema is not well defined
@@ -210,7 +244,17 @@ class SchemaForm(QWidget):
 class IntegrityForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        form_layout = QVBoxLayout()
+
+
         layout = QFormLayout()
+        label_layout = QHBoxLayout()
+        form_layout.addLayout(label_layout)
+        form_layout.addLayout(layout)
+
+        label = QLabel("Integrity")
+        label_layout.addWidget(label)
 
         self.hash = QLineEdit()
         layout.addRow("Hash: ", self.hash)
@@ -221,7 +265,7 @@ class IntegrityForm(QWidget):
         self.rows = QSpinBox()
         layout.addRow("Rows: ", self.rows)
 
-        self.setLayout(layout)
+        self.setLayout(form_layout)
 
     def populate(self, resource):
         self.hash.setText(resource.hash)
@@ -233,7 +277,16 @@ class IntegrityForm(QWidget):
 class ResourceForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.form_layout = QVBoxLayout()
+
+        self.label_layout = QHBoxLayout()
         self.layout = QFormLayout()
+        self.form_layout.addLayout(self.label_layout)
+        self.form_layout.addLayout(self.layout)
+
+        self.label = QLabel("Resource")
+        self.label_layout.addWidget(self.label)
 
         self.name = QLineEdit()
         self.layout.addRow("Name: ", self.name)
@@ -256,7 +309,7 @@ class ResourceForm(QWidget):
         self.encoding = QLineEdit()
         self.layout.addRow("Encoding: ", self.encoding)
 
-        self.setLayout(self.layout)
+        self.setLayout(self.form_layout)
 
     def populate(self, resource):
         """Populates all the form fields with the values of the resource"""
@@ -271,60 +324,35 @@ class ResourceForm(QWidget):
         self.format.setText(resource.format)
 
 
-class FrictionlessResourceMetadataWidget(QWidget):
-    def __init__(self, filepath=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.layout = QHBoxLayout()
+class Tab(QWidget):
+    def __init__(self, page_name, page_items):
+        super().__init__()
 
-        # Sidebar menu
-        tree = QTreeWidget()
-        tree.setColumnCount(1)
-        tree.setHeaderHidden(True)
-        tree.setFixedWidth(350)
-        items = []
-        for key, values in _RESOURCE_METADATA.items():
-            item = QTreeWidgetItem([key])
-            for value in values:
-                child = QTreeWidgetItem([value])
-                item.addChild(child)
-            items.append(item)
-        tree.insertTopLevelItems(0, items)
-        tree.expandAll()
-        tree.clicked.connect(self.switch_form)
+        self.page_name = page_name
+        self.page_items = page_items
 
-        # Metadata Forms
-        self.forms_layout = QStackedLayout()
-        self.forms = [
-            ResourceForm(), IntegrityForm(), LicensesForm(), SchemaForm(), FieldsForm(),
-        ]
-        for form in self.forms:
-            self.forms_layout.addWidget(form)
-        if filepath:
-            self.resource = self.get_or_create_metadata(filepath).get("resource")
-            for form in self.forms:
-                form.populate(self.resource)
+        self.mainlayout = QHBoxLayout()
+        self.setLayout(self.mainlayout)
 
-        # Help
-        help = QWidget()
-        help.setFixedWidth(300)
-        help.setFixedHeight(450)
-        help_layout = QVBoxLayout()
-        help_title = QLabel("HELP")
-        help_title.setFixedHeight(30)
-        help_description = QLabel("This is a long text that will be replaced with the actual help content.")
-        help_description.setWordWrap(True)
-        help_description.setFixedHeight(250)
-        help_learn_more = QPushButton("LEARN MORE")
-        help_layout.addWidget(help_title)
-        help_layout.addWidget(help_description)
-        help_layout.addWidget(help_learn_more)
-        help_layout.addStretch()
-        help.setLayout(help_layout)
+        self.buttonlayout = QVBoxLayout()
+        self.forms = QStackedLayout()
+        self.mainlayout.addLayout(self.buttonlayout)
+        self.mainlayout.addLayout(self.forms)
 
-        self.layout.addWidget(tree)
-        self.layout.addLayout(self.forms_layout)
-        self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
-        self.setLayout(self.layout)
+        self.make_tab(self.page_name, self.page_items)
+
+    def make_tab(self, names, fields):
+
+        for field in fields:
+            button = QPushButton(text=field)
+            self.buttonlayout.addWidget(button)
+            button.clicked.connect(self.switch_form)
+
+            try:
+                form = globals()[f"{field}Form"]
+                self.forms.addWidget(form())
+            except KeyError:
+                pass
 
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""
@@ -332,16 +360,77 @@ class FrictionlessResourceMetadataWidget(QWidget):
         # __init__ method. We could implement something more fancy but life is too short
         # to make complex stuff.
         form = index.data()
-        if form == 'Resource':
-            self.forms_layout.setCurrentIndex(0)
-        elif form == "Integrity":
-            self.forms_layout.setCurrentIndex(1)
-        elif form == "Licenses":
-            self.forms_layout.setCurrentIndex(2)
-        elif form == "Schema":
-            self.forms_layout.setCurrentIndex(3)
-        elif form == "Fields":
-            self.forms_layout.setCurrentIndex(4)
+        #if form == 'Resource':
+        #    self.forms_layout.setCurrentIndex(0)
+        #elif form == "Integrity":
+        #    self.forms_layout.setCurrentIndex(1)
+        #elif form == "Licenses":
+        #    self.forms_layout.setCurrentIndex(2)
+        #elif form == "Schema":
+        #    self.forms_layout.setCurrentIndex(3)
+        #elif form == "Fields":
+        #    self.forms_layout.setCurrentIndex(4)
+
+
+
+class FrictionlessResourceMetadataWidget(QWidget):
+    def __init__(self, filepath=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.layout = QHBoxLayout()
+
+
+        metadata = self.make_metadata()
+
+        self.forms = [
+            ResourceForm(), IntegrityForm(), LicensesForm(), SchemaForm(), FieldsForm(),
+        ]
+
+        if filepath:
+            self.resource = self.get_or_create_metadata(filepath).get("resource")
+            for form in self.forms:
+                form.populate(self.resource)
+
+
+        # Help
+#        help = QWidget()
+#        help.setFixedWidth(300)
+#        help.setFixedHeight(450)
+#        help_layout = QVBoxLayout()
+#        help_title = QLabel("HELP")
+#        help_title.setFixedHeight(30)
+#        help_description = QLabel("This is a long text that will be replaced with the actual help content.")
+#        help_description.setWordWrap(True)
+#        help_description.setFixedHeight(250)
+#        help_learn_more = QPushButton("LEARN MORE")
+#        help_layout.addWidget(help_title)
+#        help_layout.addWidget(help_description)
+#        help_layout.addWidget(help_learn_more)
+#        help_layout.addStretch()
+#        help.setLayout(help_layout)
+
+        #self.layout.addWidget(tree)
+        self.layout.addWidget(metadata)
+        #self.layout.addLayout(self.forms_layout)
+        #self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
+        self.setLayout(self.layout)
+
+    def make_metadata(self):
+        tab_widget = QWidget()
+        tabs = QTabWidget()
+        mainlayout = QVBoxLayout()
+        tab_widget.setLayout(mainlayout)
+
+        metadata_label = QLabel("Metadata")
+        mainlayout.addWidget(metadata_label)
+        mainlayout.addWidget(tabs)
+
+        for page in _RESOURCE_METADATA:
+            tab = Tab(page, _RESOURCE_METADATA.get(page))
+            tabs.addTab(tab, page)
+
+        return tab_widget
+
+
 
     def _get_path_to_metadata_file(self, filepath):
         """Returns the path to the metadata file of the given file.
