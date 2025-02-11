@@ -375,7 +375,6 @@ class MainWindow(QMainWindow):
         self.menu_view.setTitle(self.tr("View"))
         self.menu_help.setTitle(self.tr("Help"))
 
-        # Update text for Sidebar
         # Hook retranslateUI for main widgets
         self.sidebar.retranslateUI()
         self.toolbar.retranslateUI()
