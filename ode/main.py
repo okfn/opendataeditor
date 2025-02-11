@@ -48,26 +48,7 @@ class MainWindow(QMainWindow):
         self.toolbar = self._create_toolbar()
         layout.addWidget(self.toolbar, 0, 1)
 
-        # Main content
-        self.content = QWidget()
-        self.stacked_layout = QStackedLayout()
-        self.content.setLayout(self.stacked_layout)
-
-        self.data_view = QTableView()
-        self.metadata_widget = FrictionlessResourceMetadataWidget()
-        self.errors_view = ErrorsWidget()
-        self.source_view = SourceViewer()
-
-        self.stacked_layout.addWidget(self.data_view)
-        self.stacked_layout.addWidget(self.metadata_widget)
-        self.stacked_layout.addWidget(self.errors_view)
-        self.stacked_layout.addWidget(self.source_view)
-
-        self.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
-        self.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
-        self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
-        self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
-
+        self.content = self._create_content()
         layout.addWidget(self.content, 1, 1)
 
         self._menu_bar()
@@ -199,6 +180,28 @@ class MainWindow(QMainWindow):
 
         toolbar.setLayout(layout)
         return toolbar
+
+    def _create_content(self):
+        """Create the content widget to host all the main panels."""
+        content = QWidget()
+        self.stacked_layout = QStackedLayout()
+        content.setLayout(self.stacked_layout)
+
+        self.data_view = QTableView()
+        self.metadata_widget = FrictionlessResourceMetadataWidget()
+        self.errors_view = ErrorsWidget()
+        self.source_view = SourceViewer()
+
+        self.stacked_layout.addWidget(self.data_view)
+        self.stacked_layout.addWidget(self.metadata_widget)
+        self.stacked_layout.addWidget(self.errors_view)
+        self.stacked_layout.addWidget(self.source_view)
+
+        self.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
+        self.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
+        self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
+        self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
+        return content
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
