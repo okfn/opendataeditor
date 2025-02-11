@@ -25,49 +25,16 @@ from ode.dialogs.upload import DataUploadDialog
 from ode.utils import migrate_metadata_store
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+class Sidebar(QWidget):
+    """Widget containing the left sidebar of ODE.
 
-        self.setWindowTitle("Open Data Editor")
-        icon = QIcon(Paths.asset('icons/icon.png'))
-        self.setWindowIcon(icon)
-
-        self.threadpool = QThreadPool()
-        # TODO: Review this decision
-        self.selected_file_path = ""
-
-        central_widget = QWidget()
-        layout = QGridLayout()
-        central_widget.setLayout(layout)
-        self.setCentralWidget(central_widget)
-
-        self.sidebar = self._create_sidebar()
-        layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
-
-        self.toolbar = self._create_toolbar()
-        layout.addWidget(self.toolbar, 0, 1)
-
-        self.content = self._create_content()
-        layout.addWidget(self.content, 1, 1)
-
-        self._menu_bar()
-
-        # Translation
-        self.translator = QTranslator()
-        self.retranslateUI()
-
-        self.apply_stylesheet()
-
-    def _create_sidebar(self):
-        """Creates the sidebar and assigns all its actions.
-
-        Sidebar is the widget containing the File navigator and other buttons. The click
-        event in the QTreeView is the main action that will trigger reading and updating
-        other widgets of the application.
-        """
-        sidebar = QWidget()
-        sidebar.setFixedWidth(300)
+    This class is responsible for:
+     - Rendering all the components of the Sidebar.
+     - All the logic of the context menu of the File Navigator.
+    """
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.setFixedWidth(300)
         layout = QVBoxLayout()
 
         icon_label = QLabel()
@@ -77,7 +44,6 @@ class MainWindow(QMainWindow):
 
         self.upload_dialog = DataUploadDialog(self)
         self.button_upload = QPushButton(objectName="button_upload")
-        self.button_upload.clicked.connect(self.on_button_upload_click)
 
         self.file_navigator = QTreeView()
         self.file_model = QFileSystemModel()
@@ -85,7 +51,6 @@ class MainWindow(QMainWindow):
         self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
         self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
         self.file_navigator.setHeaderHidden(True)
-        self.file_navigator.clicked.connect(self.on_tree_click)
         self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
         self.file_navigator.customContextMenuRequested.connect(self._show_context_menu)
         self._setup_file_navigator_context_menu()
@@ -94,13 +59,11 @@ class MainWindow(QMainWindow):
         self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
         self.user_guide.setIconSize(QSize(20, 20))
         self.user_guide.setStyleSheet("text-align: left;")
-        self.user_guide.clicked.connect(self.open_user_guide)
 
         self.report_issue = QPushButton()
         self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
         self.report_issue.setIconSize(QSize(20, 20))
         self.report_issue.setStyleSheet("text-align: left;")
-        self.report_issue.clicked.connect(self.open_report_issue)
 
         self.language = QComboBox()
         options = [
@@ -115,7 +78,6 @@ class MainWindow(QMainWindow):
             self.language.setItemData(i, locale)
             self.language.setItemIcon(i, language_icon)
         self.language.setStyleSheet("text-align: left;")
-        self.language.activated.connect(self.on_language_change)
 
         layout.addWidget(icon_label)
         layout.addWidget(self.button_upload)
@@ -124,84 +86,17 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.report_issue)
         layout.addWidget(self.language)
 
-        sidebar.setLayout(layout)
-        return sidebar
+        self.setLayout(layout)
 
-    def _create_toolbar(self):
-        """Creates the toolbar and assigns all of its actions.
-
-        The toolbar contains all the buttons that allow the user to navigate between
-        the panels (Data, Metadata, Errors, Source, etc) plus some buttons for the main
-        actions like AI, Publish and Save.
-        """
-        toolbar = QWidget()
-        layout = QHBoxLayout()
-        layout.setSpacing(10)
-
-        # Buttons on the left
-        self.button_data = QPushButton()
-        self.button_metadata = QPushButton()
-        self.button_metadata.setIcon(QIcon(Paths.asset("icons/24/tune.svg")))
-        self.button_metadata.setIconSize(QSize(20, 20))
-        self.button_errors = QPushButton()
-        self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_errors.setIconSize(QSize(20, 20))
-        self.button_source = QPushButton()
-        self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
-        self.button_source.setIconSize(QSize(20, 20))
-        layout.addWidget(self.button_data)
-        layout.addWidget(self.button_metadata)
-        layout.addWidget(self.button_errors)
-        layout.addWidget(self.button_source)
-
-        # Spacer to push right-side buttons to the end
-        layout.addStretch()
-
-        # Buttons on the right
-        self.button_ai = QPushButton()
-        self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
-        self.button_ai.setIconSize(QSize(20, 20))
-        self.ai_widget = ChatGPTDialog(self)
-        self.button_publish = QPushButton(objectName="button_publish")
-        self.button_publish.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
-        self.button_publish.setIconSize(QSize(20, 20))
-        self.button_save = QPushButton(objectName="button_save")
-        self.button_save.setMinimumSize(QSize(117, 35))
-        self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
-        self.button_save.setIconSize(QSize(20, 20))
-        self.button_save.clicked.connect(self.on_save_click)
-        self.button_ai.clicked.connect(self.on_ai_click)
-        # update_qss_button = QPushButton("QSS")
-        # update_qss_button.clicked.connect(self.apply_stylesheet)
-        # layout.addWidget(update_qss_button)
-        layout.addWidget(self.button_ai)
-        layout.addWidget(self.button_publish)
-        layout.addWidget(self.button_save)
-
-        toolbar.setLayout(layout)
-        return toolbar
-
-    def _create_content(self):
-        """Create the content widget to host all the main panels."""
-        content = QWidget()
-        self.stacked_layout = QStackedLayout()
-        content.setLayout(self.stacked_layout)
-
-        self.data_view = QTableView()
-        self.metadata_widget = FrictionlessResourceMetadataWidget()
-        self.errors_view = ErrorsWidget()
-        self.source_view = SourceViewer()
-
-        self.stacked_layout.addWidget(self.data_view)
-        self.stacked_layout.addWidget(self.metadata_widget)
-        self.stacked_layout.addWidget(self.errors_view)
-        self.stacked_layout.addWidget(self.source_view)
-
-        self.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
-        self.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
-        self.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
-        self.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
-        return content
+    def retranslateUI(self):
+        """Apply translations to class elements."""
+        self.button_upload.setText(self.tr("Upload your data"))
+        self.user_guide.setText(self.tr("User guide"))
+        self.report_issue.setText(self.tr("Report an issue"))
+        self.rename_action.setText(self.tr("Rename"))
+        self.open_location_action.setText(self.tr("Open File in Location"))
+        self.delete_action.setText(self.tr("Delete"))
+        self.upload_dialog.retranslateUI()
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
@@ -290,6 +185,144 @@ class MainWindow(QMainWindow):
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
 
+    def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
+        """Hide all columns except for the name column (column 0)"""
+        for column in range(file_model.columnCount()):
+            if column != 0:  # 0 is the name column
+                file_navigator.setColumnHidden(column, True)
+
+
+class Toolbar(QWidget):
+    """Widget containing ODE's toolbar.
+
+    The toolbar contains:
+     - Buttons that allow the user to navigate between the panels (Data, Metadata, Errors,
+     Source, etc)
+     - Buttons for the main actions like AI, Publish and Save.
+    """
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        layout = QHBoxLayout()
+        layout.setSpacing(10)
+
+        # Buttons on the left
+        self.button_data = QPushButton()
+        self.button_metadata = QPushButton()
+        self.button_metadata.setIcon(QIcon(Paths.asset("icons/24/tune.svg")))
+        self.button_metadata.setIconSize(QSize(20, 20))
+        self.button_errors = QPushButton()
+        self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
+        self.button_errors.setIconSize(QSize(20, 20))
+        self.button_source = QPushButton()
+        self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
+        self.button_source.setIconSize(QSize(20, 20))
+        layout.addWidget(self.button_data)
+        layout.addWidget(self.button_metadata)
+        layout.addWidget(self.button_errors)
+        layout.addWidget(self.button_source)
+
+        # Spacer to push right-side buttons to the end
+        layout.addStretch()
+
+        # Buttons on the right
+        self.button_ai = QPushButton()
+        self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
+        self.button_ai.setIconSize(QSize(20, 20))
+        self.button_publish = QPushButton(objectName="button_publish")
+        self.button_publish.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
+        self.button_publish.setIconSize(QSize(20, 20))
+        self.button_save = QPushButton(objectName="button_save")
+        self.button_save.setMinimumSize(QSize(117, 35))
+        self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
+        self.button_save.setIconSize(QSize(20, 20))
+        # update_qss_button = QPushButton("QSS")
+        # update_qss_button.clicked.connect(self.apply_stylesheet)
+        # layout.addWidget(update_qss_button)
+        layout.addWidget(self.button_ai)
+        layout.addWidget(self.button_publish)
+        layout.addWidget(self.button_save)
+
+        self.setLayout(layout)
+
+    def retranslateUI(self):
+        """Apply translations to class elements."""
+        self.button_data.setText(self.tr("Data"))
+        self.button_metadata.setText(self.tr("Metadata"))
+        self.button_errors.setText(self.tr("Errors Report"))
+        self.button_source.setText(self.tr("Source"))
+        self.button_publish.setText(self.tr("Publish"))
+        self.button_save.setText(self.tr("Save changes"))
+        self.button_ai.setText(self.tr("AI"))
+
+
+class MainWindow(QMainWindow):
+    """Main Window of the Open Data Editor.
+
+    This class is also the main Controller of the application with two reponsibilites:
+     - Connect signals/slots of all widgets and elements (including children).
+     - Handle custom logic that that requires children interactions with each other.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Open Data Editor")
+        icon = QIcon(Paths.asset('icons/icon.png'))
+        self.setWindowIcon(icon)
+
+        self.threadpool = QThreadPool()
+        # TODO: Review this decision
+        self.selected_file_path = ""
+
+        central_widget = QWidget()
+        layout = QGridLayout()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
+
+        self.sidebar = Sidebar(self)
+        layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
+
+        self.toolbar = Toolbar(self)
+        layout.addWidget(self.toolbar, 0, 1)
+
+        self.content = QWidget(self)
+        self.stacked_layout = QStackedLayout()
+        self.content.setLayout(self.stacked_layout)
+
+        self.data_view = QTableView()
+        self.metadata_widget = FrictionlessResourceMetadataWidget()
+        self.errors_view = ErrorsWidget()
+        self.source_view = SourceViewer()
+        self.ai_widget = ChatGPTDialog(self)
+
+        self.stacked_layout.addWidget(self.data_view)
+        self.stacked_layout.addWidget(self.metadata_widget)
+        self.stacked_layout.addWidget(self.errors_view)
+        self.stacked_layout.addWidget(self.source_view)
+
+        layout.addWidget(self.content, 1, 1)
+
+        self._menu_bar()
+
+        # Handle Slot/Signals
+        self.sidebar.button_upload.clicked.connect(self.on_button_upload_click)
+        self.sidebar.file_navigator.clicked.connect(self.on_tree_click)
+        self.sidebar.user_guide.clicked.connect(self.open_user_guide)
+        self.sidebar.report_issue.clicked.connect(self.open_report_issue)
+        self.sidebar.language.activated.connect(self.on_language_change)
+
+        self.toolbar.button_save.clicked.connect(self.on_save_click)
+        self.toolbar.button_ai.clicked.connect(self.on_ai_click)
+        self.toolbar.button_data.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(0))
+        self.toolbar.button_metadata.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(1))
+        self.toolbar.button_errors.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(2))
+        self.toolbar.button_source.clicked.connect(lambda: self.stacked_layout.setCurrentIndex(3))
+
+        # Translation
+        self.translator = QTranslator()
+        self.retranslateUI()
+
+        self.apply_stylesheet()
+
     def _menu_bar(self):
         """Creates the menu bar and assign all its actions.
 
@@ -335,17 +368,6 @@ class MainWindow(QMainWindow):
           c) An event related to language change is fired (like the user changing
           the language in the OS. Not Implemented yet).
         """
-        self.button_upload.setText(self.tr("Upload your data"))
-        self.user_guide.setText(self.tr("User guide"))
-        self.report_issue.setText(self.tr("Report an issue"))
-        self.button_data.setText(self.tr("Data"))
-        self.button_metadata.setText(self.tr("Metadata"))
-        self.button_errors.setText(self.tr("Errors Report"))
-        self.button_source.setText(self.tr("Source"))
-        self.button_publish.setText(self.tr("Publish"))
-        self.button_save.setText(self.tr("Save changes"))
-        self.button_ai.setText(self.tr("AI"))
-
         # Update translated text for menus
         self.menu_file.setTitle(self.tr("File"))
         self.action_upload_file.setText(self.tr("Open"))
@@ -353,15 +375,14 @@ class MainWindow(QMainWindow):
         self.menu_view.setTitle(self.tr("View"))
         self.menu_help.setTitle(self.tr("Help"))
 
-        # Update text for file navitagor context menu
-        self.rename_action.setText(self.tr("Rename"))
-        self.open_location_action.setText(self.tr("Open File in Location"))
-        self.delete_action.setText(self.tr("Delete"))
+        # Update text for Sidebar
+        # Hook retranslateUI for main widgets
+        self.sidebar.retranslateUI()
+        self.toolbar.retranslateUI()
 
-        # Hook retranslateUI for all other widgets. (data, errors, metadata, etc)
+        # Hook retranslateUI for all panels (data, errors, metadata, etc)
         self.errors_view.retranslateUI()
         self.ai_widget.retranslateUI()
-        self.upload_dialog.retranslateUI()
         self.source_view.retranslateUI()
 
     def on_language_change(self, index):
@@ -370,7 +391,7 @@ class MainWindow(QMainWindow):
         Translation files are generated using Qt tools pyside6-lupdate and
         pyside6-lrelease.
         """
-        locale = self.language.itemData(index)
+        locale = self.sidebar.language.itemData(index)
         app = QApplication.instance()
         if not locale:
             app.removeTranslator(self.translator)
@@ -388,7 +409,7 @@ class MainWindow(QMainWindow):
 
     def on_button_upload_click(self):
         """Copy data file to the project folder of ode."""
-        self.upload_dialog.show()
+        self.sidebar.upload_dialog.show()
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
@@ -444,11 +465,11 @@ class MainWindow(QMainWindow):
             self.progress_dialog.setMinimumDuration(1000)  # show only if task takes more than 1000ms
             self.threadpool.start(worker)
 
-    def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
-        """Hide all columns except for the name column (column 0)"""
-        for column in range(file_model.columnCount()):
-            if column != 0:  # 0 is the name column
-                file_navigator.setColumnHidden(column, True)
+    def open_user_guide(self):
+        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/getting-started/")
+
+    def open_report_issue(self):
+        QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
 
     def _sort_frictionless_errors(self, errors):
         """Splits a list of dictionaries into several lists grouped by type.
@@ -461,12 +482,6 @@ class MainWindow(QMainWindow):
         for error in errors:
             result[error.type].append(error)
         return list(result.values())
-
-    def open_user_guide(self):
-        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/getting-started/")
-
-    def open_report_issue(self):
-        QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
 
 
 if __name__ == "__main__":
