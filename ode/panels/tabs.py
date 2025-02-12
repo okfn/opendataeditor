@@ -325,7 +325,7 @@ class ResourceTab(QWidget):
         self.setLayout(self.mainlayout)
 
         self.buttonlayout = QVBoxLayout()
-        self.buttonlayout.setSpacing(-5)
+        self.buttonlayout.setSpacing(10)
         self.forms = QStackedLayout()
 
         self.mainlayout.addLayout(self.buttonlayout)
@@ -360,6 +360,8 @@ class ResourceTab(QWidget):
         self.buttonlayout.addWidget(self.sources_button)
         self.sources_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.sources_form)
+
+        self.buttonlayout.addStretch()
 
     def get_forms(self):
         return [
@@ -396,7 +398,7 @@ class DialectTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setSpacing(0)
+        self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
         #self.default_form = DialectForm()
@@ -409,6 +411,8 @@ class DialectTab(QWidget):
         self.buttonlayout.addWidget(self.csv_button)
         self.csv_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.csv_form)
+
+        self.buttonlayout.addStretch()
 
     def get_forms(self):
         # Add csv_form when it's available
@@ -444,7 +448,7 @@ class SchemaTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setSpacing(-100)
+        self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
         self.default_form = SchemaForm()
@@ -464,6 +468,8 @@ class SchemaTab(QWidget):
         self.foreign_keys_button.clicked.connect(self.switch_form)
         self.buttonlayout.addWidget(self.foreign_keys_button)
         #self.forms.addWidget(self.foreign_keys_form)
+
+        self.buttonlayout.addStretch()
 
     def get_forms(self):
         # Add other forms when they're available
