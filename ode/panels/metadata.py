@@ -65,6 +65,8 @@ class FrictionlessResourceMetadataWidget(QWidget):
         tab_widget.setLayout(mainlayout)
 
         metadata_label = QLabel("Metadata")
+        metadata_label.setStyleSheet(
+                "font-size: 30px; padding-bottom: 10px; font-weight: bold;")
         mainlayout.addWidget(metadata_label)
         mainlayout.addWidget(tabs)
 

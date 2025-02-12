@@ -41,6 +41,7 @@ class LicensesForm(QWidget):
         self.add_button.clicked.connect(self.add_license)
         self.remove_button.clicked.connect(self.remove_license)
 
+        layout.addStretch()
         self.setLayout(layout)
 
     def add_license(self):
@@ -125,8 +126,10 @@ class SingleFieldForm(QWidget):
         layout.addRow("Missing Values: ", self.missing_values)
         self.rdf_type = QLineEdit()
         layout.addRow("RDF Type: ", self.rdf_type)
+
+        form_layout.addStretch()
         self.setLayout(form_layout)
-        
+
     def populate(self, field):
         self.name.setText(field.name)
         self.types.setCurrentText(field.type)
@@ -165,6 +168,7 @@ class FieldsForm(QWidget):
         self.scroll_area.setWidget(self.container_widget)
         self.field_forms = []
 
+        self.form_layout.addStretch()
         self.setStyleSheet("QScrollArea {border: none;}")
 
     def remove_forms(self):
@@ -224,6 +228,7 @@ class SchemaForm(QWidget):
         self.description.setEnabled(False)
         layout.addRow("Description: ", self.description)
 
+        form_layout.addStretch()
         self.setLayout(form_layout)
 
     def populate(self, resource):
@@ -255,6 +260,7 @@ class IntegrityForm(QWidget):
         self.rows = QSpinBox()
         layout.addRow("Rows: ", self.rows)
 
+        form_layout.addStretch()
         self.setLayout(form_layout)
 
     def populate(self, resource):
@@ -299,6 +305,7 @@ class ResourceForm(QWidget):
         self.encoding = QLineEdit()
         self.layout.addRow("Encoding: ", self.encoding)
 
+        self.form_layout.addStretch()
         self.setLayout(self.form_layout)
 
     def populate(self, resource):
@@ -333,30 +340,35 @@ class ResourceTab(QWidget):
 
         self.default_button = QPushButton("Default")
         self.resource_form = ResourceForm()
+        self.default_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.resource_form)
 
         self.integrity_button = QPushButton("Integrity")
         self.integrity_form = IntegrityForm()
+        self.integrity_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.integrity_button)
         self.integrity_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.integrity_form)
 
         self.licenses_button = QPushButton("Licenses")
         self.licenses_form = LicensesForm()
+        self.licenses_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.licenses_button)
         self.licenses_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.licenses_form)
 
         self.contributors_button = QPushButton("Contributors")
         #self.contributors_form = ContributorsForm()
+        self.contributors_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.contributors_button)
         self.contributors_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.contributors_form)
 
         self.sources_button = QPushButton("Sources")
         #self.sources_form = SourcesForm()
+        self.sources_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.sources_button)
         self.sources_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.sources_form)
@@ -402,12 +414,14 @@ class DialectTab(QWidget):
 
         self.default_button = QPushButton("Default")
         #self.default_form = DialectForm()
+        self.default_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.default_form)
 
         self.csv_button = QPushButton("Csv")
         #self.csv_form = CsvForm()
+        self.csv_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.csv_button)
         self.csv_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.csv_form)
@@ -453,18 +467,21 @@ class SchemaTab(QWidget):
         self.default_button = QPushButton("Default")
         self.default_form = SchemaForm()
 
+        self.default_button.setStyleSheet("text-align: left;")
         self.forms.addWidget(self.default_form)
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
 
         self.fields_button =  QPushButton("Fields")
         self.fields_form = FieldsForm()
+        self.fields_button.setStyleSheet("text-align: left;")
         self.fields_button.clicked.connect(self.switch_form)
         self.buttonlayout.addWidget(self.fields_button)
         self.forms.addWidget(self.fields_form)
 
         self.foreign_keys_button =  QPushButton("Foreign Keys")
         #self.foreign_keys_form = ForeignKeysForm()
+        self.foreign_keys_button.setStyleSheet("text-align: left;")
         self.foreign_keys_button.clicked.connect(self.switch_form)
         self.buttonlayout.addWidget(self.foreign_keys_button)
         #self.forms.addWidget(self.foreign_keys_form)
