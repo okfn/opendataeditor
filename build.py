@@ -5,9 +5,10 @@ import subprocess
 def build_application():
     """Build an executable file for the Application."""
 
-    print("[server] Creating linux executable file for Open Data Editor")
+    print("Creating executable file for Open Data Editor")
     PyInstaller.__main__.run([
         'ode/main.py',
+        '--windowed',  # Required for Windows install to not open a console.
         '--collect-all', 'frictionless',  # Frictionless depends on data files
         '--collect-all', 'ode',  # Collect all assets from Open Data Editor
         '--log-level', 'WARN',
