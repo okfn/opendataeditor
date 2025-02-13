@@ -15,6 +15,9 @@ from ode.paths import Paths
 from ode.panels.tabs import ResourceTab, DialectTab, SchemaTab
 
 
+
+STYLE_SHEET = Path("ode/panels/tab-style.qss").read_text()
+
 _RESOURCE_METADATA = {
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
     "Dialect": ["Csv"],
@@ -63,6 +66,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         tabs = QTabWidget()
         mainlayout = QVBoxLayout()
         tab_widget.setLayout(mainlayout)
+        tabs.setStyleSheet(STYLE_SHEET)
 
         metadata_label = QLabel("Metadata")
         metadata_label.setStyleSheet(

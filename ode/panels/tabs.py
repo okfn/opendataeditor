@@ -1,5 +1,7 @@
 import json
 
+from pathlib import Path
+
 from PySide6.QtWidgets import (
         QWidget, QHBoxLayout, QStackedLayout,
         QPushButton, QTabWidget, QVBoxLayout,
@@ -9,6 +11,9 @@ from PySide6.QtWidgets import (
 )
 
 from ode.paths import Paths
+
+
+stylesheet = Path("ode/panels/tab-style.qss").read_text()
 
 
 
@@ -203,6 +208,7 @@ class SchemaForm(QWidget):
         super().__init__(*args, **kwargs)
 
         form_layout = QVBoxLayout()
+        form_layout.insertSpacing(0, 40)
 
         label_layout = QHBoxLayout()
         layout = QFormLayout()
@@ -211,6 +217,10 @@ class SchemaForm(QWidget):
 
         label = QLabel("Schema")
         label_layout.addWidget(label)
+        label.setStyleSheet(
+                "font-size: 25px; font-weight: bold;"
+        )
+        layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
 
         self.name = QLineEdit()
         self.name.setEnabled(False)
@@ -241,6 +251,7 @@ class IntegrityForm(QWidget):
         super().__init__(*args, **kwargs)
 
         form_layout = QVBoxLayout()
+        form_layout.insertSpacing(0, 40)
 
 
         layout = QFormLayout()
@@ -250,6 +261,10 @@ class IntegrityForm(QWidget):
 
         label = QLabel("Integrity")
         label_layout.addWidget(label)
+        label.setStyleSheet(
+                "font-size: 25px; font-weight: bold;"
+        )
+        layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
 
         self.hash = QLineEdit()
         layout.addRow("Hash: ", self.hash)
@@ -275,14 +290,21 @@ class ResourceForm(QWidget):
         super().__init__(*args, **kwargs)
 
         self.form_layout = QVBoxLayout()
+        self.form_layout.insertSpacing(0, 40)
 
         self.label_layout = QHBoxLayout()
         self.layout = QFormLayout()
         self.form_layout.addLayout(self.label_layout)
         self.form_layout.addLayout(self.layout)
 
+        self.layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
+        self.layout.setContentsMargins(0, 20, 0, 0)
+
         self.label = QLabel("Resource")
         self.label_layout.addWidget(self.label)
+        self.label.setStyleSheet(
+                "font-size: 25px; font-weight: bold;"
+        )
 
         self.name = QLineEdit()
         self.layout.addRow("Name: ", self.name)
@@ -338,42 +360,40 @@ class ResourceTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
+        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+
         self.default_button = QPushButton("Default")
         self.resource_form = ResourceForm()
-        self.default_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.resource_form)
 
         self.integrity_button = QPushButton("Integrity")
         self.integrity_form = IntegrityForm()
-        self.integrity_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.integrity_button)
         self.integrity_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.integrity_form)
 
         self.licenses_button = QPushButton("Licenses")
         self.licenses_form = LicensesForm()
-        self.licenses_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.licenses_button)
         self.licenses_button.clicked.connect(self.switch_form)
         self.forms.addWidget(self.licenses_form)
 
         self.contributors_button = QPushButton("Contributors")
         #self.contributors_form = ContributorsForm()
-        self.contributors_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.contributors_button)
         self.contributors_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.contributors_form)
 
         self.sources_button = QPushButton("Sources")
         #self.sources_form = SourcesForm()
-        self.sources_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.sources_button)
         self.sources_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.sources_form)
 
         self.buttonlayout.addStretch()
+        self.setStyleSheet(stylesheet)
 
     def get_forms(self):
         return [
@@ -410,23 +430,22 @@ class DialectTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setSpacing(10)
+        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
 
         self.default_button = QPushButton("Default")
         #self.default_form = DialectForm()
-        self.default_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.default_form)
 
         self.csv_button = QPushButton("Csv")
         #self.csv_form = CsvForm()
-        self.csv_button.setStyleSheet("text-align: left;")
         self.buttonlayout.addWidget(self.csv_button)
         self.csv_button.clicked.connect(self.switch_form)
         #self.forms.addWidget(self.csv_form)
 
         self.buttonlayout.addStretch()
+        self.setStyleSheet(stylesheet)
 
     def get_forms(self):
         # Add csv_form when it's available
@@ -462,31 +481,29 @@ class SchemaTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setSpacing(10)
+        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
 
         self.default_button = QPushButton("Default")
         self.default_form = SchemaForm()
 
-        self.default_button.setStyleSheet("text-align: left;")
         self.forms.addWidget(self.default_form)
         self.buttonlayout.addWidget(self.default_button)
         self.default_button.clicked.connect(self.switch_form)
 
         self.fields_button =  QPushButton("Fields")
         self.fields_form = FieldsForm()
-        self.fields_button.setStyleSheet("text-align: left;")
         self.fields_button.clicked.connect(self.switch_form)
         self.buttonlayout.addWidget(self.fields_button)
         self.forms.addWidget(self.fields_form)
 
         self.foreign_keys_button =  QPushButton("Foreign Keys")
         #self.foreign_keys_form = ForeignKeysForm()
-        self.foreign_keys_button.setStyleSheet("text-align: left;")
         self.foreign_keys_button.clicked.connect(self.switch_form)
         self.buttonlayout.addWidget(self.foreign_keys_button)
         #self.forms.addWidget(self.foreign_keys_form)
 
         self.buttonlayout.addStretch()
+        self.setStyleSheet(stylesheet)
 
     def get_forms(self):
         # Add other forms when they're available
