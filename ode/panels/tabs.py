@@ -221,6 +221,7 @@ class SchemaForm(QWidget):
                 "font-size: 25px; font-weight: bold;"
         )
         layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
+        layout.setContentsMargins(0, 20, 0, 0)
 
         self.name = QLineEdit()
         self.name.setEnabled(False)
@@ -265,6 +266,7 @@ class IntegrityForm(QWidget):
                 "font-size: 25px; font-weight: bold;"
         )
         layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
+        layout.setContentsMargins(0, 20, 0, 0)
 
         self.hash = QLineEdit()
         layout.addRow("Hash: ", self.hash)
@@ -348,7 +350,7 @@ class ResourceTab(QWidget):
     def __init__(self, **kwargs):
         super().__init__()
 
-        self.page = "Resource"
+        self.page = self.tr("Resource")
 
         self.mainlayout = QHBoxLayout()
         self.setLayout(self.mainlayout)
@@ -420,7 +422,7 @@ class ResourceTab(QWidget):
 class DialectTab(QWidget):
     def __init__(self):
         super().__init__()
-        self.page = "Dialect"
+        self.page = self.tr("Dialect")
 
         self.mainlayout = QHBoxLayout()
         self.setLayout(self.mainlayout)
@@ -431,6 +433,7 @@ class DialectTab(QWidget):
         self.mainlayout.addLayout(self.forms)
 
         self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+        self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
         #self.default_form = DialectForm()
@@ -471,7 +474,7 @@ class DialectTab(QWidget):
 class SchemaTab(QWidget):
     def __init__(self):
         super().__init__()
-        self.page = "Schema"
+        self.page = self.tr("Schema")
 
         self.mainlayout = QHBoxLayout()
         self.setLayout(self.mainlayout)
@@ -482,6 +485,7 @@ class SchemaTab(QWidget):
         self.mainlayout.addLayout(self.forms)
 
         self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+        self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
         self.default_form = SchemaForm()
