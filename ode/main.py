@@ -1,4 +1,3 @@
-import collections
 import sys
 import ode
 import os
@@ -433,10 +432,7 @@ class MainWindow(QMainWindow):
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.data_view.setModel(self.table_model)
-        self.errors_view.clear()
-        errors_list = self._sort_frictionless_errors(errors)
-        for error in errors_list:
-            self.errors_view.add_error(error, self.table_model)
+        self.errors_view.display_errors(errors, self.table_model)
         self.metadata_widget.populate_all_forms(filepath)
         self.source_view.open_file(filepath)
         # Always focus back to the data view.
@@ -481,18 +477,6 @@ class MainWindow(QMainWindow):
 
     def open_report_issue(self):
         QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
-
-    def _sort_frictionless_errors(self, errors):
-        """Splits a list of dictionaries into several lists grouped by type.
-
-        Frictionless returns an array of Error objects, since we want to create an
-        ErrorReport for each type of error, we rearrange the array into a list of
-        arrays in which each one contains only one error type.
-        """
-        result = collections.defaultdict(list)
-        for error in errors:
-            result[error.type].append(error)
-        return list(result.values())
 
 
 if __name__ == "__main__":

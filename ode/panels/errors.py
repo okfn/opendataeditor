@@ -1,3 +1,5 @@
+import collections
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
 
@@ -34,7 +36,7 @@ class ErrorTitle(QWidget):
 
 
 class ErrorReport(QWidget):
-    """Widget to show errors detected by frictionless.
+    """Widget to show a single-type Error report.
 
     This widget will be use in the Errors view for every type of error that
     frictionless validate finds. It display the title, description and table
@@ -99,21 +101,36 @@ class ErrorsWidget(QWidget):
 
         self.setLayout(self.layout)
 
-    def add_error(self, errors, model):
-        """Adds a single ErrorReport to the widget.
+    def display_errors(self, errors, model):
+        """Builds and display the entire error report.
 
         This method should be called when reading and validating a
         tabular file. It is currently triggered when the user clicks on
         a file in the FileTreeNavigator
         """
-        errorReport = ErrorReport(errors, model)
-        self.layout.addWidget(errorReport)
+        self.clear()
+        errors_list = self._sort_frictionless_errors(errors)
+        for error in errors_list:
+            errorReport = ErrorReport(error, model)
+            self.layout.addWidget(errorReport)
 
     def clear(self):
         """" Removes all the ErrorReports that have been added to this widget. """
         while (self.layout.count() != 0):
             errorReport = self.layout.takeAt(0)
             errorReport.widget().deleteLater()
+
+    def _sort_frictionless_errors(self, errors):
+        """Splits a list of dictionaries into several lists grouped by type.
+
+        Frictionless returns an array of Error objects, since we want to create an
+        ErrorReport for each type of error, we rearrange the array into a list of
+        arrays in which each one contains only one error type.
+        """
+        result = collections.defaultdict(list)
+        for error in errors:
+            result[error.type].append(error)
+        return list(result.values())
 
     def retranslateUI(self):
         self.label.setText(self.tr("No errors to show."))
