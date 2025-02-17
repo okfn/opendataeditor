@@ -433,7 +433,7 @@ class MainWindow(QMainWindow):
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.data_view.setModel(self.table_model)
-        self.errors_view.remove_all_errors()
+        self.errors_view.clear()
         errors_list = self._sort_frictionless_errors(errors)
         for error in errors_list:
             self.errors_view.add_error(error, self.table_model)
@@ -463,6 +463,18 @@ class MainWindow(QMainWindow):
             self.progress_dialog.setValue(0)               # Start counting and,
             self.progress_dialog.setMinimumDuration(1000)  # show only if task takes more than 1000ms
             self.threadpool.start(worker)
+        else:
+            print("Selected file is not supported...")
+            self.clear_views()
+
+    def clear_views(self):
+        """Set all panels to its default state."""
+        print("Clearing views...")
+        self.table_model = FrictionlessTableModel([], [])
+        self.data_view.setModel(self.table_model)
+        # self.metadata_view.clear()  # TODO: Implement
+        self.errors_view.clear()
+        self.source_view.clear()
 
     def open_user_guide(self):
         QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/getting-started/")

@@ -54,6 +54,11 @@ class SourceViewer(QWidget):
         self.text_edit.show()
         self.text_edit.setPlainText(content)
 
+    def clear(self):
+        """Shows an empty view."""
+        self.label.show()
+        self.text_edit.hide()
+
     def retranslateUI(self):
         self.label.setText(self.tr("Source view not available for this file."))
 

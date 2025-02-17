@@ -109,7 +109,7 @@ class ErrorsWidget(QWidget):
         errorReport = ErrorReport(errors, model)
         self.layout.addWidget(errorReport)
 
-    def remove_all_errors(self):
+    def clear(self):
         """" Removes all the ErrorReports that have been added to this widget. """
         while (self.layout.count() != 0):
             errorReport = self.layout.takeAt(0)
