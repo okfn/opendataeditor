@@ -97,7 +97,12 @@ class ErrorsWidget(QWidget):
 
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.reports = QWidget()
+        self.reports_layout = QVBoxLayout()
+        self.reports.setLayout(self.reports_layout)
+
         self.layout.addWidget(self.label)
+        self.layout.addWidget(self.reports)
 
         self.setLayout(self.layout)
 
@@ -112,13 +117,17 @@ class ErrorsWidget(QWidget):
         errors_list = self._sort_frictionless_errors(errors)
         for error in errors_list:
             errorReport = ErrorReport(error, model)
-            self.layout.addWidget(errorReport)
+            self.reports_layout.addWidget(errorReport)
+        self.reports.show()
+        self.label.hide()
 
     def clear(self):
         """" Removes all the ErrorReports that have been added to this widget. """
-        while (self.layout.count() != 0):
-            errorReport = self.layout.takeAt(0)
+        while self.reports_layout.count():
+            errorReport = self.reports_layout.takeAt(0)
             errorReport.widget().deleteLater()
+        self.reports.hide()
+        self.label.show()
 
     def _sort_frictionless_errors(self, errors):
         """Splits a list of dictionaries into several lists grouped by type.
