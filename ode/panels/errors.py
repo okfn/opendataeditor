@@ -114,6 +114,8 @@ class ErrorsWidget(QWidget):
         a file in the FileTreeNavigator
         """
         self.clear()
+        if not errors:
+            return
         errors_list = self._sort_frictionless_errors(errors)
         for error in errors_list:
             errorReport = ErrorReport(error, model)
