@@ -1,7 +1,8 @@
 from frictionless import validate, Resource, system
 
-from PySide6.QtGui import QColor
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel
 
 
 class DataWorkerSignals(QObject):
@@ -181,3 +182,45 @@ class FrictionlessTableModel(QAbstractTableModel):
                 currentRow.insert(index.column(), value)
             return True
         return False
+
+
+class DataViewer(QWidget):
+    """Widget to display the content of tabular data."""
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        self.label = QLabel()
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.data_view = QTableView()
+        self.data_view.hide()
+
+        layout.addWidget(self.label)
+        layout.addWidget(self.data_view)
+
+        self.retranslateUI()
+
+    def display_data(self, model):
+        """Set the model of the QTableView
+
+        When a tabular file is selected, the main application will create a
+        FrictionlessTableModel and call this function using the model as a parametner.
+        """
+        self.data_view.setModel(model)
+        self.label.hide()
+        self.data_view.show()
+
+    def clear(self, model):
+        """Reset the view to the default state.
+
+        This view depends of the main application self.table_model attribute. This
+        method should always receive an empty model
+        """
+        self.data_view.setModel(model)
+        self.label.show()
+        self.data_view.hide()
+
+    def retranslateUI(self):
+        """Apply translations to class elements."""
+        self.label.setText(self.tr("No file selected or Preview not available for this file."))

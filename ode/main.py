@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout,
-    QTreeView, QPushButton, QLabel, QStackedLayout, QTableView,
+    QTreeView, QPushButton, QLabel, QStackedLayout,
     QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
 )
 
@@ -19,6 +19,7 @@ from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker
 from ode.panels.source import SourceViewer
+from ode.panels.data import DataViewer
 from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 from ode.utils import migrate_metadata_store
@@ -287,7 +288,7 @@ class MainWindow(QMainWindow):
         self.stacked_layout = QStackedLayout()
         self.content.setLayout(self.stacked_layout)
 
-        self.data_view = QTableView()
+        self.data_view = DataViewer()
         self.metadata_widget = FrictionlessResourceMetadataWidget()
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
@@ -379,6 +380,7 @@ class MainWindow(QMainWindow):
         self.toolbar.retranslateUI()
 
         # Hook retranslateUI for all panels (data, errors, metadata, etc)
+        self.data_view.retranslateUI()
         self.errors_view.retranslateUI()
         self.ai_widget.retranslateUI()
         self.source_view.retranslateUI()
@@ -431,7 +433,7 @@ class MainWindow(QMainWindow):
         """
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
-        self.data_view.setModel(self.table_model)
+        self.data_view.display_data(self.table_model)
         self.errors_view.display_errors(errors, self.table_model)
         self.metadata_widget.populate_all_forms(filepath)
         self.source_view.open_file(filepath)
@@ -465,9 +467,11 @@ class MainWindow(QMainWindow):
 
     def clear_views(self):
         """Set all panels to its default state."""
-        print("Clearing views...")
+        # TODO: So far table_model is a responsibility of this class so we are calling
+        # self.data_view.clear() with an empty model. Maybe we can use a beginResetModel
+        # instead of creating a new empty one. Review.
         self.table_model = FrictionlessTableModel([], [])
-        self.data_view.setModel(self.table_model)
+        self.data_view.clear(self.table_model)
         # self.metadata_view.clear()  # TODO: Implement
         self.errors_view.clear()
         self.source_view.clear()
