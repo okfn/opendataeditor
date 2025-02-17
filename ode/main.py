@@ -435,8 +435,6 @@ class MainWindow(QMainWindow):
         self.errors_view.display_errors(errors, self.table_model)
         self.metadata_widget.populate_all_forms(filepath)
         self.source_view.open_file(filepath)
-        # Always focus back to the data view.
-        self.stacked_layout.setCurrentIndex(0)
         self.progress_dialog.close()
 
     def on_tree_click(self, index):
@@ -462,6 +460,8 @@ class MainWindow(QMainWindow):
         else:
             print("Selected file is not supported...")
             self.clear_views()
+        # Always focus back to the data view.
+        self.stacked_layout.setCurrentIndex(0)
 
     def clear_views(self):
         """Set all panels to its default state."""
