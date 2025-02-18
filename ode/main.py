@@ -455,11 +455,11 @@ class MainWindow(QMainWindow):
             worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
             self.progress_dialog = QProgressDialog(
-                self.tr("Given the file size this operation might take some time..."), None, 0, 0, self
+                self.tr("Loading..."), None, 0, 0, self
             )
             self.progress_dialog.setWindowModality(Qt.WindowModal)
-            self.progress_dialog.setValue(0)               # Start counting and,
-            self.progress_dialog.setMinimumDuration(1000)  # show only if task takes more than 1000ms
+            self.progress_dialog.setValue(0)              # Start counting and,
+            self.progress_dialog.setMinimumDuration(300)  # show only if task takes more than 300ms
             self.threadpool.start(worker)
         else:
             print("Selected file is not supported...")

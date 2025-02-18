@@ -72,71 +72,79 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>DataUploadDialog</name>
     <message>
-        <location filename="../../dialogs/upload.py" line="149"/>
+        <location filename="../../dialogs/upload.py" line="148"/>
         <source>Please paste a valid URL.</source>
         <translation>Por favor ingresa una URL válida.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="152"/>
+        <location filename="../../dialogs/upload.py" line="151"/>
         <source>Please paste a valid URL starting with http:// or https://.</source>
         <translation>Por favor ingresa una URL válida que empiece con http:// o https://.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="188"/>
+        <location filename="../../dialogs/upload.py" line="187"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="189"/>
+        <location filename="../../dialogs/upload.py" line="188"/>
         <source>Add one or more Excel or csv files</source>
         <translation>Agrega uno o más archivos Excel of CSV</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="190"/>
+        <location filename="../../dialogs/upload.py" line="189"/>
         <source>Add one or more folders</source>
         <translation>Agrega una o más carpetas</translation>
     </message>
     <message>
+        <location filename="../../dialogs/upload.py" line="190"/>
         <location filename="../../dialogs/upload.py" line="191"/>
-        <location filename="../../dialogs/upload.py" line="192"/>
         <source>Select</source>
         <translation>Seleccionar</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="193"/>
+        <location filename="../../dialogs/upload.py" line="192"/>
         <source>Link to the external table: </source>
         <translation>Enlace a la tabla externa: </translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="194"/>
+        <location filename="../../dialogs/upload.py" line="193"/>
         <source>Enter or paste URL</source>
         <translation>Introduce o pega la URL</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="195"/>
+        <location filename="../../dialogs/upload.py" line="194"/>
         <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
         <translation>Aquí puedes pegar enlaces de hojas de cálculo públicas de Google y URL de archivos csv en portales de datos abiertos y GitHub.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="196"/>
+        <location filename="../../dialogs/upload.py" line="195"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="197"/>
+        <location filename="../../dialogs/upload.py" line="196"/>
         <source>From Your Computer</source>
         <translation>Desde tu Computadora</translation>
     </message>
     <message>
-        <location filename="../../dialogs/upload.py" line="198"/>
+        <location filename="../../dialogs/upload.py" line="197"/>
         <source>Add External Data</source>
         <translation>Agregar Datos Externos</translation>
     </message>
 </context>
 <context>
+    <name>DataViewer</name>
+    <message>
+        <location filename="../../panels/data.py" line="226"/>
+        <source>No file selected or Preview not available for this file.</source>
+        <translation>No hay ningún archivo seleccionado o la vista previa no está disponible para este archivo.</translation>
+    </message>
+</context>
+<context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="119"/>
+        <location filename="../../panels/errors.py" line="153"/>
         <source>No errors to show.</source>
         <translation>No hay errores para mostrar.</translation>
     </message>
@@ -224,38 +232,42 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
         <translation type="vanished">IA</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="365"/>
+        <location filename="../../main.py" line="372"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="366"/>
+        <location filename="../../main.py" line="373"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="367"/>
+        <location filename="../../main.py" line="374"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="368"/>
+        <location filename="../../main.py" line="375"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="369"/>
+        <location filename="../../main.py" line="376"/>
         <source>Help</source>
         <translation>Ayuda</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="458"/>
+        <source>Loading...</source>
+        <translation>Cargando...</translation>
     </message>
     <message>
         <source>Open File in Location</source>
         <translation type="vanished">Abrir la ubicacion de archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="454"/>
         <source>Given the file size this operation might take some time...</source>
-        <translation>Dado el tamaño del archivo esta operación puede demorar un poco...</translation>
+        <translation type="vanished">Dado el tamaño del archivo esta operación puede demorar un poco...</translation>
     </message>
 </context>
 <context>
@@ -340,7 +352,7 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>SourceViewer</name>
     <message>
-        <location filename="../../panels/source.py" line="58"/>
+        <location filename="../../panels/source.py" line="63"/>
         <source>Source view not available for this file.</source>
         <translation>La vista Fuente no esta disponible para este archivo.</translation>
     </message>
@@ -348,37 +360,37 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="248"/>
+        <location filename="../../main.py" line="249"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="249"/>
+        <location filename="../../main.py" line="250"/>
         <source>Metadata</source>
         <translation>Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="250"/>
+        <location filename="../../main.py" line="251"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="251"/>
+        <location filename="../../main.py" line="252"/>
         <source>Source</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="252"/>
+        <location filename="../../main.py" line="253"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="253"/>
+        <location filename="../../main.py" line="254"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="254"/>
+        <location filename="../../main.py" line="255"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
