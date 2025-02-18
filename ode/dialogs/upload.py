@@ -164,8 +164,8 @@ class DataUploadDialog(QDialog):
             self.url_input.setText("")
             self.error_text.setText("")
             self.close()
-        except Exception as e:
-            error = f"Error: {e}"
+        except Exception:
+            error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
     def _read_url_html_title(self, url):

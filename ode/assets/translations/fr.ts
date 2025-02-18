@@ -80,6 +80,11 @@ improvements to the titles and descriptions associated with them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../dialogs/upload.py" line="169"/>
+        <source>Error: The URL is not associated with a table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../dialogs/upload.py" line="187"/>
         <source>Upload your data</source>
         <translation type="unfinished"></translation>

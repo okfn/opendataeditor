@@ -82,6 +82,11 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
         <translation>Por favor ingresa una URL válida que empiece con http:// o https://.</translation>
     </message>
     <message>
+        <location filename="../../dialogs/upload.py" line="169"/>
+        <source>Error: The URL is not associated with a table</source>
+        <translation>Error: La URL no está asociada a una tabla</translation>
+    </message>
+    <message>
         <location filename="../../dialogs/upload.py" line="187"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
