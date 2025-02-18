@@ -1,7 +1,34 @@
 import collections
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
+
+
+class ErrorFilterProxyModel(QSortFilterProxyModel):
+    """Proxy model to display only the rows of the given error type.
+
+    As recommended by Qt, ODE reuses the same FrictionlessTableModel for all the TableViews.
+    For ErrorReports we filter and show only the rows containing the specific error_type
+    we want to display.
+    """
+    def __init__(self, error_type):
+        super().__init__()
+        self.error_type = error_type
+
+    def filterAcceptsRow(self, source_row, source_parent):
+        """Accept rows that contains an error.
+
+        The source_model is a FrictionlessTableModel and its errors attribute
+        contains a list of tuples:
+            [..., (row_number, error_type, error_message), ...]
+        """
+        source_model = self.sourceModel()
+        error = source_model.errors[source_row]
+        if not error:
+            return False
+        if error[1] == self.error_type:
+            return True
+        return False
 
 
 class ErrorTitle(QWidget):
@@ -56,37 +83,16 @@ class ErrorReport(QWidget):
         self.description.setFont(font)
         self.description.setWordWrap(True)
 
+        self.proxy_model = ErrorFilterProxyModel(errors[0].type)
+        self.proxy_model.setSourceModel(model)
         self.table = QTableView()
-        self.table.setModel(model)
-
-        # Since we are reusing the FrictionlessTableModel lets display only
-        # the rows with errors by hiding all rows without errors.
-        rowsWithErrors = [self._get_error_row_number(e) for e in errors]
-        totalRows = range(model.rowCount())
-        rowsToHide = list(set(totalRows) - set(rowsWithErrors))
-        for row_number in rowsToHide:
-            self.table.hideRow(row_number)
+        self.table.setModel(self.proxy_model)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.title)
         vbox.addWidget(self.description)
         vbox.addWidget(self.table)
         self.setLayout(vbox)
-
-    def _get_error_row_number(self, error):
-        """Return the row number from the Error object
-
-        Errors objects in frictionless-py do not have a consistent API. This method
-        encapsulates the logic to retrieve them. It also moves from 1-index to 0-index.
-        """
-        if error.type == 'blank-label':
-            result = error.row_numbers[0] - 1
-        elif error.type == 'source-error':
-            # SourceError means file cannot be read. We do not display a table.
-            result = 0
-        else:
-            result = error.row_number - 1
-        return result
 
 
 class ErrorsWidget(QWidget):
