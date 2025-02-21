@@ -1,7 +1,10 @@
 QWidget {
     background: #FFF;
     color: #404040;
+    font-size: 19px;  /* multi-os support */
 }
+
+* { gridline-color: lightgrey; } /* multi-os support */
 
 QPushButton {
   font-size: 16px;
