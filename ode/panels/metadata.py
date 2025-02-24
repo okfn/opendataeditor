@@ -381,7 +381,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
         metadata = dict()
 
         if not metadata_filepath.exists():
-            print("Metadata file not found. Creating and empty one.")
             metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(filepath)
