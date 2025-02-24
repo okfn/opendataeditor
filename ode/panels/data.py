@@ -90,6 +90,9 @@ class FrictionlessTableModel(QAbstractTableModel):
                 row = error.row_number - 1
                 # BlankRow error does not have field_number
                 column = 0
+            elif error.type == 'duplicate-label':
+                row = error.row_numbers[0] - 1
+                column = error.field_number - 1
             else:
                 row = error.row_number - 1
                 column = error.field_number - 1
