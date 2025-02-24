@@ -126,7 +126,7 @@ class DataUploadDialog(QDialog):
             return
 
         shutil.copy(filename, Paths.PROJECT_PATH)
-        self.close()
+        self.accept()
 
     def add_folders(self):
         """Copy the selected folder and all its content to the project path."""
@@ -135,7 +135,7 @@ class DataUploadDialog(QDialog):
             folder_name = os.path.basename(source_folder)
             target_folder = os.path.join(Paths.PROJECT_PATH, folder_name)
             shutil.copytree(source_folder, target_folder, dirs_exist_ok=True)
-        self.close()
+        self.accept()
 
     def load_table_from_url(self):
         """Load a tabular file from a public URL.
@@ -160,13 +160,29 @@ class DataUploadDialog(QDialog):
         try:
             with open(file_path, mode='w') as file:
                 table.write(file.name)
-            # Reset the form fields for next time the user clicks on upload data.
-            self.url_input.setText("")
-            self.error_text.setText("")
-            self.close()
+            self.accept()
         except Exception:
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
+
+    def reject(self):
+        """Overrides class method to reset the forms when the user close the dialog."""
+        self._reset_forms()
+        super().reject()
+
+    def accept(self):
+        """Override class method to reset forms when successfully uploading a file."""
+        self._reset_forms()
+        super().accept()
+
+    def _reset_forms(self):
+        """Reset inputs and selected tab to initial status.
+
+        We should ensure that everytime the user opens the dialog the state is the initial one.
+        """
+        self.url_input.setText("")
+        self.error_text.setText("")
+        self.tab_widget.setCurrentIndex(0)
 
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.
@@ -184,6 +200,7 @@ class DataUploadDialog(QDialog):
         return "google-sheets"
 
     def retranslateUI(self):
+        """Apply translations to class elements."""
         self.setWindowTitle(self.tr("Upload your data"))
         self.file_select_widget.text_label.setText(self.tr("Add one or more Excel or csv files"))
         self.folder_select_widget.text_label.setText(self.tr("Add one or more folders"))
