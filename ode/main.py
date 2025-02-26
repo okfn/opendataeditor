@@ -198,7 +198,8 @@ class Sidebar(QWidget):
         """Delete a file/folder from the file navigator (and the OS)."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = self.file_model.filePath(index)
+            file_path = Path(self.file_model.filePath(index))
+            metadata_path = Paths.get_path_to_metadata_file(file_path)
 
             confirm = QMessageBox.question(
                 self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
@@ -206,10 +207,12 @@ class Sidebar(QWidget):
             )
             if confirm == QMessageBox.Yes:
                 try:
-                    if os.path.isfile(file_path):
-                        os.remove(file_path)
-                    elif os.path.isdir(file_path):
-                        os.rmdir(file_path)
+                    if file_path.is_file():
+                        file_path.unlink()
+                        metadata_path.unlink()
+                    elif file_path.is_dir():
+                        file_path.rmdir()
+                        metadata_path.rmdir()
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
 

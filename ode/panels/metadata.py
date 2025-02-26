@@ -343,27 +343,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
 
-    def _get_path_to_metadata_file(self, filepath):
-        """Returns the path to the metadata file of the given file.
 
-        Metadata is a JSON object that stores Fricionless Metadata and any other
-        metadata required by ODE. All metadata files are going to be stored in a
-        `.metadata` folder mimicing the file name and the structure of the project
-        folder.
-
-        Example 1:
-          - File: Paths.PROJECT_FOLDER / 'myfile.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/myfile.json'
-
-        Example 2 (subfolder):
-          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
-        """
-        filepath = Path(filepath)
-        relative_path = filepath.parent.relative_to(Paths.PROJECT_PATH)
-        metadata_path = Paths.METADATA_PATH / relative_path
-        metadata_filepath = metadata_path / (filepath.stem + '.json')
-        return metadata_filepath
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
@@ -377,7 +357,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
-        metadata_filepath = self._get_path_to_metadata_file(filepath)
+        metadata_filepath = Paths.get_path_to_metadata_file(filepath)
         metadata = dict()
 
         if not metadata_filepath.exists():
@@ -453,7 +433,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        metadata_filepath = self._get_path_to_metadata_file(self.resource.path)
+        metadata_filepath = Paths.get_path_to_metadata_file(self.resource.path)
         metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
         with open(metadata_filepath, "w") as f:
