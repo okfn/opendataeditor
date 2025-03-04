@@ -53,8 +53,8 @@ class Paths:
         appending a number in parentheses to the original name. For example:
 
           - For a file named 'myfile.csv', if it doesn't exist, it will return 'myfile.csv'.
-          - If 'myfile.csv' already exists, it will return 'myfile (1).csv'.
-          - If 'myfile (1).csv' also exists, it will return 'myfile (2).csv', and so on.
+          - If 'myfile.csv' already exists, it will return 'myfile(1).csv'.
+          - If 'myfile(1).csv' also exists, it will return 'myfile(2).csv', and so on.
         """
 
         src_filepath = Path(src_filepath) if isinstance(src_filepath, str) else src_filepath
@@ -65,7 +65,7 @@ class Paths:
         # If already exists we increment to `filename (n) until we find one not taking
         counter = 1
         while destination_filepath.exists():
-            destination_filepath = destination_filepath.with_stem(f"{src_filepath.stem} ({counter})")
+            destination_filepath = destination_filepath.with_stem(f"{src_filepath.stem}({counter})")
             counter += 1
 
         return destination_filepath

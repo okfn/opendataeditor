@@ -23,11 +23,11 @@ class TestPaths(unittest.TestCase):
         (self.temp_path / "tempfile.txt").touch()
         result = Paths.get_unique_destination_filepath(self.temp_path / "tempfile.txt", self.temp_path)
 
-        self.assertEqual(result, self.temp_path / "tempfile (1).txt")
+        self.assertEqual(result, self.temp_path / "tempfile(1).txt")
 
     def test_multiple_conflicts(self):
         # Create two temp files to see if increased to the next one
         (self.temp_path / "tempfile.txt").touch()
-        (self.temp_path / "tempfile (1).txt").touch()
+        (self.temp_path / "tempfile(1).txt").touch()
         result = Paths.get_unique_destination_filepath(self.temp_path / "tempfile.txt", self.temp_path)
-        self.assertEqual(result, self.temp_path / "tempfile (2).txt")
+        self.assertEqual(result, self.temp_path / "tempfile(2).txt")
