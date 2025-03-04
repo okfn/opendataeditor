@@ -125,7 +125,8 @@ class DataUploadDialog(QDialog):
         if not filename:
             return
 
-        shutil.copy(filename, Paths.PROJECT_PATH)
+        destination_filepath = Paths.get_unique_destination_filepath(filename)
+        shutil.copy(filename, destination_filepath)
         self.accept()
 
     def add_folders(self):
