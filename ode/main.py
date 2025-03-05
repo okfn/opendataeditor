@@ -244,7 +244,6 @@ class Toolbar(QWidget):
         self.button_errors = QPushButton()
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
         self.button_errors.setIconSize(QSize(20, 20))
-
         self.button_source = QPushButton()
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
@@ -558,9 +557,7 @@ class MainWindow(QMainWindow):
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.content.data_view.display_data(self.table_model)
-
         self.content.errors_view.display_errors(errors, self.table_model)
-
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
         self.progress_dialog.close()
@@ -586,7 +583,7 @@ class MainWindow(QMainWindow):
             self.content.toolbar.button_errors.setStyleSheet("color: gray;")
         else:
             self.content.toolbar.button_errors.setEnabled(True)
-            self.content.toolbar.button_errors.setStyleSheet("color: black;")
+            self.content.toolbar.button_errors.setStyleSheet("")
 
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
