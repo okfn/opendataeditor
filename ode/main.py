@@ -244,6 +244,7 @@ class Toolbar(QWidget):
         self.button_errors = QPushButton()
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
         self.button_errors.setIconSize(QSize(20, 20))
+
         self.button_source = QPushButton()
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
@@ -557,13 +558,35 @@ class MainWindow(QMainWindow):
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.content.data_view.display_data(self.table_model)
+
         self.content.errors_view.display_errors(errors, self.table_model)
+
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
         self.progress_dialog.close()
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)
+
+    @Slot(tuple)
+    def update_toolbar(self, worker_data):
+        """
+        Updates the toolbar based on the data provided by the read worker.
+
+        This method is connected to the data widget Worker's signal and it will
+        receive the data, the frictionless report and a list of errors.
+
+        For the moment we only care about the list of errors report.
+        """
+        _, _, errors = worker_data
+
+        # If we don't have errors we don't enable the Errors Report tab.
+        if len(errors) == 0:
+            self.content.toolbar.button_errors.setEnabled(False)
+            self.content.toolbar.button_errors.setStyleSheet("color: gray;")
+        else:
+            self.content.toolbar.button_errors.setEnabled(True)
+            self.content.toolbar.button_errors.setStyleSheet("color: black;")
 
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
@@ -578,6 +601,7 @@ class MainWindow(QMainWindow):
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
+            worker.signals.finished.connect(self.update_toolbar)
             self.progress_dialog = QProgressDialog(
                 self.tr("Loading..."), None, 0, 0, self
             )
