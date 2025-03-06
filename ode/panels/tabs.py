@@ -2,12 +2,14 @@ import json
 
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
         QWidget, QHBoxLayout, QStackedLayout,
         QPushButton, QTabWidget, QVBoxLayout,
         QLabel, QFormLayout, QMessageBox,
         QListWidget, QComboBox, QLineEdit,
-        QSpinBox, QScrollArea, QBoxLayout
+        QSpinBox, QScrollArea, QBoxLayout,
+        QGridLayout
 )
 
 from ode.paths import Paths
@@ -211,7 +213,7 @@ class SchemaForm(QWidget):
         form_layout.insertSpacing(0, 40)
 
         label_layout = QHBoxLayout()
-        layout = QFormLayout()
+        layout = QGridLayout()
         form_layout.addLayout(label_layout)
         form_layout.addLayout(layout)
 
@@ -220,24 +222,36 @@ class SchemaForm(QWidget):
         label.setStyleSheet(
                 "font-size: 25px; font-weight: bold;"
         )
-        layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
-        layout.setContentsMargins(0, 20, 0, 0)
 
+        name_label = QLabel("Name")
         self.name = QLineEdit()
         self.name.setEnabled(False)
-        layout.addRow("Name: ", self.name)
+        layout.addWidget(name_label, 0, 0)
+        layout.addWidget(self.name, 1, 0)
+
+        primary_key_label = QLabel("Primary Key")
         self.primary_key = QComboBox()
         self.primary_key.setEnabled(False)
-        layout.addRow("Primary Key: ", self.primary_key)
+        layout.addWidget(primary_key_label, 0, 1)
+        layout.addWidget(self.primary_key, 1, 1)
+
+        title_label = QLabel("Title")
         self.title = QLineEdit()
         self.title.setEnabled(False)
-        layout.addRow("Title: ", self.title)
+        layout.addWidget(title_label, 2, 0)
+        layout.addWidget(self.title, 3, 0)
+
+        missing_values_label = QLabel("Missing Values")
         self.missing_values = QLineEdit()
         self.missing_values.setEnabled(False)
-        layout.addRow("Missing Values: ", self.missing_values)
+        layout.addWidget(missing_values_label, 2, 1)
+        layout.addWidget(self.missing_values, 3, 1)
+
+        description_label = QLabel("Description")
         self.description = QLineEdit()
         self.description.setEnabled(False)
-        layout.addRow("Description: ", self.description)
+        layout.addWidget(description_label, 4, 0)
+        layout.addWidget(self.description, 5, 0)
 
         form_layout.addStretch()
         self.setLayout(form_layout)
@@ -255,7 +269,7 @@ class IntegrityForm(QWidget):
         form_layout.insertSpacing(0, 40)
 
 
-        layout = QFormLayout()
+        layout = QGridLayout()
         label_layout = QHBoxLayout()
         form_layout.addLayout(label_layout)
         form_layout.addLayout(layout)
@@ -265,17 +279,28 @@ class IntegrityForm(QWidget):
         label.setStyleSheet(
                 "font-size: 25px; font-weight: bold;"
         )
-        layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
-        layout.setContentsMargins(0, 20, 0, 0)
 
+        hash_label = QLabel("Hash")
         self.hash = QLineEdit()
-        layout.addRow("Hash: ", self.hash)
+        layout.addWidget(hash_label, 0, 0)
+        layout.addWidget(self.hash, 1, 0)
+
+        field_label = QLabel("Fields")
         self.fields = QSpinBox()
-        layout.addRow("Fields: ", self.fields)
+        layout.addWidget(field_label, 0, 1)
+        layout.addWidget(self.fields, 1, 1)
+        layout.setColumnStretch(1, 1)
+        layout.setColumnStretch(0, 1)
+
+        bytes_label = QLabel("Bytes")
         self.bytes_field = QSpinBox()
-        layout.addRow("Bytes: ", self.bytes_field)
+        layout.addWidget(bytes_label, 2, 0)
+        layout.addWidget(self.bytes_field, 3, 0)
+
+        rows_label = QLabel("Rows")
         self.rows = QSpinBox()
-        layout.addRow("Rows: ", self.rows)
+        layout.addWidget(rows_label, 2, 1)
+        layout.addWidget(self.rows, 3, 1)
 
         form_layout.addStretch()
         self.setLayout(form_layout)
@@ -295,12 +320,9 @@ class ResourceForm(QWidget):
         self.form_layout.insertSpacing(0, 40)
 
         self.label_layout = QHBoxLayout()
-        self.layout = QFormLayout()
+        self.layout = QGridLayout()
         self.form_layout.addLayout(self.label_layout)
         self.form_layout.addLayout(self.layout)
-
-        self.layout.setRowWrapPolicy(QFormLayout.WrapAllRows)
-        self.layout.setContentsMargins(0, 20, 0, 0)
 
         self.label = QLabel("Resource")
         self.label_layout.addWidget(self.label)
@@ -308,26 +330,59 @@ class ResourceForm(QWidget):
                 "font-size: 25px; font-weight: bold;"
         )
 
+        name_label = QLabel("Name")
         self.name = QLineEdit()
-        self.layout.addRow("Name: ", self.name)
+        self.layout.addWidget(name_label, 0, 0)
+        self.layout.addWidget(self.name, 1, 0)
+
+        path_label = QLabel("Path")
         self.path = QLineEdit()
         self.path.setEnabled(False)
-        self.layout.addRow("Path: ", self.path)
+        self.layout.addWidget(path_label, 0, 1)
+        self.layout.addWidget(self.path, 1, 1)
+
+        type_label = QLabel("Type")
         self.types = QComboBox()
         self.types.addItems(["file", "text", "json", "table"])
-        self.layout.addRow("Type: ", self.types)
+        self.layout.addWidget(type_label, 2, 0)
+        self.layout.addWidget(self.types, 3, 0)
+
+        scheme_label = QLabel("Scheme")
+        format_label = QLabel("Format")
+        label_box = QHBoxLayout()
+        label_box.addWidget(scheme_label)
+        label_box.addWidget(format_label)
+        self.layout.addLayout(label_box, 2, 1)
+
         self.scheme = QLineEdit()
-        self.layout.addRow("Scheme: ", self.scheme)
         self.format = QLineEdit()
-        self.layout.addRow("Format: ", self.format)
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.scheme)
+        hbox.addWidget(self.format)
+        self.layout.addLayout(hbox, 3, 1, Qt.AlignmentFlag.AlignHCenter)
+
+        format_rect = self.layout.cellRect(3, 2)
+        format_rect.moveLeft(10)
+
+        title_label = QLabel("Title")
         self.title = QLineEdit()
-        self.layout.addRow("Title: ", self.title)
+        self.layout.addWidget(title_label, 4, 0)
+        self.layout.addWidget(self.title, 5, 0)
+
+        mediatype_label = QLabel("Media Type")
         self.mediatype = QLineEdit()
-        self.layout.addRow("Media Type: ", self.mediatype)
+        self.layout.addWidget(mediatype_label, 4, 1)
+        self.layout.addWidget(self.mediatype, 5, 1)
+
+        description_label = QLabel("Description")
         self.description = QLineEdit()
-        self.layout.addRow("Description: ", self.description)
+        self.layout.addWidget(description_label, 6, 0)
+        self.layout.addWidget(self.description, 7, 0)
+
+        encoding_label = QLabel("Encoding")
         self.encoding = QLineEdit()
-        self.layout.addRow("Encoding: ", self.encoding)
+        self.layout.addWidget(encoding_label, 6, 1)
+        self.layout.addWidget(self.encoding, 7, 1)
 
         self.form_layout.addStretch()
         self.setLayout(self.form_layout)
