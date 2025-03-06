@@ -565,6 +565,26 @@ class MainWindow(QMainWindow):
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)
 
+    @Slot(tuple)
+    def update_toolbar(self, worker_data):
+        """
+        Updates the toolbar based on the data provided by the read worker.
+
+        This method is connected to the data widget Worker's signal and it will
+        receive the data, the frictionless report and a list of errors.
+
+        For the moment we only care about the list of errors report.
+        """
+        _, _, errors = worker_data
+
+        # If we don't have errors we don't enable the Errors Report tab.
+        if len(errors) == 0:
+            self.content.toolbar.button_errors.setEnabled(False)
+            self.content.toolbar.button_errors.setStyleSheet("color: gray;")
+        else:
+            self.content.toolbar.button_errors.setEnabled(True)
+            self.content.toolbar.button_errors.setStyleSheet("")
+
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
 
@@ -578,6 +598,7 @@ class MainWindow(QMainWindow):
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
+            worker.signals.finished.connect(self.update_toolbar)
             self.progress_dialog = QProgressDialog(
                 self.tr("Loading..."), None, 0, 0, self
             )
