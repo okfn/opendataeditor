@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
 
 
 class Paths:
@@ -23,7 +22,7 @@ class Paths:
         return os.path.join(cls.assets, "translations", filename)
 
     @classmethod
-    def get_path_to_metadata_file(cls, filepath: str|Path) -> Path:
+    def get_path_to_metadata_file(cls, filepath):
         """Returns the path to the metadata file of the given file.
 
         Metadata is a JSON object that stores Fricionless Metadata and any other
@@ -46,7 +45,7 @@ class Paths:
         return metadata_filepath
 
     @classmethod
-    def get_unique_destination_filepath(cls, src_filepath: str | Path, project_path: Optional[str] = None) -> Path:
+    def get_unique_destination_filepath(cls, src_filepath, project_path=None):
         """Returns a unique destination_filepath by appending a number if the file already exists.
 
         If the specified file already exists, the method will generate a new filename by
