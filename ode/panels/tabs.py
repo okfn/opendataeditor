@@ -327,7 +327,7 @@ class ResourceForm(QWidget):
         self.label = QLabel("Resource")
         self.label_layout.addWidget(self.label)
         self.label.setStyleSheet(
-                "font-size: 25px; font-weight: bold;"
+                "font-size: 28px; font-weight: 545; color: black;"
         )
 
         name_label = QLabel("Name")
