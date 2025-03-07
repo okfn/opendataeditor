@@ -24,11 +24,17 @@ class LicensesForm(QWidget):
         super().__init__()
 
         layout = QVBoxLayout()
+        layout.insertSpacing(0, 30)
         self.licenses = self.get_list_of_licenses()
         # License selection
         self.license_list = QComboBox()
         self.license_list.addItems([lic["title"] for lic in self.licenses])
-        layout.addWidget(QLabel("Available Licenses:"))
+
+        licenses = QLabel("Licenses")
+        layout.addWidget(licenses)
+        licenses.setStyleSheet(
+                "font-size: 28px; font-weight: 545; color: black;"
+        )
         layout.addWidget(self.license_list)
 
         # Buttons to add/remove licenses
@@ -210,7 +216,7 @@ class SchemaForm(QWidget):
         super().__init__(*args, **kwargs)
 
         form_layout = QVBoxLayout()
-        form_layout.insertSpacing(0, 40)
+        form_layout.insertSpacing(0, 30)
 
         label_layout = QHBoxLayout()
         layout = QGridLayout()
@@ -220,7 +226,7 @@ class SchemaForm(QWidget):
         label = QLabel("Schema")
         label_layout.addWidget(label)
         label.setStyleSheet(
-                "font-size: 25px; font-weight: bold;"
+                "font-size: 28px; font-weight: 545; color: black;"
         )
 
         name_label = QLabel("Name")
@@ -266,7 +272,7 @@ class IntegrityForm(QWidget):
         super().__init__(*args, **kwargs)
 
         form_layout = QVBoxLayout()
-        form_layout.insertSpacing(0, 40)
+        form_layout.insertSpacing(0, 30)
 
 
         layout = QGridLayout()
@@ -277,7 +283,7 @@ class IntegrityForm(QWidget):
         label = QLabel("Integrity")
         label_layout.addWidget(label)
         label.setStyleSheet(
-                "font-size: 25px; font-weight: bold;"
+                "font-size: 28px; font-weight: 545; color: black;"
         )
 
         hash_label = QLabel("Hash")
@@ -317,7 +323,7 @@ class ResourceForm(QWidget):
         super().__init__(*args, **kwargs)
 
         self.form_layout = QVBoxLayout()
-        self.form_layout.insertSpacing(0, 40)
+        self.form_layout.insertSpacing(0, 30)
 
         self.label_layout = QHBoxLayout()
         self.layout = QGridLayout()
@@ -417,7 +423,7 @@ class ResourceTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+        self.buttonlayout.setContentsMargins(30, 40, 50, 0)
 
         self.default_button = QPushButton("Default")
         self.resource_form = ResourceForm()
@@ -487,7 +493,7 @@ class DialectTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+        self.buttonlayout.setContentsMargins(30, 40, 50, 0)
         self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
@@ -539,7 +545,7 @@ class SchemaTab(QWidget):
         self.mainlayout.addLayout(self.buttonlayout)
         self.mainlayout.addLayout(self.forms)
 
-        self.buttonlayout.setContentsMargins(30, 50, 30, 0)
+        self.buttonlayout.setContentsMargins(30, 40, 50, 0)
         self.buttonlayout.setSpacing(10)
 
         self.default_button = QPushButton("Default")
