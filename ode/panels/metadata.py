@@ -7,7 +7,8 @@ from frictionless import system
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-        QWidget, QLabel, QVBoxLayout, QHBoxLayout, QApplication, QPushButton,
+        QWidget, QLabel, QVBoxLayout, QHBoxLayout,
+        QApplication, QPushButton, QStackedLayout
 )
 from PySide6.QtWidgets import QTabWidget
 
@@ -62,31 +63,59 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.setLayout(self.layout)
 
     def make_metadata(self):
-        tab_widget = QWidget()
-        tabs = QTabWidget()
+        metadata_widget = QWidget()
         mainlayout = QVBoxLayout()
-        tab_widget.setLayout(mainlayout)
-        tabs.setStyleSheet(STYLE_SHEET)
-        mainlayout.addWidget(tabs)
+        pages_box = QHBoxLayout()
+        mainlayout.addLayout(pages_box)
+        metadata_widget.setLayout(mainlayout)
+        metadata_widget.setStyleSheet(STYLE_SHEET)
 
-        resource_tab = ResourceTab()
-        self.forms.extend(resource_tab.get_forms())
-        tabs.addTab(resource_tab, resource_tab.page)
+        self.pages_layout = QStackedLayout()
+        mainlayout.addLayout(self.pages_layout)
 
-        dialect_tab = DialectTab()
-        self.forms.extend(dialect_tab.get_forms())
-        tabs.addTab(dialect_tab, dialect_tab.page)
 
-        schema_tab = SchemaTab()
-        self.forms.extend(schema_tab.get_forms())
-        tabs.addTab(schema_tab, schema_tab.page)
+        self.resource_page = ResourceTab()
+        resource_button = QPushButton(self.resource_page.page)
+        resource_button.clicked.connect(self._change_page)
+        pages_box.addWidget(resource_button)
+        self.forms.extend(self.resource_page.get_forms())
+        self.pages_layout.addWidget(self.resource_page)
+
+
+        self.dialect_page = DialectTab()
+        dialect_button = QPushButton(self.dialect_page.page)
+        dialect_button.clicked.connect(self._change_page)
+        pages_box.addWidget(dialect_button)
+        self.forms.extend(self.dialect_page.get_forms())
+        self.pages_layout.addWidget(self.dialect_page)
+
+        self.schema_page = SchemaTab()
+        schema_button = QPushButton(self.schema_page.page)
+        schema_button.clicked.connect(self._change_page)
+        pages_box.addWidget(schema_button)
+        self.forms.extend(self.schema_page.get_forms())
+        self.pages_layout.addWidget(self.schema_page)
+
+        pages_box.addStretch()
 
         if self.filepath:
-            self.resource = self.get_or_create_metadata(filepath).get("resource")
+            self.resource = self.get_or_create_metadata(self.filepath).get("resource")
             for form in self.forms:
                 form.populate(self.resource)
 
-        return tab_widget
+        return metadata_widget
+
+    def _change_page(self):
+        button = self.sender().text()
+
+        if button == "Resource":
+            self.pages_layout.setCurrentWidget(self.resource_page)
+
+        if button == "Schema":
+            self.pages_layout.setCurrentWidget(self.schema_page)
+
+        if button == "Dialect":
+            self.pages_layout.setCurrentWidget(self.dialect_page)
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
