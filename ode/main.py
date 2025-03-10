@@ -238,19 +238,17 @@ class ErrorsReportButton(QPushButton):
         # Icon (fixed size based on content)
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(20, 20)  # Match icon size
-        self.icon_label.setStyleSheet("background-color: transparent;")
         self.layout.addWidget(self.icon_label)
 
         # Text label (auto-expanding content-based width)
         self.text_label = QLabel()
         self.text_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        self.text_label.setStyleSheet("font-size: 16px; font-weight: 600; color: #4C5564; background-color: transparent")
         self.layout.addWidget(self.text_label)
 
         # Error number label (auto-expanding content-based width)
         self.error_label = QLabel()
         self.error_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        self.error_label.setStyleSheet("background: #FCF2F2; border: 1px solid #FECBCA; color: red;")
+        self.error_label.setProperty("error", True)  # For referencing in our style.qss file
         self.layout.addWidget(self.error_label)
 
         # Configure button sizing
@@ -277,12 +275,32 @@ class ErrorsReportButton(QPushButton):
             self.icon_label.setPixmap(pixmap)
         self.updateGeometry()
 
-    def set_error_number(self, number):
-        self.error_label.setText(str(number))
+    def enable(self, number):
+        """Enables the button and displays the error number.
+
+        All children labels should also be enabled so we can use QSS pseudo-states for styling.
+        """
+        self.setEnabled(True)
+        self.icon_label.setEnabled(True)
+        self.text_label.setEnabled(True)
+        self.error_label.setEnabled(True)
+        if number <= 999:
+            self.error_label.setText(str(number))
+        else:
+            self.error_label.setText("+999")
         self.error_label.show()
         self.updateGeometry()
 
-    def hide_error_number(self):
+    def disable(self):
+        """Disables the button and hides the error number.
+
+        Disabled button will have a grey color and no hover style. All children labels
+        should also be disabled (so we can use QSS pseudo-states for styling)
+        """
+        self.setEnabled(False)
+        self.icon_label.setEnabled(False)
+        self.text_label.setEnabled(False)
+        self.error_label.setEnabled(False)
         self.error_label.hide()
         self.updateGeometry()
 
@@ -330,9 +348,8 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
-        # update_qss_button = QPushButton("QSS")
-        # update_qss_button.clicked.connect(self.apply_stylesheet)
-        # layout.addWidget(update_qss_button)
+        self.update_qss_button = QPushButton("QSS")
+        layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
         layout.addWidget(self.button_publish)
         layout.addWidget(self.button_save)
@@ -501,6 +518,7 @@ class MainWindow(QMainWindow):
         self.translator = QTranslator()
         self.retranslateUI()
 
+        self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
 
     def _menu_bar(self):
@@ -644,13 +662,9 @@ class MainWindow(QMainWindow):
 
         # If we don't have errors we don't enable the Errors Report tab.
         if errors_count == 0:
-            self.content.toolbar.button_errors.setEnabled(False)
-            self.content.toolbar.button_errors.setStyleSheet("color: gray;")
-            self.content.toolbar.button_errors.hide_error_number()
+            self.content.toolbar.button_errors.disable()
         else:
-            self.content.toolbar.button_errors.setEnabled(True)
-            self.content.toolbar.button_errors.setStyleSheet("")
-            self.content.toolbar.button_errors.set_error_number(errors_count)
+            self.content.toolbar.button_errors.enable(errors_count)
 
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection

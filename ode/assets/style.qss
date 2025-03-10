@@ -6,16 +6,43 @@ QWidget {
 
 * { gridline-color: lightgrey; } /* multi-os support */
 
-QPushButton {
+.QPushButton {
   font-size: 16px;
   font-weight: 600;
   color: #4C5564;
   border: 0;
   padding: 6px 8px;
 }
-QPushButton:hover {
-    background-color: #F0F0F0;
+.QPushButton:hover {
+  background-color: #F0F0F0;
 }
+
+ErrorsReportButton {
+  border: 0;
+}
+
+ErrorsReportButton:hover {
+  background-color: #F0F0F0;
+}
+
+ErrorsReportButton QLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4C5564;
+  background: transparent;
+}
+
+ErrorsReportButton QLabel:disabled {
+  color: grey;
+}
+
+ErrorsReportButton QLabel[error] {
+  background: #FCF2F2;
+  border: 1px solid #FECBCA;
+  color: red;
+  padding: 0px;
+}
+
 QPushButton#button_save, QPushButton#button_publish {
   font-size: 14px;
   font-weight: 500;
