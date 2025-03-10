@@ -250,12 +250,16 @@ class ErrorsReportButton(QPushButton):
         # (auto-expanding content-based width)
         self.layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
 
-    # Existing methods for text/icon/error management remain the same
     def setText(self, text):
         self.text_label.setText(text)
         self.updateGeometry()  # Force layout recalc
 
     def setIcon(self, icon):
+        """Overrides the QPushButton method to set the icon to our icon_label.
+
+        A difference with QPushButton is that we handle the size here instead of calling
+        QPushButton.setIconSize().
+        """
         if icon.isNull():
             self.icon_label.clear()
         else:
@@ -313,7 +317,6 @@ class Toolbar(QWidget):
         self.button_metadata.setIconSize(QSize(20, 20))
         self.button_errors = ErrorsReportButton(self)
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_errors.setIconSize(QSize(20, 20))
         self.button_source = QPushButton()
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
