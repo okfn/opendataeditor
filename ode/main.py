@@ -228,7 +228,7 @@ class ErrorsReportButton(QPushButton):
 
     QPushButton (Icon+Text) is not enough since we need a three part button: Icon+Text+ErrorCount.
     In order for the ErrorCount Label to be part of the button (background, hover, clickable) we
-    need to extend the basic QPushButton and override some its layout.
+    need to extend the basic QPushButton and override its layout and some methods.
     """
     def __init__(self, parent=None):
         super().__init__(parent)
