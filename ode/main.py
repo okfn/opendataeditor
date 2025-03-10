@@ -517,19 +517,50 @@ class MainWindow(QMainWindow):
 
         Names and titles are going to be set in retranslateUI.
         """
+
+        # File
         self.menu_file = QMenu()
-        self.action_upload_file = QAction()
-        self.menu_file.addAction(self.action_upload_file)
+        self.menu_file_add = QMenu()
+
+        self.menu_file_add_action_upload_file = QAction()
+        self.menu_file_add_action_upload_file.triggered.connect(self.sidebar.upload_dialog.show)
+        self.menu_file_add.addAction(self.menu_file_add_action_upload_file)
+
+        self.menu_file_add_action_upload_external_url = QAction()
+        self.menu_file_add_action_upload_external_url.triggered.connect(self.sidebar.upload_dialog.show_external_first)
+        self.menu_file_add.addAction(self.menu_file_add_action_upload_external_url)
+
+        self.menu_file.addMenu(self.menu_file_add)
         self.menuBar().addMenu(self.menu_file)
 
-        self.menu_edit = QMenu()
-        self.menuBar().addMenu(self.menu_edit)
-
+        # View
         self.menu_view = QMenu()
+
+        self.menu_view_action_metadata_panel = QAction()
+        self.menu_view_action_metadata_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+        self.menu_view.addAction(self.menu_view_action_metadata_panel)
+
+        self.menu_view_action_errors_panel = QAction()
+        self.menu_view_action_errors_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+        self.menu_view.addAction(self.menu_view_action_errors_panel)
+
+        self.menu_view_action_source_panel = QAction()
+        self.menu_view_action_source_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(3))
+        self.menu_view.addAction(self.menu_view_action_source_panel)
+
         self.menuBar().addMenu(self.menu_view)
 
+        # Help
         self.menu_help = QMenu()
         self.menuBar().addMenu(self.menu_help)
+
+        self.menu_help_action_user_guide = QAction()
+        self.menu_help_action_user_guide.triggered.connect(self.open_user_guide)
+        self.menu_help.addAction(self.menu_help_action_user_guide)
+
+        self.menu_help_action_report_issue = QAction()
+        self.menu_help_action_report_issue.triggered.connect(self.open_report_issue)
+        self.menu_help.addAction(self.menu_help_action_report_issue)
 
     def apply_stylesheet(self):
         """Reads our main style QSS file and applies it to the application.
@@ -564,11 +595,23 @@ class MainWindow(QMainWindow):
           the language in the OS. Not Implemented yet).
         """
         # Update translated text for menus
+
+        # File menu
         self.menu_file.setTitle(self.tr("File"))
-        self.action_upload_file.setText(self.tr("Open"))
-        self.menu_edit.setTitle(self.tr("Edit"))
+        self.menu_file_add.setTitle(self.tr("Add"))
+        self.menu_file_add_action_upload_file.setText(self.tr("File/Folder"))
+        self.menu_file_add_action_upload_external_url.setText(self.tr("External URL"))
+
+        # View
         self.menu_view.setTitle(self.tr("View"))
+        self.menu_view_action_metadata_panel.setText(self.tr("File Metadata"))
+        self.menu_view_action_errors_panel.setText(self.tr("File Errors"))
+        self.menu_view_action_source_panel.setText(self.tr("File Source"))
+
+        # Help
         self.menu_help.setTitle(self.tr("Help"))
+        self.menu_help_action_user_guide.setText(self.tr("User Guide"))
+        self.menu_help_action_report_issue.setText(self.tr("Report an Issue"))
 
         # Hook retranslateUI for main widgets
         self.sidebar.retranslateUI()
@@ -654,8 +697,10 @@ class MainWindow(QMainWindow):
         # If we don't have errors we don't enable the Errors Report tab.
         if errors_count == 0:
             self.content.toolbar.button_errors.disable()
+            self.menu_view_action_errors_panel.setEnabled(False)
         else:
             self.content.toolbar.button_errors.enable(errors_count)
+            self.menu_view_action_errors_panel.setEnabled(True)
 
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
