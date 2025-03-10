@@ -6,7 +6,7 @@ from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout,
     QTreeView, QPushButton, QLabel, QStackedLayout,
-    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
+    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog, QSizePolicy
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
@@ -223,6 +223,80 @@ class Sidebar(QWidget):
                 file_navigator.setColumnHidden(column, True)
 
 
+class ErrorsReportButton(QPushButton):
+    """Toolbar button for the Errors Report that contains Icon, Text and ErrorCount.
+
+    QPushButton (Icon+Text) is not enough since we need a three part button: Icon+Text+ErrorCount.
+    In order for the ErrorCount Label to be part of the button (background, hover, clickable) we
+    need to extend the basic QPushButton and override its layout and some methods.
+    """
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.layout = QHBoxLayout(self)
+        self.layout.setSpacing(2)  # Aligns better with QPushButton look & feel
+
+        self.icon_label = QLabel()
+        self.icon_label.setFixedSize(20, 20)  # Match icon size
+        self.layout.addWidget(self.icon_label)
+
+        self.text_label = QLabel()
+        self.layout.addWidget(self.text_label)
+
+        self.error_label = QLabel()
+        self.error_label.setProperty("error", True)  # For referencing in our style.qss file
+        self.layout.addWidget(self.error_label)
+
+        # This is some Qt Magic to properly display the button and of all its labels
+        # (auto-expanding content-based width)
+        self.layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
+
+    def setText(self, text):
+        self.text_label.setText(text)
+        self.updateGeometry()  # Force layout recalc
+
+    def setIcon(self, icon):
+        """Overrides the QPushButton method to set the icon to our icon_label.
+
+        A difference with QPushButton is that we handle the size here instead of calling
+        QPushButton.setIconSize().
+        """
+        if icon.isNull():
+            self.icon_label.clear()
+        else:
+            pixmap = icon.pixmap(QSize(20, 20))
+            self.icon_label.setPixmap(pixmap)
+        self.updateGeometry()
+
+    def enable(self, number):
+        """Enables the button and displays the error number.
+
+        All children labels should also be enabled so we can use QSS pseudo-states for styling.
+        """
+        self.setEnabled(True)
+        self.icon_label.setEnabled(True)
+        self.text_label.setEnabled(True)
+        self.error_label.setEnabled(True)
+        if number <= 999:
+            self.error_label.setText(str(number))
+        else:
+            self.error_label.setText("+999")
+        self.error_label.show()
+        self.updateGeometry()
+
+    def disable(self):
+        """Disables the button and hides the error number.
+
+        Disabled button will have a grey color and no hover style. All children labels
+        should also be disabled (so we can use QSS pseudo-states for styling)
+        """
+        self.setEnabled(False)
+        self.icon_label.setEnabled(False)
+        self.text_label.setEnabled(False)
+        self.error_label.setEnabled(False)
+        self.error_label.hide()
+        self.updateGeometry()
+
+
 class Toolbar(QWidget):
     """Widget containing ODE's toolbar.
 
@@ -241,9 +315,8 @@ class Toolbar(QWidget):
         self.button_metadata = QPushButton()
         self.button_metadata.setIcon(QIcon(Paths.asset("icons/24/tune.svg")))
         self.button_metadata.setIconSize(QSize(20, 20))
-        self.button_errors = QPushButton()
+        self.button_errors = ErrorsReportButton(self)
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_errors.setIconSize(QSize(20, 20))
         self.button_source = QPushButton()
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
@@ -266,9 +339,8 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
-        # update_qss_button = QPushButton("QSS")
-        # update_qss_button.clicked.connect(self.apply_stylesheet)
-        # layout.addWidget(update_qss_button)
+        # self.update_qss_button = QPushButton("QSS")
+        # layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
         layout.addWidget(self.button_publish)
         layout.addWidget(self.button_save)
@@ -437,6 +509,7 @@ class MainWindow(QMainWindow):
         self.translator = QTranslator()
         self.retranslateUI()
 
+        # self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
 
     def _menu_bar(self):
@@ -576,14 +649,13 @@ class MainWindow(QMainWindow):
         For the moment we only care about the list of errors report.
         """
         _, _, errors = worker_data
+        errors_count = len(errors)
 
         # If we don't have errors we don't enable the Errors Report tab.
-        if len(errors) == 0:
-            self.content.toolbar.button_errors.setEnabled(False)
-            self.content.toolbar.button_errors.setStyleSheet("color: gray;")
+        if errors_count == 0:
+            self.content.toolbar.button_errors.disable()
         else:
-            self.content.toolbar.button_errors.setEnabled(True)
-            self.content.toolbar.button_errors.setStyleSheet("")
+            self.content.toolbar.button_errors.enable(errors_count)
 
     def on_tree_click(self, index):
         """ Handle reading tabular data on file selection
