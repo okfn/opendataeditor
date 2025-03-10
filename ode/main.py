@@ -255,13 +255,6 @@ class ErrorsReportButton(QPushButton):
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
 
-    # Override size hints for proper content-based sizing
-    def sizeHint(self):
-        return self.layout.totalMinimumSize()
-
-    def minimumSizeHint(self):
-        return self.sizeHint()
-
     # Existing methods for text/icon/error management remain the same
     def setText(self, text):
         self.text_label.setText(text)
