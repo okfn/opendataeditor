@@ -233,26 +233,21 @@ class ErrorsReportButton(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(2)  # Match QPushButton look & feel
+        self.layout.setSpacing(2)  # Aligns better with QPushButton look & feel
 
-        # Icon (fixed size based on content)
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(20, 20)  # Match icon size
         self.layout.addWidget(self.icon_label)
 
-        # Text label (auto-expanding content-based width)
         self.text_label = QLabel()
-        self.text_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.layout.addWidget(self.text_label)
 
-        # Error number label (auto-expanding content-based width)
         self.error_label = QLabel()
-        self.error_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.error_label.setProperty("error", True)  # For referencing in our style.qss file
         self.layout.addWidget(self.error_label)
 
-        # Configure button sizing
-        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        # This is some Qt Magic to properly display the button and of all its labels
+        # (auto-expanding content-based width)
         self.layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
 
     # Existing methods for text/icon/error management remain the same
