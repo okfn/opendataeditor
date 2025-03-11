@@ -6,7 +6,7 @@ from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout,
     QTreeView, QPushButton, QLabel, QStackedLayout,
-    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog, QSizePolicy
+    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
@@ -74,6 +74,23 @@ class Sidebar(QWidget):
         self.button_upload = QPushButton(objectName="button_upload")
 
         self.file_navigator = CustomTreeView()
+
+        self.file_navigator.setStyleSheet("""
+            QTreeView {
+                border: 1px solid #d0d0d0;
+            }
+
+            QTreeView::item:hover {
+              color: #FFF;
+              background: black;
+            }
+
+            QTreeView::item:selected {
+              color: #FFF;
+              background: gray;
+            }
+        """)
+
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
         self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
@@ -773,6 +790,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("Open Data Editor")
     app.setApplicationVersion(ode.__version__)
+    app.setStyle("Fusion")
 
     # Migration to ODE 1.4
     migrate_metadata_store()

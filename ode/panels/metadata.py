@@ -1,6 +1,5 @@
 import json
 import sys
-from pathlib import Path
 
 from frictionless.resources import TableResource
 from frictionless import system
@@ -141,6 +140,7 @@ class FieldsForm(QWidget):
     This is a tricky widget since it has to dinamycally add/remove field forms
     inside a QScrollArea when we navigate between resources.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.scroll_area = QScrollArea(self)
@@ -274,13 +274,13 @@ class ResourceForm(QWidget):
 class FrictionlessResourceMetadataWidget(QWidget):
     def __init__(self, filepath=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.layout = QHBoxLayout()
 
         # Sidebar menu
         tree = QTreeWidget()
         tree.setColumnCount(1)
         tree.setHeaderHidden(True)
-        tree.setFixedWidth(350)
+        tree.setFixedWidth(200)
+        tree.setIndentation(10)
         items = []
         for key, values in _RESOURCE_METADATA.items():
             item = QTreeWidgetItem([key])
@@ -291,6 +291,22 @@ class FrictionlessResourceMetadataWidget(QWidget):
         tree.insertTopLevelItems(0, items)
         tree.expandAll()
         tree.clicked.connect(self.switch_form)
+
+        tree.setStyleSheet("""
+            QTreeWidget {
+                border: 1px solid #d0d0d0;
+            }
+
+            QTreeWidget::item:hover {
+              color: #FFF;
+              background: black;
+            }
+
+            QTreeWidget::item:selected {
+              color: #FFF;
+              background: gray;
+            }
+        """)
 
         # Metadata Forms
         self.forms_layout = QStackedLayout()
@@ -306,24 +322,29 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
         # Help
         help = QWidget()
-        help.setFixedWidth(300)
-        help.setFixedHeight(450)
+        help.setMinimumHeight(100)
         help_layout = QVBoxLayout()
-        help_title = QLabel("HELP")
-        help_title.setFixedHeight(30)
-        help_description = QLabel("This is a long text that will be replaced with the actual help content.")
+        self.title = QLabel("Resource")
+        self.title.setStyleSheet("font-weight: bold;")
+
+        help_description = QLabel('This is a long text that will be replaced with the actual help content.')
+        help_description.setText(help_description.text() + ' <a href="https://www.example.com">Learn more</a>')
         help_description.setWordWrap(True)
-        help_description.setFixedHeight(250)
-        help_learn_more = QPushButton("LEARN MORE")
-        help_layout.addWidget(help_title)
+        help_description.setTextInteractionFlags(Qt.TextBrowserInteraction)
+
+        help_layout.addWidget(self.title)
         help_layout.addWidget(help_description)
-        help_layout.addWidget(help_learn_more)
+
         help_layout.addStretch()
         help.setLayout(help_layout)
 
-        self.layout.addWidget(tree)
-        self.layout.addLayout(self.forms_layout)
+        self.h_layout = QHBoxLayout()
+        self.h_layout.addWidget(tree)
+        self.h_layout.addLayout(self.forms_layout)
+
+        self.layout = QVBoxLayout()
         self.layout.addWidget(help, alignment=Qt.AlignmentFlag.AlignTop)
+        self.layout.addLayout(self.h_layout)
         self.setLayout(self.layout)
 
     def switch_form(self, index):
@@ -334,16 +355,19 @@ class FrictionlessResourceMetadataWidget(QWidget):
         form = index.data()
         if form == 'Resource':
             self.forms_layout.setCurrentIndex(0)
+            self.title.setText("Resource")
         elif form == "Integrity":
             self.forms_layout.setCurrentIndex(1)
+            self.title.setText("Integrity")
         elif form == "Licenses":
             self.forms_layout.setCurrentIndex(2)
+            self.title.setText("Licenses")
         elif form == "Schema":
             self.forms_layout.setCurrentIndex(3)
+            self.title.setText("Schema")
         elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
-
-
+            self.title.setText("Fields")
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
