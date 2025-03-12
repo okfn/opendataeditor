@@ -13,6 +13,7 @@ from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
 from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
 
 from ode.paths import Paths
+from ode import utils
 
 _RESOURCE_METADATA = {
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
@@ -275,6 +276,8 @@ class FrictionlessResourceMetadataWidget(QWidget):
     def __init__(self, filepath=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        utils.set_common_style(self)
+
         # Sidebar menu
         tree = QTreeWidget()
         tree.setColumnCount(1)
@@ -328,9 +331,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.title.setStyleSheet("font-weight: bold;")
 
         help_description = QLabel('This is a long text that will be replaced with the actual help content.')
-        help_description.setText(help_description.text() + ' <a href="https://www.example.com">Learn more</a>')
-        help_description.setWordWrap(True)
+        help_description.setText(help_description.text() + ' <a href="https://specs.frictionlessdata.io/data-resource/">Learn more</a>')
         help_description.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        help_description.setWordWrap(True)
+        help_description.setOpenExternalLinks(True)
 
         help_layout.addWidget(self.title)
         help_layout.addWidget(help_description)

@@ -4,6 +4,8 @@ from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunn
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel
 
+from ode import utils
+
 
 class DataWorkerSignals(QObject):
     """Define the signals for the DataWorker."""
@@ -191,6 +193,9 @@ class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
     def __init__(self):
         super().__init__()
+
+        utils.set_common_style(self)
+
         layout = QVBoxLayout()
         self.setLayout(layout)
 
