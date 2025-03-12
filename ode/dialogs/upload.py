@@ -49,9 +49,6 @@ class DataUploadDialog(QDialog):
     TableResource to read and write tables hosted in the web or Google
     Spreadsheets.
 
-    The interface is inspired in QFileDIalog.getOpenFileName(...) or
-    QInputDialog.getText(..) methods.
-
     How to use:
       dialog = DataUploadDialog(self)
       ok, path = dialog.get_uploaded_path()
@@ -177,7 +174,13 @@ class DataUploadDialog(QDialog):
             self.error_text.setText(error)
 
     def get_uploaded_path(self):
-        """Shows the dialog and return the path to the uploaded file."""
+        """Shows the dialog and then returns the result code and the path to the uploaded file.
+
+        This method is inspired in QFileDIalog.getOpenFileName(...) and
+        QInputDialog.getText(..). When called, this method will display the dialog
+        and return the result code + the path where the file/folder has been copied to.
+
+        """
         result = self.exec()
         return result, self.destination_path
 
