@@ -610,9 +610,9 @@ class MainWindow(QMainWindow):
 
         # View
         self.menu_view.setTitle(self.tr("View"))
-        self.menu_view_action_metadata_panel.setText(self.tr("File Metadata"))
-        self.menu_view_action_errors_panel.setText(self.tr("File Errors"))
-        self.menu_view_action_source_panel.setText(self.tr("File Source"))
+        self.menu_view_action_metadata_panel.setText(self.tr("Metadata panel"))
+        self.menu_view_action_errors_panel.setText(self.tr("Errors panel"))
+        self.menu_view_action_source_panel.setText(self.tr("Source panel"))
 
         # Help
         self.menu_help.setTitle(self.tr("Help"))
@@ -694,8 +694,6 @@ class MainWindow(QMainWindow):
 
         This method is connected to the data widget Worker's signal and it will
         receive the data, the frictionless report and a list of errors.
-
-        For the moment we only care about the list of errors report.
         """
         _, _, errors = worker_data
         errors_count = len(errors)
@@ -713,12 +711,9 @@ class MainWindow(QMainWindow):
 
         This method is connected to the data widget Worker's signal and it will
         receive the data, the frictionless report and a list of errors.
-
-        For the moment we only care about the list of errors report.
         """
         self.menu_view.setEnabled(True)
 
-        # If we don't have errors we disable the Errors menu
         _, _, errors = worker_data
         errors_count = len(errors)
 
