@@ -55,7 +55,7 @@ class DataUploadDialog(QDialog):
         self.setFixedHeight(500)
         self.setFixedWidth(500)
 
-        self.destination_filepath = ""
+        self.destination_path = ""
 
         main_layout = QVBoxLayout()
 
@@ -127,8 +127,8 @@ class DataUploadDialog(QDialog):
         if not filename:
             return
 
-        self.destination_filepath = Paths.get_unique_destination_filepath(filename)
-        shutil.copy(filename, self.destination_filepath)
+        self.destination_path = Paths.get_unique_destination_filepath(filename)
+        shutil.copy(filename, self.destination_path)
         self.accept()
 
     def add_folders(self):
@@ -136,8 +136,8 @@ class DataUploadDialog(QDialog):
         source_folder = QFileDialog.getExistingDirectory(self)
         if source_folder:
             folder_name = os.path.basename(source_folder)
-            target_folder = os.path.join(Paths.PROJECT_PATH, folder_name)
-            shutil.copytree(source_folder, target_folder, dirs_exist_ok=True)
+            self.destination_path = os.path.join(Paths.PROJECT_PATH, folder_name)
+            shutil.copytree(source_folder, self.destination_path, dirs_exist_ok=True)
         self.accept()
 
     def load_table_from_url(self):
@@ -159,10 +159,10 @@ class DataUploadDialog(QDialog):
         if table.format == "gsheets":
             filename = self._read_url_html_title(url)
 
-        self.destination_filepath = Paths.get_unique_destination_filepath(filename + ".csv")
+        self.destination_path = Paths.get_unique_destination_filepath(filename + ".csv")
 
         try:
-            with open(self.destination_filepath, mode='w') as file:
+            with open(self.destination_path, mode='w') as file:
                 table.write(file.name)
             self.accept()
         except Exception:
@@ -182,7 +182,7 @@ class DataUploadDialog(QDialog):
     def get_uploaded_path(self):
         """Shows the dialog and return the path to the uploaded file."""
         result = self.exec()
-        return result, self.destination_filepath
+        return result, self.destination_path
 
     def _reset_forms(self):
         """Reset inputs and selected tab to initial status.
