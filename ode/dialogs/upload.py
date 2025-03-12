@@ -57,6 +57,9 @@ class DataUploadDialog(QDialog):
 
         main_layout = QVBoxLayout()
 
+        # Block the main window until the dialog is closed
+        self.setWindowModality(Qt.ApplicationModal)
+
         # Centered Image
         image_label = QLabel(self)
         image_label.setFixedHeight(200)
@@ -176,6 +179,11 @@ class DataUploadDialog(QDialog):
         """Override class method to reset forms when successfully uploading a file."""
         self._reset_forms()
         super().accept()
+
+    def show_external_first(self):
+        """Shows the Dialog but with the External tab clicked"""
+        self.tab_widget.setCurrentIndex(1)
+        super().show()
 
     def _reset_forms(self):
         """Reset inputs and selected tab to initial status.
