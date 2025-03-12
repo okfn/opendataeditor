@@ -602,7 +602,11 @@ class MainWindow(QMainWindow):
         self.retranslateUI()
 
     def on_button_upload_click(self):
-        """Copy data file to the project folder of ode."""
+        """Copy data file to the project folder of ode.
+
+        After successful upload, we call on_tree_click to update all views as if this
+        file have been selected by the user.
+        """
         dialog = DataUploadDialog(self)
         ok, path = dialog.get_uploaded_path()
         if ok and path:
