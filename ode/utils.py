@@ -66,3 +66,8 @@ def migrate_metadata_store():
             json.dump(record_data, json_file, indent=4)
 
     print("Migration completed successfully!")
+
+
+def set_common_style(widget):
+    widget.setStyleSheet("font-size: 17px;")
+

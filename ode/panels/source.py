@@ -4,6 +4,8 @@ from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPlainTextEdit
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QFileInfo
 
+from ode import utils
+
 
 class SourceViewer(QWidget):
     """Widget to display files as they are (raw).
@@ -14,6 +16,9 @@ class SourceViewer(QWidget):
     """
     def __init__(self):
         super().__init__()
+
+        utils.set_common_style(self)
+
         layout = QVBoxLayout()
         self.setLayout(layout)
 
@@ -23,7 +28,7 @@ class SourceViewer(QWidget):
         self.text_edit = QPlainTextEdit(self)
         self.text_edit.setLineWrapMode(QPlainTextEdit.NoWrap)
         self.text_edit.setReadOnly(True)
-        self.text_edit.setFont(QFont("Courier"))
+        self.text_edit.setFont(QFont("Courier, monospace"))
         self.text_edit.hide()
 
         layout.addWidget(self.label)
