@@ -48,6 +48,13 @@ class DataUploadDialog(QDialog):
     files, folders or URLs. For external URLs we rely on frictionless's
     TableResource to read and write tables hosted in the web or Google
     Spreadsheets.
+
+    The interface is inspired in QFileDIalog.getOpenFileName(...) or
+    QInputDialog.getText(..) methods.
+
+    How to use:
+      dialog = DataUploadDialog(self)
+      ok, path = dialog.get_uploaded_path()
     """
 
     def __init__(self, parent):
@@ -169,29 +176,10 @@ class DataUploadDialog(QDialog):
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
-    def reject(self):
-        """Overrides class method to reset the forms when the user close the dialog."""
-        self._reset_forms()
-        super().reject()
-
-    def accept(self):
-        """Override class method to reset forms when successfully uploading a file."""
-        self._reset_forms()
-        super().accept()
-
     def get_uploaded_path(self):
         """Shows the dialog and return the path to the uploaded file."""
         result = self.exec()
         return result, self.destination_path
-
-    def _reset_forms(self):
-        """Reset inputs and selected tab to initial status.
-
-        We should ensure that everytime the user opens the dialog the state is the initial one.
-        """
-        self.url_input.setText("")
-        self.error_text.setText("")
-        self.tab_widget.setCurrentIndex(0)
 
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.
