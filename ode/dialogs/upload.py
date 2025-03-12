@@ -55,6 +55,8 @@ class DataUploadDialog(QDialog):
         self.setFixedHeight(500)
         self.setFixedWidth(500)
 
+        self.destination_filepath = ""
+
         main_layout = QVBoxLayout()
 
         # Centered Image
@@ -125,8 +127,8 @@ class DataUploadDialog(QDialog):
         if not filename:
             return
 
-        destination_filepath = Paths.get_unique_destination_filepath(filename)
-        shutil.copy(filename, destination_filepath)
+        self.destination_filepath = Paths.get_unique_destination_filepath(filename)
+        shutil.copy(filename, self.destination_filepath)
         self.accept()
 
     def add_folders(self):
@@ -157,10 +159,10 @@ class DataUploadDialog(QDialog):
         if table.format == "gsheets":
             filename = self._read_url_html_title(url)
 
-        destination_filepath = Paths.get_unique_destination_filepath(filename + ".csv")
+        self.destination_filepath = Paths.get_unique_destination_filepath(filename + ".csv")
 
         try:
-            with open(destination_filepath, mode='w') as file:
+            with open(self.destination_filepath, mode='w') as file:
                 table.write(file.name)
             self.accept()
         except Exception:
@@ -176,6 +178,11 @@ class DataUploadDialog(QDialog):
         """Override class method to reset forms when successfully uploading a file."""
         self._reset_forms()
         super().accept()
+
+    def get_uploaded_path(self):
+        """Shows the dialog and return the path to the uploaded file."""
+        result = self.exec()
+        return result, self.destination_filepath
 
     def _reset_forms(self):
         """Reset inputs and selected tab to initial status.

@@ -70,7 +70,6 @@ class Sidebar(QWidget):
         self.icon_label.setPixmap(pixmap)
         self.icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
-        self.upload_dialog = DataUploadDialog(self)
         self.button_upload = QPushButton(objectName="button_upload")
 
         self.file_navigator = CustomTreeView()
@@ -124,7 +123,6 @@ class Sidebar(QWidget):
         self.rename_action.setText(self.tr("Rename"))
         self.open_location_action.setText(self.tr("Open File in Location"))
         self.delete_action.setText(self.tr("Delete"))
-        self.upload_dialog.retranslateUI()
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
@@ -605,7 +603,11 @@ class MainWindow(QMainWindow):
 
     def on_button_upload_click(self):
         """Copy data file to the project folder of ode."""
-        self.sidebar.upload_dialog.show()
+        dialog = DataUploadDialog(self)
+        ok, path = dialog.get_uploaded_path()
+        if ok and path:
+            index = self.sidebar.file_model.index(str(path))
+            self.on_tree_click(index)
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
@@ -665,7 +667,7 @@ class MainWindow(QMainWindow):
         a ProgressDialog if it is taking too long. Reading with a worker is
         a requirement to display a proper QProgressDialog.
         """
-        self.selected_file_path = self.sender().model().filePath(index)
+        self.selected_file_path = self.sidebar.file_model.filePath(index)
         info = QFileInfo(self.selected_file_path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(self.selected_file_path)
