@@ -585,7 +585,7 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_ai_click(self):
-        self.ai_widget.show()
+        self.content.ai_widget.show()
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
