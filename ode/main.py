@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
-from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool, Slot, Signal
+from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool, Slot, Signal, QItemSelectionModel
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
@@ -604,14 +604,17 @@ class MainWindow(QMainWindow):
     def on_button_upload_click(self):
         """Copy data file to the project folder of ode.
 
-        After successful upload, we call on_tree_click to update all views as if this
-        file have been selected by the user.
+        After successful upload the file should be selected, validated, and displayed.
         """
         dialog = DataUploadDialog(self)
         ok, path = dialog.upload_dialog()
         if ok and path:
+            self.selected_file_path = path
+            # Calling file_model.index() has a weird side-effect in the QTreeView that will display the new
+            # uploaded file at the end of the list instead of the default alphabetical order.
             index = self.sidebar.file_model.index(str(path))
-            self.on_tree_click(index)
+            self.sidebar.file_navigator.selectionModel().select(index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
+            self.read_validate_and_display_file(path)
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
@@ -663,15 +666,16 @@ class MainWindow(QMainWindow):
         else:
             self.content.toolbar.button_errors.enable(errors_count)
 
-    def on_tree_click(self, index):
-        """ Handle reading tabular data on file selection
+    def read_validate_and_display_file(self, path):
+        """Reads a file, validates it and refresh the whole UI.
 
-        This method will be triggered when the user clicks on a file in the
-        QTreeView. It will create a Worker to read data in the background and display
-        a ProgressDialog if it is taking too long. Reading with a worker is
-        a requirement to display a proper QProgressDialog.
+        This method will be called whenever a file needs to be read, validated and displayed.
+        Usually happens when the user explicitly selects a file in our QTreeView but there could
+        be other workflows in the application that will require this logic like Uploading a File.
+
+        It will create a Worker to read data in the background and display a ProgressDialog if it
+        is taking too long. Reading with a worker is a requirement to display a proper QProgressDialog.
         """
-        self.selected_file_path = self.sidebar.file_model.filePath(index)
         info = QFileInfo(self.selected_file_path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(self.selected_file_path)
@@ -689,6 +693,11 @@ class MainWindow(QMainWindow):
             self.clear_views()
             # Always focus back to the data view.
             self.content.stacked_layout.setCurrentIndex(0)
+
+    def on_tree_click(self, index):
+        """Handles the click action of our File Navigator."""
+        self.selected_file_path = self.sidebar.file_model.filePath(index)
+        self.read_validate_and_display_file(self.selected_file_path)
 
     def clear_views(self):
         """Set all panels to its default state."""
