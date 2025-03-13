@@ -63,6 +63,9 @@ class DataUploadDialog(QDialog):
 
         main_layout = QVBoxLayout()
 
+        # Block the main window until the dialog is closed
+        self.setWindowModality(Qt.ApplicationModal)
+
         # Centered Image
         image_label = QLabel(self)
         image_label.setFixedHeight(200)
@@ -179,10 +182,13 @@ class DataUploadDialog(QDialog):
         This method is inspired in QFileDIalog.getOpenFileName(...) and
         QInputDialog.getText(..). When called, this method will display the dialog
         and return the result code + the path where the file/folder has been copied to.
-
         """
         result = self.exec()
         return result, self.target_path
+
+    def show_external_first(self):
+        """Shows the Dialog but with the External tab clicked"""
+        self.tab_widget.setCurrentIndex(1)
 
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.
