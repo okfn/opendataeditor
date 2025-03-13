@@ -669,9 +669,8 @@ class MainWindow(QMainWindow):
     def read_validate_and_display_file(self, path):
         """Reads a file, validates it and refresh the whole UI.
 
-        This method will be called whenever a file needs to be read, validated and displayed.
-        Usually happens when the user explicitly selects a file in our QTreeView but there could
-        be other workflows in the application that will require this logic like Uploading a File.
+        This method is called when the user selects a file in our QTreeView but there could
+        be other workflows in the application that will require this logic (like Uploading a File).
 
         It will create a Worker to read data in the background and display a ProgressDialog if it
         is taking too long. Reading with a worker is a requirement to display a proper QProgressDialog.
