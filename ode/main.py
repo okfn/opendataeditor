@@ -655,10 +655,7 @@ class MainWindow(QMainWindow):
 
         After successful upload the file should be selected, validated, and displayed.
         """
-        dialog = DataUploadDialog(self)
-
-        if external_first:
-            dialog.show_external_first()
+        dialog = DataUploadDialog(self, external_first=external_first)
 
         ok, path = dialog.upload_dialog()
         if ok and path:

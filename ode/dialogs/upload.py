@@ -54,7 +54,7 @@ class DataUploadDialog(QDialog):
       ok, path = dialog.upload_dialog()
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent, external_first=False):
         super().__init__(parent)
         self.setFixedHeight(500)
         self.setFixedWidth(500)
@@ -116,6 +116,9 @@ class DataUploadDialog(QDialog):
         # Add Tabs to Tab Widget
         self.tab_widget.addTab(from_computer_tab, "")
         self.tab_widget.addTab(external_data_tab, "")
+
+        if external_first:
+            self.tab_widget.setCurrentIndex(1)
 
         self.setLayout(main_layout)
 
@@ -185,10 +188,6 @@ class DataUploadDialog(QDialog):
         """
         result = self.exec()
         return result, self.target_path
-
-    def show_external_first(self):
-        """Shows the Dialog but with the External tab clicked"""
-        self.tab_widget.setCurrentIndex(1)
 
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.
