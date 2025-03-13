@@ -608,7 +608,7 @@ class MainWindow(QMainWindow):
         file have been selected by the user.
         """
         dialog = DataUploadDialog(self)
-        ok, path = dialog.get_uploaded_path()
+        ok, path = dialog.upload_dialog()
         if ok and path:
             index = self.sidebar.file_model.index(str(path))
             self.on_tree_click(index)

@@ -51,7 +51,7 @@ class DataUploadDialog(QDialog):
 
     How to use:
       dialog = DataUploadDialog(self)
-      ok, path = dialog.get_uploaded_path()
+      ok, path = dialog.upload_dialog()
     """
 
     def __init__(self, parent):
@@ -173,7 +173,7 @@ class DataUploadDialog(QDialog):
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
-    def get_uploaded_path(self):
+    def upload_dialog(self):
         """Shows the dialog and then returns the result code and the path to the uploaded file.
 
         This method is inspired in QFileDIalog.getOpenFileName(...) and
