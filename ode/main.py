@@ -10,7 +10,10 @@ from PySide6.QtWidgets import (
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
-from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool, Slot, Signal, QItemSelectionModel
+from PySide6.QtCore import (
+        Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool,
+        Slot, Signal, QItemSelectionModel
+    )
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
