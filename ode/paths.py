@@ -37,12 +37,19 @@ class Paths:
         Example 2 (subfolder):
           - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
           - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
+
+        Example 3 (input is folder):
+          - Folder: Paths.PROJECT_FOLDER / 'subfolder'
+          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder'
         """
         filepath = Path(filepath) if isinstance(filepath, str) else filepath
         relative_path = filepath.parent.relative_to(cls.PROJECT_PATH)
         metadata_path = cls.METADATA_PATH / relative_path
-        metadata_filepath = metadata_path / (filepath.stem + '.json')
-        return metadata_filepath
+
+        if filepath.is_dir():
+            return metadata_path / filepath.stem
+
+        return metadata_path / (filepath.stem + '.json')
 
     @classmethod
     def get_unique_destination_filepath(cls, src_filepath, project_path=None):

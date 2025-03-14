@@ -1,6 +1,7 @@
 import sys
 import ode
 import os
+import shutil
 
 from pathlib import Path
 from PySide6.QtWidgets import (
@@ -211,8 +212,8 @@ class Sidebar(QWidget):
                         file_path.unlink()
                         metadata_path.unlink()
                     elif file_path.is_dir():
-                        file_path.rmdir()
-                        metadata_path.rmdir()
+                        shutil.rmtree(file_path)
+                        shutil.rmtree(metadata_path)
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
 
