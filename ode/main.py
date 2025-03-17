@@ -213,7 +213,11 @@ class Sidebar(QWidget):
                         metadata_path.unlink()
                     elif file_path.is_dir():
                         shutil.rmtree(file_path)
-                        shutil.rmtree(metadata_path)
+                        # Folder containing metadata files does not exist until the first children file
+                        # is open and validated. If the user uploads a folder and do not open any file,
+                        # we will not have a metadata folder. We check if it exist before deleting to ignore errors.
+                        if metadata_path.exists():
+                            shutil.rmtree(metadata_path)
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
 
