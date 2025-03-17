@@ -48,12 +48,18 @@ class DataUploadDialog(QDialog):
     files, folders or URLs. For external URLs we rely on frictionless's
     TableResource to read and write tables hosted in the web or Google
     Spreadsheets.
+
+    How to use:
+      dialog = DataUploadDialog(self)
+      ok, path = dialog.upload_dialog()
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent, external_first=False):
         super().__init__(parent)
         self.setFixedHeight(500)
         self.setFixedWidth(500)
+
+        self.target_path = ""
 
         main_layout = QVBoxLayout()
 
@@ -111,6 +117,9 @@ class DataUploadDialog(QDialog):
         self.tab_widget.addTab(from_computer_tab, "")
         self.tab_widget.addTab(external_data_tab, "")
 
+        if external_first:
+            self.tab_widget.setCurrentIndex(1)
+
         self.setLayout(main_layout)
 
         self.retranslateUI()
@@ -128,8 +137,8 @@ class DataUploadDialog(QDialog):
         if not filename:
             return
 
-        destination_filepath = Paths.get_unique_destination_filepath(filename)
-        shutil.copy(filename, destination_filepath)
+        self.target_path = Paths.get_unique_destination_filepath(filename)
+        shutil.copy(filename, self.target_path)
         self.accept()
 
     def add_folders(self):
@@ -137,8 +146,8 @@ class DataUploadDialog(QDialog):
         source_folder = QFileDialog.getExistingDirectory(self)
         if source_folder:
             folder_name = os.path.basename(source_folder)
-            target_folder = os.path.join(Paths.PROJECT_PATH, folder_name)
-            shutil.copytree(source_folder, target_folder, dirs_exist_ok=True)
+            self.target_path = os.path.join(Paths.PROJECT_PATH, folder_name)
+            shutil.copytree(source_folder, self.target_path, dirs_exist_ok=True)
         self.accept()
 
     def load_table_from_url(self):
@@ -160,39 +169,25 @@ class DataUploadDialog(QDialog):
         if table.format == "gsheets":
             filename = self._read_url_html_title(url)
 
-        destination_filepath = Paths.get_unique_destination_filepath(filename + ".csv")
+        self.target_path = Paths.get_unique_destination_filepath(filename + ".csv")
 
         try:
-            with open(destination_filepath, mode='w') as file:
+            with open(self.target_path, mode='w') as file:
                 table.write(file.name)
             self.accept()
         except Exception:
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
-    def reject(self):
-        """Overrides class method to reset the forms when the user close the dialog."""
-        self._reset_forms()
-        super().reject()
+    def upload_dialog(self):
+        """Shows the dialog and then returns the result code and the path to the uploaded file.
 
-    def accept(self):
-        """Override class method to reset forms when successfully uploading a file."""
-        self._reset_forms()
-        super().accept()
-
-    def show_external_first(self):
-        """Shows the Dialog but with the External tab clicked"""
-        self.tab_widget.setCurrentIndex(1)
-        super().show()
-
-    def _reset_forms(self):
-        """Reset inputs and selected tab to initial status.
-
-        We should ensure that everytime the user opens the dialog the state is the initial one.
+        This method is inspired in QFileDIalog.getOpenFileName(...) and
+        QInputDialog.getText(..). When called, this method will display the dialog
+        and return the result code + the path where the file/folder has been copied to.
         """
-        self.url_input.setText("")
-        self.error_text.setText("")
-        self.tab_widget.setCurrentIndex(0)
+        result = self.exec()
+        return result, self.target_path
 
     def _read_url_html_title(self, url):
         """ Return the title of HTML document.

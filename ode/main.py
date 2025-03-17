@@ -10,7 +10,10 @@ from PySide6.QtWidgets import (
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
-from PySide6.QtCore import Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool, Slot, Signal
+from PySide6.QtCore import (
+        Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool,
+        Slot, Signal, QItemSelectionModel
+    )
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
@@ -70,7 +73,6 @@ class Sidebar(QWidget):
         self.icon_label.setPixmap(pixmap)
         self.icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
-        self.upload_dialog = DataUploadDialog(self)
         self.button_upload = QPushButton(objectName="button_upload")
 
         self.file_navigator = CustomTreeView()
@@ -141,7 +143,6 @@ class Sidebar(QWidget):
         self.rename_action.setText(self.tr("Rename"))
         self.open_location_action.setText(self.tr("Open File in Location"))
         self.delete_action.setText(self.tr("Delete"))
-        self.upload_dialog.retranslateUI()
 
     def _setup_file_navigator_context_menu(self):
         """Create the context menu for the file navigator."""
@@ -540,11 +541,11 @@ class MainWindow(QMainWindow):
         self.menu_file_add = QMenu()
 
         self.menu_file_add_action_upload_file = QAction()
-        self.menu_file_add_action_upload_file.triggered.connect(self.sidebar.upload_dialog.show)
+        self.menu_file_add_action_upload_file.triggered.connect(self.upload_data)
         self.menu_file_add.addAction(self.menu_file_add_action_upload_file)
 
         self.menu_file_add_action_upload_external_url = QAction()
-        self.menu_file_add_action_upload_external_url.triggered.connect(self.sidebar.upload_dialog.show_external_first)
+        self.menu_file_add_action_upload_external_url.triggered.connect(lambda: self.upload_data(external_first=True))
         self.menu_file_add.addAction(self.menu_file_add_action_upload_external_url)
 
         self.menu_file.addMenu(self.menu_file_add)
@@ -669,9 +670,24 @@ class MainWindow(QMainWindow):
             app.removeTranslator(self.translator)
         self.retranslateUI()
 
+    def upload_data(self, external_first=False):
+        """Copy data file to the project folder of ode.
+
+        After successful upload the file should be selected, validated, and displayed.
+        """
+        dialog = DataUploadDialog(self, external_first=external_first)
+
+        ok, path = dialog.upload_dialog()
+        if ok and path:
+            self.selected_file_path = path
+            # Calling file_model.index() has a weird side-effect in the QTreeView that will display the new
+            # uploaded file at the end of the list instead of the default alphabetical order.
+            index = self.sidebar.file_model.index(str(path))
+            self.sidebar.file_navigator.selectionModel().select(index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
+            self.read_validate_and_display_file(path)
+
     def on_button_upload_click(self):
-        """Copy data file to the project folder of ode."""
-        self.sidebar.upload_dialog.show()
+        self.upload_data()
 
     def on_save_click(self, checked):
         """Saves changes made in the Table View into the file.
@@ -739,15 +755,14 @@ class MainWindow(QMainWindow):
         else:
             self.menu_view_action_errors_panel.setEnabled(True)
 
-    def on_tree_click(self, index):
-        """ Handle reading tabular data on file selection
+    def read_validate_and_display_file(self, path):
+        """Reads a file, validates it and refresh the whole UI.
+        This method is called when the user selects a file in our QTreeView but there could
+        be other workflows in the application that will require this logic (like Uploading a File).
 
-        This method will be triggered when the user clicks on a file in the
-        QTreeView. It will create a Worker to read data in the background and display
-        a ProgressDialog if it is taking too long. Reading with a worker is
-        a requirement to display a proper QProgressDialog.
+        It will create a Worker to read data in the background and display a ProgressDialog if it
+        is taking too long. Reading with a worker is a requirement to display a proper QProgressDialog.
         """
-        self.selected_file_path = self.sender().model().filePath(index)
         info = QFileInfo(self.selected_file_path)
         if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
             worker = DataWorker(self.selected_file_path)
@@ -767,6 +782,11 @@ class MainWindow(QMainWindow):
             self.clear_views()
             # Always focus back to the data view.
             self.content.stacked_layout.setCurrentIndex(0)
+
+    def on_tree_click(self, index):
+        """Handles the click action of our File Navigator."""
+        self.selected_file_path = self.sidebar.file_model.filePath(index)
+        self.read_validate_and_display_file(self.selected_file_path)
 
     def clear_views(self):
         """Set all panels to its default state."""
