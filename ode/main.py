@@ -751,7 +751,6 @@ class MainWindow(QMainWindow):
             self.progress_dialog.setMinimumDuration(300)  # show only if task takes more than 300ms
             self.threadpool.start(worker)
         else:
-            print("Selected file is not supported...")
             self.clear_views()
             # Always focus back to the data view.
             self.content.stacked_layout.setCurrentIndex(0)
