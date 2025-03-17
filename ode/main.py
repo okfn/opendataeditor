@@ -1,6 +1,7 @@
 import sys
 import ode
 import os
+import shutil
 
 from pathlib import Path
 from PySide6.QtWidgets import (
@@ -229,10 +230,14 @@ class Sidebar(QWidget):
                         file_path.unlink()
                         metadata_path.unlink()
                     elif file_path.is_dir():
-                        file_path.rmdir()
-                        metadata_path.rmdir()
+                        shutil.rmtree(file_path)
+                        # Folder containing metadata files does not exist until the first children file
+                        # is open and validated. If the user uploads a folder and do not open any file,
+                        # we will not have a metadata folder. We check if it exist before deleting to ignore errors.
+                        if metadata_path.exists():
+                            shutil.rmtree(metadata_path)
                 except OSError as e:
-                    QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
+                    QMessageBox.warning(self, self.tr("Error"), str(e))
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
@@ -778,7 +783,6 @@ class MainWindow(QMainWindow):
             self.progress_dialog.setMinimumDuration(300)  # show only if task takes more than 300ms
             self.threadpool.start(worker)
         else:
-            print("Selected file is not supported...")
             self.clear_views()
             # Always focus back to the data view.
             self.content.stacked_layout.setCurrentIndex(0)
