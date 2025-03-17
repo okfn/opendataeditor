@@ -215,7 +215,7 @@ class Sidebar(QWidget):
                         shutil.rmtree(file_path)
                         shutil.rmtree(metadata_path)
                 except OSError as e:
-                    QMessageBox.warning(self, self.tr("Error"), self.tr("Failed to delete: {e}").format(e))
+                    QMessageBox.warning(self, self.tr("Error"), e.strerror)
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
