@@ -3,6 +3,8 @@ import collections
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
 
+from ode import utils
+
 
 class ErrorFilterProxyModel(QSortFilterProxyModel):
     """Proxy model to display only the rows of the given error type.
@@ -75,6 +77,8 @@ class ErrorReport(QWidget):
 
     def __init__(self, errors, model, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        utils.set_common_style(self)
 
         self.title = ErrorTitle(errors[0].title, len(errors))
         self.description = QLabel(errors[0].description)
