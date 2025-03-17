@@ -6,8 +6,16 @@ from frictionless import system
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-        QWidget, QLabel, QVBoxLayout, QHBoxLayout, QStackedLayout, QApplication, QPushButton,
-        QSpinBox, QMessageBox, QScrollArea
+    QWidget,
+    QLabel,
+    QVBoxLayout,
+    QHBoxLayout,
+    QStackedLayout,
+    QApplication,
+    QPushButton,
+    QSpinBox,
+    QMessageBox,
+    QScrollArea,
 )
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
 from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
@@ -16,9 +24,9 @@ from ode.paths import Paths
 from ode import utils
 
 _RESOURCE_METADATA = {
+    "Schema": ["Column names"],
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
     "Dialect": ["Csv"],
-    "Schema": ["Fields", "Foreign Keys"]
 }
 
 
@@ -56,7 +64,9 @@ class LicensesForm(QWidget):
         """Add a license to the list of selected licenses."""
         license_title = self.license_list.currentText()
         # Check for duplicates
-        if not any(license_title == self.selected_licenses.item(i).text() for i in range(self.selected_licenses.count())):
+        if not any(
+            license_title == self.selected_licenses.item(i).text() for i in range(self.selected_licenses.count())
+        ):
             self.selected_licenses.addItem(license_title)
         else:
             QMessageBox.warning(self, "Duplicate", "This license is already added.")
@@ -109,11 +119,25 @@ class SingleFieldForm(QWidget):
         self.name = QLineEdit()
         layout.addRow("Name: ", self.name)
         self.types = QComboBox()
-        self.types.addItems([
-            "any", "array", "boolean", "date", "datetime", "duration",
-            "geojson", "geopoint", "integer", "number", "string", "object",
-            "time", "year", "yearmonth"
-        ])
+        self.types.addItems(
+            [
+                "any",
+                "array",
+                "boolean",
+                "date",
+                "datetime",
+                "duration",
+                "geojson",
+                "geopoint",
+                "integer",
+                "number",
+                "string",
+                "object",
+                "time",
+                "year",
+                "yearmonth",
+            ]
+        )
         layout.addRow("Type: ", self.types)
         self.title = QLineEdit()
         layout.addRow("Title: ", self.title)
@@ -279,11 +303,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
         utils.set_common_style(self)
 
         # Sidebar menu
-        tree = QTreeWidget()
-        tree.setColumnCount(1)
-        tree.setHeaderHidden(True)
-        tree.setFixedWidth(200)
-        tree.setIndentation(10)
+        self.tree = QTreeWidget()
+        self.tree.setColumnCount(1)
+        self.tree.setHeaderHidden(True)
+        self.tree.setFixedWidth(200)
+        self.tree.setIndentation(10)
         items = []
         for key, values in _RESOURCE_METADATA.items():
             item = QTreeWidgetItem([key])
@@ -291,11 +315,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 child = QTreeWidgetItem([value])
                 item.addChild(child)
             items.append(item)
-        tree.insertTopLevelItems(0, items)
-        tree.expandAll()
-        tree.clicked.connect(self.switch_form)
+        self.tree.insertTopLevelItems(0, items)
+        self.tree.expandAll()
+        self.tree.clicked.connect(self.switch_form)
 
-        tree.setStyleSheet("""
+        self.tree.setStyleSheet(
+            """
             QTreeWidget {
                 border: 1px solid #d0d0d0;
             }
@@ -309,12 +334,17 @@ class FrictionlessResourceMetadataWidget(QWidget):
               color: #FFF;
               background: gray;
             }
-        """)
+        """
+        )
 
         # Metadata Forms
         self.forms_layout = QStackedLayout()
         self.forms = [
-            ResourceForm(), IntegrityForm(), LicensesForm(), SchemaForm(), FieldsForm(),
+            SchemaForm(),
+            FieldsForm(),
+            ResourceForm(),
+            IntegrityForm(),
+            LicensesForm(),
         ]
         for form in self.forms:
             self.forms_layout.addWidget(form)
@@ -330,8 +360,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.title = QLabel("Resource")
         self.title.setStyleSheet("font-weight: bold;")
 
-        help_description = QLabel('This is a long text that will be replaced with the actual help content.')
-        help_description.setText(help_description.text() + ' <a href="https://specs.frictionlessdata.io/data-resource/">Learn more</a>')
+        help_description = QLabel("This is a long text that will be replaced with the actual help content.")
+        help_description.setText(
+            help_description.text() + ' <a href="https://specs.frictionlessdata.io/data-resource/">Learn more</a>'
+        )
         help_description.setTextInteractionFlags(Qt.TextBrowserInteraction)
         help_description.setWordWrap(True)
         help_description.setOpenExternalLinks(True)
@@ -343,7 +375,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         help.setLayout(help_layout)
 
         self.h_layout = QHBoxLayout()
-        self.h_layout.addWidget(tree)
+        self.h_layout.addWidget(self.tree)
         self.h_layout.addLayout(self.forms_layout)
 
         self.layout = QVBoxLayout()
@@ -357,21 +389,21 @@ class FrictionlessResourceMetadataWidget(QWidget):
         # __init__ method. We could implement something more fancy but life is too short
         # to make complex stuff.
         form = index.data()
-        if form == 'Resource':
+        if form == "Schema":
             self.forms_layout.setCurrentIndex(0)
+            self.title.setText("Schema")
+        elif form == "Column names":
+            self.forms_layout.setCurrentIndex(1)
+            self.title.setText("Column names")
+        if form == "Resource":
+            self.forms_layout.setCurrentIndex(2)
             self.title.setText("Resource")
         elif form == "Integrity":
-            self.forms_layout.setCurrentIndex(1)
+            self.forms_layout.setCurrentIndex(3)
             self.title.setText("Integrity")
         elif form == "Licenses":
-            self.forms_layout.setCurrentIndex(2)
-            self.title.setText("Licenses")
-        elif form == "Schema":
-            self.forms_layout.setCurrentIndex(3)
-            self.title.setText("Schema")
-        elif form == "Fields":
             self.forms_layout.setCurrentIndex(4)
-            self.title.setText("Fields")
+            self.title.setText("Licenses")
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
@@ -413,6 +445,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
     def populate_all_forms(self, filepath):
         """Populates the form with the content of the descriptor."""
+
+        # Shows dialect only for csv files
+        self.show_hide_item("Dialect", filepath.endswith(".csv"))
+
         self.resource = self.get_or_create_metadata(filepath).get("resource")
         for form in self.forms:
             form.populate(self.resource)
@@ -466,6 +502,14 @@ class FrictionlessResourceMetadataWidget(QWidget):
         with open(metadata_filepath, "w") as f:
             print(f"Saving metadata {metadata_filepath}")
             json.dump(metadata, f)
+
+    def show_hide_item(self, item_text: str, show: bool = True) -> None:
+        """Show or hide a QTreeWidgetItem based on its text."""
+        items = self.tree.findItems(item_text, Qt.MatchExactly)
+        if len(items) != 1:
+            raise ValueError(f"Item {item_text} not found or duplicated.")
+
+        items[0].setHidden(not show)
 
 
 if __name__ == "__main__":
