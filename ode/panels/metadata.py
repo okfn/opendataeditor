@@ -349,7 +349,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         for form in self.forms:
             self.forms_layout.addWidget(form)
         if filepath:
-            self.resource = self.get_or_create_metadata(filepath).get("resource")
+            self.resource = Metadata.get_or_create_metadata(filepath).get("resource")
             for form in self.forms:
                 form.populate(self.resource)
 
@@ -405,51 +405,13 @@ class FrictionlessResourceMetadataWidget(QWidget):
             self.forms_layout.setCurrentIndex(4)
             self.title.setText("Licenses")
 
-    def get_or_create_metadata(self, filepath):
-        """Get or create a metadata object for the Resource.
-
-        Metadata is a dict containing the Frictionless Metadata plus other metadata
-        that ODE could require.
-
-        Example:
-        {
-          "resource": "{...frictionless descriptor...}"
-          "custom_ode_metadata": "custom_ode_metadata_value"
-        }
-        """
-        metadata_filepath = Paths.get_path_to_metadata_file(filepath)
-        metadata = dict()
-
-        if not metadata_filepath.exists():
-            metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
-            with system.use_context(trusted=True):
-                resource = TableResource(filepath)
-                resource.infer(stats=True)
-            with open(metadata_filepath, "w") as f:
-                # Resource is not serializable, converting to dict before writing.
-                metadata["resource"] = resource.to_descriptor()
-                json.dump(metadata, f)
-            # We want to return a Frictionless object, so we are plugging it back.
-            metadata["resource"] = resource
-            return metadata
-
-        with open(metadata_filepath) as file:
-            metadata = json.load(file)
-
-        with system.use_context(trusted=True):
-            resource = TableResource(metadata["resource"])
-            resource.infer(stats=True)
-            metadata["resource"] = resource
-
-        return metadata
-
     def populate_all_forms(self, filepath):
         """Populates the form with the content of the descriptor."""
 
         # Shows dialect only for csv files
         self.show_hide_item("Dialect", filepath.endswith(".csv"))
 
-        self.resource = self.get_or_create_metadata(filepath).get("resource")
+        self.resource = Metadata.get_or_create_metadata(filepath).get("resource")
         for form in self.forms:
             form.populate(self.resource)
 
@@ -497,7 +459,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 self.resource.licenses = form.get_selected_licenses()
 
         metadata_filepath = Paths.get_path_to_metadata_file(self.resource.path)
-        metadata = self.get_or_create_metadata(self.resource.path)
+        metadata = Metadata.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
         with open(metadata_filepath, "w") as f:
             print(f"Saving metadata {metadata_filepath}")
@@ -510,6 +472,48 @@ class FrictionlessResourceMetadataWidget(QWidget):
             raise ValueError(f"Item {item_text} not found or duplicated.")
 
         items[0].setHidden(not show)
+
+
+class Metadata:
+
+    @classmethod
+    def get_or_create_metadata(cls, filepath):
+        """Get or create a metadata object for the Resource.
+
+        Metadata is a dict containing the Frictionless Metadata plus other metadata
+        that ODE could require.
+
+        Example:
+        {
+          "resource": "{...frictionless descriptor...}"
+          "custom_ode_metadata": "custom_ode_metadata_value"
+        }
+        """
+        metadata_filepath = Paths.get_path_to_metadata_file(filepath)
+        metadata = dict()
+
+        if not metadata_filepath.exists():
+            metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
+            with system.use_context(trusted=True):
+                resource = TableResource(filepath)
+                resource.infer(stats=True)
+            with open(metadata_filepath, "w") as f:
+                # Resource is not serializable, converting to dict before writing.
+                metadata["resource"] = resource.to_descriptor()
+                json.dump(metadata, f)
+            # We want to return a Frictionless object, so we are plugging it back.
+            metadata["resource"] = resource
+            return metadata
+
+        with open(metadata_filepath) as file:
+            metadata = json.load(file)
+
+        with system.use_context(trusted=True):
+            resource = TableResource(metadata["resource"])
+            resource.infer(stats=True)
+            metadata["resource"] = resource
+
+        return metadata
 
 
 if __name__ == "__main__":
