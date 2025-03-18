@@ -477,7 +477,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
 class Metadata:
     """
-    Class to handles all the operations of the metadata files.
+    Class to handle all the operations of the metadata files.
 
     For every file opened in ODE there will be a corresponding Metadata file.
     Metadata is a dict containing the Frictionless Descriptor (required for validation)
@@ -492,7 +492,7 @@ class Metadata:
     """
     @classmethod
     def get_or_create_metadata(cls, filepath):
-        """Get or create a metadata object for the fiven file."""
+        """Get or create a metadata object for the given file."""
         metadata_filepath = Paths.get_path_to_metadata_file(filepath)
         metadata = dict()
 
