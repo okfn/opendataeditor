@@ -5,6 +5,7 @@ import shutil
 
 from frictionless.resources import FileResource, TableResource
 
+from pathlib import Path
 from PySide6.QtWidgets import (
         QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
         QLabel, QFileDialog, QDialog, QTabWidget, QLineEdit
@@ -179,7 +180,7 @@ class DataUploadDialog(QDialog):
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
-    def upload_dialog(self):
+    def upload_dialog(self) -> Path:
         """Shows the dialog and then returns the result code and the path to the uploaded file.
 
         This method is inspired in QFileDIalog.getOpenFileName(...) and

@@ -20,7 +20,7 @@ from PySide6.QtWidgets import QFileSystemModel
 
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
-from ode.panels.metadata import FrictionlessResourceMetadataWidget
+from ode.panels.metadata import FrictionlessResourceMetadataWidget, Metadata
 from ode.panels.data import FrictionlessTableModel, DataWorker
 from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
@@ -173,6 +173,7 @@ class Sidebar(QWidget):
         index = self.file_navigator.currentIndex()
         if index.isValid():
             file_path = Path(self.file_model.filePath(index))
+            metadata_path = Paths.get_path_to_metadata_file(file_path)
             if file_path.is_file():
                 name = file_path.stem
                 extension = file_path.suffix
@@ -184,9 +185,11 @@ class Sidebar(QWidget):
                 self, self.tr("Rename"), self.tr("Enter new name:"), text=name
             )
             if ok and new_name:
-                new_path = os.path.join(os.path.dirname(file_path), new_name + extension)
+                new_path = Path(os.path.join(os.path.dirname(file_path), new_name + extension))
+                new_metadata_path = Path(os.path.join(os.path.dirname(metadata_path), new_name + ".json"))
                 try:
                     os.rename(file_path, new_path)
+                    os.rename(metadata_path, new_metadata_path)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
@@ -199,6 +202,18 @@ class Sidebar(QWidget):
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Error: {e}").format(e))
+                except FileNotFoundError:
+                    # When user uploads a folder, the metadata folder is not created until a file is
+                    # open and validated. This method will fail to remove the metadata folder in those
+                    # cases so it is ok to pass.
+                    pass
+                else:
+                    if new_path.is_file():
+                        Metadata.patch_metadata_path(new_path)
+                    if new_path.is_dir():
+                        for path in new_path.rglob('*'):
+                            if path.suffix in ["csv", "xls", "xlsx"]:
+                                Metadata.patch_metadata_path(path)
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -488,8 +503,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(icon)
 
         self.threadpool = QThreadPool()
-        # TODO: Review this decision
-        self.selected_file_path = ""
+        self.selected_file_path = Path()
 
         central_widget = QWidget()
         layout = QGridLayout()
@@ -789,7 +803,7 @@ class MainWindow(QMainWindow):
 
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
-        self.selected_file_path = self.sidebar.file_model.filePath(index)
+        self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         self.read_validate_and_display_file(self.selected_file_path)
 
     def clear_views(self):

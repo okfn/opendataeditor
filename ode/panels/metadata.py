@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
 from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
+from pathlib import Path
 
 from ode.paths import Paths
 from ode import utils
@@ -405,11 +406,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
             self.forms_layout.setCurrentIndex(4)
             self.title.setText("Licenses")
 
-    def populate_all_forms(self, filepath):
+    def populate_all_forms(self, filepath: Path) -> None:
         """Populates the form with the content of the descriptor."""
 
         # Shows dialect only for csv files
-        self.show_hide_item("Dialect", filepath.endswith(".csv"))
+        self.show_hide_item("Dialect", filepath.suffix == ".csv")
 
         self.resource = Metadata.get_or_create_metadata(filepath).get("resource")
         for form in self.forms:
@@ -475,20 +476,23 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
 
 class Metadata:
+    """
+    Class to handles all the operations of the metadata files.
 
+    For every file opened in ODE there will be a corresponding Metadata file.
+    Metadata is a dict containing the Frictionless Descriptor (required for validation)
+    plus other metadata that ODE could require. All files are stored in a .metadata/ folder
+    mirroring the main project folder structure.
+
+    Example:
+    {
+      "resource": "{...frictionless descriptor...}"
+      "custom_ode_metadata": "custom_ode_metadata_value"
+    }
+    """
     @classmethod
     def get_or_create_metadata(cls, filepath):
-        """Get or create a metadata object for the Resource.
-
-        Metadata is a dict containing the Frictionless Metadata plus other metadata
-        that ODE could require.
-
-        Example:
-        {
-          "resource": "{...frictionless descriptor...}"
-          "custom_ode_metadata": "custom_ode_metadata_value"
-        }
-        """
+        """Get or create a metadata object for the fiven file."""
         metadata_filepath = Paths.get_path_to_metadata_file(filepath)
         metadata = dict()
 
@@ -514,6 +518,30 @@ class Metadata:
             metadata["resource"] = resource
 
         return metadata
+
+    @classmethod
+    def get_metadata_dict(cls, filepath: Path) -> dict:
+        """Returns a dictionary with ODE metadata for the given file.
+
+        Use this method instead of get_or_create_metadata when your logic assumes a metadata
+        file exist and you want it to fail if it does not.
+        """
+        metadata_filepath = Paths.get_path_to_metadata_file(filepath)
+        with open(metadata_filepath) as file:
+            return json.load(file)
+
+    @classmethod
+    def patch_metadata_path(cls, filepath: Path) -> None:
+        """Update Frictionless' path attribute to the current filepath.
+
+        This method is used when renaming a file trough the UI to ensure that the corresponding
+        Frictionless' path attribute is in sync with the new name.
+        """
+        metadata = cls.get_metadata_dict(filepath)
+        metadata["resource"]["path"] = str(filepath)
+        metadata_path = Paths.get_path_to_metadata_file(filepath)
+        with open(metadata_path, "w") as f:
+            json.dump(metadata, f)
 
 
 if __name__ == "__main__":

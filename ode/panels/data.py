@@ -1,4 +1,5 @@
 from frictionless import validate, Resource, system
+from pathlib import Path
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 from PySide6.QtGui import QColor
@@ -20,7 +21,7 @@ class DataWorker(QRunnable):
     application to get freeze while reading and instead display proper messages to
     the user.
     """
-    def __init__(self, filepath):
+    def __init__(self, filepath: Path) -> None:
         super().__init__()
         self.filepath = filepath
         self.signals = DataWorkerSignals()

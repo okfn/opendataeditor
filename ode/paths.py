@@ -22,7 +22,7 @@ class Paths:
         return os.path.join(cls.assets, "translations", filename)
 
     @classmethod
-    def get_path_to_metadata_file(cls, filepath):
+    def get_path_to_metadata_file(cls, filepath) -> Path:
         """Returns the path to the metadata file of the given file.
 
         Metadata is a JSON object that stores Fricionless Metadata and any other
@@ -52,7 +52,7 @@ class Paths:
         return metadata_path / (filepath.stem + '.json')
 
     @classmethod
-    def get_unique_destination_filepath(cls, src_filepath, project_path=None):
+    def get_unique_destination_filepath(cls, src_filepath, project_path=None) -> Path:
         """Returns a unique destination_filepath by appending a number if the file already exists.
 
         If the specified file already exists, the method will generate a new filename by
