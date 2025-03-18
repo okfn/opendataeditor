@@ -6,9 +6,12 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel
 
 from ode import utils
 
+DEFAULT_LIMIT_ERRORS = 999
+
 
 class DataWorkerSignals(QObject):
     """Define the signals for the DataWorker."""
+
     finished = Signal(tuple)
 
 
@@ -20,6 +23,7 @@ class DataWorker(QRunnable):
     application to get freeze while reading and instead display proper messages to
     the user.
     """
+
     def __init__(self, filepath):
         super().__init__()
         self.filepath = filepath
@@ -41,7 +45,7 @@ class DataWorker(QRunnable):
             data = Resource(self.filepath).read_cells()
 
         with system.use_context(trusted=True):
-            report = validate(self.filepath)
+            report = validate(self.filepath, limit_errors=DEFAULT_LIMIT_ERRORS)
 
         errors = []
         if not report.valid:
@@ -81,18 +85,18 @@ class FrictionlessTableModel(QAbstractTableModel):
         """
         result = [None] * self._row_count
         for error in errors:
-            if error.type == 'source-error':
+            if error.type == "source-error":
                 # SourceError happens with files that cannot be read and do not have row_number nor field_number.
                 return result
-            elif error.type == 'blank-label':
+            elif error.type == "blank-label":
                 # https://github.com/frictionlessdata/frictionless-py/issues/1710
                 row = error.row_numbers[0] - 1
                 column = error.field_number - 1
-            elif error.type == 'blank-row':
+            elif error.type == "blank-row":
                 row = error.row_number - 1
                 # BlankRow error does not have field_number
                 column = 0
-            elif error.type == 'duplicate-label':
+            elif error.type == "duplicate-label":
                 row = error.row_numbers[0] - 1
                 column = error.field_number - 1
             else:
@@ -146,16 +150,16 @@ class FrictionlessTableModel(QAbstractTableModel):
             if not self.errors[index.row()]:
                 return
             error_column, error_type, error_message = self.errors[index.row()]
-            if error_type == 'blank-row':
+            if error_type == "blank-row":
                 # BlankRowError does not have field_number, we paint all the cells.
-                return QColor('red')
+                return QColor("red")
             if error_column == index.column():
-                return QColor('red')
+                return QColor("red")
         if role == Qt.ItemDataRole.ToolTipRole:
             if not self.errors[index.row()]:
                 return
             error_column, error_type, error_message = self.errors[index.row()]
-            if error_type == 'blank-row':
+            if error_type == "blank-row":
                 # BlankRowError does not have field_number, we add tooltip to all the cells.
                 return error_message
             if error_column == index.column():
@@ -191,6 +195,7 @@ class FrictionlessTableModel(QAbstractTableModel):
 
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
+
     def __init__(self):
         super().__init__()
 
