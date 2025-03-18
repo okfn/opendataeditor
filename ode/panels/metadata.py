@@ -211,25 +211,27 @@ class SchemaForm(QWidget):
         super().__init__(*args, **kwargs)
         layout = QFormLayout()
         self.name = QLineEdit()
-        self.name.setEnabled(False)
         layout.addRow("Name: ", self.name)
         self.primary_key = QComboBox()
-        self.primary_key.setEnabled(False)
         layout.addRow("Primary Key: ", self.primary_key)
         self.title = QLineEdit()
-        self.title.setEnabled(False)
         layout.addRow("Title: ", self.title)
         self.missing_values = QLineEdit()
-        self.missing_values.setEnabled(False)
         layout.addRow("Missing Values: ", self.missing_values)
         self.description = QLineEdit()
-        self.description.setEnabled(False)
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
 
     def populate(self, resource):
-        # TODO: Implement, logic of Schema is not well defined
-        pass
+        self.title.setText(resource.schema.title)
+        self.name.setText(resource.schema.name)
+        self.description.setText(resource.schema.description)
+        # self.missing_values.setText(resource.schema.missing_values)
+        self.primary_key.clear()
+        for field in resource.schema.fields:
+            self.primary_key.addItem(field.name)
+
+        self.primary_key.setCurrentText(resource.schema.primary_key[0])
 
 
 class IntegrityForm(QWidget):
@@ -477,11 +479,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 self.resource.rows = form.rows.value()
             elif isinstance(form, SchemaForm):
                 # SchemaForm
-                # self.resource.schema.name = form.name.text()
-                # self.resource.schema.title = form.title.text()
-                # self.resource.schema.primary_key = form.primary_key.currentText()
+                self.resource.schema.name = form.name.text()
+                self.resource.schema.title = form.title.text()
+                self.resource.schema.primary_key = form.primary_key.currentText()
                 # self.resource.schema.missing_values = form.missing_values.text()
-                # self.resource.schema.description = form.description.text()
+                self.resource.schema.missing_values = None
+                self.resource.schema.description = form.description.text()
                 pass
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
