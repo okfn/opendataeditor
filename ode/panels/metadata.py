@@ -231,7 +231,8 @@ class SchemaForm(QWidget):
         for field in resource.schema.fields:
             self.primary_key.addItem(field.name)
 
-        self.primary_key.setCurrentText(resource.schema.primary_key[0])
+        if len(resource.schema.primary_key) > 0:
+            self.primary_key.setCurrentText(resource.schema.primary_key[0])
 
 
 class IntegrityForm(QWidget):
