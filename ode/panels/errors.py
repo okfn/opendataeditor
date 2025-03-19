@@ -110,17 +110,14 @@ class ErrorsWidget(QWidget):
         super().__init__(*args, **kwargs)
         self.layout = QVBoxLayout()
 
-        self.no_errors_label = QLabel()
-        self.no_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-
         self.max_errors_label = QLabel()
+        self.max_errors_label.setStyleSheet("font-size: 17px")
         self.max_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         self.reports = QWidget()
         self.reports_layout = QVBoxLayout()
         self.reports.setLayout(self.reports_layout)
 
-        self.layout.addWidget(self.no_errors_label)
         self.layout.addWidget(self.max_errors_label)
         self.layout.addWidget(self.reports)
 
@@ -144,7 +141,6 @@ class ErrorsWidget(QWidget):
             self.reports_layout.addWidget(errorReport)
             total_errors += len(error)
         self.reports.show()
-        self.no_errors_label.hide()
 
         if total_errors >= DEFAULT_LIMIT_ERRORS:
             self.max_errors_label.show()
@@ -152,12 +148,11 @@ class ErrorsWidget(QWidget):
             self.max_errors_label.hide()
 
     def clear(self):
-        """ " Removes all the ErrorReports that have been added to this widget."""
+        """Removes all the ErrorReports that have been added to this widget."""
         while self.reports_layout.count():
             errorReport = self.reports_layout.takeAt(0)
             errorReport.widget().deleteLater()
         self.reports.hide()
-        self.no_errors_label.show()
 
     def _sort_frictionless_errors(self, errors):
         """Splits a list of dictionaries into several lists grouped by type.
@@ -172,7 +167,7 @@ class ErrorsWidget(QWidget):
         return list(result.values())
 
     def retranslateUI(self):
-        self.no_errors_label.setText(self.tr("No errors to show."))
         self.max_errors_label.setText(
-            self.tr(f"Please, note that the ODE currently detects a maximum of {DEFAULT_LIMIT_ERRORS} errors in tables")
+            self.tr("Please note that the ODE currently detects errors in tables, with a maximum of ")
+            + str(DEFAULT_LIMIT_ERRORS)
         )
