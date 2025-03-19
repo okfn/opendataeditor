@@ -143,11 +143,12 @@ class DataUploadDialog(QDialog):
         """Copy the selected folder and all its content to the project path."""
         source_folder = QFileDialog.getExistingDirectory(self)
         folder = Path(source_folder)
-        if folder.is_dir():
-            self.target_path = Paths.PROJECT_PATH / folder.name
-            shutil.copytree(folder, self.target_path, dirs_exist_ok=True)
-            self.accept()
-        self.reject()
+        if not folder.is_dir():
+            self.reject()
+            return
+        self.target_path = Paths.PROJECT_PATH / folder.name
+        shutil.copytree(folder, self.target_path, dirs_exist_ok=True)
+        self.accept()
 
     def load_table_from_url(self):
         """Load a tabular file from a public URL.
