@@ -52,7 +52,7 @@ class Paths:
         return metadata_path / (filepath.stem + '.json')
 
     @classmethod
-    def get_unique_destination_filepath(cls, src_filepath, project_path=None):
+    def get_unique_destination_filepath(cls, src_filepath, project_path=None) -> Path:
         """Returns a unique destination_filepath by appending a number if the file already exists.
 
         If the specified file already exists, the method will generate a new filename by
