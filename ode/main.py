@@ -488,8 +488,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(icon)
 
         self.threadpool = QThreadPool()
-        # TODO: Review this decision
-        self.selected_file_path = ""
+        self.selected_file_path = Path()
 
         central_widget = QWidget()
         layout = QGridLayout()
@@ -789,7 +788,7 @@ class MainWindow(QMainWindow):
 
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
-        self.selected_file_path = self.sidebar.file_model.filePath(index)
+        self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         self.read_validate_and_display_file(self.selected_file_path)
 
     def clear_views(self):

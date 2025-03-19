@@ -3,7 +3,7 @@ import sys
 
 from frictionless.resources import TableResource
 from frictionless import system
-
+from pathlib import Path
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QWidget,
@@ -443,11 +443,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
         return metadata
 
-    def populate_all_forms(self, filepath):
+    def populate_all_forms(self, filepath: Path) -> None:
         """Populates the form with the content of the descriptor."""
 
         # Shows dialect only for csv files
-        self.show_hide_item("Dialect", filepath.endswith(".csv"))
+        self.show_hide_item("Dialect", filepath.suffix == ".csv")
 
         self.resource = self.get_or_create_metadata(filepath).get("resource")
         for form in self.forms:

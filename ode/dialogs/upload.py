@@ -1,12 +1,10 @@
-import os
 import re
-import sys
 import shutil
 
 from frictionless.resources import FileResource, TableResource
-
+from pathlib import Path
 from PySide6.QtWidgets import (
-        QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+        QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
         QLabel, QFileDialog, QDialog, QTabWidget, QLineEdit
 )
 from PySide6.QtGui import QPixmap
@@ -59,7 +57,7 @@ class DataUploadDialog(QDialog):
         self.setFixedHeight(500)
         self.setFixedWidth(500)
 
-        self.target_path = ""
+        self.target_path = Path()
 
         main_layout = QVBoxLayout()
 
@@ -141,13 +139,15 @@ class DataUploadDialog(QDialog):
         shutil.copy(filename, self.target_path)
         self.accept()
 
-    def add_folders(self):
+    def add_folders(self) -> None:
         """Copy the selected folder and all its content to the project path."""
         source_folder = QFileDialog.getExistingDirectory(self)
-        if source_folder:
-            folder_name = os.path.basename(source_folder)
-            self.target_path = os.path.join(Paths.PROJECT_PATH, folder_name)
-            shutil.copytree(source_folder, self.target_path, dirs_exist_ok=True)
+        if not source_folder:
+            self.reject()
+            return
+        folder = Path(source_folder)
+        self.target_path = Paths.PROJECT_PATH / folder.name
+        shutil.copytree(folder, self.target_path, dirs_exist_ok=True)
         self.accept()
 
     def load_table_from_url(self):
@@ -179,7 +179,7 @@ class DataUploadDialog(QDialog):
             error = self.tr("Error: The URL is not associated with a table")
             self.error_text.setText(error)
 
-    def upload_dialog(self):
+    def upload_dialog(self) -> tuple[int, Path]:
         """Shows the dialog and then returns the result code and the path to the uploaded file.
 
         This method is inspired in QFileDIalog.getOpenFileName(...) and
@@ -217,10 +217,3 @@ class DataUploadDialog(QDialog):
         self.paste_button.setText(self.tr("Add"))
         self.tab_widget.setTabText(0, self.tr("From Your Computer"))
         self.tab_widget.setTabText(1, self.tr("Add External Data"))
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    dialog = DataUploadDialog()
-    dialog.exec()
-    sys.exit(app.exec())
