@@ -142,10 +142,10 @@ class DataUploadDialog(QDialog):
     def add_folders(self) -> None:
         """Copy the selected folder and all its content to the project path."""
         source_folder = QFileDialog.getExistingDirectory(self)
-        folder = Path(source_folder)
-        if not folder.is_dir():
+        if not source_folder:
             self.reject()
             return
+        folder = Path(source_folder)
         self.target_path = Paths.PROJECT_PATH / folder.name
         shutil.copytree(folder, self.target_path, dirs_exist_ok=True)
         self.accept()
