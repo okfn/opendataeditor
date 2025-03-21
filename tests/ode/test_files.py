@@ -10,11 +10,31 @@ from ode import paths
 
 
 class ODEFile:
+    """Class to interact with a File and it's associated Metadata.
+
+    In ODE, every file has a corresponding metadata file that stores Fricionless Metadata
+    and any other metadata required by ODE. All metadata files are going to be stored in a
+    `.metadata` folder mimicing the file name and the structure of the project folder.
+
+    Everytime the name or the location of the file changes, we need to update it's metadata file
+    as well, so this class will implement all methods required to keep synchronized all the information.
+
+    Metadata file example:
+        {
+          "resource": "{...frictionless descriptor...}"
+          "custom_ode_metadata": "custom_ode_metadata_value"
+        }
+    """
     def __init__(self, path: Path) -> None:
         self.path: Path = path
-        self.metadata_path: Path = self.get_path_to_metadata_file()
+        self.metadata_path: Path = self._get_path_to_metadata_file()
 
     def get_metadata_dict(self) -> dict:
+        """Returns the ODE metadata dictionary for the current file.
+
+        The difference with get_or_create_metadata is that this method will not return
+        a Frictionless TableResource object in the record key, just a JSON object.
+        """
         with open(self.metadata_path) as file:
             metadata = json.load(file)
         return metadata
@@ -23,13 +43,8 @@ class ODEFile:
         with open(self.metadata_path, mode="w") as file:
             json.dump(metadata, file)
 
-    def get_path_to_metadata_file(self) -> Path:
+    def _get_path_to_metadata_file(self) -> Path:
         """Returns the path to the metadata file of the given file.
-
-        Metadata is a JSON object that stores Fricionless Metadata and any other
-        metadata required by ODE. All metadata files are going to be stored in a
-        `.metadata` folder mimicing the file name and the structure of the project
-        folder.
 
         Example 1:
           - File: Paths.PROJECT_FOLDER / 'myfile.csv'
@@ -52,26 +67,15 @@ class ODEFile:
         return metadata_path / (self.path.stem + '.json')
 
     def get_or_create_metadata(self):
-        """Get or create a metadata object for the Resource.
-
-        Metadata is a dict containing the Frictionless Metadata plus other metadata
-        that ODE could require.
-
-        Example:
-        {
-          "resource": "{...frictionless descriptor...}"
-          "custom_ode_metadata": "custom_ode_metadata_value"
-        }
-        """
-        metadata_filepath = self.get_path_to_metadata_file()
+        """Get or create a metadata object for the Resource."""
         metadata = dict()
 
-        if not metadata_filepath.exists():
-            metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
+        if not self.metadata_path.exists():
+            self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(self.path)
                 resource.infer(stats=True)
-            with open(metadata_filepath, "w") as f:
+            with open(self.metadata_path, "w") as f:
                 # Resource is not serializable, converting to dict before writing.
                 metadata["resource"] = resource.to_descriptor()
                 json.dump(metadata, f)
@@ -79,7 +83,7 @@ class ODEFile:
             metadata["resource"] = resource
             return metadata
 
-        with open(metadata_filepath) as file:
+        with open(self.metadata_path) as file:
             metadata = json.load(file)
 
         with system.use_context(trusted=True):
@@ -150,27 +154,26 @@ class TestFiles():
     def test_path_to_metadata_file(self, project_folder):
         p1 = (project_folder / "example.csv")
         m1 = (project_folder / ".metadata/example.json")
-        assert ODEFile(p1).get_path_to_metadata_file() == m1
+        assert ODEFile(p1).metadata_path == m1
 
     def test_path_to_metadata_subfolder(self, project_folder):
         p2 = (project_folder / "subfolder/example-1.csv")
         m2 = (project_folder / ".metadata/subfolder/example-1.json")
-        assert ODEFile(p2).get_path_to_metadata_file() == m2
+        assert ODEFile(p2).metadata_path == m2
 
     def test_path_to_metadata_folder(self, project_folder):
         p3 = (project_folder / "subfolder/")
         p3.mkdir()
         m3 = (project_folder / ".metadata/subfolder/")
-        assert ODEFile(p3).get_path_to_metadata_file() == m3
+        assert ODEFile(p3).metadata_path == m3
 
     def test_get_create_metadata(self, project_folder):
         p1 = (project_folder / "example.csv")
         p1.write_text("name,age\nAlice,30\nBob,25")
 
         file = ODEFile(p1)
-        m1 = file.get_path_to_metadata_file()
         metadata = file.get_or_create_metadata()
-        assert m1.exists()
+        assert file.metadata_path.exists()
         assert metadata["resource"]
         assert metadata["resource"].path == str(p1)
 
