@@ -12,9 +12,18 @@ from ode import paths
 class ODEFile:
     def __init__(self, path: Path) -> None:
         self.path = path
-        self.metadata = Path()
+        self.metadata = self.get_path_to_metadata_file()
 
-    def get_path_to_metadata_file(self):
+    def get_metadata_dict(self) -> dict:
+        with open(self.metadata) as file:
+            metadata = json.load(file)
+        return metadata
+
+    def set_metadata_dict(self, metadata) -> None:
+        with open(self.metadata, mode="w") as file:
+            file.write(json.dump(metadata))
+
+    def get_path_to_metadata_file(self) -> Path:
         """Returns the path to the metadata file of the given file.
 
         Metadata is a JSON object that stores Fricionless Metadata and any other
@@ -91,15 +100,24 @@ def project_folder(tmp_path):
 
 class TestFiles():
 
-    def test_get_get_path_to_metadata_file(self, project_folder):
+    def test_constructor(self, project_folder):
+        p1 = (project_folder / "example.csv")
+        file = ODEFile(p1)
+
+        assert file.path == p1
+        assert file.metadata == (project_folder / ".metadata/example.json")
+
+    def test_path_to_metadata_file(self, project_folder):
         p1 = (project_folder / "example.csv")
         m1 = (project_folder / ".metadata/example.json")
         assert ODEFile(p1).get_path_to_metadata_file() == m1
 
+    def test_path_to_metadata_subfolder(self, project_folder):
         p2 = (project_folder / "subfolder/example-1.csv")
         m2 = (project_folder / ".metadata/subfolder/example-1.json")
         assert ODEFile(p2).get_path_to_metadata_file() == m2
 
+    def test_path_to_metadata_folder(self, project_folder):
         p3 = (project_folder / "subfolder/")
         p3.mkdir()
         m3 = (project_folder / ".metadata/subfolder/")
@@ -116,10 +134,14 @@ class TestFiles():
         assert metadata["resource"]
         assert metadata["resource"].path == str(p1)
 
-    def test_get_metadata(self, project_folder):
+    def test_get_metadata_dict(self, project_folder):
         p1 = (project_folder / "example.csv")
         p1.write_text("name,age\nAlice,30\nBob,25")
-
         file = ODEFile(p1)
-        m1 = file.get_path_to_metadata_file()
-        metadata = file.get_or_create_metadata()
+        file.get_or_create_metadata()
+
+        metadata = file.get_metadata_dict()
+        assert metadata
+        assert isinstance(metadata, dict)
+        assert metadata["resource"]["path"] == str(p1)
+        assert (project_folder / ".metadata/example.json").exists()
