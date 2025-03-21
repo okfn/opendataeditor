@@ -4,7 +4,7 @@ from pathlib import Path
 from frictionless.resources import TableResource
 from frictionless import system
 
-from ode.paths import Paths
+from ode import paths
 
 
 def migrate_metadata_store():
@@ -19,14 +19,14 @@ def migrate_metadata_store():
     Each file will have the same name of the original file with a `metadata.json` append.
     We will also mimic the folder structure.
     """
-    new_metadata_dir = Paths.PROJECT_PATH / '.metadata/'
+    new_metadata_dir = paths.PROJECT_PATH / '.metadata/'
     if new_metadata_dir.exists():
         print(".metadata folder exist. Skipping migration...")
         return
     new_metadata_dir.mkdir()
 
     # Path to the original metadata.json file
-    metadata_file_path = Paths.PROJECT_PATH / '.opendataeditor/metadata.json'
+    metadata_file_path = paths.PROJECT_PATH / '.opendataeditor/metadata.json'
     if not metadata_file_path.exists():
         print("There is no current metadata.json file to migrate. Skipping migration...")
         return
@@ -43,7 +43,7 @@ def migrate_metadata_store():
             with system.use_context(trusted=True):
                 resource = TableResource(record_data.get("resource"))
                 # Patch the original resource path with the absolute path to the file.
-                resource.path = str(Paths.PROJECT_PATH / path)
+                resource.path = str(paths.PROJECT_PATH / path)
                 resource.infer(stats=True)
                 record_data["resource"] = resource.to_descriptor()
         except Exception as e:
@@ -70,4 +70,3 @@ def migrate_metadata_store():
 
 def set_common_style(widget):
     widget.setStyleSheet("font-size: 17px;")
-
