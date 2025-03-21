@@ -21,7 +21,7 @@ class ODEFile:
 
     def set_metadata_dict(self, metadata) -> None:
         with open(self.metadata, mode="w") as file:
-            file.write(json.dump(metadata))
+            json.dump(metadata, file)
 
     def get_path_to_metadata_file(self) -> Path:
         """Returns the path to the metadata file of the given file.
@@ -94,7 +94,7 @@ class ODEFile:
         if new_path.exists():
             raise OSError("File already exist")
         self.path.rename(new_path)
-
+        self.path = new_path
 
 @pytest.fixture(autouse=True)
 def project_folder(tmp_path):
@@ -183,3 +183,10 @@ class TestFiles():
         file = ODEFile(p1)
         with pytest.raises(OSError):
             file.rename("bar")
+
+    def test_rename_also_updates_object_attributes(self, project_folder):
+        p1 = (project_folder / "example.csv")
+        p1.write_text("name,age\nAlice,30\nBob,25")
+        file = ODEFile(p1)
+        file.rename("bar")
+        assert file.path == (project_folder / "bar.csv")
