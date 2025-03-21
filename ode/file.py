@@ -24,8 +24,8 @@ class File:
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
     """
-    def __init__(self, path: Path) -> None:
-        self.path: Path = path
+    def __init__(self, path: str | Path) -> None:
+        self.path: Path = path if isinstance(path, Path) else Path(path)
         self.metadata_path: Path = self._get_path_to_metadata_file()
 
     def get_metadata_dict(self) -> dict:

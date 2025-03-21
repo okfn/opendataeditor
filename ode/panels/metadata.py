@@ -418,7 +418,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
-        file = File(Path(filepath))
+        file = File(filepath)
         metadata = dict()
 
         if not file.metadata_path.exists():
@@ -499,7 +499,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
         metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
-        file = File(Path(self.resource.path))
+        file = File(self.resource.path)
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
             json.dump(metadata, f)

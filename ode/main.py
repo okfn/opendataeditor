@@ -173,7 +173,7 @@ class Sidebar(QWidget):
         """Ask user for the new name for the selected file/folder."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file = File(Path(self.file_model.filePath(index)))
+            file = File(self.file_model.filePath(index))
             name = file.path.stem
             new_name, ok = QInputDialog.getText(
                 self, self.tr("Rename"), self.tr("Enter new name:"), text=name
@@ -211,7 +211,7 @@ class Sidebar(QWidget):
         """Delete a file/folder from the file navigator (and the OS)."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file = File(Path(self.file_model.filePath(index)))
+            file = File(self.file_model.filePath(index))
             confirm = QMessageBox.question(
                 self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
                 QMessageBox.Yes | QMessageBox.No
