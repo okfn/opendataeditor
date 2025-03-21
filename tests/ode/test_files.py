@@ -11,15 +11,15 @@ from ode import paths
 
 class ODEFile:
     def __init__(self, path: Path) -> None:
-        self.path = path
-        self.metadata = self.get_path_to_metadata_file()
+        self.path: Path = path
+        self.metadata: Path = self.get_path_to_metadata_file()
 
     def get_metadata_dict(self) -> dict:
         with open(self.metadata) as file:
             metadata = json.load(file)
         return metadata
 
-    def set_metadata_dict(self, metadata) -> None:
+    def set_metadata_dict(self, metadata: dict) -> None:
         with open(self.metadata, mode="w") as file:
             json.dump(metadata, file)
 
@@ -90,30 +90,42 @@ class ODEFile:
         return metadata
 
     def rename(self, new_name):
+        """Rename a file and the corresponding metadata file.
+
+        Whenever we rename files we need to update a) the name of the metadata file and
+        b) the Frictionless path attribute. When renaming a folder, we need to ensure that
+        every metadata file of children files are updated as well.
+        """
         new_path = self.path.with_stem(new_name)
+        new_metadata_path = self.metadata.with_stem(new_name)
+
         if new_path.exists():
-            raise OSError("File already exist")
+            raise OSError("File already exist.")
+
         self.path.rename(new_path)
 
         if self.metadata.is_file():
-            new_metadata_path = self.metadata.with_stem(new_name)
             metadata = self.get_metadata_dict()
+            # Fricionless path attribute should point to the renamed file.
             metadata["resource"]["path"] = str(new_path)
             self.set_metadata_dict(metadata)
             self.metadata.rename(new_metadata_path)
 
         if self.metadata.is_dir():
-            new_metadata_path = self.metadata.with_stem(new_name)
+            # If we are renaming a directory, we need to update all existing metadata files.
             for file in self.metadata.rglob("*.json"):
                 metadata = dict()
                 with open(file) as f:
                     metadata = json.load(f)
                 current = metadata["resource"]["path"]
+                # When renaming a directory the filename remains but we need to replace its
+                # parent directory. So we just replace current path to the new one.
                 metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
                 with open(file, "w") as f:
                     json.dump(metadata, f)
             self.metadata.rename(new_metadata_path)
 
+        # Update the objects attribute with the new values.
         self.path = new_path
         self.metadata = new_metadata_path
 
