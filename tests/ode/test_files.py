@@ -12,15 +12,15 @@ from ode import paths
 class ODEFile:
     def __init__(self, path: Path) -> None:
         self.path: Path = path
-        self.metadata: Path = self.get_path_to_metadata_file()
+        self.metadata_path: Path = self.get_path_to_metadata_file()
 
     def get_metadata_dict(self) -> dict:
-        with open(self.metadata) as file:
+        with open(self.metadata_path) as file:
             metadata = json.load(file)
         return metadata
 
     def set_metadata_dict(self, metadata: dict) -> None:
-        with open(self.metadata, mode="w") as file:
+        with open(self.metadata_path, mode="w") as file:
             json.dump(metadata, file)
 
     def get_path_to_metadata_file(self) -> Path:
@@ -97,23 +97,23 @@ class ODEFile:
         every metadata file of children files are updated as well.
         """
         new_path = self.path.with_stem(new_name)
-        new_metadata_path = self.metadata.with_stem(new_name)
+        new_metadata_path = self.metadata_path.with_stem(new_name)
 
         if new_path.exists():
             raise OSError("File already exist.")
 
         self.path.rename(new_path)
 
-        if self.metadata.is_file():
+        if self.metadata_path.is_file():
             metadata = self.get_metadata_dict()
             # Fricionless path attribute should point to the renamed file.
             metadata["resource"]["path"] = str(new_path)
             self.set_metadata_dict(metadata)
-            self.metadata.rename(new_metadata_path)
+            self.metadata_path.rename(new_metadata_path)
 
-        if self.metadata.is_dir():
+        if self.metadata_path.is_dir():
             # If we are renaming a directory, we need to update all existing metadata files.
-            for file in self.metadata.rglob("*.json"):
+            for file in self.metadata_path.rglob("*.json"):
                 metadata = dict()
                 with open(file) as f:
                     metadata = json.load(f)
@@ -123,11 +123,11 @@ class ODEFile:
                 metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
                 with open(file, "w") as f:
                     json.dump(metadata, f)
-            self.metadata.rename(new_metadata_path)
+            self.metadata_path.rename(new_metadata_path)
 
         # Update the objects attribute with the new values.
         self.path = new_path
-        self.metadata = new_metadata_path
+        self.metadata_path = new_metadata_path
 
 
 @pytest.fixture(autouse=True)
@@ -145,7 +145,7 @@ class TestFiles():
         file = ODEFile(p1)
 
         assert file.path == p1
-        assert file.metadata == (project_folder / ".metadata/example.json")
+        assert file.metadata_path == (project_folder / ".metadata/example.json")
 
     def test_path_to_metadata_file(self, project_folder):
         p1 = (project_folder / "example.csv")
@@ -225,7 +225,7 @@ class TestFiles():
         file.get_or_create_metadata()
         file.rename("bar")
         assert file.path == (project_folder / "bar.csv")
-        assert str(file.metadata) == str(project_folder / ".metadata/bar.json")
+        assert str(file.metadata_path) == str(project_folder / ".metadata/bar.json")
 
     def test_rename_file_metadata(self, project_folder):
         p1 = (project_folder / "example.csv")
