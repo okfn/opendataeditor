@@ -1,7 +1,6 @@
 import sys
 import ode
 import os
-import shutil
 
 from pathlib import Path
 from PySide6.QtWidgets import (
