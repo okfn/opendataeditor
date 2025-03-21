@@ -1,4 +1,5 @@
 import json
+import shutil
 
 from frictionless import system
 from frictionless.resources import TableResource
@@ -129,3 +130,18 @@ class File:
         # Update object attributes with the new values.
         self.path = new_path
         self.metadata_path = new_metadata_path
+
+    def remove(self):
+        """Remove a file from disk.
+
+        When uploading a folder, the metadata folder does not exist until the first children file
+        is open and validated. If the user uploads a folder and do not open any file,
+        we will not have a metadata folder. We check if it exist before deleting to ignore errors.
+        """
+        if self.path.is_file():
+            self.path.unlink()
+            self.metadata_path.unlink()
+        elif self.path.is_dir():
+            shutil.rmtree(self.path)
+            if self.metadata_path.exists():
+                shutil.rmtree(self.metadata_path)

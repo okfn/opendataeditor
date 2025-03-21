@@ -4,7 +4,7 @@ import pytest
 from ode.file import File
 
 
-class TestFiles():
+class TestFiles:
 
     def test_constructor(self, project_folder):
         p1 = (project_folder / "example.csv")
@@ -129,3 +129,38 @@ class TestFiles():
         with open(metadata_path) as f:
             metadata = json.load(f)
             assert metadata["resource"]["path"] == str(project_folder / "new_name/bar.csv")
+
+    def test_remove_file_and_metadata(self, project_folder):
+        p1 = (project_folder / "example.csv")
+        p1.touch()
+        file = File(p1)
+        file.get_or_create_metadata()
+        file.remove()
+
+        assert file.path.exists() is False
+        assert file.metadata_path.exists() is False
+
+    def test_delete_folder_and_metadata(self, project_folder):
+        m1 = (project_folder / "subfolder")
+        m1.mkdir()
+        p1 = (project_folder / "subfolder/foo.csv")
+        p1.touch()
+        f1 = File(p1)
+        f1.get_or_create_metadata()
+        p2 = (project_folder / "subfolder/bar.csv")
+        p2.touch()
+        f2 = File(p2)
+        f2.get_or_create_metadata()
+        p3 = (project_folder / "subfolder/zoo.csv")
+        p3.touch()
+        f3 = File(p3)  # f3 should not have a metadata fail and it should not fail when deleting.
+
+        file = File(m1)
+        file.remove()
+
+        assert p1.exists() is False
+        assert f1.metadata_path.exists() is False
+        assert p2.exists() is False
+        assert f2.metadata_path.exists() is False
+        assert p3.exists() is False
+        assert f3.metadata_path.exists() is False

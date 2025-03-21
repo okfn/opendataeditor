@@ -212,25 +212,14 @@ class Sidebar(QWidget):
         """Delete a file/folder from the file navigator (and the OS)."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = Path(self.file_model.filePath(index))
-            metadata_path = Paths.get_path_to_metadata_file(file_path)
-
+            file = File(Path(self.file_model.filePath(index)))
             confirm = QMessageBox.question(
                 self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
                 QMessageBox.Yes | QMessageBox.No
             )
             if confirm == QMessageBox.Yes:
                 try:
-                    if file_path.is_file():
-                        file_path.unlink()
-                        metadata_path.unlink()
-                    elif file_path.is_dir():
-                        shutil.rmtree(file_path)
-                        # Folder containing metadata files does not exist until the first children file
-                        # is open and validated. If the user uploads a folder and do not open any file,
-                        # we will not have a metadata folder. We check if it exist before deleting to ignore errors.
-                        if metadata_path.exists():
-                            shutil.rmtree(metadata_path)
+                    file.remove()
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
 
