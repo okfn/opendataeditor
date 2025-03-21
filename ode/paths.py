@@ -22,7 +22,7 @@ class Paths:
         return os.path.join(cls.assets, "translations", filename)
 
     @classmethod
-    def get_unique_destination_filepath(cls, src_filepath, project_path=None) -> Path:
+    def get_unique_destination_filepath(cls, src_filepath) -> Path:
         """Returns a unique destination_filepath by appending a number if the file already exists.
 
         If the specified file already exists, the method will generate a new filename by
@@ -35,8 +35,7 @@ class Paths:
 
         src_filepath = Path(src_filepath) if isinstance(src_filepath, str) else src_filepath
 
-        project_path = PROJECT_PATH if project_path is None else project_path
-        destination_filepath = Path(project_path) / src_filepath.name
+        destination_filepath = PROJECT_PATH / src_filepath.name
 
         # If already exists we increment to `filename (n) until we find one not taking
         counter = 1
