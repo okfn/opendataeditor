@@ -89,6 +89,12 @@ class ODEFile:
 
         return metadata
 
+    def rename(self, new_name):
+        new_path = self.path.with_stem(new_name)
+        if new_path.exists():
+            raise OSError("File already exist")
+        self.path.rename(new_path)
+
 
 @pytest.fixture(autouse=True)
 def project_folder(tmp_path):
@@ -145,3 +151,35 @@ class TestFiles():
         assert isinstance(metadata, dict)
         assert metadata["resource"]["path"] == str(p1)
         assert (project_folder / ".metadata/example.json").exists()
+
+    def test_rename_file(self, project_folder):
+        p1 = (project_folder / "example.csv")
+        p1.write_text("name,age\nAlice,30\nBob,25")
+        file = ODEFile(p1)
+
+        file.rename("bar")
+        assert not p1.exists()
+        assert (project_folder / "bar.csv").exists()
+
+    def test_rename_folder(self, project_folder):
+        m1 = (project_folder / "subfolder")
+        m1.mkdir()
+        p1 = (project_folder / "subfolder/example.csv")
+        p1.write_text("name,age\nAlice,30\nBob,25")
+
+        ode_folder = ODEFile(m1)
+        ode_folder.rename("bar")
+
+        assert not m1.exists()
+        assert (project_folder / "bar").exists()
+        assert (project_folder / "bar/example.csv").exists()
+
+    def test_rename_raises_error_if_target_exist(self, project_folder):
+        p1 = (project_folder / "foo.csv")
+        p1.write_text("foo")
+        p2 = (project_folder / "bar.csv")
+        p2.write_text("bar")
+
+        file = ODEFile(p1)
+        with pytest.raises(OSError):
+            file.rename("bar")
