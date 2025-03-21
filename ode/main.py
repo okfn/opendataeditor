@@ -18,6 +18,8 @@ from PySide6.QtCore import (
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
+from ode import paths
+from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
@@ -96,7 +98,7 @@ class Sidebar(QWidget):
 
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
-        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
+        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(paths.PROJECT_PATH)))
         self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
         self.file_navigator.setHeaderHidden(True)
         self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -172,21 +174,14 @@ class Sidebar(QWidget):
         """Ask user for the new name for the selected file/folder."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = Path(self.file_model.filePath(index))
-            if file_path.is_file():
-                name = file_path.stem
-                extension = file_path.suffix
-            elif file_path.is_dir():
-                name = file_path.name
-                extension = ""
-
+            file = File(Path(self.file_model.filePath(index)))
+            name = file.path.stem
             new_name, ok = QInputDialog.getText(
                 self, self.tr("Rename"), self.tr("Enter new name:"), text=name
             )
             if ok and new_name:
-                new_path = os.path.join(os.path.dirname(file_path), new_name + extension)
                 try:
-                    os.rename(file_path, new_path)
+                    file.rename(new_name)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")

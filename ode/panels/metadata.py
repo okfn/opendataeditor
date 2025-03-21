@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
 from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
 
+from ode.file import File
 from ode.paths import Paths
 from ode import utils
 
@@ -417,15 +418,15 @@ class FrictionlessResourceMetadataWidget(QWidget):
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
         """
-        metadata_filepath = Paths.get_path_to_metadata_file(filepath)
+        file = File(Path(filepath))
         metadata = dict()
 
-        if not metadata_filepath.exists():
-            metadata_filepath.parent.mkdir(parents=True, exist_ok=True)
+        if not file.metadata_path.exists():
+            file.metadata_path.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(filepath)
                 resource.infer(stats=True)
-            with open(metadata_filepath, "w") as f:
+            with open(file.metadata_path, "w") as f:
                 # Resource is not serializable, converting to dict before writing.
                 metadata["resource"] = resource.to_descriptor()
                 json.dump(metadata, f)
@@ -433,7 +434,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             metadata["resource"] = resource
             return metadata
 
-        with open(metadata_filepath) as file:
+        with open(file.metadata_path) as file:
             metadata = json.load(file)
 
         with system.use_context(trusted=True):
@@ -496,11 +497,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
 
-        metadata_filepath = Paths.get_path_to_metadata_file(self.resource.path)
         metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
-        with open(metadata_filepath, "w") as f:
-            print(f"Saving metadata {metadata_filepath}")
+        file = File(Path(self.resource.path))
+        with open(file.metadata_path, "w") as f:
+            print(f"Saving metadata {file.metadata_path}")
             json.dump(metadata, f)
 
     def show_hide_item(self, item_text: str, show: bool = True) -> None:

@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
+from ode import paths
 from ode.paths import Paths
 
 
@@ -146,7 +147,7 @@ class DataUploadDialog(QDialog):
             self.reject()
             return
         folder = Path(source_folder)
-        self.target_path = Paths.PROJECT_PATH / folder.name
+        self.target_path = paths.PROJECT_PATH / folder.name
         shutil.copytree(folder, self.target_path, dirs_exist_ok=True)
         self.accept()
 
