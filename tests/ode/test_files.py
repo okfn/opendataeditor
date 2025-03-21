@@ -96,6 +96,14 @@ class ODEFile:
         self.path.rename(new_path)
         self.path = new_path
 
+        if self.metadata.is_file():
+            new_metadata_path = self.metadata.with_stem(new_name)
+            metadata = self.get_metadata_dict()
+            metadata["resource"]["path"] = str(new_path)
+            self.set_metadata_dict(metadata)
+            self.metadata.rename(new_metadata_path)
+            self.metadata = new_metadata_path
+
 @pytest.fixture(autouse=True)
 def project_folder(tmp_path):
     # Patch the PROJECT_PATH to use temporary directory
@@ -188,5 +196,18 @@ class TestFiles():
         p1 = (project_folder / "example.csv")
         p1.write_text("name,age\nAlice,30\nBob,25")
         file = ODEFile(p1)
+        file.get_or_create_metadata()
         file.rename("bar")
         assert file.path == (project_folder / "bar.csv")
+        assert str(file.metadata) == str(project_folder / ".metadata/bar.json")
+
+    def test_rename_file_metadata(self, project_folder):
+        p1 = (project_folder / "example.csv")
+        p1.write_text("name,age\nAlice,30\nBob,25")
+        file = ODEFile(p1)
+        file.get_or_create_metadata()
+        file.rename("bar")
+
+        metadata = file.get_metadata_dict()
+        expected = (project_folder / "bar.csv")
+        assert metadata["resource"]["path"] == str(expected)
