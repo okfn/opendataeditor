@@ -94,7 +94,6 @@ class ODEFile:
         if new_path.exists():
             raise OSError("File already exist")
         self.path.rename(new_path)
-        self.path = new_path
 
         if self.metadata.is_file():
             new_metadata_path = self.metadata.with_stem(new_name)
@@ -102,7 +101,22 @@ class ODEFile:
             metadata["resource"]["path"] = str(new_path)
             self.set_metadata_dict(metadata)
             self.metadata.rename(new_metadata_path)
-            self.metadata = new_metadata_path
+
+        if self.metadata.is_dir():
+            new_metadata_path = self.metadata.with_stem(new_name)
+            for file in self.metadata.rglob("*.json"):
+                metadata = dict()
+                with open(file) as f:
+                    metadata = json.load(f)
+                current = metadata["resource"]["path"]
+                metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
+                with open(file, "w") as f:
+                    json.dump(metadata, f)
+            self.metadata.rename(new_metadata_path)
+
+        self.path = new_path
+        self.metadata = new_metadata_path
+
 
 @pytest.fixture(autouse=True)
 def project_folder(tmp_path):
@@ -211,3 +225,30 @@ class TestFiles():
         metadata = file.get_metadata_dict()
         expected = (project_folder / "bar.csv")
         assert metadata["resource"]["path"] == str(expected)
+
+    def test_rename_folder_metadata(self, project_folder):
+        """Test that renaming folders updates all metadata files of children files."""
+        m1 = (project_folder / "subfolder")
+        m1.mkdir()
+        p1 = (project_folder / "subfolder/foo.csv")
+        p1.write_text("name,age\nAlice,30\nBob,25")
+        ODEFile(p1).get_or_create_metadata()
+        p2 = (project_folder / "subfolder/bar.csv")
+        p2.write_text("name,age\nAlice,30\nBob,25")
+        ODEFile(p2).get_or_create_metadata()
+
+        file = ODEFile(m1)
+        file.rename("new_name")
+
+        assert (project_folder / ".metadata/new_name/foo.json").exists()
+        assert (project_folder / ".metadata/new_name/bar.json").exists()
+
+        metadata_path = (project_folder / ".metadata/new_name/foo.json")
+        with open(metadata_path) as f:
+            metadata = json.load(f)
+            assert metadata["resource"]["path"] == str(project_folder / "new_name/foo.csv")
+
+        metadata_path = (project_folder / ".metadata/new_name/bar.json")
+        with open(metadata_path) as f:
+            metadata = json.load(f)
+            assert metadata["resource"]["path"] == str(project_folder / "new_name/bar.csv")
