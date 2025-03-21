@@ -106,27 +106,26 @@ class File:
 
         self.path.rename(new_path)
 
+        # First we update metadata's path attribute to point to the renamed file/folder
         if self.metadata_path.is_file():
             metadata = self.get_metadata_dict()
-            # Fricionless path attribute should point to the renamed file.
             metadata["resource"]["path"] = str(new_path)
             self.set_metadata_dict(metadata)
             self.metadata_path.rename(new_metadata_path)
-
-        if self.metadata_path.is_dir():
+        elif self.metadata_path.is_dir():
             # If we are renaming a directory, we need to update all existing metadata files.
             for file in self.metadata_path.rglob("*.json"):
                 metadata = dict()
                 with open(file) as f:
                     metadata = json.load(f)
-                current = metadata["resource"]["path"]
                 # When renaming a directory the filename remains but we need to replace its
-                # parent directory. So we just replace current path to the new one.
+                # parent directory.
+                current = metadata["resource"]["path"]
                 metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
                 with open(file, "w") as f:
                     json.dump(metadata, f)
             self.metadata_path.rename(new_metadata_path)
 
-        # Update the objects attribute with the new values.
+        # Update object attributes with the new values.
         self.path = new_path
         self.metadata_path = new_metadata_path
