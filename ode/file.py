@@ -103,7 +103,7 @@ class File:
         new_metadata_path = self.metadata_path.with_stem(new_name)
 
         if new_path.exists():
-            raise OSError("File already exist.")
+            raise OSError
 
         self.path.rename(new_path)
 

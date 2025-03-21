@@ -191,8 +191,8 @@ class Sidebar(QWidget):
                 except PermissionError:
                     # Since we have a managed PROJECT_PATH this should never happen.
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
-                except OSError as e:
-                    QMessageBox.warning(self, self.tr("Error"), self.tr("Error: {e}").format(e))
+                except OSError:
+                    QMessageBox.warning(self, self.tr("Error"), self.tr("File with this name already exists."))
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
