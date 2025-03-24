@@ -155,7 +155,6 @@ class SingleFieldForm(QWidget):
         self.types.setCurrentText(field.type)
         self.title.setText(field.title)
         self.description.setText(field.description)
-        # self.missing_values.setText(field.missing_values)
         self.rdf_type.setText(field.rdf_type)
 
 
@@ -211,25 +210,31 @@ class SchemaForm(QWidget):
         super().__init__(*args, **kwargs)
         layout = QFormLayout()
         self.name = QLineEdit()
-        self.name.setEnabled(False)
         layout.addRow("Name: ", self.name)
         self.primary_key = QComboBox()
-        self.primary_key.setEnabled(False)
         layout.addRow("Primary Key: ", self.primary_key)
         self.title = QLineEdit()
-        self.title.setEnabled(False)
         layout.addRow("Title: ", self.title)
         self.missing_values = QLineEdit()
-        self.missing_values.setEnabled(False)
         layout.addRow("Missing Values: ", self.missing_values)
         self.description = QLineEdit()
-        self.description.setEnabled(False)
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
 
     def populate(self, resource):
-        # TODO: Implement, logic of Schema is not well defined
-        pass
+        self.title.setText(resource.schema.title)
+        self.name.setText(resource.schema.name)
+        self.description.setText(resource.schema.description)
+        # self.missing_values.setText(resource.schema.missing_values)
+        self.primary_key.clear()
+        for field in resource.schema.fields:
+            self.primary_key.addItem(field.name)
+
+        if len(resource.schema.primary_key) > 0:
+            self.primary_key.setCurrentText(resource.schema.primary_key[0])
+
+        if field.missing_values and len(resource.schema.missing_values) > 0:
+            self.missing_values.setText(",".join(resource.schema.missing_values))
 
 
 class IntegrityForm(QWidget):
@@ -477,11 +482,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 self.resource.rows = form.rows.value()
             elif isinstance(form, SchemaForm):
                 # SchemaForm
-                # self.resource.schema.name = form.name.text()
-                # self.resource.schema.title = form.title.text()
-                # self.resource.schema.primary_key = form.primary_key.currentText()
-                # self.resource.schema.missing_values = form.missing_values.text()
-                # self.resource.schema.description = form.description.text()
+                self.resource.schema.name = form.name.text()
+                self.resource.schema.title = form.title.text()
+                self.resource.schema.primary_key = form.primary_key.currentText()
+                # We remove the spaces from the missing values
+                self.resource.schema.missing_values = [m.strip() for m in form.missing_values.text().split(",")]
+                self.resource.schema.description = form.description.text()
                 pass
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
@@ -491,7 +497,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     self.resource.schema.set_field_type(field.name, field_form.types.currentText())
                     field.title = field_form.title.text()
                     field.description = field_form.description.text()
-                    # field.missing_values = field_form.missing_values.text()
+                    field.missing_values = field_form.missing_values.text()
                     field.rdf_type = field_form.rdf_type.text()
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
