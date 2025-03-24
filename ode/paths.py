@@ -1,17 +1,17 @@
 import os
 from pathlib import Path
 
+# This is the Project path where all files are stored and
+# it will be hardcoded to the home folder of the user until
+# we define how to properly handle projects in Open Data Editor.
+PROJECT_PATH = Path.home() / '.opendataeditor/tmp'
+METADATA_PATH = PROJECT_PATH / '.metadata'
+
 
 class Paths:
     """Utility class to handle relative paths."""
     base = os.path.dirname(__file__)
     assets = os.path.join(base, "assets")
-
-    # This is the Project path where all files are stored and
-    # it will be hardcoded to the home folder of the user until
-    # we define how to properly handle projects in Open Data Editor.
-    PROJECT_PATH = Path.home() / '.opendataeditor/tmp'
-    METADATA_PATH = PROJECT_PATH / '.metadata'
 
     @classmethod
     def asset(cls, filename):
@@ -22,37 +22,7 @@ class Paths:
         return os.path.join(cls.assets, "translations", filename)
 
     @classmethod
-    def get_path_to_metadata_file(cls, filepath):
-        """Returns the path to the metadata file of the given file.
-
-        Metadata is a JSON object that stores Fricionless Metadata and any other
-        metadata required by ODE. All metadata files are going to be stored in a
-        `.metadata` folder mimicing the file name and the structure of the project
-        folder.
-
-        Example 1:
-          - File: Paths.PROJECT_FOLDER / 'myfile.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/myfile.json'
-
-        Example 2 (subfolder):
-          - File: Paths.PROJECT_FOLDER / 'subfolder/invalid-file.csv'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder/invalid-file.json'
-
-        Example 3 (input is folder):
-          - Folder: Paths.PROJECT_FOLDER / 'subfolder'
-          - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder'
-        """
-        filepath = Path(filepath) if isinstance(filepath, str) else filepath
-        relative_path = filepath.parent.relative_to(cls.PROJECT_PATH)
-        metadata_path = cls.METADATA_PATH / relative_path
-
-        if filepath.is_dir():
-            return metadata_path / filepath.stem
-
-        return metadata_path / (filepath.stem + '.json')
-
-    @classmethod
-    def get_unique_destination_filepath(cls, src_filepath, project_path=None) -> Path:
+    def get_unique_destination_filepath(cls, src_filepath) -> Path:
         """Returns a unique destination_filepath by appending a number if the file already exists.
 
         If the specified file already exists, the method will generate a new filename by
@@ -65,8 +35,7 @@ class Paths:
 
         src_filepath = Path(src_filepath) if isinstance(src_filepath, str) else src_filepath
 
-        project_path = cls.PROJECT_PATH if project_path is None else project_path
-        destination_filepath = Path(project_path) / src_filepath.name
+        destination_filepath = PROJECT_PATH / src_filepath.name
 
         # If already exists we increment to `filename (n) until we find one not taking
         counter = 1

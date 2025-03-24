@@ -1,7 +1,6 @@
 import sys
 import ode
 import os
-import shutil
 
 from pathlib import Path
 from PySide6.QtWidgets import (
@@ -18,6 +17,8 @@ from PySide6.QtCore import (
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
+from ode import paths
+from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
@@ -96,7 +97,7 @@ class Sidebar(QWidget):
 
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
-        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(Paths.PROJECT_PATH)))
+        self.file_navigator.setRootIndex(self.file_model.setRootPath(str(paths.PROJECT_PATH)))
         self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
         self.file_navigator.setHeaderHidden(True)
         self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -172,21 +173,14 @@ class Sidebar(QWidget):
         """Ask user for the new name for the selected file/folder."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = Path(self.file_model.filePath(index))
-            if file_path.is_file():
-                name = file_path.stem
-                extension = file_path.suffix
-            elif file_path.is_dir():
-                name = file_path.name
-                extension = ""
-
+            file = File(self.file_model.filePath(index))
+            name = file.path.stem
             new_name, ok = QInputDialog.getText(
                 self, self.tr("Rename"), self.tr("Enter new name:"), text=name
             )
             if ok and new_name:
-                new_path = os.path.join(os.path.dirname(file_path), new_name + extension)
                 try:
-                    os.rename(file_path, new_path)
+                    file.rename(new_name)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
@@ -197,8 +191,8 @@ class Sidebar(QWidget):
                 except PermissionError:
                     # Since we have a managed PROJECT_PATH this should never happen.
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
-                except OSError as e:
-                    QMessageBox.warning(self, self.tr("Error"), self.tr("Error: {e}").format(e))
+                except OSError:
+                    QMessageBox.warning(self, self.tr("Error"), self.tr("File with this name already exists."))
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -217,25 +211,14 @@ class Sidebar(QWidget):
         """Delete a file/folder from the file navigator (and the OS)."""
         index = self.file_navigator.currentIndex()
         if index.isValid():
-            file_path = Path(self.file_model.filePath(index))
-            metadata_path = Paths.get_path_to_metadata_file(file_path)
-
+            file = File(self.file_model.filePath(index))
             confirm = QMessageBox.question(
                 self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
                 QMessageBox.Yes | QMessageBox.No
             )
             if confirm == QMessageBox.Yes:
                 try:
-                    if file_path.is_file():
-                        file_path.unlink()
-                        metadata_path.unlink()
-                    elif file_path.is_dir():
-                        shutil.rmtree(file_path)
-                        # Folder containing metadata files does not exist until the first children file
-                        # is open and validated. If the user uploads a folder and do not open any file,
-                        # we will not have a metadata folder. We check if it exist before deleting to ignore errors.
-                        if metadata_path.exists():
-                            shutil.rmtree(metadata_path)
+                    file.remove()
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
 
