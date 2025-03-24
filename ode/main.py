@@ -212,6 +212,7 @@ class Sidebar(QWidget):
         index = self.file_navigator.currentIndex()
         if index.isValid():
             file = File(self.file_model.filePath(index))
+            is_selected = self.window().selected_file_path == file.path
             confirm = QMessageBox.question(
                 self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
                 QMessageBox.Yes | QMessageBox.No
@@ -221,6 +222,9 @@ class Sidebar(QWidget):
                     file.remove()
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
+                else:
+                    if is_selected:
+                        self.window().show_welcome_screen()
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
@@ -507,8 +511,8 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
         self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(3))
 
-        self.sidebar.file_navigator.empty_area_click.connect(self.on_empty_area_click)
-        self.sidebar.icon_label.clicked.connect(self.on_empty_area_click)
+        self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
+        self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
 
         # Translation
         self.translator = QTranslator()
@@ -581,7 +585,7 @@ class MainWindow(QMainWindow):
         self.setStyleSheet(qss_content)
 
     @Slot()
-    def on_empty_area_click(self):
+    def show_welcome_screen(self):
         """Focus on the welcome screen and clear file navigator selection."""
         self.sidebar.file_navigator.selectionModel().clear()
         self.main_layout.setCurrentIndex(0)
