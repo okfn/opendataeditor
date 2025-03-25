@@ -17,8 +17,15 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QScrollArea,
 )
-from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
-from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
+from PySide6.QtWidgets import (
+    QTreeWidget,
+    QTreeWidgetItem,
+    QListWidget,
+    QListWidgetItem,
+    QFormLayout,
+    QLineEdit,
+    QComboBox,
+)
 
 from ode.file import File
 from ode.paths import Paths
@@ -362,6 +369,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             ResourceForm(),
             IntegrityForm(),
             LicensesForm(),
+            ContributorsForm(),
         ]
         for form in self.forms:
             self.forms_layout.addWidget(form)
@@ -421,6 +429,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Licenses":
             self.forms_layout.setCurrentIndex(4)
             self.title.setText("Licenses")
+        elif form == "Contributors":
+            self.forms_layout.setCurrentIndex(5)
+            self.title.setText("Contributors")
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
@@ -476,6 +487,8 @@ class FrictionlessResourceMetadataWidget(QWidget):
         descriptor is the name that frictionless give to the json file that
         stores all the Resource metadata.
         """
+        metadata = self.get_or_create_metadata(self.resource.path)
+        contributors = metadata.get("contributors", [])
         for form in self.forms:
             if isinstance(form, ResourceForm):
                 self.resource.name = form.name.text()
@@ -500,7 +513,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 # We remove the spaces from the missing values
                 self.resource.schema.missing_values = [m.strip() for m in form.missing_values.text().split(",")]
                 self.resource.schema.description = form.description.text()
-                pass
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
                     field = self.resource.schema.fields[i]
@@ -513,9 +525,16 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     field.rdf_type = field_form.rdf_type.text()
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
+            elif isinstance(form, ContributorsForm):
+                contributors.clear()
+                for i in range(form.contributors_list.count()):
+                    item = form.contributors_list.item(i)
+                    widget = form.contributors_list.itemWidget(item)
+                    contributor_name = widget.name_label.text()
+                    contributors.append({"title": contributor_name})
 
-        metadata = self.get_or_create_metadata(self.resource.path)
         metadata["resource"] = self.resource.to_descriptor()
+        metadata["contributors"] = contributors
         file = File(self.resource.path)
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
@@ -528,6 +547,79 @@ class FrictionlessResourceMetadataWidget(QWidget):
             raise ValueError(f"Item {item_text} not found or duplicated.")
 
         items[0].setHidden(not show)
+
+
+class ContributorItemWidget(QWidget):
+    def __init__(self, name, parent=None):
+        super().__init__(parent)
+        layout = QHBoxLayout(self)
+
+        # Etiqueta para el nombre del contribuidor
+        self.name_label = QLabel(name)
+        layout.addWidget(self.name_label)
+
+        # Añadir espacio expandible para empujar el botón a la derecha
+        layout.addStretch()
+
+        self.details_button = QPushButton("Details")
+        layout.addWidget(self.details_button)
+
+        self.remove_button = QPushButton("Remove")
+        layout.addWidget(self.remove_button)
+
+        # Eliminar márgenes para que se ajuste mejor en el ListWidget
+        layout.setContentsMargins(2, 2, 2, 2)
+        self.setLayout(layout)
+
+
+class ContributorsForm(QWidget):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        layout = QVBoxLayout()
+        self.add_contributor_button = QPushButton("Add Contributor")
+        layout.addWidget(self.add_contributor_button)
+
+        self.contributors_list = QListWidget()
+        self.contributors_list.setAlternatingRowColors(True)
+        self.contributors_list.setStyleSheet(
+            """
+            QListView {
+                alternate-background-color: #f2f2f2;
+                background-color: #ffffff;
+            }
+            """
+        )
+        layout.addWidget(self.contributors_list)
+
+        self.add_contributor_button.clicked.connect(self.open_contributor_dialog)
+        self.setLayout(layout)
+
+    def add_contributor(self, name):
+        # Creates an item for the list
+        item = QListWidgetItem(self.contributors_list)
+
+        item_widget = ContributorItemWidget(name)
+        item_widget.remove_button.clicked.connect(lambda: self.remove_contributor(item))
+
+        # Sets the correct size for the item based on the widget
+        item.setSizeHint(item_widget.sizeHint())
+
+        # Assign widget to the item created
+        self.contributors_list.setItemWidget(item, item_widget)
+
+    def remove_contributor(self, item):
+        # Eliminar el item de la lista
+        row = self.contributors_list.row(item)
+        self.contributors_list.takeItem(row)
+
+    def open_contributor_dialog(self):
+        self.add_contributor(f"Nuevo Contribuidor {self.contributors_list.count() + 1}")
+
+    def populate(self, resource):
+        pass
+        # contributors = resource.to_dict().get("contributors", [])
+        # for contributor in contributors:
+        #     self.add_contributor(contributor["title"])
 
 
 if __name__ == "__main__":

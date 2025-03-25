@@ -1,0 +1,13 @@
+from PySide6.QtWidgets import QStyledItemDelegate
+from PySide6.QtGui import QBrush, QColor
+
+
+class AlternatingRowsDelegate(QStyledItemDelegate):
+    def initStyleOption(self, option, index):
+        super().initStyleOption(option, index)
+        if index.row() % 2 == 0:
+            # Color para filas pares
+            option.backgroundBrush = QBrush(QColor("#f2f2f2"))  # Gris claro
+        else:
+            # Color para filas impares
+            option.backgroundBrush = QBrush(QColor("#ffffff"))  # Blanco
