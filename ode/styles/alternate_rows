@@ -3,11 +3,14 @@ from PySide6.QtGui import QBrush, QColor
 
 
 class AlternatingRowsDelegate(QStyledItemDelegate):
+    """
+    Class that defines the appearance of the rows of a QTableView
+    alternating the background color of the rows.
+    """
+
     def initStyleOption(self, option, index):
         super().initStyleOption(option, index)
         if index.row() % 2 == 0:
-            # Color para filas pares
-            option.backgroundBrush = QBrush(QColor("#f2f2f2"))  # Gris claro
+            option.backgroundBrush = QBrush(QColor("#f2f2f2"))
         else:
-            # Color para filas impares
-            option.backgroundBrush = QBrush(QColor("#ffffff"))  # Blanco
+            option.backgroundBrush = QBrush(QColor("#ffffff"))
