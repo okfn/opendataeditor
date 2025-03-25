@@ -483,7 +483,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 self.resource.rows = form.rows.value()
             elif isinstance(form, SchemaForm):
                 # SchemaForm
-                self.resource.schema.name = form.name.text()
+                if form.name.text():
+                    # Frictionless fails with name='', so we populate only if it has a value.
+                    self.resource.schema.name = form.name.text()
                 self.resource.schema.title = form.title.text()
                 self.resource.schema.primary_key = form.primary_key.currentText()
                 # We remove the spaces from the missing values
