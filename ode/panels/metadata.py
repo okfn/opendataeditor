@@ -228,6 +228,7 @@ class SchemaForm(QWidget):
         self.description.setText(resource.schema.description)
         # self.missing_values.setText(resource.schema.missing_values)
         self.primary_key.clear()
+        self.primary_key.addItem("")  # Add empty option for non set PrimaryKey.
         for field in resource.schema.fields:
             self.primary_key.addItem(field.name)
 
@@ -483,9 +484,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 self.resource.rows = form.rows.value()
             elif isinstance(form, SchemaForm):
                 # SchemaForm
-                self.resource.schema.name = form.name.text()
+                self.resource.schema.name = form.name.text() or None
                 self.resource.schema.title = form.title.text()
-                self.resource.schema.primary_key = form.primary_key.currentText()
+                self.resource.schema.primary_key = form.primary_key.currentText() or None
                 # We remove the spaces from the missing values
                 self.resource.schema.missing_values = [m.strip() for m in form.missing_values.text().split(",")]
                 self.resource.schema.description = form.description.text()
