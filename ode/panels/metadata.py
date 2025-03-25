@@ -554,6 +554,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
 
 class ContributorItemWidget(QWidget):
+    """
+    Widget to show a contributor in the list of contributors.
+    We use a custom widget to show the contributor and the buttons to remove and edit it.
+    """
+
     def __init__(self, contributor, parent=None):
         super().__init__(parent)
         layout = QHBoxLayout(self)
@@ -578,15 +583,21 @@ class ContributorItemWidget(QWidget):
 
 
 class ContributorsForm(QWidget):
+    """
+    Widget to show the list of contributors.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
         self.add_contributor_button = QPushButton("Add Contributor")
-        layout.addWidget(self.add_contributor_button)
         self.add_contributor_button.clicked.connect(self.add_contributor_dialog)
+        layout.addWidget(self.add_contributor_button)
 
         self.contributors_list = QListWidget()
         self.contributors_list.setAlternatingRowColors(True)
+
+        # We are using a custom stylesheet to show the alternate row colors
         self.contributors_list.setStyleSheet(
             """
             QListView {
@@ -600,10 +611,16 @@ class ContributorsForm(QWidget):
         self.setLayout(layout)
 
     def remove_contributor(self, item):
+        """
+        Removes a contributor from the list of contributors.
+        """
         row = self.contributors_list.row(item)
         self.contributors_list.takeItem(row)
 
     def add_contributor_dialog(self):
+        """
+        Shows a dialog to add a new contributor with default values.
+        """
         contributor = {
             "title": f"Nuevo Contribuidor {self.contributors_list.count() + 1}",
             "email": "",
@@ -614,11 +631,17 @@ class ContributorsForm(QWidget):
         self.show_contributor_dialog(contributor)
 
     def show_contributor_dialog(self, contributor, contributor_pos=None):
+        """
+        Shows a dialog to edit a contributor.
+        """
         form = ContributorDetailForm()
         form.title.setText(contributor.get("title"))
         form.role.setText(contributor.get("role"))
         form.email.setText(contributor.get("email"))
         form.path.setText(contributor.get("path"))
+
+        # Block the main window until the dialog is closed
+        self.setWindowModality(Qt.ApplicationModal)
 
         dialog = QDialog(self)
 
@@ -634,6 +657,9 @@ class ContributorsForm(QWidget):
         layout.addLayout(buttons_layout)
 
         def save_button_clicked(contributor_pos):
+            """
+            Saves the contributor and closes the dialog.
+            """
             contributor.update(
                 {
                     "title": form.title.text(),
@@ -647,6 +673,7 @@ class ContributorsForm(QWidget):
                 self.add_contributor(contributor, contributor_pos)
             else:
                 self.update_contributor(contributor, contributor_pos)
+
             dialog.accept()
 
         save_button.clicked.connect(lambda: save_button_clicked(contributor_pos))
@@ -654,6 +681,9 @@ class ContributorsForm(QWidget):
         dialog.exec()
 
     def add_contributor(self, contributor, contributor_pos):
+        """
+        Adds a contributor to the list of contributors.
+        """
         # Creates an item for the list
         item = QListWidgetItem(self.contributors_list)
 
@@ -668,15 +698,25 @@ class ContributorsForm(QWidget):
         self.contributors_list.setItemWidget(item, item_widget)
 
     def update_contributor(self, contributor, contributor_pos):
+        """
+        Updates a contributor in the list of contributors.
+        """
         item = self.contributors_list.item(contributor_pos)
         item_widget = self.contributors_list.itemWidget(item)
         item_widget.title_label.setText(contributor.get("title"))
         item_widget.contributor = contributor
 
     def clear_contributors(self):
+        """
+        Removes all contributors from the list of contributors.
+        """
         self.contributors_list.clear()
 
     def populate(self, metadata):
+        """
+        Populates the list of contributors with the contributors in the metadata.
+        """
+
         self.clear_contributors()
         contributors = metadata.get("contributors", [])
         for contributor_pos, contributor in enumerate(contributors):
@@ -684,21 +724,30 @@ class ContributorsForm(QWidget):
 
 
 class ContributorDetailForm(QWidget):
+    """
+    Widget to show the details of a contributor that will be displayed inside a dialog.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
+
         self.title = QLineEdit()
         layout.addWidget(QLabel("Title:"))
         layout.addWidget(self.title)
+
         self.email = QLineEdit()
         layout.addWidget(QLabel("Email:"))
         layout.addWidget(self.email)
+
         self.role = QLineEdit()
         layout.addWidget(QLabel("Role:"))
         layout.addWidget(self.role)
+
         self.path = QLineEdit()
         layout.addWidget(QLabel("Path:"))
         layout.addWidget(self.path)
+
         self.setLayout(layout)
 
 
