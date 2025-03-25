@@ -535,8 +535,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 for i in range(form.contributors_list.count()):
                     item = form.contributors_list.item(i)
                     widget = form.contributors_list.itemWidget(item)
-                    contributor_name = widget.name_label.text()
-                    contributors.append({"title": contributor_name})
+                    contributors.append(widget.contributor)
 
         self.metadata["resource"] = self.resource.to_descriptor()
         self.metadata["contributors"] = contributors
@@ -555,15 +554,16 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
 
 class ContributorItemWidget(QWidget):
-    def __init__(self, name, parent=None):
+    def __init__(self, contributor, parent=None):
         super().__init__(parent)
         layout = QHBoxLayout(self)
+        self.contributor = contributor
 
-        # Etiqueta para el nombre del contribuidor
-        self.name_label = QLabel(name)
-        layout.addWidget(self.name_label)
+        # We show only the name
+        self.title_label = QLabel(contributor.get("title"))
+        layout.addWidget(self.title_label)
 
-        # Añadir espacio expandible para empujar el botón a la derecha
+        # Add extra space to the right
         layout.addStretch()
 
         self.details_button = QPushButton("Details")
@@ -572,7 +572,7 @@ class ContributorItemWidget(QWidget):
         self.remove_button = QPushButton("Remove")
         layout.addWidget(self.remove_button)
 
-        # Eliminar márgenes para que se ajuste mejor en el ListWidget
+        # We delete the layout margins to avoid extra space
         layout.setContentsMargins(2, 2, 2, 2)
         self.setLayout(layout)
 
@@ -583,6 +583,7 @@ class ContributorsForm(QWidget):
         layout = QVBoxLayout()
         self.add_contributor_button = QPushButton("Add Contributor")
         layout.addWidget(self.add_contributor_button)
+        self.add_contributor_button.clicked.connect(self.add_contributor_dialog)
 
         self.contributors_list = QListWidget()
         self.contributors_list.setAlternatingRowColors(True)
@@ -596,30 +597,28 @@ class ContributorsForm(QWidget):
         )
         layout.addWidget(self.contributors_list)
 
-        self.add_contributor_button.clicked.connect(self.open_contributor_dialog)
         self.setLayout(layout)
-
-    def add_contributor(self, name):
-        # Creates an item for the list
-        item = QListWidgetItem(self.contributors_list)
-
-        item_widget = ContributorItemWidget(name)
-        item_widget.remove_button.clicked.connect(lambda: self.remove_contributor(item))
-        item_widget.details_button.clicked.connect(lambda: self.show_contributor(item))
-
-        # Sets the correct size for the item based on the widget
-        item.setSizeHint(item_widget.sizeHint())
-
-        # Assign widget to the item created
-        self.contributors_list.setItemWidget(item, item_widget)
 
     def remove_contributor(self, item):
         row = self.contributors_list.row(item)
         self.contributors_list.takeItem(row)
 
-    def show_contributor(self, item):
+    def add_contributor_dialog(self):
+        contributor = {
+            "title": f"Nuevo Contribuidor {self.contributors_list.count() + 1}",
+            "email": "",
+            "role": "",
+            "path": "",
+        }
+
+        self.show_contributor_dialog(contributor)
+
+    def show_contributor_dialog(self, contributor, contributor_pos=None):
         form = ContributorDetailForm()
-        form.name.setText(item.text())
+        form.title.setText(contributor.get("title"))
+        form.role.setText(contributor.get("role"))
+        form.email.setText(contributor.get("email"))
+        form.path.setText(contributor.get("path"))
 
         dialog = QDialog(self)
 
@@ -627,28 +626,70 @@ class ContributorsForm(QWidget):
         layout.addWidget(form)
         dialog.setLayout(layout)
 
+        buttons_layout = QHBoxLayout()
+        save_button = QPushButton("Save")
+        cancel_button = QPushButton("Cancel")
+        buttons_layout.addWidget(cancel_button)
+        buttons_layout.addWidget(save_button)
+        layout.addLayout(buttons_layout)
+
+        def save_button_clicked(contributor_pos):
+            contributor.update(
+                {
+                    "title": form.title.text(),
+                    "email": form.email.text(),
+                    "role": form.role.text(),
+                    "path": form.path.text(),
+                }
+            )
+            if contributor_pos is None:
+                contributor_pos = self.contributors_list.count() + 1
+                self.add_contributor(contributor, contributor_pos)
+            else:
+                self.update_contributor(contributor, contributor_pos)
+            dialog.accept()
+
+        save_button.clicked.connect(lambda: save_button_clicked(contributor_pos))
+        cancel_button.clicked.connect(dialog.reject)
         dialog.exec()
+
+    def add_contributor(self, contributor, contributor_pos):
+        # Creates an item for the list
+        item = QListWidgetItem(self.contributors_list)
+
+        item_widget = ContributorItemWidget(contributor)
+        item_widget.remove_button.clicked.connect(lambda: self.remove_contributor(item))
+        item_widget.details_button.clicked.connect(lambda: self.show_contributor_dialog(contributor, contributor_pos))
+
+        # Sets the correct size for the item based on the widget
+        item.setSizeHint(item_widget.sizeHint())
+
+        # Assign widget to the item created
+        self.contributors_list.setItemWidget(item, item_widget)
+
+    def update_contributor(self, contributor, contributor_pos):
+        item = self.contributors_list.item(contributor_pos)
+        item_widget = self.contributors_list.itemWidget(item)
+        item_widget.title_label.setText(contributor.get("title"))
+        item_widget.contributor = contributor
 
     def clear_contributors(self):
         self.contributors_list.clear()
 
-    def open_contributor_dialog(self):
-        self.add_contributor(f"Nuevo Contribuidor {self.contributors_list.count() + 1}")
-
     def populate(self, metadata):
         self.clear_contributors()
         contributors = metadata.get("contributors", [])
-        for contributor in contributors:
-            self.add_contributor(contributor["title"])
+        for contributor_pos, contributor in enumerate(contributors):
+            self.add_contributor(contributor, contributor_pos)
 
 
 class ContributorDetailForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
-        self.name = QLineEdit()
-        layout.addWidget(QLabel("Name:"))
-        layout.addWidget(self.name)
+        self.title = QLineEdit()
+        layout.addWidget(QLabel("Title:"))
+        layout.addWidget(self.title)
         self.email = QLineEdit()
         layout.addWidget(QLabel("Email:"))
         layout.addWidget(self.email)
