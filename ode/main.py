@@ -465,8 +465,6 @@ class Welcome(QWidget):
               border-style: outset;
               border-width: 1px;
               border-radius: 4px;
-              padding-top: 10px;
-              padding-bottom: 10px;
               padding-left: 15px;
               padding-right: 15px;
             }

@@ -570,15 +570,23 @@ class ContributorItemWidget(QWidget):
         # Add extra space to the right
         layout.addStretch()
 
-        self.details_button = QPushButton("Details")
+        self.details_button = QPushButton()
         layout.addWidget(self.details_button)
 
-        self.remove_button = QPushButton("Remove")
+        self.remove_button = QPushButton()
         layout.addWidget(self.remove_button)
 
         # We delete the layout margins to avoid extra space
         layout.setContentsMargins(2, 2, 2, 2)
         self.setLayout(layout)
+        self.retranslateUI()
+
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.details_button.setText("Details")
+        self.remove_button.setText("Remove")
 
 
 class ContributorsForm(QWidget):
@@ -589,12 +597,36 @@ class ContributorsForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
-        self.add_contributor_button = QPushButton("Add Contributor")
+        self.add_contributor_button = QPushButton()
         self.add_contributor_button.clicked.connect(self.add_contributor_dialog)
         layout.addWidget(self.add_contributor_button)
 
         self.contributors_list = QListWidget()
         self.contributors_list.setAlternatingRowColors(True)
+        self.title_name_default = "Contributor"
+
+        # These buttons would be used on the Dialog to add/edit a contributor
+        self.contributor_dialog_save_button = QPushButton()
+        self.contributor_dialog_cancel_button = QPushButton()
+
+        self.setStyleSheet(
+            """
+            QPushButton {
+              font-size: 14px;
+              font-weight: 500;
+              color: #FFFFFF;
+              background: #000000;
+              border-style: outset;
+              border-width: 1px;
+              border-radius: 4px;
+            }
+            QPushButton:hover {
+              color: #FFF;
+              background: gray;
+              border-color: #0288D1;
+            }
+        """
+        )
 
         self.contributors_list.setStyleSheet(
             """
@@ -607,6 +639,7 @@ class ContributorsForm(QWidget):
         layout.addWidget(self.contributors_list)
 
         self.setLayout(layout)
+        self.retranslateUI()
 
     def remove_contributor(self, item):
         """
@@ -620,7 +653,7 @@ class ContributorsForm(QWidget):
         Shows a dialog to add a new contributor with default values.
         """
         contributor = {
-            "title": f"Nuevo Contribuidor {self.contributors_list.count() + 1}",
+            "title": f"{self.title_name_default} {self.contributors_list.count() + 1}",
             "email": "",
             "role": "",
             "path": "",
@@ -648,10 +681,8 @@ class ContributorsForm(QWidget):
         dialog.setLayout(layout)
 
         buttons_layout = QHBoxLayout()
-        save_button = QPushButton("Save")
-        cancel_button = QPushButton("Cancel")
-        buttons_layout.addWidget(cancel_button)
-        buttons_layout.addWidget(save_button)
+        buttons_layout.addWidget(self.contributor_dialog_cancel_button)
+        buttons_layout.addWidget(self.contributor_dialog_save_button)
         layout.addLayout(buttons_layout)
 
         def save_button_clicked(contributor_pos):
@@ -674,8 +705,8 @@ class ContributorsForm(QWidget):
 
             dialog.accept()
 
-        save_button.clicked.connect(lambda: save_button_clicked(contributor_pos))
-        cancel_button.clicked.connect(dialog.reject)
+        self.contributor_dialog_save_button.clicked.connect(lambda: save_button_clicked(contributor_pos))
+        self.contributor_dialog_cancel_button.clicked.connect(dialog.reject)
         dialog.exec()
 
     def add_contributor(self, contributor, contributor_pos):
@@ -720,6 +751,15 @@ class ContributorsForm(QWidget):
         for contributor_pos, contributor in enumerate(contributors):
             self.add_contributor(contributor, contributor_pos)
 
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.add_contributor_button.setText("Add Contributor")
+        self.title_name_default = "Contributor"
+        self.contributor_dialog_save_button.setText("Save")
+        self.contributor_dialog_cancel_button.setText("Cancel")
+
 
 class ContributorDetailForm(QWidget):
     """
@@ -730,22 +770,26 @@ class ContributorDetailForm(QWidget):
         super().__init__(*args, **kwargs)
         layout = QGridLayout()
 
-        layout.addWidget(QLabel("Title:"), 0, 0)
+        self.titleLabel = QLabel()
+        layout.addWidget(self.titleLabel, 0, 0)
         self.title = QLineEdit()
         self.title.setMinimumWidth(200)
         layout.addWidget(self.title, 0, 1)
 
-        layout.addWidget(QLabel("Email:"), 1, 0)
+        self.emailLabel = QLabel()
+        layout.addWidget(self.emailLabel, 1, 0)
         self.email = QLineEdit()
         self.email.setMinimumWidth(200)
         layout.addWidget(self.email, 1, 1)
 
-        layout.addWidget(QLabel("Role:"), 0, 2)
+        self.roleLabel = QLabel()
+        layout.addWidget(self.roleLabel, 0, 2)
         self.role = QLineEdit()
         self.role.setMinimumWidth(200)
         layout.addWidget(self.role, 0, 3)
 
-        layout.addWidget(QLabel("Path:"), 1, 2)
+        self.pathLabel = QLabel()
+        layout.addWidget(self.pathLabel, 1, 2)
         self.path = QLineEdit()
         self.path.setMinimumWidth(200)
         layout.addWidget(self.path, 1, 3)
@@ -755,6 +799,16 @@ class ContributorDetailForm(QWidget):
         layout.setHorizontalSpacing(20)
 
         self.setLayout(layout)
+        self.retranslateUI()
+
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.titleLabel.setText("Title:")
+        self.roleLabel.setText("Role:")
+        self.emailLabel.setText("Email:")
+        self.pathLabel.setText("Path:")
 
 
 if __name__ == "__main__":
