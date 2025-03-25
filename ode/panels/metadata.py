@@ -115,8 +115,8 @@ class LicensesForm(QWidget):
             selected.extend(license_obj)
         return selected
 
-    def populate(self, resource):
-        for lic in resource.licenses:
+    def populate(self, metadata):
+        for lic in metadata.get("resource").licenses:
             self.selected_licenses.addItem(lic["title"])
 
 
@@ -192,10 +192,10 @@ class FieldsForm(QWidget):
             form.deleteLater()
         self.field_forms = []
 
-    def populate(self, resource):
+    def populate(self, metadata):
         if self.field_forms:
             self.remove_forms()
-        for field in resource.schema.fields:
+        for field in metadata.get("resource").schema.fields:
             form = SingleFieldForm()
             form.populate(field)
             self.field_forms.append(form)
@@ -229,7 +229,8 @@ class SchemaForm(QWidget):
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
+        resource = metadata["resource"]
         self.title.setText(resource.schema.title)
         self.name.setText(resource.schema.name)
         self.description.setText(resource.schema.description)
@@ -269,6 +270,7 @@ class IntegrityForm(QWidget):
         Hash is a little bit tricky because it needs to be updated everytime we
         edit the file or Frictionless will return a validation error.
         """
+        resource = metadata["resource"]
         if resource.hash:
             self.hash.setText(resource.hash)
         if resource.fields:
@@ -307,8 +309,9 @@ class ResourceForm(QWidget):
 
         self.setLayout(self.layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
         """Populates all the form fields with the values of the resource"""
+        resource = metadata["resource"]
         self.name.setText(resource.name)
         self.path.setText(resource.path)
         self.title.setText(resource.title)
@@ -374,9 +377,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
         for form in self.forms:
             self.forms_layout.addWidget(form)
         if filepath:
-            self.resource = self.get_or_create_metadata(filepath).get("resource")
+            self.metadata = self.get_or_create_metadata(filepath)
+            self.resource = metadata.get("resource")
             for form in self.forms:
-                form.populate(self.resource)
+                form.populate(self.metadata)
 
         # Help
         help = QWidget()
@@ -477,9 +481,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
         # Shows dialect only for csv files
         self.show_hide_item("Dialect", filepath.suffix == ".csv")
 
-        self.resource = self.get_or_create_metadata(filepath).get("resource")
+        self.metadata = self.get_or_create_metadata(filepath)
+        self.resource = self.metadata.get("resource")
         for form in self.forms:
-            form.populate(self.resource)
+            form.populate(self.metadata)
 
     def save_metadata_to_descriptor_file(self):
         """Collects all data from all forms and save the descriptor.
@@ -487,8 +492,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
         descriptor is the name that frictionless give to the json file that
         stores all the Resource metadata.
         """
-        metadata = self.get_or_create_metadata(self.resource.path)
-        contributors = metadata.get("contributors", [])
         for form in self.forms:
             if isinstance(form, ResourceForm):
                 self.resource.name = form.name.text()
@@ -526,6 +529,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
             elif isinstance(form, ContributorsForm):
+                contributors = self.metadata.get("contributors", [])
                 contributors.clear()
                 for i in range(form.contributors_list.count()):
                     item = form.contributors_list.item(i)
@@ -533,12 +537,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     contributor_name = widget.name_label.text()
                     contributors.append({"title": contributor_name})
 
-        metadata["resource"] = self.resource.to_descriptor()
-        metadata["contributors"] = contributors
+        self.metadata["resource"] = self.resource.to_descriptor()
+        self.metadata["contributors"] = contributors
         file = File(self.resource.path)
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
-            json.dump(metadata, f)
+            json.dump(self.metadata, f)
 
     def show_hide_item(self, item_text: str, show: bool = True) -> None:
         """Show or hide a QTreeWidgetItem based on its text."""
@@ -612,14 +616,17 @@ class ContributorsForm(QWidget):
         row = self.contributors_list.row(item)
         self.contributors_list.takeItem(row)
 
+    def clear_contributors(self):
+        self.contributors_list.clear()
+
     def open_contributor_dialog(self):
         self.add_contributor(f"Nuevo Contribuidor {self.contributors_list.count() + 1}")
 
-    def populate(self, resource):
-        pass
-        # contributors = resource.to_dict().get("contributors", [])
-        # for contributor in contributors:
-        #     self.add_contributor(contributor["title"])
+    def populate(self, metadata):
+        self.clear_contributors()
+        contributors = metadata.get("contributors", [])
+        for contributor in contributors:
+            self.add_contributor(contributor["title"])
 
 
 if __name__ == "__main__":
