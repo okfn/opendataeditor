@@ -596,7 +596,6 @@ class ContributorsForm(QWidget):
         self.contributors_list = QListWidget()
         self.contributors_list.setAlternatingRowColors(True)
 
-        # We are using a custom stylesheet to show the alternate row colors
         self.contributors_list.setStyleSheet(
             """
             QListView {
