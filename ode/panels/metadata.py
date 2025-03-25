@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
     QSpinBox,
     QMessageBox,
     QScrollArea,
+    QDialog,
 )
 from PySide6.QtWidgets import (
     QTreeWidget,
@@ -604,6 +605,7 @@ class ContributorsForm(QWidget):
 
         item_widget = ContributorItemWidget(name)
         item_widget.remove_button.clicked.connect(lambda: self.remove_contributor(item))
+        item_widget.details_button.clicked.connect(lambda: self.show_contributor(item))
 
         # Sets the correct size for the item based on the widget
         item.setSizeHint(item_widget.sizeHint())
@@ -612,9 +614,20 @@ class ContributorsForm(QWidget):
         self.contributors_list.setItemWidget(item, item_widget)
 
     def remove_contributor(self, item):
-        # Eliminar el item de la lista
         row = self.contributors_list.row(item)
         self.contributors_list.takeItem(row)
+
+    def show_contributor(self, item):
+        form = ContributorDetailForm()
+        form.name.setText(item.text())
+
+        dialog = QDialog(self)
+
+        layout = QVBoxLayout()
+        layout.addWidget(form)
+        dialog.setLayout(layout)
+
+        dialog.exec()
 
     def clear_contributors(self):
         self.contributors_list.clear()
@@ -627,6 +640,25 @@ class ContributorsForm(QWidget):
         contributors = metadata.get("contributors", [])
         for contributor in contributors:
             self.add_contributor(contributor["title"])
+
+
+class ContributorDetailForm(QWidget):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        layout = QVBoxLayout()
+        self.name = QLineEdit()
+        layout.addWidget(QLabel("Name:"))
+        layout.addWidget(self.name)
+        self.email = QLineEdit()
+        layout.addWidget(QLabel("Email:"))
+        layout.addWidget(self.email)
+        self.role = QLineEdit()
+        layout.addWidget(QLabel("Role:"))
+        layout.addWidget(self.role)
+        self.path = QLineEdit()
+        layout.addWidget(QLabel("Path:"))
+        layout.addWidget(self.path)
+        self.setLayout(layout)
 
 
 if __name__ == "__main__":
