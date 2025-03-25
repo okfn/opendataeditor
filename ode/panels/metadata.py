@@ -16,9 +16,6 @@ from PySide6.QtWidgets import (
     QSpinBox,
     QMessageBox,
     QScrollArea,
-    QDialog,
-)
-from PySide6.QtWidgets import (
     QTreeWidget,
     QTreeWidgetItem,
     QListWidget,
@@ -26,6 +23,8 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QComboBox,
+    QGridLayout,
+    QDialog,
 )
 
 from ode.file import File
@@ -730,23 +729,31 @@ class ContributorDetailForm(QWidget):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        layout = QVBoxLayout()
+        layout = QGridLayout()
 
+        layout.addWidget(QLabel("Title:"), 0, 0)
         self.title = QLineEdit()
-        layout.addWidget(QLabel("Title:"))
-        layout.addWidget(self.title)
+        self.title.setMinimumWidth(200)
+        layout.addWidget(self.title, 0, 1)
 
+        layout.addWidget(QLabel("Email:"), 1, 0)
         self.email = QLineEdit()
-        layout.addWidget(QLabel("Email:"))
-        layout.addWidget(self.email)
+        self.email.setMinimumWidth(200)
+        layout.addWidget(self.email, 1, 1)
 
+        layout.addWidget(QLabel("Role:"), 0, 2)
         self.role = QLineEdit()
-        layout.addWidget(QLabel("Role:"))
-        layout.addWidget(self.role)
+        self.role.setMinimumWidth(200)
+        layout.addWidget(self.role, 0, 3)
 
+        layout.addWidget(QLabel("Path:"), 1, 2)
         self.path = QLineEdit()
-        layout.addWidget(QLabel("Path:"))
-        layout.addWidget(self.path)
+        self.path.setMinimumWidth(200)
+        layout.addWidget(self.path, 1, 3)
+
+        layout.setColumnMinimumWidth(1, 150)
+        layout.setColumnMinimumWidth(3, 150)
+        layout.setHorizontalSpacing(20)
 
         self.setLayout(layout)
 
