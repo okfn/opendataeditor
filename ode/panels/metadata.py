@@ -23,8 +23,6 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QComboBox,
-    QGridLayout,
-    QDialog,
 )
 
 from ode.dialogs.contributor_dialog import ContributorDialog
