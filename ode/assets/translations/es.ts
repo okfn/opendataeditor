@@ -157,62 +157,62 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="611"/>
+        <location filename="../../main.py" line="647"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="612"/>
+        <location filename="../../main.py" line="648"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="613"/>
+        <location filename="../../main.py" line="649"/>
         <source>File/Folder</source>
         <translation>Archivo/Carpeta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="614"/>
+        <location filename="../../main.py" line="650"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="617"/>
+        <location filename="../../main.py" line="653"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="618"/>
+        <location filename="../../main.py" line="654"/>
         <source>Metadata panel</source>
         <translation>Panel de Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="619"/>
+        <location filename="../../main.py" line="655"/>
         <source>Errors panel</source>
         <translation>Panel de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="620"/>
+        <location filename="../../main.py" line="656"/>
         <source>Source panel</source>
         <translation>Panel de Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="623"/>
+        <location filename="../../main.py" line="659"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="624"/>
+        <location filename="../../main.py" line="660"/>
         <source>User Guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="625"/>
+        <location filename="../../main.py" line="661"/>
         <source>Report an Issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="761"/>
+        <location filename="../../main.py" line="796"/>
         <source>Loading...</source>
         <translation>Cargando...</translation>
     </message>
@@ -220,73 +220,73 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="142"/>
+        <location filename="../../main.py" line="168"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="143"/>
+        <location filename="../../main.py" line="169"/>
         <source>User guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="144"/>
+        <location filename="../../main.py" line="170"/>
         <source>Report an issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="145"/>
-        <location filename="../../main.py" line="179"/>
+        <location filename="../../main.py" line="171"/>
+        <location filename="../../main.py" line="204"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="146"/>
+        <location filename="../../main.py" line="172"/>
         <source>Open File in Location</source>
         <translation>Abrir la ubicacion de archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="147"/>
-        <location filename="../../main.py" line="216"/>
+        <location filename="../../main.py" line="173"/>
+        <location filename="../../main.py" line="243"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="179"/>
+        <location filename="../../main.py" line="204"/>
         <source>Enter new name:</source>
         <translation>Ingresa el nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="186"/>
-        <location filename="../../main.py" line="190"/>
-        <location filename="../../main.py" line="193"/>
-        <location filename="../../main.py" line="195"/>
-        <location filename="../../main.py" line="223"/>
+        <location filename="../../main.py" line="210"/>
+        <location filename="../../main.py" line="214"/>
+        <location filename="../../main.py" line="218"/>
+        <location filename="../../main.py" line="220"/>
+        <location filename="../../main.py" line="251"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="187"/>
+        <location filename="../../main.py" line="211"/>
         <source>Source is a file but destination a directory.</source>
         <translation>El origen es un archivo pero el destino es un directorio.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="190"/>
+        <location filename="../../main.py" line="215"/>
         <source>Source is a directory but destination a file.</source>
         <translation>El origen es un directorio pero el destino es un archivo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="193"/>
+        <location filename="../../main.py" line="218"/>
         <source>Operation not permitted.</source>
         <translation>Operación no permitida.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="195"/>
+        <location filename="../../main.py" line="220"/>
         <source>File with this name already exists.</source>
         <translation>Ya existe un archivo con este nombre.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="216"/>
+        <location filename="../../main.py" line="244"/>
         <source>Are you sure you want to delete this?</source>
         <translation>Estás seguro que quieres eliminar esto?</translation>
     </message>
@@ -302,37 +302,37 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="358"/>
+        <location filename="../../main.py" line="391"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="359"/>
+        <location filename="../../main.py" line="392"/>
         <source>Metadata</source>
         <translation>Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="360"/>
+        <location filename="../../main.py" line="393"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="361"/>
+        <location filename="../../main.py" line="394"/>
         <source>Source</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="362"/>
+        <location filename="../../main.py" line="395"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="363"/>
+        <location filename="../../main.py" line="396"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="364"/>
+        <location filename="../../main.py" line="397"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -340,17 +340,17 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="448"/>
+        <location filename="../../main.py" line="483"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>El ODE admite archivos Excel y CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="449"/>
+        <location filename="../../main.py" line="484"/>
         <source>You can also add links to online tables</source>
         <translation>También puedes agregar enlaces a tablas en línea</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="450"/>
+        <location filename="../../main.py" line="485"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>

@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
     QDialog,
 )
 
+from ode.dialogs.contributor_dialog import ContributorDialog
 from ode.file import File
 from ode.paths import Paths
 from ode import utils
@@ -615,14 +616,14 @@ class ContributorsForm(QWidget):
               font-size: 14px;
               font-weight: 500;
               color: #FFFFFF;
-              background: #000000;
+              background: gray;
               border-style: outset;
               border-width: 1px;
               border-radius: 4px;
             }
             QPushButton:hover {
               color: #FFF;
-              background: gray;
+              background: black;
               border-color: #0288D1;
             }
         """
@@ -665,55 +666,14 @@ class ContributorsForm(QWidget):
         """
         Shows a dialog to edit a contributor.
         """
-        form = ContributorDetailForm()
-        form.title.setText(contributor.get("title"))
-        form.role.setText(contributor.get("role"))
-        form.email.setText(contributor.get("email"))
-        form.path.setText(contributor.get("path"))
-
-        # Block the main window until the dialog is closed
-        self.setWindowModality(Qt.ApplicationModal)
-
-        dialog = QDialog(self)
-
-        layout = QVBoxLayout()
-        layout.addWidget(form)
-        dialog.setLayout(layout)
-
-        buttons_layout = QHBoxLayout()
-        buttons_layout.addWidget(self.contributor_dialog_cancel_button)
-        buttons_layout.addWidget(self.contributor_dialog_save_button)
-        layout.addLayout(buttons_layout)
-
-        def save_button_clicked(contributor_pos):
-            """
-            Saves the contributor and closes the dialog.
-            """
-            contributor.update(
-                {
-                    "title": form.title.text(),
-                    "email": form.email.text(),
-                    "role": form.role.text(),
-                    "path": form.path.text(),
-                }
-            )
-            if contributor_pos is None:
-                contributor_pos = self.contributors_list.count() + 1
-                self.add_contributor(contributor, contributor_pos)
-            else:
-                self.update_contributor(contributor, contributor_pos)
-
-            dialog.accept()
-
-        self.contributor_dialog_save_button.clicked.connect(lambda: save_button_clicked(contributor_pos))
-        self.contributor_dialog_cancel_button.clicked.connect(dialog.reject)
+        dialog = ContributorDialog(self, contributor, contributor_pos)
         dialog.exec()
 
     def add_contributor(self, contributor, contributor_pos):
         """
         Adds a contributor to the list of contributors.
         """
-        # Creates an item for the list
+        # Creates a QListWidgetItem and add it to the list
         item = QListWidgetItem(self.contributors_list)
 
         item_widget = ContributorItemWidget(contributor)
@@ -759,56 +719,6 @@ class ContributorsForm(QWidget):
         self.title_name_default = "Contributor"
         self.contributor_dialog_save_button.setText("Save")
         self.contributor_dialog_cancel_button.setText("Cancel")
-
-
-class ContributorDetailForm(QWidget):
-    """
-    Widget to show the details of a contributor that will be displayed inside a dialog.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        layout = QGridLayout()
-
-        self.titleLabel = QLabel()
-        layout.addWidget(self.titleLabel, 0, 0)
-        self.title = QLineEdit()
-        self.title.setMinimumWidth(200)
-        layout.addWidget(self.title, 0, 1)
-
-        self.emailLabel = QLabel()
-        layout.addWidget(self.emailLabel, 1, 0)
-        self.email = QLineEdit()
-        self.email.setMinimumWidth(200)
-        layout.addWidget(self.email, 1, 1)
-
-        self.roleLabel = QLabel()
-        layout.addWidget(self.roleLabel, 0, 2)
-        self.role = QLineEdit()
-        self.role.setMinimumWidth(200)
-        layout.addWidget(self.role, 0, 3)
-
-        self.pathLabel = QLabel()
-        layout.addWidget(self.pathLabel, 1, 2)
-        self.path = QLineEdit()
-        self.path.setMinimumWidth(200)
-        layout.addWidget(self.path, 1, 3)
-
-        layout.setColumnMinimumWidth(1, 150)
-        layout.setColumnMinimumWidth(3, 150)
-        layout.setHorizontalSpacing(20)
-
-        self.setLayout(layout)
-        self.retranslateUI()
-
-    def retranslateUI(self):
-        """
-        Applies the translations to the labels.
-        """
-        self.titleLabel.setText("Title:")
-        self.roleLabel.setText("Role:")
-        self.emailLabel.setText("Email:")
-        self.pathLabel.setText("Path:")
 
 
 if __name__ == "__main__":
