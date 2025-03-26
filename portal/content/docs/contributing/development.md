@@ -1,7 +1,7 @@
 ---
 title: Development
 sidebar:
-  order: 1
+  order: 2
 ---
 
 Open Data Editor is written in PySide6, the official Python module from the [Qt for Python project](https://wiki.qt.io/Qt_for_Python), which provides access to the complete Qt 6.0+ framework.
