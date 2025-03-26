@@ -557,7 +557,7 @@ class ContributorItemWidget(QWidget):
     We use a custom widget to show the contributor and the buttons to remove and edit it.
     """
 
-    def __init__(self, contributor, parent=None):
+    def __init__(self, contributor: dict, parent: QWidget = None):
         super().__init__(parent)
         layout = QHBoxLayout(self)
         self.contributor = contributor
@@ -640,7 +640,7 @@ class ContributorsForm(QWidget):
         self.setLayout(layout)
         self.retranslateUI()
 
-    def remove_contributor(self, item):
+    def remove_contributor(self, item: dict):
         """
         Removes a contributor from the list of contributors.
         """
@@ -660,14 +660,14 @@ class ContributorsForm(QWidget):
 
         self.show_contributor_dialog(contributor)
 
-    def show_contributor_dialog(self, contributor, contributor_pos=None):
+    def show_contributor_dialog(self, contributor: dict, contributor_pos: int = None):
         """
         Shows a dialog to edit a contributor.
         """
         dialog = ContributorDialog(self, contributor, contributor_pos)
         dialog.exec()
 
-    def add_contributor(self, contributor, contributor_pos):
+    def add_contributor(self, contributor: dict, contributor_pos: int):
         """
         Adds a contributor to the list of contributors.
         """
@@ -684,7 +684,7 @@ class ContributorsForm(QWidget):
         # Assign widget to the item created
         self.contributors_list.setItemWidget(item, item_widget)
 
-    def update_contributor(self, contributor, contributor_pos):
+    def update_contributor(self, contributor: dict, contributor_pos: int):
         """
         Updates a contributor in the list of contributors.
         """
