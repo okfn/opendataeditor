@@ -129,6 +129,8 @@ class SingleFieldForm(QWidget):
         layout = QFormLayout()
         self.name = QLineEdit()
         layout.addRow("Name: ", self.name)
+        # name is read-only since is always updated to the contents of the first row of the file.
+        self.name.setDisabled(True)
         self.types = QComboBox()
         self.types.addItems(
             [
@@ -508,7 +510,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
         for form in self.forms:
             form.populate(self.metadata)
 
-    def save_metadata_to_descriptor_file(self):
+    def save_metadata_to_descriptor_file(self, table_model):
         """Collects all data from all forms and save the descriptor.
 
         descriptor is the name that frictionless give to the json file that
@@ -541,7 +543,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
                     field = self.resource.schema.fields[i]
-                    field.name = field_form.name.text()
                     # field type cannot be updated directly, we need to use set_field_type
                     self.resource.schema.set_field_type(field.name, field_form.types.currentText())
                     field.title = field_form.title.text()
@@ -558,9 +559,18 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     widget = form.contributors_list.itemWidget(item)
                     contributors.append(widget.contributor)
 
+        # In ODE the content of the file is always the source of truth, therefore our field names
+        # should always be the content of the first row of our file. Field name is disable in FieldsForm
+        # to simplify scenarios and data consistency.
+        headers = table_model.get_header_data()
+        assert len(headers) == len(self.resource.schema.fields)
+        for i, header in enumerate(headers):
+            self.resource.schema.fields[i].name = header
+
         self.metadata["resource"] = self.resource.to_descriptor()
         self.metadata["contributors"] = contributors
         file = File(self.resource.path)
+
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
             json.dump(self.metadata, f)
