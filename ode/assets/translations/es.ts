@@ -70,6 +70,78 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
     </message>
 </context>
 <context>
+    <name>ContributorDetailForm</name>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="49"/>
+        <source>Title:</source>
+        <translation>Título:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="50"/>
+        <source>Role:</source>
+        <translation>Rol:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="51"/>
+        <source>Email:</source>
+        <translation>Email:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="52"/>
+        <source>Path:</source>
+        <translation>Ubicacion:</translation>
+    </message>
+</context>
+<context>
+    <name>ContributorDialog</name>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="139"/>
+        <source>Save</source>
+        <translation>Guardar</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="140"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>ContributorItemWidget</name>
+    <message>
+        <location filename="../../panels/metadata.py" line="577"/>
+        <source>Details</source>
+        <translation>Detalle</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="578"/>
+        <source>Remove</source>
+        <translation>Remover</translation>
+    </message>
+</context>
+<context>
+    <name>ContributorsForm</name>
+    <message>
+        <location filename="../../panels/metadata.py" line="706"/>
+        <source>Add Contributor</source>
+        <translation>Agregar Contribuidor</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="708"/>
+        <source>Contributor</source>
+        <translation>Contribuidor</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="708"/>
+        <source>Save</source>
+        <translation>Guardar</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="709"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
     <name>DataUploadDialog</name>
     <message>
         <location filename="../../dialogs/upload.py" line="162"/>

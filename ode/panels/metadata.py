@@ -584,8 +584,8 @@ class ContributorItemWidget(QWidget):
         """
         Applies the translations to the labels.
         """
-        self.details_button.setText("Details")
-        self.remove_button.setText("Remove")
+        self.details_button.setText(self.tr("Details"))
+        self.remove_button.setText(self.tr("Remove"))
 
 
 class ContributorsForm(QWidget):
@@ -713,10 +713,10 @@ class ContributorsForm(QWidget):
         """
         Applies the translations to the labels.
         """
-        self.add_contributor_button.setText("Add Contributor")
-        self.title_name_default = "Contributor"
-        self.contributor_dialog_save_button.setText("Save")
-        self.contributor_dialog_cancel_button.setText("Cancel")
+        self.add_contributor_button.setText(self.tr("Add Contributor"))
+        self.title_name_default = self.tr("Contributor")
+        self.contributor_dialog_save_button.setText(self.tr("Save"))
+        self.contributor_dialog_cancel_button.setText(self.tr("Cancel"))
 
 
 if __name__ == "__main__":

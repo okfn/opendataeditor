@@ -46,10 +46,10 @@ class ContributorDetailForm(QWidget):
         """
         Applies the translations to the labels.
         """
-        self.titleLabel.setText("Title:")
-        self.roleLabel.setText("Role:")
-        self.emailLabel.setText("Email:")
-        self.pathLabel.setText("Path:")
+        self.titleLabel.setText(self.tr("Title:"))
+        self.roleLabel.setText(self.tr("Role:"))
+        self.emailLabel.setText(self.tr("Email:"))
+        self.pathLabel.setText(self.tr("Path:"))
 
 
 class ContributorDialog(QDialog):
@@ -83,8 +83,8 @@ class ContributorDialog(QDialog):
         self.setWindowModality(Qt.WindowModal)
 
         # Create buttons
-        self.save_button = QPushButton("Save")
-        self.cancel_button = QPushButton("Cancel")
+        self.save_button = QPushButton()
+        self.cancel_button = QPushButton()
 
         # Set up the layout
         self.setup_layout()
@@ -107,6 +107,7 @@ class ContributorDialog(QDialog):
         layout.addLayout(buttons_layout)
 
         self.setLayout(layout)
+        self.retranslateUI()
 
     def save_and_close(self):
         """
@@ -131,3 +132,10 @@ class ContributorDialog(QDialog):
 
         self.result_saved = True
         self.accept()
+
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.save_button.setText(self.tr("Save"))
+        self.cancel_button.setText(self.tr("Cancel"))

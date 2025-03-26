@@ -68,6 +68,78 @@ improvements to the titles and descriptions associated with them.</source>
     </message>
 </context>
 <context>
+    <name>ContributorDetailForm</name>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="49"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="50"/>
+        <source>Role:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="51"/>
+        <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="52"/>
+        <source>Path:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ContributorDialog</name>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="139"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/contributor_dialog.py" line="140"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ContributorItemWidget</name>
+    <message>
+        <location filename="../../panels/metadata.py" line="577"/>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="578"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ContributorsForm</name>
+    <message>
+        <location filename="../../panels/metadata.py" line="706"/>
+        <source>Add Contributor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="708"/>
+        <source>Contributor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="708"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="709"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DataUploadDialog</name>
     <message>
         <location filename="../../dialogs/upload.py" line="162"/>
