@@ -20,10 +20,10 @@ jobs:
       QT_QPA_PLATFORM: 'offscreen'
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.11.2
+    - name: Set up Python 3.13.0
       uses: actions/setup-python@v3
       with:
-        python-version: "3.11.2"
+        python-version: "3.13.0"
     - name: Install QT Libs and Dependencies
       uses: tlambert03/setup-qt-libs@v1
     - name: Install python requirements
