@@ -16,10 +16,16 @@ from PySide6.QtWidgets import (
     QSpinBox,
     QMessageBox,
     QScrollArea,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QListWidget,
+    QListWidgetItem,
+    QFormLayout,
+    QLineEdit,
+    QComboBox,
 )
-from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QListWidget
-from PySide6.QtWidgets import QFormLayout, QLineEdit, QComboBox
 
+from ode.dialogs.contributor_dialog import ContributorDialog
 from ode.file import File
 from ode.paths import Paths
 from ode import utils
@@ -108,9 +114,13 @@ class LicensesForm(QWidget):
             selected.extend(license_obj)
         return selected
 
-    def populate(self, resource):
-        for lic in resource.licenses:
+    def populate(self, metadata):
+        for lic in metadata.get("resource").licenses:
             self.selected_licenses.addItem(lic["title"])
+
+    def retranslateUI(self):
+        # TODO: implement translations
+        pass
 
 
 class SingleFieldForm(QWidget):
@@ -158,6 +168,10 @@ class SingleFieldForm(QWidget):
         self.description.setText(field.description)
         self.rdf_type.setText(field.rdf_type)
 
+    def retranslateUI(self):
+        # TODO: implement translations
+        pass
+
 
 class FieldsForm(QWidget):
     """Widget to dynamically display the field forms.
@@ -185,10 +199,10 @@ class FieldsForm(QWidget):
             form.deleteLater()
         self.field_forms = []
 
-    def populate(self, resource):
+    def populate(self, metadata):
         if self.field_forms:
             self.remove_forms()
-        for field in resource.schema.fields:
+        for field in metadata.get("resource").schema.fields:
             form = SingleFieldForm()
             form.populate(field)
             self.field_forms.append(form)
@@ -204,6 +218,9 @@ class FieldsForm(QWidget):
         """
         super().resizeEvent(event)
         self.scroll_area.setGeometry(self.rect())
+
+    def retranslateUI(self):
+        pass
 
 
 class SchemaForm(QWidget):
@@ -222,7 +239,8 @@ class SchemaForm(QWidget):
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
+        resource = metadata["resource"]
         self.title.setText(resource.schema.title)
         self.name.setText(resource.schema.name)
         self.description.setText(resource.schema.description)
@@ -237,6 +255,10 @@ class SchemaForm(QWidget):
 
         if field.missing_values and len(resource.schema.missing_values) > 0:
             self.missing_values.setText(",".join(resource.schema.missing_values))
+
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
 
 
 class IntegrityForm(QWidget):
@@ -255,13 +277,14 @@ class IntegrityForm(QWidget):
 
         self.setLayout(layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
         """Populate form fields.
 
         This could be populated by setting stats=True when infering metadata.
         Hash is a little bit tricky because it needs to be updated everytime we
         edit the file or Frictionless will return a validation error.
         """
+        resource = metadata["resource"]
         if resource.hash:
             self.hash.setText(resource.hash)
         if resource.fields:
@@ -270,6 +293,10 @@ class IntegrityForm(QWidget):
             self.bytes_field.setValue(resource.bytes)
         if resource.rows:
             self.rows.setValue(resource.rows)
+
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
 
 
 class ResourceForm(QWidget):
@@ -300,8 +327,9 @@ class ResourceForm(QWidget):
 
         self.setLayout(self.layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
         """Populates all the form fields with the values of the resource"""
+        resource = metadata["resource"]
         self.name.setText(resource.name)
         self.path.setText(resource.path)
         self.title.setText(resource.title)
@@ -311,6 +339,10 @@ class ResourceForm(QWidget):
         self.encoding.setText(resource.encoding)
         self.scheme.setText(resource.scheme)
         self.format.setText(resource.format)
+
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
 
 
 class FrictionlessResourceMetadataWidget(QWidget):
@@ -362,13 +394,15 @@ class FrictionlessResourceMetadataWidget(QWidget):
             ResourceForm(),
             IntegrityForm(),
             LicensesForm(),
+            ContributorsForm(),
         ]
         for form in self.forms:
             self.forms_layout.addWidget(form)
         if filepath:
-            self.resource = self.get_or_create_metadata(filepath).get("resource")
+            self.metadata = self.get_or_create_metadata(filepath)
+            self.resource = metadata.get("resource")
             for form in self.forms:
-                form.populate(self.resource)
+                form.populate(self.metadata)
 
         # Help
         help = QWidget()
@@ -421,6 +455,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
         elif form == "Licenses":
             self.forms_layout.setCurrentIndex(4)
             self.title.setText("Licenses")
+        elif form == "Contributors":
+            self.forms_layout.setCurrentIndex(5)
+            self.title.setText("Contributors")
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
@@ -466,9 +503,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
         # Shows dialect only for csv files
         self.show_hide_item("Dialect", filepath.suffix == ".csv")
 
-        self.resource = self.get_or_create_metadata(filepath).get("resource")
+        self.metadata = self.get_or_create_metadata(filepath)
+        self.resource = self.metadata.get("resource")
         for form in self.forms:
-            form.populate(self.resource)
+            form.populate(self.metadata)
 
     def save_metadata_to_descriptor_file(self):
         """Collects all data from all forms and save the descriptor.
@@ -500,7 +538,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 # We remove the spaces from the missing values
                 self.resource.schema.missing_values = [m.strip() for m in form.missing_values.text().split(",")]
                 self.resource.schema.description = form.description.text()
-                pass
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
                     field = self.resource.schema.fields[i]
@@ -513,13 +550,20 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     field.rdf_type = field_form.rdf_type.text()
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
+            elif isinstance(form, ContributorsForm):
+                contributors = self.metadata.get("contributors", [])
+                contributors.clear()
+                for i in range(form.contributors_list.count()):
+                    item = form.contributors_list.item(i)
+                    widget = form.contributors_list.itemWidget(item)
+                    contributors.append(widget.contributor)
 
-        metadata = self.get_or_create_metadata(self.resource.path)
-        metadata["resource"] = self.resource.to_descriptor()
+        self.metadata["resource"] = self.resource.to_descriptor()
+        self.metadata["contributors"] = contributors
         file = File(self.resource.path)
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
-            json.dump(metadata, f)
+            json.dump(self.metadata, f)
 
     def show_hide_item(self, item_text: str, show: bool = True) -> None:
         """Show or hide a QTreeWidgetItem based on its text."""
@@ -528,6 +572,185 @@ class FrictionlessResourceMetadataWidget(QWidget):
             raise ValueError(f"Item {item_text} not found or duplicated.")
 
         items[0].setHidden(not show)
+
+    def retranslateUI(self):
+        # TODO: implement translations
+        for form in self.forms:
+            form.retranslateUI()
+
+
+class ContributorItemWidget(QWidget):
+    """
+    Widget to show a contributor in the list of contributors.
+    We use a custom widget to show the contributor and the buttons to remove and edit it.
+    """
+
+    def __init__(self, contributor: dict, parent: QWidget = None):
+        super().__init__(parent)
+        layout = QHBoxLayout(self)
+        self.contributor = contributor
+
+        # We show only the name
+        self.title_label = QLabel(contributor.get("title"))
+        layout.addWidget(self.title_label)
+
+        # Add extra space to the right
+        layout.addStretch()
+
+        self.details_button = QPushButton()
+        layout.addWidget(self.details_button)
+
+        self.remove_button = QPushButton()
+        layout.addWidget(self.remove_button)
+
+        # We delete the layout margins to avoid extra space
+        layout.setContentsMargins(2, 2, 2, 2)
+        self.setLayout(layout)
+        self.retranslateUI()
+
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.details_button.setText(self.tr("Details"))
+        self.remove_button.setText(self.tr("Remove"))
+
+
+class ContributorsForm(QWidget):
+    """
+    Widget to show the list of contributors.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        layout = QVBoxLayout()
+        self.add_contributor_button = QPushButton()
+        self.add_contributor_button.clicked.connect(self.add_contributor_dialog)
+        layout.addWidget(self.add_contributor_button)
+
+        self.contributors_list = QListWidget()
+        self.contributors_list.setAlternatingRowColors(True)
+        self.title_name_default = "Contributor"
+
+        # These buttons would be used on the Dialog to add/edit a contributor
+        self.contributor_dialog_save_button = QPushButton()
+        self.contributor_dialog_cancel_button = QPushButton()
+
+        self.setStyleSheet(
+            """
+            QPushButton {
+              font-size: 14px;
+              font-weight: 500;
+              color: #FFFFFF;
+              background: gray;
+              border-style: outset;
+              border-width: 1px;
+              border-radius: 4px;
+            }
+            QPushButton:hover {
+              color: #FFF;
+              background: black;
+              border-color: #0288D1;
+            }
+        """
+        )
+
+        self.contributors_list.setStyleSheet(
+            """
+            QListView {
+                alternate-background-color: #f2f2f2;
+                background-color: #ffffff;
+            }
+            """
+        )
+        layout.addWidget(self.contributors_list)
+
+        self.setLayout(layout)
+        self.retranslateUI()
+
+    def remove_contributor(self, item: dict):
+        """
+        Removes a contributor from the list of contributors.
+        """
+        row = self.contributors_list.row(item)
+        self.contributors_list.takeItem(row)
+
+    def add_contributor_dialog(self):
+        """
+        Shows a dialog to add a new contributor with default values.
+        """
+        contributor = {
+            "title": f"{self.title_name_default} {self.contributors_list.count() + 1}",
+            "email": "",
+            "role": "",
+            "path": "",
+        }
+
+        self.show_contributor_dialog(contributor)
+
+    def show_contributor_dialog(self, contributor: dict, contributor_pos: int = None):
+        """
+        Shows a dialog to edit a contributor.
+        """
+        dialog = ContributorDialog(self, contributor, contributor_pos)
+        dialog.exec()
+
+    def add_contributor(self, contributor: dict, contributor_pos: int):
+        """
+        Adds a contributor to the list of contributors.
+        """
+        # Creates a QListWidgetItem and add it to the list
+        item = QListWidgetItem(self.contributors_list)
+
+        item_widget = ContributorItemWidget(contributor)
+        item_widget.remove_button.clicked.connect(lambda: self.remove_contributor(item))
+        item_widget.details_button.clicked.connect(lambda: self.show_contributor_dialog(contributor, contributor_pos))
+
+        # Sets the correct size for the item based on the widget
+        item.setSizeHint(item_widget.sizeHint())
+
+        # Assign widget to the item created
+        self.contributors_list.setItemWidget(item, item_widget)
+
+    def update_contributor(self, contributor: dict, contributor_pos: int):
+        """
+        Updates a contributor in the list of contributors.
+        """
+        item = self.contributors_list.item(contributor_pos)
+        item_widget = self.contributors_list.itemWidget(item)
+        item_widget.title_label.setText(contributor.get("title"))
+        item_widget.contributor = contributor
+
+    def clear_contributors(self):
+        """
+        Removes all contributors from the list of contributors.
+        """
+        self.contributors_list.clear()
+
+    def populate(self, metadata):
+        """
+        Populates the list of contributors with the contributors in the metadata.
+        """
+
+        self.clear_contributors()
+        contributors = metadata.get("contributors", [])
+        for contributor_pos, contributor in enumerate(contributors):
+            self.add_contributor(contributor, contributor_pos)
+
+    def retranslateUI(self):
+        """
+        Applies the translations to the labels.
+        """
+        self.add_contributor_button.setText(self.tr("Add Contributor"))
+        self.title_name_default = self.tr("Contributor")
+        self.contributor_dialog_save_button.setText(self.tr("Save"))
+        self.contributor_dialog_cancel_button.setText(self.tr("Cancel"))
+
+        # Update the translations of the contributors
+        for i in range(self.contributors_list.count()):
+            item = self.contributors_list.item(i)
+            widget = self.contributors_list.itemWidget(item)
+            widget.retranslateUI()
 
 
 if __name__ == "__main__":
