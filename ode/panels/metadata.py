@@ -118,6 +118,10 @@ class LicensesForm(QWidget):
         for lic in metadata.get("resource").licenses:
             self.selected_licenses.addItem(lic["title"])
 
+    def retranslateUI(self):
+        # TODO: implement translations
+        pass
+
 
 class SingleFieldForm(QWidget):
     def __init__(self, *args, **kwargs):
@@ -163,6 +167,10 @@ class SingleFieldForm(QWidget):
         self.title.setText(field.title)
         self.description.setText(field.description)
         self.rdf_type.setText(field.rdf_type)
+
+    def retranslateUI(self):
+        # TODO: implement translations
+        pass
 
 
 class FieldsForm(QWidget):
@@ -211,6 +219,9 @@ class FieldsForm(QWidget):
         super().resizeEvent(event)
         self.scroll_area.setGeometry(self.rect())
 
+    def retranslateUI(self):
+        pass
+
 
 class SchemaForm(QWidget):
     def __init__(self, *args, **kwargs):
@@ -245,6 +256,10 @@ class SchemaForm(QWidget):
         if field.missing_values and len(resource.schema.missing_values) > 0:
             self.missing_values.setText(",".join(resource.schema.missing_values))
 
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
+
 
 class IntegrityForm(QWidget):
     def __init__(self, *args, **kwargs):
@@ -262,7 +277,7 @@ class IntegrityForm(QWidget):
 
         self.setLayout(layout)
 
-    def populate(self, resource):
+    def populate(self, metadata):
         """Populate form fields.
 
         This could be populated by setting stats=True when infering metadata.
@@ -278,6 +293,10 @@ class IntegrityForm(QWidget):
             self.bytes_field.setValue(resource.bytes)
         if resource.rows:
             self.rows.setValue(resource.rows)
+
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
 
 
 class ResourceForm(QWidget):
@@ -320,6 +339,10 @@ class ResourceForm(QWidget):
         self.encoding.setText(resource.encoding)
         self.scheme.setText(resource.scheme)
         self.format.setText(resource.format)
+
+    def retranslateUI(self):
+        # TODO: imeplement translations
+        pass
 
 
 class FrictionlessResourceMetadataWidget(QWidget):
@@ -550,6 +573,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
         items[0].setHidden(not show)
 
+    def retranslateUI(self):
+        # TODO: implement translations
+        for form in self.forms:
+            form.retranslateUI()
+
 
 class ContributorItemWidget(QWidget):
     """
@@ -717,6 +745,12 @@ class ContributorsForm(QWidget):
         self.title_name_default = self.tr("Contributor")
         self.contributor_dialog_save_button.setText(self.tr("Save"))
         self.contributor_dialog_cancel_button.setText(self.tr("Cancel"))
+
+        # Update the translations of the contributors
+        for i in range(self.contributors_list.count()):
+            item = self.contributors_list.item(i)
+            widget = self.contributors_list.itemWidget(item)
+            widget.retranslateUI()
 
 
 if __name__ == "__main__":

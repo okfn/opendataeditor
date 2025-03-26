@@ -671,6 +671,9 @@ class MainWindow(QMainWindow):
         self.content.ai_widget.retranslateUI()
         self.content.source_view.retranslateUI()
 
+        # Metadata
+        self.content.metadata_widget.retranslateUI()
+
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
 
