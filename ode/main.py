@@ -4,16 +4,37 @@ import os
 
 from pathlib import Path
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QGridLayout, QVBoxLayout, QHBoxLayout,
-    QTreeView, QPushButton, QLabel, QStackedLayout,
-    QComboBox, QMenu, QMessageBox, QInputDialog, QProgressDialog
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QGridLayout,
+    QVBoxLayout,
+    QHBoxLayout,
+    QTreeView,
+    QPushButton,
+    QLabel,
+    QStackedLayout,
+    QComboBox,
+    QMenu,
+    QMessageBox,
+    QInputDialog,
+    QProgressDialog,
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
 from PySide6.QtCore import (
-        Qt, QSize, QFileInfo, QTranslator, QFile, QTextStream, QThreadPool,
-        Slot, Signal, QItemSelectionModel
-    )
+    Qt,
+    QSize,
+    QFileInfo,
+    QTranslator,
+    QFile,
+    QTextStream,
+    QThreadPool,
+    Slot,
+    Signal,
+    QItemSelectionModel,
+)
+
 # https://bugreports.qt.io/browse/PYSIDE-1914
 from PySide6.QtWidgets import QFileSystemModel
 
@@ -36,6 +57,7 @@ class CustomTreeView(QTreeView):
     Currently we want the application to show a Welcome widget with an Upload Button
     whenever the user clicks on the empty space of the QTreeView.
     """
+
     empty_area_click = Signal()
 
     def mousePressEvent(self, event):
@@ -51,6 +73,7 @@ class ClickableLabel(QLabel):
 
     We want an interaction when the user clicks on the ODE logo of the sidebar.
     """
+
     clicked = Signal()
 
     def mousePressEvent(self, event):
@@ -65,6 +88,7 @@ class Sidebar(QWidget):
      - Rendering all the components of the Sidebar.
      - All the logic of the context menu of the File Navigator.
     """
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.setFixedWidth(300)
@@ -79,7 +103,8 @@ class Sidebar(QWidget):
 
         self.file_navigator = CustomTreeView()
 
-        self.file_navigator.setStyleSheet("""
+        self.file_navigator.setStyleSheet(
+            """
             QTreeView {
                 border: 1px solid #d0d0d0;
             }
@@ -93,7 +118,8 @@ class Sidebar(QWidget):
               color: #FFF;
               background: gray;
             }
-        """)
+        """
+        )
 
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
@@ -175,9 +201,7 @@ class Sidebar(QWidget):
         if index.isValid():
             file = File(self.file_model.filePath(index))
             name = file.path.stem
-            new_name, ok = QInputDialog.getText(
-                self, self.tr("Rename"), self.tr("Enter new name:"), text=name
-            )
+            new_name, ok = QInputDialog.getText(self, self.tr("Rename"), self.tr("Enter new name:"), text=name)
             if ok and new_name:
                 try:
                     file.rename(new_name)
@@ -187,7 +211,8 @@ class Sidebar(QWidget):
                     )
                 except NotADirectoryError:
                     QMessageBox.warning(
-                        self, self.tr("Error"), self.tr("Source is a directory but destination a file."))
+                        self, self.tr("Error"), self.tr("Source is a directory but destination a file.")
+                    )
                 except PermissionError:
                     # Since we have a managed PROJECT_PATH this should never happen.
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
@@ -214,8 +239,10 @@ class Sidebar(QWidget):
             file = File(self.file_model.filePath(index))
             is_selected = self.window().selected_file_path == file.path
             confirm = QMessageBox.question(
-                self, self.tr("Delete"), self.tr("Are you sure you want to delete this?"),
-                QMessageBox.Yes | QMessageBox.No
+                self,
+                self.tr("Delete"),
+                self.tr("Are you sure you want to delete this?"),
+                QMessageBox.Yes | QMessageBox.No,
             )
             if confirm == QMessageBox.Yes:
                 try:
@@ -240,6 +267,7 @@ class ErrorsReportButton(QPushButton):
     In order for the ErrorCount Label to be part of the button (background, hover, clickable) we
     need to extend the basic QPushButton and override its layout and some methods.
     """
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
@@ -315,6 +343,7 @@ class Toolbar(QWidget):
      Source, etc)
      - Buttons for the main actions like AI, Publish and Save.
     """
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         layout = QHBoxLayout()
@@ -375,6 +404,7 @@ class Content(QWidget):
     a file is selected, it will display the Toolbar and Panels. If no file is selected
     it will display a Welcoming widget with an upload button.
     """
+
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
@@ -402,6 +432,7 @@ class Content(QWidget):
 
 class Welcome(QWidget):
     """Displays an Upload button when no files are selected."""
+
     def __init__(self):
         super().__init__()
         main_layout = QVBoxLayout()
@@ -424,7 +455,8 @@ class Welcome(QWidget):
 
         self.setLayout(main_layout)
 
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QPushButton {
               font-size: 14px;
               font-weight: 500;
@@ -433,8 +465,6 @@ class Welcome(QWidget):
               border-style: outset;
               border-width: 1px;
               border-radius: 4px;
-              padding-top: 10px;
-              padding-bottom: 10px;
               padding-left: 15px;
               padding-right: 15px;
             }
@@ -443,7 +473,8 @@ class Welcome(QWidget):
               background: #0288D1;
               border-color: #0288D1;
             }
-        """)
+        """
+        )
 
         self.retranslateUI()
 
@@ -467,11 +498,12 @@ class MainWindow(QMainWindow):
         - A Welcome widget if no file is selected.
         - A Toolbar + Panel widgets if a file is selected.
     """
+
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("Open Data Editor")
-        icon = QIcon(Paths.asset('icons/icon.png'))
+        icon = QIcon(Paths.asset("icons/icon.png"))
         self.setWindowIcon(icon)
 
         self.threadpool = QThreadPool()
@@ -639,6 +671,9 @@ class MainWindow(QMainWindow):
         self.content.ai_widget.retranslateUI()
         self.content.source_view.retranslateUI()
 
+        # Metadata
+        self.content.metadata_widget.retranslateUI()
+
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
 
@@ -686,7 +721,7 @@ class MainWindow(QMainWindow):
         # TODO: This is an early implementation, we need to define
         signals and slots properly.
         """
-        if not hasattr(self, 'table_model'):
+        if not hasattr(self, "table_model"):
             # TODO: Define behaviour of Save Button
             return
         self.table_model.write_data(self.selected_file_path)
@@ -756,17 +791,15 @@ class MainWindow(QMainWindow):
         is taking too long. Reading with a worker is a requirement to display a proper QProgressDialog.
         """
         info = QFileInfo(self.selected_file_path)
-        if info.isFile() and info.suffix() in ['csv', 'xls', 'xlsx']:
+        if info.isFile() and info.suffix() in ["csv", "xls", "xlsx"]:
             worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
 
-            self.progress_dialog = QProgressDialog(
-                self.tr("Loading..."), None, 0, 0, self
-            )
+            self.progress_dialog = QProgressDialog(self.tr("Loading..."), None, 0, 0, self)
             self.progress_dialog.setWindowModality(Qt.WindowModal)
-            self.progress_dialog.setValue(0)              # Start counting and,
+            self.progress_dialog.setValue(0)  # Start counting and,
             self.progress_dialog.setMinimumDuration(300)  # show only if task takes more than 300ms
             self.threadpool.start(worker)
         else:
