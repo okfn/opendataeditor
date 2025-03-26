@@ -690,8 +690,9 @@ class MainWindow(QMainWindow):
             # TODO: Define behaviour of Save Button
             return
         self.table_model.write_data(self.selected_file_path)
-        self.table_model.layoutChanged.emit()
         self.content.metadata_widget.save_metadata_to_descriptor_file()
+        # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
+        self.read_validate_and_display_file(self.selected_file_path)
 
     @Slot(tuple)
     def update_views(self, worker_data):

@@ -44,7 +44,7 @@ def migrate_metadata_store():
                 resource = TableResource(record_data.get("resource"))
                 # Patch the original resource path with the absolute path to the file.
                 resource.path = str(paths.PROJECT_PATH / path)
-                resource.infer(stats=True)
+                resource.infer()
                 record_data["resource"] = resource.to_descriptor()
         except Exception as e:
             # This should happen only if the user did file/metadata editing outside ODE.
