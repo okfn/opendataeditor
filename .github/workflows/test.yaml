@@ -1,20 +1,19 @@
-name: Test & Lint
+name: Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    tags:
+      - v*.*.*
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: chartboost/ruff-action@v1
   test:
     runs-on: ubuntu-latest
     env:
