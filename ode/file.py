@@ -73,7 +73,7 @@ class File:
             self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(self.path)
-                resource.infer(stats=True)
+                resource.infer()
             with open(self.metadata_path, "w") as f:
                 # Resource is not serializable, converting to dict before writing.
                 metadata["resource"] = resource.to_descriptor()
@@ -87,7 +87,7 @@ class File:
 
         with system.use_context(trusted=True):
             resource = TableResource(metadata["resource"])
-            resource.infer(stats=True)
+            resource.infer()
             metadata["resource"] = resource
 
         return metadata

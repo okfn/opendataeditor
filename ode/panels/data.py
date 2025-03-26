@@ -1,10 +1,11 @@
-from frictionless import validate, Resource, system
+from frictionless import Resource, system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel
 
 from ode import utils
+from ode.file import File
 
 DEFAULT_LIMIT_ERRORS = 999
 
@@ -26,8 +27,9 @@ class DataWorker(QRunnable):
 
     def __init__(self, filepath):
         super().__init__()
-        self.filepath = filepath
+        self.file = File(filepath)
         self.signals = DataWorkerSignals()
+        self.resource = self.file.get_or_create_metadata().get("resource")
 
     @Slot()
     def run(self):
@@ -42,10 +44,8 @@ class DataWorker(QRunnable):
         display the table and the errors.
         """
         with system.use_context(trusted=True):
-            data = Resource(self.filepath).read_cells()
-
-        with system.use_context(trusted=True):
-            report = validate(self.filepath, limit_errors=DEFAULT_LIMIT_ERRORS)
+            data = self.resource.read_cells()
+            report = self.resource.validate(limit_errors=DEFAULT_LIMIT_ERRORS)
 
         errors = []
         if not report.valid:
@@ -55,7 +55,7 @@ class DataWorker(QRunnable):
             except Exception:
                 errors = report.tasks[0].errors
 
-        self.signals.finished.emit((self.filepath, data, errors))
+        self.signals.finished.emit((self.file.path, data, errors))
 
 
 class FrictionlessTableModel(QAbstractTableModel):

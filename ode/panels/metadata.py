@@ -256,10 +256,20 @@ class IntegrityForm(QWidget):
         self.setLayout(layout)
 
     def populate(self, resource):
-        self.hash.setText(resource.hash)
-        self.fields.setValue(resource.fields)
-        self.bytes_field.setValue(resource.bytes)
-        self.rows.setValue(resource.rows)
+        """Populate form fields.
+
+        This could be populated by setting stats=True when infering metadata.
+        Hash is a little bit tricky because it needs to be updated everytime we
+        edit the file or Frictionless will return a validation error.
+        """
+        if resource.hash:
+            self.hash.setText(resource.hash)
+        if resource.fields:
+            self.fields.setValue(resource.fields)
+        if resource.bytes:
+            self.bytes_field.setValue(resource.bytes)
+        if resource.rows:
+            self.rows.setValue(resource.rows)
 
 
 class ResourceForm(QWidget):
@@ -431,7 +441,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             file.metadata_path.parent.mkdir(parents=True, exist_ok=True)
             with system.use_context(trusted=True):
                 resource = TableResource(filepath)
-                resource.infer(stats=True)
+                resource.infer()
             with open(file.metadata_path, "w") as f:
                 # Resource is not serializable, converting to dict before writing.
                 metadata["resource"] = resource.to_descriptor()
@@ -445,7 +455,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
         with system.use_context(trusted=True):
             resource = TableResource(metadata["resource"])
-            resource.infer(stats=True)
+            resource.infer()
             metadata["resource"] = resource
 
         return metadata
