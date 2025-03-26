@@ -1,0 +1,4 @@
+pytest
+pytest-qt
+black
+mypy

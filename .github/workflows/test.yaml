@@ -1,0 +1,32 @@
+# Test template from pytest-qt:
+# https://pytest-qt.readthedocs.io/en/latest/troubleshooting.html#github-actions-azure-pipelines-travis-ci-and-gitlab-ci-cd
+
+name: my qt ci in github actions
+on: [push, pull_request]
+jobs:
+  Linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os : [ubuntu-latest]
+        python: ["3.11"]
+    env:
+      DISPLAY: ':99.0'
+    steps:
+    - name: get repo
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+    - name: setup ${{ matrix.os }}
+      run: |
+        sudo apt install libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 x11-utils
+        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1920x1200x24 -ac +extension GLX
+    - name: Install Requirements
+      run: |
+          pip install -r requirements.txt
+          pip install -r dev-requirements.txt
+    - name: Run tests
+      run: |
+          pytest test/
