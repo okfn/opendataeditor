@@ -37,6 +37,17 @@ _RESOURCE_METADATA = {
 }
 
 
+class NoWheelComboBox(QComboBox):
+    """QComboBox that disables the mouse wheel event.
+
+    The current UX when scrolling through FieldsForms is not ideal since as soon as
+    the mouse points a QComboBox the form stops scrolling and it starts changing the
+    value of the QComboBox instead.
+    """
+    def wheelEvent(self, event):
+        event.ignore()
+
+
 class LicensesForm(QWidget):
     def __init__(self):
         super().__init__()
@@ -131,7 +142,7 @@ class SingleFieldForm(QWidget):
         layout.addRow("Name: ", self.name)
         # name is read-only since is always updated to the contents of the first row of the file.
         self.name.setDisabled(True)
-        self.types = QComboBox()
+        self.types = NoWheelComboBox()
         self.types.addItems(
             [
                 "any",
