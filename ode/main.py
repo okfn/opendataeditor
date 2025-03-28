@@ -103,24 +103,6 @@ class Sidebar(QWidget):
 
         self.file_navigator = CustomTreeView()
 
-        self.file_navigator.setStyleSheet(
-            """
-            QTreeView {
-                border: 1px solid #d0d0d0;
-            }
-
-            QTreeView::item:hover {
-              color: #FFF;
-              background: black;
-            }
-
-            QTreeView::item:selected {
-              color: #FFF;
-              background: gray;
-            }
-        """
-        )
-
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
         self.file_navigator.setRootIndex(self.file_model.setRootPath(str(paths.PROJECT_PATH)))
@@ -133,12 +115,10 @@ class Sidebar(QWidget):
         self.user_guide = QPushButton()
         self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
         self.user_guide.setIconSize(QSize(20, 20))
-        self.user_guide.setStyleSheet("text-align: left;")
 
         self.report_issue = QPushButton()
         self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
         self.report_issue.setIconSize(QSize(20, 20))
-        self.report_issue.setStyleSheet("text-align: left;")
 
         self.language = QComboBox()
         options = [
