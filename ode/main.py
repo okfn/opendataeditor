@@ -378,8 +378,8 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
-        # self.update_qss_button = QPushButton("QSS")
-        # layout.addWidget(self.update_qss_button)
+        self.update_qss_button = QPushButton("QSS")
+        layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
         layout.addWidget(self.button_publish)
         layout.addWidget(self.button_save)
@@ -454,28 +454,6 @@ class Welcome(QWidget):
         main_layout.addWidget(self.label_bottom)
 
         self.setLayout(main_layout)
-
-        self.setStyleSheet(
-            """
-            QPushButton {
-              font-size: 14px;
-              font-weight: 500;
-              color: #FFFFFF;
-              background: #000000;
-              border-style: outset;
-              border-width: 1px;
-              border-radius: 4px;
-              padding-left: 15px;
-              padding-right: 15px;
-            }
-            QPushButton:hover {
-              color: #FFF;
-              background: #0288D1;
-              border-color: #0288D1;
-            }
-        """
-        )
-
         self.retranslateUI()
 
     def retranslateUI(self):
@@ -550,7 +528,7 @@ class MainWindow(QMainWindow):
         self.translator = QTranslator()
         self.retranslateUI()
 
-        # self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
+        self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
 
     def _menu_bar(self):

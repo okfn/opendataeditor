@@ -69,7 +69,7 @@ QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
 }
 
 
-QPushButton#button_upload {
+Sidebar QPushButton#button_upload {
   font-size: 14px;
   font-weight: 500;
   color: #0288D1;
@@ -84,11 +84,32 @@ QPushButton#button_upload {
   margin-top: 22px;
   margin-bottom: 22px;
 }
-QPushButton#button_upload:hover {
+Sidebar QPushButton#button_upload:hover {
   color: #FFF;
   background: #0288D1;
 }
-QPushButton#button_upload:pressed {
+Sidebar QPushButton#button_upload:pressed {
   color: #0288D1;
   background: #FFF;
+}
+
+Welcome QPushButton {
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #000000;
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 4px;
+  padding: 10px 15px;
+}
+Welcome QPushButton:hover {
+  color: #FFFFFF;
+  background: #0288D1;
+  border-color: #0288D1;
+}
+Welcome QPushButton:pressed {
+  color: #FFFFFF;
+  background: #000000;
+  border-color: #000000;
 }
