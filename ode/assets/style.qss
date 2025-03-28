@@ -10,14 +10,14 @@ QWidget {
   background: #f0f0f0;
 }
 
-.QPushButton {
+Toolbar .QPushButton {
   font-size: 16px;
   font-weight: 600;
   color: #4C5564;
   border: 0;
   padding: 6px 8px;
 }
-.QPushButton:hover {
+Toolbar .QPushButton:hover {
   background-color: #F0F0F0;
 }
 
