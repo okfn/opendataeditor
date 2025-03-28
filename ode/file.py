@@ -140,7 +140,8 @@ class File:
         """
         if self.path.is_file():
             self.path.unlink()
-            self.metadata_path.unlink()
+            if self.metadata_path.exists():
+                self.metadata_path.unlink()
         elif self.path.is_dir():
             shutil.rmtree(self.path)
             if self.metadata_path.exists():

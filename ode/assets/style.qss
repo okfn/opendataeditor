@@ -6,6 +6,10 @@ QWidget {
 
 * { gridline-color: lightgrey; } /* multi-os support */
 
+.QComboBox:disabled, QLineEdit:disabled {
+  background: #f0f0f0;
+}
+
 .QPushButton {
   font-size: 16px;
   font-weight: 600;
