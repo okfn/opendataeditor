@@ -89,8 +89,8 @@ class Sidebar(QWidget):
      - All the logic of the context menu of the File Navigator.
     """
 
-    def __init__(self, parent):
-        super().__init__(parent=parent)
+    def __init__(self):
+        super().__init__()
         self.setFixedWidth(300)
         layout = QVBoxLayout()
 
@@ -324,10 +324,9 @@ class Toolbar(QWidget):
      - Buttons for the main actions like AI, Publish and Save.
     """
 
-    def __init__(self, parent):
-        super().__init__(parent=parent)
+    def __init__(self):
+        super().__init__()
         layout = QHBoxLayout()
-        layout.setSpacing(10)
 
         # Buttons on the left
         self.button_data = QPushButton()
@@ -388,7 +387,10 @@ class Content(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        self.toolbar = Toolbar(self)
+        layout.setSpacing(0)
+        layout.setContentsMargins(0,0,0,0)
+
+        self.toolbar = Toolbar()
         layout.addWidget(self.toolbar)
 
         self.panels = QWidget(self)
@@ -469,10 +471,12 @@ class MainWindow(QMainWindow):
 
         central_widget = QWidget()
         layout = QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0,0,0,0)
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
-        self.sidebar = Sidebar(self)
+        self.sidebar = Sidebar()
         layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
 
         self.main = QWidget()
