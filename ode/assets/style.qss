@@ -20,6 +20,10 @@ Toolbar .QPushButton {
 Toolbar .QPushButton:hover {
   background-color: #F0F0F0;
 }
+Toolbar .QPushButton:pressed {
+  background-color: #FFFFFF;
+}
+
 
 ErrorsReportButton {
   border: 0;
