@@ -209,11 +209,11 @@ class DataViewer(QWidget):
 
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.data_view = QTableView()
-        self.data_view.hide()
+        self.table_view = QTableView()
+        self.table_view.hide()
 
         layout.addWidget(self.label)
-        layout.addWidget(self.data_view)
+        layout.addWidget(self.table_view)
 
         self.retranslateUI()
 
@@ -223,9 +223,9 @@ class DataViewer(QWidget):
         When a tabular file is selected, the main application will create a
         FrictionlessTableModel and call this function using the model as a parametner.
         """
-        self.data_view.setModel(model)
+        self.table_view.setModel(model)
         self.label.hide()
-        self.data_view.show()
+        self.table_view.show()
 
     def clear(self, model):
         """Reset the view to the default state.
@@ -233,9 +233,9 @@ class DataViewer(QWidget):
         This view depends of the main application self.table_model attribute. This
         method should always receive an empty model
         """
-        self.data_view.setModel(model)
+        self.table_view.setModel(model)
         self.label.show()
-        self.data_view.hide()
+        self.table_view.hide()
 
     def retranslateUI(self):
         """Apply translations to class elements."""
