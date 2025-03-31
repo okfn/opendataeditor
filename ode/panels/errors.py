@@ -2,6 +2,7 @@ import collections
 
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
+from PySide6.QtGui import QColor
 
 from ode import utils
 from ode.panels.data import DEFAULT_LIMIT_ERRORS
@@ -35,6 +36,38 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
                 return True
 
         return False
+
+    def data(self, index, role):
+        """Returns information to be used to render the Data Table View.
+
+        For each cell we return:
+         - The value to be displayed in the cell
+         - If there is an error in that cell, a red color for the Background.
+         - If there is an error in that cell, a message for the tooltip.
+        """
+        if not index.isValid():
+            return None
+
+        source_index = self.mapToSource(index)
+        source_row = source_index.row()
+        source_column = source_index.column()
+
+        if role == Qt.ItemDataRole.BackgroundRole:
+            source_model = self.sourceModel()
+
+            if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
+                return None
+
+            for error in source_model.errors[source_row]:
+                if self.error_type == "blank-row":
+                    # BlankRowError does not have field_number, we paint all the cells.
+                    return QColor("red")
+                elif error[0] == source_column and error[1] == self.error_type:
+                    return QColor("red")
+
+            return None
+
+        return super().data(index, role)
 
 
 class ErrorTitle(QWidget):

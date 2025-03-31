@@ -122,10 +122,6 @@ class FrictionlessTableModel(QAbstractTableModel):
         except ValueError:
             return 0
 
-    def get_header_data(self):
-        """Returns the first row of the file."""
-        return self._data[0]
-
     def rowCount(self, parent=None):
         """Returning from a pre-calculated private attribute for performance improvements."""
         return self._row_count
@@ -213,11 +209,11 @@ class DataViewer(QWidget):
 
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.table_view = QTableView()
-        self.table_view.hide()
+        self.data_view = QTableView()
+        self.data_view.hide()
 
         layout.addWidget(self.label)
-        layout.addWidget(self.table_view)
+        layout.addWidget(self.data_view)
 
         self.retranslateUI()
 
@@ -227,9 +223,9 @@ class DataViewer(QWidget):
         When a tabular file is selected, the main application will create a
         FrictionlessTableModel and call this function using the model as a parametner.
         """
-        self.table_view.setModel(model)
+        self.data_view.setModel(model)
         self.label.hide()
-        self.table_view.show()
+        self.data_view.show()
 
     def clear(self, model):
         """Reset the view to the default state.
@@ -237,9 +233,9 @@ class DataViewer(QWidget):
         This view depends of the main application self.table_model attribute. This
         method should always receive an empty model
         """
-        self.table_view.setModel(model)
+        self.data_view.setModel(model)
         self.label.show()
-        self.table_view.hide()
+        self.data_view.hide()
 
     def retranslateUI(self):
         """Apply translations to class elements."""
