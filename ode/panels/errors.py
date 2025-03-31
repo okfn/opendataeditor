@@ -27,11 +27,13 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
             [..., (row_number, error_type, error_message), ...]
         """
         source_model = self.sourceModel()
-        error = source_model.errors[source_row]
-        if not error:
+        if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
             return False
-        if error[1] == self.error_type:
-            return True
+
+        for error in source_model.errors[source_row]:
+            if error[1] == self.error_type:
+                return True
+
         return False
 
 
