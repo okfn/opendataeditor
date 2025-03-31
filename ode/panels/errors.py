@@ -38,16 +38,11 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
         return False
 
     def data(self, index, role):
-        """Returns information to be used to render the Data Table View.
-
-        For each cell we return:
-         - The value to be displayed in the cell
-         - If there is an error in that cell, a red color for the Background.
-         - If there is an error in that cell, a message for the tooltip.
-        """
+        """Overrides the data method to set the background color of the cells according the error type."""
         if not index.isValid():
             return None
 
+        # Converts the index to the source model so we can map it with the errors list
         source_index = self.mapToSource(index)
         source_row = source_index.row()
         source_column = source_index.column()
@@ -56,6 +51,7 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
             source_model = self.sourceModel()
 
             if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
+                # Default color
                 return None
 
             for error in source_model.errors[source_row]:
@@ -65,6 +61,7 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
                 elif error[0] == source_column and error[1] == self.error_type:
                     return QColor("red")
 
+            # Default color
             return None
 
         return super().data(index, role)
