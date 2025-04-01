@@ -469,7 +469,7 @@ class MainWindow(QMainWindow):
         self.threadpool = QThreadPool()
         self.selected_file_path = Path()
 
-        central_widget = QWidget()
+        central_widget = QWidget(objectName="central_widget")
         layout = QGridLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0,0,0,0)

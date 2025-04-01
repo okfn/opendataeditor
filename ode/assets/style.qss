@@ -1,4 +1,17 @@
-QWidget {
+/* Open Data Editor main Style Sheet.
+
+The application uses a fusion style set when creating the QMainWindow object. This stylesheets
+complements the fusion style with colors and branding. Open Data Editor is design for light-mode
+so we are enforcing it by explicitly setting the main widgets and components background to white.
+*/
+
+/* Enforcing Light Mode of main elements. */
+Sidebar, Content, FrictionlessResourceMetadataWidget, SelectWidget,
+FieldsForm, SingleFieldForm, SchemaForm, QWidget#fields_form_container,
+QTableView, QTableView QHeaderView, QTableView QTableCornerButton,
+QTreeView, QDialog, QPushButton, QComboBox, QComboBox QAbstractItemView, QLineEdit,
+QLabel, QTabWidget, QTabBar, QScrollBar, QSpinBox, QListWidget, QTextEdit, QSrollArea,
+QWidget#central_widget {
     background: #FFF;
     color: #404040;
     font-size: 19px;  /* multi-os support */
@@ -6,50 +19,54 @@ QWidget {
 
 * { gridline-color: lightgrey; } /* multi-os support */
 
+
 .QComboBox:disabled, QLineEdit:disabled {
   background: #f0f0f0;
 }
 
+
+Toolbar {
+  background: #F0F0F0;
+  border-bottom: 1px solid lightgrey;
+}
 Toolbar .QPushButton {
   font-size: 16px;
+  background: #F0F0F0;
   font-weight: 600;
   color: #4C5564;
   border: 0;
   padding: 6px 8px;
 }
 Toolbar .QPushButton:hover {
-  background-color: #F0F0F0;
+  background-color: #FFFFFF;
 }
 Toolbar .QPushButton:pressed {
-  background-color: #FFFFFF;
+  background-color: #F0F0F0;
 }
 
 
 ErrorsReportButton {
   border: 0;
 }
-
 ErrorsReportButton:hover {
   background-color: #F0F0F0;
 }
-
 ErrorsReportButton QLabel {
   font-size: 16px;
   font-weight: 600;
   color: #4C5564;
   background: transparent;
 }
-
 ErrorsReportButton QLabel:disabled {
   color: grey;
 }
-
 ErrorsReportButton QLabel[error] {
   background: #FCF2F2;
   border: 1px solid #FECBCA;
   color: red;
   padding: 0px;
 }
+
 
 QPushButton#button_save, QPushButton#button_publish {
   font-size: 14px;
@@ -73,6 +90,9 @@ QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
 }
 
 
+Sidebar {
+  border-right: 1px solid lightgrey;
+}
 Sidebar QPushButton#button_upload {
   font-size: 14px;
   font-weight: 500;
@@ -97,33 +117,29 @@ Sidebar QPushButton#button_upload:pressed {
   color: #0288D1;
   background: #FFF;
 }
-
 Sidebar QTreeView {
     border: 1px solid #d0d0d0;
 }
-
 Sidebar QTreeView::item:hover {
   color: #FFF;
   background: black;
 }
-
 Sidebar QTreeView::item:selected {
   color: #FFF;
   background: gray;
 }
-
 Sidebar QPushButton {
   border: 0px;
   padding: 3px;
   text-align: left;
 }
-
 Sidebar QPushButton:hover {
   background: #D0D0D0;
 }
 Sidebar QPushButton:pressed {
   background: #FFFFFF;
 }
+
 
 Welcome QPushButton {
   font-size: 14px;
@@ -144,4 +160,9 @@ Welcome QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
+}
+
+
+FieldsForm QScrollArea {
+  border: none;
 }

@@ -137,6 +137,7 @@ class LicensesForm(QWidget):
 class SingleFieldForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setAttribute(Qt.WA_StyledBackground, True)
         layout = QFormLayout()
         self.name = QLineEdit()
         layout.addRow("Name: ", self.name)
@@ -197,14 +198,16 @@ class FieldsForm(QWidget):
         super().__init__(*args, **kwargs)
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setWidgetResizable(True)
+        self.setAttribute(Qt.WA_StyledBackground, True)
 
-        self.container_widget = QWidget()
+        self.container_widget = QWidget(objectName="fields_form_container")
         self.container_layout = QVBoxLayout()
+        self.container_layout.setSpacing(0)
+        self.container_layout.setContentsMargins(0, 0, 0, 0)
         self.container_widget.setLayout(self.container_layout)
         self.scroll_area.setWidget(self.container_widget)
         self.field_forms = []
 
-        self.setStyleSheet("QScrollArea {border: none;}")
 
     def remove_forms(self):
         for form in self.field_forms:
@@ -361,6 +364,7 @@ class ResourceForm(QWidget):
 class FrictionlessResourceMetadataWidget(QWidget):
     def __init__(self, filepath=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setAttribute(Qt.WA_StyledBackground, True)
 
         utils.set_common_style(self)
 
