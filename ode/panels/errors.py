@@ -2,6 +2,7 @@ import collections
 
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
+from PySide6.QtGui import QColor
 
 from ode import utils
 from ode.panels.data import DEFAULT_LIMIT_ERRORS
@@ -27,12 +28,43 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
             [..., (row_number, error_type, error_message), ...]
         """
         source_model = self.sourceModel()
-        error = source_model.errors[source_row]
-        if not error:
+        if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
             return False
-        if error[1] == self.error_type:
-            return True
+
+        for error in source_model.errors[source_row]:
+            if error[1] == self.error_type:
+                return True
+
         return False
+
+    def data(self, index, role):
+        """Overrides the data method to set the background color of the cells according the error type."""
+        if not index.isValid():
+            return None
+
+        # Converts the index to the source model so we can map it with the errors list
+        source_index = self.mapToSource(index)
+        source_row = source_index.row()
+        source_column = source_index.column()
+
+        if role == Qt.ItemDataRole.BackgroundRole:
+            source_model = self.sourceModel()
+
+            if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
+                # Default color
+                return None
+
+            for error in source_model.errors[source_row]:
+                if self.error_type == "blank-row":
+                    # BlankRowError does not have field_number, we paint all the cells.
+                    return QColor("red")
+                elif error[0] == source_column and error[1] == self.error_type:
+                    return QColor("red")
+
+            # Default color
+            return None
+
+        return super().data(index, role)
 
 
 class ErrorTitle(QWidget):

@@ -102,7 +102,10 @@ class FrictionlessTableModel(QAbstractTableModel):
             else:
                 row = error.row_number - 1
                 column = error.field_number - 1
-            result[row] = (column, error.type, error.message)
+            if result[row] is None:
+                result[row] = list()
+
+            result[row].append((column, error.type, error.message))
         return result
 
     def _get_row_count(self):
@@ -153,21 +156,21 @@ class FrictionlessTableModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.BackgroundRole:
             if not self.errors[index.row()]:
                 return
-            error_column, error_type, error_message = self.errors[index.row()]
-            if error_type == "blank-row":
-                # BlankRowError does not have field_number, we paint all the cells.
-                return QColor("red")
-            if error_column == index.column():
-                return QColor("red")
+            for error_column, error_type, error_message in self.errors[index.row()]:
+                if error_type == "blank-row":
+                    # BlankRowError does not have field_number, we paint all the cells.
+                    return QColor("red")
+                if error_column == index.column():
+                    return QColor("red")
         if role == Qt.ItemDataRole.ToolTipRole:
             if not self.errors[index.row()]:
                 return
-            error_column, error_type, error_message = self.errors[index.row()]
-            if error_type == "blank-row":
-                # BlankRowError does not have field_number, we add tooltip to all the cells.
-                return error_message
-            if error_column == index.column():
-                return error_message
+            for error_column, error_type, error_message in self.errors[index.row()]:
+                if error_type == "blank-row":
+                    # BlankRowError does not have field_number, we add tooltip to all the cells.
+                    return error_message
+                if error_column == index.column():
+                    return error_message
 
     def flags(self, index):
         """Enable edition mode"""
