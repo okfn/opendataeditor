@@ -199,7 +199,7 @@ class Sidebar(QWidget):
                 except OSError:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("File with this name already exists."))
                 else:
-                    self.window().statusBar().showMessage(self.tr("Item renamed successfuly."), 3000)
+                    self.window().statusBar().showMessage(self.tr("Item renamed successfuly."))
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -234,7 +234,7 @@ class Sidebar(QWidget):
                 else:
                     if is_selected:
                         self.window().show_welcome_screen()
-                    self.window().statusBar().showMessage(self.tr("Item deleted successfuly."), 3000)
+                    self.window().statusBar().showMessage(self.tr("Item deleted successfuly."))
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
