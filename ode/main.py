@@ -392,7 +392,7 @@ class Content(QWidget):
         super().__init__()
         layout = QVBoxLayout()
         layout.setSpacing(0)
-        layout.setContentsMargins(0,0,0,0)
+        layout.setContentsMargins(0, 0, 0, 0)
 
         self.toolbar = Toolbar()
         layout.addWidget(self.toolbar)
@@ -476,7 +476,7 @@ class MainWindow(QMainWindow):
         central_widget = QWidget(objectName="central_widget")
         layout = QGridLayout()
         layout.setSpacing(0)
-        layout.setContentsMargins(0,0,0,0)
+        layout.setContentsMargins(0, 0, 0, 0)
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
