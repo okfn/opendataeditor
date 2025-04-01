@@ -361,8 +361,8 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
-        self.update_qss_button = QPushButton("QSS")
-        layout.addWidget(self.update_qss_button)
+        # self.update_qss_button = QPushButton("QSS")
+        # layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
         layout.addWidget(self.button_publish)
         layout.addWidget(self.button_save)
@@ -516,7 +516,7 @@ class MainWindow(QMainWindow):
         self.translator = QTranslator()
         self.retranslateUI()
 
-        self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
+        # self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
 
         self._create_status_bar()
