@@ -122,6 +122,10 @@ class FrictionlessTableModel(QAbstractTableModel):
         except ValueError:
             return 0
 
+    def get_header_data(self):
+        """Returns the first row of the file."""
+        return self._data[0]
+
     def rowCount(self, parent=None):
         """Returning from a pre-calculated private attribute for performance improvements."""
         return self._row_count
