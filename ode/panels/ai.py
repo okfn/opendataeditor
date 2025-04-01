@@ -100,11 +100,3 @@ You can also check OpenAI terms and policies <a href='https://openai.com/policie
         self.note_group.setTitle(self.tr("Data Privacy"))
         self.note_label.setText(self.tr("""Open Data Editor will only share the names of the columns in your table to suggest
 improvements to the titles and descriptions associated with them."""))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    dialog = ChatGPTDialog()
-    dialog.show()
-    sys.exit(app.exec())
