@@ -671,6 +671,7 @@ class ContributorsForm(QWidget):
               border-style: outset;
               border-width: 1px;
               border-radius: 4px;
+              padding: 6px 8px;
             }
             QPushButton:hover {
               color: #FFF;
