@@ -6,7 +6,7 @@ so we are enforcing it by explicitly setting the main widgets and components bac
 */
 
 /* Enforcing Light Mode of main elements. */
-Sidebar, Content, FrictionlessResourceMetadataWidget, SelectWidget,
+Content, FrictionlessResourceMetadataWidget, SelectWidget, Toolbar,
 FieldsForm, SingleFieldForm, SchemaForm, QWidget#fields_form_container,
 QTableView, QTableView QHeaderView, QTableView QTableCornerButton,
 QTreeView, QDialog, QPushButton, QComboBox, QComboBox QAbstractItemView, QLineEdit,
@@ -22,26 +22,6 @@ QPlainTextEdit, QWidget#central_widget {
 
 .QComboBox:disabled, QLineEdit:disabled {
   background: #f0f0f0;
-}
-
-
-Toolbar {
-  background: #F0F0F0;
-  border-bottom: 1px solid lightgrey;
-}
-Toolbar .QPushButton {
-  font-size: 16px;
-  background: #F0F0F0;
-  font-weight: 600;
-  color: #4C5564;
-  border: 0;
-  padding: 6px 8px;
-}
-Toolbar .QPushButton:hover {
-  background-color: #FFFFFF;
-}
-Toolbar .QPushButton:pressed {
-  background-color: #F0F0F0;
 }
 
 
@@ -67,7 +47,20 @@ ErrorsReportButton QLabel[error] {
   padding: 0px;
 }
 
-
+Toolbar QPushButton {
+  font-size: 16px;
+  font-weight: 600;
+  border: 0px solid;
+  color: #4C5564;
+  background: #FFFFFF;
+  padding: 6px 8px;
+}
+Toolbar .QPushButton:hover {
+  background-color: #F0F0F0;
+}
+Toolbar .QPushButton:pressed {
+  background-color: #F0F0F0;
+}
 QPushButton#button_save, QPushButton#button_publish {
   font-size: 14px;
   font-weight: 500;
@@ -77,6 +70,7 @@ QPushButton#button_save, QPushButton#button_publish {
   border-width: 1px;
   border-radius: 4px;
   border-color: #000;
+  padding: 6px 8px;
 }
 QPushButton#button_save:hover, QPushButton#button_publish:hover {
   color: #FFF;
@@ -91,7 +85,7 @@ QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
 
 
 Sidebar {
-  border-right: 1px solid lightgrey;
+  border-right: 1px solid #000;
 }
 Sidebar QPushButton#button_upload {
   font-size: 14px;

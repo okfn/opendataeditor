@@ -255,6 +255,7 @@ class ErrorsReportButton(QPushButton):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
         self.layout.setSpacing(2)  # Aligns better with QPushButton look & feel
+        self.layout.setContentsMargins(0, 0, 0, 0)
 
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(20, 20)  # Match icon size
