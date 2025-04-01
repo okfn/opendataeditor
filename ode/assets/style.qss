@@ -11,7 +11,7 @@ FieldsForm, SingleFieldForm, SchemaForm, QWidget#fields_form_container,
 QTableView, QTableView QHeaderView, QTableView QTableCornerButton,
 QTreeView, QDialog, QPushButton, QComboBox, QComboBox QAbstractItemView, QLineEdit,
 QLabel, QTabWidget, QTabBar, QScrollBar, QSpinBox, QListWidget, QTextEdit, QSrollArea,
-QWidget#central_widget {
+QPlainTextEdit, QWidget#central_widget {
     background: #FFF;
     color: #404040;
     font-size: 19px;  /* multi-os support */
