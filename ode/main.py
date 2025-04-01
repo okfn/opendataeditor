@@ -198,6 +198,8 @@ class Sidebar(QWidget):
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
                 except OSError:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("File with this name already exists."))
+                else:
+                    self.window().statusBar().showMessage(self.tr("Item renamed successfuly."), 3000)
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -232,6 +234,7 @@ class Sidebar(QWidget):
                 else:
                     if is_selected:
                         self.window().show_welcome_screen()
+                    self.window().statusBar().showMessage(self.tr("Item deleted successfuly."), 3000)
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
@@ -515,6 +518,11 @@ class MainWindow(QMainWindow):
         self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
 
+        self._create_status_bar()
+
+    def _create_status_bar(self):
+        self.statusBar().showMessage(self.tr("Ready."))
+
     def _menu_bar(self):
         """Creates the menu bar and assign all its actions.
 
@@ -657,6 +665,7 @@ class MainWindow(QMainWindow):
             print(f"Error when loading {filepath} translator file. Fallbacking to English.")
             app.removeTranslator(self.translator)
         self.retranslateUI()
+        self.statusBar().showMessage(self.tr("Language changed."))
 
     def upload_data(self, external_first=False):
         """Copy data file to the project folder of ode.
@@ -690,6 +699,7 @@ class MainWindow(QMainWindow):
         self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
+        self.statusBar().showMessage(self.tr("File and Metadata changes saved.")
 
     @Slot(tuple)
     def update_views(self, worker_data):
@@ -758,6 +768,7 @@ class MainWindow(QMainWindow):
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
+            worker.signals.messages.connect(self.statusBar().showMessage)
 
             self.progress_dialog = QProgressDialog(self.tr("Loading..."), None, 0, 0, self)
             self.progress_dialog.setWindowModality(Qt.WindowModal)
