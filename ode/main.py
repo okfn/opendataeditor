@@ -699,7 +699,7 @@ class MainWindow(QMainWindow):
         self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
-        self.statusBar().showMessage(self.tr("File and Metadata changes saved.")
+        self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
 
     @Slot(tuple)
     def update_views(self, worker_data):
