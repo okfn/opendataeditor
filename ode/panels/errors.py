@@ -148,6 +148,7 @@ class ErrorsWidget(QWidget):
 
         self.reports = QWidget()
         self.reports_layout = QVBoxLayout()
+        self.reports_layout.setContentsMargins(0, 0, 0, 0)
         self.reports.setLayout(self.reports_layout)
 
         self.layout.addWidget(self.max_errors_label)
