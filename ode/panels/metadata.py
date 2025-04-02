@@ -4,7 +4,7 @@ import sys
 from frictionless.resources import TableResource
 from frictionless import system
 from pathlib import Path
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Slot, QItemSelectionModel
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
@@ -421,19 +421,15 @@ class FrictionlessResourceMetadataWidget(QWidget):
         help = QWidget()
         help.setMinimumHeight(100)
         help_layout = QVBoxLayout()
-        self.title = QLabel("Resource")
+        self.title = QLabel()
         self.title.setStyleSheet("font-weight: bold;")
-
-        help_description = QLabel("This is a long text that will be replaced with the actual help content.")
-        help_description.setText(
-            help_description.text() + ' <a href="https://specs.frictionlessdata.io/data-resource/">Learn more</a>'
-        )
-        help_description.setTextInteractionFlags(Qt.TextBrowserInteraction)
-        help_description.setWordWrap(True)
-        help_description.setOpenExternalLinks(True)
+        self.help_description = QLabel()
+        self.help_description.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        self.help_description.setWordWrap(True)
+        self.help_description.setOpenExternalLinks(True)
 
         help_layout.addWidget(self.title)
-        help_layout.addWidget(help_description)
+        help_layout.addWidget(self.help_description)
 
         help_layout.addStretch()
         help.setLayout(help_layout)
@@ -447,6 +443,25 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.layout.addLayout(self.h_layout)
         self.setLayout(self.layout)
 
+        self._select_resource_form()
+
+    def _select_resource_form(self) -> None:
+        model = self.tree.model()
+        index = model.index(1, 0)
+        selectionModel = self.tree.selectionModel()
+        selectionModel.select(index, QItemSelectionModel.ClearAndSelect)
+        self.switch_form(index)
+
+    @Slot(str)
+    def set_help_text(self, title: str, text: str = "") -> None:
+        self.title.setText(title)
+        if not text:
+            self.help_description.setText("")
+        else:
+            self.help_description.setText(
+                text + ' <a href="https://specs.frictionlessdata.io/data-resource/">Learn more</a>'
+            )
+
     def switch_form(self, index):
         """Set the index of the Forms Stacked Layout to match the selected form."""
         # This order is the order in which we add the forms to the stacked layout in the
@@ -455,22 +470,22 @@ class FrictionlessResourceMetadataWidget(QWidget):
         form = index.data()
         if form == "Schema":
             self.forms_layout.setCurrentIndex(0)
-            self.title.setText("Schema")
+            self.set_help_text("Schema", "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.")
         elif form == "Column names":
             self.forms_layout.setCurrentIndex(1)
-            self.title.setText("Column names")
+            self.set_help_text("Column names")
         if form == "Resource":
             self.forms_layout.setCurrentIndex(2)
-            self.title.setText("Resource")
+            self.set_help_text("Resource", "A simple format to describe and package a single data resource such as a individual table or file.")
         elif form == "Integrity":
             self.forms_layout.setCurrentIndex(3)
-            self.title.setText("Integrity")
+            self.set_help_text("Integrity", "Checksum details of this resource.")
         elif form == "Licenses":
             self.forms_layout.setCurrentIndex(4)
-            self.title.setText("Licenses")
+            self.set_help_text("Licenses", "The license(s) under which the resource is provided.")
         elif form == "Contributors":
             self.forms_layout.setCurrentIndex(5)
-            self.title.setText("Contributors")
+            self.set_help_text("Contributors", "A name/title of the contributor (name for person, name/title of organization).")
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
