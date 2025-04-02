@@ -89,8 +89,8 @@ class Sidebar(QWidget):
      - All the logic of the context menu of the File Navigator.
     """
 
-    def __init__(self, parent):
-        super().__init__(parent=parent)
+    def __init__(self):
+        super().__init__()
         self.setFixedWidth(300)
         layout = QVBoxLayout()
 
@@ -102,24 +102,6 @@ class Sidebar(QWidget):
         self.button_upload = QPushButton(objectName="button_upload")
 
         self.file_navigator = CustomTreeView()
-
-        self.file_navigator.setStyleSheet(
-            """
-            QTreeView {
-                border: 1px solid #d0d0d0;
-            }
-
-            QTreeView::item:hover {
-              color: #FFF;
-              background: black;
-            }
-
-            QTreeView::item:selected {
-              color: #FFF;
-              background: gray;
-            }
-        """
-        )
 
         self.file_model = QFileSystemModel()
         self.file_navigator.setModel(self.file_model)
@@ -133,12 +115,10 @@ class Sidebar(QWidget):
         self.user_guide = QPushButton()
         self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
         self.user_guide.setIconSize(QSize(20, 20))
-        self.user_guide.setStyleSheet("text-align: left;")
 
         self.report_issue = QPushButton()
         self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
         self.report_issue.setIconSize(QSize(20, 20))
-        self.report_issue.setStyleSheet("text-align: left;")
 
         self.language = QComboBox()
         options = [
@@ -218,6 +198,8 @@ class Sidebar(QWidget):
                     QMessageBox.warning(self, self.tr("Error"), self.tr("Operation not permitted."))
                 except OSError:
                     QMessageBox.warning(self, self.tr("Error"), self.tr("File with this name already exists."))
+                else:
+                    self.window().statusBar().showMessage(self.tr("Item renamed successfuly."))
 
     def _open_file_navigator_location(self):
         """Open the folder where the file lives using the OS application."""
@@ -252,6 +234,7 @@ class Sidebar(QWidget):
                 else:
                     if is_selected:
                         self.window().show_welcome_screen()
+                    self.window().statusBar().showMessage(self.tr("Item deleted successfuly."))
 
     def _show_only_name_column_in_file_navigator(self, file_model, file_navigator):
         """Hide all columns except for the name column (column 0)"""
@@ -272,6 +255,7 @@ class ErrorsReportButton(QPushButton):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
         self.layout.setSpacing(2)  # Aligns better with QPushButton look & feel
+        self.layout.setContentsMargins(0, 0, 0, 0)
 
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(20, 20)  # Match icon size
@@ -344,10 +328,9 @@ class Toolbar(QWidget):
      - Buttons for the main actions like AI, Publish and Save.
     """
 
-    def __init__(self, parent):
-        super().__init__(parent=parent)
+    def __init__(self):
+        super().__init__()
         layout = QHBoxLayout()
-        layout.setSpacing(10)
 
         # Buttons on the left
         self.button_data = QPushButton()
@@ -408,7 +391,10 @@ class Content(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        self.toolbar = Toolbar(self)
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.toolbar = Toolbar()
         layout.addWidget(self.toolbar)
 
         self.panels = QWidget(self)
@@ -454,28 +440,6 @@ class Welcome(QWidget):
         main_layout.addWidget(self.label_bottom)
 
         self.setLayout(main_layout)
-
-        self.setStyleSheet(
-            """
-            QPushButton {
-              font-size: 14px;
-              font-weight: 500;
-              color: #FFFFFF;
-              background: #000000;
-              border-style: outset;
-              border-width: 1px;
-              border-radius: 4px;
-              padding-left: 15px;
-              padding-right: 15px;
-            }
-            QPushButton:hover {
-              color: #FFF;
-              background: #0288D1;
-              border-color: #0288D1;
-            }
-        """
-        )
-
         self.retranslateUI()
 
     def retranslateUI(self):
@@ -509,12 +473,14 @@ class MainWindow(QMainWindow):
         self.threadpool = QThreadPool()
         self.selected_file_path = Path()
 
-        central_widget = QWidget()
+        central_widget = QWidget(objectName="central_widget")
         layout = QGridLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
-        self.sidebar = Sidebar(self)
+        self.sidebar = Sidebar()
         layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
 
         self.main = QWidget()
@@ -552,6 +518,11 @@ class MainWindow(QMainWindow):
 
         # self.content.toolbar.update_qss_button.clicked.connect(self.apply_stylesheet)
         self.apply_stylesheet()
+
+        self._create_status_bar()
+
+    def _create_status_bar(self):
+        self.statusBar().showMessage(self.tr("Ready."))
 
     def _menu_bar(self):
         """Creates the menu bar and assign all its actions.
@@ -695,6 +666,7 @@ class MainWindow(QMainWindow):
             print(f"Error when loading {filepath} translator file. Fallbacking to English.")
             app.removeTranslator(self.translator)
         self.retranslateUI()
+        self.statusBar().showMessage(self.tr("Language changed."))
 
     def upload_data(self, external_first=False):
         """Copy data file to the project folder of ode.
@@ -728,6 +700,7 @@ class MainWindow(QMainWindow):
         self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
+        self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
 
     @Slot(tuple)
     def update_views(self, worker_data):
@@ -796,6 +769,7 @@ class MainWindow(QMainWindow):
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
+            worker.signals.messages.connect(self.statusBar().showMessage)
 
             self.progress_dialog = QProgressDialog(self.tr("Loading..."), None, 0, 0, self)
             self.progress_dialog.setWindowModality(Qt.WindowModal)
