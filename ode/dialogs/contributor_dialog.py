@@ -57,7 +57,7 @@ class ContributorDialog(QDialog):
     Dialog for adding or editing a contributor.
     """
 
-    def __init__(self, parent: QWidget, contributor: dict, contributor_pos: int = 0):
+    def __init__(self, parent: QWidget, contributor: dict, contributor_pos: int = None):
         """
         Initialize the dialog.
 

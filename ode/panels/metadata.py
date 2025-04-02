@@ -48,17 +48,17 @@ class BaseForm(QWidget):
     the FrictionlessResourceMetadataWidget.
     """
     help_text_requested = Signal(str, str)  # (title, description)
-    help_texts: dict[QWidget, tuple[str, str]] = {}  # To be overridden in child classes
+    help_texts = {}  # To be overridden in child classes
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def _install_help_events(self) -> None:
+    def _install_help_events(self):
         """Install event filters for all help-enabled widgets"""
         for widget in self.help_texts:
             widget.installEventFilter(self)
 
-    def eventFilter(self, source, event) -> bool:
+    def eventFilter(self, source, event):
         """Handle focus events for help text"""
         if event.type() == QEvent.Type.FocusIn:
             if source in self.help_texts:
@@ -761,7 +761,7 @@ class ContributorItemWidget(QWidget):
     We use a custom widget to show the contributor and the buttons to remove and edit it.
     """
 
-    def __init__(self, contributor: dict, parent = None):
+    def __init__(self, contributor: dict, parent: QWidget = None):
         super().__init__(parent)
         layout = QHBoxLayout(self)
         self.contributor = contributor
@@ -865,7 +865,7 @@ class ContributorsForm(BaseForm):
 
         self.show_contributor_dialog(contributor)
 
-    def show_contributor_dialog(self, contributor: dict, contributor_pos: int = 0):
+    def show_contributor_dialog(self, contributor: dict, contributor_pos: int = None):
         """
         Shows a dialog to edit a contributor.
         """
