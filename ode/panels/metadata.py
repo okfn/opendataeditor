@@ -311,6 +311,10 @@ class SchemaForm(BaseForm):
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
         self.help_texts = {
+            self.name: (
+                self.tr("Schema Name"),
+                self.tr("A simple name or identifier to use for this schema.")
+            ),
             self.primary_key: (
                 self.tr("Schema Primary Key"),
                 self.tr("A primary key is a field or set of fields that uniquely identifies each row in the table.")
