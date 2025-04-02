@@ -38,6 +38,15 @@ _RESOURCE_METADATA = {
 
 
 class BaseForm(QWidget):
+    """Base from for metadata widgets.
+
+    This class implements:
+     1) A dictionary to keep track of inputs and its help texts
+     2) An event filter to trigger an event each time an input widget with a help_text is Focused.
+
+    The help_text_requested signal will be connected to a Slot to update the Help Text widgets of
+    the FrictionlessResourceMetadataWidget.
+    """
     help_text_requested = Signal(str, str)  # (title, description)
     help_texts = {}  # To be overridden in child classes
 
