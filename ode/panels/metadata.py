@@ -590,6 +590,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
             form.help_text_requested.connect(self.set_help_text)
 
     def _select_resource_form(self) -> None:
+        """Selects the Resource form in the tree widget and displays its form.
+
+        Whenever we open the Metadata Panel for the first time we want Resource to be focused.
+        """
         model = self.tree.model()
         index = model.index(1, 0)
         selectionModel = self.tree.selectionModel()
@@ -598,6 +602,12 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
     @Slot(str)
     def set_help_text(self, title: str, text: str = "") -> None:
+        """Sets the text of the title and help_description labels.
+
+        This method will be connected to a signal in each input widget (QLineEdit, QComboBox, etc)
+        and will be executed whenever the input is FocusIn (click, tab into it, etc) to update the
+        displayed help text.
+        """
         self.title.setText(title)
         if not text:
             self.help_description.setText("")
