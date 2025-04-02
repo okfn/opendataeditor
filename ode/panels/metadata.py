@@ -4,7 +4,7 @@ import sys
 from frictionless.resources import TableResource
 from frictionless import system
 from pathlib import Path
-from PySide6.QtCore import Qt, Slot, QItemSelectionModel
+from PySide6.QtCore import Qt, Slot, QItemSelectionModel, Signal, QEvent
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
@@ -37,6 +37,27 @@ _RESOURCE_METADATA = {
 }
 
 
+class BaseForm(QWidget):
+    help_text_requested = Signal(str, str)  # (title, description)
+    help_texts = {}  # To be overridden in child classes
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def _install_help_events(self):
+        """Install event filters for all help-enabled widgets"""
+        for widget in self.help_texts:
+            widget.installEventFilter(self)
+
+    def eventFilter(self, source, event):
+        """Handle focus events for help text"""
+        if event.type() == QEvent.Type.FocusIn:
+            if source in self.help_texts:
+                title, text = self.help_texts[source]
+                self.help_text_requested.emit(title, text)
+        return super().eventFilter(source, event)
+
+
 class NoWheelComboBox(QComboBox):
     """QComboBox that disables the mouse wheel event.
 
@@ -48,7 +69,7 @@ class NoWheelComboBox(QComboBox):
         event.ignore()
 
 
-class LicensesForm(QWidget):
+class LicensesForm(BaseForm):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
@@ -134,7 +155,7 @@ class LicensesForm(QWidget):
         pass
 
 
-class SingleFieldForm(QWidget):
+class SingleFieldForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QFormLayout()
@@ -174,6 +195,31 @@ class SingleFieldForm(QWidget):
         layout.addRow("RDF Type: ", self.rdf_type)
         self.setLayout(layout)
 
+        self.help_texts = {
+            self.types: (
+                self.tr("Column Type"),
+                self.tr("String indicating the type of this field.")
+            ),
+            self.title: (
+                self.tr("Column Title"),
+                self.tr("A human-readable title.")
+            ),
+            self.description: (
+                self.tr("Column Description"),
+                self.tr("A description of the field.")
+            ),
+            self.missing_values: (
+                self.tr("Column Missing Values"),
+                self.tr("Specifies which string values should be treated as null values.")
+            ),
+            self.rdf_type: (
+                self.tr("Column RDF Type"),
+                self.tr("Indicates whether the field is of RDF type.")
+            ),
+        }
+
+        self._install_help_events()
+
     def populate(self, field):
         self.name.setText(field.name)
         self.types.setCurrentText(field.type)
@@ -186,7 +232,7 @@ class SingleFieldForm(QWidget):
         pass
 
 
-class FieldsForm(QWidget):
+class FieldsForm(BaseForm):
     """Widget to dynamically display the field forms.
 
     This is a tricky widget since it has to dinamycally add/remove field forms
@@ -217,6 +263,7 @@ class FieldsForm(QWidget):
             self.remove_forms()
         for field in metadata.get("resource").schema.fields:
             form = SingleFieldForm()
+            form.help_text_requested.connect(self.help_text_requested)
             form.populate(field)
             self.field_forms.append(form)
             self.container_layout.addWidget(form)
@@ -236,7 +283,7 @@ class FieldsForm(QWidget):
         pass
 
 
-class SchemaForm(QWidget):
+class SchemaForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QFormLayout()
@@ -251,6 +298,26 @@ class SchemaForm(QWidget):
         self.description = QLineEdit()
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
+        self.help_texts = {
+            self.primary_key: (
+                self.tr("Schema Primary Key"),
+                self.tr("A primary key is a field or set of fields that uniquely identifies each row in the table.")
+            ),
+            self.title: (
+                self.tr("Schema Title"),
+                self.tr("A human-readable title.")
+            ),
+            self.missing_values: (
+                self.tr("Schema Missing Values"),
+                self.tr("Many datasets arrive with missing data values, either because a value was not collected or it never existed.")
+            ),
+            self.description: (
+                self.tr("Schema Description"),
+                self.tr("A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.")
+            ),
+        }
+
+        self._install_help_events()
 
     def populate(self, metadata):
         resource = metadata["resource"]
@@ -274,7 +341,7 @@ class SchemaForm(QWidget):
         pass
 
 
-class IntegrityForm(QWidget):
+class IntegrityForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         layout = QFormLayout()
@@ -289,6 +356,27 @@ class IntegrityForm(QWidget):
         layout.addRow("Rows: ", self.rows)
 
         self.setLayout(layout)
+
+        self.help_texts = {
+            self.hash: (
+                self.tr("Integrity Hash"),
+                self.tr("The MD5 hash for this resource.")
+            ),
+            self.fields: (
+                self.tr("Integrity Fields"),
+                self.tr("Total fiels in this resource.")
+            ),
+            self.bytes_field: (
+                self.tr("Integrity Bytes"),
+                self.tr("Size of the resource file in bytes.")
+            ),
+            self.rows: (
+                self.tr("Integrity Rows"),
+                self.tr("Total rows in this resource.")
+            ),
+        }
+
+        self._install_help_events()
 
     def populate(self, metadata):
         """Populate form fields.
@@ -312,7 +400,7 @@ class IntegrityForm(QWidget):
         pass
 
 
-class ResourceForm(QWidget):
+class ResourceForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.layout = QFormLayout()
@@ -339,6 +427,42 @@ class ResourceForm(QWidget):
         self.layout.addRow("Encoding: ", self.encoding)
 
         self.setLayout(self.layout)
+
+        self.help_texts = {
+            self.name: (
+                self.tr("Resource Name"),
+                self.tr("A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.")
+            ),
+            self.types: (
+                self.tr("Resource Type"),
+                self.tr("Specifies the type of this resource.")
+            ),
+            self.scheme: (
+                self.tr("Resource Scheme"),
+                self.tr("Specifies the scheme for loading the file (file, http, ...).")
+            ),
+            self.format: (
+                self.tr("Resource Format"),
+                self.tr("Specifies the standard file extension for this resource e.g. 'csv', 'xls', 'json' etc.")
+            ),
+            self.title: (
+                self.tr("Resource Title"),
+                self.tr("A human-readable title or label for this resource e.g. 'Sales Data'.")
+            ),
+            self.mediatype: (
+                self.tr("Resource Media Type"),
+                self.tr("Specifies the media type/mime type of this resource e.g 'text/csv', 'application/vnd.ms-excel' etc.")
+            ),
+            self.description: (
+                self.tr("Resource Description"),
+                self.tr("A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.")
+            ),
+            self.encoding: (
+                self.tr("Resource Encoding"),
+                self.tr("Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA.")
+            ),
+        }
+        self._install_help_events()
 
     def populate(self, metadata):
         """Populates all the form fields with the values of the resource"""
@@ -444,6 +568,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.setLayout(self.layout)
 
         self._select_resource_form()
+        # Connect help signals from all forms
+        for form in self.forms:
+            form.help_text_requested.connect(self.set_help_text)
 
     def _select_resource_form(self) -> None:
         model = self.tree.model()
@@ -652,7 +779,7 @@ class ContributorItemWidget(QWidget):
         self.remove_button.setText(self.tr("Remove"))
 
 
-class ContributorsForm(QWidget):
+class ContributorsForm(BaseForm):
     """
     Widget to show the list of contributors.
     """
