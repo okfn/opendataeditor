@@ -2,7 +2,7 @@ from frictionless import Resource, system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
 
 from ode import utils
 from ode.file import File
@@ -14,6 +14,7 @@ class DataWorkerSignals(QObject):
     """Define the signals for the DataWorker."""
 
     finished = Signal(tuple)
+    messages = Signal(str)
 
 
 class DataWorker(QRunnable):
@@ -44,7 +45,9 @@ class DataWorker(QRunnable):
         display the table and the errors.
         """
         with system.use_context(trusted=True):
+            self.signals.messages.emit(QApplication.translate("DataWorker", "Reading file..."))
             data = self.resource.read_cells()
+            self.signals.messages.emit(QApplication.translate("DataWorker", "Validating file..."))
             report = self.resource.validate(limit_errors=DEFAULT_LIMIT_ERRORS)
 
         errors = []
@@ -55,6 +58,7 @@ class DataWorker(QRunnable):
             except Exception:
                 errors = report.tasks[0].errors
 
+        self.signals.messages.emit(QApplication.translate("DataWorker", "Read and Validation finished."))
         self.signals.finished.emit((self.file.path, data, errors))
 
 
