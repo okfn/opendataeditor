@@ -1,7 +1,7 @@
 ---
 title: Architecture
 sidebar:
-  order: 2
+  order: 3
 ---
 
 In a nutshell, the Open Data Editor is a desktop application that:
