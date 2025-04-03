@@ -23,6 +23,10 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QComboBox,
+    QGridLayout,
+    QSizePolicy,
+    QGroupBox,
+    QFrame,
 )
 
 from ode.dialogs.contributor_dialog import ContributorDialog
@@ -44,6 +48,7 @@ class NoWheelComboBox(QComboBox):
     the mouse points a QComboBox the form stops scrolling and it starts changing the
     value of the QComboBox instead.
     """
+
     def wheelEvent(self, event):
         event.ignore()
 
@@ -138,9 +143,10 @@ class SingleFieldForm(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setAttribute(Qt.WA_StyledBackground, True)
-        layout = QFormLayout()
+        main_layout = QVBoxLayout(self)
+        form_layout = QFormLayout()
         self.name = QLineEdit()
-        layout.addRow("Name: ", self.name)
+        form_layout.addRow("Name: ", self.name)
         # name is read-only since is always updated to the contents of the first row of the file.
         self.name.setDisabled(True)
         self.types = NoWheelComboBox()
@@ -163,17 +169,82 @@ class SingleFieldForm(QWidget):
                 "yearmonth",
             ]
         )
-        layout.addRow("Type: ", self.types)
+        form_layout.addRow("Type: ", self.types)
         self.title = QLineEdit()
-        layout.addRow("Title: ", self.title)
+        form_layout.addRow("Title: ", self.title)
         self.description = QLineEdit()
-        layout.addRow("Description: ", self.description)
+        form_layout.addRow("Description: ", self.description)
         self.missing_values = QLineEdit()
         self.missing_values.setEnabled(False)
-        layout.addRow("Missing Values: ", self.missing_values)
+        form_layout.addRow("Missing Values: ", self.missing_values)
         self.rdf_type = QLineEdit()
-        layout.addRow("RDF Type: ", self.rdf_type)
-        self.setLayout(layout)
+        form_layout.addRow("RDF Type: ", self.rdf_type)
+        form_layout.addRow("Constraints:", self.create_constraint_fields())
+        main_layout.addLayout(form_layout)
+
+        # Add a horizontal line to separate the constraints from the rest of the form
+        horizontal_line = QFrame()
+        horizontal_line.setFrameShape(QFrame.HLine)
+        horizontal_line.setFrameShadow(QFrame.Sunken)
+        horizontal_line.setLineWidth(1)
+        main_layout.addWidget(horizontal_line)
+
+        self.setLayout(main_layout)
+
+    def create_constraint_fields(self):
+        """
+        Creates the constraint fields for the field form.
+
+        Constraints are:
+        - Required
+        - Length
+        - Pattern
+        - Enum
+        """
+        constraint_container = QWidget()
+        constraint_layout = QVBoxLayout(constraint_container)
+        constraint_layout.setContentsMargins(0, 0, 0, 0)
+
+        grid_container = grid_container = QGroupBox("")
+        grid_layout = QGridLayout(grid_container)
+        grid_layout.setContentsMargins(0, 0, 0, 0)
+
+        grid_layout.addWidget(QLabel("Required"), 0, 0)
+        self.constraint_required = QComboBox()
+        self.constraint_required.addItems(["True", "False"])
+        self.constraint_required.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grid_layout.addWidget(self.constraint_required, 0, 1, 1, 3)
+
+        grid_layout.addWidget(QLabel("Min Length:"), 1, 0)
+        self.constraint_min_length = QLineEdit()
+        self.constraint_min_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grid_layout.addWidget(self.constraint_min_length, 1, 1)
+
+        grid_layout.addWidget(QLabel("Max Length:"), 1, 2)
+        self.constraint_max_length = QLineEdit()
+        self.constraint_max_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grid_layout.addWidget(self.constraint_max_length, 1, 3)
+
+        grid_layout.addWidget(QLabel("Enum:"), 2, 0)
+        self.constraint_enum = QLineEdit()
+        self.constraint_enum.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grid_layout.addWidget(self.constraint_enum, 2, 1)
+
+        grid_layout.addWidget(QLabel("Pattern:"), 2, 2)
+        self.constraint_pattern = QLineEdit()
+        self.constraint_pattern.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        grid_layout.addWidget(self.constraint_pattern, 2, 3)
+
+        grid_layout.setColumnMinimumWidth(1, 100)
+        grid_layout.setColumnMinimumWidth(3, 100)
+        grid_layout.setColumnStretch(1, 1)
+        grid_layout.setColumnStretch(3, 1)
+
+        grid_layout.setHorizontalSpacing(10)
+
+        constraint_layout.addWidget(grid_container)
+
+        return constraint_container
 
     def populate(self, field):
         self.name.setText(field.name)
@@ -181,6 +252,12 @@ class SingleFieldForm(QWidget):
         self.title.setText(field.title)
         self.description.setText(field.description)
         self.rdf_type.setText(field.rdf_type)
+
+        self.constraint_min_length.setText(str(field.constraints.get("minLength", "")))
+        self.constraint_max_length.setText(str(field.constraints.get("maxLength", "")))
+        self.constraint_pattern.setText(field.constraints.get("pattern", ""))
+        self.constraint_enum.setText(",".join(field.constraints.get("enum", [])))
+        self.constraint_required.setCurrentText(str(field.constraints.get("required", False)))
 
     def retranslateUI(self):
         # TODO: implement translations
@@ -207,7 +284,6 @@ class FieldsForm(QWidget):
         self.container_widget.setLayout(self.container_layout)
         self.scroll_area.setWidget(self.container_widget)
         self.field_forms = []
-
 
     def remove_forms(self):
         for form in self.field_forms:
@@ -562,8 +638,32 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     self.resource.schema.set_field_type(field.name, field_form.types.currentText())
                     field.title = field_form.title.text()
                     field.description = field_form.description.text()
-                    field.missing_values = field_form.missing_values.text()
+                    # TODO: Fix it, a string is not a valid value for missing_values but an array
+                    # field.missing_values = field_form.missing_values.text()
                     field.rdf_type = field_form.rdf_type.text()
+
+                    constraints = {
+                        "required": field_form.constraint_required.currentText() == "True",
+                    }
+
+                    min_length = field_form.constraint_min_length.text().strip()
+                    if min_length:
+                        constraints["minLength"] = int(min_length)
+
+                    max_length = field_form.constraint_max_length.text().strip()
+                    if max_length:
+                        constraints["maxLength"] = int(max_length)
+
+                    if field_form.constraint_enum.text():
+                        constraints["enum"] = field_form.constraint_enum.text().split(",")
+
+                    if field_form.constraint_pattern.text():
+                        constraints["pattern"] = field_form.constraint_pattern.text()
+
+                    field.constraints = constraints
+
+                    # Update the field in the schema
+                    self.resource.schema.set_field(field)
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
             elif isinstance(form, ContributorsForm):
