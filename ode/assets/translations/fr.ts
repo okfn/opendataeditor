@@ -106,12 +106,12 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>ContributorItemWidget</name>
     <message>
-        <location filename="../../panels/metadata.py" line="640"/>
+        <location filename="../../panels/metadata.py" line="769"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="641"/>
+        <location filename="../../panels/metadata.py" line="770"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,22 +119,22 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>ContributorsForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="769"/>
+        <location filename="../../panels/metadata.py" line="899"/>
         <source>Add Contributor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="771"/>
+        <location filename="../../panels/metadata.py" line="901"/>
         <source>Contributor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="771"/>
+        <location filename="../../panels/metadata.py" line="901"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="772"/>
+        <location filename="../../panels/metadata.py" line="902"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -211,7 +211,7 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="247"/>
+        <location filename="../../panels/data.py" line="250"/>
         <source>No file selected or Preview not available for this file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -237,7 +237,7 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="172"/>
+        <location filename="../../panels/errors.py" line="205"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Veuillez noter que l&apos;ODE détecte actuellement des erreurs dans les tableaux, avec un maximum de </translation>
     </message>
@@ -245,77 +245,77 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="524"/>
+        <location filename="../../main.py" line="525"/>
         <source>Ready.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="617"/>
+        <location filename="../../main.py" line="618"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="618"/>
+        <location filename="../../main.py" line="619"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="619"/>
+        <location filename="../../main.py" line="620"/>
         <source>File/Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="620"/>
+        <location filename="../../main.py" line="621"/>
         <source>External URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="623"/>
+        <location filename="../../main.py" line="624"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="624"/>
+        <location filename="../../main.py" line="625"/>
         <source>Metadata panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="625"/>
+        <location filename="../../main.py" line="626"/>
         <source>Errors panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="626"/>
+        <location filename="../../main.py" line="627"/>
         <source>Source panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="629"/>
+        <location filename="../../main.py" line="630"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="630"/>
+        <location filename="../../main.py" line="631"/>
         <source>User Guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="631"/>
+        <location filename="../../main.py" line="632"/>
         <source>Report an Issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="668"/>
+        <location filename="../../main.py" line="669"/>
         <source>Language changed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="702"/>
+        <location filename="../../main.py" line="703"/>
         <source>File and Metadata changes saved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="772"/>
+        <location filename="../../main.py" line="774"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,6 +405,69 @@ improvements to the titles and descriptions associated with them.</source>
     </message>
 </context>
 <context>
+    <name>SingleFieldForm</name>
+    <message>
+        <location filename="../../panels/metadata.py" line="281"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="282"/>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="283"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="284"/>
+        <source>Description:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="285"/>
+        <source>Missing Values:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="286"/>
+        <source>RDF Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="287"/>
+        <source>Constraints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="289"/>
+        <source>Required:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="290"/>
+        <source>Min Length:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="291"/>
+        <source>Max Length:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="292"/>
+        <source>Enum:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="293"/>
+        <source>Pattern:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SourceViewer</name>
     <message>
         <location filename="../../panels/source.py" line="68"/>
@@ -415,37 +478,37 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="373"/>
+        <location filename="../../main.py" line="374"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="374"/>
+        <location filename="../../main.py" line="375"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="375"/>
+        <location filename="../../main.py" line="376"/>
         <source>Errors Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="376"/>
+        <location filename="../../main.py" line="377"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="377"/>
+        <location filename="../../main.py" line="378"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="378"/>
+        <location filename="../../main.py" line="379"/>
         <source>Save changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="379"/>
+        <location filename="../../main.py" line="380"/>
         <source>AI</source>
         <translation type="unfinished"></translation>
     </message>
@@ -453,17 +516,17 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="446"/>
+        <location filename="../../main.py" line="447"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="447"/>
+        <location filename="../../main.py" line="448"/>
         <source>You can also add links to online tables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="448"/>
+        <location filename="../../main.py" line="449"/>
         <source>Upload your data</source>
         <translation type="unfinished"></translation>
     </message>

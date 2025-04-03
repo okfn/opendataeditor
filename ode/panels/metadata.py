@@ -146,7 +146,8 @@ class SingleFieldForm(QWidget):
         main_layout = QVBoxLayout(self)
         form_layout = QFormLayout()
         self.name = QLineEdit()
-        form_layout.addRow("Name: ", self.name)
+        self.name_label = QLabel()
+        form_layout.addRow(self.name_label, self.name)
         # name is read-only since is always updated to the contents of the first row of the file.
         self.name.setDisabled(True)
         self.types = NoWheelComboBox()
@@ -169,17 +170,28 @@ class SingleFieldForm(QWidget):
                 "yearmonth",
             ]
         )
-        form_layout.addRow("Type: ", self.types)
+        self.type_label = QLabel()
+        form_layout.addRow(self.type_label, self.types)
+
+        self.title_label = QLabel()
         self.title = QLineEdit()
-        form_layout.addRow("Title: ", self.title)
+        form_layout.addRow(self.title_label, self.title)
+
         self.description = QLineEdit()
-        form_layout.addRow("Description: ", self.description)
+        self.description_label = QLabel()
+        form_layout.addRow(self.description_label, self.description)
+
+        self.missing_values_label = QLabel()
         self.missing_values = QLineEdit()
         self.missing_values.setEnabled(False)
-        form_layout.addRow("Missing Values: ", self.missing_values)
+        form_layout.addRow(self.missing_values_label, self.missing_values)
+
         self.rdf_type = QLineEdit()
-        form_layout.addRow("RDF Type: ", self.rdf_type)
-        form_layout.addRow("Constraints:", self.create_constraint_fields())
+        self.rdf_type_label = QLabel()
+        form_layout.addRow(self.rdf_type_label, self.rdf_type)
+
+        self.constraints_label = QLabel()
+        form_layout.addRow(self.constraints_label, self.create_constraint_fields())
         main_layout.addLayout(form_layout)
 
         # Add a horizontal line to separate the constraints from the rest of the form
@@ -190,6 +202,7 @@ class SingleFieldForm(QWidget):
         main_layout.addWidget(horizontal_line)
 
         self.setLayout(main_layout)
+        self.retranslateUI()
 
     def create_constraint_fields(self):
         """
@@ -209,28 +222,33 @@ class SingleFieldForm(QWidget):
         grid_layout = QGridLayout(grid_container)
         grid_layout.setContentsMargins(0, 0, 0, 0)
 
-        grid_layout.addWidget(QLabel("Required"), 0, 0)
+        self.constraint_required_label = QLabel()
+        grid_layout.addWidget(self.constraint_required_label, 0, 0)
         self.constraint_required = QComboBox()
         self.constraint_required.addItems(["True", "False"])
         self.constraint_required.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(self.constraint_required, 0, 1, 1, 3)
 
-        grid_layout.addWidget(QLabel("Min Length:"), 1, 0)
+        self.constraint_min_length_label = QLabel()
+        grid_layout.addWidget(self.constraint_min_length_label, 1, 0)
         self.constraint_min_length = QLineEdit()
         self.constraint_min_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(self.constraint_min_length, 1, 1)
 
-        grid_layout.addWidget(QLabel("Max Length:"), 1, 2)
+        self.constraint_max_length_label = QLabel()
+        grid_layout.addWidget(self.constraint_max_length_label, 1, 2)
         self.constraint_max_length = QLineEdit()
         self.constraint_max_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(self.constraint_max_length, 1, 3)
 
-        grid_layout.addWidget(QLabel("Enum:"), 2, 0)
+        self.constraint_enum_label = QLabel()
+        grid_layout.addWidget(self.constraint_enum_label, 2, 0)
         self.constraint_enum = QLineEdit()
         self.constraint_enum.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(self.constraint_enum, 2, 1)
 
-        grid_layout.addWidget(QLabel("Pattern:"), 2, 2)
+        self.constraint_pattern_label = QLabel()
+        grid_layout.addWidget(self.constraint_pattern_label, 2, 2)
         self.constraint_pattern = QLineEdit()
         self.constraint_pattern.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(self.constraint_pattern, 2, 3)
@@ -260,8 +278,19 @@ class SingleFieldForm(QWidget):
         self.constraint_required.setCurrentText(str(field.constraints.get("required", False)))
 
     def retranslateUI(self):
-        # TODO: implement translations
-        pass
+        self.name_label.setText(self.tr("Name:"))
+        self.type_label.setText(self.tr("Type:"))
+        self.title_label.setText(self.tr("Title:"))
+        self.description_label.setText(self.tr("Description:"))
+        self.missing_values_label.setText(self.tr("Missing Values:"))
+        self.rdf_type_label.setText(self.tr("RDF Type:"))
+        self.constraints_label.setText(self.tr("Constraints"))
+
+        self.constraint_required_label.setText(self.tr("Required:"))
+        self.constraint_min_length_label.setText(self.tr("Min Length:"))
+        self.constraint_max_length_label.setText(self.tr("Max Length:"))
+        self.constraint_enum_label.setText(self.tr("Enum:"))
+        self.constraint_pattern_label.setText(self.tr("Pattern:"))
 
 
 class FieldsForm(QWidget):
@@ -312,7 +341,8 @@ class FieldsForm(QWidget):
         self.scroll_area.setGeometry(self.rect())
 
     def retranslateUI(self):
-        pass
+        for form in self.field_forms:
+            form.retranslateUI()
 
 
 class SchemaForm(QWidget):
