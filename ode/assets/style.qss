@@ -160,3 +160,13 @@ Welcome QPushButton:pressed {
 FieldsForm QScrollArea {
   border: none;
 }
+
+
+QHeaderView::section {
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(200, 200, 200);
+}
+QTableCornerButton::section {
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(200, 200, 200);
+}
