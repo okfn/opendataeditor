@@ -103,13 +103,19 @@ class FrictionlessTableModel(QAbstractTableModel):
             elif error.type == "duplicate-label":
                 row = error.row_numbers[0] - 1
                 column = error.field_number - 1
+            elif error.type == "row-count":
+                row = None
+                column = None
             else:
                 row = error.row_number - 1
                 column = error.field_number - 1
-            if result[row] is None:
-                result[row] = list()
 
-            result[row].append((column, error.type, error.message))
+            if row is not None:
+                if result[row] is None:
+                    result[row] = list()
+
+                result[row].append((column, error.type, error.message))
+
         return result
 
     def _get_row_count(self):
