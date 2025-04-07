@@ -108,12 +108,12 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>ContributorItemWidget</name>
     <message>
-        <location filename="../../panels/metadata.py" line="795"/>
+        <location filename="../../panels/metadata.py" line="769"/>
         <source>Details</source>
         <translation>Detalle</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="796"/>
+        <location filename="../../panels/metadata.py" line="770"/>
         <source>Remove</source>
         <translation>Remover</translation>
     </message>
@@ -121,22 +121,22 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>ContributorsForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="925"/>
+        <location filename="../../panels/metadata.py" line="899"/>
         <source>Add Contributor</source>
         <translation>Agregar Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="927"/>
+        <location filename="../../panels/metadata.py" line="901"/>
         <source>Contributor</source>
         <translation>Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="927"/>
+        <location filename="../../panels/metadata.py" line="901"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="928"/>
+        <location filename="../../panels/metadata.py" line="902"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
