@@ -234,6 +234,31 @@ class SingleFieldForm(BaseForm):
         self.setLayout(main_layout)
         self.retranslateUI()
 
+        self.help_texts = {
+            self.types: (
+                self.tr("Column Type"),
+                self.tr("String indicating the type of this field.")
+            ),
+            self.title: (
+                self.tr("Column Title"),
+                self.tr("A human-readable title.")
+            ),
+            self.description: (
+                self.tr("Column Description"),
+                self.tr("A description of the field.")
+            ),
+            self.missing_values: (
+                self.tr("Column Missing Values"),
+                self.tr("Specifies which string values should be treated as null values.")
+            ),
+            self.rdf_type: (
+                self.tr("Column RDF Type"),
+                self.tr("Indicates whether the field is of RDF type.")
+            ),
+        }
+
+        self._install_help_events()
+
     def create_constraint_fields(self):
         """
         Creates the constraint fields for the field form.
@@ -293,31 +318,6 @@ class SingleFieldForm(BaseForm):
         constraint_layout.addWidget(grid_container)
 
         return constraint_container
-
-        self.help_texts = {
-            self.types: (
-                self.tr("Column Type"),
-                self.tr("String indicating the type of this field.")
-            ),
-            self.title: (
-                self.tr("Column Title"),
-                self.tr("A human-readable title.")
-            ),
-            self.description: (
-                self.tr("Column Description"),
-                self.tr("A description of the field.")
-            ),
-            self.missing_values: (
-                self.tr("Column Missing Values"),
-                self.tr("Specifies which string values should be treated as null values.")
-            ),
-            self.rdf_type: (
-                self.tr("Column RDF Type"),
-                self.tr("Indicates whether the field is of RDF type.")
-            ),
-        }
-
-        self._install_help_events()
 
     def populate(self, field):
         self.name.setText(field.name)
@@ -733,7 +733,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
             self.set_help_text("Schema", "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.")
         elif form == "Column names":
             self.forms_layout.setCurrentIndex(1)
-            self.set_help_text("Column names")
+            self.set_help_text("Column names", "Column Names is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.")
         if form == "Resource":
             self.forms_layout.setCurrentIndex(2)
             self.set_help_text("Resource", "A simple format to describe and package a single data resource such as a individual table or file.")
