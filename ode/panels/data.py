@@ -110,7 +110,7 @@ class FrictionlessTableModel(QAbstractTableModel):
                 row = error.row_number - 1
                 column = error.field_number - 1
 
-            if row:
+            if row is not None:
                 if result[row] is None:
                     result[row] = list()
 
