@@ -255,6 +255,26 @@ class SingleFieldForm(BaseForm):
                 self.tr("Column RDF Type"),
                 self.tr("Indicates whether the field is of RDF type.")
             ),
+            self.constraint_required: (
+                self.tr("Column required"),
+                self.tr("Indicates whether this field cannot be null.")
+            ),
+            self.constraint_enum: (
+                self.tr("Column Enum"),
+                self.tr("Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.")
+            ),
+            self.constraint_max_length: (
+                self.tr("Column Max Length"),
+                self.tr("An integer that specifies the maximum length of a value.")
+            ),
+            self.constraint_min_length: (
+                self.tr("Column Min Length"),
+                self.tr("An integer that specifies the minimum length of a value.")
+            ),
+            self.constraint_pattern: (
+                self.tr("Column Pattern"),
+                self.tr("A regular expression that can be used to test field values. If the regular expression matches then the value is valid.")
+            )
         }
 
         self._install_help_events()
