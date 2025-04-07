@@ -27,10 +27,6 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
         contains a list of tuples:
             [..., (row_number, error_type, error_message), ...]
         """
-        # If the error_type is "row-count", we show all the rows
-        if self.error_type == "row-count":
-            return True
-
         source_model = self.sourceModel()
         if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
             return False
@@ -52,9 +48,6 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
         source_column = source_index.column()
 
         if role == Qt.ItemDataRole.BackgroundRole:
-            if self.error_type == "row-count":
-                return QColor("red")
-
             source_model = self.sourceModel()
 
             if source_model.errors[source_row] is None or len(source_model.errors[source_row]) == 0:
@@ -62,7 +55,7 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
                 return None
 
             for error in source_model.errors[source_row]:
-                if self.error_type == "blank-row" or self.error_type == "row-count":
+                if self.error_type == "blank-row":
                     # BlankRowError does not have field_number, we paint all the cells.
                     return QColor("red")
                 elif error[0] == source_column and error[1] == self.error_type:
