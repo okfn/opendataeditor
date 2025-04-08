@@ -1,5 +1,4 @@
 import PyInstaller.__main__
-import subprocess
 import os
 import platform
 
@@ -14,8 +13,17 @@ def build_application():
     elif system == "Linux":
         icon_path = "packaging/linux/icon.svg"
 
-    print("Creating executable file for Open Data Editor")
+    system = platform.system()
+    if system == "Darwin":  # macOS
+        icon_path = "packaging/macos/icon.icns"
+    elif system == "Windows":
+        icon_path = "packaging/windows/icon.ico"
+    elif system == "Linux":
+        icon_path = "packaging/linux/icon.svg"
+    else:
+        icon_path = "packaging/default_icon.png"
 
+    print("Creating executable file for Open Data Editor")
     params = [
         "ode/main.py",
         "--windowed",  # Required for Windows install to not open a console.

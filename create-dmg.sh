@@ -31,11 +31,11 @@ security default-keychain -s build.keychain
 security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
 security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
-/usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp dist/opendataeditor/opendataeditor
+/usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp dist/opendataeditor.app
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
-cp "dist/opendataeditor/opendataeditor" "dist/dmg"
+mv "dist/opendataeditor.app" "dist/dmg"
 
 # Create the dmg file
 VERSION=$(python -c "import ode; print(ode.__version__)")
@@ -43,7 +43,7 @@ FILENAME=opendataeditor-macos-$VERSION.dmg
 [ -e $FILENAME ] && rm $FILENAME
 echo "Creating the DMG file"
 create-dmg \
-  --volname "Open Data Editor" \
+  --volname "opendataeditor" \
   --volicon "./packaging/macos/icon.icns" \
   --window-pos 200 120 \
   --window-size 800 400 \
@@ -51,13 +51,5 @@ create-dmg \
   --icon "opendataeditor" 200 190 \
   --hide-extension "opendataeditor" \
   --app-drop-link 600 185 \
-  $FILENAME \
-  "dist/dmg/"
-
-# Notarize the DMG File
-echo "Notarizing the DMG file"
-xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME
-
-# Staple the file
-echo "Stapling the file"
-xcrun stapler staple $FILENAME
+  opendataeditor.dmg \
+  "./dist/dmg/"
