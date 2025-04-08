@@ -77,3 +77,29 @@ jobs:
           path: |
             dist/*.deb
           retention-days: 14
+  windows-packaging:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install pyinstaller==6.11.1
+      - name: Install NSIS
+        run: choco install nsis
+      - name: Build with PyInstaller
+        run: python build.py
+      - name: Compile installer
+        run: makensis .\packaging\windows\installer.nsi
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: distribution-files-win
+          path: |
+            .\packaging\windows\*.exe
+          retention-days: 14
