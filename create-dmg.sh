@@ -43,7 +43,7 @@ FILENAME=opendataeditor-macos-$VERSION.dmg
 [ -e $FILENAME ] && rm $FILENAME
 echo "Creating the DMG file"
 create-dmg \
-  --volname "opendataeditor" \
+  --volname "Open Data Editor" \
   --volicon "./packaging/macos/icon.icns" \
   --window-pos 200 120 \
   --window-size 800 400 \
@@ -51,5 +51,5 @@ create-dmg \
   --icon "opendataeditor" 200 190 \
   --hide-extension "opendataeditor" \
   --app-drop-link 600 185 \
-  opendataeditor.dmg \
+  $FILENAME \
   "./dist/dmg/"
