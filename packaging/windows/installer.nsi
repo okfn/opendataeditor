@@ -30,6 +30,8 @@ RequestExecutionLevel user ; No admin privileges needed for user-level install
 
 ; Registry key for uninstaller
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_ID}"
+!define MUI_ICON "icon.ico"
+!define MUI_UNICON "icon.ico"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
