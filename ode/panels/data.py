@@ -103,7 +103,7 @@ class FrictionlessTableModel(QAbstractTableModel):
             elif error.type == "duplicate-label":
                 row = error.row_numbers[0] - 1
                 column = error.field_number - 1
-            elif error.type == "row-count":
+            elif not hasattr(error, "row_number"):
                 row = None
                 column = None
             else:
