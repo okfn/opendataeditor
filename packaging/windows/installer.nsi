@@ -17,6 +17,7 @@
 ; Modern UI setup
 !include "MUI2.nsh"
 !include "LogicLib.nsh"
+!include "FileFunc.nsh" ; To calculate Estimated Size
 
 Name "${APP_NAME}"
 OutFile "opendataeditor-win-${APP_VERSION}.exe"
@@ -26,7 +27,7 @@ RequestExecutionLevel user ; No admin privileges needed for user-level install
 ; Registry key for uninstaller
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_ID}"
 
-!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
@@ -41,6 +42,10 @@ Section "Install"
     
     ; Copy application files from PyInstaller output
     File /r "..\..\dist\opendataeditor\*.*"
+
+    ; Calculate installed size
+    ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+    IntFmt $0 "0x%08X" $0
     
     ; Create shortcuts
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
@@ -59,6 +64,7 @@ Section "Install"
     WriteRegStr HKCU "${UNINST_KEY}" "InstallLocation" "$INSTDIR"
     WriteRegStr HKCU "${UNINST_KEY}" "NoModify" 1
     WriteRegStr HKCU "${UNINST_KEY}" "NoRepair" 1
+    WriteRegDWORD HKCU "${UNINST_KEY}" "EstimatedSize" "$0"
 SectionEnd
 
 Section "Uninstall"
