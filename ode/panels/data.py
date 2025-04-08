@@ -1,8 +1,11 @@
+from pathlib import Path
 from frictionless import Resource, system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
+
+import pandas as pd
 
 from ode import utils
 from ode.file import File
@@ -70,11 +73,17 @@ class FrictionlessTableModel(QAbstractTableModel):
         self.errors = self._get_errors(errors)
         self._column_count = self._get_column_count()
 
-    def write_data(self, filepath):
-        """Writes data back to the file."""
-        with system.use_context(trusted=True):
-            source = Resource(self._data)
-            source.write(filepath)
+    def write_data(self, filepath: Path):
+        df = pd.DataFrame(self._data[1:], columns=self._data[0])
+        extension = filepath.suffix.lower()
+        if extension == ".csv":
+            df.to_csv(filepath, index=False)
+            print(f"Data saved in CSV format: {filepath}")
+        elif extension in [".xlsx", ".xls"]:
+            df.to_excel(filepath, index=False, engine="openpyxl")
+            print(f"Data saved in Excel format: {filepath}")
+        else:
+            raise ValueError(f"Unsupported format: {extension}. Use .csv, .xlsx or .xls")
 
     def _get_errors(self, errors):
         """Return an array with errors information to use when rendering the table.
