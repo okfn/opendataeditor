@@ -95,7 +95,9 @@ jobs:
       - name: Build with PyInstaller
         run: python build.py
       - name: Compile installer
-        run: makensis .\packaging\windows\installer.nsi
+        run: |
+          VERSION=$(python -c "import ode; print(ode.__version__)")
+          makensis -DAPP_VERSION="$VERSION" .\packaging\windows\installer.nsi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

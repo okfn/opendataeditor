@@ -10,9 +10,13 @@
 
 !define APP_ID "42c092cd-67f7-566d-b9a4-980d3103f082"
 !define APP_NAME "Open Data Editor"
-!define APP_VERSION "1.4.0"
 !define PUBLISHER "Open Knowledge Foundation"
 !define INSTALL_DIR "$LOCALAPPDATA\Programs\opendataeditor"
+
+; Required version parameter
+!ifndef APP_VERSION
+    !error "APP_VERSION must be defined via -DAPP_VERSION=x.y.z command parameter."
+!endif
 
 ; Modern UI setup
 !include "MUI2.nsh"
