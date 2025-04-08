@@ -95,6 +95,7 @@ jobs:
       - name: Build with PyInstaller
         run: python build.py
       - name: Compile installer
+        shell: bash  # Force bash shell for VERSION command
         run: |
           VERSION=$(python -c "import ode; print(ode.__version__)")
           makensis -DAPP_VERSION="$VERSION" .\packaging\windows\installer.nsi
