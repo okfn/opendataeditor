@@ -43,7 +43,7 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -76,4 +76,33 @@ jobs:
           name: distribution-files-deb
           path: |
             dist/*.deb
+          retention-days: 14
+  windows-packaging:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install pyinstaller==6.11.1
+      - name: Install NSIS
+        run: choco install nsis
+      - name: Build with PyInstaller
+        run: python build.py
+      - name: Compile installer
+        shell: bash  # Force bash shell for VERSION command
+        run: |
+          VERSION=$(python -c "import ode; print(ode.__version__)")
+          makensis -DAPP_VERSION="$VERSION" ./packaging/windows/installer.nsi
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-files-win
+          path: |
+            .\packaging\windows\*.exe
           retention-days: 14
