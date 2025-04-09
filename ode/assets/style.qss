@@ -170,3 +170,16 @@ QTableCornerButton::section {
   background-color: rgb(240, 240, 240);
   border: 1px solid rgb(200, 200, 200);
 }
+
+DataUploadDialog {
+  border: 2px solid #000000; 
+}
+
+DataUploadDialog QPushButton {
+  background-color: rgb(240, 240, 240);
+}
+
+DataUploadDialog QPushButton:hover {
+  background-color: #000000;
+  color: white;
+}
