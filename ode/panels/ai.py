@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QApplication, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QTextEdit, QMessageBox,
+    QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QTextEdit, QMessageBox,
     QGroupBox
 )
 from openai import OpenAI

@@ -37,7 +37,7 @@ class SourceViewer(QWidget):
     def open_file(self, filepath):
         """Reads the file and sets the QPlainText."""
         info = QFileInfo(filepath)
-        if not info.isFile() or not info.suffix() in ['csv']:
+        if not info.isFile() or info.suffix() not in ['csv']:
             self.label.show()
             self.text_edit.hide()
             return
