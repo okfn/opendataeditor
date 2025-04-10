@@ -9,6 +9,9 @@ on:
   pull_request:
     branches:
       - main
+env:
+  # Mandatory when using uv pip workflow.
+  UV_SYSTEM_PYTHON: 1
 
 jobs:
   lint-and-tests:
