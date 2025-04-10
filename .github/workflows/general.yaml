@@ -57,7 +57,7 @@ jobs:
       run: |
           pytest
   macos-packaging:
-    needs: lint-and-tests
+    needs: tests
     runs-on: macos-13
     steps:
       - name: Checkout repository
@@ -89,7 +89,7 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
-    needs: lint-and-tests
+    needs: tests
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -125,7 +125,7 @@ jobs:
             dist/*.deb
           retention-days: 14
   windows-packaging:
-    needs: lint-and-tests
+    needs: tests
     runs-on: windows-latest
     steps:
       - name: Checkout code
