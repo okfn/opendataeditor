@@ -35,7 +35,7 @@ security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatem
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
-mv "dist/opendataeditor.app" "dist/dmg"
+cp -r "dist/opendataeditor.app" "dist/dmg"
 
 # Create the dmg file
 VERSION=$(python -c "import ode; print(ode.__version__)")
