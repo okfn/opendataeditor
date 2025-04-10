@@ -224,6 +224,8 @@ class DataViewer(QWidget):
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.table_view = QTableView()
+        # TableView's corner button hangs the application when working with huge datasets so we disable it.
+        self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
         layout.addWidget(self.label)
