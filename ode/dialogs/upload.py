@@ -40,8 +40,6 @@ class SelectWidget(QWidget):
         layout.addWidget(self.text_label)
 
         self.select_button = QPushButton()
-        # Disable to be selected by the keyboard
-        self.select_button.setFocusPolicy(Qt.NoFocus)
         layout.addWidget(self.select_button)
 
         self.setLayout(layout)
@@ -111,8 +109,6 @@ class DataUploadDialog(QDialog):
         self.help_text.setWordWrap(True)
         self.help_text.setStyleSheet("font-style:italic; font-size: 15px;")
         self.paste_button = QPushButton()
-        # Disable to be selected by the keyboard
-        self.paste_button.setFocusPolicy(Qt.NoFocus)
         self.paste_button.clicked.connect(self.load_table_from_url)
         self.error_text = QLabel()
         self.error_text.setWordWrap(True)
