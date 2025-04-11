@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (
     QComboBox,
     QMenu,
     QMessageBox,
-    QInputDialog,
     QProgressDialog,
 )
 
@@ -49,6 +48,7 @@ from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
 from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
+from ode.dialogs.rename import RenameDialog
 from ode.utils import migrate_metadata_store
 
 
@@ -182,8 +182,11 @@ class Sidebar(QWidget):
         if index.isValid():
             file = File(self.file_model.filePath(index))
             name = file.path.stem
-            new_name, ok = QInputDialog.getText(self, self.tr("Rename"), self.tr("Enter new name:"), text=name)
-            if ok and new_name:
+            dialog = RenameDialog(self, name)
+            dialog.exec()
+
+            new_name = dialog.result_text
+            if new_name and new_name != name:
                 try:
                     file.rename(new_name)
                 except IsADirectoryError:
