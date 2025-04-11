@@ -176,7 +176,7 @@ DataUploadDialog, DeleteDialog, RenameDialog  {
 
 DataUploadDialog QPushButton,
 DeleteDialog QPushButton,
-RenameDialog QPushButton, {
+RenameDialog QPushButton {
   border: 2px solid #000000; 
   background-color: #F0F0F0;
   font-size: 14px;
@@ -188,6 +188,11 @@ RenameDialog QPushButton, {
   border-radius: 4px;
   padding: 10px 15px;
   text-align: center;
+}
+
+DeleteDialog QPushButton,
+RenameDialog QPushButton {
+  padding: 5px;
 }
 
 DataUploadDialog QPushButton:hover,
