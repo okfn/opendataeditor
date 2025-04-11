@@ -170,12 +170,13 @@ QTableCornerButton::section {
   border: 1px solid rgb(200, 200, 200);
 }
 
-DataUploadDialog {
+DataUploadDialog, DeleteDialog  {
   border: 2px solid #000000; 
 }
 
-DataUploadDialog QPushButton {
-  background-color: rgb(240, 240, 240);
+DataUploadDialog QPushButton,
+DeleteDialog QPushButton {
+  background-color: #F0F0F0;
   font-size: 14px;
   font-weight: 500;
   color: #FFFFFF;
@@ -184,15 +185,17 @@ DataUploadDialog QPushButton {
   border-width: 1px;
   border-radius: 4px;
   padding: 10px 15px;
-}
+  text-align: center;
 }
 
+DataUploadDialog QPushButton:hover,
 DataUploadDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
 
-DataUploadDialog QPushButton:pressed {
+DataUploadDialog QPushButton:pressed, {
+DeleteDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;

@@ -39,6 +39,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import QFileSystemModel
 
 from ode import paths
+from ode.dialogs.delete import DeleteDialog
 from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
@@ -220,13 +221,7 @@ class Sidebar(QWidget):
         if index.isValid():
             file = File(self.file_model.filePath(index))
             is_selected = self.window().selected_file_path == file.path
-            confirm = QMessageBox.question(
-                self,
-                self.tr("Delete"),
-                self.tr("Are you sure you want to delete this?"),
-                QMessageBox.Yes | QMessageBox.No,
-            )
-            if confirm == QMessageBox.Yes:
+            if DeleteDialog.confirm(self, file.path.name):
                 try:
                     file.remove()
                 except OSError as e:
