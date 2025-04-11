@@ -97,20 +97,26 @@ class TestFrictionlessErrors:
 
     def test_missing_cell_error(self, qtbot, window, project_folder):
         p1 = project_folder / "missing-cell.csv"
-        p1.write_text("name,age,city\nAlice,30\nBob,25")
+        p1.write_text("name,age,city\nAlice,30\nBob,25\nTom,15")
 
         # Simulate click event
         index = window.sidebar.file_model.index(str(p1))
         window.on_tree_click(index)
 
-        # This file should contain 2 errors.
-        qtbot.waitUntil(lambda: window.content.toolbar.button_errors.error_label.text() == "2")
+        # This file should contain 3 errors.
+        qtbot.waitUntil(lambda: window.content.toolbar.button_errors.error_label.text() == "3")
 
-        # Missing Cell should paint the cells with missing values.
+        # Missing Cell should paint the third column (except the header).
+        index = window.table_model.index(0, 2)
+        background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
+        assert background != QColor("red")
         index = window.table_model.index(1, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background == QColor("red")
         index = window.table_model.index(2, 2)
+        background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
+        assert background == QColor("red")
+        index = window.table_model.index(3, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background == QColor("red")
 
