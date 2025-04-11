@@ -172,15 +172,6 @@ class FrictionlessTableModel(QAbstractTableModel):
                     return QColor("red")
                 if error_column == index.column():
                     return QColor("red")
-        if role == Qt.ItemDataRole.ToolTipRole:
-            if not self.errors[index.row()]:
-                return
-            for error_column, error_type, error_message in self.errors[index.row()]:
-                if error_type == "blank-row":
-                    # BlankRowError does not have field_number, we add tooltip to all the cells.
-                    return error_message
-                if error_column == index.column():
-                    return error_message
 
     def flags(self, index):
         """Enable edition mode"""
@@ -224,6 +215,8 @@ class DataViewer(QWidget):
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.table_view = QTableView()
+        # TableView's corner button hangs the application when working with huge datasets so we disable it.
+        self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
         layout.addWidget(self.label)
