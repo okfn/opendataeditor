@@ -185,10 +185,6 @@ DeleteDialog QPushButton {
   border-width: 1px;
   border-radius: 4px;
   padding: 10px 15px;
-}
-
-DeleteDialog QPushButton:hover {
-  padding: 5px;
   text-align: center;
 }
 

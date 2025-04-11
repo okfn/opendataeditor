@@ -9,31 +9,27 @@ class DeleteDialog(QDialog):
     def __init__(self, parent: QWidget, filename: str):
         super().__init__(parent)
 
-        self.setWindowTitle("Delete file")
         self.result_text = None
-
         layout = QVBoxLayout()
 
-        layout.addWidget(
-            QLabel(
-                self.tr("Are you sure you want to delete this item?"),
-            )
-        )
+        self.delete_dialog_label = QLabel()
+        layout.addWidget(self.delete_dialog_label)
 
         button_layout = QHBoxLayout()
-        cancel_button = QPushButton("Cancel")
+        self.cancel_button = QPushButton()
         # We set the default button to Cancel when clicking Enter
-        cancel_button.setDefault(True)
-        ok_button = QPushButton("OK")
+        self.cancel_button.setDefault(True)
+        self.ok_button = QPushButton()
 
-        cancel_button.clicked.connect(self.reject)
-        ok_button.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
+        self.ok_button.clicked.connect(self.accept)
 
-        button_layout.addWidget(cancel_button)
-        button_layout.addWidget(ok_button)
+        button_layout.addWidget(self.cancel_button)
+        button_layout.addWidget(self.ok_button)
 
         layout.addLayout(button_layout)
         self.setLayout(layout)
+        self.retranslateUI()
 
     @staticmethod
     def confirm(parent, filename):
@@ -41,3 +37,10 @@ class DeleteDialog(QDialog):
         confirmed the deletion of the file."""
         dialog = DeleteDialog(parent, filename)
         return dialog.exec() == QDialog.Accepted
+
+    def retranslateUI(self):
+        """Apply translations to class elements."""
+        self.cancel_button.setText(self.tr("Cancel"))
+        self.ok_button.setText(self.tr("Ok"))
+        self.delete_dialog_label.setText(self.tr("Are you sure you want to delete this item?"))
+        self.setWindowTitle(self.tr("Delete file"))
