@@ -54,7 +54,7 @@ class TestFrictionlessErrors:
 
     def test_blank_row_error(self, qtbot, window, project_folder):
         p1 = project_folder / "blank-row.csv"
-        p1.write_text("name,age\nAlice,30\n,\nBob,25")
+        p1.write_text("name,age,city\nAlice,30,Barcelona\n,,\nBob,25,Valencia")
 
         # Simulate click event
         index = window.sidebar.file_model.index(str(p1))
@@ -68,6 +68,9 @@ class TestFrictionlessErrors:
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background == QColor("red")
         index = window.table_model.index(2, 1)
+        background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
+        assert background == QColor("red")
+        index = window.table_model.index(2, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background == QColor("red")
 
