@@ -9,17 +9,63 @@ on:
   pull_request:
     branches:
       - main
+env:
+  # Mandatory when using uv pip workflow.
+  UV_SYSTEM_PYTHON: 1
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.6.14"
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.13"
+    - name: Check pep8
+      run: |
+          uvx ruff check
+  tests:
+    needs: lint
+    runs-on: ubuntu-latest
+    env:
+      QT_QPA_PLATFORM: 'offscreen'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.14"
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
+      - name: Install QT Libs and Dependencies
+        uses: tlambert03/setup-qt-libs@v1
+      - name: Install python requirements
+        run: |
+          uv pip install -r requirements.txt
+          uv pip install -r dev-requirements.txt
+      - name: Check pep8
+        run: |
+            uvx ruff check
+      - name: Run tests
+        run: |
+            pytest
   macos-packaging:
+    needs: tests
     runs-on: macos-13
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Python
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: "3.13"
       - name: Install Dependencies
         run: |
           pip3 install -r requirements.txt
@@ -43,14 +89,15 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
+    needs: tests
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Python
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: "3.13"
       - name: Install OS Dependencies
         run: |
           sudo apt-get update
@@ -78,14 +125,15 @@ jobs:
             dist/*.deb
           retention-days: 14
   windows-packaging:
+    needs: tests
     runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: "3.13"
       - name: Install Dependencies
         run: |
           pip3 install -r requirements.txt

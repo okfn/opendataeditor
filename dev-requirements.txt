@@ -1,4 +1,4 @@
 pytest
 pytest-qt
-black
 mypy
+ruff

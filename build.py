@@ -1,5 +1,4 @@
 import PyInstaller.__main__
-import subprocess
 import os
 import platform
 
