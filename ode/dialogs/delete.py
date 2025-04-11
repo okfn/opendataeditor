@@ -16,7 +16,7 @@ class DeleteDialog(QDialog):
 
         layout.addWidget(
             QLabel(
-                self.tr(f"Are you sure you want to delete this file <i>{filename}</i>?"),
+                self.tr("Are you sure you want to delete this item?"),
             )
         )
 
