@@ -16,7 +16,7 @@ class RenameDialog(QDialog):
         self.result_text = None
 
         layout = QVBoxLayout()
-        layout.addWidget(QLabel(f"Rename <i>{filename}</i> to:"))
+        layout.addWidget(QLabel("Rename item to:"))
 
         self.text_edit = QLineEdit(filename)
         self.text_edit.setMinimumWidth(300)
