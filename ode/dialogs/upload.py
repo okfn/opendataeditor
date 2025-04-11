@@ -4,8 +4,15 @@ import shutil
 from frictionless.resources import FileResource, TableResource
 from pathlib import Path
 from PySide6.QtWidgets import (
-        QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
-        QLabel, QFileDialog, QDialog, QTabWidget, QLineEdit
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QLabel,
+    QFileDialog,
+    QDialog,
+    QTabWidget,
+    QLineEdit,
 )
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
@@ -16,6 +23,7 @@ from ode.paths import Paths
 
 class SelectWidget(QWidget):
     """Widget to render the File/Folder upload buttons."""
+
     def __init__(self, icon_path, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout()
@@ -126,10 +134,10 @@ class DataUploadDialog(QDialog):
     def add_files(self):
         """Copy the selected file to the project path."""
         filters = [
-                "All supported files (*.csv *.xlsx *.xls)",
-                "Comma Separated Values (*.csv)",
-                "Excel 2007-365 (*.xlsx)",
-                "Excel 97-2003 (*.xls)",
+            "All supported files (*.csv *.xlsx *.xls)",
+            "Comma Separated Values (*.csv)",
+            "Excel 2007-365 (*.xlsx)",
+            "Excel 97-2003 (*.xls)",
         ]
         filename, _ = QFileDialog.getOpenFileName(self, filter=";;".join(filters))
 
@@ -173,7 +181,7 @@ class DataUploadDialog(QDialog):
         self.target_path = Paths.get_unique_destination_filepath(filename + ".csv")
 
         try:
-            with open(self.target_path, mode='w') as file:
+            with open(self.target_path, mode="w") as file:
                 table.write(file.name)
             self.accept()
         except Exception:
@@ -191,7 +199,7 @@ class DataUploadDialog(QDialog):
         return result, self.target_path
 
     def _read_url_html_title(self, url):
-        """ Return the title of HTML document.
+        """Return the title of HTML document.
 
         We use the `title` attribute of the Google Spreadshet's HTML as name of the file.
         This attribute is the same as the name of the spreadsheet.
@@ -214,7 +222,11 @@ class DataUploadDialog(QDialog):
         self.folder_select_widget.select_button.setText(self.tr("Select"))
         self.url_label.setText(self.tr("Link to the external table: "))
         self.url_input.setPlaceholderText(self.tr("Enter or paste URL"))
-        self.help_text.setText(self.tr("Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."))
+        self.help_text.setText(
+            self.tr(
+                "Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."
+            )
+        )
         self.paste_button.setText(self.tr("Add"))
         self.tab_widget.setTabText(0, self.tr("From Your Computer"))
         self.tab_widget.setTabText(1, self.tr("Add External Data"))

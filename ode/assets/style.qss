@@ -156,7 +156,6 @@ Welcome QPushButton:pressed {
   border-color: #000000;
 }
 
-
 FieldsForm QScrollArea {
   border: none;
 }
@@ -169,4 +168,32 @@ QHeaderView::section {
 QTableCornerButton::section {
   background-color: rgb(240, 240, 240);
   border: 1px solid rgb(200, 200, 200);
+}
+
+DataUploadDialog {
+  border: 2px solid #000000; 
+}
+
+DataUploadDialog QPushButton {
+  background-color: rgb(240, 240, 240);
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #000000;
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 4px;
+  padding: 10px 15px;
+}
+}
+
+DataUploadDialog QPushButton:hover {
+  background: #0288D1;
+  border-color: #0288d1;
+}
+
+DataUploadDialog QPushButton:pressed {
+  color: #FFFFFF;
+  background: #000000;
+  border-color: #000000;
 }
