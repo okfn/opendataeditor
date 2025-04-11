@@ -10,6 +10,7 @@ class TestFrictionlessErrors:
     We also assume that if the value returned is QColor("red") then the table will be
     displayed properly.
     """
+
     def test_blank_header_error(self, qtbot, window, project_folder):
         p1 = project_folder / "blank-header.csv"
         p1.write_text("name,\nAlice,30\nBob,25")
