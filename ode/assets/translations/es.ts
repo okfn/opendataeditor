@@ -213,7 +213,7 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="250"/>
+        <location filename="../../panels/data.py" line="256"/>
         <source>No file selected or Preview not available for this file.</source>
         <translation>No hay ningún archivo seleccionado o la vista previa no está disponible para este archivo.</translation>
     </message>
@@ -295,72 +295,77 @@ mejoras a los títulos y descriptiones asociadas a ellas.</translation>
         <translation>Listo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="618"/>
+        <location filename="../../main.py" line="622"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="619"/>
+        <location filename="../../main.py" line="623"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="620"/>
+        <location filename="../../main.py" line="624"/>
         <source>File/Folder</source>
         <translation>Archivo/Carpeta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="621"/>
+        <location filename="../../main.py" line="625"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="624"/>
+        <location filename="../../main.py" line="628"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="625"/>
+        <location filename="../../main.py" line="629"/>
         <source>Metadata panel</source>
         <translation>Panel de Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="626"/>
+        <location filename="../../main.py" line="630"/>
         <source>Errors panel</source>
         <translation>Panel de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="627"/>
+        <location filename="../../main.py" line="631"/>
         <source>Source panel</source>
         <translation>Panel de Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="630"/>
+        <location filename="../../main.py" line="634"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="631"/>
+        <location filename="../../main.py" line="635"/>
         <source>User Guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="632"/>
+        <location filename="../../main.py" line="636"/>
         <source>Report an Issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="669"/>
+        <location filename="../../main.py" line="637"/>
+        <source>About</source>
+        <translation>Acerca de</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="674"/>
         <source>Language changed.</source>
         <translation>Lenguaje cambiado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="703"/>
+        <location filename="../../main.py" line="708"/>
         <source>File and Metadata changes saved.</source>
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="774"/>
+        <location filename="../../main.py" line="779"/>
         <source>Loading...</source>
         <translation>Cargando...</translation>
     </message>
