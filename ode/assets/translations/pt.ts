@@ -4,66 +4,64 @@
 <context>
     <name>ChatGPTDialog</name>
     <message>
-        <location filename="../../panels/ai.py" line="62"/>
-        <location filename="../../panels/ai.py" line="70"/>
+        <location filename="../../panels/ai.py" line="65"/>
+        <location filename="../../panels/ai.py" line="73"/>
         <source>Input Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="64"/>
+        <location filename="../../panels/ai.py" line="67"/>
         <source>A data file must be selected in order to use the AI tool.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="71"/>
+        <location filename="../../panels/ai.py" line="74"/>
         <source>API Key and Prompt are required!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="91"/>
+        <location filename="../../panels/ai.py" line="94"/>
         <source>API Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="91"/>
+        <location filename="../../panels/ai.py" line="94"/>
         <source>Error: {str(e)}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="94"/>
-        <source>Please enter your OpenAI API Key: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../panels/ai.py" line="96"/>
-        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.
-You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../panels/ai.py" line="97"/>
-        <source>Please enter your prompt to the AI assistant: </source>
+        <source>AI Assistant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="98"/>
-        <source>Result: </source>
+        <source>Please enter your OpenAI API Key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="99"/>
-        <source>Submit</source>
+        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/ai.py" line="103"/>
+        <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="100"/>
-        <source>Data Privacy</source>
+        <source>Please enter your prompt to the AI assistant: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/ai.py" line="101"/>
+        <source>Result: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="102"/>
-        <source>Open Data Editor will only share the names of the columns in your table to suggest
-improvements to the titles and descriptions associated with them.</source>
+        <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -211,7 +209,7 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="249"/>
+        <location filename="../../panels/data.py" line="246"/>
         <source>No file selected or Preview not available for this file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -311,82 +309,82 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="524"/>
+        <location filename="../../main.py" line="523"/>
         <source>Ready.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="621"/>
+        <location filename="../../main.py" line="620"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="622"/>
+        <location filename="../../main.py" line="621"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="623"/>
+        <location filename="../../main.py" line="622"/>
         <source>File/Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="624"/>
+        <location filename="../../main.py" line="623"/>
         <source>External URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="627"/>
+        <location filename="../../main.py" line="626"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="628"/>
+        <location filename="../../main.py" line="627"/>
         <source>Metadata panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="629"/>
+        <location filename="../../main.py" line="628"/>
         <source>Errors panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="630"/>
+        <location filename="../../main.py" line="629"/>
         <source>Source panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="633"/>
+        <location filename="../../main.py" line="632"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="634"/>
+        <location filename="../../main.py" line="633"/>
         <source>User Guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="635"/>
+        <location filename="../../main.py" line="634"/>
         <source>Report an Issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="636"/>
+        <location filename="../../main.py" line="635"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="673"/>
+        <location filename="../../main.py" line="672"/>
         <source>Language changed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="707"/>
+        <location filename="../../main.py" line="706"/>
         <source>File and Metadata changes saved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="778"/>
+        <location filename="../../main.py" line="777"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -553,71 +551,71 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="150"/>
+        <location filename="../../main.py" line="149"/>
         <source>Upload your data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="151"/>
+        <location filename="../../main.py" line="150"/>
         <source>User guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="152"/>
+        <location filename="../../main.py" line="151"/>
         <source>Report an issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="153"/>
+        <location filename="../../main.py" line="152"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="154"/>
+        <location filename="../../main.py" line="153"/>
         <source>Open File in Location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="155"/>
+        <location filename="../../main.py" line="154"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="195"/>
-        <location filename="../../main.py" line="199"/>
-        <location filename="../../main.py" line="203"/>
-        <location filename="../../main.py" line="205"/>
-        <location filename="../../main.py" line="232"/>
+        <location filename="../../main.py" line="194"/>
+        <location filename="../../main.py" line="198"/>
+        <location filename="../../main.py" line="202"/>
+        <location filename="../../main.py" line="204"/>
+        <location filename="../../main.py" line="231"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="196"/>
+        <location filename="../../main.py" line="195"/>
         <source>Source is a file but destination a directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="200"/>
+        <location filename="../../main.py" line="199"/>
         <source>Source is a directory but destination a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="203"/>
+        <location filename="../../main.py" line="202"/>
         <source>Operation not permitted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="205"/>
+        <location filename="../../main.py" line="204"/>
         <source>File with this name already exists.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="207"/>
+        <location filename="../../main.py" line="206"/>
         <source>Item renamed successfuly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="236"/>
+        <location filename="../../main.py" line="235"/>
         <source>Item deleted successfuly.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -788,7 +786,7 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>SourceViewer</name>
     <message>
-        <location filename="../../panels/source.py" line="68"/>
+        <location filename="../../panels/source.py" line="69"/>
         <source>Source view not available for this file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -796,37 +794,37 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="373"/>
+        <location filename="../../main.py" line="372"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="374"/>
+        <location filename="../../main.py" line="373"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="375"/>
+        <location filename="../../main.py" line="374"/>
         <source>Errors Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="376"/>
+        <location filename="../../main.py" line="375"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="377"/>
+        <location filename="../../main.py" line="376"/>
         <source>Publish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="378"/>
+        <location filename="../../main.py" line="377"/>
         <source>Save changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="379"/>
+        <location filename="../../main.py" line="378"/>
         <source>AI</source>
         <translation type="unfinished"></translation>
     </message>
@@ -834,17 +832,17 @@ improvements to the titles and descriptions associated with them.</source>
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="446"/>
+        <location filename="../../main.py" line="445"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="447"/>
+        <location filename="../../main.py" line="446"/>
         <source>You can also add links to online tables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="448"/>
+        <location filename="../../main.py" line="447"/>
         <source>Upload your data</source>
         <translation type="unfinished"></translation>
     </message>
