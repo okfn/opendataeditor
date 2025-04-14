@@ -94,6 +94,7 @@ class ChatGPTDialog(QDialog):
             QMessageBox.critical(self, self.tr("API Error"), self.tr(f"Error: {str(e)}"))
 
     def retranslateUI(self):
+        self.setWindowTitle(self.tr("AI Assistant"))
         self.api_key_label.setText(self.tr("Please enter your OpenAI API Key: "))
         self.api_key_help_text.setText(self.tr("Click <a href='https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key'>here</a> to learn how to find your key.<br>You can also check OpenAI terms and policies <a href='https://openai.com/policies/'>here</a>."))
         self.prompt_label.setText(self.tr("Please enter your prompt to the AI assistant: "))

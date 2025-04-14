@@ -31,31 +31,36 @@
     </message>
     <message>
         <location filename="../../panels/ai.py" line="97"/>
-        <source>Please enter your OpenAI API Key: </source>
+        <source>AI Assistant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="98"/>
-        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../panels/ai.py" line="102"/>
-        <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
+        <source>Please enter your OpenAI API Key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="99"/>
-        <source>Please enter your prompt to the AI assistant: </source>
+        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/ai.py" line="103"/>
+        <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="100"/>
-        <source>Result: </source>
+        <source>Please enter your prompt to the AI assistant: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="101"/>
+        <source>Result: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/ai.py" line="102"/>
         <source>Submit</source>
         <translation type="unfinished"></translation>
     </message>

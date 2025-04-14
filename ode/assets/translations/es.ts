@@ -31,16 +31,21 @@
     </message>
     <message>
         <location filename="../../panels/ai.py" line="97"/>
+        <source>AI Assistant</source>
+        <translation>Asistente de IA</translation>
+    </message>
+    <message>
+        <location filename="../../panels/ai.py" line="98"/>
         <source>Please enter your OpenAI API Key: </source>
         <translation>Por favor ingresa la API Key de Open AI: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="98"/>
+        <location filename="../../panels/ai.py" line="99"/>
         <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
         <translation>Haz &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;click aquí&lt;/a&gt; para aprender como obtener tu clave.&lt;br&gt;Puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aquí&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="102"/>
+        <location filename="../../panels/ai.py" line="103"/>
         <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
         <translation>&lt;b&gt;Privacidad de Datos:&lt;/b&gt; Open Data Editor sólo compartirá los nombres de las columnas de tu archivo para sugerir mejoras a los títulos y descripciones de las mismas.</translation>
     </message>
@@ -51,17 +56,17 @@ You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com
 También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aquí&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="99"/>
+        <location filename="../../panels/ai.py" line="100"/>
         <source>Please enter your prompt to the AI assistant: </source>
         <translation>Por favor ingresa el prompt para el asistente de IA: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="100"/>
+        <location filename="../../panels/ai.py" line="101"/>
         <source>Result: </source>
         <translation>Resultado: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="101"/>
+        <location filename="../../panels/ai.py" line="102"/>
         <source>Submit</source>
         <translation>Enviar</translation>
     </message>
