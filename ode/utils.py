@@ -1,4 +1,7 @@
 import json
+import platform
+import subprocess
+
 from pathlib import Path
 
 from frictionless.resources import TableResource
@@ -6,6 +9,13 @@ from frictionless import system
 
 from ode import paths
 
+def setup_ode_internal_folders():
+    """Creates the folders to store the files and metadata files."""
+    paths.METADATA_PATH.mkdir(parents=True, exist_ok=True)
+    if platform.system() == "Windows":
+        # Set the .metadata folder hidden so it is not shown in the ODE file navigator
+        # This is the default behaviour in Linux/MacOs since the directory name starts with a dot.
+        subprocess.run(["attrib", "+H", f"{str(paths.METADATA_PATH)}"], check=True)
 
 def migrate_metadata_store():
     """Migrates all the metadata information to separated files.
@@ -19,18 +29,23 @@ def migrate_metadata_store():
     Each file will have the same name of the original file with a `metadata.json` append.
     We will also mimic the folder structure.
     """
-    new_metadata_dir = paths.PROJECT_PATH / '.metadata/'
-    if new_metadata_dir.exists():
-        print(".metadata folder exist. Skipping migration...")
-        return
-    new_metadata_dir.mkdir()
-
-    # Path to the original metadata.json file
+    # Path to ODE v1.3 metadata.json file
     metadata_file_path = paths.PROJECT_PATH / '.opendataeditor/metadata.json'
     if not metadata_file_path.exists():
-        print("There is no current metadata.json file to migrate. Skipping migration...")
+        # ODE has never been used in this machine. Nothing to migrate.
         return
 
+    new_metadata_dir = paths.PROJECT_PATH / '.metadata/'    
+    if new_metadata_dir.exists():
+        # If folder exist we asume migrated and return.
+        return
+
+    ode_dir = paths.PROJECT_PATH / ".opendataeditor/"
+    if ode_dir.exists() and platform.system() == "Windows":
+        # Hid .opendataeditor directory. This directory is no longer used.
+        subprocess.run(["attrib", "+H", f"{str(ode_dir)}"], check=True)
+    
+    # ODE v1.3 has been used and we need to migrate.
     with open(metadata_file_path, 'r') as file:
         metadata = json.load(file)
 
