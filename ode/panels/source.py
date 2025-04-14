@@ -26,7 +26,7 @@ class SourceViewer(QWidget):
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        self.text_edit = QPlainTextEdit(self)
+        self.text_edit = QPlainTextEdit()
         self.text_edit.setLineWrapMode(QPlainTextEdit.NoWrap)
         self.text_edit.setReadOnly(True)
         self.text_edit.setFont(QFont("Courier, monospace"))
@@ -34,6 +34,30 @@ class SourceViewer(QWidget):
 
         layout.addWidget(self.label)
         layout.addWidget(self.text_edit)
+
+    def _read_file(self, filepath):
+        """Function to read the file from disk and return a string.
+
+        We could implement a more fancy approach with chardet to detect the file encoding
+        but early tests where not performat enough. We are brute-forcing the two most popular
+        encodings in the web.
+        """
+        content = ""
+        try:
+            with open(filepath, "r", encoding="utf-8") as file:
+                content = file.read()
+            return content
+        except Exception as e:
+            content = f"Error while reading the file with encoding UTF-8: {e}"
+
+        try:
+            with open(filepath, "r", encoding="iso-8859-1") as file:
+                content = file.read()
+            return content
+        except Exception as e:
+            content += f"\nError while reading the file with encoding ISO-8859-1: {e}"
+
+        return content
 
     def open_file(self, filepath):
         """Reads the file and sets the QPlainText."""
@@ -43,18 +67,7 @@ class SourceViewer(QWidget):
             self.text_edit.hide()
             return
 
-        content = ""
-        try:
-            with open(filepath, "r", encoding="utf-8") as file:
-                content = file.read()
-        except Exception as e:
-            content = f"Error while reading the file: {e}"
-
-        try:
-            with open(filepath, "r", encoding="iso-8859-1") as file:
-                content = file.read()
-        except Exception as e:
-            content += f"\nError while reading the file: {e}"
+        content = self._read_file(filepath)
 
         self.label.hide()
         self.text_edit.show()
