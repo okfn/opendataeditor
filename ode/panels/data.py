@@ -1,5 +1,5 @@
 from pathlib import Path
-from frictionless import Resource, system
+from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
 from PySide6.QtGui import QColor
@@ -77,7 +77,13 @@ class FrictionlessTableModel(QAbstractTableModel):
         df = pd.DataFrame(self._data[1:], columns=self._data[0])
         extension = filepath.suffix.lower()
         if extension == ".csv":
-            df.to_csv(filepath, index=False)
+            resource = File(filepath).get_or_create_metadata().get("resource")
+            dialect = resource.dialect.to_dict()
+            if dialect != {}:
+                sep = dialect["csv"]["delimiter"]
+                df.to_csv(filepath, index=False, sep=sep)
+            else:
+                df.to_csv(filepath, index=False)
             print(f"Data saved in CSV format: {filepath}")
         elif extension in [".xlsx", ".xls"]:
             df.to_excel(filepath, index=False, engine="openpyxl")
