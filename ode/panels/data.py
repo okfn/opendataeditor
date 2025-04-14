@@ -79,9 +79,9 @@ class FrictionlessTableModel(QAbstractTableModel):
         if extension == ".csv":
             resource = File(filepath).get_or_create_metadata().get("resource")
             dialect = resource.dialect.to_dict()
-            if dialect != {}:
-                sep = dialect["csv"]["delimiter"]
-                df.to_csv(filepath, index=False, sep=sep)
+            csv = dialect.get("csv", None)
+            if csv:
+                df.to_csv(filepath, index=False, sep=csv["delimiter"])
             else:
                 df.to_csv(filepath, index=False)
             print(f"Data saved in CSV format: {filepath}")
