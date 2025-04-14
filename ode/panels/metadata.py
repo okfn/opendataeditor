@@ -51,6 +51,7 @@ class BaseForm(QWidget):
     The help_text_requested signal will be connected to a Slot to update the Help Text widgets of
     the FrictionlessResourceMetadataWidget.
     """
+
     help_text_requested = Signal(str, str)  # (title, description)
     help_texts = {}  # To be overridden in child classes
 
@@ -235,46 +236,38 @@ class SingleFieldForm(BaseForm):
         self.retranslateUI()
 
         self.help_texts = {
-            self.types: (
-                self.tr("Column Type"),
-                self.tr("String indicating the type of this field.")
-            ),
-            self.title: (
-                self.tr("Column Title"),
-                self.tr("A human-readable title.")
-            ),
-            self.description: (
-                self.tr("Column Description"),
-                self.tr("A description of the field.")
-            ),
+            self.types: (self.tr("Column Type"), self.tr("String indicating the type of this field.")),
+            self.title: (self.tr("Column Title"), self.tr("A human-readable title.")),
+            self.description: (self.tr("Column Description"), self.tr("A description of the field.")),
             self.missing_values: (
                 self.tr("Column Missing Values"),
-                self.tr("Specifies which string values should be treated as null values.")
+                self.tr("Specifies which string values should be treated as null values."),
             ),
-            self.rdf_type: (
-                self.tr("Column RDF Type"),
-                self.tr("Indicates whether the field is of RDF type.")
-            ),
+            self.rdf_type: (self.tr("Column RDF Type"), self.tr("Indicates whether the field is of RDF type.")),
             self.constraint_required: (
                 self.tr("Column required"),
-                self.tr("Indicates whether this field cannot be null.")
+                self.tr("Indicates whether this field cannot be null."),
             ),
             self.constraint_enum: (
                 self.tr("Column Enum"),
-                self.tr("Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.")
+                self.tr(
+                    "Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values."
+                ),
             ),
             self.constraint_max_length: (
                 self.tr("Column Max Length"),
-                self.tr("An integer that specifies the maximum length of a value.")
+                self.tr("An integer that specifies the maximum length of a value."),
             ),
             self.constraint_min_length: (
                 self.tr("Column Min Length"),
-                self.tr("An integer that specifies the minimum length of a value.")
+                self.tr("An integer that specifies the minimum length of a value."),
             ),
             self.constraint_pattern: (
                 self.tr("Column Pattern"),
-                self.tr("A regular expression that can be used to test field values. If the regular expression matches then the value is valid.")
-            )
+                self.tr(
+                    "A regular expression that can be used to test field values. If the regular expression matches then the value is valid."
+                ),
+            ),
         }
 
         self._install_help_events()
@@ -437,25 +430,23 @@ class SchemaForm(BaseForm):
         layout.addRow("Description: ", self.description)
         self.setLayout(layout)
         self.help_texts = {
-            self.name: (
-                self.tr("Schema Name"),
-                self.tr("A simple name or identifier to use for this schema.")
-            ),
+            self.name: (self.tr("Schema Name"), self.tr("A simple name or identifier to use for this schema.")),
             self.primary_key: (
                 self.tr("Schema Primary Key"),
-                self.tr("A primary key is a field or set of fields that uniquely identifies each row in the table.")
+                self.tr("A primary key is a field or set of fields that uniquely identifies each row in the table."),
             ),
-            self.title: (
-                self.tr("Schema Title"),
-                self.tr("A human-readable title.")
-            ),
+            self.title: (self.tr("Schema Title"), self.tr("A human-readable title.")),
             self.missing_values: (
                 self.tr("Schema Missing Values"),
-                self.tr("Many datasets arrive with missing data values, either because a value was not collected or it never existed.")
+                self.tr(
+                    "Many datasets arrive with missing data values, either because a value was not collected or it never existed."
+                ),
             ),
             self.description: (
                 self.tr("Schema Description"),
-                self.tr("A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.")
+                self.tr(
+                    "A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown."
+                ),
             ),
         }
 
@@ -500,22 +491,10 @@ class IntegrityForm(BaseForm):
         self.setLayout(layout)
 
         self.help_texts = {
-            self.hash: (
-                self.tr("Integrity Hash"),
-                self.tr("The MD5 hash for this resource.")
-            ),
-            self.fields: (
-                self.tr("Integrity Fields"),
-                self.tr("Total fiels in this resource.")
-            ),
-            self.bytes_field: (
-                self.tr("Integrity Bytes"),
-                self.tr("Size of the resource file in bytes.")
-            ),
-            self.rows: (
-                self.tr("Integrity Rows"),
-                self.tr("Total rows in this resource.")
-            ),
+            self.hash: (self.tr("Integrity Hash"), self.tr("The MD5 hash for this resource.")),
+            self.fields: (self.tr("Integrity Fields"), self.tr("Total fiels in this resource.")),
+            self.bytes_field: (self.tr("Integrity Bytes"), self.tr("Size of the resource file in bytes.")),
+            self.rows: (self.tr("Integrity Rows"), self.tr("Total rows in this resource.")),
         }
 
         self._install_help_events()
@@ -573,35 +552,40 @@ class ResourceForm(BaseForm):
         self.help_texts = {
             self.name: (
                 self.tr("Resource Name"),
-                self.tr("A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.")
+                self.tr(
+                    "A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data."
+                ),
             ),
-            self.types: (
-                self.tr("Resource Type"),
-                self.tr("Specifies the type of this resource.")
-            ),
+            self.types: (self.tr("Resource Type"), self.tr("Specifies the type of this resource.")),
             self.scheme: (
                 self.tr("Resource Scheme"),
-                self.tr("Specifies the scheme for loading the file (file, http, ...).")
+                self.tr("Specifies the scheme for loading the file (file, http, ...)."),
             ),
             self.format: (
                 self.tr("Resource Format"),
-                self.tr("Specifies the standard file extension for this resource e.g. 'csv', 'xls', 'json' etc.")
+                self.tr("Specifies the standard file extension for this resource e.g. 'csv', 'xls', 'json' etc."),
             ),
             self.title: (
                 self.tr("Resource Title"),
-                self.tr("A human-readable title or label for this resource e.g. 'Sales Data'.")
+                self.tr("A human-readable title or label for this resource e.g. 'Sales Data'."),
             ),
             self.mediatype: (
                 self.tr("Resource Media Type"),
-                self.tr("Specifies the media type/mime type of this resource e.g 'text/csv', 'application/vnd.ms-excel' etc.")
+                self.tr(
+                    "Specifies the media type/mime type of this resource e.g 'text/csv', 'application/vnd.ms-excel' etc."
+                ),
             ),
             self.description: (
                 self.tr("Resource Description"),
-                self.tr("A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.")
+                self.tr(
+                    "A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown."
+                ),
             ),
             self.encoding: (
                 self.tr("Resource Encoding"),
-                self.tr("Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA.")
+                self.tr(
+                    "Specifies the character encoding of this resource e.g. 'UTF-8'. The values should be one of the 'Preferred MIME Names' for a character encoding registered with IANA."
+                ),
             ),
         }
         self._install_help_events()
@@ -750,13 +734,22 @@ class FrictionlessResourceMetadataWidget(QWidget):
         form = index.data()
         if form == "Schema":
             self.forms_layout.setCurrentIndex(0)
-            self.set_help_text("Schema", "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.")
+            self.set_help_text(
+                "Schema",
+                "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.",
+            )
         elif form == "Column names":
             self.forms_layout.setCurrentIndex(1)
-            self.set_help_text("Column names", "Column Names is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.")
+            self.set_help_text(
+                "Column names",
+                "Column Names is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.",
+            )
         if form == "Resource":
             self.forms_layout.setCurrentIndex(2)
-            self.set_help_text("Resource", "A simple format to describe and package a single data resource such as a individual table or file.")
+            self.set_help_text(
+                "Resource",
+                "A simple format to describe and package a single data resource such as a individual table or file.",
+            )
         elif form == "Integrity":
             self.forms_layout.setCurrentIndex(3)
             self.set_help_text("Integrity", "Checksum details of this resource.")
@@ -765,7 +758,9 @@ class FrictionlessResourceMetadataWidget(QWidget):
             self.set_help_text("Licenses", "The license(s) under which the resource is provided.")
         elif form == "Contributors":
             self.forms_layout.setCurrentIndex(5)
-            self.set_help_text("Contributors", "A name/title of the contributor (name for person, name/title of organization).")
+            self.set_help_text(
+                "Contributors", "A name/title of the contributor (name for person, name/title of organization)."
+            )
 
     def get_or_create_metadata(self, filepath):
         """Get or create a metadata object for the Resource.
@@ -849,8 +844,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
             elif isinstance(form, FieldsForm):
                 for i, field_form in enumerate(form.field_forms):
                     field = self.resource.schema.fields[i]
-                    # field type cannot be updated directly, we need to use set_field_type
-                    self.resource.schema.set_field_type(field.name, field_form.types.currentText())
                     field.title = field_form.title.text()
                     field.description = field_form.description.text()
                     # TODO: Fix it, a string is not a valid value for missing_values but an array
@@ -879,6 +872,10 @@ class FrictionlessResourceMetadataWidget(QWidget):
 
                     # Update the field in the schema
                     self.resource.schema.set_field(field)
+
+                    # field type cannot be updated directly, we need to use set_field_type
+                    # it needs to be after the set_field to avoid beeing overridden
+                    self.resource.schema.set_field_type(field.name, field_form.types.currentText())
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
             elif isinstance(form, ContributorsForm):
