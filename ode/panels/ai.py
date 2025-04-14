@@ -14,35 +14,38 @@ class ChatGPTDialog(QDialog):
         layout = QVBoxLayout(self)
 
         # Decorative Note
-        self.note_group = QGroupBox()
-        self.note_layout = QVBoxLayout(self.note_group)
-        self.note_label = QLabel(
-        )
+        self.note_label = QLabel()
+        self.note_label.setStyleSheet("font-style: italic; background-color: lightblue;")
         self.note_label.setWordWrap(True)
-        self.note_layout.addWidget(self.note_label)
         self.api_key_label = QLabel()
+        self.api_key_label.setStyleSheet("font-weight: 600;")
         self.api_key_input = QLineEdit()
         self.api_key_help_text = QLabel()
+        self.api_key_help_text.setStyleSheet("font-style: italic; font-size: 16px;")
+        self.api_key_help_text.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.api_key_help_text.setTextFormat(Qt.RichText)
         self.api_key_help_text.setOpenExternalLinks(True)
         self.api_key_help_text.setWordWrap(True)
         self.api_key_input.setEchoMode(QLineEdit.Password)  # Masked for security
 
         self.prompt_label = QLabel()
+        self.prompt_label.setStyleSheet("font-weight: 600;")
         self.prompt_input = QTextEdit()
         self.prompt_input.setText(
             ("suggest improvements to the names of the columns in the table and provide "
              "descriptions for each of them")
         )
+        self.prompt_input.setStyleSheet("font-family: monospace;")
         self.prompt_input.setFixedHeight(100)
         self.result_label = QLabel()
+        self.result_label.setStyleSheet("font-weight: 600;")
         self.result_display = QTextEdit()
         self.result_display.setReadOnly(True)
 
         self.submit_button = QPushButton()
         self.submit_button.clicked.connect(self.call_chatgpt_api)
 
-        layout.addWidget(self.note_group)
+        layout.addWidget(self.note_label)
         layout.addWidget(self.api_key_label)
         layout.addWidget(self.api_key_input)
         layout.addWidget(self.api_key_help_text)
@@ -92,11 +95,8 @@ class ChatGPTDialog(QDialog):
 
     def retranslateUI(self):
         self.api_key_label.setText(self.tr("Please enter your OpenAI API Key: "))
-        self.api_key_help_text.setText(self.tr("""Click <a href='https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key'>here</a> to learn how to find your key.
-You can also check OpenAI terms and policies <a href='https://openai.com/policies/'>here</a>."""))
+        self.api_key_help_text.setText(self.tr("Click <a href='https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key'>here</a> to learn how to find your key.<br>You can also check OpenAI terms and policies <a href='https://openai.com/policies/'>here</a>."))
         self.prompt_label.setText(self.tr("Please enter your prompt to the AI assistant: "))
         self.result_label.setText(self.tr("Result: "))
         self.submit_button.setText(self.tr("Submit"))
-        self.note_group.setTitle(self.tr("Data Privacy"))
-        self.note_label.setText(self.tr("""Open Data Editor will only share the names of the columns in your table to suggest
-improvements to the titles and descriptions associated with them."""))
+        self.note_label.setText(self.tr("<b>Data Privacy:</b> Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them."))
