@@ -11,7 +11,7 @@ FieldsForm, SingleFieldForm, SchemaForm, QWidget#fields_form_container,
 QTableView, QTableView QHeaderView, QTableView QTableCornerButton,
 QTreeView, QDialog, QPushButton, QComboBox, QComboBox QAbstractItemView, QLineEdit,
 QLabel, QTabWidget, QTabBar, QScrollBar, QSpinBox, QListWidget, QTextEdit, QSrollArea,
-QPlainTextEdit, QWidget#central_widget {
+QPlainTextEdit, QWidget#central_widget, QGroupBox {
     background: #FFF;
     color: #404040;
     font-size: 19px;  /* multi-os support */
@@ -156,7 +156,6 @@ Welcome QPushButton:pressed {
   border-color: #000000;
 }
 
-
 FieldsForm QScrollArea {
   border: none;
 }
@@ -169,4 +168,44 @@ QHeaderView::section {
 QTableCornerButton::section {
   background-color: rgb(240, 240, 240);
   border: 1px solid rgb(200, 200, 200);
+}
+
+DataUploadDialog, DeleteDialog, RenameDialog  {
+  border: 2px solid #000000; 
+}
+
+DataUploadDialog QPushButton,
+DeleteDialog QPushButton,
+RenameDialog QPushButton {
+  border: 2px solid #000000; 
+  background-color: #F0F0F0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #000000;
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 4px;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+DeleteDialog QPushButton,
+RenameDialog QPushButton {
+  padding: 5px;
+}
+
+DataUploadDialog QPushButton:hover,
+DeleteDialog QPushButton:hover,
+RenameDialog QPushButton:hover {
+  background: #0288D1;
+  border-color: #0288d1;
+}
+
+DataUploadDialog QPushButton:pressed, 
+DeleteDialog QPushButton:pressed,
+RenameDialog QPushButton:pressed {
+  color: #FFFFFF;
+  background: #000000;
+  border-color: #000000;
 }

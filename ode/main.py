@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (
     QComboBox,
     QMenu,
     QMessageBox,
-    QInputDialog,
     QProgressDialog,
 )
 
@@ -39,6 +38,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import QFileSystemModel
 
 from ode import paths
+from ode.dialogs.delete import DeleteDialog
 from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
@@ -48,6 +48,7 @@ from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
 from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
+from ode.dialogs.rename import RenameDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 
@@ -181,8 +182,11 @@ class Sidebar(QWidget):
         if index.isValid():
             file = File(self.file_model.filePath(index))
             name = file.path.stem
-            new_name, ok = QInputDialog.getText(self, self.tr("Rename"), self.tr("Enter new name:"), text=name)
-            if ok and new_name:
+            dialog = RenameDialog(self, name)
+            dialog.exec()
+
+            new_name = dialog.result_text
+            if new_name and new_name != name:
                 try:
                     file.rename(new_name)
                 except IsADirectoryError:
@@ -220,13 +224,7 @@ class Sidebar(QWidget):
         if index.isValid():
             file = File(self.file_model.filePath(index))
             is_selected = self.window().selected_file_path == file.path
-            confirm = QMessageBox.question(
-                self,
-                self.tr("Delete"),
-                self.tr("Are you sure you want to delete this?"),
-                QMessageBox.Yes | QMessageBox.No,
-            )
-            if confirm == QMessageBox.Yes:
+            if DeleteDialog.confirm(self, file.path.name):
                 try:
                     file.remove()
                 except OSError as e:

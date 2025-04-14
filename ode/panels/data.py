@@ -92,7 +92,7 @@ class FrictionlessTableModel(QAbstractTableModel):
             if error.type == "source-error":
                 # SourceError happens with files that cannot be read and do not have row_number nor field_number.
                 return result
-            elif error.type == "blank-label":
+            elif error.type in ["blank-label", "duplicate-label", "incorrect-label", "missing-label", "extra-label"]:
                 # https://github.com/frictionlessdata/frictionless-py/issues/1710
                 row = error.row_numbers[0] - 1
                 column = error.field_number - 1
@@ -100,10 +100,7 @@ class FrictionlessTableModel(QAbstractTableModel):
                 row = error.row_number - 1
                 # BlankRow error does not have field_number
                 column = 0
-            elif error.type == "duplicate-label":
-                row = error.row_numbers[0] - 1
-                column = error.field_number - 1
-            elif error.type == "row-count":
+            elif not hasattr(error, "row_number"):
                 row = None
                 column = None
             else:

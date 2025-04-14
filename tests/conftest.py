@@ -6,7 +6,7 @@ from ode import paths, main
 def project_folder(tmp_path):
     # Patch the PROJECT_PATH to use temporary directory
     paths.PROJECT_PATH = tmp_path
-    paths.METADATA_PATH = (tmp_path / ".metadata")
+    paths.METADATA_PATH = tmp_path / ".metadata"
     return tmp_path
 
 
