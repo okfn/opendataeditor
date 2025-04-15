@@ -47,21 +47,23 @@ class GithubWidget(QWidget):
         self.retranslateUI()
 
     def publish(self) -> None:
+        apikey = self.api_key_input.text()
+        email = self.email_input.text()
+        repo = self.repo_input.text()
+        user = self.user_input.text()
+        if not apikey or not email or not repo or not user:
+            self.error_label.setText(self.tr("All fields are mandatory."))
+            return
         resource = self.file.get_or_create_metadata().get("resource")
         resource.path = str(self.file.path.relative_to(PROJECT_PATH))
         package = Package(resources=[resource], basepath=str(PROJECT_PATH))
-        control = GithubControl(
-            apikey=self.api_key_input.text(),
-            email=self.email_input.text(),
-            repo=self.repo_input.text(),
-            user=self.user_input.text(),
-        )
+        control = GithubControl(apikey=apikey, email=email, repo=repo, user=user)
         self.window().update_status_bar(self.tr("Publishing data to Github..."))
         try:
             with system.use_context(trusted=True):
-                result = package.publish(control=control)
-            self.error_label.setText(f"Repository successfuly created at <a href='{result.url}'>{result.url}</a>.")
+                package.publish(control=control)
             self.window().update_status_bar(self.tr("Publish to Github complete."))
+            self.window().close()
         except Exception as e:
             self.error_label.setText(str(e))
             self.window().update_status_bar(self.tr("Publish to Github failed."))
