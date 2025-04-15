@@ -19,7 +19,7 @@ from ode.file import File
 
 
 class GithubWidget(QWidget):
-    def __init__(self, filepath: Path):
+    def __init__(self, filepath: Path) -> None:
         super().__init__()
         self.file = File(filepath)
         self.form_layout = QFormLayout()
@@ -46,7 +46,7 @@ class GithubWidget(QWidget):
 
         self.retranslateUI()
 
-    def publish(self):
+    def publish(self) -> None:
         resource = self.file.get_or_create_metadata().get("resource")
         resource.path = str(self.file.path.relative_to(PROJECT_PATH))
         package = Package(resources=[resource], basepath=str(PROJECT_PATH))
@@ -56,14 +56,17 @@ class GithubWidget(QWidget):
             repo=self.repo_input.text(),
             user=self.user_input.text(),
         )
+        self.window().update_status_bar(self.tr("Publishing data to Github..."))
         try:
             with system.use_context(trusted=True):
                 result = package.publish(control=control)
             self.error_label.setText(f"Repository successfuly created at <a href='{result.url}'>{result.url}</a>.")
+            self.window().update_status_bar(self.tr("Publish to Github complete."))
         except Exception as e:
             self.error_label.setText(str(e))
+            self.window().update_status_bar(self.tr("Publish to Github failed."))
 
-    def retranslateUI(self):
+    def retranslateUI(self) -> None:
         self.user_label.setText(self.tr("User:"))
         self.repo_label.setText(self.tr("Repository: "))
         self.email_label.setText(self.tr("Email: "))
@@ -74,7 +77,7 @@ class GithubWidget(QWidget):
 class PublishDialog(QDialog):
     """Dialog to Publish the file and metadata to third party services."""
 
-    def __init__(self, parent, filepath: Path):
+    def __init__(self, parent, filepath: Path) -> None:
         super().__init__(parent)
         self.setFixedWidth(750)
 
@@ -104,7 +107,15 @@ class PublishDialog(QDialog):
 
         self.retranslateUI()
 
-    def retranslateUI(self):
+    def update_status_bar(self, text: str) -> None:
+        """Update the application Main Windows status bar.
+
+        The PublishDialog becomes a window so children widgets only have access to the MainWindow
+        through the parent of this Dialog.
+        """
+        self.parent().statusBar().showMessage(text)
+
+    def retranslateUI(self) -> None:
         """Apply translations to class elements."""
         self.setWindowTitle(self.tr("Publish dataset"))
         self.tab_widget.setTabText(0, self.tr("Github"))
