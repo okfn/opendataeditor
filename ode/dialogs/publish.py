@@ -103,9 +103,15 @@ class PublishDialog(QDialog):
         main_layout.addWidget(self.tab_widget)
 
         self.github = GithubWidget(filepath=filepath)
+        self.ckan = QLabel()
+        self.ckan.setWordWrap(True)
+        self.zenodo = QLabel()
+        self.zenodo.setWordWrap(True)
 
         # Add Tabs to Tab Widget
-        self.tab_widget.addTab(self.github, "")
+        self.tab_widget.addTab(self.github, "Github")
+        self.tab_widget.addTab(self.ckan, "CKAN")
+        self.tab_widget.addTab(self.zenodo, "Zenodo")
 
         self.setLayout(main_layout)
 
@@ -122,4 +128,7 @@ class PublishDialog(QDialog):
     def retranslateUI(self) -> None:
         """Apply translations to class elements."""
         self.setWindowTitle(self.tr("Publish dataset"))
-        self.tab_widget.setTabText(0, self.tr("Github"))
+        text = self.tr("This Publishing feature is comming soon...<br>Are you interested? Contact us at <a href='mailto:info@okfn.org'>info@okfn.org</a>.")
+        self.ckan.setText(text)
+        self.zenodo.setText(text)
+
