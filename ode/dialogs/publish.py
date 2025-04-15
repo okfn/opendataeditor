@@ -42,6 +42,7 @@ class GithubWidget(QWidget):
         self.form_layout.addWidget(self.publish_button)
         self.error_label = QLabel()
         self.error_label.setWordWrap(True)
+        self.error_label.setStyleSheet("font-size: 14px; color: red;")
         self.form_layout.addWidget(self.error_label)
 
         self.retranslateUI()
