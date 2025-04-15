@@ -601,7 +601,7 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_publish_click(self):
-        dialog = PublishDialog(self)
+        dialog = PublishDialog(self, self.selected_file_path)
         dialog.show()
 
     def on_ai_click(self):

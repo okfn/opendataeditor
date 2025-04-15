@@ -1,23 +1,27 @@
+from frictionless import Package, system
+from frictionless.portals.github.control import GithubControl
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QFormLayout,
     QPushButton,
     QLabel,
-    QComboBox,
     QDialog,
     QTabWidget,
     QLineEdit,
 )
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
+from pathlib import Path
 
-from ode.paths import Paths
+from ode.paths import Paths, PROJECT_PATH
+from ode.file import File
 
 
 class GithubWidget(QWidget):
-    def __init__(self):
+    def __init__(self, filepath: Path):
         super().__init__()
+        self.file = File(filepath)
         self.form_layout = QFormLayout()
         self.setLayout(self.form_layout)
         self.user_label = QLabel()
@@ -33,15 +37,31 @@ class GithubWidget(QWidget):
         self.api_key_input = QLineEdit()
         self.api_key_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.form_layout.addRow(self.api_key_label, self.api_key_input)
-
         self.publish_button = QPushButton()
         self.publish_button.clicked.connect(self.publish)
         self.form_layout.addWidget(self.publish_button)
+        self.error_label = QLabel()
+        self.error_label.setWordWrap(True)
+        self.form_layout.addWidget(self.error_label)
 
         self.retranslateUI()
 
     def publish(self):
-        print("Publishing to Github")
+        resource = self.file.get_or_create_metadata().get("resource")
+        resource.path = str(self.file.path.relative_to(PROJECT_PATH))
+        package = Package(resources=[resource], basepath=str(PROJECT_PATH))
+        control = GithubControl(
+            apikey=self.api_key_input.text(),
+            email=self.email_input.text(),
+            repo=self.repo_input.text(),
+            user=self.user_input.text(),
+        )
+        try:
+            with system.use_context(trusted=True):
+                result = package.publish(control=control)
+            self.error_label.setText(f"Repository successfuly created at <a href='{result.url}'>{result.url}</a>.")
+        except Exception as e:
+            self.error_label.setText(str(e))
 
     def retranslateUI(self):
         self.user_label.setText(self.tr("User:"))
@@ -54,9 +74,8 @@ class GithubWidget(QWidget):
 class PublishDialog(QDialog):
     """Dialog to Publish the file and metadata to third party services."""
 
-    def __init__(self, parent, external_first=False):
+    def __init__(self, parent, filepath: Path):
         super().__init__(parent)
-        self.setFixedHeight(500)
         self.setFixedWidth(750)
 
         main_layout = QVBoxLayout()
@@ -76,7 +95,7 @@ class PublishDialog(QDialog):
         self.tab_widget = QTabWidget()
         main_layout.addWidget(self.tab_widget)
 
-        self.github = GithubWidget()
+        self.github = GithubWidget(filepath=filepath)
 
         # Add Tabs to Tab Widget
         self.tab_widget.addTab(self.github, "")
