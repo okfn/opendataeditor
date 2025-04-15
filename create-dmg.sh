@@ -39,6 +39,10 @@ security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatem
 mkdir -p dist/dmg
 cp -r "dist/Open Data Editor.app" "dist/dmg" 
 
+hdiutil detach /Volumes/"Open Data Editor" &>/dev/null || true
+sleep 3
+rm -f *.dmg
+
 # Create the dmg file
 VERSION=$(python -c "import ode; print(ode.__version__)")
 FILENAME=opendataeditor-macos-$VERSION.dmg
