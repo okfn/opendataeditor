@@ -68,9 +68,9 @@ class GithubWidget(QWidget):
             self.window().close()
         except Exception as e:
             self.error_label.setText(str(e))
-            self.window().update_status_bar(self.tr("Publish to Github failed."))
 
     def retranslateUI(self) -> None:
+        """Apply translations to class elements."""
         self.user_label.setText(self.tr("User:"))
         self.repo_label.setText(self.tr("Repository: "))
         self.email_label.setText(self.tr("Email: "))
