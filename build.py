@@ -35,7 +35,7 @@ def build_application():
     ]
 
     if system == "Darwin":
-        params.extend(["--osx-bundle-identifier", "org.opendataeditor.app"])
+        params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
 
     PyInstaller.__main__.run(params)
 
