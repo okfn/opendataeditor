@@ -56,6 +56,7 @@ class GithubWidget(QWidget):
             self.error_label.setText(self.tr("All fields are mandatory."))
             return
         resource = self.file.get_or_create_metadata().get("resource")
+        # Published path should be relative to the project and not an absolute path of the user machine.
         resource.path = str(self.file.path.relative_to(PROJECT_PATH))
         package = Package(resources=[resource], basepath=str(PROJECT_PATH))
         control = GithubControl(apikey=apikey, email=email, repo=repo, user=user)
