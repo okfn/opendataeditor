@@ -31,7 +31,7 @@ security default-keychain -s build.keychain
 security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
 security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
-/usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp dist/OpenDataEditor.app
+/usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp dist/Open Data Editor.app
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
