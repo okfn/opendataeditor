@@ -57,7 +57,7 @@ create-dmg \
   --icon "Open Data Editor.app" 200 190 \
   --hide-extension "Open Data Editor.app" \
   --app-drop-link 600 185 \
-  $FILENAME
+  $FILENAME \
   "dist/dmg/"
 
 # Notarize the DMG File
