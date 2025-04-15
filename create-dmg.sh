@@ -33,7 +33,23 @@ security default-keychain -s build.keychain
 security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
 security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
+
+# Primero firma los frameworks y bibliotecas individuales
+find "dist/Open Data Editor.app/Contents/Frameworks" -type f -name "Qt*" | while read framework; do
+  echo "Signing framework: $framework"
+  /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$framework"
+done
+
+# Luego firma cualquier otro ejecutable o biblioteca
+find "dist/Open Data Editor.app" -type f -name "*.so" -o -name "*.dylib" | while read lib; do
+  echo "Signing library: $lib"
+  /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$lib"
+done
+
+# Finalmente, firma la aplicación principal
+echo "Signing main application bundle"
 /usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app"
+
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
