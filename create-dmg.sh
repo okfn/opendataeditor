@@ -62,8 +62,8 @@ create-dmg \
 
 # Notarize the DMG File
 # echo "Notarizing the DMG file"
-# xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME
+xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME
 
 # # Staple the file
 # echo "Stapling the file"
-# xcrun stapler staple $FILENAME
+xcrun stapler staple $FILENAME
