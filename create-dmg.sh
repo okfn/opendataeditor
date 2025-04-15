@@ -57,13 +57,26 @@ create-dmg \
   --icon "Open Data Editor.app" 200 190 \
   --hide-extension "Open Data Editor.app" \
   --app-drop-link 600 185 \
-  $FILENAME \
+  $FILENAME \xcrun notarytool
   "dist/dmg/"
 
 # Notarize the DMG File
-# echo "Notarizing the DMG file"
-xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME
+echo "Notarizing the DMG file"
+xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME > notarization_output.txt
 
-# # Staple the file
-# echo "Stapling the file"
-xcrun stapler staple $FILENAME
+# Staple the file
+# Verificar si la notarización fue exitosa
+if grep -q "status: Accepted" notarization_output.txt; then
+  echo "Notarization successful!"
+  
+  # Añadir un tiempo de espera para asegurar que el ticket esté disponible
+  echo "Waiting 30 seconds for notarization ticket to be available..."
+  sleep 30
+  
+  echo "Stapling the file"
+  xcrun stapler staple $FILENAME
+else
+  echo "Notarization failed. Check notarization_output.txt for details."
+  cat notarization_output.txt
+  exit 1
+fi
