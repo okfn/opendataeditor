@@ -52,6 +52,13 @@ for location in "Frameworks" "Resources"; do
    echo "Signing ${location}/Python.framework/Python"
    /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python"
  fi
+done
+
+# Sign the main executable
+echo "Signing main executable..."
+if [ -e "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor" ]; then
+ /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor"
+fi
 
 # Finally, sign the complete application bundle
 echo "Signing complete application bundle..."
