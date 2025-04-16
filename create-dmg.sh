@@ -38,8 +38,60 @@ security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatem
 echo "Estableciendo permisos..."
 chmod -R a+xr "dist/Open Data Editor.app"
 
+# Firma primero los binarios individuales antes de firmar la aplicación completa
+echo "Firmando binarios individuales..."
+
+# Firma Python y frameworks Qt en todas las ubicaciones
+for location in "Frameworks" "Resources"; do
+  # Firma Python
+  if [ -e "dist/Open Data Editor.app/Contents/${location}/Python" ]; then
+    echo "Firmando ${location}/Python"
+    /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python"
+  fi
+  
+  if [ -e "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python" ]; then
+    echo "Firmando ${location}/Python.framework/Python"
+    /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python"
+  fi
+  
+  # Firma todos los frameworks Qt
+  for qtlib in QtCore QtDBus QtGui QtNetwork QtOpenGL QtPdf QtQml QtQmlMeta QtQmlModels QtQmlWorkerScript QtQuick QtSvg QtVirtualKeyboard QtWidgets; do
+    if [ -e "dist/Open Data Editor.app/Contents/${location}/${qtlib}" ]; then
+      echo "Firmando ${location}/${qtlib}"
+      /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/${qtlib}"
+    fi
+    
+    # También firma los frameworks en la carpeta PySide6/Qt/lib
+    if [ -e "dist/Open Data Editor.app/Contents/${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}" ]; then
+      echo "Firmando ${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}"
+      /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}"
+    fi
+  done
+done
+
+# Firma todas las bibliotecas dinámicas (.dylib)
+echo "Firmando archivos .dylib..."
+find "dist/Open Data Editor.app" -name "*.dylib" | while read dylib; do
+  echo "Firmando $dylib"
+  /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$dylib"
+done
+
+# Firma todos los plugins
+echo "Firmando plugins..."
+find "dist/Open Data Editor.app" -path "*/PlugIns/*" -type f | while read plugin; do
+  echo "Firmando plugin: $plugin"
+  /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$plugin"
+done
+
+# Firma el ejecutable principal
+echo "Firmando el ejecutable principal..."
+if [ -e "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor" ]; then
+  /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor"
+fi
+
+# Finalmente, firma el paquete completo de la aplicación
 echo "Firmando el paquete completo de la aplicación..."
-/https://drive.google.com/file/d/1-8omyf_o-LU0_bokLVwRCasATklTDQJy/view?usp=drive_linkusr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app"
+/usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app"
 
 # Verifica la firma
 echo "Verificando la firma..."
