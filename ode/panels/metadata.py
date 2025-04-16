@@ -877,16 +877,23 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     # it needs to be after the set_field to avoid beeing overridden
                     self.resource.schema.set_field_type(field.name, field_form.types.currentText())
 
-                # Field names should always be the content of the first row of our file (except when it is missing).
+                # Frictionless' field.name is MANDATORY and UNIQUE and require specific behaviour:
+                # 1. By default, appends <number> if they are duplicated in the file: E.g. field1, field2
+                # 2. Can't be empty, so if user edits it and leave it empty we need to write something to the schema.
+                # 3. Ideally should have the content of the first row of our file (except in the previous scenarios).
                 file_headers = table_model.get_header_data()
                 assert len(file_headers) == len(self.resource.schema.fields)
                 for i, file_header in enumerate(file_headers):
-                    if file_header:
-                        self.resource.schema.fields[i].name = file_header
-                    else:
+                    if not file_header:
                         # If the file is missing a header, we set Frictionless' default and mandatory
                         # value for name attribute: field<number>.
                         self.resource.schema.fields[i].name = f"field{i+1}"
+                        continue
+                    if file_headers.count(file_header) > 1:
+                        # If the user explicitly enters a duplicated name, we do not update it so we have a
+                        # valid schema and still detect duplicated headers.
+                        continue
+                    self.resource.schema.fields[i].name = file_header
 
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
