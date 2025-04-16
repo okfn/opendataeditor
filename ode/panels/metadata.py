@@ -876,6 +876,18 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     # field type cannot be updated directly, we need to use set_field_type
                     # it needs to be after the set_field to avoid beeing overridden
                     self.resource.schema.set_field_type(field.name, field_form.types.currentText())
+
+                # Field names should always be the content of the first row of our file (except when it is missing).
+                file_headers = table_model.get_header_data()
+                assert len(file_headers) == len(self.resource.schema.fields)
+                for i, file_header in enumerate(file_headers):
+                    if file_header:
+                        self.resource.schema.fields[i].name = file_header
+                    else:
+                        # If the file is missing a header, we set Frictionless' default and mandatory
+                        # value for name attribute: field<number>.
+                        self.resource.schema.fields[i].name = f"field{i+1}"
+
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
             elif isinstance(form, ContributorsForm):
@@ -885,14 +897,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
                     item = form.contributors_list.item(i)
                     widget = form.contributors_list.itemWidget(item)
                     contributors.append(widget.contributor)
-
-        # In ODE the content of the file is always the source of truth, therefore our field names
-        # should always be the content of the first row of our file. Field name is disable in FieldsForm
-        # to simplify scenarios and data consistency.
-        headers = table_model.get_header_data()
-        assert len(headers) == len(self.resource.schema.fields)
-        for i, header in enumerate(headers):
-            self.resource.schema.fields[i].name = header
 
         self.metadata["resource"] = self.resource.to_descriptor()
         self.metadata["contributors"] = contributors
