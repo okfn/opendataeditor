@@ -34,11 +34,10 @@ security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
 security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
 
-# Asegúrate de que tienes los permisos adecuados
 echo "Setting permissions..."
 chmod -R a+xr "dist/Open Data Editor.app"
 
-# Sign individual binaries before signing the complete app
+# This is a workaround to sign the individual binaries first and then the complete app
 echo "Signing individual binaries..."
 
 # Sign Python and Qt frameworks in all locations
@@ -53,42 +52,6 @@ for location in "Frameworks" "Resources"; do
    echo "Signing ${location}/Python.framework/Python"
    /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python"
  fi
- 
- # Sign all Qt frameworks
- for qtlib in QtCore QtDBus QtGui QtNetwork QtOpenGL QtPdf QtQml QtQmlMeta QtQmlModels QtQmlWorkerScript QtQuick QtSvg QtVirtualKeyboard QtWidgets; do
-   # Sign frameworks in main location
-   if [ -e "dist/Open Data Editor.app/Contents/${location}/${qtlib}" ]; then
-     echo "Signing ${location}/${qtlib}"
-     /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/${qtlib}"
-   fi
-   
-   # Sign frameworks in PySide6/Qt/lib
-   if [ -e "dist/Open Data Editor.app/Contents/${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}" ]; then
-     echo "Signing ${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}"
-     /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/PySide6/Qt/lib/${qtlib}.framework/${qtlib}"
-   fi
- done
-done
-
-# Sign all dynamic libraries (.dylib)
-echo "Signing .dylib files..."
-find "dist/Open Data Editor.app" -name "*.dylib" | while read dylib; do
- echo "Signing $dylib"
- /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$dylib"
-done
-
-# Sign all plugins
-echo "Signing plugins..."
-find "dist/Open Data Editor.app" -path "*/PlugIns/*" -type f | while read plugin; do
- echo "Signing plugin: $plugin"
- /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "$plugin"
-done
-
-# Sign the main executable
-echo "Signing main executable..."
-if [ -e "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor" ]; then
- /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/MacOS/OpenDataEditor"
-fi
 
 # Finally, sign the complete application bundle
 echo "Signing complete application bundle..."
