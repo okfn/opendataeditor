@@ -104,8 +104,10 @@ class PublishDialog(QDialog):
 
         self.github = GithubWidget(filepath=filepath)
         self.ckan = QLabel()
+        self.ckan.setOpenExternalLinks(True)
         self.ckan.setWordWrap(True)
         self.zenodo = QLabel()
+        self.zenodo.setOpenExternalLinks(True)
         self.zenodo.setWordWrap(True)
 
         # Add Tabs to Tab Widget
