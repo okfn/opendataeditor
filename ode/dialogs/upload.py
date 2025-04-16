@@ -179,7 +179,7 @@ class DataUploadDialog(QDialog):
             try:
                 filename = self._read_url_html_title(url)
             except FrictionlessException:
-                error = self.tr("Error: The Google Sheets URL is not valid or the table is not publically available.")
+                error = self.tr("Error: The Google Sheets URL is not valid or the table is not publicly available.")
                 self.error_text.setText(error)
                 return
 
