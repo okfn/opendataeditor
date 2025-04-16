@@ -101,7 +101,7 @@ echo "Proceso de firma completado."
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
-cp -r "dist/Open Data Editor.app" "dist/dmg" 
+cp -R "dist/Open Data Editor.app" "dist/dmg" 
 
 hdiutil detach /Volumes/"Open Data Editor" &>/dev/null || true
 sleep 3
