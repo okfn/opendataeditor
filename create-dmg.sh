@@ -12,11 +12,24 @@
 #  - APPLE_APPLE_ID: This is the ID of your Apple Developer Account (usually your email)
 #  - APPLE_APP_SPECIFIC_PASSWORD: The Application Specific Password created in your Developer Account.
 #
+# How to generate an APPLE_APP_SPECIFIC_PASSWORD
+# 1) Visit the Apple ID website: https://appleid.apple.com/
+# 2) Sign in with your Apple ID credentials
+# 3) Navigate to the "Security" section
+# 4) Look for "App-Specific Passwords"
+# 5) Click "Generate Password..."
+# 6) Enter a descriptive label (e.g., "macOS App Notarization")
+# 7) Apple will generate a 16-character app-specific password
+# 8) Copy this password and use it as the value for the $APPLE_APP_SPECIFIC_PASSWORD environment variable in your notarization workflow
+#
 # Context and materials that inspired this script:
 #  - https://www.pythonguis.com/tutorials/packaging-pyqt6-applications-pyinstaller-macos-dmg/
 #  - https://medium.com/flutter-community/build-sign-and-deliver-flutter-macos-desktop-applications-on-github-actions-5d9b69b0469c
 #  - https://defn.io/2023/09/22/distributing-mac-apps-with-github-actions/
 #  - https://gist.github.com/txoof/0636835d3cc65245c6288b2374799c43
+# 
+# Issues we had with the notarization process:
+# - https://github.com/pyinstaller/pyinstaller/issues/8927
 
 # Build the project
 [ -e build ] && rm -r build
@@ -72,8 +85,15 @@ echo "Signing process completed."
 
 # Create dmg folder and copy our signed executable
 mkdir -p dist/dmg
+
+# We need to use -R to copy the app bundle recursively instead of -r because it doesn't preserver the symlinks otherwise
+# https://github.com/pyinstaller/pyinstaller/issues/8927
+# https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html#requirements-imposed-by-symbolic-links-in-frozen-application
 cp -R "dist/Open Data Editor.app" "dist/dmg" 
 
+# We need to detach the volume if it is already mounted
+# and remove the dmg file if it exists
+echo "Unmounting any existing volume..."
 hdiutil detach /Volumes/"Open Data Editor" &>/dev/null || true
 sleep 3
 rm -f *.dmg
@@ -96,6 +116,8 @@ create-dmg \
   "dist/dmg/"
 
 # Notarize the DMG File
+# If an error occurs, we can check the logs using
+# xcrun notarytool log $REPLACE-WITH-RUNNING-HASH --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD notarization_log.json
 echo "Notarizing the DMG file"
 xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME > notarization_output.txt
 
