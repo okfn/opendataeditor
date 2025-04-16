@@ -47,13 +47,6 @@ security unlock-keychain -p thisisatemporarypass build.keychain
 security import certificate.p12 -k build.keychain -P $CSC_KEY_PASSWORD -T /usr/bin/codesign
 security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatemporarypass build.keychain
 
-echo "Setting permissions..."
-chmod -R a+xr "dist/Open Data Editor.app"
-
-echo "Signing individual binaries..."
-
-
-# Finally, sign the complete application bundle
 echo "Signing complete application bundle..."
 /usr/bin/codesign --force --deep --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app"
 
