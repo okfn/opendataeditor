@@ -50,22 +50,8 @@ security set-key-partition-list -S apple-tool:,apple:,codedign: -s -k thisisatem
 echo "Setting permissions..."
 chmod -R a+xr "dist/Open Data Editor.app"
 
-# This is a workaround to sign the individual binaries first and then the complete app
 echo "Signing individual binaries..."
 
-# Sign Python and Qt frameworks in all locations
-for location in "Frameworks" "Resources"; do
- # Sign Python
- if [ -e "dist/Open Data Editor.app/Contents/${location}/Python" ]; then
-   echo "Signing ${location}/Python"
-   /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python"
- fi
- 
- if [ -e "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python" ]; then
-   echo "Signing ${location}/Python.framework/Python"
-   /usr/bin/codesign --force --options=runtime --entitlements ./packaging/macos/entitlements.mac.plist -s $APPLE_TEAM_ID --timestamp "dist/Open Data Editor.app/Contents/${location}/Python.framework/Python"
- fi
-done
 
 # Finally, sign the complete application bundle
 echo "Signing complete application bundle..."
