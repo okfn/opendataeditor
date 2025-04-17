@@ -1,7 +1,7 @@
 import re
 import shutil
 
-from frictionless.resources import FileResource, TableResource
+from frictionless.resources import FileResource, TableResource, FrictionlessException
 from pathlib import Path
 from PySide6.QtWidgets import (
     QWidget,
@@ -176,7 +176,12 @@ class DataUploadDialog(QDialog):
         table = TableResource(path=url)
         filename = table.name
         if table.format == "gsheets":
-            filename = self._read_url_html_title(url)
+            try:
+                filename = self._read_url_html_title(url)
+            except FrictionlessException:
+                error = self.tr("Error: The Google Sheets URL is not valid or the table is not publicly available.")
+                self.error_text.setText(error)
+                return
 
         self.target_path = Paths.get_unique_destination_filepath(filename + ".csv")
 
