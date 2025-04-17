@@ -110,12 +110,12 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>ContributorItemWidget</name>
     <message>
-        <location filename="../../panels/metadata.py" line="952"/>
+        <location filename="../../panels/metadata.py" line="964"/>
         <source>Details</source>
         <translation>Detalle</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="953"/>
+        <location filename="../../panels/metadata.py" line="965"/>
         <source>Remove</source>
         <translation>Remover</translation>
     </message>
@@ -123,22 +123,22 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>ContributorsForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="1082"/>
+        <location filename="../../panels/metadata.py" line="1094"/>
         <source>Add Contributor</source>
         <translation>Agregar Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1084"/>
+        <location filename="../../panels/metadata.py" line="1096"/>
         <source>Contributor</source>
         <translation>Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1084"/>
+        <location filename="../../panels/metadata.py" line="1096"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1085"/>
+        <location filename="../../panels/metadata.py" line="1097"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -796,6 +796,66 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <location filename="../../panels/metadata.py" line="269"/>
         <source>A regular expression that can be used to test field values. If the regular expression matches then the value is valid.</source>
         <translation>Una expresión regular que puede usarse para probar valores de campo. Si la expresión regular coincide, entonces el valor es válido.</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="349"/>
+        <source>Name:</source>
+        <translation>Nombre:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="350"/>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="351"/>
+        <source>Title:</source>
+        <translation>Título:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="352"/>
+        <source>Description:</source>
+        <translation>Descripción:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="353"/>
+        <source>Missing Values:</source>
+        <translation>Valores Faltantes:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="354"/>
+        <source>RDF Type:</source>
+        <translation>Tipo RDF:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="355"/>
+        <source>Constraints</source>
+        <translation>Restricciones</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="357"/>
+        <source>Required:</source>
+        <translation>Requerido:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="358"/>
+        <source>Min Length:</source>
+        <translation>Longitud Mínima:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="359"/>
+        <source>Max Length:</source>
+        <translation>Longitud Máxima:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="360"/>
+        <source>Enum:</source>
+        <translation>Enum:</translation>
+    </message>
+    <message>
+        <location filename="../../panels/metadata.py" line="361"/>
+        <source>Pattern:</source>
+        <translation>Patrón:</translation>
     </message>
 </context>
 <context>
