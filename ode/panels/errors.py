@@ -2,7 +2,7 @@ import collections
 
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QFont
 
 from ode import utils
 from ode.panels.data import DEFAULT_LIMIT_ERRORS
@@ -77,6 +77,10 @@ class ErrorTitle(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         title = QLabel(title)
+        font = QFont()
+        font.setBold(True)
+        title.setFont(font)
+
         errors = QLabel(str(count), objectName="errors")
 
         layout.addWidget(title)
@@ -143,6 +147,9 @@ class ErrorsWidget(QWidget):
         self.layout = QVBoxLayout()
 
         self.max_errors_label = QLabel()
+        font = QFont()
+        font.setItalic(True)
+        self.max_errors_label.setFont(font)
         self.max_errors_label.setStyleSheet("font-size: 17px")
         self.max_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
