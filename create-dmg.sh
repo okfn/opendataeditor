@@ -68,7 +68,9 @@ cp -R "dist/Open Data Editor.app" "dist/dmg"
 # and remove the dmg file if it exists
 echo "Unmounting any existing volume..."
 hdiutil detach /Volumes/"Open Data Editor" -force &>/dev/null || true
+hdiutil detach /Volumes/OpenDataEditor -force &>/dev/null || true
 sleep 10 
+
 rm -f *.dmg
 
 # Create the dmg file
