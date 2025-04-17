@@ -95,11 +95,11 @@ echo "Notarizing the DMG file"
 xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME > notarization_output.txt
 
 # Staple the file
-# Verificar si la notarización fue exitosa
+# We check if the notarization was successful
 if grep -q "status: Accepted" notarization_output.txt; then
   echo "Notarization successful!"
   
-  # Añadir un tiempo de espera para asegurar que el ticket esté disponible
+  # We wait for 30 seconds to make sure the notarization ticket is available
   echo "Waiting 30 seconds for notarization ticket to be available..."
   sleep 30
   
