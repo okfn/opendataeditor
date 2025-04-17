@@ -64,14 +64,7 @@ mkdir -p dist/dmg
 # https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html#requirements-imposed-by-symbolic-links-in-frozen-application
 cp -R "dist/Open Data Editor.app" "dist/dmg" 
 
-# We need to detach the volume if it is already mounted
-# and remove the dmg file if it exists
-echo "Unmounting any existing volume..."
-hdiutil info
-hdiutil detach /Volumes/"Open Data Editor" -force &>/dev/null || true
-sleep 5
-
-rm -f *.dmg
+killall hdiutil
 
 # Create the dmg file
 VERSION=$(python -c "import ode; print(ode.__version__)")
