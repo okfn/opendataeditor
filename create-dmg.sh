@@ -68,8 +68,7 @@ cp -R "dist/Open Data Editor.app" "dist/dmg"
 # and remove the dmg file if it exists
 echo "Unmounting any existing volume..."
 hdiutil detach /Volumes/"Open Data Editor" -force &>/dev/null || true
-hdiutil detach /Volumes/OpenDataEditor -force &>/dev/null || true
-sleep 10 
+sleep 5
 
 rm -f *.dmg
 
@@ -94,6 +93,7 @@ create-dmg \
 # If an error occurs, we can check the logs using
 # xcrun notarytool log $REPLACE-WITH-RUNNING-HASH --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD notarization_log.json
 echo "Notarizing the DMG file"
+sleep 10
 xcrun notarytool submit --verbose --team-id $APPLE_TEAM_ID --apple-id $APPLE_ID --password $APPLE_APP_SPECIFIC_PASSWORD --wait $FILENAME > notarization_output.txt
 
 # Staple the file
