@@ -40,11 +40,8 @@ All documentation files are contained [in this folder](https://github.com/okfn/o
 If you have started using Open Data Editor in your daily work, and would like to share with the world how the tool is helping you, you can always write a blog about it. If possible, try to include photos and screenshots. If you need guidance, you can always reach out to us at info[at]okfn.org. You can send us your blog at that same email address.
 
 ## Translations
-You can translate the documentation and/or the app in another language. To do so:
 
-To translate the documentation [...]
-
-To translate the application [...]
+The ODE now supports English, Spanish, Portuguese and French. If you are interesting in translating the app and the documentation into other languages, please, contact us via email at info[at]okfn.org
 
 ## Reporting a bug
 We use Github as a code and issues hosting platform. To report a bug or propose a new feature, please open an issue [in the repository](https://github.com/okfn/opendataeditor/issues). Please provide a detailed description of the bug and include screenshots. There are a few predefined issue templates to help you get started.
@@ -52,13 +49,6 @@ We use Github as a code and issues hosting platform. To report a bug or propose 
 If you don’t feel comfortable using Github, you can also send us an email at info[at]okfn.org. 
 
 ## Code contributions 
-
-### Coding standards
-If you wish to contribute to the Open Data Editor codebase, the first thing you should do is check [the development contribution guide](https://opendataeditor.okfn.org/contributing/development/) to make sure you have all the prerequisites in place. 
-
-Follow [the Open Knowledge coding standards](https://github.com/okfn/coding-standards) as much as possible, to make sure your code contribution is consistent, readable, and maintainable.
-
-When making changes to an existing file, please try to follow the same style that file already uses. This helps maintain a consistent look and ensures contributions remain focused on meaningful improvements rather than formatting adjustments.
 
 ### Pull requests
 Please check first [the issue tracker](https://github.com/okfn/opendataeditor/issues). Look for issues with “help wanted” or “good first issue.” **If you want to submit a PR there needs to be a corresponding issue** in the issue tracker. Please link the issue in your PR, and provide a brief explanation of the changes you are pushing. In case there is no issue, please submit an issue first and assign it to the Product Owner Romina Colman (@romicolman) for review and approval before moving on with your PR. You can include any question you may have in the issue.
