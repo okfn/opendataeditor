@@ -893,7 +893,8 @@ class FrictionlessResourceMetadataWidget(QWidget):
                         # If the user explicitly enters a duplicated name, we do not update it so we have a
                         # valid schema and still detect duplicated headers.
                         continue
-                    self.resource.schema.fields[i].name = file_header
+                    new_name = file_header.strip()  # Frictionless strips column names so we keep compatibility.
+                    self.resource.schema.fields[i].name = new_name
 
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
