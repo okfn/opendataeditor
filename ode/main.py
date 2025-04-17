@@ -49,6 +49,7 @@ from ode.panels.data import DataViewer
 from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
+from ode.dialogs.publish import PublishDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 
@@ -500,6 +501,7 @@ class MainWindow(QMainWindow):
         self.sidebar.report_issue.clicked.connect(self.open_report_issue)
         self.sidebar.language.activated.connect(self.on_language_change)
 
+        self.content.toolbar.button_publish.clicked.connect(self.on_publish_click)
         self.content.toolbar.button_save.clicked.connect(self.on_save_click)
         self.content.toolbar.button_ai.clicked.connect(self.on_ai_click)
         self.content.toolbar.button_data.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
@@ -597,6 +599,10 @@ class MainWindow(QMainWindow):
 
         # No file is selected, disable the View menu
         self.menu_view.setEnabled(False)
+
+    def on_publish_click(self):
+        dialog = PublishDialog(self, self.selected_file_path)
+        dialog.show()
 
     def on_ai_click(self):
         self.content.ai_widget.show()
