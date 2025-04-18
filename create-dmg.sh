@@ -100,7 +100,7 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
       echo "Failed to create DMG. Retrying... ($RETRY_COUNT/$MAX_RETRIES)"
       hdiutil detach "/Volumes/Open Data Editor" -force &>/dev/null || true
       killall Finder &>/dev/null || true
-      sleep 10
+      sleep 20
   fi
 done
 
