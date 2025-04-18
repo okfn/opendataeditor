@@ -75,18 +75,44 @@ rm -f *.dmg
 VERSION=$(python -c "import ode; print(ode.__version__)")
 FILENAME=opendataeditor-macos-$VERSION.dmg
 [ -e $FILENAME ] && rm $FILENAME
-echo "Creating the DMG file"
-create-dmg \
-  --volname "Open Data Editor" \
-  --volicon "./packaging/macos/icon.icns" \
-  --window-pos 200 120 \
-  --window-size 800 400 \
-  --icon-size 100 \
-  --icon "Open Data Editor.app" 200 190 \
-  --hide-extension "Open Data Editor.app" \
-  --app-drop-link 600 185 \
-  $FILENAME \
-  "dist/dmg/"
+
+MAX_RETRIES=3
+RETRY_COUNT=0
+
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+  echo "Creating the DMG file"
+  if create-dmg \
+    --volname "Open Data Editor" \
+    --volicon "./packaging/macos/icon.icns" \
+    --window-pos 200 120 \
+    --window-size 800 400 \
+    --icon-size 100 \
+    --icon "Open Data Editor.app" 200 190 \
+    --hide-extension "Open Data Editor.app" \
+    --app-drop-link 600 185 \
+    $FILENAME \
+    "dist/dmg/";then
+
+    echo "DMG created: $FILENAME"
+    break
+  else
+      RETRY_COUNT=$((RETRY_COUNT + 1))
+      echo "Failed to create DMG. Retrying... ($RETRY_COUNT/$MAX_RETRIES)"
+      hdiutil detach "/Volumes/Open Data Editor" -force &>/dev/null || true
+      killall Finder &>/dev/null || true
+      sleep 20
+  fi
+done
+
+if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+    echo "Failed to create DMG after $MAX_RETRIES attempts. Exiting."
+    exit 1
+fi
+
+if [ ! -f "$FILENAME" ]; then
+    echo "DMG file not found. Exiting."
+    exit 1
+fi
 
 # Notarize the DMG File
 # If an error occurs, we can check the logs using
