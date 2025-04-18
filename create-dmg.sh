@@ -91,10 +91,10 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     --hide-extension "Open Data Editor.app" \
     --app-drop-link 600 185 \
     $FILENAME \
-    "dist/dmg/"
+    "dist/dmg/";then
 
-      echo "DMG created: $FILENAME"
-      break
+    echo "DMG created: $FILENAME"
+    break
   else
       RETRY_COUNT=$((RETRY_COUNT + 1))
       echo "Failed to create DMG. Retrying... ($RETRY_COUNT/$MAX_RETRIES)"
