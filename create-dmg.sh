@@ -79,8 +79,8 @@ FILENAME=opendataeditor-macos-$VERSION.dmg
 MAX_RETRIES=3
 RETRY_COUNT=0
 
-echo "Creating the DMG file"
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+  echo "Creating the DMG file"
   if create-dmg \
     --volname "Open Data Editor" \
     --volicon "./packaging/macos/icon.icns" \
