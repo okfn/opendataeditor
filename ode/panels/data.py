@@ -258,4 +258,4 @@ class DataViewer(QWidget):
 
     def retranslateUI(self):
         """Apply translations to class elements."""
-        self.label.setText(self.tr("No file selected or Preview not available for this file."))
+        self.label.setText(self.tr("Preview not available for this item."))

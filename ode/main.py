@@ -371,7 +371,7 @@ class Toolbar(QWidget):
     def retranslateUI(self):
         """Apply translations to class elements."""
         self.button_data.setText(self.tr("Data"))
-        self.button_metadata.setText(self.tr("Metadata"))
+        self.button_metadata.setText(self.tr("Advanced"))
         self.button_errors.setText(self.tr("Errors Report"))
         self.button_source.setText(self.tr("Source"))
         self.button_publish.setText(self.tr("Publish"))
