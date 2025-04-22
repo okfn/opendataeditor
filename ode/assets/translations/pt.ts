@@ -215,8 +215,8 @@
     <name>DataViewer</name>
     <message>
         <location filename="../../panels/data.py" line="261"/>
-        <source>No file selected or Preview not available for this file.</source>
-        <translation>Nenhum arquivo selecionado ou pré-visualização não disponível para este arquivo.</translation>
+        <source>Preview not available for this item.</source>
+        <translation>Visualização não disponível para este item.</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="205"/>
+        <location filename="../../panels/errors.py" line="212"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, note que a ODE atualmente detecta erros nas tabelas, com um máximo de </translation>
     </message>

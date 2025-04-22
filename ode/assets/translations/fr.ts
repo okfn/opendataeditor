@@ -12,12 +12,12 @@
     <message>
         <location filename="../../panels/ai.py" line="61"/>
         <source>A data file must be selected in order to use the AI tool.</source>
-        <translation>Un fichier de données doit être sélectionné pour utiliser l'outil d'IA.</translation>
+        <translation>Un fichier de données doit être sélectionné pour utiliser l&apos;outil d&apos;IA.</translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="66"/>
         <source>API Key and Prompt are required!</source>
-        <translation>La clé API et l'invite sont requises!</translation>
+        <translation>La clé API et l&apos;invite sont requises!</translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="80"/>
@@ -42,7 +42,7 @@
     <message>
         <location filename="../../panels/ai.py" line="89"/>
         <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation>Cliquez &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;ici&lt;/a&gt; pour apprendre comment trouver votre clé.&lt;br&gt;Vous pouvez également consulter les conditions et politiques d'OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;ici&lt;/a&gt;.</translation>
+        <translation>Cliquez &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;ici&lt;/a&gt; pour apprendre comment trouver votre clé.&lt;br&gt;Vous pouvez également consulter les conditions et politiques d&apos;OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;ici&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="97"/>
@@ -52,7 +52,7 @@
     <message>
         <location filename="../../panels/ai.py" line="90"/>
         <source>Please enter your prompt to the AI assistant: </source>
-        <translation>Veuillez saisir votre invite pour l'assistant IA: </translation>
+        <translation>Veuillez saisir votre invite pour l&apos;assistant IA: </translation>
     </message>
     <message>
         <location filename="../../panels/ai.py" line="91"/>
@@ -104,12 +104,12 @@
 <context>
     <name>ContributorItemWidget</name>
     <message>
-        <location filename="../../panels/metadata.py" line="952"/>
+        <location filename="../../panels/metadata.py" line="964"/>
         <source>Details</source>
         <translation>Détails</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="953"/>
+        <location filename="../../panels/metadata.py" line="965"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
@@ -117,22 +117,22 @@
 <context>
     <name>ContributorsForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="1082"/>
+        <location filename="../../panels/metadata.py" line="1094"/>
         <source>Add Contributor</source>
         <translation>Ajouter un contributeur</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1084"/>
+        <location filename="../../panels/metadata.py" line="1096"/>
         <source>Contributor</source>
         <translation>Contributeur</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1084"/>
+        <location filename="../../panels/metadata.py" line="1096"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1085"/>
+        <location filename="../../panels/metadata.py" line="1097"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -152,12 +152,12 @@
     <message>
         <location filename="../../dialogs/upload.py" line="183"/>
         <source>Error: The Google Sheets URL is not valid or the table is not publicly available.</source>
-        <translation>Erreur: L'URL Google Sheets n'est pas valide ou le tableau n'est pas accessible publiquement.</translation>
+        <translation>Erreur: L&apos;URL Google Sheets n&apos;est pas valide ou le tableau n&apos;est pas accessible publiquement.</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="194"/>
         <source>Error: The URL is not associated with a table</source>
-        <translation>Erreur: L'URL n'est pas associée à un tableau</translation>
+        <translation>Erreur: L&apos;URL n&apos;est pas associée à un tableau</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="223"/>
@@ -188,7 +188,7 @@
     <message>
         <location filename="../../dialogs/upload.py" line="229"/>
         <source>Enter or paste URL</source>
-        <translation>Entrez ou collez l'URL</translation>
+        <translation>Entrez ou collez l&apos;URL</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="234"/>
@@ -215,8 +215,8 @@
     <name>DataViewer</name>
     <message>
         <location filename="../../panels/data.py" line="261"/>
-        <source>No file selected or Preview not available for this file.</source>
-        <translation>Aucun fichier sélectionné ou prévisualisation non disponible pour ce fichier.</translation>
+        <source>Preview not available for this item.</source>
+        <translation>Aperçu non disponible pour cet article.</translation>
     </message>
 </context>
 <context>
@@ -263,7 +263,7 @@
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="205"/>
+        <location filename="../../panels/errors.py" line="212"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Veuillez noter que l&apos;ODE détecte actuellement des erreurs dans les tableaux, avec un maximum de </translation>
     </message>
@@ -316,7 +316,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="494"/>
         <source>Integrity Hash</source>
-        <translation>Hachage d'intégrité</translation>
+        <translation>Hachage d&apos;intégrité</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="494"/>
@@ -326,7 +326,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="495"/>
         <source>Integrity Fields</source>
-        <translation>Champs d'intégrité</translation>
+        <translation>Champs d&apos;intégrité</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="495"/>
@@ -336,7 +336,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="496"/>
         <source>Integrity Bytes</source>
-        <translation>Octets d'intégrité</translation>
+        <translation>Octets d&apos;intégrité</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="496"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="497"/>
         <source>Integrity Rows</source>
-        <translation>Lignes d'intégrité</translation>
+        <translation>Lignes d&apos;intégrité</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="497"/>
@@ -394,7 +394,7 @@
     <message>
         <location filename="../../main.py" line="634"/>
         <source>Errors panel</source>
-        <translation>Panneau d'erreurs</translation>
+        <translation>Panneau d&apos;erreurs</translation>
     </message>
     <message>
         <location filename="../../main.py" line="635"/>
@@ -409,7 +409,7 @@
     <message>
         <location filename="../../main.py" line="639"/>
         <source>User Guide</source>
-        <translation>Guide d'utilisateur</translation>
+        <translation>Guide d&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../../main.py" line="640"/>
@@ -438,6 +438,19 @@
     </message>
 </context>
 <context>
+    <name>PublishDialog</name>
+    <message>
+        <location filename="../../dialogs/publish.py" line="132"/>
+        <source>Publish dataset</source>
+        <translation>Publier l&apos;ensemble de données</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/publish.py" line="134"/>
+        <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
+        <translation>Cette fonctionnalité de publication sera bientôt disponible...&lt;br&gt;Cela vous intéresse? Contactez-nous à &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
+    </message>
+</context>
+<context>
     <name>RenameDialog</name>
     <message>
         <location filename="../../dialogs/rename.py" line="50"/>
@@ -447,7 +460,7 @@
     <message>
         <location filename="../../dialogs/rename.py" line="51"/>
         <source>Rename item to:</source>
-        <translation>Renommer l'élément en:</translation>
+        <translation>Renommer l&apos;élément en:</translation>
     </message>
     <message>
         <location filename="../../dialogs/rename.py" line="52"/>
@@ -500,7 +513,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="566"/>
         <source>Specifies the standard file extension for this resource e.g. &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</source>
-        <translation>Spécifie l'extension de fichier standard pour cette ressource, par exemple &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos;, etc.</translation>
+        <translation>Spécifie l&apos;extension de fichier standard pour cette ressource, par exemple &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos;, etc.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="569"/>
@@ -530,7 +543,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="582"/>
         <source>A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation>Une description de cette ressource. La description DOIT être formatée en markdown – cela permet également d'utiliser du texte brut simple car le texte brut est en soi un markdown valide.</translation>
+        <translation>Une description de cette ressource. La description DOIT être formatée en markdown – cela permet également d&apos;utiliser du texte brut simple car le texte brut est en soi un markdown valide.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="585"/>
@@ -540,7 +553,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="588"/>
         <source>Specifies the character encoding of this resource e.g. &apos;UTF-8&apos;. The values should be one of the &apos;Preferred MIME Names&apos; for a character encoding registered with IANA.</source>
-        <translation>Spécifie l'encodage des caractères de cette ressource, par exemple &apos;UTF-8&apos;. Les valeurs doivent être l'un des &apos;Noms MIME préférés&apos; pour un encodage de caractères enregistré auprès de l'IANA.</translation>
+        <translation>Spécifie l&apos;encodage des caractères de cette ressource, par exemple &apos;UTF-8&apos;. Les valeurs doivent être l&apos;un des &apos;Noms MIME préférés&apos; pour un encodage de caractères enregistré auprès de l&apos;IANA.</translation>
     </message>
 </context>
 <context>
@@ -573,7 +586,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="438"/>
         <source>A human-readable title.</source>
-        <translation>Un titre lisible par l'homme.</translation>
+        <translation>Un titre lisible par l&apos;homme.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="440"/>
@@ -583,7 +596,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="443"/>
         <source>Many datasets arrive with missing data values, either because a value was not collected or it never existed.</source>
-        <translation>De nombreux ensembles de données arrivent avec des valeurs de données manquantes, soit parce qu'une valeur n'a pas été collectée, soit parce qu'elle n'a jamais existé.</translation>
+        <translation>De nombreux ensembles de données arrivent avec des valeurs de données manquantes, soit parce qu&apos;une valeur n&apos;a pas été collectée, soit parce qu&apos;elle n&apos;a jamais existé.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="446"/>
@@ -593,20 +606,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="449"/>
         <source>A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation>Une description du schéma. La description DOIT être formatée en markdown – cela permet également d'utiliser du texte brut simple car le texte brut est en soi un markdown valide.</translation>
-    </message>
-</context>
-<context>
-    <name>PublishDialog</name>
-    <message>
-        <location filename="../../dialogs/publish.py" line="132"/>
-        <source>Publish dataset</source>
-        <translation>Publier l'ensemble de données</translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/publish.py" line="134"/>
-        <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
-        <translation>Cette fonctionnalité de publication sera bientôt disponible...&lt;br&gt;Cela vous intéresse? Contactez-nous à &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
+        <translation>Une description du schéma. La description DOIT être formatée en markdown – cela permet également d&apos;utiliser du texte brut simple car le texte brut est en soi un markdown valide.</translation>
     </message>
 </context>
 <context>
@@ -619,7 +619,7 @@
     <message>
         <location filename="../../main.py" line="151"/>
         <source>User guide</source>
-        <translation>Guide d'utilisateur</translation>
+        <translation>Guide d&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../../main.py" line="152"/>
@@ -634,7 +634,7 @@
     <message>
         <location filename="../../main.py" line="154"/>
         <source>Open File in Location</source>
-        <translation>Ouvrir le fichier dans l'emplacement</translation>
+        <translation>Ouvrir le fichier dans l&apos;emplacement</translation>
     </message>
     <message>
         <location filename="../../main.py" line="155"/>
@@ -701,7 +701,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="240"/>
         <source>A human-readable title.</source>
-        <translation>Un titre lisible par l'homme.</translation>
+        <translation>Un titre lisible par l&apos;homme.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="241"/>
@@ -751,7 +751,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="255"/>
         <source>Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.</source>
-        <translation>Chaque cellule dans ce champ doit correspondre exactement à l'une des valeurs spécifiées. Veuillez fournir une liste de valeurs séparées par des virgules.</translation>
+        <translation>Chaque cellule dans ce champ doit correspondre exactement à l&apos;une des valeurs spécifiées. Veuillez fournir une liste de valeurs séparées par des virgules.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="258"/>
@@ -761,7 +761,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="259"/>
         <source>An integer that specifies the maximum length of a value.</source>
-        <translation>Un entier qui spécifie la longueur maximale d'une valeur.</translation>
+        <translation>Un entier qui spécifie la longueur maximale d&apos;une valeur.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="262"/>
@@ -771,7 +771,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="263"/>
         <source>An integer that specifies the minimum length of a value.</source>
-        <translation>Un entier qui spécifie la longueur minimale d'une valeur.</translation>
+        <translation>Un entier qui spécifie la longueur minimale d&apos;une valeur.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="266"/>
@@ -781,7 +781,7 @@
     <message>
         <location filename="../../panels/metadata.py" line="269"/>
         <source>A regular expression that can be used to test field values. If the regular expression matches then the value is valid.</source>
-        <translation>Une expression régulière qui peut être utilisée pour tester les valeurs des champs. Si l'expression régulière correspond, alors la valeur est valide.</translation>
+        <translation>Une expression régulière qui peut être utilisée pour tester les valeurs des champs. Si l&apos;expression régulière correspond, alors la valeur est valide.</translation>
     </message>
     <message>
         <location filename="../../panels/metadata.py" line="349"/>
@@ -867,7 +867,7 @@
     <message>
         <location filename="../../main.py" line="375"/>
         <source>Errors Report</source>
-        <translation>Rapport d'erreurs</translation>
+        <translation>Rapport d&apos;erreurs</translation>
     </message>
     <message>
         <location filename="../../main.py" line="376"/>
@@ -895,7 +895,7 @@
     <message>
         <location filename="../../main.py" line="446"/>
         <source>The ODE supports Excel &amp; csv files</source>
-        <translation>L'ODE prend en charge les fichiers Excel et csv</translation>
+        <translation>L&apos;ODE prend en charge les fichiers Excel et csv</translation>
     </message>
     <message>
         <location filename="../../main.py" line="447"/>
