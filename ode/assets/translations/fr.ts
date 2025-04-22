@@ -355,6 +355,19 @@
     </message>
 </context>
 <context>
+    <name>LoadingDialog</name>
+    <message>
+        <location filename="../../dialogs/loading.py" line="30"/>
+        <source>Loading</source>
+        <translation>Chargement...</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/loading.py" line="31"/>
+        <source>Loading...</source>
+        <translation>Chargement...</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../main.py" line="525"/>
@@ -432,9 +445,21 @@
         <translation>Modifications du fichier et des métadonnées enregistrées.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="783"/>
         <source>Loading...</source>
-        <translation>Chargement...</translation>
+        <translation type="vanished">Chargement...</translation>
+    </message>
+</context>
+<context>
+    <name>PublishDialog</name>
+    <message>
+        <location filename="../../dialogs/publish.py" line="132"/>
+        <source>Publish dataset</source>
+        <translation>Publier l&apos;ensemble de données</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/publish.py" line="134"/>
+        <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
+        <translation>Cette fonctionnalité de publication sera bientôt disponible...&lt;br&gt;Cela vous intéresse? Contactez-nous à &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

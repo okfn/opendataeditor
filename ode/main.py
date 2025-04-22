@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (
     QComboBox,
     QMenu,
     QMessageBox,
-    QProgressDialog,
 )
 
 from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
@@ -39,6 +38,7 @@ from PySide6.QtWidgets import QFileSystemModel
 
 from ode import paths
 from ode.dialogs.delete import DeleteDialog
+from ode.dialogs.loading import LoadingDialog
 from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
@@ -724,7 +724,6 @@ class MainWindow(QMainWindow):
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
-        self.progress_dialog.close()
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)
@@ -774,17 +773,18 @@ class MainWindow(QMainWindow):
         """
         info = QFileInfo(self.selected_file_path)
         if info.isFile() and info.suffix() in ["csv", "xls", "xlsx"]:
+            self.loading_dialog = LoadingDialog(self)
+
             worker = DataWorker(self.selected_file_path)
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
             worker.signals.messages.connect(self.statusBar().showMessage)
+            worker.signals.finished.connect(self.loading_dialog.close)
+            worker.signals.finished.connect(self.loading_dialog.cancel_loading_timer)
 
-            self.progress_dialog = QProgressDialog(self.tr("Loading..."), None, 0, 0, self)
-            self.progress_dialog.setWindowModality(Qt.WindowModal)
-            self.progress_dialog.setValue(0)  # Start counting and,
-            self.progress_dialog.setMinimumDuration(300)  # show only if task takes more than 300ms
             self.threadpool.start(worker)
+            self.loading_dialog.show()
         else:
             self.clear_views()
             # Always focus back to the data view.

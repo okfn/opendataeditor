@@ -361,6 +361,19 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
     </message>
 </context>
 <context>
+    <name>LoadingDialog</name>
+    <message>
+        <location filename="../../dialogs/loading.py" line="30"/>
+        <source>Loading</source>
+        <translation>Cargando</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/loading.py" line="31"/>
+        <source>Loading...</source>
+        <translation>Cargando...</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../main.py" line="525"/>
@@ -438,9 +451,8 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="783"/>
         <source>Loading...</source>
-        <translation>Cargando...</translation>
+        <translation type="vanished">Cargando...</translation>
     </message>
 </context>
 <context>
