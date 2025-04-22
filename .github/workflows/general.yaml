@@ -57,6 +57,7 @@ jobs:
         run: |
             pytest
   macos-packaging:
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: macos-13
     steps:
@@ -89,6 +90,7 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: ubuntu-22.04
     steps:
@@ -125,6 +127,7 @@ jobs:
             dist/*.deb
           retention-days: 14
   windows-packaging:
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: windows-latest
     steps:
