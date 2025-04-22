@@ -861,8 +861,8 @@
     </message>
     <message>
         <location filename="../../main.py" line="374"/>
-        <source>Metadata</source>
-        <translation>Metadados</translation>
+        <source>Advanced</source>
+        <translation>Avançado</translation>
     </message>
     <message>
         <location filename="../../main.py" line="375"/>

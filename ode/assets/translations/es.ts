@@ -875,8 +875,8 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
     </message>
     <message>
         <location filename="../../main.py" line="374"/>
-        <source>Metadata</source>
-        <translation>Metadatos</translation>
+        <source>Advanced</source>
+        <translation>Avanzado</translation>
     </message>
     <message>
         <location filename="../../main.py" line="375"/>
