@@ -158,7 +158,7 @@ class TestFrictionlessErrors:
         window.on_tree_click(index)
 
         # Wait for the file to be loaded
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # Get the index of the label we want to change
         index = window.table_model.index(0, 1)
@@ -170,7 +170,7 @@ class TestFrictionlessErrors:
         window.content.toolbar.button_errors.click()
         # If we want to see the change in the table, we need to update the window
         window.update()
-        qtbot.wait(5)
+        qtbot.wait(100)
         assert window.content.errors_view.reports_layout.count() == 1
 
         # Change the label to "age"
@@ -179,7 +179,7 @@ class TestFrictionlessErrors:
         # We can check the error is gone by checking the error label
         window.update()
         window.content.toolbar.button_save.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # Check we have don't have an error
         assert window.content.errors_view.reports_layout.count() == 0

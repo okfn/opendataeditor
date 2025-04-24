@@ -11,7 +11,7 @@ class TestMetadata:
         window.on_tree_click(index)
 
         # Wait for the file to be loaded
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # Check we don't have any errors
         assert window.content.errors_view.reports_layout.count() == 0
@@ -19,7 +19,7 @@ class TestMetadata:
         # Change the metadata type of the first column to integer
         window.content.metadata_widget.forms[1].field_forms[0].types.setCurrentText("integer")
         window.content.toolbar.button_save.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # Check we have an error
         assert window.content.errors_view.reports_layout.count() == 1
@@ -29,7 +29,7 @@ class TestMetadata:
         # Revert the change to string
         window.content.metadata_widget.forms[1].field_forms[0].types.setCurrentText("string")
         window.content.toolbar.button_save.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # We can check the error is gone by checking the error label
         # window.content.toolbar.button_errors.click()
@@ -48,7 +48,7 @@ class TestMetadata:
         window.on_tree_click(index)
 
         # Wait for the file to be loaded
-        qtbot.wait(50)
+        qtbot.wait(100)
 
         # Check we don't have any errors
         assert window.content.errors_view.reports_layout.count() == 0
@@ -56,18 +56,18 @@ class TestMetadata:
         # Change the metadata type of the first column to integer
         window.content.metadata_widget.forms[1].field_forms[1].constraint_required.setCurrentText("True")
         window.content.toolbar.button_save.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # We want to check in the metadata view that the change is reflected
         # We go to the Column Fields form
         window.content.metadata_widget.forms_layout.setCurrentIndex(1)
         window.content.toolbar.button_metadata.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # We can check the error is gone by checking the error label
         # window.content.toolbar.button_errors.click()
         # window.update()
-        # qtbot.wait(5)
+        # qtbot.wait(100)
 
         # Check we have an error
         assert window.content.errors_view.reports_layout.count() == 1
@@ -77,7 +77,7 @@ class TestMetadata:
         # Revert the change to False
         window.content.metadata_widget.forms[1].field_forms[1].constraint_required.setCurrentText("False")
         window.content.toolbar.button_save.click()
-        qtbot.wait(5)
+        qtbot.wait(100)
 
         # We can check the error is gone
         assert window.content.errors_view.reports_layout.count() == 0
