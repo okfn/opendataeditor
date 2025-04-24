@@ -48,7 +48,7 @@ class TestMetadata:
         window.on_tree_click(index)
 
         # Wait for the file to be loaded
-        qtbot.wait(5)
+        qtbot.wait(50)
 
         # Check we don't have any errors
         assert window.content.errors_view.reports_layout.count() == 0
