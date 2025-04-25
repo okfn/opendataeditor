@@ -463,19 +463,6 @@
     </message>
 </context>
 <context>
-    <name>PublishDialog</name>
-    <message>
-        <location filename="../../dialogs/publish.py" line="132"/>
-        <source>Publish dataset</source>
-        <translation>Publier l&apos;ensemble de données</translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/publish.py" line="134"/>
-        <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
-        <translation>Cette fonctionnalité de publication sera bientôt disponible...&lt;br&gt;Cela vous intéresse? Contactez-nous à &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
-    </message>
-</context>
-<context>
     <name>RenameDialog</name>
     <message>
         <location filename="../../dialogs/rename.py" line="50"/>
