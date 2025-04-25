@@ -444,10 +444,6 @@
         <source>File and Metadata changes saved.</source>
         <translation>Alterações no arquivo e metadados salvas.</translation>
     </message>
-    <message>
-        <source>Loading...</source>
-        <translation type="vanished">Carregando...</translation>
-    </message>
 </context>
 <context>
     <name>PublishDialog</name>

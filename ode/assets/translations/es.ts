@@ -450,10 +450,6 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <source>File and Metadata changes saved.</source>
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
-    <message>
-        <source>Loading...</source>
-        <translation type="vanished">Cargando...</translation>
-    </message>
 </context>
 <context>
     <name>PublishDialog</name>
