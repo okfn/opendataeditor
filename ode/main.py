@@ -779,9 +779,11 @@ class MainWindow(QMainWindow):
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
-            worker.signals.messages.connect(self.statusBar().showMessage)
             worker.signals.finished.connect(self.loading_dialog.close)
             worker.signals.finished.connect(self.loading_dialog.cancel_loading_timer)
+
+            worker.signals.messages.connect(self.statusBar().showMessage)
+            worker.signals.messages.connect(self.loading_dialog.show_message)
 
             self.threadpool.start(worker)
             self.loading_dialog.show()

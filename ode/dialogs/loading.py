@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog, QProgressBar, QVBoxLayout, QLabel
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Slot
 
 
 class LoadingDialog(QDialog):
@@ -36,3 +36,7 @@ class LoadingDialog(QDialog):
 
     def show(self):
         self.timer.start(300)
+
+    @Slot(str)
+    def show_message(self, message):
+        self.label.setText(message)
