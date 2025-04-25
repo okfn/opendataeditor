@@ -355,6 +355,19 @@
     </message>
 </context>
 <context>
+    <name>LoadingDialog</name>
+    <message>
+        <location filename="../../dialogs/loading.py" line="30"/>
+        <source>Loading</source>
+        <translation>Chargement...</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/loading.py" line="31"/>
+        <source>Loading...</source>
+        <translation>Chargement...</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../main.py" line="525"/>
@@ -430,11 +443,6 @@
         <location filename="../../main.py" line="712"/>
         <source>File and Metadata changes saved.</source>
         <translation>Modifications du fichier et des métadonnées enregistrées.</translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="783"/>
-        <source>Loading...</source>
-        <translation>Chargement...</translation>
     </message>
 </context>
 <context>
