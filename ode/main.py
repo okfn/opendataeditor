@@ -74,7 +74,7 @@ class CustomTreeView(QTreeView):
     def viewportEvent(self, event):
         """
         Show a tooltip with the filename when hovering over a file in the file navigator.
-        This method is called when the user hovers over a file in the file navigator."""
+        """
         if event.type() == QEvent.ToolTip:
             index = self.indexAt(event.pos())
             if index.isValid():
