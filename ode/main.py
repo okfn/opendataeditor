@@ -82,7 +82,7 @@ class CustomTreeView(QTreeView):
                 file_path = self.model().filePath(index)
                 filename = Path(file_path).name
 
-                # We cannot change the QToolTip through the
+                # We cannot change the QToolTip styles through the style.qss file
                 font = QFont()
                 font.setPointSize(14)
                 QToolTip.setFont(font)
