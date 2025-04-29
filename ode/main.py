@@ -94,9 +94,10 @@ class CustomTreeView(QTreeView):
                 QToolTip.setPalette(palette)
 
                 QToolTip.showText(global_pos, filename)
-                return True
 
-        return super().viewportEvent(event)
+                return True
+        else:
+            return super().viewportEvent(event)
 
 
 class ClickableLabel(QLabel):
