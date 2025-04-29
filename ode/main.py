@@ -95,6 +95,7 @@ class CustomTreeView(QTreeView):
 
                 QToolTip.showText(global_pos, filename)
 
+                # We return True to indicate that we handled the event and stop the propagation
                 return True
         else:
             return super().viewportEvent(event)
