@@ -17,9 +17,10 @@ from PySide6.QtWidgets import (
     QComboBox,
     QMenu,
     QMessageBox,
+    QToolTip,
 )
 
-from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction
+from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor
 from PySide6.QtCore import (
     Qt,
     QSize,
@@ -31,6 +32,7 @@ from PySide6.QtCore import (
     Slot,
     Signal,
     QItemSelectionModel,
+    QEvent,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
@@ -68,6 +70,35 @@ class CustomTreeView(QTreeView):
         if not index.isValid():
             self.empty_area_click.emit()
         super().mousePressEvent(event)
+
+    def viewportEvent(self, event):
+        """
+        Show a tooltip with the filename when hovering over a file in the file navigator.
+        """
+        if event.type() == QEvent.ToolTip:
+            index = self.indexAt(event.pos())
+            if index.isValid():
+                global_pos = event.globalPos()
+                file_path = self.model().filePath(index)
+                filename = Path(file_path).name
+
+                # We cannot change the QToolTip styles through the style.qss file
+                font = QFont()
+                font.setPointSize(14)
+                QToolTip.setFont(font)
+
+                palette = QToolTip.palette()
+                palette.setColor(QPalette.ToolTipBase, QColor("#D6D6D6"))
+                palette.setColor(QPalette.ToolTipText, QColor("#333333"))
+
+                QToolTip.setPalette(palette)
+
+                QToolTip.showText(global_pos, filename)
+
+                # We return True to indicate that we handled the event and stop the propagation
+                return True
+        else:
+            return super().viewportEvent(event)
 
 
 class ClickableLabel(QLabel):
