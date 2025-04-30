@@ -157,3 +157,37 @@ jobs:
           path: |
             .\packaging\windows\*.exe
           retention-days: 14
+  linux-app-image:
+    # if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
+    needs: tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
+      - name: Install Qt Dependencies
+        run: |
+          # https://forum.qt.io/post/769050
+          # Fix PyInstaller warnings of Qt Dependencies missing
+          sudo apt-get update
+          sudo apt-get install synaptic
+          sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install pyinstaller==6.11.1
+      - name: Build the deb package
+        run: |
+          VERSION=$(python -c "import ode; print(ode.__version__)")
+          python build.py --onefile --name "opendataeditor-$VERSION.AppImage"
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-files-app-image
+          path: |
+            dist/*.AppImage
+          retention-days: 14
+
