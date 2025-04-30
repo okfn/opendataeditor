@@ -738,11 +738,11 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 "Schema",
                 "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.",
             )
-        elif form == "Column names":
+        elif form == "Columns":
             self.forms_layout.setCurrentIndex(1)
             self.set_help_text(
-                "Column names",
-                "Column Names is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.",
+                "Columns",
+                "Columns is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.",
             )
         if form == "Resource":
             self.forms_layout.setCurrentIndex(2)
