@@ -35,7 +35,7 @@ from ode.paths import Paths
 from ode import utils
 
 _RESOURCE_METADATA = {
-    "Schema": ["Column names"],
+    "Schema": ["Columns"],
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
     "Dialect": ["Csv"],
 }
