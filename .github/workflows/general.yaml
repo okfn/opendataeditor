@@ -158,7 +158,7 @@ jobs:
             .\packaging\windows\*.exe
           retention-days: 14
   linux-app-image:
-    # if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: ubuntu-22.04
     steps:
