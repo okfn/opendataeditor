@@ -1,7 +1,7 @@
 import PyInstaller.__main__
 import os
 import platform
-
+import sys
 
 def build_application():
     """Build an executable file for the Application."""
@@ -36,6 +36,10 @@ def build_application():
 
     if system == "Darwin":
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
+
+    cli_args =  sys.argv[1:]
+    if cli_args:
+        params.extend(cli_args)
 
     PyInstaller.__main__.run(params)
 
