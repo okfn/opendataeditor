@@ -53,6 +53,8 @@ class DataWorker(QRunnable):
             self.signals.messages.emit(QApplication.translate("DataWorker", "Validating file..."))
             report = self.resource.validate(limit_errors=DEFAULT_LIMIT_ERRORS)
 
+        self.signals.messages.emit(QApplication.translate("DataWorker", "Drawing table..."))
+
         errors = []
         if not report.valid:
             try:
