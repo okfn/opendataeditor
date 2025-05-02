@@ -214,7 +214,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="261"/>
+        <location filename="../../panels/data.py" line="263"/>
         <source>Preview not available for this item.</source>
         <translation>Visualização não disponível para este item.</translation>
     </message>
@@ -232,7 +232,12 @@
         <translation>Validando arquivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="64"/>
+        <location filename="../../panels/data.py" line="56"/>
+        <source>Drawing table...</source>
+        <translation>Renderizando a tabela...</translation>
+    </message>
+    <message>
+        <location filename="../../panels/data.py" line="66"/>
         <source>Read and Validation finished.</source>
         <translation>Leitura e validação concluídas.</translation>
     </message>

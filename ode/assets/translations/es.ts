@@ -220,7 +220,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="261"/>
+        <location filename="../../panels/data.py" line="263"/>
         <source>Preview not available for this item.</source>
         <translation>Vista previa no disponible para este ítem.</translation>
     </message>
@@ -238,7 +238,12 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation>Validando el archivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="64"/>
+        <location filename="../../panels/data.py" line="56"/>
+        <source>Drawing table...</source>
+        <translation>Renderizando la tabla...</translation>
+    </message>
+    <message>
+        <location filename="../../panels/data.py" line="66"/>
         <source>Read and Validation finished.</source>
         <translation>Lectura y Validación finalizadas.</translation>
     </message>
