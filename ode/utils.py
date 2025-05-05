@@ -91,11 +91,11 @@ def set_common_style(widget):
     widget.setStyleSheet("font-size: 17px;")
 
 
-def show_error_dialog(message=None, title="Error", parent=None, log_error=True):
+def show_error_dialog(message=None, title="Error"):
     if message is None:
         message = "An unexpected error occurred in the application."
 
-    error_box = QMessageBox(parent)
+    error_box = QMessageBox()
     error_box.setIcon(QMessageBox.Critical)
     error_box.setWindowTitle(title)
     error_box.setText("An error has occurred")
