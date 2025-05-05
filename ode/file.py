@@ -7,7 +7,6 @@ from frictionless.resources import TableResource
 from pathlib import Path
 
 from ode import paths
-from ode import utils
 
 logger = logging.getLogger(__name__)
 
