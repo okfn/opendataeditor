@@ -54,6 +54,14 @@ from ode.dialogs.rename import RenameDialog
 from ode.dialogs.publish import PublishDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
+from ode.log_setup import configure_logging
+import logging
+
+configure_logging()
+
+logger = logging.getLogger(__name__)
+logger.info("Starting Open Data Editor")
+
 
 class CustomTreeView(QTreeView):
     """An extended QTreeView to handle custom features for ODE.
