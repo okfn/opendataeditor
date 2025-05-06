@@ -24,6 +24,7 @@ class File:
           "custom_ode_metadata": "custom_ode_metadata_value"
         }
     """
+
     def __init__(self, path: str | Path) -> None:
         self.path: Path = path if isinstance(path, Path) else Path(path)
         self.metadata_path: Path = self._get_path_to_metadata_file()
@@ -63,7 +64,7 @@ class File:
         if self.path.is_dir():
             return metadata_path / self.path.stem
 
-        return metadata_path / (self.path.stem + '.json')
+        return metadata_path / (self.path.stem + ".json")
 
     def get_or_create_metadata(self):
         """Get or create a metadata object for the Resource."""
