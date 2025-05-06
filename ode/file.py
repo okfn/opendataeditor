@@ -1,14 +1,11 @@
 import json
 import shutil
-import logging
 
 from frictionless import system
 from frictionless.resources import TableResource
 from pathlib import Path
 
 from ode import paths
-
-logger = logging.getLogger(__name__)
 
 
 class File:
