@@ -58,7 +58,6 @@ def configure_exception_handling(logger):
 
     # Replace the default exception hook with our custom one
     # This is necessary to ensure that the original exception hook is called
-    # after our custom one
     sys._excepthook = sys.excepthook
     sys.excepthook = exception_hook
 
