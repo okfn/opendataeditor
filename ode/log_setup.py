@@ -47,7 +47,7 @@ def configure_exception_handling(logger):
     """Configure exception handling to log uncaught exceptions."""
 
     # This will always be called when an exception is raised and not handled by the application
-    # The only downside is that it will be execute it if the exception is handled in another thread
+    # The only downside is that it will be executed even if the exception is handled in another thread.
     def exception_hook(exctype, value, traceback):
         logger.error(f"{exctype.__name__}: {value}", exc_info=(exctype, value, traceback))
         utils.show_error_dialog(
