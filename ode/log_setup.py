@@ -66,5 +66,5 @@ def configure_exception_handling(logger):
 
 
 def get_module_logger(module_name):
-    """et a logger for a specific module."""
+    """Get a logger for a specific module."""
     return logging.getLogger(module_name)
