@@ -15,10 +15,6 @@ def configure_logging():
 
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
-    # Clear any existing handlers
-    for handler in root_logger.handlers[:]:
-        root_logger.removeHandler(handler)
-
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # File handler for logging errors
