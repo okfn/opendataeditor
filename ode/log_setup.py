@@ -46,15 +46,19 @@ def configure_logging():
 def configure_exception_handling(logger):
     """Configure exception handling to log uncaught exceptions."""
 
+    # This will always be called when an exception is raised and not handled by the application
+    # The only downside is that it will be execute it if the exception is handled in another thread
     def exception_hook(exctype, value, traceback):
         logger.error(f"{exctype.__name__}: {value}", exc_info=(exctype, value, traceback))
         utils.show_error_dialog(
-            message="An unexpected error occurred. Please contact support.",
+            message=f"An unexpected error occurred: {exctype.__name__}: {value}",
             title="Error",
         )
         sys._excepthook(exctype, value, traceback)
 
     # Replace the default exception hook with our custom one
+    # This is necessary to ensure that the original exception hook is called
+    # after our custom one
     sys._excepthook = sys.excepthook
     sys.excepthook = exception_hook
 
