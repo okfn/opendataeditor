@@ -157,6 +157,7 @@ class Sidebar(QWidget):
         options = [
             ("English", ""),
             ("Français", "fr"),
+            ("Deutsch", "de"),
             ("Español", "es"),
             ("Português", "pt"),
         ]
