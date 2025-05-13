@@ -19,19 +19,13 @@ def configure_logging():
 
     # File handler for logging errors
     file_handler = RotatingFileHandler(
-        LOGS_PATH / "errors.log",
+        LOGS_PATH / "info.log",
         maxBytes=5 * 1024 * 1024,  # 5MB (5 * 1024 * 1024 bytes)
         backupCount=3,  # 5MB,  Keep 3 backup files
     )
-    file_handler.setLevel(logging.ERROR)
+    file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     root_logger.addHandler(file_handler)
-
-    # Console handler for logging info
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
-    root_logger.addHandler(console_handler)
 
     # Configure the handler for non handled exceptions
     configure_exception_handling(root_logger)
