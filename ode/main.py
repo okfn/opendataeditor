@@ -617,13 +617,13 @@ class MainWindow(QMainWindow):
         self.menu_help_action_report_issue.triggered.connect(self.open_report_issue)
         self.menu_help.addAction(self.menu_help_action_report_issue)
 
-        self.menu_help_action_about = QAction()
-        self.menu_help_action_about.triggered.connect(self.open_about_dialog)
-        self.menu_help.addAction(self.menu_help_action_about)
-
         self.menu_help_action_show_logs = QAction()
         self.menu_help_action_show_logs.triggered.connect(self.show_logs_content)
         self.menu_help.addAction(self.menu_help_action_show_logs)
+
+        self.menu_help_action_about = QAction()
+        self.menu_help_action_about.triggered.connect(self.open_about_dialog)
+        self.menu_help.addAction(self.menu_help_action_about)
 
     def apply_stylesheet(self):
         """Reads our main style QSS file and applies it to the application.
@@ -682,8 +682,8 @@ class MainWindow(QMainWindow):
         self.menu_help.setTitle(self.tr("Help"))
         self.menu_help_action_user_guide.setText(self.tr("User Guide"))
         self.menu_help_action_report_issue.setText(self.tr("Report an Issue"))
-        self.menu_help_action_about.setText(self.tr("About"))
         self.menu_help_action_show_logs.setText(self.tr("View logs"))
+        self.menu_help_action_about.setText(self.tr("About"))
 
         # Hook retranslateUI for main widgets
         self.sidebar.retranslateUI()
