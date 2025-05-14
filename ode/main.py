@@ -45,9 +45,8 @@ from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
-from ode.panels.data import FrictionlessTableModel, DataWorker
+from ode.panels.data import FrictionlessTableModel, DataWorker, DataViewer
 from ode.panels.source import SourceViewer
-from ode.panels.data import DataViewer
 from ode.panels.ai import ChatGPTDialog
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
