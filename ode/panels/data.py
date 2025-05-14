@@ -5,7 +5,6 @@ from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunn
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QHBoxLayout, QLineEdit
 
-import numpy as np
 import pandas as pd
 
 from ode import utils
@@ -73,12 +72,8 @@ class FrictionlessTableModel(QAbstractTableModel):
         super().__init__()
         self._data = data
         self._planned_data = []
-        # for row in data:
-        #     self._planned_data.append(" ".join([str(column).lower() for column in row]))
-
-        self._df = pd.DataFrame(data)
-        self._df["_search_column"] = self._df.astype(str).apply(lambda x: " ".join(x.values), axis=1).str.lower()
-        self._search_array = self._df["_search_column"].values
+        for row in data:
+            self._planned_data.append(" ".join([str(column).lower() for column in row]))
 
         self._row_count = self._get_row_count()
         self.errors = self._get_errors(errors)
@@ -223,28 +218,6 @@ class FrictionlessTableModel(QAbstractTableModel):
             return True
         return False
 
-    def find_matching_rows(self, filter_text):
-        """Usa operaciones vectorizadas de pandas para encontrar filas que coinciden"""
-        if not filter_text or len(self._search_array) == 0:
-            # Si no hay filtro, todas las filas coinciden
-            return list(range(self._row_count))
-
-        # Búsqueda vectorizada (extremadamente rápida)
-        # Convertimos a minúsculas para una búsqueda insensible a mayúsculas
-        filter_text = filter_text.lower()
-
-        # Esta operación es muy rápida incluso para grandes conjuntos de datos
-        mask = np.array([filter_text in text for text in self._search_array])
-
-        # Añadir la fila de encabezado (índice 0) que siempre se muestra
-        matching_indices = [0]  # El encabezado siempre se muestra
-
-        # Obtener índices que coinciden (con +1 porque los encabezados están en índice 0)
-        data_indices = np.where(mask)[0]
-        matching_indices.extend([i + 1 for i in data_indices])
-
-        return matching_indices
-
 
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
@@ -317,49 +290,29 @@ class DataViewer(QWidget):
 class CustomSortFilterProxyModel(QSortFilterProxyModel):
     def __init__(self):
         super().__init__()
-        self._visible_rows = None
-        self._current_filter = ""
-
-    # def filterAcceptsRow(self, source_row, source_parent):
-    #     # Si no hay texto de filtro, mostrar todas las filas
-    #     if not self.filterRegularExpression().pattern():
-    #         return True
-
-    #     filter_text = self.filterRegularExpression().pattern().lower()
-    #     source_model = self.sourceModel()
-    #     data = source_model._planned_data
-
-    #     return filter_text in data[source_row]
-
-    # # Revisar cada columna de la fila
-    # for column in range(source_model.columnCount(source_parent)):
-    #     index = source_model.index(source_row, column, source_parent)
-    #     if index.isValid():
-    #         data = source_model.data(index, Qt.DisplayRole)
-    #         if data is not None:
-    #             # Convertir el valor a string (podría ser un número)
-    #             data_str = str(data).lower()
-    #             if filter_text in data_str:
-    #                 return True
-
-    # return False
-
-    def setFilterFixedString(self, text):
-        if text == self._current_filter:
-            return
-
-        self._current_filter = text
-
-        source_model = self.sourceModel()
-        self._visible_rows = set(source_model.find_matching_rows(text))
-
-        self.invalidateFilter()
 
     def filterAcceptsRow(self, source_row, source_parent):
-        if not self._current_filter:
+        """Implementación personalizada para filtrar todas las columnas"""
+        # Si no hay texto de filtro, mostrar todas las filas
+        if not self.filterRegularExpression().pattern():
             return True
 
-        if self._visible_rows is not None:
-            return source_row in self._visible_rows
+        filter_text = self.filterRegularExpression().pattern().lower()
+        source_model = self.sourceModel()
+        data = source_model._planned_data
 
-        return super().filterAcceptsRow(source_row, source_parent)
+        return filter_text in data[source_row]
+
+        # # Revisar cada columna de la fila
+        # for column in range(source_model.columnCount(source_parent)):
+        #     index = source_model.index(source_row, column, source_parent)
+        #     if index.isValid():
+        #         data = source_model.data(index, Qt.DisplayRole)
+        #         if data is not None:
+        #             # Convertir el valor a string (podría ser un número)
+        #             data_str = str(data).lower()
+        #             if filter_text in data_str:
+        #                 return True
+
+        # # Si no se encontró coincidencia en ninguna columna
+        # return False
