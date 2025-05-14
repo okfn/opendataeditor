@@ -39,6 +39,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import QFileSystemModel
 
 from ode import paths
+from ode.dialogs.contributor_dialog import QDialog
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
@@ -48,11 +49,19 @@ from ode.panels.metadata import FrictionlessResourceMetadataWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker
 from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
-from ode.panels.ai import ChatGPTDialog
+from ode.panels.ai import ChatGPTDialog, QTextEdit
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
 from ode.dialogs.publish import PublishDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
+
+from ode.log_setup import LOGS_PATH, configure_logging
+import logging
+
+configure_logging()
+
+logger = logging.getLogger(__name__)
+logger.info("Starting Open Data Editor")
 
 
 class CustomTreeView(QTreeView):
@@ -608,6 +617,10 @@ class MainWindow(QMainWindow):
         self.menu_help_action_report_issue.triggered.connect(self.open_report_issue)
         self.menu_help.addAction(self.menu_help_action_report_issue)
 
+        self.menu_help_action_show_logs = QAction()
+        self.menu_help_action_show_logs.triggered.connect(self.show_logs_content)
+        self.menu_help.addAction(self.menu_help_action_show_logs)
+
         self.menu_help_action_about = QAction()
         self.menu_help_action_about.triggered.connect(self.open_about_dialog)
         self.menu_help.addAction(self.menu_help_action_about)
@@ -669,6 +682,7 @@ class MainWindow(QMainWindow):
         self.menu_help.setTitle(self.tr("Help"))
         self.menu_help_action_user_guide.setText(self.tr("User Guide"))
         self.menu_help_action_report_issue.setText(self.tr("Report an Issue"))
+        self.menu_help_action_show_logs.setText(self.tr("View logs"))
         self.menu_help_action_about.setText(self.tr("About"))
 
         # Hook retranslateUI for main widgets
@@ -848,6 +862,59 @@ class MainWindow(QMainWindow):
 
     def open_report_issue(self):
         QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
+
+    # Then define the function that will be executed when the action is triggered
+    def show_logs_content(self):
+        file_path = LOGS_PATH / "info.log"
+
+        try:
+            # Read only the last 40 lines of the file
+            with open(file_path, "r", encoding="utf-8") as file:
+                # Read all lines and store in a list
+                all_lines = file.readlines()
+                # Get the last 40 lines (or all if less than 40)
+                last_lines = all_lines[-100:] if len(all_lines) > 40 else all_lines
+                # Join the lines into a single string
+                content = "".join(last_lines)
+
+            # Create a dialog to show the content
+            dialog = QDialog(self)
+            dialog.setWindowTitle(self.tr("Last 100 Lines"))
+            dialog.resize(900, 500)
+
+            # Create a layout for the dialog
+            layout = QVBoxLayout(dialog)
+
+            # Create a text widget to display the content
+            text_edit = QTextEdit()
+            font = QFont("Courier New")
+            font.setStyleHint(QFont.Monospace)
+            text_edit.setFont(font)
+            text_edit.setReadOnly(True)
+            text_edit.setText(content)
+
+            layout.addWidget(text_edit)
+
+            # Create a horizontal layout for buttons
+            button_layout = QHBoxLayout()
+
+            # Close button
+            close_button = QPushButton(self.tr("Close"))
+            close_button.clicked.connect(dialog.close)
+            button_layout.addWidget(close_button)
+
+            # Copy button
+            copy_button = QPushButton(self.tr("Copy to Clipboard"))
+            copy_button.clicked.connect(lambda: QApplication.clipboard().setText(text_edit.toPlainText()))
+            button_layout.addWidget(copy_button)
+
+            layout.addLayout(button_layout)
+
+            # Show the dialog
+            dialog.exec()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
 
 
 if __name__ == "__main__":
