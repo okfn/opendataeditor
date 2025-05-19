@@ -251,7 +251,6 @@ class Sidebar(QWidget):
         index = self.file_navigator.currentIndex()
         if index.isValid():
             path = self.file_model.filePath(index)
-            folder = os.path.dirname(path)
             if sys.platform == "win32":
                 os.system(f'explorer.exe /select,"{path}"')
             elif sys.platform == "darwin":
