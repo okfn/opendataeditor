@@ -252,12 +252,13 @@ class Sidebar(QWidget):
         if index.isValid():
             path = self.file_model.filePath(index)
             if sys.platform == "win32":
-                os.system(f'explorer.exe /select,"{path}"')
+                os.system(f'explorer.exe /select,"{Path(path)}"')
             elif sys.platform == "darwin":
                 os.system(f'osascript -e \'tell application "Finder" to reveal (POSIX file "{path}")\'')
                 os.system("osascript -e 'tell application \"Finder\" to activate'")
             else:
-                os.system(f'nautilus --select "{path}"')
+                cmd_run=f'dbus-send --dest=org.freedesktop.FileManager1 --type=method_call /org/freedesktop/FileManager1 org.freedesktop.FileManager1.ShowItems array:string:"{path}" string:""'
+                os.system(cmd_run)
 
     def _delete_file_navitagor_item(self):
         """Delete a file/folder from the file navigator (and the OS)."""
