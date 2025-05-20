@@ -77,7 +77,7 @@ class CustomTreeView(QTreeView):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        # When the user clicks on a file in the file navigator we want to expand/collapse
+        # When the user clicks on a directory in the file navigator we want to expand/collapse
         self.clicked.connect(self.item_clicked)
 
     def mousePressEvent(self, event):
