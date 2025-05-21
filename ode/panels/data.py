@@ -1,9 +1,18 @@
 from pathlib import Path
 from frictionless import system
 
-from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
-from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
+from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QModelIndex
+from PySide6.QtGui import QColor, QPainter
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QTableView,
+    QLabel,
+    QApplication,
+    QStyledItemDelegate,
+    QStyle,
+    QStyleOptionViewItem,
+)
 
 import pandas as pd
 
@@ -215,6 +224,30 @@ class FrictionlessTableModel(QAbstractTableModel):
         return False
 
 
+class CustomSelectionDelegate(QStyledItemDelegate):
+    def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: QModelIndex) -> None:
+        """
+        Custom paint method to avoid the default blue selection color.
+        """
+        if option.state & QStyle.StateFlag.State_Selected:
+            # Save the current painter state
+            painter.save()
+
+            # We paint the background white to avoid the default blue selection
+            painter.fillRect(option.rect, QColor("white"))
+
+            new_option = QStyleOptionViewItem(option)
+            # Remove the selection state from the new option
+            new_option.state = option.state & ~QStyle.StateFlag.State_Selected
+            # We set the background color to white
+            super().paint(painter, new_option, index)
+
+            # Restore the saved painter state to avoid affecting other items
+            painter.restore()
+        else:
+            super().paint(painter, option, index)
+
+
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
 
@@ -229,6 +262,7 @@ class DataViewer(QWidget):
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.table_view = QTableView()
+        self.table_view.setItemDelegate(CustomSelectionDelegate())
         # TableView's corner button hangs the application when working with huge datasets so we disable it.
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
