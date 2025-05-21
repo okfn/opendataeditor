@@ -1,8 +1,8 @@
 from pathlib import Path
 from frictionless import system
 
-from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
-from PySide6.QtGui import QColor
+from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QModelIndex
+from PySide6.QtGui import QColor, QPainter
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -225,7 +225,7 @@ class FrictionlessTableModel(QAbstractTableModel):
 
 
 class CustomSelectionDelegate(QStyledItemDelegate):
-    def paint(self, painter, option, index):
+    def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: QModelIndex) -> None:
         """
         Custom paint method to avoid the default blue selection color.
         """
