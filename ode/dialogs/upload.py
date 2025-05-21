@@ -233,5 +233,5 @@ class DataUploadDialog(QDialog):
             )
         )
         self.paste_button.setText(self.tr("Add"))
-        self.tab_widget.setTabText(0, self.tr("From Your Computer"))
+        self.tab_widget.setTabText(0, self.tr("Add Local Files"))
         self.tab_widget.setTabText(1, self.tr("Add External Data"))

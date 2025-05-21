@@ -208,8 +208,8 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="236"/>
-        <source>From Your Computer</source>
-        <translation>Desde tu Computadora</translation>
+        <source>Add Local Files</source>
+        <translation>Agregar archivos locales</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="237"/>
@@ -381,67 +381,67 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="565"/>
+        <location filename="../../main.py" line="566"/>
         <source>Ready.</source>
         <translation>Listo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="670"/>
+        <location filename="../../main.py" line="671"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="671"/>
+        <location filename="../../main.py" line="672"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="672"/>
+        <location filename="../../main.py" line="673"/>
         <source>File/Folder</source>
         <translation>Archivo/Carpeta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="673"/>
+        <location filename="../../main.py" line="674"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="676"/>
+        <location filename="../../main.py" line="677"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="677"/>
+        <location filename="../../main.py" line="678"/>
         <source>Metadata panel</source>
         <translation>Panel de Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="678"/>
+        <location filename="../../main.py" line="679"/>
         <source>Errors panel</source>
         <translation>Panel de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="679"/>
+        <location filename="../../main.py" line="680"/>
         <source>Source panel</source>
         <translation>Panel de Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="682"/>
+        <location filename="../../main.py" line="683"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="683"/>
+        <location filename="../../main.py" line="684"/>
         <source>User Guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="684"/>
+        <location filename="../../main.py" line="685"/>
         <source>Report an Issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="685"/>
+        <location filename="../../main.py" line="687"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
@@ -451,17 +451,17 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="723"/>
+        <location filename="../../main.py" line="724"/>
         <source>Language changed.</source>
         <translation>Lenguaje cambiado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="757"/>
+        <location filename="../../main.py" line="758"/>
         <source>File and Metadata changes saved.</source>
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="882"/>
+        <location filename="../../main.py" line="883"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 líneas</translation>
     </message>
@@ -689,7 +689,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <location filename="../../main.py" line="239"/>
         <location filename="../../main.py" line="243"/>
         <location filename="../../main.py" line="245"/>
-        <location filename="../../main.py" line="272"/>
+        <location filename="../../main.py" line="273"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -723,7 +723,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation type="vanished">Estás seguro que quieres eliminar esto?</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="276"/>
+        <location filename="../../main.py" line="277"/>
         <source>Item deleted successfuly.</source>
         <translation>Item eliminado exitosamente.</translation>
     </message>
@@ -902,37 +902,37 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="413"/>
+        <location filename="../../main.py" line="414"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="414"/>
+        <location filename="../../main.py" line="415"/>
         <source>Advanced</source>
         <translation>Avanzado</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="415"/>
+        <location filename="../../main.py" line="416"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="416"/>
+        <location filename="../../main.py" line="417"/>
         <source>Source</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="417"/>
+        <location filename="../../main.py" line="418"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="418"/>
+        <location filename="../../main.py" line="419"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="419"/>
+        <location filename="../../main.py" line="420"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -940,17 +940,17 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="486"/>
+        <location filename="../../main.py" line="487"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>El ODE admite archivos Excel y CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="487"/>
+        <location filename="../../main.py" line="488"/>
         <source>You can also add links to online tables</source>
         <translation>También puedes agregar enlaces a tablas en línea</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="488"/>
+        <location filename="../../main.py" line="489"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
