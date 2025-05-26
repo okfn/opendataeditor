@@ -90,7 +90,7 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
+    # if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: ubuntu-22.04
     steps:
@@ -111,6 +111,8 @@ jobs:
           # Fix PyInstaller warnings of Qt Dependencies missing
           sudo apt-get install synaptic
           sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0
+          sudo apt-get install qt6-qpa-plugins
+
       - name: Install Dependencies
         run: |
           pip3 install -r requirements.txt
