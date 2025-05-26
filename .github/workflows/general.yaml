@@ -90,7 +90,7 @@ jobs:
             *.dmg
           retention-days: 14
   linux-packaging:
-    # if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/tags/v*.*.*'
     needs: tests
     runs-on: ubuntu-22.04
     steps:
