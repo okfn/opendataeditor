@@ -110,7 +110,7 @@ jobs:
           # https://forum.qt.io/post/769050
           # Fix PyInstaller warnings of Qt Dependencies missing
           sudo apt-get install synaptic
-          sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0
+          sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor0
           sudo apt-get install qt6-qpa-plugins
 
       - name: Install Dependencies
