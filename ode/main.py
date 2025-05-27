@@ -33,6 +33,7 @@ from PySide6.QtCore import (
     Signal,
     QItemSelectionModel,
     QEvent,
+    QModelIndex,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
@@ -73,6 +74,12 @@ class CustomTreeView(QTreeView):
 
     empty_area_click = Signal()
 
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        # When the user clicks on a directory in the file navigator we want to expand/collapse
+        self.clicked.connect(self.item_clicked)
+
     def mousePressEvent(self, event):
         """Emits an event if the user clicks on an empty space."""
         index = self.indexAt(event.position().toPoint())
@@ -108,6 +115,18 @@ class CustomTreeView(QTreeView):
                 return True
         else:
             return super().viewportEvent(event)
+
+    def item_clicked(self, index: QModelIndex):
+        """
+        Handle the click event of the QTreeView.
+        If the item has children, we want to expand/collapse it when clicked.
+        """
+        model = self.model()
+        if model and model.hasChildren(index):
+            if self.isExpanded(index):
+                self.collapse(index)
+            else:
+                self.expand(index)
 
 
 class ClickableLabel(QLabel):
@@ -257,7 +276,7 @@ class Sidebar(QWidget):
                 os.system(f'osascript -e \'tell application "Finder" to reveal (POSIX file "{path}")\'')
                 os.system("osascript -e 'tell application \"Finder\" to activate'")
             else:
-                cmd_run=f'dbus-send --dest=org.freedesktop.FileManager1 --type=method_call /org/freedesktop/FileManager1 org.freedesktop.FileManager1.ShowItems array:string:"{path}" string:""'
+                cmd_run = f'dbus-send --dest=org.freedesktop.FileManager1 --type=method_call /org/freedesktop/FileManager1 org.freedesktop.FileManager1.ShowItems array:string:"{path}" string:""'
                 os.system(cmd_run)
 
     def _delete_file_navitagor_item(self):
