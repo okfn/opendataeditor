@@ -174,11 +174,11 @@ class Sidebar(QWidget):
         self._setup_file_navigator_context_menu()
 
         self.user_guide = QPushButton()
-        self.user_guide.setIcon(QIcon(Paths.asset("icons/24/menu-book.svg")))
+        self.user_guide.setIcon(QIcon(Paths.asset("icons/24/open-in-new.svg")))
         self.user_guide.setIconSize(QSize(20, 20))
 
         self.report_issue = QPushButton()
-        self.report_issue.setIcon(QIcon(Paths.asset("icons/24/report-issue.svg")))
+        self.report_issue.setIcon(QIcon(Paths.asset("icons/24/open-in-new.svg")))
         self.report_issue.setIconSize(QSize(20, 20))
 
         self.language = QComboBox()
