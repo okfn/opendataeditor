@@ -10,7 +10,7 @@ import pandas as pd
 from ode import utils
 from ode.file import File
 
-DEFAULT_LIMIT_ERRORS = 999
+DEFAULT_LIMIT_ERRORS = 1000
 
 
 class DataWorkerSignals(QObject):
