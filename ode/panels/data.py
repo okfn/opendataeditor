@@ -1,3 +1,5 @@
+import csv
+import logging
 from pathlib import Path
 from frictionless import system
 
@@ -5,12 +7,14 @@ from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunn
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
 
-import pandas as pd
+from openpyxl import Workbook
 
 from ode import utils
 from ode.file import File
 
 DEFAULT_LIMIT_ERRORS = 1000
+
+logger = logging.getLogger(__name__)
 
 
 class DataWorkerSignals(QObject):
@@ -76,22 +80,52 @@ class FrictionlessTableModel(QAbstractTableModel):
         self._column_count = self._get_column_count()
 
     def write_data(self, filepath: Path):
-        df = pd.DataFrame(self._data[1:], columns=self._data[0])
+        """
+        Write the data to a file in the format specified by the file extension.
+        """
         extension = filepath.suffix.lower()
         if extension == ".csv":
-            resource = File(filepath).get_or_create_metadata().get("resource")
-            dialect = resource.dialect.to_dict()
-            csv = dialect.get("csv", None)
-            if csv:
-                df.to_csv(filepath, index=False, sep=csv["delimiter"])
-            else:
-                df.to_csv(filepath, index=False)
-            print(f"Data saved in CSV format: {filepath}")
+            self.write_data_csv(filepath)
         elif extension in [".xlsx", ".xls"]:
-            df.to_excel(filepath, index=False, engine="openpyxl")
-            print(f"Data saved in Excel format: {filepath}")
+            self.write_data_xlsx(filepath)
         else:
             raise ValueError(f"Unsupported format: {extension}. Use .csv, .xlsx or .xls")
+
+    def write_data_csv(self, filepath: Path):
+        """
+        Write the data to a CSV file.
+        """
+        resource = File(filepath).get_or_create_metadata().get("resource")
+        dialect = resource.dialect.to_dict()
+        csv_config = dialect.get("csv", None)
+
+        # Default delimiter
+        delimiter = ","
+        if csv_config and "delimiter" in csv_config:
+            delimiter = csv_config["delimiter"]
+
+        with open(filepath, "w", newline="", encoding="utf-8") as csvfile:
+            writer = csv.writer(csvfile, delimiter=delimiter)
+            writer.writerow(self._data[0])
+            writer.writerows(self._data[1:])
+
+        logger.info(f"Data saved in CSV format: {filepath}")
+
+    def write_data_xlsx(self, filepath: Path):
+        """
+        Write the data to an Excel file.
+        """
+        logger.info(f"Writing data to Excel file: {filepath}")
+        wb = Workbook()
+        ws = wb.active
+        ws.append(self._data[0])
+
+        rows = self._data[1:]
+        for row in rows:
+            ws.append(row)
+
+        wb.save(filepath)
+        logger.info(f"Data saved in Excel format: {filepath}")
 
     def _get_errors(self, errors):
         """Return an array with errors information to use when rendering the table.
