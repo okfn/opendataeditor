@@ -107,7 +107,9 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         with open(filepath, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile, delimiter=delimiter)
+            # Write header
             writer.writerow(self._data[0])
+            # Write data rows
             writer.writerows(self._data[1:])
 
         logger.info(f"Data saved in CSV format: {filepath}")
@@ -119,8 +121,10 @@ class FrictionlessTableModel(QAbstractTableModel):
         logger.info(f"Writing data to Excel file: {filepath}")
         wb = Workbook()
         ws = wb.active
+        # Header row
         ws.append(self._data[0])
 
+        # Data rows
         rows = self._data[1:]
         for row in rows:
             ws.append(row)
