@@ -881,6 +881,7 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 # 1. By default, appends <number> if they are duplicated in the file: E.g. field1, field2
                 # 2. Can't be empty, so if user edits it and leave it empty we need to write something to the schema.
                 # 3. Ideally should have the content of the first row of our file (except in the previous scenarios).
+                # 4. If the file has more headers than schema.fields, we add a new field to the schema.
                 file_headers = table_model.get_header_data()
                 number_of_fields = len(self.resource.schema.fields)
                 for i, file_header in enumerate(file_headers):
