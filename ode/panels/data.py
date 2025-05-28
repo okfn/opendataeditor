@@ -95,6 +95,7 @@ class FrictionlessTableModel(QAbstractTableModel):
         """
         Write the data to a CSV file.
         """
+        logger.info(f"Writing data to CSV file: {filepath}")
         resource = File(filepath).get_or_create_metadata().get("resource")
         dialect = resource.dialect.to_dict()
         csv_config = dialect.get("csv", None)
