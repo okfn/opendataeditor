@@ -2,7 +2,7 @@ import json
 import sys
 
 from frictionless.resources import TableResource
-from frictionless import system
+from frictionless import Field, system
 from pathlib import Path
 from PySide6.QtCore import Qt, Slot, QItemSelectionModel, Signal, QEvent
 from PySide6.QtWidgets import (
@@ -881,9 +881,14 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 # 1. By default, appends <number> if they are duplicated in the file: E.g. field1, field2
                 # 2. Can't be empty, so if user edits it and leave it empty we need to write something to the schema.
                 # 3. Ideally should have the content of the first row of our file (except in the previous scenarios).
+                # 4. If the file has more headers than schema.fields, we add a new field to the schema.
                 file_headers = table_model.get_header_data()
-                assert len(file_headers) == len(self.resource.schema.fields)
+                number_of_fields = len(self.resource.schema.fields)
                 for i, file_header in enumerate(file_headers):
+                    if i >= number_of_fields:
+                        # If the file has more headers than fields, we add a new field to the schema.
+                        self.resource.schema.add_field(Field(name=file_header, title=file_header))
+                        continue
                     if not file_header:
                         # If the file is missing a header, we set Frictionless' default and mandatory
                         # value for name attribute: field<number>.
