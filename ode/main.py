@@ -433,7 +433,7 @@ class Toolbar(QWidget):
         self.button_data.setText(self.tr("Data"))
         self.button_metadata.setText(self.tr("Advanced"))
         self.button_errors.setText(self.tr("Errors Report"))
-        self.button_source.setText(self.tr("Source"))
+        self.button_source.setText(self.tr("Source code"))
         self.button_publish.setText(self.tr("Publish"))
         self.button_save.setText(self.tr("Save changes"))
         self.button_ai.setText(self.tr("AI"))
