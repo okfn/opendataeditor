@@ -35,7 +35,7 @@ class SelectWidget(QWidget):
         layout.addWidget(icon_label)
 
         self.text_label = QLabel()
-        self.text_label.setAlignment(Qt.AlignCenter)
+        self.text_label.setAlignment(Qt.AlignHCenter)
         self.text_label.setWordWrap(True)
         layout.addWidget(self.text_label)
 
