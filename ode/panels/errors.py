@@ -2,10 +2,11 @@ import collections
 
 from PySide6.QtCore import Qt, QSortFilterProxyModel
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
-from PySide6.QtGui import QColor, QFont
+from PySide6.QtGui import QFont
 
 from ode import utils
 from ode.panels.data import DEFAULT_LIMIT_ERRORS
+from ode.shared import COLOR_RED
 
 
 class ErrorFilterProxyModel(QSortFilterProxyModel):
@@ -57,9 +58,9 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
             for error in source_model.errors[source_row]:
                 if self.error_type == "blank-row":
                     # BlankRowError does not have field_number, we paint all the cells.
-                    return QColor("red")
+                    return COLOR_RED
                 elif error[0] == source_column and error[1] == self.error_type:
-                    return QColor("red")
+                    return COLOR_RED
 
             # Default color
             return None
@@ -92,13 +93,13 @@ class ErrorTitle(QWidget):
         self.setStyleSheet(
             """
             QLabel#errors {
-              background: red;
+              background: #D32F2F;
               color: #FFF;
               padding: 2px 2px;
               border-style: outset;
               border-width: 1px;
               border-radius: 4px;
-              border-color: red;
+              border-color: #D32F2F;
             }
         """
         )
