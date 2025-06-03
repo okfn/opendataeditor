@@ -35,7 +35,7 @@ class SelectWidget(QWidget):
         layout.addWidget(icon_label)
 
         self.text_label = QLabel()
-        self.text_label.setAlignment(Qt.AlignCenter)
+        self.text_label.setAlignment(Qt.AlignHCenter)
         self.text_label.setWordWrap(True)
         layout.addWidget(self.text_label)
 
@@ -222,7 +222,7 @@ class DataUploadDialog(QDialog):
         """Apply translations to class elements."""
         self.setWindowTitle(self.tr("Upload your data"))
         self.file_select_widget.text_label.setText(self.tr("Add one or more Excel or csv files"))
-        self.folder_select_widget.text_label.setText(self.tr("Add one or more folders"))
+        self.folder_select_widget.text_label.setText(self.tr("Add a folder"))
         self.file_select_widget.select_button.setText(self.tr("Select"))
         self.folder_select_widget.select_button.setText(self.tr("Select"))
         self.url_label.setText(self.tr("Link to the external table: "))
