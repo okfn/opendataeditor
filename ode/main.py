@@ -770,11 +770,16 @@ class MainWindow(QMainWindow):
         if not hasattr(self, "table_model"):
             # TODO: Define behaviour of Save Button
             return
-        self.table_model.write_data(self.selected_file_path)
-        self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
-        # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
-        self.read_validate_and_display_file(self.selected_file_path)
-        self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
+        try:
+            self.content.toolbar.button_save.setEnabled(False)
+            self.table_model.write_data(self.selected_file_path)
+            self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
+            # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
+            self.read_validate_and_display_file(self.selected_file_path)
+            self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
+        except Exception as e:
+            self.content.toolbar.button_save.setEnabled(True)
+            raise e
 
     @Slot(tuple)
     def update_views(self, worker_data):
@@ -809,6 +814,8 @@ class MainWindow(QMainWindow):
             self.content.toolbar.button_errors.disable()
         else:
             self.content.toolbar.button_errors.enable(errors_count)
+
+        self.content.toolbar.button_save.setEnabled(True)
 
     @Slot(tuple)
     def update_menu_bar(self, worker_data):
