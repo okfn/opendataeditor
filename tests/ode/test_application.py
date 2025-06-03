@@ -1,5 +1,4 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
 
 from ode.shared import COLOR_RED
 
