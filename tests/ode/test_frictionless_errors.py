@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+
+from ode.shared import COLOR_RED
 
 
 class TestFrictionlessErrors:
@@ -25,12 +26,12 @@ class TestFrictionlessErrors:
         # Test FrictionlessModel returns a Red Background for the error cell.
         index = window.table_model.index(0, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
         # Test FrictionlessModel do not return a Red Background for other cells.
         index = window.table_model.index(1, 0)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background != QColor("red")
+        assert background != COLOR_RED
 
     def test_duplicate_label_error(self, qtbot, window, project_folder):
         p1 = project_folder / "duplicate-label.csv"
@@ -46,12 +47,12 @@ class TestFrictionlessErrors:
         # Test FrictionlessModel returns a Red Background for the error cell.
         index = window.table_model.index(0, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
         # Test FrictionlessModel do not return a Red Background for first header.
         index = window.table_model.index(0, 0)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background != QColor("red")
+        assert background != COLOR_RED
 
     def test_blank_row_error(self, qtbot, window, project_folder):
         p1 = project_folder / "blank-row.csv"
@@ -67,13 +68,13 @@ class TestFrictionlessErrors:
         # Blank Row error should paint the whole row in red.
         index = window.table_model.index(2, 0)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         index = window.table_model.index(2, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         index = window.table_model.index(2, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
     def test_blank_row_and_duplicated_label_error(self, qtbot, window, project_folder):
         p1 = project_folder / "blank-row-and-duplicated-label.csv"
@@ -89,15 +90,15 @@ class TestFrictionlessErrors:
         # Blank Row error should paint the whole row in red.
         index = window.table_model.index(2, 0)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         index = window.table_model.index(2, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
         # Duplicated Label should paint the cell
         index = window.table_model.index(0, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
     def test_missing_cell_error(self, qtbot, window, project_folder):
         p1 = project_folder / "missing-cell.csv"
@@ -113,16 +114,16 @@ class TestFrictionlessErrors:
         # Missing Cell should paint the third column (except the header).
         index = window.table_model.index(0, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background != QColor("red")
+        assert background != COLOR_RED
         index = window.table_model.index(1, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         index = window.table_model.index(2, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         index = window.table_model.index(3, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
 
     def test_extra_cell_error(self, qtbot, window, project_folder):
         p1 = project_folder / "extra-cell.csv"
@@ -138,14 +139,14 @@ class TestFrictionlessErrors:
         # Extra Cell should paint the extra cell.
         index = window.table_model.index(2, 2)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background == QColor("red")
+        assert background == COLOR_RED
         # The value of the extra cell should be "extra"
         value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
         assert value == "extra"
         # Other cells should not be red
         index = window.table_model.index(2, 1)
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
-        assert background != QColor("red")
+        assert background != COLOR_RED
 
     def test_changing_label_fixes_error(self, qtbot, window, project_folder):
         """Test that changing the label of a column fixes the blank header error."""

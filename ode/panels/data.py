@@ -4,13 +4,14 @@ from pathlib import Path
 from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
-from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
+from PySide6.QtGui import QColor
 
 from openpyxl import Workbook
 
 from ode import utils
 from ode.file import File
+from ode.shared import COLOR_RED
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -216,15 +217,21 @@ class FrictionlessTableModel(QAbstractTableModel):
                 # So it is okay to return None and keep iterating.
                 return None
             return value
+
+        if not self.errors[index.row()]:
+            return None
+
         if role == Qt.ItemDataRole.BackgroundRole:
-            if not self.errors[index.row()]:
-                return
-            for error_column, error_type, error_message in self.errors[index.row()]:
+            for error_column, error_type, _ in self.errors[index.row()]:
                 if error_type == "blank-row":
                     # BlankRowError does not have field_number, we paint all the cells.
-                    return QColor("red")
+                    return COLOR_RED
                 if error_column == index.column():
-                    return QColor("red")
+                    return COLOR_RED
+        elif role == Qt.ForegroundRole:
+            for error_column, _, _ in self.errors[index.row()]:
+                if error_column == index.column():
+                    return QColor(255, 255, 255)
 
     def flags(self, index):
         """Enable edition mode"""

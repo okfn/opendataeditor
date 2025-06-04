@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+
+from ode.shared import COLOR_RED
 
 
 def test_file_is_displayed(qtbot, window, project_folder):
@@ -55,7 +56,7 @@ def test_error_reports_show_two_blank_lines_in_red(qtbot, window, project_folder
     proxy = error_report.widget().proxy_model
     total_rows = proxy.rowCount()
     red_rows = 0
-    red_background = QColor("red").name()
+    red_background = COLOR_RED.name()
 
     for row in range(total_rows):
         # Get the proxy index for this row
@@ -88,7 +89,7 @@ def test_error_reports_show_two_errors_in_same_row(qtbot, window, project_folder
 
     qtbot.waitUntil(lambda: window.content.toolbar.button_errors.error_label.text() == "2")
 
-    red_background = QColor("red").name()
+    red_background = COLOR_RED.name()
 
     # Check that we have two error report tables
     assert window.content.errors_view.reports_layout.count() == 2
