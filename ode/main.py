@@ -850,7 +850,7 @@ class MainWindow(QMainWindow):
         Args:
             file_path (Path): The path to the file to read.
             fn_finished (Callable, optional): A function to call when the worker finishes. Defaults to None.
-                It cannot be a lambda function since it will not be pickled and sent to the worker thread.
+                It cannot be a lambda function since it will not be picked and sent to the worker thread.
         """
         info = QFileInfo(file_path)
         if info.isFile() and info.suffix() in ["csv", "xls", "xlsx"]:
