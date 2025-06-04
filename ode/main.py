@@ -584,7 +584,6 @@ class MainWindow(QMainWindow):
         self._create_status_bar()
 
     def _create_status_bar(self):
-        print("hola 2")
         self.statusBar().showMessage(self.tr("Ready."))
 
     def _menu_bar(self):
