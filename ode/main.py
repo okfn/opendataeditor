@@ -2,6 +2,8 @@ import sys
 import ode
 import os
 
+from typing import Callable
+
 from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication,
@@ -582,6 +584,7 @@ class MainWindow(QMainWindow):
         self._create_status_bar()
 
     def _create_status_bar(self):
+        print("hola 2")
         self.statusBar().showMessage(self.tr("Ready."))
 
     def _menu_bar(self):
@@ -775,11 +778,15 @@ class MainWindow(QMainWindow):
             self.table_model.write_data(self.selected_file_path)
             self.content.metadata_widget.save_metadata_to_descriptor_file(self.table_model)
             # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
-            self.read_validate_and_display_file(self.selected_file_path)
-            self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
+            self.read_validate_and_display_file(self.selected_file_path, self.on_save_complete)
         except Exception as e:
             self.content.toolbar.button_save.setEnabled(True)
             raise e
+
+    def on_save_complete(self):
+        """Callback for the save operation."""
+        self.statusBar().showMessage(self.tr("File and Metadata changes saved.")),
+        self.content.toolbar.button_save.setEnabled(True)
 
     @Slot(tuple)
     def update_views(self, worker_data):
@@ -815,8 +822,6 @@ class MainWindow(QMainWindow):
         else:
             self.content.toolbar.button_errors.enable(errors_count)
 
-        self.content.toolbar.button_save.setEnabled(True)
-
     @Slot(tuple)
     def update_menu_bar(self, worker_data):
         """
@@ -835,24 +840,32 @@ class MainWindow(QMainWindow):
         else:
             self.menu_view_action_errors_panel.setEnabled(True)
 
-    def read_validate_and_display_file(self, path):
+    def read_validate_and_display_file(self, file_path, fn_callback: Callable | None = None):
         """Reads a file, validates it and refresh the whole UI.
         This method is called when the user selects a file in our QTreeView but there could
         be other workflows in the application that will require this logic (like Uploading a File).
 
         It will create a Worker to read data in the background and display a ProgressDialog if it
         is taking too long. Reading with a worker is a requirement to display a proper QProgressDialog.
+
+        Args:
+            file_path (Path): The path to the file to read.
+            fn_finished (Callable, optional): A function to call when the worker finishes. Defaults to None.
+                It cannot be a lambda function since it will not be pickled and sent to the worker thread.
         """
-        info = QFileInfo(self.selected_file_path)
+        info = QFileInfo(file_path)
         if info.isFile() and info.suffix() in ["csv", "xls", "xlsx"]:
             self.loading_dialog = LoadingDialog(self)
 
-            worker = DataWorker(self.selected_file_path)
+            worker = DataWorker(file_path)
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
             worker.signals.finished.connect(self.loading_dialog.close)
             worker.signals.finished.connect(self.loading_dialog.cancel_loading_timer)
+
+            if fn_callback:
+                worker.signals.finished.connect(fn_callback)
 
             worker.signals.messages.connect(self.statusBar().showMessage)
             worker.signals.messages.connect(self.loading_dialog.show_message)
