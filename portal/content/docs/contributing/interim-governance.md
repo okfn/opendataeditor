@@ -21,7 +21,7 @@ The technical decisions are guided by the vision and mission of OKFN.
 The Open Knowledge Foundation believes that great tools are built in conversation with people from diverse backgrounds. Anyone is **welcome to propose ideas or changes** to ODE.
 You can:
 * **Join our technical planning meetings**, held on the first and third Monday of each month, where we discuss and plan the product development. 
-* **Start a discussion in [our GitHub repository](#link to GH discussion)** . If you are not familiar with the platform, [here is a link](#LINK) to learn how to do it. 
+* **Start a discussion in [our GitHub repository](#link to GH discussion)** . If you are not familiar with the platform, [here is a link](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/participating-in-a-discussion)) to learn how to do it. 
 
 **Note**: Our core team is small and working at a limited capacity. While we review all proposals, **response times may vary** depending on availability. We'll do our best to keep you informed and follow up as soon as possible.
 # ODE People
