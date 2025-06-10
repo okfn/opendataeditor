@@ -3,15 +3,16 @@ import logging
 from pathlib import Path
 from frictionless import system
 
-from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
-from PySide6.QtGui import QColor
+from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
+from PySide6.QtGui import QColor, QIcon
 
 from openpyxl import Workbook
 
 from ode import utils
 from ode.file import File
 from ode.shared import COLOR_RED
+from ode.paths import Paths
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -70,6 +71,42 @@ class DataWorker(QRunnable):
 
         self.signals.messages.emit(QApplication.translate("DataWorker", "Read and Validation finished."))
         self.signals.finished.emit((self.file.path, data, errors))
+
+
+class DropdownIconDelegate(QStyledItemDelegate):
+    def __init__(self, icon_path, parent=None):
+        super().__init__(parent)
+        self.icon_size = 50
+        self.margin = 4
+        self.icon = QIcon(icon_path)
+
+    def _get_icon_rect(self, option):
+        """Método helper para calcular la posición del icono"""
+        return QRect(
+            option.rect.right() - self.icon_size - self.margin,
+            option.rect.top() + self.margin,
+            self.icon_size,
+            self.icon_size,
+        )
+
+    def paint(self, painter, option, index):
+        super().paint(painter, option, index)
+
+        if index.row() == 0:
+            self.icon.paint(painter, self._get_icon_rect(option))
+
+    def editorEvent(self, event, model, option, index):
+        if index.row() != 0:
+            return super().editorEvent(event, model, option, index)
+
+        if event.type() == QEvent.MouseButtonPress and self._get_icon_rect(option).contains(event.pos()):
+            self.handle_dropdown_click(index)
+            return True
+
+        return super().editorEvent(event, model, option, index)
+
+    def handle_dropdown_click(self, index):
+        print(f"Dropdown clicked en columna {index.column()}: {index.data()}")
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -291,6 +328,10 @@ class DataViewer(QWidget):
         FrictionlessTableModel and call this function using the model as a parametner.
         """
         self.table_view.setModel(model)
+
+        delegate = DropdownIconDelegate(Paths.asset("icons/three-lines.png"))
+        self.table_view.setItemDelegate(delegate)
+
         self.label.hide()
         self.table_view.show()
 
