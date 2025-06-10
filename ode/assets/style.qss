@@ -41,9 +41,8 @@ ErrorsReportButton QLabel:disabled {
   color: grey;
 }
 ErrorsReportButton QLabel[error] {
-  background: #FCF2F2;
   border: 1px solid #FECBCA;
-  color: red;
+  color: #D32F2F;
   padding: 0px;
 }
 
@@ -220,5 +219,5 @@ PublishDialog QPushButton:pressed {
 QTableView::item:selected {
   background: white;
   color: black;
-  border: 2px solid black;
+  border: 2px solid #646464;
 }
