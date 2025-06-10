@@ -219,5 +219,5 @@ PublishDialog QPushButton:pressed {
 QTableView::item:selected {
   background: white;
   color: black;
-  border: 2px solid black;
+  border: 2px solid #646464;
 }
