@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QComboBox,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 
 
 class NoWheelComboBox(QComboBox):
@@ -132,6 +132,8 @@ class MetadataDialog(QDialog):
     Dialog for adding or editing a contributor.
     """
 
+    save_clicked = Signal(object)
+
     def __init__(self, parent: QWidget, field: dict):
         """
         Initialize the dialog.
@@ -141,7 +143,6 @@ class MetadataDialog(QDialog):
         """
         super().__init__(parent)
         self.parent = parent
-        self.result_saved = False
 
         # Set up the form
         self.form = MetadataForm()
@@ -183,20 +184,19 @@ class MetadataDialog(QDialog):
         self.retranslateUI()
 
     def save_and_close(self):
-        """
-        Save the contributor data and close the dialog.
-        """
-        # Update the contributor dictionary with form data
-        self.contributor.update(
+        self.save_clicked.emit(
             {
-                "title": self.form.title.text(),
-                "email": self.form.email.text(),
-                "role": self.form.role.text(),
-                "path": self.form.path.text(),
+                "name": self.form.name.text(),
+                "type": self.form.type.currentText(),
+                "description": self.form.description.toPlainText(),
+                "constraints": {
+                    "required": self.form.required.currentText() == "Highlight",
+                    "minLength": int(self.form.min_length.text()) if self.form.min_length.text() else None,
+                    "maxLength": int(self.form.max_length.text()) if self.form.max_length.text() else None,
+                },
+                "dialectSeparator": self.form.dialect_separator.currentText(),
             }
         )
-
-        self.result_saved = True
         self.accept()
 
     def retranslateUI(self):
