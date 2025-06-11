@@ -118,7 +118,7 @@ class DropdownIconDelegate(QStyledItemDelegate):
 
     def handle_dropdown_click(self, index):
         print(f"Dropdown clicked en columna {index.column()}: {index.data()}")
-        self.dropdown_clicked.emit(index)
+        self.dropdown_clicked.emit(index.column())
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -350,17 +350,18 @@ class DataViewer(QWidget):
         self.table_view.setMouseTracking(True)
 
         self.metadata = File(filepath).get_or_create_metadata()
+        self.resource = self.metadata.get("resource")
 
         self.label.hide()
         self.table_view.show()
 
-    def show_contributor_dialog(self, index):
+    def show_contributor_dialog(self, field_index):
         """
         Shows a dialog to edit a contributor.
         """
-        field_index = index.column()
-        field = self.metadata.get("resource").schema.fields[field_index]
+        field = self.resource.schema.fields[field_index]
         dialog = MetadataDialog(self, field)
+        dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 
     def clear(self, model):
@@ -376,3 +377,44 @@ class DataViewer(QWidget):
     def retranslateUI(self):
         """Apply translations to class elements."""
         self.label.setText(self.tr("Preview not available for this item."))
+
+    def save_metadata_to_descriptor_file(self, field_form):
+        print(f"Saving metadata to descriptor file...{field_form}")
+        # field = self.resource.schema.fields[i]
+
+        # field.title = field_form.title.text()
+        # field.description = field_form.description.text()
+
+        # constraints = {
+        #     "required": field_form.constraint_required.currentText() == "True",
+        # }
+
+        # min_length = field_form.constraint_min_length.text().strip()
+        # if min_length:
+        #     constraints["minLength"] = int(min_length)
+
+        # max_length = field_form.constraint_max_length.text().strip()
+        # if max_length:
+        #     constraints["maxLength"] = int(max_length)
+
+        # if field_form.constraint_enum.text():
+        #     constraints["enum"] = field_form.constraint_enum.text().split(",")
+
+        # if field_form.constraint_pattern.text():
+        #     constraints["pattern"] = field_form.constraint_pattern.text()
+
+        # field.constraints = constraints
+
+        # # Update the field in the schema
+        # self.resource.schema.set_field(field)
+
+        # # field type cannot be updated directly, we need to use set_field_type
+        # # it needs to be after the set_field to avoid beeing overridden
+        # self.resource.schema.set_field_type(field.name, field_form.types.currentText())
+
+        # self.metadata["resource"] = self.resource.to_descriptor()
+        # file = File(self.resource.path)
+
+        # with open(file.metadata_path, "w") as f:
+        #     print(f"Saving metadata {file.metadata_path}")
+        #     json.dump(self.metadata, f)
