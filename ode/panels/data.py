@@ -4,12 +4,13 @@ from pathlib import Path
 from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
+from PySide6.QtGui import QColor, QIcon, QCursor
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
-from PySide6.QtGui import QColor, QIcon
 
 from openpyxl import Workbook
 
 from ode import utils
+from ode.dialogs.metadata import MetadataDialog
 from ode.file import File
 from ode.shared import COLOR_RED
 from ode.paths import Paths
@@ -74,17 +75,18 @@ class DataWorker(QRunnable):
 
 
 class DropdownIconDelegate(QStyledItemDelegate):
+    dropdown_clicked = Signal(object)
+
     def __init__(self, icon_path, parent=None):
         super().__init__(parent)
-        self.icon_size = 50
-        self.margin = 4
+        self.icon_size = 14
         self.icon = QIcon(icon_path)
 
     def _get_icon_rect(self, option):
         """Método helper para calcular la posición del icono"""
         return QRect(
-            option.rect.right() - self.icon_size - self.margin,
-            option.rect.top() + self.margin,
+            option.rect.right() - self.icon_size,
+            option.rect.top(),
             self.icon_size,
             self.icon_size,
         )
@@ -99,14 +101,24 @@ class DropdownIconDelegate(QStyledItemDelegate):
         if index.row() != 0:
             return super().editorEvent(event, model, option, index)
 
-        if event.type() == QEvent.MouseButtonPress and self._get_icon_rect(option).contains(event.pos()):
-            self.handle_dropdown_click(index)
-            return True
+        icon_rect = self._get_icon_rect(option)
+
+        # I am not sure about this
+        if event.type() == QEvent.MouseMove:
+            if icon_rect.contains(event.pos()):
+                QApplication.setOverrideCursor(QCursor(Qt.PointingHandCursor))
+            else:
+                QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
+        elif event.type() == QEvent.MouseButtonPress:
+            if icon_rect.contains(event.pos()):
+                self.handle_dropdown_click(index)
+                return True
 
         return super().editorEvent(event, model, option, index)
 
     def handle_dropdown_click(self, index):
         print(f"Dropdown clicked en columna {index.column()}: {index.data()}")
+        self.dropdown_clicked.emit(index)
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -316,12 +328,15 @@ class DataViewer(QWidget):
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
+        self.delegate = DropdownIconDelegate(Paths.asset("icons/three-lines2.png"))
+        self.delegate.dropdown_clicked.connect(self.show_contributor_dialog)
+
         layout.addWidget(self.label)
         layout.addWidget(self.table_view)
 
         self.retranslateUI()
 
-    def display_data(self, model):
+    def display_data(self, model, filepath):
         """Set the model of the QTableView
 
         When a tabular file is selected, the main application will create a
@@ -329,11 +344,24 @@ class DataViewer(QWidget):
         """
         self.table_view.setModel(model)
 
-        delegate = DropdownIconDelegate(Paths.asset("icons/three-lines.png"))
-        self.table_view.setItemDelegate(delegate)
+        self.table_view.setItemDelegate(self.delegate)
+
+        self.table_view.horizontalHeader().setDefaultSectionSize(120)
+        self.table_view.setMouseTracking(True)
+
+        self.metadata = File(filepath).get_or_create_metadata()
 
         self.label.hide()
         self.table_view.show()
+
+    def show_contributor_dialog(self, index):
+        """
+        Shows a dialog to edit a contributor.
+        """
+        field_index = index.column()
+        field = self.metadata.get("resource").schema.fields[field_index]
+        dialog = MetadataDialog(self, field)
+        dialog.exec()
 
     def clear(self, model):
         """Reset the view to the default state.

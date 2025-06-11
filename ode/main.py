@@ -39,12 +39,12 @@ from PySide6.QtCore import (
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
-from PySide6.QtWidgets import QFileSystemModel
+from PySide6.QtWidgets import QFileSystemModel, QDialog
 
 from ode import paths
-from ode.dialogs.contributor_dialog import QDialog
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
+from ode.dialogs.metadata import MetadataDialog
 from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
@@ -796,7 +796,7 @@ class MainWindow(QMainWindow):
         """
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
-        self.content.data_view.display_data(self.table_model)
+        self.content.data_view.display_data(self.table_model, filepath)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
@@ -888,6 +888,8 @@ class MainWindow(QMainWindow):
         # instead of creating a new empty one. Review.
         self.table_model = FrictionlessTableModel([], [])
         self.content.data_view.clear(self.table_model)
+        # TODO: remover set_metadata
+
         # self.metadata_view.clear()  # TODO: Implement
         self.content.errors_view.clear()
         self.content.source_view.clear()
