@@ -152,6 +152,7 @@ class MetadataDialog(QDialog):
 
         self.field_index = field_index
         self.field_names = field_names
+        self.field = field
 
         # Set up the form
         self.form = MetadataForm()
@@ -196,18 +197,20 @@ class MetadataDialog(QDialog):
         """
         Emits the save_clicked signal with the form data and closes the dialog.
         """
+        # Validate the field name
         field_name = self.form.name.text()
-        if field_name.strip() == "" or field_name in self.field_names:
-            # If the name is already used, show an error
-            self.form.name.setStyleSheet("border: 1px solid red;")
-            self.form.error_label.setText(self.tr("The name is required and must be unique."))
-            self.form.error_label.setHidden(False)
-            return
+        if field_name != self.field.name:
+            if field_name.strip() == "" or field_name in self.field_names:
+                # If the name is already used, show an error
+                self.form.name.setStyleSheet("border: 1px solid red;")
+                self.form.error_label.setText(self.tr("The name is required and must be unique."))
+                self.form.error_label.setHidden(False)
+                return
 
         self.save_clicked.emit(
             {
                 "index": self.field_index,
-                "name": self.form.name.text(),
+                "name": field_name,
                 "type": self.form.type.currentText(),
                 "description": self.form.description.toPlainText(),
                 "constraints": {
