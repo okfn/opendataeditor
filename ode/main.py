@@ -42,7 +42,6 @@ from PySide6.QtWidgets import QFileSystemModel, QDialog
 from ode import paths
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
-from ode.dialogs.metadata import MetadataDialog
 from ode.file import File
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
@@ -546,6 +545,7 @@ class MainWindow(QMainWindow):
         self.main_layout = QStackedLayout()
         self.welcome = Welcome()
         self.content = Content()
+        self.content.data_view.on_save.connect(self.on_data_view_save)
         self.main_layout.addWidget(self.welcome)
         self.main_layout.addWidget(self.content)
         self.main.setLayout(self.main_layout)
@@ -776,6 +776,12 @@ class MainWindow(QMainWindow):
         self.read_validate_and_display_file(self.selected_file_path)
         self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
 
+    def on_data_view_save(self):
+        """
+        Reloads the file and updates the views. when is saved in the data view
+        """
+        self.read_validate_and_display_file(self.selected_file_path)
+
     @Slot(tuple)
     def update_views(self, worker_data):
         """Update all the main views with the data provided by the read worker.
@@ -869,7 +875,6 @@ class MainWindow(QMainWindow):
         # instead of creating a new empty one. Review.
         self.table_model = FrictionlessTableModel([], [])
         self.content.data_view.clear(self.table_model)
-        # TODO: remover set_metadata
 
         # self.metadata_view.clear()  # TODO: Implement
         self.content.errors_view.clear()
