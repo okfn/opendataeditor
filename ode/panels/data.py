@@ -373,7 +373,8 @@ class DataViewer(QWidget):
         Shows a dialog to edit a contributor.
         """
         field = self.resource.schema.fields[field_index]
-        dialog = MetadataDialog(self, field, field_index)
+        field_names = [f.name for f in self.resource.schema.fields]
+        dialog = MetadataDialog(self, field, field_index, field_names)
         dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 

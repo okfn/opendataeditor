@@ -106,6 +106,12 @@ class MetadataForm(QWidget):
         self.dialect_separator.addItems([self.tr(sep) for sep, _ in DIALECT_SEPERATORS])
         layout.addWidget(self.dialect_separator, 5, 1, 1, 3)
 
+        # Error label
+        self.error_label = QLabel()
+        self.error_label.setStyleSheet("color: red;")
+        layout.addWidget(self.error_label, 6, 0, 1, 4)
+        self.error_label.setHidden(True)
+
         # Set layout properties
         layout.setColumnMinimumWidth(1, 150)
         layout.setColumnMinimumWidth(3, 150)
@@ -134,7 +140,7 @@ class MetadataDialog(QDialog):
 
     save_clicked = Signal(object)
 
-    def __init__(self, parent: QWidget, field: dict, field_index: int):
+    def __init__(self, parent: QWidget, field: dict, field_index: int, field_names: list):
         """
         Initialize the dialog.
 
@@ -145,6 +151,7 @@ class MetadataDialog(QDialog):
         self.parent = parent
 
         self.field_index = field_index
+        self.field_names = field_names
 
         # Set up the form
         self.form = MetadataForm()
@@ -189,6 +196,14 @@ class MetadataDialog(QDialog):
         """
         Emits the save_clicked signal with the form data and closes the dialog.
         """
+        field_name = self.form.name.text()
+        if field_name.strip() == "" or field_name in self.field_names:
+            # If the name is already used, show an error
+            self.form.name.setStyleSheet("border: 1px solid red;")
+            self.form.error_label.setText(self.tr("The name is required and must be unique."))
+            self.form.error_label.setHidden(False)
+            return
+
         self.save_clicked.emit(
             {
                 "index": self.field_index,
