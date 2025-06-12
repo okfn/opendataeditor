@@ -787,10 +787,13 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage(self.tr("File and Metadata changes saved.")),
         self.content.toolbar.button_save.setEnabled(True)
 
-    def on_data_view_save(self):
+    def on_data_view_save(self, save_data):
         """
         Reloads the file and updates the views. when is saved in the data view
         """
+        if save_data:
+            self.table_model.write_data(self.selected_file_path)
+
         self.read_validate_and_display_file(self.selected_file_path)
 
     @Slot(tuple)

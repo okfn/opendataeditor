@@ -324,7 +324,7 @@ class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
 
     # Signal to notify that the metadata has been saved
-    on_save = Signal()
+    on_save = Signal(object)
 
     def __init__(self):
         super().__init__()
@@ -393,7 +393,8 @@ class DataViewer(QWidget):
 
     def save_metadata_to_descriptor_file(self, field_form: dict):
         """Save the metadata to the descriptor file."""
-        field = self.resource.schema.fields[field_form.get("index")]
+        field_index = field_form.get("index")
+        field = self.resource.schema.fields[field_index]
 
         field.name = field_form.get("name")
         field.title = field_form.get("name")
@@ -422,4 +423,14 @@ class DataViewer(QWidget):
             print(f"Saving metadata {file.metadata_path}")
             json.dump(self.metadata, f)
 
-        self.on_save.emit()
+        # Check if we name was changed, if so we need to update the header
+        model = self.table_view.model()
+        index = model.index(0, field_index)
+        original_name = model.data(index, Qt.DisplayRole)
+
+        table_view_changed = False
+        if original_name != field.name:
+            model.setData(index, field.name, Qt.EditRole)
+            table_view_changed = True
+
+        self.on_save.emit(table_view_changed)
