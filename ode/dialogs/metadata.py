@@ -12,6 +12,14 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, Signal
 
+DIALECT_SEPERATORS = [
+    ("Comma (,)", ","),
+    ("Semicolon (;)", ";"),
+    ("Tab", "\t"),
+    ("Pipe (|)", "|"),
+    ("Space", " "),
+]
+
 
 class NoWheelComboBox(QComboBox):
     """QComboBox that disables the mouse wheel event.
@@ -95,15 +103,7 @@ class MetadataForm(QWidget):
         self.dialect_separator_label = QLabel()
         layout.addWidget(self.dialect_separator_label, 5, 0)
         self.dialect_separator = NoWheelComboBox()
-        self.dialect_separator.addItems(
-            [
-                self.tr("Comma (,)"),
-                self.tr("Semicolon (;)"),
-                self.tr("Tab"),
-                self.tr("Pipe (|)"),
-                self.tr("Space"),
-            ]
-        )
+        self.dialect_separator.addItems([self.tr(sep) for sep, _ in DIALECT_SEPERATORS])
         layout.addWidget(self.dialect_separator, 5, 1, 1, 3)
 
         # Set layout properties
@@ -134,7 +134,7 @@ class MetadataDialog(QDialog):
 
     save_clicked = Signal(object)
 
-    def __init__(self, parent: QWidget, field: dict):
+    def __init__(self, parent: QWidget, field: dict, field_index: int):
         """
         Initialize the dialog.
 
@@ -143,6 +143,8 @@ class MetadataDialog(QDialog):
         """
         super().__init__(parent)
         self.parent = parent
+
+        self.field_index = field_index
 
         # Set up the form
         self.form = MetadataForm()
@@ -184,8 +186,12 @@ class MetadataDialog(QDialog):
         self.retranslateUI()
 
     def save_and_close(self):
+        """
+        Emits the save_clicked signal with the form data and closes the dialog.
+        """
         self.save_clicked.emit(
             {
+                "index": self.field_index,
                 "name": self.form.name.text(),
                 "type": self.form.type.currentText(),
                 "description": self.form.description.toPlainText(),
@@ -194,7 +200,7 @@ class MetadataDialog(QDialog):
                     "minLength": int(self.form.min_length.text()) if self.form.min_length.text() else None,
                     "maxLength": int(self.form.max_length.text()) if self.form.max_length.text() else None,
                 },
-                "dialectSeparator": self.form.dialect_separator.currentText(),
+                "dialectSeparator": DIALECT_SEPERATORS[self.form.dialect_separator.currentIndex()][1],
             }
         )
         self.accept()

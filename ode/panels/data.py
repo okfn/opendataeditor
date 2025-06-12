@@ -1,3 +1,4 @@
+import json
 import csv
 import logging
 from pathlib import Path
@@ -75,6 +76,10 @@ class DataWorker(QRunnable):
 
 
 class DropdownIconDelegate(QStyledItemDelegate):
+    """
+    Custom delegate to render an icon in the first row of the table.
+    """
+
     dropdown_clicked = Signal(object)
 
     def __init__(self, icon_path, parent=None):
@@ -83,7 +88,7 @@ class DropdownIconDelegate(QStyledItemDelegate):
         self.icon = QIcon(icon_path)
 
     def _get_icon_rect(self, option):
-        """Método helper para calcular la posición del icono"""
+        """Get the rectangle where the icon should be painted."""
         return QRect(
             option.rect.right() - self.icon_size,
             option.rect.top(),
@@ -92,12 +97,17 @@ class DropdownIconDelegate(QStyledItemDelegate):
         )
 
     def paint(self, painter, option, index):
+        """Paint the icon in the first row of the table."""
         super().paint(painter, option, index)
 
         if index.row() == 0:
             self.icon.paint(painter, self._get_icon_rect(option))
 
     def editorEvent(self, event, model, option, index):
+        """
+        Handle mouse events for the icon in the first row.
+        This method checks if the mouse event is over the icon and handles clicks.
+        """
         if index.row() != 0:
             return super().editorEvent(event, model, option, index)
 
@@ -117,7 +127,7 @@ class DropdownIconDelegate(QStyledItemDelegate):
         return super().editorEvent(event, model, option, index)
 
     def handle_dropdown_click(self, index):
-        print(f"Dropdown clicked en columna {index.column()}: {index.data()}")
+        """Handle the click on the dropdown icon."""
         self.dropdown_clicked.emit(index.column())
 
 
@@ -313,6 +323,9 @@ class FrictionlessTableModel(QAbstractTableModel):
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
 
+    # Signal to notify that the metadata has been saved
+    on_save = Signal()
+
     def __init__(self):
         super().__init__()
 
@@ -360,7 +373,7 @@ class DataViewer(QWidget):
         Shows a dialog to edit a contributor.
         """
         field = self.resource.schema.fields[field_index]
-        dialog = MetadataDialog(self, field)
+        dialog = MetadataDialog(self, field, field_index)
         dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 
@@ -378,43 +391,35 @@ class DataViewer(QWidget):
         """Apply translations to class elements."""
         self.label.setText(self.tr("Preview not available for this item."))
 
-    def save_metadata_to_descriptor_file(self, field_form):
-        print(f"Saving metadata to descriptor file...{field_form}")
-        # field = self.resource.schema.fields[i]
+    def save_metadata_to_descriptor_file(self, field_form: dict):
+        """Save the metadata to the descriptor file."""
+        field = self.resource.schema.fields[field_form.get("index")]
 
-        # field.title = field_form.title.text()
-        # field.description = field_form.description.text()
+        field.name = field_form.get("name")
+        field.title = field_form.get("name")
+        field.description = field_form.get("description", "")
+        field.constraints = {
+            "required": field_form.get("constraints").get("required"),
+        }
 
-        # constraints = {
-        #     "required": field_form.constraint_required.currentText() == "True",
-        # }
+        if field_form.get("constraints").get("minLength"):
+            field.constraints["minLength"] = field_form.get("constraints").get("minLength")
 
-        # min_length = field_form.constraint_min_length.text().strip()
-        # if min_length:
-        #     constraints["minLength"] = int(min_length)
+        if field_form.get("constraints").get("maxLength"):
+            field.constraints["maxLength"] = field_form.get("constraints").get("maxLength")
 
-        # max_length = field_form.constraint_max_length.text().strip()
-        # if max_length:
-        #     constraints["maxLength"] = int(max_length)
+        # Update the field in the schema
+        self.resource.schema.set_field(field)
 
-        # if field_form.constraint_enum.text():
-        #     constraints["enum"] = field_form.constraint_enum.text().split(",")
+        # Field.type cannot be updated directly, we need to use set_field_type
+        # it needs to be after the set_field to avoid being overridden
+        self.resource.schema.set_field_type(field.name, field_form.get("type"))
 
-        # if field_form.constraint_pattern.text():
-        #     constraints["pattern"] = field_form.constraint_pattern.text()
+        self.metadata["resource"] = self.resource.to_descriptor()
+        file = File(self.resource.path)
 
-        # field.constraints = constraints
+        with open(file.metadata_path, "w") as f:
+            print(f"Saving metadata {file.metadata_path}")
+            json.dump(self.metadata, f)
 
-        # # Update the field in the schema
-        # self.resource.schema.set_field(field)
-
-        # # field type cannot be updated directly, we need to use set_field_type
-        # # it needs to be after the set_field to avoid beeing overridden
-        # self.resource.schema.set_field_type(field.name, field_form.types.currentText())
-
-        # self.metadata["resource"] = self.resource.to_descriptor()
-        # file = File(self.resource.path)
-
-        # with open(file.metadata_path, "w") as f:
-        #     print(f"Saving metadata {file.metadata_path}")
-        #     json.dump(self.metadata, f)
+        self.on_save.emit()
