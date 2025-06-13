@@ -221,3 +221,81 @@ QTableView::item:selected {
   color: black;
   border: 2px solid #646464;
 }
+/* Keyboard Focus Styles for Accessibility */
+
+/* General focus styles for primary UI components */
+QPushButton:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+QLineEdit:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+QComboBox:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+QTreeView:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+QTableView:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+/* Specific focus styles for toolbar buttons */
+Toolbar QPushButton:focus {
+  border: 2px solid #0288D1;
+  background-color: #F0F0F0;
+  outline: none;
+}
+
+/* Focus styles for save/publish buttons */
+QPushButton#button_save:focus, QPushButton#button_publish:focus {
+  border: 3px solid #0288D1;
+  outline: none;
+}
+
+/* Focus styles for sidebar elements */
+Sidebar QPushButton#button_upload:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+Sidebar QPushButton:focus {
+  border: 2px solid #0288D1;
+  background: #D0D0D0;
+  outline: none;
+}
+
+Sidebar QTreeView:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+/* Focus styles for welcome screen buttons */
+Welcome QPushButton:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+/* Focus styles for dialog buttons */
+DataUploadDialog QPushButton:focus,
+DeleteDialog QPushButton:focus,
+RenameDialog QPushButton:focus,
+PublishDialog QPushButton:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
+
+/* Focus styles for table items */
+QTableView::item:focus {
+  border: 2px solid #0288D1;
+  outline: none;
+}
