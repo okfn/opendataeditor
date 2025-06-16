@@ -12,14 +12,6 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, Signal
 
-DIALECT_SEPERATORS = [
-    ("Comma (,)", ","),
-    ("Semicolon (;)", ";"),
-    ("Tab", "\t"),
-    ("Pipe (|)", "|"),
-    ("Space", " "),
-]
-
 
 class NoWheelComboBox(QComboBox):
     """QComboBox that disables the mouse wheel event.
@@ -55,17 +47,17 @@ class MetadataForm(QWidget):
         self.type = NoWheelComboBox()
         self.type.addItems(
             [
+                "number",
+                "date",
+                "string",
                 "any",
                 "array",
                 "boolean",
-                "date",
                 "datetime",
                 "duration",
                 "geojson",
                 "geopoint",
                 "integer",
-                "number",
-                "string",
                 "object",
                 "time",
                 "year",
@@ -85,7 +77,7 @@ class MetadataForm(QWidget):
         self.required_label = QLabel()
         layout.addWidget(self.required_label, 3, 0)
         self.required = QComboBox()
-        self.required.addItems(["Highlight", "Don't Highlight"])
+        self.required.addItems(["Yes", "No"])
         layout.addWidget(self.required, 3, 1, 1, 3)
 
         # Min and Max Length
@@ -98,13 +90,6 @@ class MetadataForm(QWidget):
         layout.addWidget(self.max_length_label, 4, 2)
         self.max_length = QLineEdit()
         layout.addWidget(self.max_length, 4, 3)
-
-        # Separator
-        self.dialect_separator_label = QLabel()
-        layout.addWidget(self.dialect_separator_label, 5, 0)
-        self.dialect_separator = NoWheelComboBox()
-        self.dialect_separator.addItems([self.tr(sep) for sep, _ in DIALECT_SEPERATORS])
-        layout.addWidget(self.dialect_separator, 5, 1, 1, 3)
 
         # Error label
         self.error_label = QLabel()
@@ -124,13 +109,12 @@ class MetadataForm(QWidget):
         """
         Applies the translations to the labels.
         """
-        self.nameLabel.setText(self.tr("Name:"))
-        self.typeLabel.setText(self.tr("Type:"))
+        self.nameLabel.setText(self.tr("Column Name:"))
+        self.typeLabel.setText(self.tr("Data Type:"))
         self.description_label.setText(self.tr("Description:"))
-        self.required_label.setText(self.tr("Empty Fields:"))
-        self.min_length_label.setText(self.tr("Min. Character Limit:"))
-        self.max_length_label.setText(self.tr("Max Character Limit:"))
-        self.dialect_separator_label.setText(self.tr("Separator Type:"))
+        self.required_label.setText(self.tr("Flag empty cell as errors?:"))
+        self.min_length_label.setText(self.tr("Min. Characters in cells:"))
+        self.max_length_label.setText(self.tr("Max. Characters in cell"))
 
 
 class MetadataDialog(QDialog):
@@ -159,7 +143,7 @@ class MetadataDialog(QDialog):
         self.form.name.setText(field.name)
         self.form.type.setCurrentText(field.type)
         self.form.description.setText(field.description)
-        self.form.required.setCurrentText("Highlight" if field.constraints.get("required") else "Don't Highlight")
+        self.form.required.setCurrentText("Yes" if field.constraints.get("required") else "No")
         self.form.min_length.setText(str(field.constraints.get("minLength", "")))
         self.form.max_length.setText(str(field.constraints.get("maxLength", "")))
 
@@ -214,11 +198,10 @@ class MetadataDialog(QDialog):
                 "type": self.form.type.currentText(),
                 "description": self.form.description.toPlainText(),
                 "constraints": {
-                    "required": self.form.required.currentText() == "Highlight",
+                    "required": self.form.required.currentText() == "Yes",
                     "minLength": int(self.form.min_length.text()) if self.form.min_length.text() else None,
                     "maxLength": int(self.form.max_length.text()) if self.form.max_length.text() else None,
                 },
-                "dialectSeparator": DIALECT_SEPERATORS[self.form.dialect_separator.currentIndex()][1],
             }
         )
         self.accept()

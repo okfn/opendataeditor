@@ -2,7 +2,7 @@ import json
 import sys
 
 from frictionless.resources import TableResource
-from frictionless import Field, system
+from frictionless import system
 from pathlib import Path
 from PySide6.QtCore import Qt, Slot, QItemSelectionModel, Signal, QEvent
 from PySide6.QtWidgets import (
@@ -15,7 +15,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QMessageBox,
-    QScrollArea,
     QTreeWidget,
     QTreeWidgetItem,
     QListWidget,
@@ -23,10 +22,6 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QComboBox,
-    QGridLayout,
-    QSizePolicy,
-    QGroupBox,
-    QFrame,
 )
 
 from ode.dialogs.contributor_dialog import ContributorDialog
@@ -35,7 +30,7 @@ from ode.paths import Paths
 from ode import utils
 
 _RESOURCE_METADATA = {
-    "Schema": ["Columns"],
+    "Schema": [],
     "Resource": ["Integrity", "Licenses", "Contributors", "Sources"],
     "Dialect": ["Csv"],
 }
@@ -70,18 +65,6 @@ class BaseForm(QWidget):
                 title, text = self.help_texts[source]
                 self.help_text_requested.emit(title, text)
         return super().eventFilter(source, event)
-
-
-class NoWheelComboBox(QComboBox):
-    """QComboBox that disables the mouse wheel event.
-
-    The current UX when scrolling through FieldsForms is not ideal since as soon as
-    the mouse points a QComboBox the form stops scrolling and it starts changing the
-    value of the QComboBox instead.
-    """
-
-    def wheelEvent(self, event):
-        event.ignore()
 
 
 class LicensesForm(BaseForm):
@@ -168,250 +151,6 @@ class LicensesForm(BaseForm):
     def retranslateUI(self):
         # TODO: implement translations
         pass
-
-
-class SingleFieldForm(BaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setAttribute(Qt.WA_StyledBackground, True)
-        main_layout = QVBoxLayout(self)
-        form_layout = QFormLayout()
-        self.name = QLineEdit()
-        self.name_label = QLabel()
-        form_layout.addRow(self.name_label, self.name)
-        # name is read-only since is always updated to the contents of the first row of the file.
-        self.name.setDisabled(True)
-        self.types = NoWheelComboBox()
-        self.types.addItems(
-            [
-                "any",
-                "array",
-                "boolean",
-                "date",
-                "datetime",
-                "duration",
-                "geojson",
-                "geopoint",
-                "integer",
-                "number",
-                "string",
-                "object",
-                "time",
-                "year",
-                "yearmonth",
-            ]
-        )
-        self.type_label = QLabel()
-        form_layout.addRow(self.type_label, self.types)
-
-        self.title_label = QLabel()
-        self.title = QLineEdit()
-        form_layout.addRow(self.title_label, self.title)
-
-        self.description = QLineEdit()
-        self.description_label = QLabel()
-        form_layout.addRow(self.description_label, self.description)
-
-        self.missing_values_label = QLabel()
-        self.missing_values = QLineEdit()
-        self.missing_values.setEnabled(False)
-        form_layout.addRow(self.missing_values_label, self.missing_values)
-
-        self.rdf_type = QLineEdit()
-        self.rdf_type_label = QLabel()
-        form_layout.addRow(self.rdf_type_label, self.rdf_type)
-
-        self.constraints_label = QLabel()
-        form_layout.addRow(self.constraints_label, self.create_constraint_fields())
-        main_layout.addLayout(form_layout)
-
-        # Add a horizontal line to separate the constraints from the rest of the form
-        horizontal_line = QFrame()
-        horizontal_line.setFrameShape(QFrame.HLine)
-        horizontal_line.setFrameShadow(QFrame.Sunken)
-        horizontal_line.setLineWidth(1)
-        main_layout.addWidget(horizontal_line)
-
-        self.setLayout(main_layout)
-        self.retranslateUI()
-
-        self.help_texts = {
-            self.types: (self.tr("Column Type"), self.tr("String indicating the type of this field.")),
-            self.title: (self.tr("Column Title"), self.tr("A human-readable title.")),
-            self.description: (self.tr("Column Description"), self.tr("A description of the field.")),
-            self.missing_values: (
-                self.tr("Column Missing Values"),
-                self.tr("Specifies which string values should be treated as null values."),
-            ),
-            self.rdf_type: (self.tr("Column RDF Type"), self.tr("Indicates whether the field is of RDF type.")),
-            self.constraint_required: (
-                self.tr("Column required"),
-                self.tr("Indicates whether this field cannot be null."),
-            ),
-            self.constraint_enum: (
-                self.tr("Column Enum"),
-                self.tr(
-                    "Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values."
-                ),
-            ),
-            self.constraint_max_length: (
-                self.tr("Column Max Length"),
-                self.tr("An integer that specifies the maximum length of a value."),
-            ),
-            self.constraint_min_length: (
-                self.tr("Column Min Length"),
-                self.tr("An integer that specifies the minimum length of a value."),
-            ),
-            self.constraint_pattern: (
-                self.tr("Column Pattern"),
-                self.tr(
-                    "A regular expression that can be used to test field values. If the regular expression matches then the value is valid."
-                ),
-            ),
-        }
-
-        self._install_help_events()
-
-    def create_constraint_fields(self):
-        """
-        Creates the constraint fields for the field form.
-
-        Constraints are:
-        - Required
-        - Length
-        - Pattern
-        - Enum
-        """
-        constraint_container = QWidget()
-        constraint_layout = QVBoxLayout(constraint_container)
-        constraint_layout.setContentsMargins(0, 0, 0, 0)
-
-        grid_container = grid_container = QGroupBox("")
-        grid_layout = QGridLayout(grid_container)
-        grid_layout.setContentsMargins(0, 0, 0, 0)
-
-        self.constraint_required_label = QLabel()
-        grid_layout.addWidget(self.constraint_required_label, 0, 0)
-        self.constraint_required = QComboBox()
-        self.constraint_required.addItems(["True", "False"])
-        self.constraint_required.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        grid_layout.addWidget(self.constraint_required, 0, 1, 1, 3)
-
-        self.constraint_min_length_label = QLabel()
-        grid_layout.addWidget(self.constraint_min_length_label, 1, 0)
-        self.constraint_min_length = QLineEdit()
-        self.constraint_min_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        grid_layout.addWidget(self.constraint_min_length, 1, 1)
-
-        self.constraint_max_length_label = QLabel()
-        grid_layout.addWidget(self.constraint_max_length_label, 1, 2)
-        self.constraint_max_length = QLineEdit()
-        self.constraint_max_length.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        grid_layout.addWidget(self.constraint_max_length, 1, 3)
-
-        self.constraint_enum_label = QLabel()
-        grid_layout.addWidget(self.constraint_enum_label, 2, 0)
-        self.constraint_enum = QLineEdit()
-        self.constraint_enum.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        grid_layout.addWidget(self.constraint_enum, 2, 1)
-
-        self.constraint_pattern_label = QLabel()
-        grid_layout.addWidget(self.constraint_pattern_label, 2, 2)
-        self.constraint_pattern = QLineEdit()
-        self.constraint_pattern.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        grid_layout.addWidget(self.constraint_pattern, 2, 3)
-
-        grid_layout.setColumnMinimumWidth(1, 100)
-        grid_layout.setColumnMinimumWidth(3, 100)
-        grid_layout.setColumnStretch(1, 1)
-        grid_layout.setColumnStretch(3, 1)
-
-        grid_layout.setHorizontalSpacing(10)
-
-        constraint_layout.addWidget(grid_container)
-
-        return constraint_container
-
-    def populate(self, field):
-        self.name.setText(field.name)
-        self.types.setCurrentText(field.type)
-        self.title.setText(field.title)
-        self.description.setText(field.description)
-        self.rdf_type.setText(field.rdf_type)
-
-        self.constraint_min_length.setText(str(field.constraints.get("minLength", "")))
-        self.constraint_max_length.setText(str(field.constraints.get("maxLength", "")))
-        self.constraint_pattern.setText(field.constraints.get("pattern", ""))
-        self.constraint_enum.setText(",".join(field.constraints.get("enum", [])))
-        self.constraint_required.setCurrentText(str(field.constraints.get("required", False)))
-
-    def retranslateUI(self):
-        self.name_label.setText(self.tr("Name:"))
-        self.type_label.setText(self.tr("Type:"))
-        self.title_label.setText(self.tr("Title:"))
-        self.description_label.setText(self.tr("Description:"))
-        self.missing_values_label.setText(self.tr("Missing Values:"))
-        self.rdf_type_label.setText(self.tr("RDF Type:"))
-        self.constraints_label.setText(self.tr("Constraints"))
-
-        self.constraint_required_label.setText(self.tr("Required:"))
-        self.constraint_min_length_label.setText(self.tr("Min Length:"))
-        self.constraint_max_length_label.setText(self.tr("Max Length:"))
-        self.constraint_enum_label.setText(self.tr("Enum:"))
-        self.constraint_pattern_label.setText(self.tr("Pattern:"))
-
-
-class FieldsForm(BaseForm):
-    """Widget to dynamically display the field forms.
-
-    This is a tricky widget since it has to dinamycally add/remove field forms
-    inside a QScrollArea when we navigate between resources.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.scroll_area = QScrollArea(self)
-        self.scroll_area.setWidgetResizable(True)
-        self.setAttribute(Qt.WA_StyledBackground, True)
-
-        self.container_widget = QWidget(objectName="fields_form_container")
-        self.container_layout = QVBoxLayout()
-        self.container_layout.setSpacing(0)
-        self.container_layout.setContentsMargins(0, 0, 0, 0)
-        self.container_widget.setLayout(self.container_layout)
-        self.scroll_area.setWidget(self.container_widget)
-        self.field_forms = []
-
-    def remove_forms(self):
-        for form in self.field_forms:
-            self.container_layout.removeWidget(form)
-            form.deleteLater()
-        self.field_forms = []
-
-    def populate(self, metadata):
-        if self.field_forms:
-            self.remove_forms()
-        for field in metadata.get("resource").schema.fields:
-            form = SingleFieldForm()
-            form.help_text_requested.connect(self.help_text_requested)
-            form.populate(field)
-            self.field_forms.append(form)
-            self.container_layout.addWidget(form)
-
-    def resizeEvent(self, event):
-        """Ensure the QScrollArea resizes to fit the parent layout.
-
-        I couldn't find a better way to rezise the QScrollArea to always fit
-        the parent container. QScrollArea seems to have a particular behaviour
-        related to sizes, specially on widgets that adds childrens dynamically:
-        https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QScrollArea.html#size-hints-and-layouts
-        """
-        super().resizeEvent(event)
-        self.scroll_area.setGeometry(self.rect())
-
-    def retranslateUI(self):
-        for form in self.field_forms:
-            form.retranslateUI()
 
 
 class SchemaForm(BaseForm):
@@ -654,7 +393,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
         self.forms_layout = QStackedLayout()
         self.forms = [
             SchemaForm(),
-            FieldsForm(),
             ResourceForm(),
             IntegrityForm(),
             LicensesForm(),
@@ -737,12 +475,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
             self.set_help_text(
                 "Schema",
                 "Table Schema is a specification for providing a schema for tabular data. It includes the expected data type for each value in a column.",
-            )
-        elif form == "Columns":
-            self.forms_layout.setCurrentIndex(1)
-            self.set_help_text(
-                "Columns",
-                "Columns is an ordered list of field descriptors, provides additional human-readable documentation for a field, as well as additional information that may be used to validate the field.",
             )
         if form == "Resource":
             self.forms_layout.setCurrentIndex(2)
@@ -841,66 +573,6 @@ class FrictionlessResourceMetadataWidget(QWidget):
                 # We remove the spaces from the missing values
                 self.resource.schema.missing_values = [m.strip() for m in form.missing_values.text().split(",")]
                 self.resource.schema.description = form.description.text()
-            elif isinstance(form, FieldsForm):
-                for i, field_form in enumerate(form.field_forms):
-                    field = self.resource.schema.fields[i]
-                    field.title = field_form.title.text()
-                    field.description = field_form.description.text()
-                    # TODO: Fix it, a string is not a valid value for missing_values but an array
-                    # field.missing_values = field_form.missing_values.text()
-                    field.rdf_type = field_form.rdf_type.text()
-
-                    constraints = {
-                        "required": field_form.constraint_required.currentText() == "True",
-                    }
-
-                    min_length = field_form.constraint_min_length.text().strip()
-                    if min_length:
-                        constraints["minLength"] = int(min_length)
-
-                    max_length = field_form.constraint_max_length.text().strip()
-                    if max_length:
-                        constraints["maxLength"] = int(max_length)
-
-                    if field_form.constraint_enum.text():
-                        constraints["enum"] = field_form.constraint_enum.text().split(",")
-
-                    if field_form.constraint_pattern.text():
-                        constraints["pattern"] = field_form.constraint_pattern.text()
-
-                    field.constraints = constraints
-
-                    # Update the field in the schema
-                    self.resource.schema.set_field(field)
-
-                    # field type cannot be updated directly, we need to use set_field_type
-                    # it needs to be after the set_field to avoid beeing overridden
-                    self.resource.schema.set_field_type(field.name, field_form.types.currentText())
-
-                # Frictionless' field.name is MANDATORY and UNIQUE and require specific behaviour:
-                # 1. By default, appends <number> if they are duplicated in the file: E.g. field1, field2
-                # 2. Can't be empty, so if user edits it and leave it empty we need to write something to the schema.
-                # 3. Ideally should have the content of the first row of our file (except in the previous scenarios).
-                # 4. If the file has more headers than schema.fields, we add a new field to the schema.
-                file_headers = table_model.get_header_data()
-                number_of_fields = len(self.resource.schema.fields)
-                for i, file_header in enumerate(file_headers):
-                    if i >= number_of_fields:
-                        # If the file has more headers than fields, we add a new field to the schema.
-                        self.resource.schema.add_field(Field(name=file_header, title=file_header))
-                        continue
-                    if not file_header:
-                        # If the file is missing a header, we set Frictionless' default and mandatory
-                        # value for name attribute: field<number>.
-                        self.resource.schema.fields[i].name = f"field{i+1}"
-                        continue
-                    if file_headers.count(file_header) > 1:
-                        # If the user explicitly enters a duplicated name, we do not update it so we have a
-                        # valid schema and still detect duplicated headers.
-                        continue
-                    new_name = file_header.strip()  # Frictionless strips column names so we keep compatibility.
-                    self.resource.schema.fields[i].name = new_name
-
             elif isinstance(form, LicensesForm):
                 self.resource.licenses = form.get_selected_licenses()
             elif isinstance(form, ContributorsForm):
