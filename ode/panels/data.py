@@ -341,7 +341,7 @@ class DataViewer(QWidget):
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
-        self.delegate = DropdownIconDelegate(Paths.asset("icons/three-lines2.png"))
+        self.delegate = DropdownIconDelegate(Paths.asset("icons/three-lines.png"))
         self.delegate.dropdown_clicked.connect(self.show_contributor_dialog)
 
         layout.addWidget(self.label)
