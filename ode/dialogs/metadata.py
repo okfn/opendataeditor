@@ -13,6 +13,67 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal
 
 
+class DataTypeMapper:
+    """Class to handle bidirectional mapping between internal types and user-displayed types"""
+
+    DATA_TYPES = [
+        "number",
+        "date",
+        "string",
+        "any",
+        "array",
+        "boolean",
+        "datetime",
+        "duration",
+        "geojson",
+        "geopoint",
+        "integer",
+        "object",
+        "time",
+        "year",
+        "yearmonth",
+    ]
+
+    # Mapping from internal types to user-displayed types
+    DISPLAY_MAPPING = {
+        "string": "Text",
+        "number": "Number",
+        "date": "Date",
+        "any": "Any",
+        "array": "Array",
+        "boolean": "Boolean",
+        "datetime": "Date Time",
+        "duration": "Duration",
+        "geojson": "GeoJSON",
+        "geopoint": "Geo Point",
+        "integer": "Integer",
+        "object": "Object",
+        "time": "Time",
+        "year": "Year",
+        "yearmonth": "Year Month",
+    }
+
+    def __init__(self):
+        # Reverse mapping: from displayed types to internal types
+        self.internal_mapping = {v: k for k, v in self.DISPLAY_MAPPING.items()}
+
+    def get_display_type(self, internal_type):
+        """Converts an internal type to its user-displayed representation"""
+        return self.DISPLAY_MAPPING.get(internal_type, internal_type)
+
+    def get_internal_type(self, display_type):
+        """Converts a user-displayed type to its internal representation"""
+        return self.internal_mapping.get(display_type, display_type)
+
+    def get_all_display_types(self):
+        """Returns all types in user-display format"""
+        return [self.get_display_type(t) for t in self.DATA_TYPES]
+
+    def get_all_internal_types(self):
+        """Returns all internal types"""
+        return self.DATA_TYPES.copy()
+
+
 class NoWheelComboBox(QComboBox):
     """QComboBox that disables the mouse wheel event.
 
@@ -45,25 +106,6 @@ class MetadataForm(QWidget):
         self.typeLabel = QLabel()
         layout.addWidget(self.typeLabel, 1, 0)
         self.type = NoWheelComboBox()
-        self.type.addItems(
-            [
-                "number",
-                "date",
-                "string",
-                "any",
-                "array",
-                "boolean",
-                "datetime",
-                "duration",
-                "geojson",
-                "geopoint",
-                "integer",
-                "object",
-                "time",
-                "year",
-                "yearmonth",
-            ]
-        )
         layout.addWidget(self.type, 1, 1, 1, 3)
 
         # Description
@@ -112,7 +154,7 @@ class MetadataForm(QWidget):
         self.nameLabel.setText(self.tr("Column Name:"))
         self.typeLabel.setText(self.tr("Data Type:"))
         self.description_label.setText(self.tr("Description:"))
-        self.required_label.setText(self.tr("Flag empty cell as errors?:"))
+        self.required_label.setText(self.tr("Flag empty cells as errors?:"))
         self.min_length_label.setText(self.tr("Min. Characters in cells:"))
         self.max_length_label.setText(self.tr("Max. Characters in cell"))
 
@@ -134,6 +176,8 @@ class MetadataDialog(QDialog):
         super().__init__(parent)
         self.parent = parent
 
+        self.dataTypeMapper = DataTypeMapper()
+
         self.field_index = field_index
         self.field_names = field_names
         self.field = field
@@ -141,7 +185,8 @@ class MetadataDialog(QDialog):
         # Set up the form
         self.form = MetadataForm()
         self.form.name.setText(field.name)
-        self.form.type.setCurrentText(field.type)
+        self.form.type.addItems(self.dataTypeMapper.get_all_display_types())
+        self.form.type.setCurrentText(self.dataTypeMapper.get_display_type(field.type))
         self.form.description.setText(field.description)
         self.form.required.setCurrentText("Yes" if field.constraints.get("required") else "No")
         self.form.min_length.setText(str(field.constraints.get("minLength", "")))
@@ -181,26 +226,52 @@ class MetadataDialog(QDialog):
         """
         Emits the save_clicked signal with the form data and closes the dialog.
         """
+        errors = []
+
         # Validate the field name
         field_name = self.form.name.text()
         if field_name != self.field.name:
             if field_name.strip() == "" or field_name in self.field_names:
                 # If the name is already used, show an error
                 self.form.name.setStyleSheet("border: 1px solid red;")
-                self.form.error_label.setText(self.tr("The name is required and must be unique."))
-                self.form.error_label.setHidden(False)
-                return
+                if field_name.strip() == "":
+                    self.form.error_label.setText(self.tr("Column name cannot be empty"))
+                else:
+                    errors.append(
+                        self.tr(
+                            "There is another column in the table with the same name. Please choose a different one"
+                        )
+                    )
+
+        min_length = None
+        if self.form.min_length.text():
+            try:
+                min_length = int(self.form.min_length.text())
+            except ValueError:
+                errors.append(self.tr("Min. Characters in cells must be a number"))
+
+        max_length = None
+        if self.form.max_length.text():
+            try:
+                max_length = int(self.form.max_length.text())
+            except ValueError:
+                errors.append(self.tr("Max. Characters in cell must be a number"))
+
+        if errors:
+            self.form.error_label.setText("\n".join(errors))
+            self.form.error_label.setHidden(False)
+            return
 
         self.save_clicked.emit(
             {
                 "index": self.field_index,
                 "name": field_name,
-                "type": self.form.type.currentText(),
+                "type": self.dataTypeMapper.get_internal_type(self.form.type.currentText()),
                 "description": self.form.description.toPlainText(),
                 "constraints": {
                     "required": self.form.required.currentText() == "Yes",
-                    "minLength": int(self.form.min_length.text()) if self.form.min_length.text() else None,
-                    "maxLength": int(self.form.max_length.text()) if self.form.max_length.text() else None,
+                    "minLength": min_length,
+                    "maxLength": max_length,
                 },
             }
         )
