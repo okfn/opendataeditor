@@ -559,8 +559,8 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_save.clicked.connect(self.on_save_click)
         self.content.toolbar.button_ai.clicked.connect(self.on_ai_click)
         self.content.toolbar.button_data.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
-        self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
-        self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(3))
+        self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+        self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
 
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
@@ -604,16 +604,12 @@ class MainWindow(QMainWindow):
         # By default is disabled because not file is selected
         self.menu_view.setEnabled(False)
 
-        self.menu_view_action_metadata_panel = QAction()
-        self.menu_view_action_metadata_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
-        self.menu_view.addAction(self.menu_view_action_metadata_panel)
-
         self.menu_view_action_errors_panel = QAction()
-        self.menu_view_action_errors_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+        self.menu_view_action_errors_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
         self.menu_view.addAction(self.menu_view_action_errors_panel)
 
         self.menu_view_action_source_panel = QAction()
-        self.menu_view_action_source_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(3))
+        self.menu_view_action_source_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
         self.menu_view.addAction(self.menu_view_action_source_panel)
 
         self.menuBar().addMenu(self.menu_view)
@@ -687,7 +683,6 @@ class MainWindow(QMainWindow):
 
         # View
         self.menu_view.setTitle(self.tr("View"))
-        self.menu_view_action_metadata_panel.setText(self.tr("Metadata panel"))
         self.menu_view_action_errors_panel.setText(self.tr("Errors panel"))
         self.menu_view_action_source_panel.setText(self.tr("Source panel"))
 
