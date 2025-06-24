@@ -46,6 +46,7 @@ from ode.dialogs.contributor_dialog import QDialog
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
+from ode.llama import LlamaDialog, LlamaDownloadDialog
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
@@ -467,6 +468,8 @@ class Content(QWidget):
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
         self.ai_widget = ChatGPTDialog(self)
+        self.ai_llama = LlamaDialog(self)
+        self.ai_llama_download = LlamaDownloadDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.metadata_widget)
@@ -671,7 +674,12 @@ class MainWindow(QMainWindow):
         dialog.show()
 
     def on_ai_click(self):
-        self.content.ai_widget.show()
+        # self.content.ai_widget.show()
+        if self.content.ai_llama_download.exec() == QDialog.Accepted:
+            selected_model = self.content.ai_llama_download.selected_model_path
+            if selected_model:
+                self.content.ai_llama.init_llm(selected_model)
+                self.content.ai_llama.show()
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
