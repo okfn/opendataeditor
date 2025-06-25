@@ -3,7 +3,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QTextEdit,
     QPushButton,
-    QFileDialog,
     QLabel,
     QListWidget,
     QHBoxLayout,
@@ -23,8 +22,8 @@ class Llama:
     def __init__(self, model_path):
         self.model = LlamaCPP(model_path=model_path)
 
-    def __call__(self, prompt, max_tokens=512):
-        response = self.model(prompt, max_tokens=max_tokens)
+    def __call__(self, prompt):
+        response = self.model(prompt)
         return response
 
 
@@ -44,7 +43,7 @@ class LlamaWorker(QThread):
 
     def run(self):
         self.signals.messages.emit("Procesando solicitud...")
-        response = self.llm(self.prompt, max_tokens=512)
+        response = self.llm(self.prompt)
         self.signals.finished.emit(response["choices"][0]["text"])
 
 
@@ -56,6 +55,7 @@ class LlamaDialog(QDialog):
         self.init_ui()
 
         self.loading_dialog = LoadingDialog(self)
+        self.data = None
 
     def init_ui(self):
         self.setWindowTitle("LLaMA Chat")
@@ -75,6 +75,14 @@ class LlamaDialog(QDialog):
         self.output_text.setMinimumHeight(300)
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
+
+        self.btn_analysis = QPushButton("Analisis")
+        self.btn_analysis.clicked.connect(self.analysis_table)
+        layout.addWidget(self.btn_analysis)
+
+    def set_data(self, data):
+        """Set the data for analysis."""
+        self.data = data
 
     # def init_llm(self):
     #     if not self.llm:
@@ -100,6 +108,21 @@ class LlamaDialog(QDialog):
     def on_response(self, text):
         self.output_text.setText(text)
         self.btn_send.setEnabled(True)
+
+    def analysis_table(self):
+        if self.llm is None or self.data is None:
+            return
+
+        self.worker = TableAnalysisWorker(self.llm, self.data)
+        self.worker.signals.finished.connect(self.on_analysis_finished)
+        self.worker.signals.messages.connect(self.loading_dialog.show_message)
+        self.worker.signals.finished.connect(self.loading_dialog.close)
+        self.worker.start()
+
+        self.loading_dialog.show()
+
+    def on_analysis_finished(self, result):
+        self.output_text.append(result)
 
 
 class LlamaDownloadWorker(QThread):
@@ -213,3 +236,67 @@ class LlamaDownloadDialog(QDialog):
         self.btn_download.setText("Descargar")
         self.url_input.clear()
         self.load_models()  # Actualizar la lista
+
+
+class TableAnalysisWorker(QThread):
+    """Extended worker for table analysis with your signal system"""
+
+    def __init__(self, llm, data):
+        super().__init__()
+        self.llm = llm
+        self.data = data
+        self.signals = DataWorkerSignals()
+
+    def run(self):
+        try:
+            self.signals.messages.emit("Preparing data for analysis...")
+
+            prompt = self.prepare_analysis_prompt()
+
+            self.signals.messages.emit("Running analysis with LLM...")
+            response = self.llm(prompt)
+            result = response["choices"][0]["text"]
+
+            self.signals.finished.emit(result)
+
+        except Exception as e:
+            self.signals.finished.emit(f"Analysis error: {str(e)}")
+
+    def prepare_analysis_prompt(self):
+        """Convert table data to prompt for analysis"""
+        headers = self.data[0]
+        rows = self.data[1:]
+        table_text = self.format_table_for_prompt(headers, rows)
+
+        prompt = f"""
+Act as an expert data analyst. Analyze this data table:
+
+DATA TABLE:
+{table_text}
+
+REQUIRED ANALYSIS:
+1. **Statistical Summary**: For numeric columns, calculate basic descriptive statistics
+2. **Data Quality**: Identify potential issues (missing values, inconsistencies, potential outliers)
+3. **Distributions**: Describe value distributions in each column
+4. **Relationships**: Identify possible correlations between variables
+5. **Key Insights**: Provide 3-5 important findings
+6. **Recommendations**: Suggest additional analysis or data cleaning steps
+
+Be specific and data-driven in your analysis.
+"""
+        print(prompt)
+        return prompt
+
+    def format_table_for_prompt(self, headers, rows):
+        """Convert table data to readable text format"""
+        table_lines = []
+
+        # Headers
+        table_lines.append(" | ".join(str(h) for h in headers))
+
+        # Data rows
+        for row in rows:
+            row_line = " | ".join(str(cell) if cell is not None else "NULL" for cell in row)
+            table_lines.append(row_line)
+
+        return "\n".join(table_lines)

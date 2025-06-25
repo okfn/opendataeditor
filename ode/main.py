@@ -808,6 +808,7 @@ class MainWindow(QMainWindow):
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
+        self.content.ai_llama.set_data(data)
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)
