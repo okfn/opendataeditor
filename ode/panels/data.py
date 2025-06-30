@@ -1,17 +1,20 @@
+import json
 import csv
 import logging
 from pathlib import Path
 from frictionless import system
 
-from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication
-from PySide6.QtGui import QColor
+from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
+from PySide6.QtGui import QColor, QIcon, QCursor
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
 
 from openpyxl import Workbook
 
 from ode import utils
+from ode.dialogs.metadata import ColumnMetadataDialog
 from ode.file import File
 from ode.shared import COLOR_RED
+from ode.paths import Paths
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -70,6 +73,62 @@ class DataWorker(QRunnable):
 
         self.signals.messages.emit(QApplication.translate("DataWorker", "Read and Validation finished."))
         self.signals.finished.emit((self.file.path, data, errors))
+
+
+class ColumnMetadataIconDelegate(QStyledItemDelegate):
+    """
+    Custom delegate to render an icon in the first row of the table.
+    """
+
+    dropdown_clicked = Signal(object)
+
+    def __init__(self, icon_path, parent=None):
+        super().__init__(parent)
+        self.icon_size = 14
+        self.icon = QIcon(icon_path)
+
+    def _get_icon_rect(self, option):
+        """Get the rectangle where the icon should be painted."""
+        return QRect(
+            option.rect.right() - self.icon_size,
+            option.rect.top(),
+            self.icon_size,
+            self.icon_size,
+        )
+
+    def paint(self, painter, option, index):
+        """Paint the icon in the first row of the table."""
+        super().paint(painter, option, index)
+
+        if index.row() == 0:
+            self.icon.paint(painter, self._get_icon_rect(option))
+
+    def editorEvent(self, event, model, option, index):
+        """
+        Handle mouse events for the icon in the first row.
+        This method checks if the mouse event is over the icon and handles clicks.
+        """
+        if index.row() != 0:
+            return super().editorEvent(event, model, option, index)
+
+        icon_rect = self._get_icon_rect(option)
+
+        # I am not sure about this
+        if event.type() == QEvent.MouseMove:
+            if icon_rect.contains(event.pos()):
+                QApplication.setOverrideCursor(QCursor(Qt.PointingHandCursor))
+            else:
+                QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
+        elif event.type() == QEvent.MouseButtonPress:
+            if icon_rect.contains(event.pos()):
+                self.handle_dropdown_click(index)
+                return True
+
+        return super().editorEvent(event, model, option, index)
+
+    def handle_dropdown_click(self, index):
+        """Handle the click on the dropdown icon."""
+        self.dropdown_clicked.emit(index.column())
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -264,6 +323,9 @@ class FrictionlessTableModel(QAbstractTableModel):
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
 
+    # Signal to notify that the metadata has been saved
+    on_save = Signal(object)
+
     def __init__(self):
         super().__init__()
 
@@ -279,20 +341,42 @@ class DataViewer(QWidget):
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
+        self.delegate = ColumnMetadataIconDelegate(Paths.asset("icons/three-lines.png"))
+        self.delegate.dropdown_clicked.connect(self.show_column_metadata_dialog)
+
         layout.addWidget(self.label)
         layout.addWidget(self.table_view)
 
         self.retranslateUI()
 
-    def display_data(self, model):
+    def display_data(self, model, filepath):
         """Set the model of the QTableView
 
         When a tabular file is selected, the main application will create a
         FrictionlessTableModel and call this function using the model as a parametner.
         """
         self.table_view.setModel(model)
+
+        self.table_view.setItemDelegate(self.delegate)
+
+        self.table_view.horizontalHeader().setDefaultSectionSize(120)
+        self.table_view.setMouseTracking(True)
+
+        self.metadata = File(filepath).get_or_create_metadata()
+        self.resource = self.metadata.get("resource")
+
         self.label.hide()
         self.table_view.show()
+
+    def show_column_metadata_dialog(self, field_index):
+        """
+        Shows a dialog to edit a column's metadata.
+        """
+        field = self.resource.schema.fields[field_index]
+        field_names = [f.name for f in self.resource.schema.fields]
+        dialog = ColumnMetadataDialog(self, field, field_index, field_names)
+        dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
+        dialog.exec()
 
     def clear(self, model):
         """Reset the view to the default state.
@@ -307,3 +391,51 @@ class DataViewer(QWidget):
     def retranslateUI(self):
         """Apply translations to class elements."""
         self.label.setText(self.tr("Preview not available for this item."))
+
+    def save_metadata_to_descriptor_file(self, field_form: dict):
+        """Save the metadata to the descriptor file."""
+        field_index = field_form.get("index")
+        field = self.resource.schema.fields[field_index]
+
+        field.name = field_form.get("name")
+        field.title = field_form.get("name")
+        field.description = field_form.get("description", "")
+        field.constraints = {
+            "required": field_form.get("constraints").get("required"),
+        }
+
+        type = field_form.get("type")
+
+        if type == "string":
+            field.constraints["minLength"] = field_form.get("constraints").get("minLength")
+            field.constraints["maxLength"] = field_form.get("constraints").get("maxLength")
+        else:
+            # If the type is not Text, we remove the minLength and maxLength constraints
+            field.constraints.pop("minLength", None)
+            field.constraints.pop("maxLength", None)
+
+        # Update the field in the schema
+        self.resource.schema.set_field(field)
+
+        # Field.type cannot be updated directly, we need to use set_field_type
+        # it needs to be after the set_field to avoid being overridden
+        self.resource.schema.set_field_type(field.name, type)
+
+        self.metadata["resource"] = self.resource.to_descriptor()
+        file = File(self.resource.path)
+
+        with open(file.metadata_path, "w") as f:
+            print(f"Saving metadata {file.metadata_path}")
+            json.dump(self.metadata, f)
+
+        # Check if we name was changed, if so we need to update the header
+        model = self.table_view.model()
+        index = model.index(0, field_index)
+        original_name = model.data(index, Qt.DisplayRole)
+
+        table_view_changed = False
+        if original_name != field.name:
+            model.setData(index, field.name, Qt.EditRole)
+            table_view_changed = True
+
+        self.on_save.emit(table_view_changed)

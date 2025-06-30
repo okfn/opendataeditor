@@ -66,6 +66,29 @@
     </message>
 </context>
 <context>
+    <name>ColumnMetadataDialog</name>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="267"/>
+        <source>Column name cannot be empty</source>
+        <translation>O nome da coluna não pode estar vazio</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="273"/>
+        <source>There is another column in the table with the same name. Please choose a different one</source>
+        <translation>Há outra coluna na tabela com o mesmo nome. Por favor, escolha outro</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="299"/>
+        <source>Save</source>
+        <translation>Salvar</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="300"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+</context>
+<context>
     <name>ContributorDetailForm</name>
     <message>
         <location filename="../../dialogs/contributor_dialog.py" line="49"/>
@@ -104,37 +127,31 @@
 <context>
     <name>ContributorItemWidget</name>
     <message>
-        <location filename="../../panels/metadata.py" line="969"/>
         <source>Details</source>
-        <translation>Detalhes</translation>
+        <translation type="vanished">Detalhes</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="970"/>
         <source>Remove</source>
-        <translation>Remover</translation>
+        <translation type="vanished">Remover</translation>
     </message>
 </context>
 <context>
     <name>ContributorsForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="1099"/>
         <source>Add Contributor</source>
-        <translation>Adicionar Contribuidor</translation>
+        <translation type="vanished">Adicionar Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1101"/>
         <source>Contributor</source>
-        <translation>Contribuidor</translation>
+        <translation type="vanished">Contribuidor</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1101"/>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation type="vanished">Salvar</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="1102"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation type="vanished">Cancelar</translation>
     </message>
 </context>
 <context>
@@ -214,7 +231,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="302"/>
+        <location filename="../../panels/data.py" line="393"/>
         <source>Preview not available for this item.</source>
         <translation>Visualização não disponível para este item.</translation>
     </message>
@@ -222,22 +239,22 @@
 <context>
     <name>DataWorker</name>
     <message>
-        <location filename="../../panels/data.py" line="55"/>
+        <location filename="../../panels/data.py" line="59"/>
         <source>Reading file...</source>
         <translation>Lendo arquivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="57"/>
+        <location filename="../../panels/data.py" line="61"/>
         <source>Validating file...</source>
         <translation>Validando arquivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="60"/>
+        <location filename="../../panels/data.py" line="64"/>
         <source>Drawing table...</source>
         <translation>Renderizando a tabela...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="70"/>
+        <location filename="../../panels/data.py" line="74"/>
         <source>Read and Validation finished.</source>
         <translation>Leitura e validação concluídas.</translation>
     </message>
@@ -268,7 +285,7 @@
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="212"/>
+        <location filename="../../panels/errors.py" line="213"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, note que a ODE atualmente detecta erros nas tabelas, com um máximo de </translation>
     </message>
@@ -319,44 +336,36 @@
 <context>
     <name>IntegrityForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="494"/>
         <source>Integrity Hash</source>
-        <translation>Hash de Integridade</translation>
+        <translation type="vanished">Hash de Integridade</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="494"/>
         <source>The MD5 hash for this resource.</source>
-        <translation>O hash MD5 para este recurso.</translation>
+        <translation type="vanished">O hash MD5 para este recurso.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="495"/>
         <source>Integrity Fields</source>
-        <translation>Campos de Integridade</translation>
+        <translation type="vanished">Campos de Integridade</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="495"/>
         <source>Total fiels in this resource.</source>
-        <translation>Total de campos neste recurso.</translation>
+        <translation type="vanished">Total de campos neste recurso.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="496"/>
         <source>Integrity Bytes</source>
-        <translation>Bytes de Integridade</translation>
+        <translation type="vanished">Bytes de Integridade</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="496"/>
         <source>Size of the resource file in bytes.</source>
-        <translation>Tamanho do arquivo do recurso em bytes.</translation>
+        <translation type="vanished">Tamanho do arquivo do recurso em bytes.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="497"/>
         <source>Integrity Rows</source>
-        <translation>Linhas de Integridade</translation>
+        <translation type="vanished">Linhas de Integridade</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="497"/>
         <source>Total rows in this resource.</source>
-        <translation>Total de linhas neste recurso.</translation>
+        <translation type="vanished">Total de linhas neste recurso.</translation>
     </message>
 </context>
 <context>
@@ -375,99 +384,158 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="585"/>
+        <location filename="../../main.py" line="578"/>
         <source>Ready.</source>
         <translation>Pronto.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="690"/>
+        <location filename="../../main.py" line="679"/>
         <source>File</source>
         <translation>Arquivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="691"/>
+        <location filename="../../main.py" line="680"/>
         <source>Add</source>
         <translation>Adicionar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="692"/>
+        <location filename="../../main.py" line="681"/>
         <source>File/Folder</source>
         <translation>Arquivo/Pasta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="693"/>
+        <location filename="../../main.py" line="682"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="696"/>
+        <location filename="../../main.py" line="685"/>
         <source>View</source>
         <translation>Visualizar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="697"/>
         <source>Metadata panel</source>
-        <translation>Painel de Metadados</translation>
+        <translation type="vanished">Painel de Metadados</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="698"/>
+        <location filename="../../main.py" line="686"/>
         <source>Errors panel</source>
         <translation>Painel de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="699"/>
+        <location filename="../../main.py" line="687"/>
         <source>Source panel</source>
         <translation>Painel de Origem</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="702"/>
+        <location filename="../../main.py" line="690"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="703"/>
+        <location filename="../../main.py" line="691"/>
         <source>User Guide</source>
         <translation>Guia do Usuário</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="704"/>
+        <location filename="../../main.py" line="692"/>
         <source>Report an Issue</source>
         <translation>Reportar um Problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="706"/>
+        <location filename="../../main.py" line="694"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="705"/>
+        <location filename="../../main.py" line="693"/>
         <source>View logs</source>
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="743"/>
+        <location filename="../../main.py" line="728"/>
         <source>Language changed.</source>
         <translation>Idioma alterado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="777"/>
+        <location filename="../../main.py" line="761"/>
         <source>File and Metadata changes saved.</source>
         <translation>Alterações no arquivo e metadados salvas.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="902"/>
+        <location filename="../../main.py" line="903"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 linhas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="922"/>
+        <location filename="../../main.py" line="923"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="927"/>
+        <location filename="../../main.py" line="928"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar para área de transferência</translation>
+    </message>
+</context>
+<context>
+    <name>MetadataDialog</name>
+    <message>
+        <source>Column name cannot be empty</source>
+        <translation type="vanished">O nome da coluna não pode estar vazio</translation>
+    </message>
+    <message>
+        <source>There is another column in the table with the same name. Please choose a different one</source>
+        <translation type="vanished">Há outra coluna na tabela com o mesmo nome. Por favor, escolha outro</translation>
+    </message>
+    <message>
+        <source>Min. Characters in cells must be a number</source>
+        <translation type="vanished">O mínimo de caracteres nas células deve ser um número</translation>
+    </message>
+    <message>
+        <source>Max. Characters in cell must be a number</source>
+        <translation type="vanished">O máximo de caracteres na célula deve ser um número</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="vanished">Salvar</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="vanished">Cancelar</translation>
+    </message>
+</context>
+<context>
+    <name>MetadataForm</name>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="177"/>
+        <source>Column Name:</source>
+        <translation>Nome da coluna:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="178"/>
+        <source>Data Type:</source>
+        <translation>Tipo de dado:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="179"/>
+        <source>Description:</source>
+        <translation>Descrição:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="180"/>
+        <source>Flag empty cells as errors?:</source>
+        <translation>Marcar células vazias como erros?</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="181"/>
+        <source>Min. Characters in cells:</source>
+        <translation>Caracteres mínimos nas células:</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/metadata.py" line="182"/>
+        <source>Max. Characters in cell</source>
+        <translation>Caracteres máximos na célula:</translation>
     </message>
 </context>
 <context>
@@ -509,137 +577,111 @@
 <context>
     <name>ResourceForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="554"/>
         <source>Resource Name</source>
-        <translation>Nome do Recurso</translation>
+        <translation type="vanished">Nome do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="557"/>
         <source>A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.</source>
-        <translation>Um nome simples ou identificador para este recurso. O nome deve ser slugificado, ex: dados-de-vendas.</translation>
+        <translation type="vanished">Um nome simples ou identificador para este recurso. O nome deve ser slugificado, ex: dados-de-vendas.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="559"/>
         <source>Resource Type</source>
-        <translation>Tipo de Recurso</translation>
+        <translation type="vanished">Tipo de Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="559"/>
         <source>Specifies the type of this resource.</source>
-        <translation>Especifica o tipo deste recurso.</translation>
+        <translation type="vanished">Especifica o tipo deste recurso.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="561"/>
         <source>Resource Scheme</source>
-        <translation>Esquema do Recurso</translation>
+        <translation type="vanished">Esquema do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="562"/>
         <source>Specifies the scheme for loading the file (file, http, ...).</source>
-        <translation>Especifica o esquema para carregar o arquivo (file, http, ...).</translation>
+        <translation type="vanished">Especifica o esquema para carregar o arquivo (file, http, ...).</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="565"/>
         <source>Resource Format</source>
-        <translation>Formato do Recurso</translation>
+        <translation type="vanished">Formato do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="566"/>
         <source>Specifies the standard file extension for this resource e.g. &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</source>
-        <translation>Especifica a extensão de arquivo padrão para este recurso, ex: &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</translation>
+        <translation type="vanished">Especifica a extensão de arquivo padrão para este recurso, ex: &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="569"/>
         <source>Resource Title</source>
-        <translation>Título do Recurso</translation>
+        <translation type="vanished">Título do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="570"/>
         <source>A human-readable title or label for this resource e.g. &apos;Sales Data&apos;.</source>
-        <translation>Um título legível para humanos para este recurso, ex: &apos;Dados de Vendas&apos;.</translation>
+        <translation type="vanished">Um título legível para humanos para este recurso, ex: &apos;Dados de Vendas&apos;.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="573"/>
         <source>Resource Media Type</source>
-        <translation>Tipo de Mídia do Recurso</translation>
+        <translation type="vanished">Tipo de Mídia do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="576"/>
         <source>Specifies the media type/mime type of this resource e.g &apos;text/csv&apos;, &apos;application/vnd.ms-excel&apos; etc.</source>
-        <translation>Especifica o tipo de mídia/MIME type deste recurso, ex: &apos;text/csv&apos;, &apos;application/vnd.ms-excel&apos; etc.</translation>
+        <translation type="vanished">Especifica o tipo de mídia/MIME type deste recurso, ex: &apos;text/csv&apos;, &apos;application/vnd.ms-excel&apos; etc.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="579"/>
         <source>Resource Description</source>
-        <translation>Descrição do Recurso</translation>
+        <translation type="vanished">Descrição do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="582"/>
         <source>A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation>Uma descrição deste recurso. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
+        <translation type="vanished">Uma descrição deste recurso. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="585"/>
         <source>Resource Encoding</source>
-        <translation>Codificação do Recurso</translation>
+        <translation type="vanished">Codificação do Recurso</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="588"/>
         <source>Specifies the character encoding of this resource e.g. &apos;UTF-8&apos;. The values should be one of the &apos;Preferred MIME Names&apos; for a character encoding registered with IANA.</source>
-        <translation>Especifica a codificação de caracteres deste recurso, ex: &apos;UTF-8&apos;. Os valores devem ser um dos &apos;Nomes MIME Preferidos&apos; para codificação registrados na IANA.</translation>
+        <translation type="vanished">Especifica a codificação de caracteres deste recurso, ex: &apos;UTF-8&apos;. Os valores devem ser um dos &apos;Nomes MIME Preferidos&apos; para codificação registrados na IANA.</translation>
     </message>
 </context>
 <context>
     <name>SchemaForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="433"/>
         <source>Schema Name</source>
-        <translation>Nome do Esquema</translation>
+        <translation type="vanished">Nome do Esquema</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="433"/>
         <source>A simple name or identifier to use for this schema.</source>
-        <translation>Um nome simples ou identificador para este esquema.</translation>
+        <translation type="vanished">Um nome simples ou identificador para este esquema.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="435"/>
         <source>Schema Primary Key</source>
-        <translation>Chave Primária do Esquema</translation>
+        <translation type="vanished">Chave Primária do Esquema</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="436"/>
         <source>A primary key is a field or set of fields that uniquely identifies each row in the table.</source>
-        <translation>Uma chave primária é um campo ou conjunto de campos que identifica exclusivamente cada linha da tabela.</translation>
+        <translation type="vanished">Uma chave primária é um campo ou conjunto de campos que identifica exclusivamente cada linha da tabela.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="438"/>
         <source>Schema Title</source>
-        <translation>Título do Esquema</translation>
+        <translation type="vanished">Título do Esquema</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="438"/>
         <source>A human-readable title.</source>
-        <translation>Um título legível para humanos.</translation>
+        <translation type="vanished">Um título legível para humanos.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="440"/>
         <source>Schema Missing Values</source>
-        <translation>Valores Faltantes do Esquema</translation>
+        <translation type="vanished">Valores Faltantes do Esquema</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="443"/>
         <source>Many datasets arrive with missing data values, either because a value was not collected or it never existed.</source>
-        <translation>Muitos conjuntos de dados possuem valores faltantes, seja porque o valor não foi coletado ou porque nunca existiu.</translation>
+        <translation type="vanished">Muitos conjuntos de dados possuem valores faltantes, seja porque o valor não foi coletado ou porque nunca existiu.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="446"/>
         <source>Schema Description</source>
-        <translation>Descrição do Esquema</translation>
+        <translation type="vanished">Descrição do Esquema</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="449"/>
         <source>A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation>Uma descrição do esquema. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
+        <translation type="vanished">Uma descrição do esquema. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
     </message>
 </context>
 <context>
@@ -717,164 +759,132 @@
 <context>
     <name>SingleFieldForm</name>
     <message>
-        <location filename="../../panels/metadata.py" line="239"/>
         <source>Column Type</source>
-        <translation>Tipo da Coluna</translation>
+        <translation type="vanished">Tipo da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="239"/>
         <source>String indicating the type of this field.</source>
-        <translation>String que indica o tipo deste campo.</translation>
+        <translation type="vanished">String que indica o tipo deste campo.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="240"/>
         <source>Column Title</source>
-        <translation>Título da Coluna</translation>
+        <translation type="vanished">Título da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="240"/>
         <source>A human-readable title.</source>
-        <translation>Um título legível para humanos.</translation>
+        <translation type="vanished">Um título legível para humanos.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="241"/>
         <source>Column Description</source>
-        <translation>Descrição da Coluna</translation>
+        <translation type="vanished">Descrição da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="241"/>
         <source>A description of the field.</source>
-        <translation>Uma descrição do campo.</translation>
+        <translation type="vanished">Uma descrição do campo.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="243"/>
         <source>Column Missing Values</source>
-        <translation>Valores Faltantes da Coluna</translation>
+        <translation type="vanished">Valores Faltantes da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="244"/>
         <source>Specifies which string values should be treated as null values.</source>
-        <translation>Especifica quais valores de string devem ser tratados como nulos.</translation>
+        <translation type="vanished">Especifica quais valores de string devem ser tratados como nulos.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="246"/>
         <source>Column RDF Type</source>
-        <translation>Tipo RDF da Coluna</translation>
+        <translation type="vanished">Tipo RDF da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="246"/>
         <source>Indicates whether the field is of RDF type.</source>
-        <translation>Indica se o campo é do tipo RDF.</translation>
+        <translation type="vanished">Indica se o campo é do tipo RDF.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="248"/>
         <source>Column required</source>
-        <translation>Coluna Obrigatória</translation>
+        <translation type="vanished">Coluna Obrigatória</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="249"/>
         <source>Indicates whether this field cannot be null.</source>
-        <translation>Indica se este campo não pode ser nulo.</translation>
+        <translation type="vanished">Indica se este campo não pode ser nulo.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="252"/>
         <source>Column Enum</source>
-        <translation>Enum da Coluna</translation>
+        <translation type="vanished">Enum da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="255"/>
         <source>Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.</source>
-        <translation>Cada célula neste campo deve corresponder exatamente a um dos valores especificados. Forneça uma lista de valores separados por vírgula.</translation>
+        <translation type="vanished">Cada célula neste campo deve corresponder exatamente a um dos valores especificados. Forneça uma lista de valores separados por vírgula.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="258"/>
         <source>Column Max Length</source>
-        <translation>Comprimento Máximo da Coluna</translation>
+        <translation type="vanished">Comprimento Máximo da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="259"/>
         <source>An integer that specifies the maximum length of a value.</source>
-        <translation>Um inteiro que especifica o comprimento máximo de um valor.</translation>
+        <translation type="vanished">Um inteiro que especifica o comprimento máximo de um valor.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="262"/>
         <source>Column Min Length</source>
-        <translation>Comprimento Mínimo da Coluna</translation>
+        <translation type="vanished">Comprimento Mínimo da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="263"/>
         <source>An integer that specifies the minimum length of a value.</source>
-        <translation>Um inteiro que especifica o comprimento mínimo de um valor.</translation>
+        <translation type="vanished">Um inteiro que especifica o comprimento mínimo de um valor.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="266"/>
         <source>Column Pattern</source>
-        <translation>Padrão da Coluna</translation>
+        <translation type="vanished">Padrão da Coluna</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="269"/>
         <source>A regular expression that can be used to test field values. If the regular expression matches then the value is valid.</source>
-        <translation>Uma expressão regular que pode ser usada para testar os valores do campo. Se a expressão regular corresponder, o valor é válido.</translation>
+        <translation type="vanished">Uma expressão regular que pode ser usada para testar os valores do campo. Se a expressão regular corresponder, o valor é válido.</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="349"/>
         <source>Name:</source>
-        <translation>Nome:</translation>
+        <translation type="vanished">Nome:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="350"/>
         <source>Type:</source>
-        <translation>Tipo:</translation>
+        <translation type="vanished">Tipo:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="351"/>
         <source>Title:</source>
-        <translation>Título:</translation>
+        <translation type="vanished">Título:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="352"/>
         <source>Description:</source>
-        <translation>Descrição:</translation>
+        <translation type="vanished">Descrição:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="353"/>
         <source>Missing Values:</source>
-        <translation>Valores Faltantes:</translation>
+        <translation type="vanished">Valores Faltantes:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="354"/>
         <source>RDF Type:</source>
-        <translation>Tipo RDF:</translation>
+        <translation type="vanished">Tipo RDF:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="355"/>
         <source>Constraints</source>
-        <translation>Restrições</translation>
+        <translation type="vanished">Restrições</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="357"/>
         <source>Required:</source>
-        <translation>Obrigatório:</translation>
+        <translation type="vanished">Obrigatório:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="358"/>
         <source>Min Length:</source>
-        <translation>Comprimento Mínimo:</translation>
+        <translation type="vanished">Comprimento Mínimo:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="359"/>
         <source>Max Length:</source>
-        <translation>Comprimento Máximo:</translation>
+        <translation type="vanished">Comprimento Máximo:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="360"/>
         <source>Enum:</source>
-        <translation>Enum:</translation>
+        <translation type="vanished">Enum:</translation>
     </message>
     <message>
-        <location filename="../../panels/metadata.py" line="361"/>
         <source>Pattern:</source>
-        <translation>Padrão:</translation>
+        <translation type="vanished">Padrão:</translation>
     </message>
 </context>
 <context>
@@ -888,37 +898,36 @@
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="433"/>
+        <location filename="../../main.py" line="429"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="434"/>
         <source>Advanced</source>
-        <translation>Avançado</translation>
+        <translation type="vanished">Avançado</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="435"/>
+        <location filename="../../main.py" line="430"/>
         <source>Errors Report</source>
         <translation>Relatório de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="436"/>
+        <location filename="../../main.py" line="431"/>
         <source>Source code</source>
         <translation>Código-fonte</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="437"/>
+        <location filename="../../main.py" line="432"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="438"/>
+        <location filename="../../main.py" line="433"/>
         <source>Save changes</source>
         <translation>Salvar alterações</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="439"/>
+        <location filename="../../main.py" line="434"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -926,17 +935,17 @@
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="506"/>
+        <location filename="../../main.py" line="499"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>O ODE suporta arquivos Excel e CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="507"/>
+        <location filename="../../main.py" line="500"/>
         <source>You can also add links to online tables</source>
         <translation>Você também pode adicionar links para tabelas online</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="508"/>
+        <location filename="../../main.py" line="501"/>
         <source>Upload your data</source>
         <translation>Carregue seus dados</translation>
     </message>

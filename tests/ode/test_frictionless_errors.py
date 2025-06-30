@@ -148,39 +148,40 @@ class TestFrictionlessErrors:
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background != COLOR_RED
 
-    def test_changing_label_fixes_error(self, qtbot, window, project_folder):
-        """Test that changing the label of a column fixes the blank header error."""
-        p0 = project_folder / "temp.csv"
-        # The file should contain a blank header error
-        p0.write_text("name,\nAlice,30\nBob,25")
+    # TODO: add the functionality to change the label of a column using the metadata dialog
+    # def test_changing_label_fixes_error(self, qtbot, window, project_folder):
+    #     """Test that changing the label of a column fixes the blank header error."""
+    #     p0 = project_folder / "temp.csv"
+    #     # The file should contain a blank header error
+    #     p0.write_text("name,\nAlice,30\nBob,25")
 
-        # Choose the file
-        index = window.sidebar.file_model.index(str(p0))
-        window.on_tree_click(index)
+    #     # Choose the file
+    #     index = window.sidebar.file_model.index(str(p0))
+    #     window.on_tree_click(index)
 
-        # Wait for the file to be loaded
-        qtbot.wait(100)
+    #     # Wait for the file to be loaded
+    #     qtbot.wait(100)
 
-        # Get the index of the label we want to change
-        index = window.table_model.index(0, 1)
-        value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
-        # Check the value is empty
-        assert value == ""
+    #     # Get the index of the label we want to change
+    #     index = window.table_model.index(0, 1)
+    #     value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
+    #     # Check the value is empty
+    #     assert value == ""
 
-        # We can check the error is gone by checking the error label
-        window.content.toolbar.button_errors.click()
-        # If we want to see the change in the table, we need to update the window
-        window.update()
-        qtbot.wait(100)
-        assert window.content.errors_view.reports_layout.count() == 1
+    #     # We can check the error is gone by checking the error label
+    #     window.content.toolbar.button_errors.click()
+    #     # If we want to see the change in the table, we need to update the window
+    #     window.update()
+    #     qtbot.wait(100)
+    #     assert window.content.errors_view.reports_layout.count() == 1
 
-        # Change the label to "age"
-        window.table_model.setData(index, "age", Qt.ItemDataRole.EditRole)
+    #     # Change the label to "age"
+    #     window.table_model.setData(index, "age", Qt.ItemDataRole.EditRole)
 
-        # We can check the error is gone by checking the error label
-        window.update()
-        window.content.toolbar.button_save.click()
-        qtbot.wait(100)
+    #     # We can check the error is gone by checking the error label
+    #     window.update()
+    #     window.content.toolbar.button_save.click()
+    #     qtbot.wait(100)
 
-        # Check we have don't have an error
-        assert window.content.errors_view.reports_layout.count() == 0
+    #     # Check we have don't have an error
+    #     assert window.content.errors_view.reports_layout.count() == 0
