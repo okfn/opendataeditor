@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplica
 from openpyxl import Workbook
 
 from ode import utils
-from ode.dialogs.metadata import MetadataDialog
+from ode.dialogs.metadata import ColumnMetadataDialog
 from ode.file import File
 from ode.shared import COLOR_RED
 from ode.paths import Paths
@@ -75,7 +75,7 @@ class DataWorker(QRunnable):
         self.signals.finished.emit((self.file.path, data, errors))
 
 
-class DropdownIconDelegate(QStyledItemDelegate):
+class ColumnMetadataIconDelegate(QStyledItemDelegate):
     """
     Custom delegate to render an icon in the first row of the table.
     """
@@ -341,8 +341,8 @@ class DataViewer(QWidget):
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
 
-        self.delegate = DropdownIconDelegate(Paths.asset("icons/three-lines.png"))
-        self.delegate.dropdown_clicked.connect(self.show_contributor_dialog)
+        self.delegate = ColumnMetadataIconDelegate(Paths.asset("icons/three-lines.png"))
+        self.delegate.dropdown_clicked.connect(self.show_column_metadata_dialog)
 
         layout.addWidget(self.label)
         layout.addWidget(self.table_view)
@@ -368,13 +368,13 @@ class DataViewer(QWidget):
         self.label.hide()
         self.table_view.show()
 
-    def show_contributor_dialog(self, field_index):
+    def show_column_metadata_dialog(self, field_index):
         """
-        Shows a dialog to edit a contributor.
+        Shows a dialog to edit a column's metadata.
         """
         field = self.resource.schema.fields[field_index]
         field_names = [f.name for f in self.resource.schema.fields]
-        dialog = MetadataDialog(self, field, field_index, field_names)
+        dialog = ColumnMetadataDialog(self, field, field_index, field_names)
         dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 
@@ -404,18 +404,22 @@ class DataViewer(QWidget):
             "required": field_form.get("constraints").get("required"),
         }
 
-        if field_form.get("constraints").get("minLength"):
-            field.constraints["minLength"] = field_form.get("constraints").get("minLength")
+        type = field_form.get("type")
 
-        if field_form.get("constraints").get("maxLength"):
+        if type == "string":
+            field.constraints["minLength"] = field_form.get("constraints").get("minLength")
             field.constraints["maxLength"] = field_form.get("constraints").get("maxLength")
+        else:
+            # If the type is not Text, we remove the minLength and maxLength constraints
+            field.constraints.pop("minLength", None)
+            field.constraints.pop("maxLength", None)
 
         # Update the field in the schema
         self.resource.schema.set_field(field)
 
         # Field.type cannot be updated directly, we need to use set_field_type
         # it needs to be after the set_field to avoid being overridden
-        self.resource.schema.set_field_type(field.name, field_form.get("type"))
+        self.resource.schema.set_field_type(field.name, type)
 
         self.metadata["resource"] = self.resource.to_descriptor()
         file = File(self.resource.path)

@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QTextEdit,
     QComboBox,
+    QSpinBox,
 )
 from PySide6.QtCore import Qt, Signal
 
@@ -88,7 +89,7 @@ class NoWheelComboBox(QComboBox):
 
 class MetadataForm(QWidget):
     """
-    Widget to show the details of a contributor that will be displayed inside a dialog.
+    Widget to show the Metadata Fields that will be displayed inside a dialog.
     """
 
     def __init__(self, *args, **kwargs):
@@ -107,6 +108,7 @@ class MetadataForm(QWidget):
         layout.addWidget(self.typeLabel, 1, 0)
         self.type = NoWheelComboBox()
         layout.addWidget(self.type, 1, 1, 1, 3)
+        self.type.currentTextChanged.connect(self.on_type_changed)
 
         # Description
         self.description_label = QLabel()
@@ -125,12 +127,12 @@ class MetadataForm(QWidget):
         # Min and Max Length
         self.min_length_label = QLabel()
         layout.addWidget(self.min_length_label, 4, 0)
-        self.min_length = QLineEdit()
+        self.min_length = QSpinBox()
         layout.addWidget(self.min_length, 4, 1)
 
         self.max_length_label = QLabel()
         layout.addWidget(self.max_length_label, 4, 2)
-        self.max_length = QLineEdit()
+        self.max_length = QSpinBox()
         layout.addWidget(self.max_length, 4, 3)
 
         # Error label
@@ -147,6 +149,27 @@ class MetadataForm(QWidget):
         self.setLayout(layout)
         self.retranslateUI()
 
+    def on_type_changed(self, text):
+        """
+        Updates the min and max length fields based on the selected type.
+        """
+        if text == "Text":
+            self.min_length.setEnabled(True)
+            self.min_length.setStyleSheet("")
+            self.min_length_label.setStyleSheet("")
+
+            self.max_length.setEnabled(True)
+            self.max_length.setStyleSheet("")
+            self.max_length_label.setStyleSheet("")
+        else:
+            self.min_length.setEnabled(False)
+            self.min_length.setStyleSheet("color: lightgray;")
+            self.min_length_label.setStyleSheet("color: lightgray;")
+
+            self.max_length.setEnabled(False)
+            self.max_length.setStyleSheet("color: lightgray;")
+            self.max_length_label.setStyleSheet("color: lightgray;")
+
     def retranslateUI(self):
         """
         Applies the translations to the labels.
@@ -159,9 +182,9 @@ class MetadataForm(QWidget):
         self.max_length_label.setText(self.tr("Max. Characters in cell"))
 
 
-class MetadataDialog(QDialog):
+class ColumnMetadataDialog(QDialog):
     """
-    Dialog for adding or editing a contributor.
+    Dialog for editing a contributor.
     """
 
     save_clicked = Signal(object)
@@ -189,8 +212,14 @@ class MetadataDialog(QDialog):
         self.form.type.setCurrentText(self.dataTypeMapper.get_display_type(field.type))
         self.form.description.setText(field.description)
         self.form.required.setCurrentText("Yes" if field.constraints.get("required") else "No")
-        self.form.min_length.setText(str(field.constraints.get("minLength", "")))
-        self.form.max_length.setText(str(field.constraints.get("maxLength", "")))
+
+        self.form.min_length.setMinimum(0)
+        self.form.min_length.setMaximum(999999)
+        self.form.min_length.setValue(field.constraints.get("minLength", 0))
+
+        self.form.max_length.setMinimum(0)
+        self.form.max_length.setMaximum(999999)
+        self.form.max_length.setValue(field.constraints.get("maxLength", 100))
 
         # Set window modality
         self.setWindowModality(Qt.WindowModal)
@@ -243,20 +272,6 @@ class MetadataDialog(QDialog):
                         )
                     )
 
-        min_length = None
-        if self.form.min_length.text():
-            try:
-                min_length = int(self.form.min_length.text())
-            except ValueError:
-                errors.append(self.tr("Min. Characters in cells must be a number"))
-
-        max_length = None
-        if self.form.max_length.text():
-            try:
-                max_length = int(self.form.max_length.text())
-            except ValueError:
-                errors.append(self.tr("Max. Characters in cell must be a number"))
-
         if errors:
             self.form.error_label.setText("\n".join(errors))
             self.form.error_label.setHidden(False)
@@ -270,8 +285,8 @@ class MetadataDialog(QDialog):
                 "description": self.form.description.toPlainText(),
                 "constraints": {
                     "required": self.form.required.currentText() == "Yes",
-                    "minLength": min_length,
-                    "maxLength": max_length,
+                    "minLength": self.form.min_length.value(),
+                    "maxLength": self.form.max_length.value(),
                 },
             }
         )
