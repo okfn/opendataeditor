@@ -115,14 +115,41 @@ class ErrorReport(QWidget):
     The error argument is a list of Frictionless errors object of the same type
     of error.
     """
+    ERROR_TITLES = {
+        "missing-label": "Missing header",
+        "duplicated-label": "Duplicated header",
+        "blank-row": "Empty row",
+        "type-error": "Type mismatch",
+        "missing-cell": "Missing value",
+        "extra-cell": "Extra cell",
+        "blank-header": "Missing header",
+    }
+
+    ERROR_DESCRIPTIONS = {
+        "missing-label": "A column in the header row has no name. Every column should have a unique, non-empty header.",
+        "duplicated-label": "Two or more columns share the same name. Column names must be unique.",
+        "blank-row": "This row has no data. Rows should contain at least one cell with data.",
+        "type-error": "A cell value doesn't match the expected data type or format for the column.",
+        "missing-cell": "This cell is missing data",
+        "extra-cell": "This row has more values compared to the header row.",
+        "blank-header": "A column in the header row has no name. Every column should have a unique, non-empty header.",
+    }
+
+    def _get_error_title(self, error):
+        """Returns a more user-friendly title if exists."""
+        return self.ERROR_TITLES.get(error.type, error.title)
+
+    def _get_error_description(self, error):
+        """Returns a more user-friendly description if exists."""
+        return self.ERROR_DESCRIPTIONS.get(error.type, error.description)
 
     def __init__(self, errors, model, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         utils.set_common_style(self)
 
-        self.title = ErrorTitle(errors[0].title, len(errors))
-        self.description = QLabel(errors[0].description)
+        self.title = ErrorTitle(self._get_error_title(errors[0]), len(errors))
+        self.description = QLabel(self._get_error_description(errors[0]))
         font = self.description.font()
         font.setPointSize(12)
         self.description.setFont(font)
