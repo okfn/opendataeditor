@@ -121,6 +121,7 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
                 QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
         elif event.type() == QEvent.MouseButtonPress:
             if icon_rect.contains(event.pos()):
+                QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
                 self.handle_dropdown_click(index)
                 return True
 
