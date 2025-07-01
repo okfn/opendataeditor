@@ -46,7 +46,7 @@ from ode.dialogs.contributor_dialog import QDialog
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
-from ode.llama import LlamaDialog, LlamaDownloadDialog
+from ode.llama import OllamaDialog, OllamaModelDialog
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.metadata import FrictionlessResourceMetadataWidget
@@ -468,8 +468,8 @@ class Content(QWidget):
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
         self.ai_widget = ChatGPTDialog(self)
-        self.ai_llama = LlamaDialog(self)
-        self.ai_llama_download = LlamaDownloadDialog(self)
+        self.ai_llama_dialog = OllamaDialog(self)
+        self.ai_llama_model_dialog = OllamaModelDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.metadata_widget)
@@ -675,11 +675,11 @@ class MainWindow(QMainWindow):
 
     def on_ai_click(self):
         # self.content.ai_widget.show()
-        if self.content.ai_llama_download.exec() == QDialog.Accepted:
-            selected_model = self.content.ai_llama_download.selected_model_path
+        if self.content.ai_llama_model_dialog.exec() == QDialog.Accepted:
+            selected_model = self.content.ai_llama_model_dialog.selected_model
             if selected_model:
-                self.content.ai_llama.init_llm(selected_model)
-                self.content.ai_llama.show()
+                self.content.ai_llama_dialog.init_llm(selected_model)
+                self.content.ai_llama_dialog.show()
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
@@ -808,7 +808,7 @@ class MainWindow(QMainWindow):
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.metadata_widget.populate_all_forms(filepath)
         self.content.source_view.open_file(filepath)
-        self.content.ai_llama.set_data(data)
+        self.content.ai_llama_dialog.set_data(data)
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)

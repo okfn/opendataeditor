@@ -9,21 +9,22 @@ from PySide6.QtWidgets import (
     QLineEdit,
 )
 from PySide6.QtCore import QThread, Signal
-from llama_cpp import Llama as LlamaCPP
+import ollama
 
 from ode.dialogs.loading import LoadingDialog
 from ode.panels.data import QObject
 
-import os
-import urllib.request
 
-
-class Llama:
-    def __init__(self, model_path):
-        self.model = LlamaCPP(model_path=model_path)
+class OllamaClient:
+    def __init__(self, model_name):
+        self.model_name = model_name
 
     def __call__(self, prompt):
-        response = self.model(prompt)
+        response = ollama.chat(
+            model=self.model_name,
+            messages=[{"role": "user", "content": prompt}],
+        )
+
         return response
 
 
@@ -34,7 +35,7 @@ class DataWorkerSignals(QObject):
     messages = Signal(str)
 
 
-class LlamaWorker(QThread):
+class OllamaWorker(QThread):
     def __init__(self, llm, prompt):
         super().__init__()
         self.llm = llm
@@ -42,12 +43,13 @@ class LlamaWorker(QThread):
         self.signals = DataWorkerSignals()
 
     def run(self):
-        self.signals.messages.emit("Procesando solicitud...")
+        # self.signals.messages.emit(self.tr("Running LLM with prompt..."))
+        self.signals.messages.emit("Running LLM with prompt...")
         response = self.llm(self.prompt)
-        self.signals.finished.emit(response["choices"][0]["text"])
+        self.signals.finished.emit(response["message"]["content"])
 
 
-class LlamaDialog(QDialog):
+class OllamaDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.llm = None
@@ -58,7 +60,7 @@ class LlamaDialog(QDialog):
         self.data = None
 
     def init_ui(self):
-        self.setWindowTitle("LLaMA Chat")
+        self.setWindowTitle(self.tr("AI Chat"))
         layout = QVBoxLayout(self)
 
         self.input_text = QTextEdit()
@@ -66,7 +68,7 @@ class LlamaDialog(QDialog):
         self.input_text.setMinimumWidth(700)
         layout.addWidget(self.input_text)
 
-        self.btn_send = QPushButton("Enviar")
+        self.btn_send = QPushButton(self.tr("Send"))
         self.btn_send.clicked.connect(self.send_message)
         layout.addWidget(self.btn_send)
 
@@ -76,7 +78,7 @@ class LlamaDialog(QDialog):
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
 
-        self.btn_analysis = QPushButton("Analisis")
+        self.btn_analysis = QPushButton(self.tr("Test Analysis"))
         self.btn_analysis.clicked.connect(self.analysis_table)
         layout.addWidget(self.btn_analysis)
 
@@ -84,20 +86,12 @@ class LlamaDialog(QDialog):
         """Set the data for analysis."""
         self.data = data
 
-    # def init_llm(self):
-    #     if not self.llm:
-    #         model_path, _ = QFileDialog.getOpenFileName(self, "Seleccionar modelo")
-    #         if not model_path:
-    #             return False
-    #         self.llm = Llama(model_path=model_path)
-
-    #     return True
-
-    def init_llm(self, model_path):
-        self.llm = Llama(model_path=model_path)
+    def init_llm(self, model_name):
+        self.llm = OllamaClient(model_name)
 
     def send_message(self):
-        self.worker = LlamaWorker(self.llm, self.input_text.toPlainText())
+        self.btn_send.setEnabled(False)
+        self.worker = OllamaWorker(self.llm, self.input_text.toPlainText())
         self.worker.signals.finished.connect(self.on_response)
         self.worker.signals.messages.connect(self.loading_dialog.show_message)
         self.worker.signals.finished.connect(self.loading_dialog.close)
@@ -125,117 +119,95 @@ class LlamaDialog(QDialog):
         self.output_text.append(result)
 
 
-class LlamaDownloadWorker(QThread):
-    finished = Signal()
-
-    def __init__(self, url, filepath):
-        super().__init__()
-        self.url = url
-        self.filepath = filepath
-
-    def run(self):
-        urllib.request.urlretrieve(self.url, self.filepath)
-        self.finished.emit()
-
-
-class LlamaDownloadDialog(QDialog):
+class OllamaModelDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.models_dir = "./models"
-        self.download_worker = None
-        self.selected_model_path = None
+        self.selected_model = None
         self.init_ui()
         self.load_models()
 
     def init_ui(self):
-        self.setWindowTitle("Gestor de Modelos")
+        self.setWindowTitle(self.tr("OLlama Model Manager"))
         self.setMinimumSize(500, 400)
         layout = QVBoxLayout(self)
 
-        # Lista de modelos
-        label_models = QLabel("Modelos disponibles:")
+        # Show installed models
+        label_models = QLabel(self.tr("Installed models:"))
         layout.addWidget(label_models)
 
         self.model_list = QListWidget()
         self.model_list.setMinimumHeight(200)
         layout.addWidget(self.model_list)
 
-        # Sección de descarga
-        label_download = QLabel("Descargar nuevo modelo:")
+        # Section for downloading new models
+        label_download = QLabel(self.tr("Download new model:"))
         layout.addWidget(label_download)
 
         download_layout = QHBoxLayout()
+        self.model_input = QLineEdit()
+        self.model_input.setPlaceholderText("qwen3, mistral, llama2, etc.")
+        download_layout.addWidget(self.model_input)
 
-        self.url_input = QLineEdit()
-        self.url_input.setPlaceholderText("https://ejemplo.com/modelo.gguf")
-        download_layout.addWidget(self.url_input)
-
-        self.btn_download = QPushButton("Descargar")
+        self.btn_download = QPushButton(self.tr("Download"))
         self.btn_download.clicked.connect(self.download_model)
         download_layout.addWidget(self.btn_download)
 
         layout.addLayout(download_layout)
 
-        self.btn_select = QPushButton("Seleccionar")
+        self.btn_select = QPushButton(self.tr("Select Model"))
         self.btn_select.clicked.connect(self.select_model)
         layout.addWidget(self.btn_select)
+
+    def load_models(self):
+        self.model_list.clear()
+        models = ollama.list()
+        for model in models["models"]:
+            self.model_list.addItem(model.model)
 
     def select_model(self):
         selected_items = self.model_list.selectedItems()
         if not selected_items:
             return
 
-        model_name = selected_items[0].text()
-        model_path = os.path.join(self.models_dir, model_name)
-        if not os.path.exists(model_path):
-            return
-
-        self.selected_model_path = model_path
+        self.selected_model = selected_items[0].text()
         self.accept()
-
-    def load_models(self):
-        """Carga la lista de modelos desde el directorio"""
-        self.model_list.clear()
-
-        # Crear directorio si no existe
-        if not os.path.exists(self.models_dir):
-            os.makedirs(self.models_dir)
-
-        # Buscar archivos de modelo
-        # model_extensions = [".gguf", ".ggml", ".bin"]
-
-        for filename in os.listdir(self.models_dir):
-            # if any(filename.lower().endswith(ext) for ext in model_extensions):
-            # self.model_list.addItem(filename)
-            self.model_list.addItem(filename)
 
     def download_model(self):
         """Descarga un modelo desde una URL"""
-        url = self.url_input.text().strip()
-        if not url:
+        model_name = self.model_input.text().strip()
+        if not model_name:
             return
 
-        # Extraer nombre del archivo de la URL
-        filename = url.split("/")[-1]
-        if not filename:
-            filename = "modelo.gguf"
-
-        filepath = os.path.join(self.models_dir, filename)
-
         self.btn_download.setEnabled(False)
-        self.btn_download.setText("Descargando...")
+        self.btn_download.setText(self.tr("Downloading..."))
 
-        # Crear worker para descarga
-        self.download_worker = LlamaDownloadWorker(url, filepath)
+        self.download_worker = OllamaDownloadWorker(model_name)
         self.download_worker.finished.connect(self.on_download_finished)
         self.download_worker.start()
 
     def on_download_finished(self):
-        """Se ejecuta cuando termina la descarga"""
         self.btn_download.setEnabled(True)
-        self.btn_download.setText("Descargar")
-        self.url_input.clear()
+        self.btn_download.setText(self.tr("Download"))
+        self.model_input.clear()
         self.load_models()  # Actualizar la lista
+
+
+class OllamaDownloadWorker(QThread):
+    """Worker to download a model in the background."""
+
+    finished = Signal()
+
+    def __init__(self, model_name):
+        super().__init__()
+        self.model_name = model_name
+
+    def run(self):
+        try:
+            ollama.pull(self.model_name)
+        except Exception as e:
+            print(f"Error downloading model {self.model_name}: {str(e)}")
+        finally:
+            self.finished.emit()
 
 
 class TableAnalysisWorker(QThread):
@@ -255,7 +227,7 @@ class TableAnalysisWorker(QThread):
 
             self.signals.messages.emit("Running analysis with LLM...")
             response = self.llm(prompt)
-            result = response["choices"][0]["text"]
+            result = response["message"]["content"]
 
             self.signals.finished.emit(result)
 
@@ -265,38 +237,12 @@ class TableAnalysisWorker(QThread):
     def prepare_analysis_prompt(self):
         """Convert table data to prompt for analysis"""
         headers = self.data[0]
-        rows = self.data[1:]
-        table_text = self.format_table_for_prompt(headers, rows)
-
         prompt = f"""
-Act as an expert data analyst. Analyze this data table:
-
-DATA TABLE:
-{table_text}
+Act as an expert data analyst. Analyze these data headers:
+{'|'.join(headers)}
 
 REQUIRED ANALYSIS:
-1. **Statistical Summary**: For numeric columns, calculate basic descriptive statistics
-2. **Data Quality**: Identify potential issues (missing values, inconsistencies, potential outliers)
-3. **Distributions**: Describe value distributions in each column
-4. **Relationships**: Identify possible correlations between variables
-5. **Key Insights**: Provide 3-5 important findings
-6. **Recommendations**: Suggest additional analysis or data cleaning steps
-
-Be specific and data-driven in your analysis.
+    Column Suggestions: If any column names are unclear, missing, or generic (e.g., Column1, X1), suggest more meaningful names based on the data content.
 """
         print(prompt)
         return prompt
-
-    def format_table_for_prompt(self, headers, rows):
-        """Convert table data to readable text format"""
-        table_lines = []
-
-        # Headers
-        table_lines.append(" | ".join(str(h) for h in headers))
-
-        # Data rows
-        for row in rows:
-            row_line = " | ".join(str(cell) if cell is not None else "NULL" for cell in row)
-            table_lines.append(row_line)
-
-        return "\n".join(table_lines)
