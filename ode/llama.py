@@ -265,24 +265,12 @@ class TableAnalysisWorker(QThread):
     def prepare_analysis_prompt(self):
         """Convert table data to prompt for analysis"""
         headers = self.data[0]
-        rows = self.data[1:]
-        table_text = self.format_table_for_prompt(headers, rows)
-
         prompt = f"""
-Act as an expert data analyst. Analyze this data table:
-
-DATA TABLE:
-{table_text}
+Act as an expert data analyst. Analyze these data headers:
+{'|'.join(headers)}
 
 REQUIRED ANALYSIS:
-1. **Statistical Summary**: For numeric columns, calculate basic descriptive statistics
-2. **Data Quality**: Identify potential issues (missing values, inconsistencies, potential outliers)
-3. **Distributions**: Describe value distributions in each column
-4. **Relationships**: Identify possible correlations between variables
-5. **Key Insights**: Provide 3-5 important findings
-6. **Recommendations**: Suggest additional analysis or data cleaning steps
-
-Be specific and data-driven in your analysis.
+    Column Suggestions: If any column names are unclear, missing, or generic (e.g., Column1, X1), suggest more meaningful names based on the data content.
 """
         print(prompt)
         return prompt
