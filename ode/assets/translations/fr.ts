@@ -231,7 +231,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="393"/>
+        <location filename="../../panels/data.py" line="394"/>
         <source>Preview not available for this item.</source>
         <translation>Aperçu non disponible pour cet article.</translation>
     </message>
@@ -285,7 +285,7 @@
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="213"/>
+        <location filename="../../panels/errors.py" line="240"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Veuillez noter que l&apos;ODE détecte actuellement des erreurs dans les tableaux, avec un maximum de </translation>
     </message>

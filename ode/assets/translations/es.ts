@@ -237,7 +237,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="393"/>
+        <location filename="../../panels/data.py" line="394"/>
         <source>Preview not available for this item.</source>
         <translation>Vista previa no disponible para este ítem.</translation>
     </message>
@@ -291,7 +291,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="213"/>
+        <location filename="../../panels/errors.py" line="240"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, ten en cuenta que la ODE detecta actualmente errores en las tablas, con un máximo de </translation>
     </message>
