@@ -80,7 +80,7 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
     Custom delegate to render an icon in the first row of the table.
     """
 
-    dropdown_clicked = Signal(object)
+    icon_clicked = Signal(object)
 
     def __init__(self, icon_path, parent=None):
         super().__init__(parent)
@@ -122,14 +122,14 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
         elif event.type() == QEvent.MouseButtonPress:
             if icon_rect.contains(event.pos()):
                 QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
-                self.handle_dropdown_click(index)
+                self.handle_icon_click(index)
                 return True
 
         return super().editorEvent(event, model, option, index)
 
-    def handle_dropdown_click(self, index):
-        """Handle the click on the dropdown icon."""
-        self.dropdown_clicked.emit(index.column())
+    def handle_icon_click(self, index):
+        """Handle the click on the icon."""
+        self.icon_clicked.emit(index.column())
 
 
 class FrictionlessTableModel(QAbstractTableModel):
@@ -343,7 +343,7 @@ class DataViewer(QWidget):
         self.table_view.hide()
 
         self.delegate = ColumnMetadataIconDelegate(Paths.asset("icons/three-lines.png"))
-        self.delegate.dropdown_clicked.connect(self.show_column_metadata_dialog)
+        self.delegate.icon_clicked.connect(self.show_column_metadata_dialog)
 
         layout.addWidget(self.label)
         layout.addWidget(self.table_view)
