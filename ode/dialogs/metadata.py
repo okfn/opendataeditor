@@ -184,7 +184,7 @@ class MetadataForm(QWidget):
 
 class ColumnMetadataDialog(QDialog):
     """
-    Dialog for editing a contributor.
+    Dialog for editing the column's metadata.
     """
 
     save_clicked = Signal(object)
