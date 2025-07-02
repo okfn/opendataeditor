@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
     QToolTip,
 )
 
-from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor
+from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor, QShortcut, QKeySequence
 from PySide6.QtCore import (
     Qt,
     QSize,
@@ -577,6 +577,10 @@ class MainWindow(QMainWindow):
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
 
+        # Shortcut
+        self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
+        self.shortcut_f5.activated.connect(self.on_ai_llama_click)
+
         # Translation
         self.translator = QTranslator()
         self.retranslateUI()
@@ -674,7 +678,9 @@ class MainWindow(QMainWindow):
         dialog.show()
 
     def on_ai_click(self):
-        # self.content.ai_widget.show()
+        self.content.ai_widget.show()
+
+    def on_ai_llama_click(self):
         if self.content.ai_llama_download.exec() == QDialog.Accepted:
             selected_model = self.content.ai_llama_download.selected_model_path
             if selected_model:
