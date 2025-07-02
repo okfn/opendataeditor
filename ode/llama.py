@@ -20,10 +20,10 @@ import urllib.request
 
 class Llama:
     def __init__(self, model_path):
-        self.model = LlamaCPP(model_path=model_path)
+        self.model = LlamaCPP(model_path=model_path, n_ctx=4096)
 
     def __call__(self, prompt):
-        response = self.model(prompt)
+        response = self.model(prompt, temperature=0.2, max_tokens=2048)
         return response
 
 
@@ -265,13 +265,13 @@ class TableAnalysisWorker(QThread):
     def prepare_analysis_prompt(self):
         """Convert table data to prompt for analysis"""
         headers = self.data[0]
-        prompt = f"""
-Act as an expert data analyst. Analyze these data headers:
-{'|'.join(headers)}
+        prompt = f"""<|im_start|>system
+        You are a data analyst expert.<|im_end|>
+        <|im_start|>user
+        Column headers: {' | '.join(headers)}
 
-REQUIRED ANALYSIS:
-    Column Suggestions: If any column names are unclear, missing, or generic (e.g., Column1, X1), suggest more meaningful names based on the data content.
-"""
+        Suggest better names for unclear or generic columns.<|im_end|>
+        <|im_start|>assistant"""
         print(prompt)
         return prompt
 
