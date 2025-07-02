@@ -17,6 +17,8 @@ from ode.panels.data import QObject
 import os
 import urllib.request
 
+from ode.paths import AI_MODELS_PATH
+
 
 class Llama:
     def __init__(self, model_path):
@@ -139,7 +141,6 @@ class LlamaDownloadWorker(QThread):
 class LlamaDownloadDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.models_dir = "./models"
         self.download_worker = None
         self.selected_model_path = None
         self.init_ui()
@@ -184,7 +185,7 @@ class LlamaDownloadDialog(QDialog):
             return
 
         model_name = selected_items[0].text()
-        model_path = os.path.join(self.models_dir, model_name)
+        model_path = os.path.join(AI_MODELS_PATH, model_name)
         if not os.path.exists(model_path):
             return
 
@@ -196,10 +197,10 @@ class LlamaDownloadDialog(QDialog):
         self.model_list.clear()
 
         # Ensure the models directory exists
-        if not os.path.exists(self.models_dir):
-            os.makedirs(self.models_dir)
+        if not os.path.exists(AI_MODELS_PATH):
+            os.makedirs(AI_MODELS_PATH)
 
-        for filename in os.listdir(self.models_dir):
+        for filename in os.listdir(AI_MODELS_PATH):
             if filename.startswith("."):
                 continue
             self.model_list.addItem(filename)
@@ -212,7 +213,7 @@ class LlamaDownloadDialog(QDialog):
 
         # Get the filename from the URL
         filename = url.split("/")[-1]
-        filepath = os.path.join(self.models_dir, filename)
+        filepath = AI_MODELS_PATH / filename
 
         self.btn_download.setEnabled(False)
         self.btn_download.setText(self.tr("Downloading..."))
