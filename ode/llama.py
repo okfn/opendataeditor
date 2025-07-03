@@ -37,8 +37,8 @@ class Llama:
         return response
 
 
-class DataWorkerSignals(QObject):
-    """Define the signals for the DataWorker."""
+class LlamaWorkerSignals(QObject):
+    """Define the signals for the LlamaWorker."""
 
     finished = Signal(tuple)
     messages = Signal(str)
@@ -53,7 +53,7 @@ class LlamaWorker(QThread):
         super().__init__()
         self.llm = llm
         self.prompt = prompt
-        self.signals = DataWorkerSignals()
+        self.signals = LlamaWorkerSignals()
 
     def run(self):
         response = self.llm(self.prompt)
@@ -308,7 +308,7 @@ class TableAnalysisWorker(QThread):
         super().__init__()
         self.llm = llm
         self.data = data
-        self.signals = DataWorkerSignals()
+        self.signals = LlamaWorkerSignals()
 
     def run(self):
         """Run the analysis on the table data using the LLM."""
