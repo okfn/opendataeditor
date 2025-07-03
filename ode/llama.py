@@ -1,13 +1,11 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLabel, QListWidget, QHBoxLayout, QComboBox
-from PySide6.QtCore import QThread, Signal
-from llama_cpp import Llama as LlamaCPP
-
-from ode.dialogs.loading import LoadingDialog
-from ode.panels.data import QObject
-
 import os
 import urllib.request
 
+from llama_cpp import Llama as LlamaCPP
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLabel, QListWidget, QHBoxLayout, QComboBox
+from PySide6.QtCore import QThread, Signal, QObject
+
+from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
 
 AI_MODELS = {
@@ -253,7 +251,7 @@ class TableAnalysisWorker(QThread):
         prompt = f"""<|im_start|>system
         You are a data analyst expert.<|im_end|>
         <|im_start|>user
-        Column headers: {' | '.join(headers)}
+        Column headers: {" | ".join(headers)}
 
         Suggest better names for unclear or generic columns.<|im_end|>
         <|im_start|>assistant"""
