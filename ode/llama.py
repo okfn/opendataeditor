@@ -1,9 +1,21 @@
 import os
-import urllib.request
 
 from llama_cpp import Llama as LlamaCPP
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLabel, QListWidget, QHBoxLayout, QComboBox
+from PySide6.QtWidgets import (
+    QDialog,
+    QVBoxLayout,
+    QTextEdit,
+    QPushButton,
+    QLabel,
+    QListWidget,
+    QHBoxLayout,
+    QComboBox,
+    QMessageBox,
+    QProgressDialog,
+)
 from PySide6.QtCore import QThread, Signal, QObject
+from PySide6.QtCore import QSaveFile, QIODevice, Slot, Qt
+from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
 from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
@@ -110,29 +122,20 @@ class LlamaDialog(QDialog):
         self.output_text.setMarkdown(result)
 
 
-class LlamaDownloadWorker(QThread):
-    """Worker for downloading LLama models from a URL."""
-
-    finished = Signal()
-
-    def __init__(self, url, filepath):
-        super().__init__()
-        self.url = url
-        self.filepath = filepath
-
-    def run(self):
-        """Download the model from the specified URL."""
-        urllib.request.urlretrieve(self.url, self.filepath)
-        self.finished.emit()
-
-
 class LlamaDownloadDialog(QDialog):
-    """Dialog for downloading and selecting LLama models."""
+    """Dialog for downloading and selecting LLama models.
+
+    Based on: https://doc.qt.io/qtforpython-6/examples/example_network_downloader.html
+    """
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.download_worker = None
+        self.manager = QNetworkAccessManager(self)
         self.selected_model_path = None
+        self.download_file_path = None
+        self.file = None
+        self.reply = None
+        self.progress_dialog = None
         self.init_ui()
         self.load_models()
 
@@ -165,7 +168,7 @@ class LlamaDownloadDialog(QDialog):
         download_layout.addWidget(self.models_urls_combo)
 
         self.btn_download = QPushButton(self.tr("Download"))
-        self.btn_download.clicked.connect(self.download_model)
+        self.btn_download.clicked.connect(self.on_download_model)
         download_layout.addWidget(self.btn_download)
 
         layout.addLayout(download_layout)
@@ -197,26 +200,105 @@ class LlamaDownloadDialog(QDialog):
                 continue
             self.model_list.addItem(filename)
 
-    def download_model(self):
-        """Download a model from the provided URL."""
-        # Get the filename from the URL
+    @Slot()
+    def on_download_model(self):
+        """Download the selected model."""
         model_name = self.models_urls_combo.currentText()
         model_url = AI_MODELS.get(model_name)
-        filepath = AI_MODELS_PATH / f"{model_name}.gguf"
+        self.download_file_path = AI_MODELS_PATH / f"{model_name}.gguf"
 
-        self.btn_download.setEnabled(False)
-        self.btn_download.setText(self.tr("Downloading..."))
+        if self.download_file_path.exists():
+            ret = QMessageBox.question(
+                self,
+                self.tr("File exists"),
+                self.tr("Do you want to delete it and download it again?"),
+                QMessageBox.Yes | QMessageBox.No,
+            )
+            if ret == QMessageBox.No:
+                return
+            self.download_file_path.unlink()
+            self.load_models()
 
-        # Init and start the download worker
-        self.download_worker = LlamaDownloadWorker(model_url, filepath)
-        self.download_worker.finished.connect(self.on_download_finished)
-        self.download_worker.start()
+        self.btn_download.setDisabled(True)
 
+        # Create the file in write mode to append bytes
+        self.file = QSaveFile(str(self.download_file_path))
+
+        if self.file.open(QIODevice.OpenModeFlag.WriteOnly):
+            self.reply = self.manager.get(QNetworkRequest(model_url))
+
+            self.progress_dialog = QProgressDialog(self.tr("Downloading model"), self.tr("Cancel"), 0, 0, self)
+            self.progress_dialog.setWindowTitle(self.tr("LLM Model Download Progress"))
+            self.progress_dialog.setAutoClose(True)
+            self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
+            self.progress_dialog.canceled.connect(self.on_download_abort)
+
+            self.reply.downloadProgress.connect(self.on_download_progress)
+            self.reply.finished.connect(self.on_download_finished)
+            self.reply.readyRead.connect(self.on_download_ready_read)
+            self.reply.errorOccurred.connect(self.on_download_error)
+        else:
+            error = self.file.errorString()
+            QMessageBox.warning(self, self.tr("Error Occurred"), error)
+
+    @Slot()
+    def on_download_abort(self):
+        """When user press abort button"""
+        if self.reply:
+            self.reply.abort()
+        if self.file:
+            self.file.cancelWriting()
+            # cancelWriting should delete the file but it doesn't seems to be happening.
+            if self.download_file_path.exists():
+                self.download_file_path.unlink()
+                self.load_models()
+
+        self.btn_download.setDisabled(False)
+
+    @Slot()
     def on_download_finished(self):
         """Handle the completion of the download."""
+        if self.reply:
+            self.reply.deleteLater()
+
+        if self.file:
+            self.file.commit()
+
         self.btn_download.setEnabled(True)
         self.btn_download.setText(self.tr("Download"))
         self.load_models()
+
+    @Slot()
+    def on_download_ready_read(self):
+        """Get available bytes and store them into the file"""
+        if self.reply:
+            if self.reply.error() == QNetworkReply.NetworkError.NoError:
+                self.file.write(self.reply.readAll())
+
+    @Slot(int, int)
+    def on_download_progress(self, bytesReceived: int, bytesTotal: int):
+        """Update progress bar"""
+        if self.reply.isOpen() and bytesTotal > 0:
+            self.progress_dialog.setMaximum(bytesTotal)
+            self.progress_dialog.setValue(bytesReceived)
+            text = f"{self.format_size(bytesReceived)} / {self.format_size(bytesTotal)}"
+            self.progress_dialog.setLabelText(text)
+
+    @Slot(QNetworkReply.NetworkError)
+    def on_download_error(self, code: QNetworkReply.NetworkError):
+        """Show a message if an error happen"""
+        if self.reply:
+            QMessageBox.warning(self, self.tr("Error Occurred"), self.reply.errorString())
+        self.progress_dialog = None
+
+    @staticmethod
+    def format_size(bytes_size: int) -> str:
+        # Convert bytes to human-readable format
+        for unit in ["B", "KB", "MB", "GB"]:
+            if bytes_size < 1024.0:
+                return f"{bytes_size:.2f} {unit}"
+            bytes_size /= 1024.0
+        return f"{bytes_size:.2f} TB"
 
 
 class TableAnalysisWorker(QThread):
