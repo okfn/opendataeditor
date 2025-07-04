@@ -137,6 +137,10 @@ class ClickableLabel(QLabel):
 
     clicked = Signal()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setFocusPolicy(Qt.StrongFocus)
+
     def mousePressEvent(self, event):
         self.clicked.emit()
         super().mousePressEvent(event)
