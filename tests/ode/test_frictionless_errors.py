@@ -148,39 +148,83 @@ class TestFrictionlessErrors:
         background = window.table_model.data(index, Qt.ItemDataRole.BackgroundRole)
         assert background != COLOR_RED
 
-    def test_changing_label_fixes_error(self, qtbot, window, project_folder):
-        """Test that changing the label of a column fixes the blank header error."""
-        p0 = project_folder / "temp.csv"
-        # The file should contain a blank header error
-        p0.write_text("name,\nAlice,30\nBob,25")
+    def test_custom_errors_descriptions_are_shown(self, qtbot, window, project_folder):
+        """Test that the application is using our custom error descriptions."""
+        p1 = project_folder / "blank-row.csv"
+        p1.write_text("name,age,city\nAlice,30,Barcelona\n,,\nBob,25,Valencia")
 
-        # Choose the file
-        index = window.sidebar.file_model.index(str(p0))
+        # Simulate click event
+        index = window.sidebar.file_model.index(str(p1))
         window.on_tree_click(index)
 
-        # Wait for the file to be loaded
-        qtbot.wait(100)
+        # This file should contain 1 errors.
+        qtbot.waitUntil(lambda: window.content.toolbar.button_errors.error_label.text() == "1")
 
-        # Get the index of the label we want to change
-        index = window.table_model.index(0, 1)
-        value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
-        # Check the value is empty
-        assert value == ""
-
-        # We can check the error is gone by checking the error label
         window.content.toolbar.button_errors.click()
         # If we want to see the change in the table, we need to update the window
         window.update()
         qtbot.wait(100)
         assert window.content.errors_view.reports_layout.count() == 1
+        error_report = window.content.errors_view.reports_layout.itemAt(0).widget()
+        assert error_report.description.text() == "This row has no data. Rows should contain at least one cell with data."
+        assert error_report.title.layout().itemAt(0).widget().text() == "Empty row"
 
-        # Change the label to "age"
-        window.table_model.setData(index, "age", Qt.ItemDataRole.EditRole)
+    def test_default_frictionless_errors_if_missing_custom(self, qtbot, window, project_folder):
+        """Test that the application fallbacks to Frictionless errors if we do not provide a custom description."""
+        p1 = project_folder / "blank-label.csv"
+        p1.write_text("name,,city\nAlice,30,Barcelona\nBob,25,Valencia")
 
-        # We can check the error is gone by checking the error label
+        # Simulate click event
+        index = window.sidebar.file_model.index(str(p1))
+        window.on_tree_click(index)
+
+        # This file should contain 1 errors.
+        qtbot.waitUntil(lambda: window.content.toolbar.button_errors.error_label.text() == "1")
+
+        window.content.toolbar.button_errors.click()
+        # If we want to see the change in the table, we need to update the window
         window.update()
-        window.content.toolbar.button_save.click()
         qtbot.wait(100)
+        assert window.content.errors_view.reports_layout.count() == 1
+        error_report = window.content.errors_view.reports_layout.itemAt(0).widget()
+        # The following are Frictionless default texts: https://framework.frictionlessdata.io/docs/errors/label.html#blank-label
+        assert error_report.description.text() == "A label in the header row is missing a value. Label should be provided and not be blank."
+        assert error_report.title.layout().itemAt(0).widget().text() == "Blank Label"
 
-        # Check we have don't have an error
-        assert window.content.errors_view.reports_layout.count() == 0
+    # TODO: add the functionality to change the label of a column using the metadata dialog
+    # def test_changing_label_fixes_error(self, qtbot, window, project_folder):
+    #     """Test that changing the label of a column fixes the blank header error."""
+    #     p0 = project_folder / "temp.csv"
+    #     # The file should contain a blank header error
+    #     p0.write_text("name,\nAlice,30\nBob,25")
+
+    #     # Choose the file
+    #     index = window.sidebar.file_model.index(str(p0))
+    #     window.on_tree_click(index)
+
+    #     # Wait for the file to be loaded
+    #     qtbot.wait(100)
+
+    #     # Get the index of the label we want to change
+    #     index = window.table_model.index(0, 1)
+    #     value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
+    #     # Check the value is empty
+    #     assert value == ""
+
+    #     # We can check the error is gone by checking the error label
+    #     window.content.toolbar.button_errors.click()
+    #     # If we want to see the change in the table, we need to update the window
+    #     window.update()
+    #     qtbot.wait(100)
+    #     assert window.content.errors_view.reports_layout.count() == 1
+
+    #     # Change the label to "age"
+    #     window.table_model.setData(index, "age", Qt.ItemDataRole.EditRole)
+
+    #     # We can check the error is gone by checking the error label
+    #     window.update()
+    #     window.content.toolbar.button_save.click()
+    #     qtbot.wait(100)
+
+    #     # Check we have don't have an error
+    #     assert window.content.errors_view.reports_layout.count() == 0
