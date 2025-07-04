@@ -2,6 +2,7 @@ import os
 
 from llama_cpp import Llama as LlamaCPP
 from PySide6.QtWidgets import (
+    QApplication,
     QDialog,
     QVBoxLayout,
     QTextEdit,
@@ -313,18 +314,20 @@ class TableAnalysisWorker(QThread):
     def run(self):
         """Run the analysis on the table data using the LLM."""
         try:
-            self.signals.messages.emit("Preparing data for analysis...")
+            self.signals.messages.emit(QApplication.translate("TableAnalysisWorker", "Preparing data for analysis..."))
 
             prompt = self.prepare_analysis_prompt()
 
-            self.signals.messages.emit("Running analysis with LLM...")
+            self.signals.messages.emit(
+                QApplication.translate("TableAnalysisWorker", "Running analysis with Local LLM. This could take a minute or two...")
+            )
             response = self.llm(prompt)
             result = response["choices"][0]["text"]
 
             self.signals.finished.emit(result)
 
         except Exception as e:
-            self.signals.finished.emit(f"Analysis error: {str(e)}")
+            self.signals.finished.emit(QApplication.translate("TableAnalysisWorker", f"Analysis error: {str(e)}"))
 
     def prepare_analysis_prompt(self):
         """Convert table data to prompt for analysis"""
@@ -335,7 +338,16 @@ class TableAnalysisWorker(QThread):
         <|im_start|>user
         Column headers: {" | ".join(headers)}
 
-        Suggest better names for unclear or generic columns.<|im_end|>
+        Using the following rules, suggest better names for unclear or incorrect column names:
+        Rule 1: always use lowercase letters for column names.
+        Rule 2: always use underscore to separate words, never user spaces.
+        Rule 3: names should be descriptive about the content of the column and coherent with the topic of other columns.
+        Rule 4: never user more than 3 words for column names.
+
+        If current column names apply to these rules you can flag them as correct name instead of suggesting a new one.
+
+        Just return the list of changes and it's explanation (if required), do not add any other information to the output.
+        <|im_end|>
         <|im_start|>assistant"""
 
         return prompt
