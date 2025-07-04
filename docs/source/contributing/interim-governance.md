@@ -10,21 +10,21 @@ The [Open Knowledge Foundation (OKFN)](https://okfn.org/) has hosted, funded, an
 
 This document provides the necessary information about decision-making, collaboration, and participation in further developing the tool.
 
-# Decision-making
+## Decision-making
 OKFN leads the vision and direction of ODE and shapes it through ongoing community feedback. A Product Owner catalyses the work, gathering input, listening to users, and steering the development accordingly.
 The technical decisions are guided by the vision and mission of OKFN.
 
-## Community participation
+### Community participation
 The Open Knowledge Foundation believes that great tools are built in conversation with people from diverse backgrounds. Anyone is **welcome to propose ideas or changes** to ODE.
 You can:
 * **Join our technical planning meetings**, held on the first and third Monday of each month, where we discuss and plan the product development.
 * **Start a discussion in [our GitHub repository](https://github.com/okfn/opendataeditor/discussions)**. If you are not familiar with the platform, [here is a link](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/participating-in-a-discussion) to learn how to do it.
 
 **Note**: Our core team is small and working at a limited capacity. While we review all proposals, **response times may vary** depending on availability. We'll do our best to keep you informed and follow up as soon as possible.
-# ODE People
+## ODE People
 These are the people who collectively make ODE what it is today:
 
-## Core team
+### Core team
 ODE is currently governed by the Open Knowledge Foundation through a core team.
 
 The core team from Open Knowledge Foundation currently working on ODE is:
@@ -46,7 +46,7 @@ In the past,
 
 assisted OKFN in developing the tool.
 
-## Contributors
+### Contributors
 A contributor is any institution or volunteer that adds value to the project.
 The contributions include, but are not limited to, development, usability, literacy, translations, feedback, documentation, dissemination and community building. Check the [contribution guidelines](https://opendataeditor.okfn.org/contributing/contribution-guidelines/) and join us in the effort.
 
