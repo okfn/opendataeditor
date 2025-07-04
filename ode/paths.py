@@ -7,6 +7,7 @@ from pathlib import Path
 PROJECT_PATH = Path.home() / ".opendataeditor/tmp"
 METADATA_PATH = PROJECT_PATH / ".metadata"
 LOGS_PATH = PROJECT_PATH / ".logs"
+AI_MODELS_PATH = PROJECT_PATH / ".ai_models"
 
 
 class Paths:
