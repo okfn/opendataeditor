@@ -40,7 +40,7 @@ This is how the ODE will show the error:
 
 ![Header missing error](./assets/table-error-list/header-missing.png)
 
-:::note
+:::{important}
 If the header row in the csv is completely empty this error won’t be reproduced as the ODE interprets that the header is in the second row.
 For instance, if a user opens a csv with this structure:
 
@@ -160,7 +160,7 @@ This is how the ODE will show the error:
 
 ![Wrong data type](./assets/table-error-list/wrong-data-type.png)
 
-:::note
+:::{note}
 Note: This error can be identified without providing a Table Schema but only if the data has enough cells of the correct type in the column to infer the intended type.
 :::
 

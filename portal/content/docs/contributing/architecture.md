@@ -41,7 +41,7 @@ In a visual way, our simplified macro structure looks something like this:
 
 Besides the normal responsibilities of the [QMainWindow](https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QMainWindow.html#detailed-description), we are using it to **store state variables and orchestrate interactions** between QWidgets. Think of the MainWindow as the state manager or the main controller of the application. If two Widgets needs to talk to each other, probably that interaction will be orchestrated in the MainWindow. In Qt Language: all the [Signals and Slots](https://doc.qt.io/qt-6/signalsandslots.html) connections are coded in the MainWindow.
 
-:::note 
+:::{note}
 One Key difference is that we are not using Qt's Toolbar, we coded our own Toolbar (which is just a QWidget with a couple of buttons).
 :::
 
@@ -49,7 +49,7 @@ One Key difference is that we are not using Qt's Toolbar, we coded our own Toolb
 
 If there is one piece of documentation that we would definitely suggest as mandatory to feel comfortable developing the Open Data Editor is the [Model/View architecture](https://doc.qt.io/qt-6/model-view-programming.html) of Qt. The main feature of Reading/Viewing/Reporting is done using [QTableView](https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QTableView.html#pyside6-qtwidgets-qtableview) and an instanced [QAbstractTableModel](https://doc.qt.io/qtforpython-6/PySide6/QtCore/QAbstractTableModel.html) that we call FrictionlessTableModel.
 
-:::note
+:::{note}
 There is an excellent tutorial to understand the basics of Model/View programming in [Python GUIs website](https://www.pythonguis.com/tutorials/pyside6-qtableview-modelviews-numpy-pandas/).
 :::
 
@@ -70,7 +70,7 @@ This means that the user **do not work on the original file**, but a copy of it.
 
 In order to properly work with Frictionless Data we need to handle a metadata file. There is a 1:1 relation between data files and metadata files: **for every data file, we have a metadata file**.
 
-The metadata file is a JSON file that stores Fricionless Metadata and any other metadata required by ODE. All metadata files are going to be 
+The metadata file is a JSON file that stores Fricionless Metadata and any other metadata required by ODE. All metadata files are going to be
 stored in a `.metadata` folder mimicing the structure of the `PROJECT_PATH` folder.
 
 Example 1:
@@ -93,7 +93,7 @@ This decision comes with a pain point:
 
 ### Frictionless Dependency
 
-Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is a battle-tested library it has its own limitations regarding performance, maintenance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture. 
+Historically, the project relied on the `frictionless-py` framework for all tabular data operations. Although `frictionless-py` is a battle-tested library it has its own limitations regarding performance, maintenance and, generally speaking, legacy approaches that are used in its data-processing and data-modelling architecture.
 
-Using `frictionless-py` also brings the whole package dependencies to be installed and used for Open Data Editor to work properly. This is a significant limitation for the project as it makes the project less portable and more complex to set up. 
+Using `frictionless-py` also brings the whole package dependencies to be installed and used for Open Data Editor to work properly. This is a significant limitation for the project as it makes the project less portable and more complex to set up.
 

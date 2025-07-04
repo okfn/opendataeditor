@@ -24,7 +24,7 @@ After clicking the **Save changes** button, the ODE will update the errors repor
 
 👉🏼 You can undo or redo/undo unsaved changes by clicking on the **Redo/Undo** features at the **top left** of the datagrid.
 
-:::note
+:::{note}
 If you click outside the datagrid without saving changes, the ODE will display a dialog with two options: save changes or discard them.
 :::
 

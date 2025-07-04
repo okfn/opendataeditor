@@ -6,7 +6,7 @@ sidebar:
 
 Here we describe the list of errors that the ODE can detect after users upload tables to the app. All the examples are based on CSV files.
 
-:::note
+:::{note}
 It is possible to reproduce a subset of these errors using other formats like Excel, but some errors might not be applicable to other formats.
 :::
 
@@ -44,7 +44,7 @@ This is how the ODE will show the error:
 
 ![Header missing error](./assets/table-error-list/header-missing.png)
 
-:::note
+:::{note}
 If the header row in the csv is completely empty this error won’t be reproduced as the ODE interprets that the header is in the second row.
 For instance, if a user opens a csv with this structure:
 
@@ -164,7 +164,7 @@ This is how the ODE will show the error:
 
 ![Wrong data type](./assets/table-error-list/wrong-data-type.png)
 
-:::note
+:::{note}
 Note: This error can be identified without providing a Table Schema but only if the data has enough cells of the correct type in the column to infer the intended type.
 :::
 

@@ -31,7 +31,7 @@ The project provides a `Makefile` with some usefull commands.
 make help
 ```
 
-:::note
+:::{note}
 All make commands that executes python commands (like `make start` or `make install`) requires a manually activated virtualenv to run.
 :::
 

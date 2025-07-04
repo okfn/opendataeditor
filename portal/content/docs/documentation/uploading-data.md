@@ -12,7 +12,7 @@ This section explains how to upload tabular files, folders with tables and onlin
 
 You can click on the **Upload your data** button, located in the centre of the screen or at the **top left** on the sidebar to start adding files/folders to the app.
 
-:::note
+:::{note}
 Each time you upload a file or folder to the ODE, the application will not ingest the original file/folder from your computer. Instead, it will make a copy of it and add it to the application folder on your laptop. After the ingestion process ends, you can click on the **three dots** next to the name of the file/folder and select the **Open Location** option. By doing so, ODE will redirect you to the exact location where the copy was saved.
 :::
 
@@ -42,7 +42,7 @@ Note that while uploading your data the tool checks your files or folders to fin
 
 Please, keep in mind that since the preview section (datagrid) can only show one tabular file at the time, when uploading folders, and after the ingestion process is done, you will need to click on the folder and select the file you want to visualize on the screen. As soon as you click on a specific file, the ODE will start validating your data (looking for possible errors) and the table will be shown on the app.
 
-:::note
+:::{note}
 If you ingest a non-tabular format (PDF or Word, for instance), the ODE will display this message on the main screen:
 
 ![Not supported file](./assets/uploading-data/not-supported-file.png)
@@ -62,7 +62,7 @@ Now, write or paste the URL to the table. The ADD button will turn blue:
 
 After that, the ODE will start reviewing your file in the background to detect possible errors and data will be displayed on the main screen.
 
-:::note
+:::{note}
 Before you upload your online table…
 
 👉🏼 If you are uploading a Google Sheets file, check the file is published online. If you don’t know how to do it, please, visit [this page](https://support.google.com/docs/answer/183965?hl=en&co=GENIE.Platform%3DDesktop) and follow the steps listed there.

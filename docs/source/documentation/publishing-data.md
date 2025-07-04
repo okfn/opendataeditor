@@ -8,13 +8,13 @@ Once you click the **Publish** button, the ODE will display the following dialog
 
 ![Publish form](./assets/publishing-data/publish-form.png)
 
-:::note
+:::{note}
 To be able to publish, you have to set the required credentials to connect to a data portal (CKAN, Zenodo, Github).
 :::
 
 ## Zenodo
 
-:::note
+:::{note}
 Open Data Editor will create a new draft on Zenodo. You will need to go to Zenodo to complete the publication process.
 :::
 
@@ -32,7 +32,7 @@ To publish your data on Zenodo, you need to provide the following information:
 
 ## GitHub
 
-:::note
+:::{note}
 Currently, Open Data Editor requires the `repo` scope to publish data on GitHub. The ODE team will review this scope in the future.
 :::
 
