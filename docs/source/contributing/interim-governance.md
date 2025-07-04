@@ -1,8 +1,12 @@
 # Interim ODE Governance
 
-> Last update: 28 April 2025
->
-> This is an interim document, which will be replaced by a governance system agreed by the ODE community by the end of 2025, with a format and methodology to be determined later in the year.
+:::{important}
+Last update: 28 April 2025
+:::
+
+:::{note}
+This is an interim document, which will be replaced by a governance system agreed by the ODE community by the end of 2025, with a format and methodology to be determined later in the year.
+:::
 
 Open Data Editor (ODE) is a collaborative effort between developers, data practitioners, UX experts, volunteers, trainers, translators, and academics from different jurisdictions and backgrounds. Its goal is to provide an open tool available to everyone. Its development seeks to create an open, long-lasting, resilient and affordable tool that is good enough to solve people's problems while working with data. Its ultimate goal is to democratise Data and AI.
 

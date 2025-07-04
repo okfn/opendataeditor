@@ -3,16 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Open Data Editor documentation
-==============================
+Open Data Editor Technical Documentation
+========================================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+Welcome to the Technical Documentation of the **Open Data Editor** for other product related information
+please visit: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/en/projects/open-data-editor/>`_
 
 
 .. toctree::
    :maxdepth: 2
+   :caption: Documentation:
 
    documentation/welcome.md
    documentation/uploading-data.md
@@ -27,6 +27,12 @@ documentation for details.
    documentation/publishing-data.md
    documentation/faq.md
    documentation/similar-tools.md
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contributing:
+
    contributing/interim-governance.md
    contributing/contribution-guidelines.md
    contributing/development.md
