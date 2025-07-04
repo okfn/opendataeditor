@@ -3,15 +3,15 @@
 ## Show this output
 help: _showhelp
 
-## Runs Astro dev server to serve documentation.
-docs:
-	cd portal && npm start
+## Builds the documentation (requires dev-requirements.txt installed.)
+docs: _check_virtualenv
+	cd docs && make html
 
 ## Install application requirements and documentation npm dependencies.
 install: _check_virtualenv
 	pip install wheel
 	pip install -r requirements.txt
-	cd portal && npm install
+	pip install -r dev-requirements.txt
 
 ## Runs the application for development mode.
 start: _check_virtualenv
