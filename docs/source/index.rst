@@ -13,5 +13,20 @@ documentation for details.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   documentation/welcome.md
+   documentation/uploading-data.md
+   documentation/creating-folders.md
+   documentation/exploring-tables.md
+   documentation/explore-table-errors.md
+   documentation/editing-errors-in-tables.md
+   documentation/deleting-files-folders.md
+   documentation/table-error-list.md
+   documentation/ai-integration.md
+   documentation/explore-edit-metadata.md
+   documentation/publishing-data.md
+   documentation/faq.md
+   documentation/similar-tools.md
+   contributing/interim-governance.md
+   contributing/contribution-guidelines.md
+   contributing/development.md
