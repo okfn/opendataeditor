@@ -2,7 +2,7 @@
 
 Here we describe the list of errors that the ODE can detect after users upload tables to the app. All the examples are based on CSV files.
 
-:::note
+:::{note}
 It is possible to reproduce a subset of these errors using other formats like Excel, but some errors might not be applicable to other formats.
 :::
 
@@ -34,7 +34,7 @@ Table example is represented as follows:
 3,4
 ```
 
-[File to reproduce the error](../../../public/table-error-list/header-missing.csv)
+[File to reproduce the error](./assets/table-error-list/header-missing.csv)
 
 This is how the ODE will show the error:
 
@@ -64,7 +64,7 @@ col1,
 3,4
 ```
 
-[File to reproduce the error](../../../public/table-error-list/column-name-missing.csv)
+[File to reproduce the error](./assets/table-error-list/column-name-missing.csv)
 
 This is how the ODE will show the error:
 
@@ -80,7 +80,7 @@ col1,col1
 3,4
 ```
 
-[File to reproduce the error](../../../public/table-error-list/duplicate-column-name.csv)
+[File to reproduce the error](./assets/table-error-list/duplicate-column-name.csv)
 
 This is how the ODE will show the error:
 
@@ -97,7 +97,7 @@ col1,col2
 3,4
 ```
 
-[File to reproduce the error](../../../public/table-error-list/empty-row.csv)
+[File to reproduce the error](./assets/table-error-list/empty-row.csv)
 
 This is how the ODE will show the error:
 
@@ -129,7 +129,7 @@ col1,col2
 5,6,7
 ```
 
-[File to reproduce the error](../../../public/table-error-list/extra-cell.csv)
+[File to reproduce the error](./assets/table-error-list/extra-cell.csv)
 
 This is how the ODE will show the error:
 
@@ -154,7 +154,7 @@ col1,col2
 21,bad
 ```
 
-[File to reproduce the error](../../../public/table-error-list/wrong-data-type.csv)
+[File to reproduce the error](./assets/table-error-list/wrong-data-type.csv)
 
 This is how the ODE will show the error:
 
