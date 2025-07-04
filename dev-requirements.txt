@@ -2,6 +2,3 @@ pytest
 pytest-qt
 mypy
 ruff
-sphinx
-myst-parser
-sphinx_rtd_theme

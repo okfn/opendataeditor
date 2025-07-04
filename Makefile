@@ -12,6 +12,7 @@ install: _check_virtualenv
 	pip install wheel
 	pip install -r requirements.txt
 	pip install -r dev-requirements.txt
+	pip install -r docs/requirements.txt
 
 ## Runs the application for development mode.
 start: _check_virtualenv
