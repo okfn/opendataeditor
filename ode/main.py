@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
     QToolTip,
 )
 
-from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor
+from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor, QShortcut, QKeySequence
 from PySide6.QtCore import (
     Qt,
     QSize,
@@ -45,6 +45,7 @@ from ode import paths
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
+from ode.llama import LlamaDialog, LlamaDownloadDialog
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker
@@ -463,6 +464,8 @@ class Content(QWidget):
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
         self.ai_widget = ChatGPTDialog(self)
+        self.ai_llama = LlamaDialog(self)
+        self.ai_llama_download = LlamaDownloadDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.errors_view)
@@ -569,6 +572,10 @@ class MainWindow(QMainWindow):
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
 
+        # Shortcut
+        self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
+        self.shortcut_f5.activated.connect(self.on_ai_llama_click)
+
         # Translation
         self.translator = QTranslator()
         self.retranslateUI()
@@ -663,6 +670,13 @@ class MainWindow(QMainWindow):
 
     def on_ai_click(self):
         self.content.ai_widget.show()
+
+    def on_ai_llama_click(self):
+        if self.content.ai_llama_download.exec() == QDialog.Accepted:
+            selected_model = self.content.ai_llama_download.selected_model_path
+            if selected_model:
+                self.content.ai_llama.init_llm(selected_model)
+                self.content.ai_llama.show()
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
@@ -785,6 +799,7 @@ class MainWindow(QMainWindow):
         self.content.data_view.display_data(self.table_model, filepath)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
+        self.content.ai_llama.set_data(data)
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.content.stacked_layout.setCurrentIndex(0)
