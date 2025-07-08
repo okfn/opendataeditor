@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplica
 from openpyxl import Workbook
 
 from ode import utils
-from ode.dialogs.metadata import ColumnMetadataDialog
+from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
 from ode.shared import COLOR_RED
 from ode.paths import Paths
@@ -375,7 +375,8 @@ class DataViewer(QWidget):
         """
         field = self.resource.schema.fields[field_index]
         field_names = [f.name for f in self.resource.schema.fields]
-        dialog = ColumnMetadataDialog(self, field, field_index, field_names)
+        column_metadata_field = ColumnMetadataField(field.name, field.type, field.description, field.constraints)
+        dialog = ColumnMetadataDialog(self, column_metadata_field, field_index, field_names)
         dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 

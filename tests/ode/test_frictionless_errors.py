@@ -1,5 +1,9 @@
 from PySide6.QtCore import Qt
 
+from PySide6.QtWidgets import QDialog
+
+from ode.dialogs.metadata import ColumnMetadataDialog
+from ode.panels.data import ColumnMetadataField
 from ode.shared import COLOR_RED
 
 
@@ -166,7 +170,9 @@ class TestFrictionlessErrors:
         qtbot.wait(100)
         assert window.content.errors_view.reports_layout.count() == 1
         error_report = window.content.errors_view.reports_layout.itemAt(0).widget()
-        assert error_report.description.text() == "This row has no data. Rows should contain at least one cell with data."
+        assert (
+            error_report.description.text() == "This row has no data. Rows should contain at least one cell with data."
+        )
         assert error_report.title.layout().itemAt(0).widget().text() == "Empty row"
 
     def test_default_frictionless_errors_if_missing_custom(self, qtbot, window, project_folder):
@@ -188,43 +194,138 @@ class TestFrictionlessErrors:
         assert window.content.errors_view.reports_layout.count() == 1
         error_report = window.content.errors_view.reports_layout.itemAt(0).widget()
         # The following are Frictionless default texts: https://framework.frictionlessdata.io/docs/errors/label.html#blank-label
-        assert error_report.description.text() == "A label in the header row is missing a value. Label should be provided and not be blank."
+        assert (
+            error_report.description.text()
+            == "A label in the header row is missing a value. Label should be provided and not be blank."
+        )
         assert error_report.title.layout().itemAt(0).widget().text() == "Blank Label"
 
-    # TODO: add the functionality to change the label of a column using the metadata dialog
-    # def test_changing_label_fixes_error(self, qtbot, window, project_folder):
-    #     """Test that changing the label of a column fixes the blank header error."""
-    #     p0 = project_folder / "temp.csv"
-    #     # The file should contain a blank header error
-    #     p0.write_text("name,\nAlice,30\nBob,25")
+    def test_changing_column_header_name_fixes_error_with_dialog(self, qtbot, window, project_folder):
+        """Test that changing the header name of a column with a dialog fixes the blank header error."""
+        # The file should contain a blank header error
+        p0 = project_folder / "temp.csv"
+        p0.write_text("name,\nAlice,A\nBob,B")
 
-    #     # Choose the file
-    #     index = window.sidebar.file_model.index(str(p0))
-    #     window.on_tree_click(index)
+        # Choose the file
+        index = window.sidebar.file_model.index(str(p0))
+        window.on_tree_click(index)
 
-    #     # Wait for the file to be loaded
-    #     qtbot.wait(100)
+        # Check that the file is loaded and has an error
+        qtbot.wait(100)
+        assert window.content.errors_view.reports_layout.count() == 1
 
-    #     # Get the index of the label we want to change
-    #     index = window.table_model.index(0, 1)
-    #     value = window.table_model.data(index, Qt.ItemDataRole.DisplayRole)
-    #     # Check the value is empty
-    #     assert value == ""
+        # Create and show the dialog
+        blank_field = ColumnMetadataField("", "string", "", {"required": False, "minLength": 0, "maxLength": 100})
+        field_names = ["name", ""]
+        dialog = ColumnMetadataDialog(
+            parent=window, field=blank_field, field_index=1, field_names=field_names  # Index of the blank column
+        )
 
-    #     # We can check the error is gone by checking the error label
-    #     window.content.toolbar.button_errors.click()
-    #     # If we want to see the change in the table, we need to update the window
-    #     window.update()
-    #     qtbot.wait(100)
-    #     assert window.content.errors_view.reports_layout.count() == 1
+        # Use qtbot to interact with the dialog
+        qtbot.addWidget(dialog)
+        dialog.show()  # For debugging purposes
 
-    #     # Change the label to "age"
-    #     window.table_model.setData(index, "age", Qt.ItemDataRole.EditRole)
+        # Set the new name in the dialog
+        dialog.form.name.setText("surname")
 
-    #     # We can check the error is gone by checking the error label
-    #     window.update()
-    #     window.content.toolbar.button_save.click()
-    #     qtbot.wait(100)
+        # Verify the dialog state
+        assert dialog.form.name.text() == "surname"
 
-    #     # Check we have don't have an error
-    #     assert window.content.errors_view.reports_layout.count() == 0
+        # Connect to the save signal to capture the emitted data
+        saved_data = []
+        dialog.save_clicked.connect(lambda data: saved_data.append(data))
+
+        # Click the save button
+        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+
+        # For debugging
+        # qtbot.wait(100)
+        # window.update()
+
+        # Verify the dialog was accepted and data was emitted
+        assert dialog.result() == QDialog.Accepted
+        assert len(saved_data) == 1
+        assert saved_data[0]["name"] == "surname"
+        assert saved_data[0]["index"] == 1
+        window.content.data_view.save_metadata_to_descriptor_file(saved_data[0])
+
+        # Wait for the changes to be applied
+        qtbot.wait(1000)
+        window.update()
+
+        # Check that the error is gone
+        assert window.content.errors_view.reports_layout.count() == 0
+
+    def test_changing_column_type_with_metadata_dialog(self, qtbot, window, project_folder):
+        """Test changing for and back the column type with the metadata dialog show and fixes the error."""
+
+        # Create file
+        p0 = project_folder / "temp.csv"
+        p0.write_text("name,surname\nAlice,A\nBob,B")
+
+        # Choose the file
+        index = window.sidebar.file_model.index(str(p0))
+        window.on_tree_click(index)
+
+        # Check that the file is loaded and has zero error
+        qtbot.wait(100)
+        assert window.content.errors_view.reports_layout.count() == 0
+
+        # Create and show the dialog
+        blank_field = ColumnMetadataField(
+            "surname", "string", "", {"required": False, "minLength": 0, "maxLength": 100}
+        )
+        field_names = ["name", "surname"]
+
+        # We are changing the "surname" column type to "integer"
+        dialog = ColumnMetadataDialog(parent=window, field=blank_field, field_index=1, field_names=field_names)
+
+        # Use qtbot to interact with the dialog
+        qtbot.addWidget(dialog)
+        dialog.show()  # For debugging purposes
+
+        dialog.form.type.setCurrentText("Number")
+
+        # Verify the dialog state
+        assert dialog.form.type.currentText() == "Number"
+
+        # Connect to the save signal to capture the emitted data
+        saved_data = []
+        dialog.save_clicked.connect(lambda data: saved_data.append(data))
+
+        # Click the save button
+        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+
+        # Verify the dialog was accepted and data was emitted
+        assert dialog.result() == QDialog.Accepted
+        assert len(saved_data) == 1
+        assert saved_data[0]["type"] == "number"
+        assert saved_data[0]["index"] == 1
+
+        window.content.data_view.save_metadata_to_descriptor_file(saved_data[0])
+
+        # Wait for the changes to be applied
+        qtbot.wait(1000)
+        window.update()
+
+        # Check that we have an error now
+        assert window.content.errors_view.reports_layout.count() == 1
+
+        # Change the column type back to "string" to fix the error
+        dialog.form.type.setCurrentText("Text")
+        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+
+        # Verify the dialog was accepted and data was emitted
+        assert dialog.result() == QDialog.Accepted
+        assert len(saved_data) == 2
+        assert saved_data[1]["type"] == "string"
+        assert saved_data[1]["index"] == 1
+
+        window.content.data_view.save_metadata_to_descriptor_file(saved_data[1])
+
+        # Wait for the changes to be applied
+        qtbot.wait(1000)
+        window.update()
+
+        # Check that we have an error now
+        assert window.content.errors_view.reports_layout.count() == 0
