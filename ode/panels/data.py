@@ -340,6 +340,7 @@ class DataViewer(QWidget):
         self.table_view = QTableView()
         # TableView's corner button hangs the application when working with huge datasets so we disable it.
         self.table_view.setCornerButtonEnabled(False)
+        self.table_view.setTabKeyNavigation(False)
         self.table_view.hide()
 
         self.delegate = ColumnMetadataIconDelegate(Paths.asset("icons/three-lines.png"))

@@ -22,7 +22,18 @@ from PySide6.QtWidgets import (
     QToolTip,
 )
 
-from PySide6.QtGui import QPixmap, QIcon, QDesktopServices, QAction, QFont, QPalette, QColor, QShortcut, QKeySequence
+from PySide6.QtGui import (
+    QPixmap,
+    QIcon,
+    QDesktopServices,
+    QAction,
+    QFont,
+    QPalette,
+    QColor,
+    QShortcut,
+    QKeySequence,
+    QKeyEvent,
+)
 from PySide6.QtCore import (
     Qt,
     QSize,
@@ -78,8 +89,20 @@ class CustomTreeView(QTreeView):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        # When the user clicks on a directory in the file navigator we want to expand/collapse
         self.clicked.connect(self.item_clicked)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        """Override keyPressEvent to handle expande/collapse folders."""
+        if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
+            index = self.currentIndex()
+            model = self.model()
+            if model and model.hasChildren(index):
+                if self.isExpanded(index):
+                    self.collapse(index)
+                else:
+                    self.expand(index)
+
+        super().keyPressEvent(event)
 
     def mousePressEvent(self, event):
         """Emits an event if the user clicks on an empty space."""
@@ -398,7 +421,7 @@ class Toolbar(QWidget):
 
         # Buttons on the left
         self.button_data = QPushButton()
-        self.button_errors = ErrorsReportButton(self)
+        self.button_errors = ErrorsReportButton()
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
         self.button_source = QPushButton()
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
@@ -558,6 +581,7 @@ class MainWindow(QMainWindow):
         self.sidebar.button_upload.clicked.connect(self.on_button_upload_click)
         self.welcome.button_upload.clicked.connect(self.on_button_upload_click)
         self.sidebar.file_navigator.clicked.connect(self.on_tree_click)
+        self.sidebar.file_navigator.activated.connect(self.on_tree_click)
         self.sidebar.user_guide.clicked.connect(self.open_user_guide)
         self.sidebar.report_issue.clicked.connect(self.open_report_issue)
         self.sidebar.language.activated.connect(self.on_language_change)
@@ -898,7 +922,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(self, "Open Data Editor", text)
 
     def open_user_guide(self):
-        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/getting-started/")
+        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/welcome")
 
     def open_report_issue(self):
         QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
