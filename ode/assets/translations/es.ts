@@ -375,6 +375,123 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
     </message>
 </context>
 <context>
+    <name>LLMWarningDialog</name>
+    <message>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="17"/>
+        <source>AI feature</source>
+        <translation>AI feature</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="26"/>
+        <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
+        <translation>La integración de IA funciona completamente en tu computadora. Esto significa que los datos de tu tabla nunca se envían ni se comparten fuera de este dispositivo.</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="31"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="38"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+</context>
+<context>
+    <name>LlamaDialog</name>
+    <message>
+        <location filename="../../llama.py" line="150"/>
+        <source>AI feature</source>
+        <translation>AI feature</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="151"/>
+        <source>Analyze Column Headers</source>
+        <translation>Analizar encabezados de columna</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="152"/>
+        <source>Analysis results will be displayed here...</source>
+        <translation>Los resultados del análisis se mostrarán aquí...</translation>
+    </message>
+</context>
+<context>
+    <name>LlamaDownloadDialog</name>
+    <message>
+        <location filename="../../llama.py" line="173"/>
+        <source>AI feature</source>
+        <translation>AI feature</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="180"/>
+        <source>To start using the AI feature, please select one of the following models and click download:</source>
+        <translation>Para comenzar a usar la función de IA, selecciona uno de los siguientes modelos y haz clic en descargar:</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="191"/>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="195"/>
+        <location filename="../../llama.py" line="330"/>
+        <source>Download</source>
+        <translation>Descargar</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="201"/>
+        <source>Select Model</source>
+        <translation>Seleccionar modelo</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="210"/>
+        <location filename="../../llama.py" line="215"/>
+        <source>Model not found</source>
+        <translation>Modelo no encontrado</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="210"/>
+        <source>The selected model is not available.</source>
+        <translation>El modelo seleccionado no está disponible.</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="215"/>
+        <source>The selected model is not downloaded.</source>
+        <translation>El modelo seleccionado no está descargado.</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="269"/>
+        <source>File exists</source>
+        <translation>El archivo ya existe</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="270"/>
+        <source>Do you want to delete it and download it again?</source>
+        <translation>¿Quieres eliminarlo y volver a descargarlo?</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="285"/>
+        <source>Downloading model</source>
+        <translation>Descargando modelo</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="285"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="286"/>
+        <source>LLM Model Download Progress</source>
+        <translation>Progreso de descarga del modelo LLM</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="297"/>
+        <location filename="../../llama.py" line="356"/>
+        <source>Error Occurred</source>
+        <translation>Ocurrió un error</translation>
+    </message>
+</context>
+<context>
     <name>LoadingDialog</name>
     <message>
         <location filename="../../dialogs/loading.py" line="30"/>
@@ -390,32 +507,32 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="578"/>
+        <location filename="../../main.py" line="589"/>
         <source>Ready.</source>
         <translation>Listo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="679"/>
+        <location filename="../../main.py" line="701"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="680"/>
+        <location filename="../../main.py" line="702"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="681"/>
+        <location filename="../../main.py" line="703"/>
         <source>File/Folder</source>
         <translation>Archivo/Carpeta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="682"/>
+        <location filename="../../main.py" line="704"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="685"/>
+        <location filename="../../main.py" line="707"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
@@ -424,62 +541,62 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation type="vanished">Panel de Metadatos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="686"/>
+        <location filename="../../main.py" line="708"/>
         <source>Errors panel</source>
         <translation>Panel de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="687"/>
+        <location filename="../../main.py" line="709"/>
         <source>Source panel</source>
         <translation>Panel de Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="690"/>
+        <location filename="../../main.py" line="712"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="691"/>
+        <location filename="../../main.py" line="713"/>
         <source>User Guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="692"/>
+        <location filename="../../main.py" line="714"/>
         <source>Report an Issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="694"/>
+        <location filename="../../main.py" line="716"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="693"/>
+        <location filename="../../main.py" line="715"/>
         <source>View logs</source>
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="728"/>
+        <location filename="../../main.py" line="750"/>
         <source>Language changed.</source>
         <translation>Lenguaje cambiado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="761"/>
+        <location filename="../../main.py" line="783"/>
         <source>File and Metadata changes saved.</source>
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="903"/>
+        <location filename="../../main.py" line="926"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 líneas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="923"/>
+        <location filename="../../main.py" line="946"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="928"/>
+        <location filename="../../main.py" line="951"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar al portapapeles</translation>
     </message>
@@ -693,32 +810,32 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="209"/>
+        <location filename="../../main.py" line="215"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="210"/>
+        <location filename="../../main.py" line="216"/>
         <source>User guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="211"/>
+        <location filename="../../main.py" line="217"/>
         <source>Report an issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="212"/>
+        <location filename="../../main.py" line="218"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="213"/>
+        <location filename="../../main.py" line="219"/>
         <source>Open File in Location</source>
         <translation>Abrir la ubicacion de archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="214"/>
+        <location filename="../../main.py" line="220"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
@@ -727,36 +844,36 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation type="vanished">Ingresa el nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="254"/>
-        <location filename="../../main.py" line="258"/>
-        <location filename="../../main.py" line="262"/>
+        <location filename="../../main.py" line="260"/>
         <location filename="../../main.py" line="264"/>
-        <location filename="../../main.py" line="292"/>
+        <location filename="../../main.py" line="268"/>
+        <location filename="../../main.py" line="270"/>
+        <location filename="../../main.py" line="298"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="255"/>
+        <location filename="../../main.py" line="261"/>
         <source>Source is a file but destination a directory.</source>
         <translation>El origen es un archivo pero el destino es un directorio.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="259"/>
+        <location filename="../../main.py" line="265"/>
         <source>Source is a directory but destination a file.</source>
         <translation>El origen es un directorio pero el destino es un archivo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="262"/>
+        <location filename="../../main.py" line="268"/>
         <source>Operation not permitted.</source>
         <translation>Operación no permitida.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="264"/>
+        <location filename="../../main.py" line="270"/>
         <source>File with this name already exists.</source>
         <translation>Ya existe un archivo con este nombre.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="266"/>
+        <location filename="../../main.py" line="272"/>
         <source>Item renamed successfuly.</source>
         <translation>Item renombrado exitosamente.</translation>
     </message>
@@ -765,7 +882,7 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation type="vanished">Estás seguro que quieres eliminar esto?</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="296"/>
+        <location filename="../../main.py" line="302"/>
         <source>Item deleted successfuly.</source>
         <translation>Item eliminado exitosamente.</translation>
     </message>
@@ -910,9 +1027,27 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
     </message>
 </context>
 <context>
+    <name>TableAnalysisWorker</name>
+    <message>
+        <location filename="../../llama.py" line="381"/>
+        <source>Preparing data for analysis...</source>
+        <translation>Preparando los datos para el análisis...</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="389"/>
+        <source>Running analysis with Local LLM. This could take a minute or two...</source>
+        <translation>Ejecutando análisis con LLM local. Esto puede tardar uno o dos minutos...</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="396"/>
+        <source>Analysis error: {str(e)}</source>
+        <translation>Error de análisis: {str(e)}</translation>
+    </message>
+</context>
+<context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="429"/>
+        <location filename="../../main.py" line="435"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
@@ -921,27 +1056,27 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
         <translation type="vanished">Avanzado</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="430"/>
+        <location filename="../../main.py" line="436"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="431"/>
+        <location filename="../../main.py" line="437"/>
         <source>Source code</source>
         <translation>Codigo fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="432"/>
+        <location filename="../../main.py" line="438"/>
         <source>Publish</source>
         <translation>Publicar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="433"/>
+        <location filename="../../main.py" line="439"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="434"/>
+        <location filename="../../main.py" line="440"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -949,17 +1084,17 @@ También puedes revisar los términos y condiciones de OpenAI &lt;a href=&apos;h
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="499"/>
+        <location filename="../../main.py" line="506"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>El ODE admite archivos Excel y CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="500"/>
+        <location filename="../../main.py" line="507"/>
         <source>You can also add links to online tables</source>
         <translation>También puedes agregar enlaces a tablas en línea</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="501"/>
+        <location filename="../../main.py" line="508"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
