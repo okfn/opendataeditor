@@ -922,7 +922,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(self, "Open Data Editor", text)
 
     def open_user_guide(self):
-        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/getting-started/")
+        QDesktopServices.openUrl("https://opendataeditor.okfn.org/documentation/welcome")
 
     def open_report_issue(self):
         QDesktopServices.openUrl("https://github.com/okfn/opendataeditor")
