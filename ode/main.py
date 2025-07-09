@@ -489,7 +489,6 @@ class Content(QWidget):
         self.source_view = SourceViewer()
         self.ai_widget = ChatGPTDialog(self)
         self.ai_llama = LlamaDialog(self)
-        self.ai_llama_download = LlamaDownloadDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.errors_view)
@@ -700,8 +699,9 @@ class MainWindow(QMainWindow):
         if not LLMWarningDialog.confirm(self):
             return
 
-        if self.content.ai_llama_download.exec() == QDialog.Accepted:
-            selected_model = self.content.ai_llama_download.selected_model_path
+        ai_llama_download = LlamaDownloadDialog(self)
+        if ai_llama_download.exec() == QDialog.Accepted:
+            selected_model = ai_llama_download.selected_model_path
             if selected_model:
                 self.content.ai_llama.init_llm(selected_model)
                 self.content.ai_llama.show()
@@ -749,6 +749,7 @@ class MainWindow(QMainWindow):
         self.content.errors_view.retranslateUI()
         self.content.ai_widget.retranslateUI()
         self.content.source_view.retranslateUI()
+        self.content.ai_llama.retranslateUI()
 
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
