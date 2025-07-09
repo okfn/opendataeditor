@@ -1,3 +1,4 @@
+from typing import NamedTuple
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -12,6 +13,17 @@ from PySide6.QtWidgets import (
     QSpinBox,
 )
 from PySide6.QtCore import Qt, Signal
+
+
+class ColumnMetadataField(NamedTuple):
+    """
+    Represents a field in the metadata with its name, type, description, and constraints.
+    """
+
+    name: str
+    type: str
+    description: str
+    constraints: dict
 
 
 class DataTypeMapper:
@@ -189,7 +201,7 @@ class ColumnMetadataDialog(QDialog):
 
     save_clicked = Signal(object)
 
-    def __init__(self, parent: QWidget, field: dict, field_index: int, field_names: list):
+    def __init__(self, parent: QWidget, field: ColumnMetadataField, field_index: int, field_names: list):
         """
         Initialize the dialog.
 
