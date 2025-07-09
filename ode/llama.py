@@ -105,19 +105,19 @@ class LlamaDialog(QDialog):
 
     def init_ui(self):
         """Initialize the UI for the Llama dialog."""
-        self.setWindowTitle(self.tr("AI feature"))
         layout = QVBoxLayout(self)
 
-        self.btn_analysis = QPushButton(self.tr("Analyze Column Headers"))
+        self.btn_analysis = QPushButton()
         self.btn_analysis.clicked.connect(self.analysis_table)
         layout.addWidget(self.btn_analysis)
 
         self.output_text = QTextEdit()
-        self.output_text.setPlaceholderText(self.tr("Analysis results will be displayed here..."))
         self.output_text.setReadOnly(True)
         self.output_text.setMinimumHeight(300)
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
+
+        self.retranslateUI()
 
     def set_data(self, data):
         """Set the data for analysis."""
@@ -143,6 +143,12 @@ class LlamaDialog(QDialog):
     def on_analysis_finished(self, result):
         """Handle the result of the table analysis."""
         self.output_text.setMarkdown(result)
+
+    def retranslateUI(self):
+        """Retranslate the UI elements."""
+        self.setWindowTitle(self.tr("AI feature"))
+        self.btn_analysis.setText(self.tr("Analyze Column Headers"))
+        self.output_text.setPlaceholderText(self.tr("Analysis results will be displayed here..."))
 
 
 class LlamaDownloadDialog(QDialog):
