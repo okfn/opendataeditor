@@ -11,8 +11,6 @@ class LLMWarningDialog(QDialog):
         super().__init__(parent)
 
         self.result_text = None
-        self.setFixedSize(600, 120)
-
         layout = QVBoxLayout()
         self.setWindowTitle(self.tr("AI feature"))
 

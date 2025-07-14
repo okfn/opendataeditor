@@ -203,7 +203,7 @@ class LlamaDownloadDialog(QDialog):
 
     def on_select_model(self):
         """Select the model from the list and close the dialog."""
-        model_selected = self.getSelectedModel()
+        model_selected = self.get_selected_model()
 
         if not model_selected:
             QMessageBox.warning(self, self.tr("Model not found"), self.tr("The selected model is not available."))
@@ -242,7 +242,7 @@ class LlamaDownloadDialog(QDialog):
 
         return downloaded_models
 
-    def getSelectedModel(self):
+    def get_selected_model(self):
         selected_items = self.model_list.selectedItems()
         if not selected_items:
             return None
@@ -259,7 +259,7 @@ class LlamaDownloadDialog(QDialog):
     @Slot()
     def on_download_model(self):
         """Download the selected model."""
-        model_selected = self.getSelectedModel()
+        model_selected = self.get_selected_model()
         self.download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
 
         if self.download_file_path.exists():
@@ -298,7 +298,7 @@ class LlamaDownloadDialog(QDialog):
     @Slot()
     def on_delete_model(self):
         """Delete the selected model file."""
-        model_selected = self.getSelectedModel()
+        model_selected = self.get_selected_model()
         download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
         download_file_path.unlink(missing_ok=True)
         self.fill_model_list()
