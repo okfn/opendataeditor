@@ -5,7 +5,7 @@ from pathlib import Path
 from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
-from PySide6.QtGui import QColor, QIcon, QCursor
+from PySide6.QtGui import QColor, QIcon, QCursor, QKeyEvent
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
 
 from openpyxl import Workbook
@@ -297,6 +297,10 @@ class FrictionlessTableModel(QAbstractTableModel):
         """Enable edition mode"""
         if not index.isValid():
             return Qt.ItemFlag.NoItemFlags
+
+        if index.row() == 0:
+            return super().flags(index)
+
         return super().flags(index) | Qt.ItemFlag.ItemIsEditable
 
     def setData(self, index, value, role):
@@ -321,6 +325,42 @@ class FrictionlessTableModel(QAbstractTableModel):
         return False
 
 
+class CustomTableView(QTableView):
+    """Custom QTableView to handle specific key events."""
+
+    on_click_first_row = Signal(object)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        """
+        We check if the user pressed Enter or Return on the first row of the table.
+        If so, we emit a signal with the column index of the clicked cell.
+        """
+        index = self.currentIndex()
+
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter) and index.row() == 0 and index.isValid():
+            self.on_click_first_row.emit(index.column())
+            return
+
+        super().keyPressEvent(event)
+
+    def mouseDoubleClickEvent(self, event):
+        """
+        We check if the user double click on the first row of the table.
+        If so, we emit a signal with the column index of the clicked cell.
+        """
+        index = self.indexAt(event.pos())
+
+        if index.isValid() and index.row() == 0:
+            self.on_click_first_row.emit(index.column())
+            event.accept()
+            return
+
+        super().mouseDoubleClickEvent(event)
+
+
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
 
@@ -337,7 +377,8 @@ class DataViewer(QWidget):
 
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.table_view = QTableView()
+        self.table_view = CustomTableView()
+        self.table_view.on_click_first_row.connect(self.show_column_metadata_dialog)
         # TableView's corner button hangs the application when working with huge datasets so we disable it.
         self.table_view.setCornerButtonEnabled(False)
         self.table_view.hide()
