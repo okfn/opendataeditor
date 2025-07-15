@@ -19,7 +19,6 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
-from PySide6.QtGui import QCursor
 
 from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
