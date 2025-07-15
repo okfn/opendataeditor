@@ -1,4 +1,6 @@
+import sys
 import os
+from pathlib import Path
 from typing import NamedTuple
 
 from llama_cpp import Llama as LlamaCPP
@@ -15,10 +17,9 @@ from PySide6.QtWidgets import (
     QProgressDialog,
     QListWidgetItem,
 )
-from PySide6.QtCore import QThread, Signal, QObject
-from PySide6.QtCore import QSaveFile, QIODevice, Slot, Qt
+from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QCursor
 
 from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
@@ -174,13 +175,28 @@ class LlamaDownloadDialog(QDialog):
         layout = QVBoxLayout(self)
 
         # Models List Section
-        label_models = QLabel(
-            self.tr("To start using the AI feature, please select one of the following models and click download:")
-        )
+        label_models = QLabel(self.tr("To start using the AI feature, please select one of the following models."))
         layout.addWidget(label_models)
+
+        download_location_box = QHBoxLayout()
+
+        label_download_location_text = QLabel(self.tr("The ODE will save the file in this location:"))
+        download_location_box.addWidget(label_download_location_text)
+
+        label_download_location = QLabel(
+            f'<i><a href="file://{AI_MODELS_PATH}" style="color: blue; text-decoration: underline;">{AI_MODELS_PATH}</a></i>'
+        )
+        label_download_location.setTextFormat(Qt.RichText)
+        label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        label_download_location.linkActivated.connect(self.open_download_directory)
+
+        download_location_box.addWidget(label_download_location)
+        layout.addLayout(download_location_box)
 
         self.model_list = QListWidget()
         self.model_list.setMinimumHeight(200)
+        self.model_list.itemSelectionChanged.connect(self.on_selection_changed)
         layout.addWidget(self.model_list)
         self.fill_model_list()
 
@@ -195,11 +211,32 @@ class LlamaDownloadDialog(QDialog):
         self.btn_download.clicked.connect(self.on_download_model)
         download_layout.addWidget(self.btn_download)
 
-        layout.addLayout(download_layout)
-
         self.btn_select = QPushButton(self.tr("Select Model"))
         self.btn_select.clicked.connect(self.on_select_model)
-        layout.addWidget(self.btn_select)
+        download_layout.addWidget(self.btn_select)
+
+        layout.addLayout(download_layout)
+
+    def on_selection_changed(self):
+        """Enable or disable buttons based on the selection in the model list."""
+        model_selected = self.get_selected_model()
+        if not model_selected:
+            return None
+
+        downloaded_models_filenames = self.get_downloaded_models()
+        disabled_style = "QPushButton:disabled { color: gray; }"
+
+        if model_selected.filename in downloaded_models_filenames:
+            self.btn_download.setEnabled(False)
+            self.btn_download.setStyleSheet(disabled_style)
+            self.btn_delete.setEnabled(True)
+            self.btn_select.setEnabled(True)
+        else:
+            self.btn_download.setEnabled(True)
+            self.btn_delete.setEnabled(False)
+            self.btn_delete.setStyleSheet(disabled_style)
+            self.btn_select.setEnabled(False)
+            self.btn_select.setStyleSheet(disabled_style)
 
     def on_select_model(self):
         """Select the model from the list and close the dialog."""
@@ -223,10 +260,12 @@ class LlamaDownloadDialog(QDialog):
         self.model_list.clear()
         downloaded_models_filenames = self.get_downloaded_models()
         for model in AI_MODELS:
-            item = QListWidgetItem(model.name)
+            item = QListWidgetItem()
 
-            if model.filename not in downloaded_models_filenames:
-                item.setForeground(QColor(128, 128, 128))
+            if model.filename in downloaded_models_filenames:
+                item.setText(f"{model.name} / Downloaded")
+            else:
+                item.setText(f"{model.name} / Not downloaded")
 
             self.model_list.addItem(item)
 
@@ -243,11 +282,12 @@ class LlamaDownloadDialog(QDialog):
         return downloaded_models
 
     def get_selected_model(self):
+        """Get the selected model from the model list."""
         selected_items = self.model_list.selectedItems()
         if not selected_items:
             return None
 
-        model_name = selected_items[0].text()
+        model_name = selected_items[0].text().split("/")[0].strip()
         model_selected = None
         for model in AI_MODELS:
             if model.name == model_name:
@@ -256,10 +296,25 @@ class LlamaDownloadDialog(QDialog):
 
         return model_selected
 
+    def open_download_directory(self):
+        """Open the directory where models are downloaded."""
+        path = str(AI_MODELS_PATH)
+        if sys.platform == "win32":
+            os.system(f'explorer.exe /select,"{Path(path)}"')
+        elif sys.platform == "darwin":
+            os.system(f'osascript -e \'tell application "Finder" to reveal (POSIX file "{path}")\'')
+            os.system("osascript -e 'tell application \"Finder\" to activate'")
+        else:
+            cmd_run = f'dbus-send --dest=org.freedesktop.FileManager1 --type=method_call /org/freedesktop/FileManager1 org.freedesktop.FileManager1.ShowItems array:string:"{path}" string:""'
+            os.system(cmd_run)
+
     @Slot()
     def on_download_model(self):
         """Download the selected model."""
         model_selected = self.get_selected_model()
+        if not model_selected:
+            return
+
         self.download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
 
         if self.download_file_path.exists():
