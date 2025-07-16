@@ -114,6 +114,9 @@ class LlamaDialog(QDialog):
         """Initialize the UI for the Llama dialog."""
         layout = QVBoxLayout(self)
 
+        self.prompt_label = QLabel("LLM Prompt:")
+        layout.addWidget(self.prompt_label)
+
         self.input_text = QTextEdit()
         self.input_text.setMinimumHeight(300)
         self.input_text.setMinimumWidth(700)
