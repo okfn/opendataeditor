@@ -2,10 +2,10 @@ import sys
 import os
 from pathlib import Path
 from typing import NamedTuple
+import logging
 
 from llama_cpp import Llama as LlamaCPP
 from PySide6.QtWidgets import (
-    QApplication,
     QDialog,
     QVBoxLayout,
     QTextEdit,
@@ -25,6 +25,8 @@ from ode.paths import AI_MODELS_PATH
 
 if not os.path.exists(AI_MODELS_PATH):
     os.makedirs(AI_MODELS_PATH)
+
+logger = logging.getLogger(__name__)
 
 
 class AIModel(NamedTuple):
@@ -79,8 +81,13 @@ class LlamaWorker(QThread):
         self.signals = LlamaWorkerSignals()
 
     def run(self):
-        response = self.llm(self.prompt)
-        self.signals.finished.emit(response["choices"][0]["text"])
+        try:
+            self.signals.messages.emit(self.tr("Preparing data for analysis..."))
+            response = self.llm(self.prompt)
+            self.signals.finished.emit(response["choices"][0]["text"])
+        except Exception:
+            logger.error("Error during LLM processing", exc_info=True)
+            self.signals.finished.emit(self.tr("Execution failed"))
 
 
 class LlamaDialog(QDialog):
@@ -107,9 +114,17 @@ class LlamaDialog(QDialog):
         """Initialize the UI for the Llama dialog."""
         layout = QVBoxLayout(self)
 
-        self.btn_analysis = QPushButton()
-        self.btn_analysis.clicked.connect(self.analysis_table)
-        layout.addWidget(self.btn_analysis)
+        self.prompt_label = QLabel("LLM Prompt:")
+        layout.addWidget(self.prompt_label)
+
+        self.input_text = QTextEdit()
+        self.input_text.setMinimumHeight(300)
+        self.input_text.setMinimumWidth(700)
+        layout.addWidget(self.input_text)
+
+        self.btn_run = QPushButton()
+        self.btn_run.clicked.connect(self.run)
+        layout.addWidget(self.btn_run)
 
         self.output_text = QTextEdit()
         self.output_text.setReadOnly(True)
@@ -123,32 +138,47 @@ class LlamaDialog(QDialog):
         """Set the data for analysis."""
         self.data = data
 
+        headers = self.data[0]
+        prompt = f"""Column headers: {" | ".join(headers)}
+
+        Using the following rules, suggest better names for unclear or incorrect column names:
+        Rule 1: always use lowercase letters for column names.
+        Rule 2: always use underscore to separate words, never user spaces.
+        Rule 3: names should be descriptive about the content of the column and coherent with the topic of other columns.
+        Rule 4: never user more than 3 words for column names.
+
+        If current column names apply to these rules you can flag them as correct name instead of suggesting a new one.
+
+        Just return the list of changes and it's explanation (if required), do not add any other information to the output.
+        """
+
+        self.input_text.setText(prompt)
+
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
         self.llm = Llama(model_path=model_path)
 
-    def analysis_table(self):
-        """Analyze the table data using the LLM."""
+    def run(self):
         if self.llm is None or self.data is None:
             return
 
-        self.worker = TableAnalysisWorker(self.llm, self.data)
-        self.worker.signals.finished.connect(self.on_analysis_finished)
+        self.worker = LlamaWorker(self.llm, self.input_text.toPlainText())
+        self.worker.signals.finished.connect(self.on_execution_finished)
         self.worker.signals.messages.connect(self.loading_dialog.show_message)
         self.worker.signals.finished.connect(self.loading_dialog.close)
         self.worker.start()
 
         self.loading_dialog.show()
 
-    def on_analysis_finished(self, result):
+    def on_execution_finished(self, result):
         """Handle the result of the table analysis."""
         self.output_text.setMarkdown(result)
 
     def retranslateUI(self):
         """Retranslate the UI elements."""
         self.setWindowTitle(self.tr("AI feature"))
-        self.btn_analysis.setText(self.tr("Analyze Column Headers"))
-        self.output_text.setPlaceholderText(self.tr("Analysis results will be displayed here..."))
+        self.btn_run.setText(self.tr("Execute"))
+        self.output_text.setPlaceholderText(self.tr("Results will be displayed here..."))
 
 
 class LlamaDownloadDialog(QDialog):
@@ -417,56 +447,3 @@ class LlamaDownloadDialog(QDialog):
                 return f"{bytes_size:.2f} {unit}"
             bytes_size /= 1024.0
         return f"{bytes_size:.2f} TB"
-
-
-class TableAnalysisWorker(QThread):
-    """Extended worker for table analysis with your signal system"""
-
-    def __init__(self, llm, data):
-        super().__init__()
-        self.llm = llm
-        self.data = data
-        self.signals = LlamaWorkerSignals()
-
-    def run(self):
-        """Run the analysis on the table data using the LLM."""
-        try:
-            self.signals.messages.emit(QApplication.translate("TableAnalysisWorker", "Preparing data for analysis..."))
-
-            prompt = self.prepare_analysis_prompt()
-
-            self.signals.messages.emit(
-                QApplication.translate(
-                    "TableAnalysisWorker", "Running analysis with Local LLM. This could take a minute or two..."
-                )
-            )
-            response = self.llm(prompt)
-            result = response["choices"][0]["text"]
-
-            self.signals.finished.emit(result)
-
-        except Exception as e:
-            self.signals.finished.emit(QApplication.translate("TableAnalysisWorker", f"Analysis error: {str(e)}"))
-
-    def prepare_analysis_prompt(self):
-        """Convert table data to prompt for analysis"""
-
-        headers = self.data[0]
-        prompt = f"""<|im_start|>system
-        You are a data analyst expert.<|im_end|>
-        <|im_start|>user
-        Column headers: {" | ".join(headers)}
-
-        Using the following rules, suggest better names for unclear or incorrect column names:
-        Rule 1: always use lowercase letters for column names.
-        Rule 2: always use underscore to separate words, never user spaces.
-        Rule 3: names should be descriptive about the content of the column and coherent with the topic of other columns.
-        Rule 4: never user more than 3 words for column names.
-
-        If current column names apply to these rules you can flag them as correct name instead of suggesting a new one.
-
-        Just return the list of changes and it's explanation (if required), do not add any other information to the output.
-        <|im_end|>
-        <|im_start|>assistant"""
-
-        return prompt
