@@ -415,10 +415,19 @@ class DataViewer(QWidget):
         """
         Shows a dialog to edit a column's metadata.
         """
+        model = self.table_view.model()
+        column_count = model.columnCount()
+        headers = []
+        for column in range(column_count):
+            index = model.index(0, column)
+            value = model.data(index, Qt.DisplayRole)
+            headers.append(value)
+
         field = self.resource.schema.fields[field_index]
-        field_names = [f.name for f in self.resource.schema.fields]
-        column_metadata_field = ColumnMetadataField(field.name, field.type, field.description, field.constraints)
-        dialog = ColumnMetadataDialog(self, column_metadata_field, field_index, field_names)
+        column_metadata_field = ColumnMetadataField(
+            headers[field_index], field.type, field.description, field.constraints
+        )
+        dialog = ColumnMetadataDialog(self, column_metadata_field, field_index, headers)
         dialog.save_clicked.connect(self.save_metadata_to_descriptor_file)
         dialog.exec()
 
