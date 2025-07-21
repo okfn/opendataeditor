@@ -138,7 +138,7 @@ class LlamaDialog(QDialog):
         """Set the data for analysis."""
         self.data = data
 
-        headers = self.data[0]
+        headers = [h for h in self.data[0] if h is not None and h != ""]
         prompt = f"""Column headers: {" | ".join(headers)}
 
         Using the following rules, suggest better names for unclear or incorrect column names:
