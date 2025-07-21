@@ -267,25 +267,20 @@ class ColumnMetadataDialog(QDialog):
         """
         Emits the save_clicked signal with the form data and closes the dialog.
         """
-        errors = []
-
         # Validate the field name
+        field_name_error = None
         field_name = self.form.name.text()
-        if field_name != self.field.name:
-            if field_name.strip() == "" or field_name in self.field_names:
-                # If the name is already used, show an error
-                self.form.name.setStyleSheet("border: 1px solid red;")
-                if field_name.strip() == "":
-                    self.form.error_label.setText(self.tr("Column name cannot be empty"))
-                else:
-                    errors.append(
-                        self.tr(
-                            "There is another column in the table with the same name. Please choose a different one"
-                        )
-                    )
 
-        if errors:
-            self.form.error_label.setText("\n".join(errors))
+        if field_name.strip() == "":
+            field_name_error = self.tr("Column name cannot be empty")
+        elif field_name != self.field.name and field_name in self.field_names:
+            field_name_error = self.tr(
+                "There is another column in the table with the same name. Please choose a different one"
+            )
+
+        if field_name_error:
+            self.form.name.setStyleSheet("border: 1px solid red;")
+            self.form.error_label.setText(field_name_error)
             self.form.error_label.setHidden(False)
             return
 
