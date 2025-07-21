@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QMenu,
     QMessageBox,
     QToolTip,
+    QTextEdit,
 )
 
 from PySide6.QtGui import (
@@ -30,8 +31,6 @@ from PySide6.QtGui import (
     QFont,
     QPalette,
     QColor,
-    QShortcut,
-    QKeySequence,
     QKeyEvent,
 )
 from PySide6.QtCore import (
@@ -63,7 +62,6 @@ from ode.panels.errors import ErrorsWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker
 from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
-from ode.panels.ai import ChatGPTDialog, QTextEdit
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
 from ode.dialogs.publish import PublishDialog
@@ -487,7 +485,6 @@ class Content(QWidget):
         self.data_view = DataViewer()
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
-        self.ai_widget = ChatGPTDialog(self)
         self.ai_llama = LlamaDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
@@ -596,10 +593,6 @@ class MainWindow(QMainWindow):
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
 
-        # Shortcut
-        self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
-        self.shortcut_f5.activated.connect(self.on_ai_llama_click)
-
         # Translation
         self.translator = QTranslator()
         self.retranslateUI()
@@ -693,9 +686,6 @@ class MainWindow(QMainWindow):
         dialog.show()
 
     def on_ai_click(self):
-        self.content.ai_widget.show()
-
-    def on_ai_llama_click(self):
         if not LLMWarningDialog.confirm(self):
             return
 
@@ -747,7 +737,6 @@ class MainWindow(QMainWindow):
         # Hook retranslateUI for all panels (data, errors, metadata, etc)
         self.content.data_view.retranslateUI()
         self.content.errors_view.retranslateUI()
-        self.content.ai_widget.retranslateUI()
         self.content.source_view.retranslateUI()
         self.content.ai_llama.retranslateUI()
 
