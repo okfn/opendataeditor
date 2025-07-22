@@ -64,7 +64,7 @@ from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
-from ode.dialogs.publish import PublishDialog
+from ode.dialogs.download import DownloadDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 from ode.log_setup import LOGS_PATH, configure_logging
@@ -682,7 +682,7 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_publish_click(self):
-        dialog = PublishDialog(self, self.selected_file_path)
+        dialog = DownloadDialog(self, self.selected_file_path)
         dialog.show()
 
     def on_ai_click(self):
