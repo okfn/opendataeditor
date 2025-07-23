@@ -9,12 +9,14 @@ from PySide6.QtGui import QColor, QIcon, QCursor, QKeyEvent
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
 
 from openpyxl import Workbook
+from openpyxl.styles import PatternFill
 
 from ode import utils
 from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
 from ode.shared import COLOR_RED
 from ode.paths import Paths
+
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -192,6 +194,29 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
+
+    def write_error_xlsx(self, destination_directory):
+        filepath = Path(destination_directory, "error.xlsx")
+
+        wb = Workbook()
+        ws = wb.active
+
+        red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+
+        for row_index, row in enumerate(self._data):
+            ws.append(row)
+
+            # Workbook starts at row 1, so we need to add 1 to the row_index
+            for column_index, column in enumerate(ws[row_index + 1]):
+                if self.errors[row_index]:
+                    for error_column, error_type, _ in self.errors[row_index]:
+                        if error_type == "blank-row":
+                            column.fill = red_fill
+                        if error_column == column_index:
+                            column.fill = red_fill
+
+        wb.save(filepath)
+        logger.info(f"Errors saved in Excel format: {filepath}")
 
     def _get_errors(self, errors):
         """Return an array with errors information to use when rendering the table.

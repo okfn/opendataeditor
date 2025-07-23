@@ -682,8 +682,9 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_publish_click(self):
-        dialog = DownloadDialog(self, self.selected_file_path)
-        dialog.show()
+        download_dialog = DownloadDialog(self, self.selected_file_path)
+        download_dialog.download_data_with_errors.connect(self.table_model.write_error_xlsx)
+        download_dialog.show()
 
     def on_ai_click(self):
         if not LLMWarningDialog.confirm(self):

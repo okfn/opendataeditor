@@ -2,12 +2,14 @@ import os
 import shutil
 
 from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QFileDialog, QLabel
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from pathlib import Path
 
 
 class DownloadDialog(QDialog):
     """Dialog to Publish the file and metadata to third party services."""
+
+    download_data_with_errors = Signal(str)
 
     def __init__(self, parent, filepath: Path) -> None:
         super().__init__(parent)
@@ -27,6 +29,10 @@ class DownloadDialog(QDialog):
         self.download_button.clicked.connect(self.download_file)
         layout.addWidget(self.download_button)
 
+        self.download_error_button = QPushButton()
+        self.download_error_button.clicked.connect(self.download_error_file)
+        layout.addWidget(self.download_error_button)
+
         self.setLayout(layout)
         self.retranslateUI()
 
@@ -36,9 +42,10 @@ class DownloadDialog(QDialog):
         self.setWindowTitle(self.tr("Download dataset"))
         self.download_button.setText(self.tr("Download file"))
 
-    def download_file(self):
+    def get_destination_directory(self) -> str:
         """
-        Opens a dialog to select the destination directory and copies the file
+        Opens a dialog to select the destination directory.
+        Returns the selected directory path.
         """
         download_directory = QFileDialog.getExistingDirectory(
             self,
@@ -47,11 +54,18 @@ class DownloadDialog(QDialog):
             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks,
         )
 
+        return download_directory
+
+    def download_file(self):
+        """
+        Opens a dialog to select the destination directory and copies the file
+        """
+        download_directory = self.get_destination_directory()
         if not download_directory:
             return
 
         try:
-            filename = os.path.basename(self.selected_file_path)
+            filename = os.path.basename(self.filepath)
             download_filepath = os.path.join(download_directory, filename)
             shutil.copy2(self.filepath, download_filepath)
 
@@ -61,3 +75,10 @@ class DownloadDialog(QDialog):
         except Exception as e:
             error_text = self.tr("Error copying file:\n{}").format(str(e))
             QMessageBox.critical(self, "Error", error_text)
+
+    def download_error_file(self):
+        download_directory = self.get_destination_directory()
+        if not download_directory:
+            return
+
+        self.download_data_with_errors.emit(download_directory)
