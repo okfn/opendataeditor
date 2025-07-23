@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QFileDialog, QLabel
+from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QFileDialog, QLabel, QHBoxLayout
 from PySide6.QtCore import Qt, Signal
 from pathlib import Path
 
@@ -25,13 +25,17 @@ class DownloadDialog(QDialog):
         # Block the main window until the dialog is closed
         self.setWindowModality(Qt.ApplicationModal)
 
+        button_layout = QHBoxLayout()
+
         self.download_button = QPushButton()
         self.download_button.clicked.connect(self.download_file)
-        layout.addWidget(self.download_button)
+        button_layout.addWidget(self.download_button)
 
         self.download_error_button = QPushButton()
         self.download_error_button.clicked.connect(self.download_error_file)
-        layout.addWidget(self.download_error_button)
+        button_layout.addWidget(self.download_error_button)
+
+        layout.addLayout(button_layout)
 
         self.setLayout(layout)
         self.retranslateUI()
@@ -41,6 +45,7 @@ class DownloadDialog(QDialog):
         self.label.setText(self.tr("Download the file to your local machine."))
         self.setWindowTitle(self.tr("Download dataset"))
         self.download_button.setText(self.tr("Download file"))
+        self.download_error_button.setText(self.tr("Download errors file"))
 
     def get_destination_directory(self) -> str:
         """
@@ -77,6 +82,9 @@ class DownloadDialog(QDialog):
             QMessageBox.critical(self, "Error", error_text)
 
     def download_error_file(self):
+        """
+        Opens a dialog to select the destination directory and emits a signal to download the data with errors.
+        """
         download_directory = self.get_destination_directory()
         if not download_directory:
             return
