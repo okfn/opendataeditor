@@ -10,3 +10,4 @@ node_modules/
 .astro
 package-lock.json
 /.venv
+.DS_Store

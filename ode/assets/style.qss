@@ -172,14 +172,14 @@ QTableCornerButton::section {
 DataUploadDialog,
 DeleteDialog,
 RenameDialog,
-PublishDialog {
+DownloadDialog {
   border: 2px solid #000000;
 }
 
 DataUploadDialog QPushButton,
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-PublishDialog QPushButton {
+DownloadDialog QPushButton {
   border: 2px solid #000000;
   background-color: #F0F0F0;
   font-size: 14px;
@@ -195,14 +195,14 @@ PublishDialog QPushButton {
 
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-PublishDialog QPushButton {
+DownloadDialog QPushButton {
   padding: 5px;
 }
 
 DataUploadDialog QPushButton:hover,
 DeleteDialog QPushButton:hover,
 RenameDialog QPushButton:hover,
-PublishDialog QPushButton:hover {
+DownloadDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
@@ -210,7 +210,7 @@ PublishDialog QPushButton:hover {
 DataUploadDialog QPushButton:pressed,
 DeleteDialog QPushButton:pressed,
 RenameDialog QPushButton:pressed,
-PublishDialog QPushButton:pressed {
+DownloadDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
@@ -291,7 +291,7 @@ Welcome QPushButton:focus {
 DataUploadDialog QPushButton:focus,
 DeleteDialog QPushButton:focus,
 RenameDialog QPushButton:focus,
-PublishDialog QPushButton:focus {
+DownloadDialog QPushButton:focus {
   border: 2px solid #0078D7;
   outline: none;
 }

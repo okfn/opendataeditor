@@ -64,7 +64,7 @@ from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
-from ode.dialogs.publish import PublishDialog
+from ode.dialogs.download import DownloadDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 from ode.log_setup import LOGS_PATH, configure_logging
@@ -682,8 +682,9 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_publish_click(self):
-        dialog = PublishDialog(self, self.selected_file_path)
-        dialog.show()
+        download_dialog = DownloadDialog(self, self.selected_file_path)
+        download_dialog.download_data_with_errors.connect(self.on_download_error_file)
+        download_dialog.show()
 
     def on_ai_click(self):
         if not LLMWarningDialog.confirm(self):
@@ -973,6 +974,12 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
+
+    def on_download_error_file(self, destination_directory):
+        self.loading_dialog.show_message(self.tr("Downloading data with errors..."))
+        self.loading_dialog.show()
+        self.table_model.write_error_xlsx(destination_directory)
+        self.table_model.finished.connect(self.loading_dialog.close)
 
 
 if __name__ == "__main__":
