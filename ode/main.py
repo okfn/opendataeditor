@@ -683,7 +683,7 @@ class MainWindow(QMainWindow):
 
     def on_publish_click(self):
         download_dialog = DownloadDialog(self, self.selected_file_path)
-        download_dialog.download_data_with_errors.connect(self.table_model.write_error_xlsx)
+        download_dialog.download_data_with_errors.connect(self.on_download_error_file)
         download_dialog.show()
 
     def on_ai_click(self):
@@ -974,6 +974,12 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
+
+    def on_download_error_file(self, destination_directory):
+        self.loading_dialog.show_message(self.tr("Downloading data with errors..."))
+        self.loading_dialog.show()
+        self.table_model.write_error_xlsx(destination_directory)
+        self.table_model.finished.connect(self.loading_dialog.close)
 
 
 if __name__ == "__main__":

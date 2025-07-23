@@ -135,6 +135,8 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 
 
 class FrictionlessTableModel(QAbstractTableModel):
+    finished = Signal()
+
     def __init__(self, data=[], errors=[]):
         super().__init__()
         self._data = data
@@ -194,6 +196,7 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
+        self.finished.emit()
 
     def write_error_xlsx(self, destination_directory):
         filepath = Path(destination_directory, "error.xlsx")

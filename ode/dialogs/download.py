@@ -10,6 +10,7 @@ class DownloadDialog(QDialog):
     """Dialog to Publish the file and metadata to third party services."""
 
     download_data_with_errors = Signal(str)
+    finished = Signal()
 
     def __init__(self, parent, filepath: Path) -> None:
         super().__init__(parent)
