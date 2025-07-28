@@ -1,7 +1,6 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/frictionlessdata/application/general.yaml?branch=main)](https://github.com/frictionlessdata/application/actions)
 [![Codebase](https://img.shields.io/badge/codebase-github-brightgreen)](https://github.com/frictionlessdata/application)
-[![Support](https://img.shields.io/badge/support-slack-brightgreen)](https://join.slack.com/t/frictionlessdata/shared_invite/zt-17kpbffnm-tRfDW_wJgOw8tJVLvZTrBg)
 
 ![ODE-landscape-full-rgb@3x](https://github.com/okfn/opendataeditor/assets/20649846/01ae62e8-87f6-4e44-9487-790b8111e321)
 
