@@ -976,10 +976,11 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
 
     def on_download_error_file(self, destination_directory):
+        self.table_model.finished.connect(self.loading_dialog.close)
+        self.table_model.finished.connect(self.loading_dialog.cancel_loading_timer)
         self.loading_dialog.show_message(self.tr("Downloading data with errors..."))
         self.loading_dialog.show()
         self.table_model.write_error_xlsx(destination_directory)
-        self.table_model.finished.connect(self.loading_dialog.close)
 
 
 if __name__ == "__main__":

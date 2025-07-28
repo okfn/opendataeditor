@@ -196,7 +196,6 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
-        self.finished.emit()
 
     def write_error_xlsx(self, destination_directory):
         filepath = Path(destination_directory, "error.xlsx")
@@ -205,20 +204,32 @@ class FrictionlessTableModel(QAbstractTableModel):
         ws = wb.active
 
         red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+        errors_cells = set()
+        blank_rows = set()
+
+        for row_index, errors_in_row in enumerate(self.errors):
+            if errors_in_row:
+                for error_column, error_type, _ in errors_in_row:
+                    if error_type == "blank-row":
+                        blank_rows.add(row_index)
+                    else:
+                        errors_cells.add((row_index, error_column))
 
         for row_index, row in enumerate(self._data):
             ws.append(row)
 
-            # Workbook starts at row 1, so we need to add 1 to the row_index
-            for column_index, column in enumerate(ws[row_index + 1]):
-                if self.errors[row_index]:
-                    for error_column, error_type, _ in self.errors[row_index]:
-                        if error_type == "blank-row":
-                            column.fill = red_fill
-                        if error_column == column_index:
-                            column.fill = red_fill
+        for row_index in blank_rows:
+            excel_row = row_index + 1
+            for col_index in range(1, ws.max_column + 1):
+                ws.cell(row=excel_row, column=col_index).fill = red_fill
+
+        for row_index, col_index in errors_cells:
+            excel_row = row_index + 1
+            excel_col = col_index + 1
+            ws.cell(row=excel_row, column=excel_col).fill = red_fill
 
         wb.save(filepath)
+        self.finished.emit()
         logger.info(f"Errors saved in Excel format: {filepath}")
 
     def _get_errors(self, errors):
