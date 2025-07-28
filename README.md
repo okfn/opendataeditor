@@ -12,11 +12,11 @@
 The Open Data Editor (ODE) is a **no-code application** to **explore, validate and publish data** in a simple way. Forever free and **open source project** powered by the **Frictionless Framework**.
 
 
- 📩 [Send us feedback/Report a problem (email)](mailto:info@okfn.org) 
- 🪲 [Create an issue on GitHub](https://github.com/okfn/opendataeditor/issues) 
- 🤔 [Suggest a new feature](https://github.com/okfn/opendataeditor/issues) 
- 
- 
+ 📩 [Send us feedback/Report a problem (email)](mailto:info@okfn.org)
+ 🪲 [Create an issue on GitHub](https://github.com/okfn/opendataeditor/issues)
+ 🤔 [Suggest a new feature](https://github.com/okfn/opendataeditor/issues)
+
+
 
 # Useful links
 
@@ -32,16 +32,12 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 🔵 [Technical Architecture](https://opendataeditor.okfn.org/contributing/architecture/)
 
-🔵 For all contributions: [Code of conduct](https://frictionlessdata.io/code-of-conduct/) 
+🔵 For all contributions: [Code of conduct](https://frictionlessdata.io/code-of-conduct/)
 
 # How to download the ODE
 
-📍***Note:** the ODE is currently available for download and testing in beta. We are working on a stable version. Updates will be announced throughout the year.*
-
-Go to [RELEASES](https://github.com/okfn/opendataeditor/releases)
+Go to the latest [RELEASE](https://github.com/okfn/opendataeditor/releases/latest)
 * For **Windows**:Download the most recent **EXE** file.
 * For **MacOS**:Download the most recent **DMG** file.
 * For **Linux**:Download the most recent **AppImage** or **DEB** file.
 
-
-**Open Data Editor (beta 1.1)** has been released on **Sept., 2024**.
