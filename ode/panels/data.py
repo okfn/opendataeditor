@@ -197,9 +197,11 @@ class FrictionlessTableModel(QAbstractTableModel):
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
 
-    def write_error_xlsx(self, destination_directory):
-        filepath = Path(destination_directory, "error.xlsx")
-
+    def write_error_xlsx(self, filepath: Path):
+        """
+        Write the errors to an Excel file in the specified directory
+        painting with red the cells with errors.
+        """
         wb = Workbook()
         ws = wb.active
 

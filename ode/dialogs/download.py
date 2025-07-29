@@ -9,7 +9,7 @@ from pathlib import Path
 class DownloadDialog(QDialog):
     """Dialog to Publish the file and metadata to third party services."""
 
-    download_data_with_errors = Signal(str)
+    download_data_with_errors = Signal()
     finished = Signal()
 
     def __init__(self, parent, filepath: Path) -> None:
@@ -83,11 +83,4 @@ class DownloadDialog(QDialog):
             QMessageBox.critical(self, "Error", error_text)
 
     def download_error_file(self):
-        """
-        Opens a dialog to select the destination directory and emits a signal to download the data with errors.
-        """
-        download_directory = self.get_destination_directory()
-        if not download_directory:
-            return
-
-        self.download_data_with_errors.emit(download_directory)
+        self.download_data_with_errors.emit()
