@@ -2,7 +2,7 @@ import os
 import shutil
 
 from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QFileDialog, QLabel, QHBoxLayout
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QStandardPaths
 from pathlib import Path
 
 
@@ -66,16 +66,13 @@ class DownloadDialog(QDialog):
         """
         Opens a dialog to select the destination directory and copies the file
         """
-        download_directory = self.get_destination_directory()
-        if not download_directory:
-            return
+        downloads_path = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
+        filename = os.path.basename(self.filepath)
+        filepath = Path(downloads_path, filename)
 
         try:
-            filename = os.path.basename(self.filepath)
-            download_filepath = os.path.join(download_directory, filename)
-            shutil.copy2(self.filepath, download_filepath)
-
-            success_text = self.tr("File copied successfully to:\n{}").format(download_filepath)
+            shutil.copy2(self.filepath, filepath)
+            success_text = self.tr("File copied successfully to:\n{}").format(filepath)
             QMessageBox.information(self, self.tr("Success"), success_text)
 
         except Exception as e:
