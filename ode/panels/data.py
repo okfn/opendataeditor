@@ -9,12 +9,14 @@ from PySide6.QtGui import QColor, QIcon, QCursor, QKeyEvent
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
 
 from openpyxl import Workbook
+from openpyxl.styles import PatternFill
 
 from ode import utils
 from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
 from ode.shared import COLOR_RED
 from ode.paths import Paths
+
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -133,6 +135,8 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 
 
 class FrictionlessTableModel(QAbstractTableModel):
+    finished = Signal()
+
     def __init__(self, data=[], errors=[]):
         super().__init__()
         self._data = data
@@ -192,6 +196,73 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
+
+    def write_error_xlsx(self, filepath: Path):
+        """
+        Write the errors to an Excel file in the specified directory
+        painting with red the cells with errors.
+        """
+        wb = Workbook()
+        data_sheet = wb.active
+        data_sheet.title = self.tr("Data")
+        errors_sheet = wb.create_sheet("Errors Description")
+        errors_sheet.append(["Row", "Column", "Error Title", "Error Description"])
+
+        blank_sheet = wb.create_sheet("Blank Rows")
+        blank_sheet.append(["Row", "Error Description"])
+
+        red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+        errors_cells = list()
+        blank_rows = set()
+
+        for row_index, errors_in_row in enumerate(self.errors):
+            if errors_in_row:
+                for error_column, error_type, error_description in errors_in_row:
+                    if error_type == "blank-row":
+                        blank_rows.add(row_index)
+                    else:
+                        errors_cells.append((row_index, error_column, error_type, error_description))
+
+        for row_index, row in enumerate(self._data):
+            data_sheet.append(row)
+
+        errors_cells.sort(key=lambda x: (x[0], x[1]))  # Sort by row and column index
+        for row_index, col_index, error_type, error_description in errors_cells:
+            excel_row = row_index + 1
+            excel_col = col_index + 1
+            error_title = utils.ErrorTexts.get_error_title(error_type)
+            if not error_title:
+                error_title = error_type.replace("-", " ").title()
+
+            errors_sheet.append(
+                [
+                    excel_row,
+                    excel_col,
+                    error_title,
+                    utils.ErrorTexts.get_error_description(error_type) or error_description,
+                ]
+            )
+
+            # Paint the cell with red if it has an error in the Data Sheet
+            data_sheet.cell(row=excel_row, column=excel_col).fill = red_fill
+
+        for row_index in blank_rows:
+            excel_row = row_index + 1
+
+            blank_sheet.append(
+                [
+                    excel_row,
+                    utils.ErrorTexts.get_error_description("blank-row"),
+                ]
+            )
+
+            # Paint the cell with red if it has an error in the Data Sheet
+            for col_index in range(1, data_sheet.max_column + 1):
+                data_sheet.cell(row=excel_row, column=col_index).fill = red_fill
+
+        wb.save(filepath)
+        self.finished.emit()
+        logger.info(f"Errors saved in Excel format: {filepath}")
 
     def _get_errors(self, errors):
         """Return an array with errors information to use when rendering the table.

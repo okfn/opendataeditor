@@ -46,6 +46,8 @@ from PySide6.QtCore import (
     QItemSelectionModel,
     QEvent,
     QModelIndex,
+    QStandardPaths,
+    QTimer,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
@@ -64,7 +66,7 @@ from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
-from ode.dialogs.publish import PublishDialog
+from ode.dialogs.download import DownloadDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 from ode.log_setup import LOGS_PATH, configure_logging
@@ -682,10 +684,13 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
     def on_publish_click(self):
-        dialog = PublishDialog(self, self.selected_file_path)
-        dialog.show()
+        """Handle the click on the Publish button."""
+        download_dialog = DownloadDialog(self, self.selected_file_path)
+        download_dialog.download_data_with_errors.connect(self.on_download_error_file)
+        download_dialog.show()
 
     def on_ai_click(self):
+        """Handle the click on the AI button."""
         if not LLMWarningDialog.confirm(self):
             return
 
@@ -973,6 +978,33 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
+
+    def on_download_error_file(self):
+        """
+        Downloads the file with errors to the user's Downloads folder.
+        """
+        self.table_model.finished.connect(self.loading_dialog.close)
+        self.table_model.finished.connect(self.loading_dialog.cancel_loading_timer)
+        self.loading_dialog.show_message(self.tr("Downloading data with errors..."))
+        # We are showing the dialog instantly without waiting the 300ms delay
+        self.loading_dialog.show(0)
+
+        # We use QTimer to ensure the download is performed after the dialog is shown
+        QTimer.singleShot(100, self._perform_download)
+
+    def _perform_download(self):
+        """
+        Performs the actual download of the file with errors to the user's Downloads folder.
+        """
+        downloads_path = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
+        filename = self.selected_file_path.name
+        # TODO: do no overwrite existing files
+        filepath = Path(downloads_path, filename)
+        filepath = filepath.with_stem(f"{filepath.stem}_errors").with_suffix(".xlsx")
+        self.table_model.write_error_xlsx(filepath)
+
+        success_text = self.tr("File downloaded successfully to:\n{}").format(filepath)
+        QMessageBox.information(self, self.tr("Success"), success_text)
 
 
 if __name__ == "__main__":
