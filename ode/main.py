@@ -998,7 +998,9 @@ class MainWindow(QMainWindow):
         """
         downloads_path = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
         filename = self.selected_file_path.name
+        # TODO: do no overwrite existing files
         filepath = Path(downloads_path, filename)
+        filepath = filepath.with_stem(f"{filepath.stem}_errors").with_suffix(".xlsx")
         self.table_model.write_error_xlsx(filepath)
 
         success_text = self.tr("File downloaded successfully to:\n{}").format(filepath)

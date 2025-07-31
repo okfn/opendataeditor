@@ -103,3 +103,35 @@ def show_error_dialog(message=None, title="Error"):
     error_box.setStandardButtons(QMessageBox.Ok)
 
     return error_box.exec()
+
+
+class ErrorTexts:
+    ERROR_TITLES = {
+        "missing-label": "Missing header",
+        "duplicate-label": "Duplicated header",
+        "blank-row": "Empty row",
+        "type-error": "Type mismatch",
+        "missing-cell": "Missing value",
+        "extra-cell": "Extra cell",
+        "blank-header": "Missing header",
+    }
+
+    ERROR_DESCRIPTIONS = {
+        "missing-label": "A column in the header row has no name. Every column should have a unique, non-empty header.",
+        "duplicate-label": "Two or more columns share the same name. Column names must be unique.",
+        "blank-row": "This row has no data. Rows should contain at least one cell with data.",
+        "type-error": "A cell value doesn't match the expected data type or format for the column.",
+        "missing-cell": "This cell is missing data",
+        "extra-cell": "This row has more values compared to the header row.",
+        "blank-header": "A column in the header row has no name. Every column should have a unique, non-empty header.",
+    }
+
+    @classmethod
+    def get_error_title(cls, error_type):
+        """Returns a more user-friendly title if exists."""
+        return cls.ERROR_TITLES.get(error_type, None)
+
+    @classmethod
+    def get_error_description(cls, error_type):
+        """Returns a more user-friendly description if exists."""
+        return cls.ERROR_DESCRIPTIONS.get(error_type, None)
