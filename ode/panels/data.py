@@ -212,7 +212,7 @@ class FrictionlessTableModel(QAbstractTableModel):
         blank_sheet.append(["Row", "Error Description"])
 
         red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
-        errors_cells = set()
+        errors_cells = list()
         blank_rows = set()
 
         for row_index, errors_in_row in enumerate(self.errors):
@@ -221,12 +221,12 @@ class FrictionlessTableModel(QAbstractTableModel):
                     if error_type == "blank-row":
                         blank_rows.add(row_index)
                     else:
-                        errors_cells.add((row_index, error_column, error_type, error_description))
+                        errors_cells.append((row_index, error_column, error_type, error_description))
 
         for row_index, row in enumerate(self._data):
             data_sheet.append(row)
 
-        # TODO: Order errors by row and column
+        errors_cells.sort(key=lambda x: (x[0], x[1]))  # Sort by row and column index
         for row_index, col_index, error_type, error_description in errors_cells:
             excel_row = row_index + 1
             excel_col = col_index + 1
