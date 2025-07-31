@@ -81,6 +81,11 @@ QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
   background-color: #000;
   border-color: #FFF;
 }
+QPushButton#button_save:disabled {
+  background-color: #F0F0F0;
+  border-color: #F0F0F0;
+  color: #4C5564;
+}
 
 
 Sidebar {

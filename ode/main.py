@@ -443,6 +443,7 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
+        self.button_save.setEnabled(False)
         # self.update_qss_button = QPushButton("QSS")
         # layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
@@ -566,7 +567,6 @@ class MainWindow(QMainWindow):
         self.main_layout = QStackedLayout()
         self.welcome = Welcome()
         self.content = Content()
-        self.content.data_view.on_save.connect(self.on_data_view_save)
         self.main_layout.addWidget(self.welcome)
         self.main_layout.addWidget(self.content)
         self.main.setLayout(self.main_layout)
@@ -590,6 +590,8 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
         self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
 
+        self.content.data_view.on_save.connect(self.on_data_view_save)
+
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
 
@@ -601,6 +603,9 @@ class MainWindow(QMainWindow):
         self.apply_stylesheet()
 
         self._create_status_bar()
+
+    def on_data_changed(self):
+        self.content.toolbar.button_save.setEnabled(True)
 
     def _create_status_bar(self):
         self.statusBar().showMessage(self.tr("Ready."))
@@ -794,6 +799,7 @@ class MainWindow(QMainWindow):
         self.table_model.write_data(self.selected_file_path)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
+        self.content.toolbar.button_save.setEnabled(False)
         self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
 
     def on_data_view_save(self, save_data):
@@ -814,6 +820,7 @@ class MainWindow(QMainWindow):
         """
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
+        self.table_model.dataChanged.connect(self.on_data_changed)
         self.content.data_view.display_data(self.table_model, filepath)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
@@ -905,6 +912,7 @@ class MainWindow(QMainWindow):
         # self.data_view.clear() with an empty model. Maybe we can use a beginResetModel
         # instead of creating a new empty one. Review.
         self.table_model = FrictionlessTableModel([], [])
+        self.table_model.dataChanged.connect(self.on_data_changed)
         self.content.data_view.clear(self.table_model)
 
         # self.metadata_view.clear()  # TODO: Implement
