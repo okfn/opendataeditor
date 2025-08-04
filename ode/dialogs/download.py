@@ -43,8 +43,8 @@ class DownloadDialog(QDialog):
 
     def retranslateUI(self) -> None:
         """Apply translations to class elements."""
-        self.label.setText(self.tr("Download the file to your local machine."))
-        self.setWindowTitle(self.tr("Download dataset"))
+        self.setWindowTitle(self.tr("Download"))
+        self.label.setText(self.tr("Please, select one of the following options:"))
         self.download_button.setText(self.tr("Download file"))
         self.download_error_button.setText(self.tr("Download errors file"))
 

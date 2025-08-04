@@ -273,12 +273,12 @@
     <name>DownloadDialog</name>
     <message>
         <location filename="../../dialogs/download.py" line="46"/>
-        <source>Download the file to your local machine.</source>
-        <translation type="unfinished"></translation>
+        <source>Download</source>
+        <translation type="unfinished">Télécharger</translation>
     </message>
     <message>
         <location filename="../../dialogs/download.py" line="47"/>
-        <source>Download dataset</source>
+        <source>Please, select one of the following options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
