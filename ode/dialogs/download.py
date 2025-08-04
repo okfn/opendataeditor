@@ -12,7 +12,7 @@ class DownloadDialog(QDialog):
     download_data_with_errors = Signal()
     finished = Signal()
 
-    def __init__(self, parent, filepath: Path) -> None:
+    def __init__(self, parent, filepath: Path, has_errors:bool) -> None:
         super().__init__(parent)
 
         self.filepath = filepath
@@ -34,6 +34,8 @@ class DownloadDialog(QDialog):
 
         self.download_error_button = QPushButton()
         self.download_error_button.clicked.connect(self.download_error_file)
+        if not has_errors:
+            self.download_error_button.setDisabled(True)
         button_layout.addWidget(self.download_error_button)
 
         layout.addLayout(button_layout)

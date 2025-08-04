@@ -714,7 +714,10 @@ class MainWindow(QMainWindow):
 
     def on_export_click(self):
         """Handle the click on the Export button."""
-        download_dialog = DownloadDialog(self, self.selected_file_path)
+        # TODO: we are using a proxy variable to check if the file has errors. We should find a
+        # better state variable for it.
+        has_errors = self.content.toolbar.button_errors.isEnabled()
+        download_dialog = DownloadDialog(self, self.selected_file_path, has_errors)
         download_dialog.download_data_with_errors.connect(self.on_download_error_file)
         download_dialog.show()
 

@@ -221,6 +221,15 @@ DownloadDialog QPushButton:pressed {
   border-color: #000000;
 }
 
+DataUploadDialog QPushButton:disabled,
+DeleteDialog QPushButton:disabled,
+RenameDialog QPushButton:disabled,
+DownloadDialog QPushButton:disabled {
+  background-color: #F0F0F0;
+  border-color: #F0F0F0;
+  color: #4C5564;
+}
+
 QTableView::item:selected {
   background: white;
   color: black;
