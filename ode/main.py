@@ -31,6 +31,8 @@ from PySide6.QtGui import (
     QFont,
     QPalette,
     QColor,
+    QShortcut,
+    QKeySequence,
     QKeyEvent,
 )
 from PySide6.QtCore import (
@@ -595,7 +597,7 @@ class MainWindow(QMainWindow):
 
         # Shortcuts
         self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
-        self.shortcut_f5.activated.connect(self.on_ai_llama_click)
+        self.shortcut_f5.activated.connect(self.on_ai_click)
 
         # Data Panel
         self.shortcut_alt_d = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_D), self)
