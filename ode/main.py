@@ -604,9 +604,6 @@ class MainWindow(QMainWindow):
 
         self._create_status_bar()
 
-    def on_data_changed(self):
-        self.content.toolbar.button_save.setEnabled(True)
-
     def _create_status_bar(self):
         self.statusBar().showMessage(self.tr("Ready."))
 
@@ -685,6 +682,10 @@ class MainWindow(QMainWindow):
 
         # No file is selected, disable the View menu
         self.menu_view.setEnabled(False)
+
+    def on_data_changed(self):
+        """Action that enables the Save Button."""
+        self.content.toolbar.button_save.setEnabled(True)
 
     def on_publish_click(self):
         dialog = PublishDialog(self, self.selected_file_path)
