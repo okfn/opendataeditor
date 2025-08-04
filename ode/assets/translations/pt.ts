@@ -4,86 +4,73 @@
 <context>
     <name>ChatGPTDialog</name>
     <message>
-        <location filename="../../panels/ai.py" line="60"/>
-        <location filename="../../panels/ai.py" line="66"/>
         <source>Input Error</source>
-        <translation>Erro de Entrada</translation>
+        <translation type="vanished">Erro de Entrada</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="61"/>
         <source>A data file must be selected in order to use the AI tool.</source>
-        <translation>Um arquivo de dados deve ser selecionado para usar a ferramenta de IA.</translation>
+        <translation type="vanished">Um arquivo de dados deve ser selecionado para usar a ferramenta de IA.</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="66"/>
         <source>API Key and Prompt are required!</source>
-        <translation>Chave de API e Prompt são obrigatórios!</translation>
+        <translation type="vanished">Chave de API e Prompt são obrigatórios!</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="80"/>
         <source>API Error</source>
-        <translation>Erro de API</translation>
+        <translation type="vanished">Erro de API</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="80"/>
         <source>Error: {str(e)}</source>
-        <translation>Erro: {str(e)}</translation>
+        <translation type="vanished">Erro: {str(e)}</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="83"/>
         <source>AI Assistant</source>
-        <translation>Assistente de IA</translation>
+        <translation type="vanished">Assistente de IA</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="84"/>
         <source>Please enter your OpenAI API Key: </source>
-        <translation>Por favor, insira sua Chave de API da OpenAI: </translation>
+        <translation type="vanished">Por favor, insira sua Chave de API da OpenAI: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="89"/>
         <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation>Clique &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;aqui&lt;/a&gt; para aprender como encontrar sua chave.&lt;br&gt;Você também pode verificar os termos e políticas da OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aqui&lt;/a&gt;.</translation>
+        <translation type="vanished">Clique &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;aqui&lt;/a&gt; para aprender como encontrar sua chave.&lt;br&gt;Você também pode verificar os termos e políticas da OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aqui&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="97"/>
         <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
-        <translation>&lt;b&gt;Privacidade de Dados:&lt;/b&gt; O Open Data Editor compartilhará apenas os nomes das colunas da sua tabela para sugerir melhorias nos títulos e descrições associados a elas.</translation>
+        <translation type="vanished">&lt;b&gt;Privacidade de Dados:&lt;/b&gt; O Open Data Editor compartilhará apenas os nomes das colunas da sua tabela para sugerir melhorias nos títulos e descrições associados a elas.</translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="90"/>
         <source>Please enter your prompt to the AI assistant: </source>
-        <translation>Por favor, insira seu prompt para o assistente de IA: </translation>
+        <translation type="vanished">Por favor, insira seu prompt para o assistente de IA: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="91"/>
         <source>Result: </source>
-        <translation>Resultado: </translation>
+        <translation type="vanished">Resultado: </translation>
     </message>
     <message>
-        <location filename="../../panels/ai.py" line="92"/>
         <source>Submit</source>
-        <translation>Enviar</translation>
+        <translation type="vanished">Enviar</translation>
     </message>
 </context>
 <context>
     <name>ColumnMetadataDialog</name>
     <message>
-        <location filename="../../dialogs/metadata.py" line="267"/>
+        <location filename="../../dialogs/metadata.py" line="276"/>
         <source>Column name cannot be empty</source>
         <translation>O nome da coluna não pode estar vazio</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="273"/>
+        <location filename="../../dialogs/metadata.py" line="281"/>
         <source>There is another column in the table with the same name. Please choose a different one</source>
         <translation>Há outra coluna na tabela com o mesmo nome. Por favor, escolha outro</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="299"/>
+        <location filename="../../dialogs/metadata.py" line="306"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="300"/>
+        <location filename="../../dialogs/metadata.py" line="307"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -231,7 +218,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="394"/>
+        <location filename="../../panels/data.py" line="517"/>
         <source>Preview not available for this item.</source>
         <translation>Visualização não disponível para este item.</translation>
     </message>
@@ -239,22 +226,22 @@
 <context>
     <name>DataWorker</name>
     <message>
-        <location filename="../../panels/data.py" line="59"/>
+        <location filename="../../panels/data.py" line="61"/>
         <source>Reading file...</source>
         <translation>Lendo arquivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="61"/>
+        <location filename="../../panels/data.py" line="63"/>
         <source>Validating file...</source>
         <translation>Validando arquivo...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="64"/>
+        <location filename="../../panels/data.py" line="66"/>
         <source>Drawing table...</source>
         <translation>Renderizando a tabela...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="74"/>
+        <location filename="../../panels/data.py" line="76"/>
         <source>Read and Validation finished.</source>
         <translation>Leitura e validação concluídas.</translation>
     </message>
@@ -283,54 +270,99 @@
     </message>
 </context>
 <context>
+    <name>DownloadDialog</name>
+    <message>
+        <location filename="../../dialogs/download.py" line="46"/>
+        <source>Download the file to your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="47"/>
+        <source>Download dataset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="48"/>
+        <source>Download file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="49"/>
+        <source>Download errors file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="58"/>
+        <source>Select Destination Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="75"/>
+        <source>File copied successfully to:
+{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="76"/>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="79"/>
+        <source>Error copying file:
+{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="240"/>
+        <location filename="../../panels/errors.py" line="215"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, note que a ODE atualmente detecta erros nas tabelas, com um máximo de </translation>
     </message>
 </context>
 <context>
+    <name>FrictionlessTableModel</name>
+    <message>
+        <location filename="../../panels/data.py" line="208"/>
+        <source>Data</source>
+        <translation type="unfinished">Dados</translation>
+    </message>
+</context>
+<context>
     <name>GithubWidget</name>
     <message>
-        <location filename="../../dialogs/publish.py" line="56"/>
         <source>All fields are mandatory.</source>
-        <translation>Todos os campos são obrigatórios.</translation>
+        <translation type="vanished">Todos os campos são obrigatórios.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="63"/>
         <source>Publishing data to Github...</source>
-        <translation>Publicando dados no GitHub...</translation>
+        <translation type="vanished">Publicando dados no GitHub...</translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="67"/>
         <source>Publish to Github complete.</source>
-        <translation>Publicação no GitHub concluída.</translation>
+        <translation type="vanished">Publicação no GitHub concluída.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="74"/>
         <source>User:</source>
-        <translation>Usuário:</translation>
+        <translation type="vanished">Usuário:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="75"/>
         <source>Repository: </source>
-        <translation>Repositório: </translation>
+        <translation type="vanished">Repositório: </translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="76"/>
         <source>Email: </source>
-        <translation>E-mail: </translation>
+        <translation type="vanished">E-mail: </translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="77"/>
         <source>API Key: </source>
-        <translation>Chave de API: </translation>
+        <translation type="vanished">Chave de API: </translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="78"/>
         <source>Publish</source>
-        <translation>Publicar</translation>
+        <translation type="vanished">Publicar</translation>
     </message>
 </context>
 <context>
@@ -371,22 +403,22 @@
 <context>
     <name>LLMWarningDialog</name>
     <message>
-        <location filename="../../dialogs/llm_dialog_warning.py" line="17"/>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="15"/>
         <source>AI feature</source>
         <translation>AI feature</translation>
     </message>
     <message>
-        <location filename="../../dialogs/llm_dialog_warning.py" line="26"/>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="24"/>
         <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
         <translation>A integração com IA funciona inteiramente no seu laptop. Isso significa que os dados da sua tabela nunca são enviados ou compartilhados fora deste dispositivo.</translation>
     </message>
     <message>
-        <location filename="../../dialogs/llm_dialog_warning.py" line="31"/>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="29"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../dialogs/llm_dialog_warning.py" line="38"/>
+        <location filename="../../dialogs/llm_dialog_warning.py" line="36"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
@@ -394,95 +426,125 @@
 <context>
     <name>LlamaDialog</name>
     <message>
-        <location filename="../../llama.py" line="150"/>
-        <source>AI feature</source>
-        <translation>AI feature</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="151"/>
-        <source>Analyze Column Headers</source>
-        <translation>Analisar Cabeçalhos de Colunas</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="152"/>
-        <source>Analysis results will be displayed here...</source>
-        <translation>Os resultados da análise serão exibidos aqui...</translation>
-    </message>
-</context>
-<context>
-    <name>LlamaDownloadDialog</name>
-    <message>
-        <location filename="../../llama.py" line="173"/>
+        <location filename="../../llama.py" line="179"/>
         <source>AI feature</source>
         <translation>AI feature</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="180"/>
-        <source>To start using the AI feature, please select one of the following models and click download:</source>
-        <translation>Para começar a usar o recurso de IA, selecione um dos modelos abaixo e clique em baixar:</translation>
+        <source>Execute</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="191"/>
+        <location filename="../../llama.py" line="181"/>
+        <source>Results will be displayed here...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyze Column Headers</source>
+        <translation type="vanished">Analisar Cabeçalhos de Colunas</translation>
+    </message>
+    <message>
+        <source>Analysis results will be displayed here...</source>
+        <translation type="vanished">Os resultados da análise serão exibidos aqui...</translation>
+    </message>
+</context>
+<context>
+    <name>LlamaDownloadDialog</name>
+    <message>
+        <location filename="../../llama.py" line="202"/>
+        <source>AI feature</source>
+        <translation>AI feature</translation>
+    </message>
+    <message>
+        <source>To start using the AI feature, please select one of the following models and click download:</source>
+        <translation type="vanished">Para começar a usar o recurso de IA, selecione um dos modelos abaixo e clique em baixar:</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="207"/>
+        <source>To start using the AI feature, please select one of the following models.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="212"/>
+        <source>The ODE will save the file in this location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="235"/>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="195"/>
-        <location filename="../../llama.py" line="330"/>
+        <location filename="../../llama.py" line="239"/>
+        <location filename="../../llama.py" line="413"/>
         <source>Download</source>
         <translation>Baixar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="201"/>
+        <location filename="../../llama.py" line="243"/>
         <source>Select Model</source>
         <translation>Selecionar Modelo</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="210"/>
-        <location filename="../../llama.py" line="215"/>
+        <location filename="../../llama.py" line="275"/>
+        <location filename="../../llama.py" line="280"/>
         <source>Model not found</source>
         <translation>Modelo não encontrado</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="210"/>
+        <location filename="../../llama.py" line="275"/>
         <source>The selected model is not available.</source>
         <translation>O modelo selecionado não está disponível.</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="215"/>
+        <location filename="../../llama.py" line="280"/>
         <source>The selected model is not downloaded.</source>
         <translation>O modelo selecionado não foi baixado.</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="269"/>
+        <location filename="../../llama.py" line="352"/>
         <source>File exists</source>
         <translation>Arquivo existente</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="270"/>
+        <location filename="../../llama.py" line="353"/>
         <source>Do you want to delete it and download it again?</source>
         <translation>Deseja excluí-lo e baixá-lo novamente?</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="285"/>
+        <location filename="../../llama.py" line="368"/>
         <source>Downloading model</source>
         <translation>Baixando modelo</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="285"/>
+        <location filename="../../llama.py" line="368"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="286"/>
+        <location filename="../../llama.py" line="369"/>
         <source>LLM Model Download Progress</source>
         <translation>Progresso do Download do Modelo LLM</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="297"/>
-        <location filename="../../llama.py" line="356"/>
+        <location filename="../../llama.py" line="380"/>
+        <location filename="../../llama.py" line="439"/>
         <source>Error Occurred</source>
         <translation>Ocorreu um erro</translation>
+    </message>
+</context>
+<context>
+    <name>LlamaWorker</name>
+    <message>
+        <location filename="../../llama.py" line="85"/>
+        <source>Preparing data for analysis...</source>
+        <translation type="unfinished">Preparando os dados para análise...</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="90"/>
+        <source>Execution failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,96 +563,112 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="589"/>
+        <location filename="../../main.py" line="608"/>
         <source>Ready.</source>
         <translation>Pronto.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="701"/>
+        <location filename="../../main.py" line="720"/>
         <source>File</source>
         <translation>Arquivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="702"/>
+        <location filename="../../main.py" line="721"/>
         <source>Add</source>
         <translation>Adicionar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="703"/>
+        <location filename="../../main.py" line="722"/>
         <source>File/Folder</source>
         <translation>Arquivo/Pasta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="704"/>
+        <location filename="../../main.py" line="723"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="707"/>
+        <location filename="../../main.py" line="726"/>
         <source>View</source>
         <translation>Visualizar</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="988"/>
+        <source>Downloading data with errors...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="1006"/>
+        <source>File downloaded successfully to:
+{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="1007"/>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metadata panel</source>
         <translation type="vanished">Painel de Metadados</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="708"/>
+        <location filename="../../main.py" line="727"/>
         <source>Errors panel</source>
         <translation>Painel de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="709"/>
+        <location filename="../../main.py" line="728"/>
         <source>Source panel</source>
         <translation>Painel de Origem</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="712"/>
+        <location filename="../../main.py" line="731"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="713"/>
+        <location filename="../../main.py" line="732"/>
         <source>User Guide</source>
         <translation>Guia do Usuário</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="714"/>
+        <location filename="../../main.py" line="733"/>
         <source>Report an Issue</source>
         <translation>Reportar um Problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="716"/>
+        <location filename="../../main.py" line="735"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="715"/>
+        <location filename="../../main.py" line="734"/>
         <source>View logs</source>
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="750"/>
+        <location filename="../../main.py" line="769"/>
         <source>Language changed.</source>
         <translation>Idioma alterado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="783"/>
+        <location filename="../../main.py" line="802"/>
         <source>File and Metadata changes saved.</source>
         <translation>Alterações no arquivo e metadados salvas.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="926"/>
+        <location filename="../../main.py" line="945"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 linhas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="946"/>
+        <location filename="../../main.py" line="965"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="951"/>
+        <location filename="../../main.py" line="970"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar para área de transferência</translation>
     </message>
@@ -625,32 +703,32 @@
 <context>
     <name>MetadataForm</name>
     <message>
-        <location filename="../../dialogs/metadata.py" line="177"/>
+        <location filename="../../dialogs/metadata.py" line="189"/>
         <source>Column Name:</source>
         <translation>Nome da coluna:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="178"/>
+        <location filename="../../dialogs/metadata.py" line="190"/>
         <source>Data Type:</source>
         <translation>Tipo de dado:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="179"/>
+        <location filename="../../dialogs/metadata.py" line="191"/>
         <source>Description:</source>
         <translation>Descrição:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="180"/>
+        <location filename="../../dialogs/metadata.py" line="192"/>
         <source>Flag empty cells as errors?:</source>
         <translation>Marcar células vazias como erros?</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="181"/>
+        <location filename="../../dialogs/metadata.py" line="193"/>
         <source>Min. Characters in cells:</source>
         <translation>Caracteres mínimos nas células:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/metadata.py" line="182"/>
+        <location filename="../../dialogs/metadata.py" line="194"/>
         <source>Max. Characters in cell</source>
         <translation>Caracteres máximos na célula:</translation>
     </message>
@@ -658,14 +736,12 @@
 <context>
     <name>PublishDialog</name>
     <message>
-        <location filename="../../dialogs/publish.py" line="132"/>
         <source>Publish dataset</source>
-        <translation>Publicar conjunto de dados</translation>
+        <translation type="vanished">Publicar conjunto de dados</translation>
     </message>
     <message>
-        <location filename="../../dialogs/publish.py" line="134"/>
         <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
-        <translation>Este recurso de publicação está chegando em breve...&lt;br&gt;Interessado? Contate-nos em &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
+        <translation type="vanished">Este recurso de publicação está chegando em breve...&lt;br&gt;Interessado? Contate-nos em &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -804,71 +880,71 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="215"/>
+        <location filename="../../main.py" line="238"/>
         <source>Upload your data</source>
         <translation>Carregue seus dados</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="216"/>
+        <location filename="../../main.py" line="239"/>
         <source>User guide</source>
         <translation>Guia do Usuário</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="217"/>
+        <location filename="../../main.py" line="240"/>
         <source>Report an issue</source>
         <translation>Reportar um Problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="218"/>
+        <location filename="../../main.py" line="241"/>
         <source>Rename</source>
         <translation>Renomear</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="219"/>
+        <location filename="../../main.py" line="242"/>
         <source>Open File in Location</source>
         <translation>Abrir Arquivo no Local</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="220"/>
+        <location filename="../../main.py" line="243"/>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="260"/>
-        <location filename="../../main.py" line="264"/>
-        <location filename="../../main.py" line="268"/>
-        <location filename="../../main.py" line="270"/>
-        <location filename="../../main.py" line="298"/>
+        <location filename="../../main.py" line="283"/>
+        <location filename="../../main.py" line="287"/>
+        <location filename="../../main.py" line="291"/>
+        <location filename="../../main.py" line="293"/>
+        <location filename="../../main.py" line="321"/>
         <source>Error</source>
         <translation>Erro</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="261"/>
+        <location filename="../../main.py" line="284"/>
         <source>Source is a file but destination a directory.</source>
         <translation>A origem é um arquivo, mas o destino é um diretório.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="265"/>
+        <location filename="../../main.py" line="288"/>
         <source>Source is a directory but destination a file.</source>
         <translation>A origem é um diretório, mas o destino é um arquivo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="268"/>
+        <location filename="../../main.py" line="291"/>
         <source>Operation not permitted.</source>
         <translation>Operação não permitida.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="270"/>
+        <location filename="../../main.py" line="293"/>
         <source>File with this name already exists.</source>
         <translation>Um arquivo com este nome já existe.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="272"/>
+        <location filename="../../main.py" line="295"/>
         <source>Item renamed successfuly.</source>
         <translation>Item renomeado com sucesso.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="302"/>
+        <location filename="../../main.py" line="325"/>
         <source>Item deleted successfuly.</source>
         <translation>Item excluído com sucesso.</translation>
     </message>
@@ -1015,25 +1091,22 @@
 <context>
     <name>TableAnalysisWorker</name>
     <message>
-        <location filename="../../llama.py" line="381"/>
         <source>Preparing data for analysis...</source>
-        <translation>Preparando os dados para análise...</translation>
+        <translation type="vanished">Preparando os dados para análise...</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="389"/>
         <source>Running analysis with Local LLM. This could take a minute or two...</source>
-        <translation>Executando análise com LLM local. Isso pode levar um ou dois minutos...</translation>
+        <translation type="vanished">Executando análise com LLM local. Isso pode levar um ou dois minutos...</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="396"/>
         <source>Analysis error: {str(e)}</source>
-        <translation>Erro de análise: {str(e)}</translation>
+        <translation type="vanished">Erro de análise: {str(e)}</translation>
     </message>
 </context>
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="435"/>
+        <location filename="../../main.py" line="458"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
@@ -1042,27 +1115,31 @@
         <translation type="vanished">Avançado</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="436"/>
+        <location filename="../../main.py" line="459"/>
         <source>Errors Report</source>
         <translation>Relatório de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="437"/>
+        <location filename="../../main.py" line="460"/>
         <source>Source code</source>
         <translation>Código-fonte</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="438"/>
-        <source>Publish</source>
-        <translation>Publicar</translation>
+        <location filename="../../main.py" line="461"/>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="439"/>
+        <source>Publish</source>
+        <translation type="vanished">Publicar</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="462"/>
         <source>Save changes</source>
         <translation>Salvar alterações</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="440"/>
+        <location filename="../../main.py" line="463"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -1070,17 +1147,17 @@
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="506"/>
+        <location filename="../../main.py" line="528"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>O ODE suporta arquivos Excel e CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="507"/>
+        <location filename="../../main.py" line="529"/>
         <source>You can also add links to online tables</source>
         <translation>Você também pode adicionar links para tabelas online</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="508"/>
+        <location filename="../../main.py" line="530"/>
         <source>Upload your data</source>
         <translation>Carregue seus dados</translation>
     </message>

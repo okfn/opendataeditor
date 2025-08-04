@@ -60,7 +60,7 @@ Toolbar .QPushButton:hover {
 Toolbar .QPushButton:pressed {
   background-color: #F0F0F0;
 }
-QPushButton#button_save, QPushButton#button_publish {
+QPushButton#button_save, QPushButton#button_export {
   font-size: 14px;
   font-weight: 500;
   color: #FFF;
@@ -71,12 +71,12 @@ QPushButton#button_save, QPushButton#button_publish {
   border-color: #000;
   padding: 6px 8px;
 }
-QPushButton#button_save:hover, QPushButton#button_publish:hover {
+QPushButton#button_save:hover, QPushButton#button_export:hover {
   color: #FFF;
   background: #0288D1;
   border-color: #0288d1;
 }
-QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
+QPushButton#button_save:pressed, QPushButton#button_export:pressed {
   color: #FFF;
   background-color: #000;
   border-color: #FFF;
@@ -259,7 +259,7 @@ Toolbar QPushButton:focus {
 }
 
 /* Focus styles for save/publish buttons */
-QPushButton#button_save:focus, QPushButton#button_publish:focus {
+QPushButton#button_save:focus, QPushButton#button_export:focus {
   border: 3px solid #0078D7;
   outline: none;
 }

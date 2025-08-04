@@ -413,7 +413,7 @@ class Toolbar(QWidget):
     The toolbar contains:
      - Buttons that allow the user to navigate between the panels (Data, Metadata, Errors,
      Source, etc)
-     - Buttons for the main actions like AI, Publish and Save.
+     - Buttons for the main actions like AI, Export and Save.
     """
 
     def __init__(self):
@@ -438,9 +438,9 @@ class Toolbar(QWidget):
         self.button_ai = QPushButton()
         self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
         self.button_ai.setIconSize(QSize(20, 20))
-        self.button_publish = QPushButton(objectName="button_publish")
-        self.button_publish.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
-        self.button_publish.setIconSize(QSize(20, 20))
+        self.button_export = QPushButton(objectName="button_export")
+        self.button_export.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
+        self.button_export.setIconSize(QSize(20, 20))
         self.button_save = QPushButton(objectName="button_save")
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
@@ -448,7 +448,7 @@ class Toolbar(QWidget):
         # self.update_qss_button = QPushButton("QSS")
         # layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
-        layout.addWidget(self.button_publish)
+        layout.addWidget(self.button_export)
         layout.addWidget(self.button_save)
 
         self.setLayout(layout)
@@ -458,7 +458,7 @@ class Toolbar(QWidget):
         self.button_data.setText(self.tr("Data"))
         self.button_errors.setText(self.tr("Errors Report"))
         self.button_source.setText(self.tr("Source code"))
-        self.button_publish.setText(self.tr("Publish"))
+        self.button_export.setText(self.tr("Export"))
         self.button_save.setText(self.tr("Save changes"))
         self.button_ai.setText(self.tr("AI"))
 
@@ -585,7 +585,7 @@ class MainWindow(QMainWindow):
         self.sidebar.report_issue.clicked.connect(self.open_report_issue)
         self.sidebar.language.activated.connect(self.on_language_change)
 
-        self.content.toolbar.button_publish.clicked.connect(self.on_publish_click)
+        self.content.toolbar.button_export.clicked.connect(self.on_export_click)
         self.content.toolbar.button_save.clicked.connect(self.on_save_click)
         self.content.toolbar.button_ai.clicked.connect(self.on_ai_click)
         self.content.toolbar.button_data.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
@@ -683,8 +683,8 @@ class MainWindow(QMainWindow):
         # No file is selected, disable the View menu
         self.menu_view.setEnabled(False)
 
-    def on_publish_click(self):
-        """Handle the click on the Publish button."""
+    def on_export_click(self):
+        """Handle the click on the Export button."""
         download_dialog = DownloadDialog(self, self.selected_file_path)
         download_dialog.download_data_with_errors.connect(self.on_download_error_file)
         download_dialog.show()

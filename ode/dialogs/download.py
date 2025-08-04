@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 class DownloadDialog(QDialog):
-    """Dialog to Publish the file and metadata to third party services."""
+    """Dialog to export the file and the errors."""
 
     download_data_with_errors = Signal()
     finished = Signal()
