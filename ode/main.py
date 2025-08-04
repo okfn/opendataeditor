@@ -439,7 +439,7 @@ class Toolbar(QWidget):
         self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
         self.button_ai.setIconSize(QSize(20, 20))
         self.button_export = QPushButton(objectName="button_export")
-        self.button_export.setIcon(QIcon(Paths.asset("icons/24/electric-bolt.svg")))
+        self.button_export.setIcon(QIcon(Paths.asset("icons/24/file-download.svg")))
         self.button_export.setIconSize(QSize(20, 20))
         self.button_save = QPushButton(objectName="button_save")
         self.button_save.setMinimumSize(QSize(117, 35))
