@@ -789,18 +789,10 @@ class MainWindow(QMainWindow):
         self.upload_data()
 
     def on_save_click(self, checked):
-        """Saves changes made in the Table View into the file.
-
-        # TODO: This is an early implementation, we need to define
-        signals and slots properly.
-        """
-        if not hasattr(self, "table_model"):
-            # TODO: Define behaviour of Save Button
-            return
+        """Saves changes made in the Table View into the file."""
         self.table_model.write_data(self.selected_file_path)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
-        self.content.toolbar.button_save.setEnabled(False)
         self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
 
     def on_data_view_save(self, save_data):
@@ -846,6 +838,9 @@ class MainWindow(QMainWindow):
             self.content.toolbar.button_errors.disable()
         else:
             self.content.toolbar.button_errors.enable(errors_count)
+
+        # Save button should be disabled everytime we load and display a new file.
+        self.content.toolbar.button_save.setEnabled(False)
 
     @Slot(tuple)
     def update_menu_bar(self, worker_data):
