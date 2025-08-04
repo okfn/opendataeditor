@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QFileDialog, QLabel, QHBoxLayout
+from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QLabel, QHBoxLayout
 from PySide6.QtCore import Qt, Signal, QStandardPaths
 from pathlib import Path
 
