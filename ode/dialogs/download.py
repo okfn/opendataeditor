@@ -48,7 +48,7 @@ class DownloadDialog(QDialog):
         self.setWindowTitle(self.tr("Download"))
         self.label.setText(self.tr("Please, select one of the following options:"))
         self.download_button.setText(self.tr("Download file"))
-        self.download_error_button.setText(self.tr("Download errors file"))
+        self.download_error_button.setText(self.tr("Download file with errors"))
 
     def download_file(self):
         """
