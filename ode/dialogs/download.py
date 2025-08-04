@@ -48,20 +48,6 @@ class DownloadDialog(QDialog):
         self.download_button.setText(self.tr("Download file"))
         self.download_error_button.setText(self.tr("Download errors file"))
 
-    def get_destination_directory(self) -> str:
-        """
-        Opens a dialog to select the destination directory.
-        Returns the selected directory path.
-        """
-        download_directory = QFileDialog.getExistingDirectory(
-            self,
-            self.tr("Select Destination Directory"),
-            "",
-            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks,
-        )
-
-        return download_directory
-
     def download_file(self):
         """
         Opens a dialog to select the destination directory and copies the file
