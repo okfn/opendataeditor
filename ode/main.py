@@ -896,28 +896,11 @@ class MainWindow(QMainWindow):
 
             self.threadpool.start(worker)
             self.loading_dialog.show()
-        else:
-            self.clear_views()
-            # Always focus back to the data view.
-            self.content.stacked_layout.setCurrentIndex(0)
 
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         self.read_validate_and_display_file(self.selected_file_path)
-
-    def clear_views(self):
-        """Set all panels to its default state."""
-        # TODO: So far table_model is a responsibility of this class so we are calling
-        # self.data_view.clear() with an empty model. Maybe we can use a beginResetModel
-        # instead of creating a new empty one. Review.
-        self.table_model = FrictionlessTableModel([], [])
-        self.table_model.dataChanged.connect(self.on_data_changed)
-        self.content.data_view.clear(self.table_model)
-
-        # self.metadata_view.clear()  # TODO: Implement
-        self.content.errors_view.clear()
-        self.content.source_view.clear()
 
     def open_about_dialog(self):
         text = f"Version: {ode.__version__}<br><a href='https://opendataeditor.okfn.org'>Website</a>"
