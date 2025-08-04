@@ -31,6 +31,8 @@ from PySide6.QtGui import (
     QFont,
     QPalette,
     QColor,
+    QShortcut,
+    QKeySequence,
     QKeyEvent,
 )
 from PySide6.QtCore import (
@@ -445,6 +447,7 @@ class Toolbar(QWidget):
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
         self.button_save.setIconSize(QSize(20, 20))
+        self.button_save.setEnabled(False)
         # self.update_qss_button = QPushButton("QSS")
         # layout.addWidget(self.update_qss_button)
         layout.addWidget(self.button_ai)
@@ -568,7 +571,6 @@ class MainWindow(QMainWindow):
         self.main_layout = QStackedLayout()
         self.welcome = Welcome()
         self.content = Content()
-        self.content.data_view.on_save.connect(self.on_data_view_save)
         self.main_layout.addWidget(self.welcome)
         self.main_layout.addWidget(self.content)
         self.main.setLayout(self.main_layout)
@@ -592,8 +594,34 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
         self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
 
+        self.content.data_view.on_save.connect(self.on_data_view_save)
+
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
+
+        # Shortcuts
+        self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
+        self.shortcut_f5.activated.connect(self.on_ai_click)
+
+        # Data Panel
+        self.shortcut_alt_d = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_D), self)
+        self.shortcut_alt_d.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
+
+        # Errors Panel
+        self.shortcut_alt_r = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_R), self)
+        self.shortcut_alt_r.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+
+        # Source Panel
+        self.shortcut_alt_s = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_S), self)
+        self.shortcut_alt_s.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+
+        # Save
+        if sys.platform == "darwin":
+            self.shortcut_control_s = QShortcut(QKeySequence(Qt.MetaModifier | Qt.Key_S), self)
+        else:
+            self.shortcut_control_s = QShortcut(QKeySequence(Qt.ControlModifier | Qt.Key_S), self)
+
+        self.shortcut_control_s.activated.connect(self.on_save_click)
 
         # Translation
         self.translator = QTranslator()
@@ -688,6 +716,10 @@ class MainWindow(QMainWindow):
         download_dialog = DownloadDialog(self, self.selected_file_path)
         download_dialog.download_data_with_errors.connect(self.on_download_error_file)
         download_dialog.show()
+
+    def on_data_changed(self):
+        """Action that enables the Save Button."""
+        self.content.toolbar.button_save.setEnabled(True)
 
     def on_ai_click(self):
         """Handle the click on the AI button."""
@@ -788,14 +820,7 @@ class MainWindow(QMainWindow):
         self.upload_data()
 
     def on_save_click(self, checked):
-        """Saves changes made in the Table View into the file.
-
-        # TODO: This is an early implementation, we need to define
-        signals and slots properly.
-        """
-        if not hasattr(self, "table_model"):
-            # TODO: Define behaviour of Save Button
-            return
+        """Saves changes made in the Table View into the file."""
         self.table_model.write_data(self.selected_file_path)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
@@ -819,6 +844,7 @@ class MainWindow(QMainWindow):
         """
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
+        self.table_model.dataChanged.connect(self.on_data_changed)
         self.content.data_view.display_data(self.table_model, filepath)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
@@ -843,6 +869,9 @@ class MainWindow(QMainWindow):
             self.content.toolbar.button_errors.disable()
         else:
             self.content.toolbar.button_errors.enable(errors_count)
+
+        # Save button should be disabled everytime we load and display a new file.
+        self.content.toolbar.button_save.setEnabled(False)
 
     @Slot(tuple)
     def update_menu_bar(self, worker_data):
@@ -894,27 +923,11 @@ class MainWindow(QMainWindow):
 
             self.threadpool.start(worker)
             self.loading_dialog.show()
-        else:
-            self.clear_views()
-            # Always focus back to the data view.
-            self.content.stacked_layout.setCurrentIndex(0)
 
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         self.read_validate_and_display_file(self.selected_file_path)
-
-    def clear_views(self):
-        """Set all panels to its default state."""
-        # TODO: So far table_model is a responsibility of this class so we are calling
-        # self.data_view.clear() with an empty model. Maybe we can use a beginResetModel
-        # instead of creating a new empty one. Review.
-        self.table_model = FrictionlessTableModel([], [])
-        self.content.data_view.clear(self.table_model)
-
-        # self.metadata_view.clear()  # TODO: Implement
-        self.content.errors_view.clear()
-        self.content.source_view.clear()
 
     def open_about_dialog(self):
         text = f"Version: {ode.__version__}<br><a href='https://opendataeditor.okfn.org'>Website</a>"
