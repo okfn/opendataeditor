@@ -81,7 +81,7 @@ QPushButton#button_save:pressed, QPushButton#button_export:pressed {
   background-color: #000;
   border-color: #FFF;
 }
-QPushButton#button_save:disabled {
+QPushButton#button_save:disabled, QPushButton#button_export:disabled  {
   background-color: #F0F0F0;
   border-color: #F0F0F0;
   color: #4C5564;

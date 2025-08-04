@@ -443,6 +443,7 @@ class Toolbar(QWidget):
         self.button_export = QPushButton(objectName="button_export")
         self.button_export.setIcon(QIcon(Paths.asset("icons/24/file-download.svg")))
         self.button_export.setIconSize(QSize(20, 20))
+        self.button_export.setEnabled(False)
         self.button_save = QPushButton(objectName="button_save")
         self.button_save.setMinimumSize(QSize(117, 35))
         self.button_save.setIcon(QIcon(Paths.asset("icons/24/check.svg")))
@@ -927,7 +928,11 @@ class MainWindow(QMainWindow):
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
-        self.read_validate_and_display_file(self.selected_file_path)
+        if self.selected_file_path.is_file():
+            self.read_validate_and_display_file(self.selected_file_path)
+            self.content.toolbar.button_export.setEnabled(True)
+        else:
+            self.content.toolbar.button_export.setEnabled(False)
 
     def open_about_dialog(self):
         text = f"Version: {ode.__version__}<br><a href='https://opendataeditor.okfn.org'>Website</a>"
