@@ -211,28 +211,23 @@
         <translation>Descargar archivo con errores</translation>
     </message>
     <message>
-        <location filename="../../dialogs/download.py" line="58"/>
-        <source>Select Destination Directory</source>
-        <translation>Elige el directorio destino</translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/download.py" line="75"/>
-        <source>File copied successfully to:
+        <location filename="../../dialogs/download.py" line="61"/>
+        <source>File downloaded successfully to:
 {}</source>
-        <translation>Archivo copiado con éxito en:
+        <translation>Archivo descargado exitosamente en:
 {}</translation>
     </message>
     <message>
-        <location filename="../../dialogs/download.py" line="76"/>
+        <location filename="../../dialogs/download.py" line="65"/>
+        <source>Error downloading file:
+{}</source>
+        <translation>Error descargando el archivo:
+{}</translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="62"/>
         <source>Success</source>
         <translation>Éxito</translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/download.py" line="79"/>
-        <source>Error copying file:
-{}</source>
-        <translation>Error copiando el archivo:
-{}</translation>
     </message>
 </context>
 <context>

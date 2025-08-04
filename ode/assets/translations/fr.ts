@@ -292,25 +292,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../dialogs/download.py" line="58"/>
-        <source>Select Destination Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/download.py" line="75"/>
-        <source>File copied successfully to:
+        <location filename="../../dialogs/download.py" line="61"/>
+        <source>File downloaded successfully to:
 {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../dialogs/download.py" line="76"/>
+        <location filename="../../dialogs/download.py" line="65"/>
+        <source>Error downloading file:
+{}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../dialogs/download.py" line="62"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../dialogs/download.py" line="79"/>
-        <source>Error copying file:
-{}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

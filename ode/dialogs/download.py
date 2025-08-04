@@ -58,11 +58,11 @@ class DownloadDialog(QDialog):
 
         try:
             shutil.copy2(self.filepath, filepath)
-            success_text = self.tr("File copied successfully to:\n{}").format(filepath)
+            success_text = self.tr("File downloaded successfully to:\n{}").format(filepath)
             QMessageBox.information(self, self.tr("Success"), success_text)
 
         except Exception as e:
-            error_text = self.tr("Error copying file:\n{}").format(str(e))
+            error_text = self.tr("Error downloading file:\n{}").format(str(e))
             QMessageBox.critical(self, "Error", error_text)
 
     def download_error_file(self):
