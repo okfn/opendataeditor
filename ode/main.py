@@ -31,6 +31,8 @@ from PySide6.QtGui import (
     QFont,
     QPalette,
     QColor,
+    QShortcut,
+    QKeySequence,
     QKeyEvent,
 )
 from PySide6.QtCore import (
@@ -594,6 +596,30 @@ class MainWindow(QMainWindow):
 
         self.sidebar.file_navigator.empty_area_click.connect(self.show_welcome_screen)
         self.sidebar.icon_label.clicked.connect(self.show_welcome_screen)
+
+        # Shortcuts
+        self.shortcut_f5 = QShortcut(QKeySequence("F5"), self)
+        self.shortcut_f5.activated.connect(self.on_ai_click)
+
+        # Data Panel
+        self.shortcut_alt_d = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_D), self)
+        self.shortcut_alt_d.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
+
+        # Errors Panel
+        self.shortcut_alt_r = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_R), self)
+        self.shortcut_alt_r.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+
+        # Source Panel
+        self.shortcut_alt_s = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_S), self)
+        self.shortcut_alt_s.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+
+        # Save
+        if sys.platform == "darwin":
+            self.shortcut_control_s = QShortcut(QKeySequence(Qt.MetaModifier | Qt.Key_S), self)
+        else:
+            self.shortcut_control_s = QShortcut(QKeySequence(Qt.ControlModifier | Qt.Key_S), self)
+
+        self.shortcut_control_s.activated.connect(self.on_save_click)
 
         # Translation
         self.translator = QTranslator()
