@@ -321,6 +321,7 @@ class FrictionlessTableModel(QAbstractTableModel):
                 # b) we create empty cells and then insert at specific column
                 currentRow += [None] * (index.column() - len(currentRow))
                 currentRow.insert(index.column(), value)
+            self.dataChanged.emit(index, index)
             return True
         return False
 
