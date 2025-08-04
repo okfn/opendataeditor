@@ -60,7 +60,7 @@ Toolbar .QPushButton:hover {
 Toolbar .QPushButton:pressed {
   background-color: #F0F0F0;
 }
-QPushButton#button_save, QPushButton#button_publish {
+QPushButton#button_save, QPushButton#button_export {
   font-size: 14px;
   font-weight: 500;
   color: #FFF;
@@ -71,17 +71,17 @@ QPushButton#button_save, QPushButton#button_publish {
   border-color: #000;
   padding: 6px 8px;
 }
-QPushButton#button_save:hover, QPushButton#button_publish:hover {
+QPushButton#button_save:hover, QPushButton#button_export:hover {
   color: #FFF;
   background: #0288D1;
   border-color: #0288d1;
 }
-QPushButton#button_save:pressed, QPushButton#button_publish:pressed {
+QPushButton#button_save:pressed, QPushButton#button_export:pressed {
   color: #FFF;
   background-color: #000;
   border-color: #FFF;
 }
-QPushButton#button_save:disabled {
+QPushButton#button_save:disabled, QPushButton#button_export:disabled  {
   background-color: #F0F0F0;
   border-color: #F0F0F0;
   color: #4C5564;
@@ -177,14 +177,14 @@ QTableCornerButton::section {
 DataUploadDialog,
 DeleteDialog,
 RenameDialog,
-PublishDialog {
+DownloadDialog {
   border: 2px solid #000000;
 }
 
 DataUploadDialog QPushButton,
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-PublishDialog QPushButton {
+DownloadDialog QPushButton {
   border: 2px solid #000000;
   background-color: #F0F0F0;
   font-size: 14px;
@@ -200,14 +200,14 @@ PublishDialog QPushButton {
 
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-PublishDialog QPushButton {
+DownloadDialog QPushButton {
   padding: 5px;
 }
 
 DataUploadDialog QPushButton:hover,
 DeleteDialog QPushButton:hover,
 RenameDialog QPushButton:hover,
-PublishDialog QPushButton:hover {
+DownloadDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
@@ -215,10 +215,19 @@ PublishDialog QPushButton:hover {
 DataUploadDialog QPushButton:pressed,
 DeleteDialog QPushButton:pressed,
 RenameDialog QPushButton:pressed,
-PublishDialog QPushButton:pressed {
+DownloadDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
+}
+
+DataUploadDialog QPushButton:disabled,
+DeleteDialog QPushButton:disabled,
+RenameDialog QPushButton:disabled,
+DownloadDialog QPushButton:disabled {
+  background-color: #F0F0F0;
+  border-color: #F0F0F0;
+  color: #4C5564;
 }
 
 QTableView::item:selected {
@@ -264,7 +273,7 @@ Toolbar QPushButton:focus {
 }
 
 /* Focus styles for save/publish buttons */
-QPushButton#button_save:focus, QPushButton#button_publish:focus {
+QPushButton#button_save:focus, QPushButton#button_export:focus {
   border: 3px solid #0078D7;
   outline: none;
 }
@@ -296,7 +305,7 @@ Welcome QPushButton:focus {
 DataUploadDialog QPushButton:focus,
 DeleteDialog QPushButton:focus,
 RenameDialog QPushButton:focus,
-PublishDialog QPushButton:focus {
+DownloadDialog QPushButton:focus {
   border: 2px solid #0078D7;
   outline: none;
 }

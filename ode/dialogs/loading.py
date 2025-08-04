@@ -34,8 +34,8 @@ class LoadingDialog(QDialog):
         if self.timer.isActive():
             self.timer.stop()
 
-    def show(self):
-        self.timer.start(300)
+    def show(self, millis: int = 300):
+        self.timer.start(millis)
 
     @Slot(str)
     def show_message(self, message):
