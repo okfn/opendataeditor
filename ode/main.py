@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QMenu,
     QMessageBox,
     QToolTip,
+    QTextEdit,
 )
 
 from PySide6.QtGui import (
@@ -30,8 +31,6 @@ from PySide6.QtGui import (
     QFont,
     QPalette,
     QColor,
-    QShortcut,
-    QKeySequence,
     QKeyEvent,
 )
 from PySide6.QtCore import (
@@ -54,6 +53,7 @@ from PySide6.QtWidgets import QFileSystemModel, QDialog
 
 from ode import paths
 from ode.dialogs.delete import DeleteDialog
+from ode.dialogs.llm_dialog_warning import LLMWarningDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
 from ode.llama import LlamaDialog, LlamaDownloadDialog
@@ -62,7 +62,6 @@ from ode.panels.errors import ErrorsWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker
 from ode.panels.source import SourceViewer
 from ode.panels.data import DataViewer
-from ode.panels.ai import ChatGPTDialog, QTextEdit
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
 from ode.dialogs.publish import PublishDialog
@@ -486,9 +485,7 @@ class Content(QWidget):
         self.data_view = DataViewer()
         self.errors_view = ErrorsWidget()
         self.source_view = SourceViewer()
-        self.ai_widget = ChatGPTDialog(self)
         self.ai_llama = LlamaDialog(self)
-        self.ai_llama_download = LlamaDownloadDialog(self)
 
         self.stacked_layout.addWidget(self.data_view)
         self.stacked_layout.addWidget(self.errors_view)
@@ -713,11 +710,12 @@ class MainWindow(QMainWindow):
         dialog.show()
 
     def on_ai_click(self):
-        self.content.ai_widget.show()
+        if not LLMWarningDialog.confirm(self):
+            return
 
-    def on_ai_llama_click(self):
-        if self.content.ai_llama_download.exec() == QDialog.Accepted:
-            selected_model = self.content.ai_llama_download.selected_model_path
+        ai_llama_download = LlamaDownloadDialog(self)
+        if ai_llama_download.exec() == QDialog.Accepted:
+            selected_model = ai_llama_download.selected_model_path
             if selected_model:
                 self.content.ai_llama.init_llm(selected_model)
                 self.content.ai_llama.show()
@@ -763,8 +761,8 @@ class MainWindow(QMainWindow):
         # Hook retranslateUI for all panels (data, errors, metadata, etc)
         self.content.data_view.retranslateUI()
         self.content.errors_view.retranslateUI()
-        self.content.ai_widget.retranslateUI()
         self.content.source_view.retranslateUI()
+        self.content.ai_llama.retranslateUI()
 
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
