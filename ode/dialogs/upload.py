@@ -63,23 +63,16 @@ class DataUploadDialog(QDialog):
 
     def __init__(self, parent, external_first=False):
         super().__init__(parent)
-        self.setFixedHeight(500)
-        self.setFixedWidth(500)
+        self.setFixedHeight(400)
+        self.setFixedWidth(600)
 
         self.target_path = Path()
 
         main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(10, 100, 10, 10)
 
         # Block the main window until the dialog is closed
         self.setWindowModality(Qt.ApplicationModal)
-
-        # Centered Image
-        image_label = QLabel(self)
-        image_label.setFixedHeight(200)
-        pixmap = QPixmap(Paths.asset("images/dialog_upload_files.png"))
-        image_label.setPixmap(pixmap)
-        image_label.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(image_label)
 
         # Tab Widget
         self.tab_widget = QTabWidget()

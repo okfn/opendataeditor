@@ -151,18 +151,18 @@
     </message>
     <message>
         <location filename="../../panels/data.py" line="63"/>
-        <source>Validating file...</source>
-        <translation>Validando el archivo...</translation>
+        <source>Checking errors...</source>
+        <translation>Comprobando errores...</translation>
+    </message>
+    <message>
+        <location filename="../../panels/data.py" line="76"/>
+        <source>Read and error checking finished.</source>
+        <translation>Lectura y comprobación de errores finalizada.</translation>
     </message>
     <message>
         <location filename="../../panels/data.py" line="66"/>
         <source>Drawing table...</source>
         <translation>Renderizando la tabla...</translation>
-    </message>
-    <message>
-        <location filename="../../panels/data.py" line="76"/>
-        <source>Read and Validation finished.</source>
-        <translation>Lectura y Validación finalizadas.</translation>
     </message>
 </context>
 <context>
@@ -372,8 +372,8 @@
     <name>LlamaWorker</name>
     <message>
         <location filename="../../llama.py" line="85"/>
-        <source>Preparing data for analysis...</source>
-        <translation>Preparando los datos para el análisis...</translation>
+        <source>This could take a few minutes. Please wait...</source>
+        <translation>Esto puede demorar algunos minutos. Por favor espera...</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="90"/>

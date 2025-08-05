@@ -437,9 +437,10 @@ class Toolbar(QWidget):
         layout.addStretch()
 
         # Buttons on the right
-        self.button_ai = QPushButton()
+        self.button_ai = QPushButton(objectName="button_ai")
         self.button_ai.setIcon(QIcon(Paths.asset("icons/24/wand.svg")))
         self.button_ai.setIconSize(QSize(20, 20))
+        self.button_ai.setFixedWidth(90)
         self.button_export = QPushButton(objectName="button_export")
         self.button_export.setIcon(QIcon(Paths.asset("icons/24/file-download.svg")))
         self.button_export.setIconSize(QSize(20, 20))

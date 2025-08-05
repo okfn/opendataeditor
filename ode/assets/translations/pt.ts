@@ -232,8 +232,17 @@
     </message>
     <message>
         <location filename="../../panels/data.py" line="63"/>
+        <source>Checking errors...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../panels/data.py" line="76"/>
+        <source>Read and error checking finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Validating file...</source>
-        <translation>Validando arquivo...</translation>
+        <translation type="vanished">Validando arquivo...</translation>
     </message>
     <message>
         <location filename="../../panels/data.py" line="66"/>
@@ -241,9 +250,8 @@
         <translation>Renderizando a tabela...</translation>
     </message>
     <message>
-        <location filename="../../panels/data.py" line="76"/>
         <source>Read and Validation finished.</source>
-        <translation>Leitura e validação concluídas.</translation>
+        <translation type="vanished">Leitura e validação concluídas.</translation>
     </message>
 </context>
 <context>
@@ -532,9 +540,13 @@
 <context>
     <name>LlamaWorker</name>
     <message>
-        <location filename="../../llama.py" line="85"/>
         <source>Preparing data for analysis...</source>
-        <translation type="unfinished">Preparando os dados para análise...</translation>
+        <translation type="obsolete">Preparando os dados para análise...</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="85"/>
+        <source>This could take a few minutes. Please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../llama.py" line="90"/>
