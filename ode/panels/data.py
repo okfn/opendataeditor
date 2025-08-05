@@ -60,7 +60,7 @@ class DataWorker(QRunnable):
         with system.use_context(trusted=True):
             self.signals.messages.emit(QApplication.translate("DataWorker", "Reading file..."))
             data = self.resource.read_cells()
-            self.signals.messages.emit(QApplication.translate("DataWorker", "Validating file..."))
+            self.signals.messages.emit(QApplication.translate("DataWorker", "Checking errors..."))
             report = self.resource.validate(limit_errors=DEFAULT_LIMIT_ERRORS)
 
         self.signals.messages.emit(QApplication.translate("DataWorker", "Drawing table..."))
@@ -73,7 +73,7 @@ class DataWorker(QRunnable):
             except Exception:
                 errors = report.tasks[0].errors
 
-        self.signals.messages.emit(QApplication.translate("DataWorker", "Read and Validation finished."))
+        self.signals.messages.emit(QApplication.translate("DataWorker", "Read and error checking finished."))
         self.signals.finished.emit((self.file.path, data, errors))
 
 

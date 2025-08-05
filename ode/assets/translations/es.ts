@@ -151,18 +151,18 @@
     </message>
     <message>
         <location filename="../../panels/data.py" line="63"/>
-        <source>Validating file...</source>
-        <translation>Validando el archivo...</translation>
+        <source>Checking errors...</source>
+        <translation>Comprobando errores...</translation>
+    </message>
+    <message>
+        <location filename="../../panels/data.py" line="76"/>
+        <source>Read and error checking finished.</source>
+        <translation>Lectura y comprobación de errores finalizada.</translation>
     </message>
     <message>
         <location filename="../../panels/data.py" line="66"/>
         <source>Drawing table...</source>
         <translation>Renderizando la tabla...</translation>
-    </message>
-    <message>
-        <location filename="../../panels/data.py" line="76"/>
-        <source>Read and Validation finished.</source>
-        <translation>Lectura y Validación finalizadas.</translation>
     </message>
 </context>
 <context>
