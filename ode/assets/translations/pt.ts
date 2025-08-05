@@ -540,9 +540,13 @@
 <context>
     <name>LlamaWorker</name>
     <message>
-        <location filename="../../llama.py" line="85"/>
         <source>Preparing data for analysis...</source>
-        <translation type="unfinished">Preparando os dados para análise...</translation>
+        <translation type="obsolete">Preparando os dados para análise...</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="85"/>
+        <source>This could take a few minutes. Please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../llama.py" line="90"/>

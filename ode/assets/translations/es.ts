@@ -372,8 +372,8 @@
     <name>LlamaWorker</name>
     <message>
         <location filename="../../llama.py" line="85"/>
-        <source>Preparing data for analysis...</source>
-        <translation>Preparando los datos para el análisis...</translation>
+        <source>This could take a few minutes. Please wait...</source>
+        <translation>Esto puede demorar algunos minutos. Por favor espera...</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="90"/>

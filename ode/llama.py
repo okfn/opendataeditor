@@ -82,7 +82,7 @@ class LlamaWorker(QThread):
 
     def run(self):
         try:
-            self.signals.messages.emit(self.tr("Preparing data for analysis..."))
+            self.signals.messages.emit(self.tr("This could take a few minutes. Please wait..."))
             response = self.llm(self.prompt)
             self.signals.finished.emit(response["choices"][0]["text"])
         except Exception:
