@@ -177,17 +177,21 @@ QTableCornerButton::section {
 DataUploadDialog,
 DeleteDialog,
 RenameDialog,
-DownloadDialog {
+DownloadDialog,
+LlamaDialog,
+LlamaDownloadingDialog {
   border: 2px solid #000000;
 }
 
 DataUploadDialog QPushButton,
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-DownloadDialog QPushButton {
+DownloadDialog QPushButton,
+LlamaDialog QPushButton,
+LlamaDownloadDialog QPushButton {
   border: 2px solid #000000;
   background-color: #F0F0F0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #FFFFFF;
   background: #000000;
@@ -200,14 +204,18 @@ DownloadDialog QPushButton {
 
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
-DownloadDialog QPushButton {
+DownloadDialog QPushButton,
+LlamaDialog QPushButton,
+LlamaDownloadDialog QPushButton {
   padding: 5px;
 }
 
 DataUploadDialog QPushButton:hover,
 DeleteDialog QPushButton:hover,
 RenameDialog QPushButton:hover,
-DownloadDialog QPushButton:hover {
+DownloadDialog QPushButton:hover,
+LlamaDialog QPushButton:hover,
+LlamaDownloadDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
@@ -215,7 +223,9 @@ DownloadDialog QPushButton:hover {
 DataUploadDialog QPushButton:pressed,
 DeleteDialog QPushButton:pressed,
 RenameDialog QPushButton:pressed,
-DownloadDialog QPushButton:pressed {
+DownloadDialog QPushButton:pressed,
+LlamaDialog QPushButton:pressed,
+LlamaDownloadDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
@@ -224,7 +234,9 @@ DownloadDialog QPushButton:pressed {
 DataUploadDialog QPushButton:disabled,
 DeleteDialog QPushButton:disabled,
 RenameDialog QPushButton:disabled,
-DownloadDialog QPushButton:disabled {
+DownloadDialog QPushButton:disabled,
+LlamaDialog QPushButton:disabled,
+LlamaDownloadDialog QPushButton:disabled {
   background-color: #F0F0F0;
   border-color: #F0F0F0;
   color: #4C5564;
@@ -305,7 +317,9 @@ Welcome QPushButton:focus {
 DataUploadDialog QPushButton:focus,
 DeleteDialog QPushButton:focus,
 RenameDialog QPushButton:focus,
-DownloadDialog QPushButton:focus {
+DownloadDialog QPushButton:focus,
+LlamaDialog QPushButton:focus,
+LlamaDownloadDialog QPushButton:focus {
   border: 2px solid #0078D7;
   outline: none;
 }
