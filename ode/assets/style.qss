@@ -60,7 +60,7 @@ Toolbar .QPushButton:hover {
 Toolbar .QPushButton:pressed {
   background-color: #F0F0F0;
 }
-QPushButton#button_save, QPushButton#button_export {
+QPushButton#button_save, QPushButton#button_export, QPushButton#button_ai {
   font-size: 14px;
   font-weight: 500;
   color: #FFF;
@@ -71,17 +71,17 @@ QPushButton#button_save, QPushButton#button_export {
   border-color: #000;
   padding: 6px 8px;
 }
-QPushButton#button_save:hover, QPushButton#button_export:hover {
+QPushButton#button_save:hover, QPushButton#button_export:hover, QPushButton#button_ai:hover {
   color: #FFF;
   background: #0288D1;
   border-color: #0288d1;
 }
-QPushButton#button_save:pressed, QPushButton#button_export:pressed {
+QPushButton#button_save:pressed, QPushButton#button_export:pressed, QPushButton#button_ai:pressed {
   color: #FFF;
   background-color: #000;
   border-color: #FFF;
 }
-QPushButton#button_save:disabled, QPushButton#button_export:disabled  {
+QPushButton#button_save:disabled, QPushButton#button_export:disabled, QPushButton#button_ai:disabled {
   background-color: #F0F0F0;
   border-color: #F0F0F0;
   color: #4C5564;
