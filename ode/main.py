@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
-    QGridLayout,
     QVBoxLayout,
     QHBoxLayout,
     QTreeView,
@@ -21,6 +20,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QToolTip,
     QTextEdit,
+    QSplitter,
 )
 
 from PySide6.QtGui import (
@@ -183,7 +183,6 @@ class Sidebar(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setFixedWidth(300)
         layout = QVBoxLayout()
 
         self.icon_label = ClickableLabel()
@@ -213,6 +212,8 @@ class Sidebar(QWidget):
         self.report_issue.setIconSize(QSize(20, 20))
 
         self.language = QComboBox()
+        # We are changing since default SizeAdjustPolicy has a buggy behaviour with the Splitter.
+        self.language.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
         options = [
             ("English", ""),
             ("Français", "fr"),
@@ -560,14 +561,13 @@ class MainWindow(QMainWindow):
         self.selected_file_path = Path()
 
         central_widget = QWidget(objectName="central_widget")
-        layout = QGridLayout()
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-        central_widget.setLayout(layout)
+        layout = QHBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
 
+        splitter = QSplitter(Qt.Horizontal)
+        layout.addWidget(splitter)
+
         self.sidebar = Sidebar()
-        layout.addWidget(self.sidebar, 0, 0, 2, 1)  # Span 2 rows
 
         self.main = QWidget()
         self.main_layout = QStackedLayout()
@@ -576,7 +576,12 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.welcome)
         self.main_layout.addWidget(self.content)
         self.main.setLayout(self.main_layout)
-        layout.addWidget(self.main, 1, 1)
+
+        splitter.addWidget(self.sidebar)
+        splitter.addWidget(self.main)
+
+        # Set splitter proportions (15% for sidebar)
+        splitter.setSizes([int(self.width() * 0.15), int(self.width() * 0.85)])
 
         self._menu_bar()
 
