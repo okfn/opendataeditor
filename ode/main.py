@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
-    QGridLayout,
     QVBoxLayout,
     QHBoxLayout,
     QTreeView,
