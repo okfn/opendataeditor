@@ -5,8 +5,8 @@ from pathlib import Path
 from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
-from PySide6.QtGui import QColor, QIcon, QCursor, QKeyEvent
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate
+from PySide6.QtGui import QColor, QIcon, QKeyEvent
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate, QStyle
 
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
@@ -99,40 +99,20 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
         )
 
     def paint(self, painter, option, index):
-        """Paint the icon in the first row of the table."""
+        """Paint the icon in the first row of the table adds blue background if mouse over."""
+        if index.row() == 0:
+            if option.state & QStyle.State_MouseOver:
+                painter.fillRect(option.rect, option.palette.highlight().color().lighter(160))
+            self.icon.paint(painter, self._get_icon_rect(option))
         super().paint(painter, option, index)
 
-        if index.row() == 0:
-            self.icon.paint(painter, self._get_icon_rect(option))
-
     def editorEvent(self, event, model, option, index):
-        """
-        Handle mouse events for the icon in the first row.
-        This method checks if the mouse event is over the icon and handles clicks.
-        """
-        if index.row() != 0:
-            return super().editorEvent(event, model, option, index)
-
-        icon_rect = self._get_icon_rect(option)
-
-        # I am not sure about this
-        if event.type() == QEvent.MouseMove:
-            if icon_rect.contains(event.pos()):
-                QApplication.setOverrideCursor(QCursor(Qt.PointingHandCursor))
-            else:
-                QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
-        elif event.type() == QEvent.MouseButtonPress:
-            if icon_rect.contains(event.pos()):
-                QApplication.setOverrideCursor(QCursor(Qt.ArrowCursor))
-                self.handle_icon_click(index)
-                return True
+        """Handle mouse events for the first row."""
+        if index.row() == 0 and event.type() == QEvent.MouseButtonPress:
+            self.icon_clicked.emit(index.column())
+            return True
 
         return super().editorEvent(event, model, option, index)
-
-    def handle_icon_click(self, index):
-        """Handle the click on the icon."""
-        self.icon_clicked.emit(index.column())
-
 
 class FrictionlessTableModel(QAbstractTableModel):
     finished = Signal()
@@ -418,20 +398,14 @@ class CustomTableView(QTableView):
 
         super().keyPressEvent(event)
 
-    def mouseDoubleClickEvent(self, event):
-        """
-        We check if the user double click on the first row of the table.
-        If so, we emit a signal with the column index of the clicked cell.
-        """
+    def mouseMoveEvent(self, event):
+        """Changes the cursor to Pointing Hand if positing is in first row."""
         index = self.indexAt(event.pos())
-
-        if index.isValid() and index.row() == 0:
-            self.on_click_first_row.emit(index.column())
-            event.accept()
-            return
-
-        super().mouseDoubleClickEvent(event)
-
+        if index.row() == 0:
+            self.setCursor(Qt.PointingHandCursor)
+        else:
+            self.unsetCursor()
+        return super().mouseMoveEvent(event)
 
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
