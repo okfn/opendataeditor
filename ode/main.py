@@ -582,8 +582,6 @@ class MainWindow(QMainWindow):
         splitter.addWidget(self.main)
 
         # Set splitter proportions (15% for sidebar)
-        print(self.width() * 0.15)
-        print(self.width() * 0.85)
         splitter.setSizes([int(self.width() * 0.15), int(self.width() * 0.85)])
 
         self._menu_bar()
