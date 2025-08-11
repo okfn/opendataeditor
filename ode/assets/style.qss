@@ -179,6 +179,8 @@ DeleteDialog,
 RenameDialog,
 DownloadDialog,
 LlamaDialog,
+LLMWarningDialog,
+ColumnMetadataDialog,
 LlamaDownloadingDialog {
   border: 2px solid #000000;
 }
@@ -187,6 +189,8 @@ DataUploadDialog QPushButton,
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
 DownloadDialog QPushButton,
+LLMWarningDialog QPushButton,
+ColumnMetadataDialog QPushButton,
 LlamaDialog QPushButton,
 LlamaDownloadDialog QPushButton {
   border: 2px solid #000000;
@@ -205,6 +209,8 @@ LlamaDownloadDialog QPushButton {
 DeleteDialog QPushButton,
 RenameDialog QPushButton,
 DownloadDialog QPushButton,
+LLMWarningDialog QPushButton,
+ColumnMetadataDialog QPushButton,
 LlamaDialog QPushButton,
 LlamaDownloadDialog QPushButton {
   padding: 5px;
@@ -214,6 +220,8 @@ DataUploadDialog QPushButton:hover,
 DeleteDialog QPushButton:hover,
 RenameDialog QPushButton:hover,
 DownloadDialog QPushButton:hover,
+ColumnMetadataDialog QPushButton:hover,
+LLMWarningDialog QPushButton:hover,
 LlamaDialog QPushButton:hover,
 LlamaDownloadDialog QPushButton:hover {
   background: #0288D1;
@@ -224,6 +232,8 @@ DataUploadDialog QPushButton:pressed,
 DeleteDialog QPushButton:pressed,
 RenameDialog QPushButton:pressed,
 DownloadDialog QPushButton:pressed,
+ColumnMetadataDialog QPushButton:pressed,
+LLMWarningDialog QPushButton:pressed,
 LlamaDialog QPushButton:pressed,
 LlamaDownloadDialog QPushButton:pressed {
   color: #FFFFFF;
@@ -235,6 +245,8 @@ DataUploadDialog QPushButton:disabled,
 DeleteDialog QPushButton:disabled,
 RenameDialog QPushButton:disabled,
 DownloadDialog QPushButton:disabled,
+ColumnMetadataDialog QPushButton:disabled,
+LLMWarningDialog QPushButton:disabled,
 LlamaDialog QPushButton:disabled,
 LlamaDownloadDialog QPushButton:disabled {
   background-color: #F0F0F0;
@@ -318,6 +330,8 @@ DataUploadDialog QPushButton:focus,
 DeleteDialog QPushButton:focus,
 RenameDialog QPushButton:focus,
 DownloadDialog QPushButton:focus,
+ColumnMetadataDialog QPushButton:focus,
+LLMWarningDialog QPushButton:focus,
 LlamaDialog QPushButton:focus,
 LlamaDownloadDialog QPushButton:focus {
   border: 2px solid #0078D7;
