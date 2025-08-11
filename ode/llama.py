@@ -200,28 +200,20 @@ class LlamaDownloadDialog(QDialog):
     def init_ui(self):
         """Initialize the UI for the Llama download dialog."""
         self.setWindowTitle(self.tr("AI feature"))
-        self.setMinimumSize(500, 400)
+
         layout = QVBoxLayout(self)
 
-        # Models List Section
         label_models = QLabel(self.tr("To start using the AI feature, please select one of the following models."))
         layout.addWidget(label_models)
 
-        download_location_box = QHBoxLayout()
-
-        label_download_location_text = QLabel(self.tr("The ODE will save the file in this location:"))
-        download_location_box.addWidget(label_download_location_text)
-
         label_download_location = QLabel(
-            f'<i><a href="file://{AI_MODELS_PATH}" style="color: blue; text-decoration: underline;">{AI_MODELS_PATH}</a></i>'
+            self.tr(f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>')
         )
         label_download_location.setTextFormat(Qt.RichText)
         label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
-        label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
         label_download_location.linkActivated.connect(self.open_download_directory)
 
-        download_location_box.addWidget(label_download_location)
-        layout.addLayout(download_location_box)
+        layout.addWidget(label_download_location)
 
         self.model_list = QListWidget()
         self.model_list.setMinimumHeight(200)
