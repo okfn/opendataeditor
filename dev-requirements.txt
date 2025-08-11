@@ -2,3 +2,4 @@ pytest
 pytest-qt
 mypy
 ruff
+ipdb
