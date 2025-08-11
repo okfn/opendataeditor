@@ -114,7 +114,7 @@ class LlamaDialog(QDialog):
         """Initialize the UI for the Llama dialog."""
         layout = QVBoxLayout(self)
 
-        self.prompt_label = QLabel("LLM Prompt:")
+        self.prompt_label = QLabel("Prompt:")
         layout.addWidget(self.prompt_label)
 
         self.input_text = QTextEdit()
@@ -272,12 +272,12 @@ class LlamaDownloadDialog(QDialog):
         model_selected = self.get_selected_model()
 
         if not model_selected:
-            QMessageBox.warning(self, self.tr("Model not found"), self.tr("The selected model is not available."))
+            QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
             return
 
         model_path = os.path.join(AI_MODELS_PATH, model_selected.filename)
         if not os.path.exists(model_path):
-            QMessageBox.warning(self, self.tr("Model not found"), self.tr("The selected model is not downloaded."))
+            QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
             return
 
         self.selected_model_path = model_path
