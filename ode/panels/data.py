@@ -14,7 +14,7 @@ from openpyxl.styles import PatternFill
 from ode import utils
 from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
-from ode.shared import COLOR_RED
+from ode.shared import COLOR_RED, COLOR_BLUE
 from ode.paths import Paths
 
 
@@ -102,7 +102,7 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
         """Paint the icon in the first row of the table adds blue background if mouse over."""
         if index.row() == 0:
             if option.state & QStyle.State_MouseOver:
-                painter.fillRect(option.rect, option.palette.highlight().color().lighter(160))
+                painter.fillRect(option.rect, COLOR_BLUE)
             self.icon.paint(painter, self._get_icon_rect(option))
         super().paint(painter, option, index)
 
