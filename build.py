@@ -21,10 +21,10 @@ def build_application():
     params = [
         "ode/main.py",
         "--windowed",  # Required for Windows install to not open a console.
-        "--collect-all",
-        "frictionless",  # Frictionless depends on data files
-        "--collect-all",
-        "ode",  # Collect all assets from Open Data Editor
+        "--collect-all", "frictionless",  # Frictionless depends on data files
+        "--collect-all", "ode",  # Collect all assets from Open Data Editor
+        "--collect-all", "llama_cpp", # Collect all assets from llama_cpp
+        "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--log-level",
         "WARN",
         "--name",
