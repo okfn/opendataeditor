@@ -191,4 +191,23 @@ jobs:
           path: |
             dist/*.AppImage
           retention-days: 14
+  release:
+    runs-on: ubuntu-latest
+    needs: [macos-packaging, windows-packaging, linux-packaging, linux-app-image]
+    if: github.ref_type == 'tag'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/*.exe
+            artifacts/*.dmg
+            artifacts/*.deb
+            artifacts/*.AppImage
+          draft: true
+          overwrite_files: false
 
