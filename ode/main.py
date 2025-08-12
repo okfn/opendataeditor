@@ -829,7 +829,7 @@ class MainWindow(QMainWindow):
     def on_button_upload_click(self):
         self.upload_data()
 
-    def on_save_click(self, checked):
+    def on_save_click(self):
         """Saves changes made in the Table View into the file."""
         self.table_model.write_data(self.selected_file_path)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
