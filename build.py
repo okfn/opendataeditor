@@ -24,7 +24,7 @@ def build_application():
         "--collect-all", "frictionless",  # Frictionless depends on data files
         "--collect-all", "ode",  # Collect all assets from Open Data Editor
         "--collect-all", "llama_cpp", # Collect all assets from llama_cpp
-        "--collect-all", "numpy", # Collect all assets from numpy (llama_cpp dependency)
+        "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--log-level",
         "WARN",
         "--name",
