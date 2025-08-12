@@ -13,7 +13,6 @@ from PySide6.QtWidgets import (
     QDialog,
     QTabWidget,
     QLineEdit,
-    QSizePolicy,
 )
 from PySide6.QtCore import Qt
 
