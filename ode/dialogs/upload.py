@@ -13,8 +13,8 @@ from PySide6.QtWidgets import (
     QDialog,
     QTabWidget,
     QLineEdit,
+    QSizePolicy,
 )
-from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 from ode import paths
@@ -24,18 +24,13 @@ from ode.paths import Paths
 class SelectWidget(QWidget):
     """Widget to render the File/Folder upload buttons."""
 
-    def __init__(self, icon_path, parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout()
 
-        icon_label = QLabel(self)
-        pixmap = QPixmap(icon_path)
-        icon_label.setPixmap(pixmap)
-        icon_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(icon_label)
-
         self.text_label = QLabel()
         self.text_label.setAlignment(Qt.AlignHCenter)
+        self.text_label.setContentsMargins(0, 20, 0, 0)  # left, top, right, bottom
         self.text_label.setWordWrap(True)
         layout.addWidget(self.text_label)
 
@@ -63,7 +58,7 @@ class DataUploadDialog(QDialog):
 
     def __init__(self, parent, external_first=False):
         super().__init__(parent)
-        self.setFixedHeight(400)
+        self.setFixedHeight(350)
         self.setFixedWidth(600)
 
         self.target_path = Path()
@@ -83,9 +78,9 @@ class DataUploadDialog(QDialog):
         from_computer_layout = QHBoxLayout()
         from_computer_tab.setLayout(from_computer_layout)
 
-        self.file_select_widget = SelectWidget(Paths.asset("icons/upload-file.png"))
+        self.file_select_widget = SelectWidget()
         self.file_select_widget.connect_select_action(self.add_files)
-        self.folder_select_widget = SelectWidget(Paths.asset("icons/upload-folder.png"))
+        self.folder_select_widget = SelectWidget()
         self.folder_select_widget.connect_select_action(self.add_folders)
 
         from_computer_layout.addWidget(self.file_select_widget)
@@ -221,9 +216,7 @@ class DataUploadDialog(QDialog):
         self.url_label.setText(self.tr("Link to the external table: "))
         self.url_input.setPlaceholderText(self.tr("Enter or paste URL"))
         self.help_text.setText(
-            self.tr(
-                "Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."
-            )
+            self.tr("Paste your Google Sheet or csv link to create a local copy in the Open Data Editor")
         )
         self.paste_button.setText(self.tr("Add"))
         self.tab_widget.setTabText(0, self.tr("Add Local Files"))
