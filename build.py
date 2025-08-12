@@ -3,6 +3,7 @@ import os
 import platform
 import sys
 
+
 def build_application():
     """Build an executable file for the Application."""
     system = platform.system()
@@ -34,10 +35,23 @@ def build_application():
         icon_path,
     ]
 
+    params.extend(
+        [
+            "--collect-all",
+            "llama_cpp",
+            "--hidden-import",
+            "llama_cpp",
+            "--hidden-import",
+            "llama_cpp.llama_cpp",
+            "--hidden-import",
+            "llama_cpp._ctypes_extensions",
+        ]
+    )
+
     if system == "Darwin":
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
 
-    cli_args =  sys.argv[1:]
+    cli_args = sys.argv[1:]
     if cli_args:
         params.extend(cli_args)
 
