@@ -1,6 +1,7 @@
 import sys
 import ode
 import os
+from enum import IntEnum
 
 from typing import Callable
 
@@ -78,6 +79,12 @@ configure_logging()
 
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
+
+
+class ContentIndex(IntEnum):
+    DATA = 0
+    ERRORS = 1
+    SOURCE = 2
 
 
 class CustomTreeView(QTreeView):
@@ -498,9 +505,9 @@ class Content(QWidget):
         self.source_view = SourceViewer()
         self.ai_llama = LlamaDialog(self)
 
-        self.stacked_layout.addWidget(self.data_view)
-        self.stacked_layout.addWidget(self.errors_view)
-        self.stacked_layout.addWidget(self.source_view)
+        self.stacked_layout.addWidget(self.data_view)  # ContentIndex.DATA = 0
+        self.stacked_layout.addWidget(self.errors_view)  # ContentIndex.ERRORS = 1
+        self.stacked_layout.addWidget(self.source_view)  # ContentIndex.SOURCE = 2
 
         layout.addWidget(self.panels)
         self.setLayout(layout)
@@ -600,9 +607,9 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_export.clicked.connect(self.on_export_click)
         self.content.toolbar.button_save.clicked.connect(self.on_save_click)
         self.content.toolbar.button_ai.clicked.connect(self.on_ai_click)
-        self.content.toolbar.button_data.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
-        self.content.toolbar.button_errors.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
-        self.content.toolbar.button_source.clicked.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+        self.content.toolbar.button_data.clicked.connect(lambda: self.change_active_panel(ContentIndex.DATA))
+        self.content.toolbar.button_errors.clicked.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
+        self.content.toolbar.button_source.clicked.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
 
         self.content.data_view.on_save.connect(self.on_data_view_save)
 
@@ -615,15 +622,15 @@ class MainWindow(QMainWindow):
 
         # Data Panel
         self.shortcut_alt_d = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_D), self)
-        self.shortcut_alt_d.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(0))
+        self.shortcut_alt_d.activated.connect(lambda: self.change_active_panel(ContentIndex.DATA))
 
         # Errors Panel
         self.shortcut_alt_r = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_R), self)
-        self.shortcut_alt_r.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+        self.shortcut_alt_r.activated.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
 
         # Source Panel
         self.shortcut_alt_s = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_S), self)
-        self.shortcut_alt_s.activated.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+        self.shortcut_alt_s.activated.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
 
         # Save
         if sys.platform == "darwin":
@@ -673,11 +680,11 @@ class MainWindow(QMainWindow):
         self.menu_view.setEnabled(False)
 
         self.menu_view_action_errors_panel = QAction()
-        self.menu_view_action_errors_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(1))
+        self.menu_view_action_errors_panel.triggered.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
         self.menu_view.addAction(self.menu_view_action_errors_panel)
 
         self.menu_view_action_source_panel = QAction()
-        self.menu_view_action_source_panel.triggered.connect(lambda: self.content.stacked_layout.setCurrentIndex(2))
+        self.menu_view_action_source_panel.triggered.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
         self.menu_view.addAction(self.menu_view_action_source_panel)
 
         self.menuBar().addMenu(self.menu_view)
@@ -745,6 +752,35 @@ class MainWindow(QMainWindow):
             if selected_model:
                 self.content.ai_llama.init_llm(selected_model)
                 self.content.ai_llama.show()
+
+    def change_active_panel(self, panel_index: ContentIndex):
+        """Change the active panel in the content area.
+
+        This method is used to change the active panel in the content area based on the
+        provided panel index.
+        """
+        if panel_index < 0 or panel_index >= self.content.stacked_layout.count():
+            raise ValueError("Invalid panel index.")
+
+        self.content.stacked_layout.setCurrentIndex(panel_index)
+
+        buttons = [
+            self.content.toolbar.button_data,  # ContentIndex.DATA = 0
+            self.content.toolbar.button_errors,  # ContentIndex.ERRORS = 1
+            self.content.toolbar.button_source,  # ContentIndex.SOURCE = 2
+        ]
+
+        for i, button in enumerate(buttons):
+            button.setProperty("active", i == panel_index)
+            button.style().polish(button)  # Force the button to update its style
+
+        # For the Errors label showing the number of errors we need to update its style
+        # to hide the error label styles if we are in the Errors panel.
+        button_error_label = self.content.toolbar.button_errors.error_label
+        if button_error_label.isEnabled():
+            hide_styles_for_error_label = panel_index != ContentIndex.ERRORS
+            button_error_label.setProperty("error", hide_styles_for_error_label)
+            button_error_label.style().polish(button_error_label)
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
@@ -864,7 +900,7 @@ class MainWindow(QMainWindow):
         self.content.ai_llama.set_data(data)
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
-        self.content.stacked_layout.setCurrentIndex(0)
+        self.change_active_panel(ContentIndex.DATA)
 
     @Slot(tuple)
     def update_toolbar(self, worker_data):
