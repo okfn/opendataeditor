@@ -220,10 +220,9 @@ class DataUploadDialog(QDialog):
         self.folder_select_widget.select_button.setText(self.tr("Select"))
         self.url_label.setText(self.tr("Link to the external table: "))
         self.url_input.setPlaceholderText(self.tr("Enter or paste URL"))
+
         self.help_text.setText(
-            self.tr(
-                "Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub."
-            )
+            self.tr("Paste your Google Sheet or csv link to create a local copy in the Open Data Editor")
         )
         self.paste_button.setText(self.tr("Add"))
         self.tab_widget.setTabText(0, self.tr("Add Local Files"))
