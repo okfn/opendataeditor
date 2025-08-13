@@ -424,10 +424,13 @@ class Toolbar(QWidget):
         layout = QHBoxLayout()
 
         # Buttons on the left
-        self.button_data = QPushButton()
+        # Setting the cursor to PointingHandCursor to indicate that the button is clickable because
+        # is not working with the style.qss file.
+        self.button_data = QPushButton(cursor=Qt.PointingHandCursor)
         self.button_errors = ErrorsReportButton()
+        self.button_errors.setCursor(Qt.PointingHandCursor)
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_source = QPushButton()
+        self.button_source = QPushButton(cursor=Qt.PointingHandCursor)
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
         layout.addWidget(self.button_data)
