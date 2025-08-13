@@ -774,7 +774,7 @@ class MainWindow(QMainWindow):
             button.setProperty("active", i == panel_index)
             button.style().polish(button)  # Force the button to update its style
 
-        # For the Errors label showing the number of errors we need to update its style
+        # For the Errors label we need to check if it is enabled and update its style
         # to hide the error label styles if we are in the Errors panel.
         button_error_label = self.content.toolbar.button_errors.error_label
         if button_error_label.isEnabled():
