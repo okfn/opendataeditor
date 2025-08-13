@@ -1,16 +1,15 @@
 # Development
 
-Open Data Editor is written in PySide6, the official Python module from the [Qt for Python project](https://wiki.qt.io/Qt_for_Python), which provides access to the complete Qt 6.0+ framework.
+Open Data Editor is written in PySide6, the official Python module from the [Qt for Python project](https://wiki.qt.io/Qt_for_Python), which provides access to the complete Qt 6.9+ framework.
 
 You can refer to the [Official Documentation](https://doc.qt.io/qtforpython-6/) to learn more about it. (And it's a handy documentation to bookmark!)
 
 ## Prerequisites
 
-We are using 3.11. To start working on the project you need the following dependencies in your machine:
+We are using 3.13. To start working on the project you need the following dependencies in your machine:
 
-- Python 3.11
+- Python 3.13
 - python3.11-dev (For PyInstaller)
-- Node 18+ (For this documentation page)
 
 ## Enviroment
 
@@ -55,7 +54,7 @@ make start
 
 ## Documentation
 
-Documentation is written with [Starlight](https://starlight.astro.build/) (in the `portal` directory). The source articles are in the `portal/content/docs` directory. To start a live-reload server and work on the docs:
+Documentation is written with [Sphinx](https://www.sphinx-doc.org/en/master/) (in the `docs` directory). The source files are in the `docs/source/` directory. To locally build the documentation you can execute:
 
 ```bash
 make docs
