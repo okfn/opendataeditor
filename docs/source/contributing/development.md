@@ -61,3 +61,15 @@ make docs
 ```
 
 It will be automatically published on CloudFlare when merged to the `main` branch with previews available for pull requests.
+
+## Making a release
+
+To make a release follow the following checklist:
+ - Check with the PO that `main` branch is code complete.
+ - Check that the distributables built on main are working by installing them in your machine.
+   - Sometimes PyInstaller cannot compile new dependencies and the application will fail at runtime.
+ - Create a New Github Release with a new tag.
+ - Fill in the Release notes.
+ - Create the Release.
+ - Wait until the Github Action for the new tag finishes and then upload the distributable files to the new Release.
+ - Notify the Communications Team to make the announcement and changes to the [OKFN's Website](https://okfn.org/en/projects/open-data-editor/).
