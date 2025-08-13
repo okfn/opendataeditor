@@ -777,10 +777,9 @@ class MainWindow(QMainWindow):
         # For the Errors label we need to check if it is enabled and update its style
         # to hide the error label styles if we are in the Errors panel.
         button_error_label = self.content.toolbar.button_errors.error_label
-        if button_error_label.isEnabled():
-            hide_styles_for_error_label = panel_index != ContentIndex.ERRORS
-            button_error_label.setProperty("error", hide_styles_for_error_label)
-            button_error_label.style().polish(button_error_label)
+        hide_styles_for_error_label = panel_index != ContentIndex.ERRORS
+        button_error_label.setProperty("error", hide_styles_for_error_label)
+        button_error_label.style().polish(button_error_label)
 
     def retranslateUI(self):
         """Set the text of all the UI elements using a translation function.
