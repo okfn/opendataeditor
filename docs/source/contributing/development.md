@@ -9,9 +9,9 @@ You can refer to the [Official Documentation](https://doc.qt.io/qtforpython-6/) 
 We are using 3.13. To start working on the project you need the following dependencies in your machine:
 
 - Python 3.13
-- python3.11-dev (For PyInstaller)
+- python3.13-dev (For PyInstaller)
 
-## Enviroment
+## Environment
 
 As common practice with all python project, you should create a Virtual Environment (using your favorite tool!) to install all the requirements.
 
