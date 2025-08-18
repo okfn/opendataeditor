@@ -82,6 +82,10 @@ logger.info("Starting Open Data Editor")
 
 
 class ContentIndex(IntEnum):
+    """Enum to represent the index of the content panels.
+    They need to be added in this same order to match the stacked layout indices.
+    """
+
     DATA = 0
     ERRORS = 1
     SOURCE = 2
@@ -754,10 +758,11 @@ class MainWindow(QMainWindow):
                 self.content.ai_llama.show()
 
     def change_active_panel(self, panel_index: ContentIndex):
-        """Change the active panel in the content area.
+        """Change the active panel in the content area and highlight its toolbar button.
 
-        This method is used to change the active panel in the content area based on the
-        provided panel index.
+        This method changes the active panel in the content area based on the
+        provided panel index and sets the "active" property of the related button in the
+        toolbar.
         """
         if panel_index < 0 or panel_index >= self.content.stacked_layout.count():
             raise ValueError("Invalid panel index.")
