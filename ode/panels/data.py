@@ -22,6 +22,8 @@ from ode.file import File
 from ode.shared import COLOR_RED, COLOR_BLUE
 from ode.paths import Paths
 
+import xlrd
+
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -44,10 +46,11 @@ class DataWorker(QRunnable):
     the user.
     """
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, sheet_name=None):
         super().__init__()
         self.file = File(filepath)
         self.signals = DataWorkerSignals()
+        self.sheet_name = sheet_name
         self.resource = self.file.get_or_create_metadata().get("resource")
 
     @Slot()

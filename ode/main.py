@@ -75,6 +75,9 @@ from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 from ode.log_setup import LOGS_PATH, configure_logging
 import logging
 
+import xlrd
+import openpyxl
+
 configure_logging()
 
 logger = logging.getLogger(__name__)
@@ -448,6 +451,9 @@ class Toolbar(QWidget):
         layout.addWidget(self.button_errors)
         layout.addWidget(self.button_source)
 
+        self.excel_sheet_combo = QComboBox()
+        layout.addWidget(self.excel_sheet_combo)
+
         # Spacer to push right-side buttons to the end
         layout.addStretch()
 
@@ -614,6 +620,8 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_data.clicked.connect(lambda: self.change_active_panel(ContentIndex.DATA))
         self.content.toolbar.button_errors.clicked.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
         self.content.toolbar.button_source.clicked.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
+
+        self.content.toolbar.excel_sheet_combo.currentTextChanged.connect(self.on_excel_sheet_selection_changed)
 
         self.content.data_view.on_save.connect(self.on_data_view_save)
 
@@ -902,9 +910,30 @@ class MainWindow(QMainWindow):
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
         self.content.ai_llama.set_data(data)
+
+        self.update_excel_sheet_dropdown(filepath)
+
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.change_active_panel(ContentIndex.DATA)
+
+    def update_excel_sheet_dropdown(self, filepath: str):
+        if filepath.suffix == ".xls":
+            workbook = xlrd.open_workbook(filepath)
+            sheet_names = workbook.sheet_names()
+        elif filepath.suffix in [".xlsx"]:
+            workbook = openpyxl.load_workbook(filepath, read_only=True)
+            sheet_names = workbook.sheetnames
+
+        self.content.toolbar.excel_sheet_combo.clear()
+        self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
+
+    def on_excel_sheet_selection_changed(self, sheet_name: str):
+        """Handle the change of the selected Excel sheet in the dropdown."""
+        if self.selected_file_path.suffix in [".xls", ".xlsx"]:
+            self.excel_sheet_name = sheet_name
+        else:
+            raise ValueError("Selected file is not an Excel file.")
 
     @Slot(tuple)
     def update_toolbar(self, worker_data):

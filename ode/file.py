@@ -66,7 +66,7 @@ class File:
 
         return metadata_path / (self.path.stem + ".json")
 
-    def get_or_create_metadata(self):
+    def get_or_create_metadata(self, sheet_name: str | None = None):
         """Get or create a metadata object for the Resource."""
         metadata = dict()
 
