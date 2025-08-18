@@ -40,7 +40,7 @@ ErrorsReportButton QLabel {
 ErrorsReportButton QLabel:disabled {
   color: grey;
 }
-ErrorsReportButton QLabel[error] {
+ErrorsReportButton QLabel[error="true"] {
   border: 1px solid #FECBCA;
   color: #D32F2F;
   padding: 0px;
@@ -54,12 +54,19 @@ Toolbar QPushButton {
   background: #FFFFFF;
   padding: 6px 8px;
 }
-Toolbar .QPushButton:hover {
+Toolbar QPushButton:hover {
   background-color: #F0F0F0;
 }
-Toolbar .QPushButton:pressed {
+Toolbar QPushButton:pressed {
   background-color: #F0F0F0;
 }
+
+Toolbar QPushButton[active="true"]{
+  border: 2px solid #0078D7;
+  background-color: #F0F0F0;
+  outline: none;
+}
+
 QPushButton#button_save, QPushButton#button_export, QPushButton#button_ai {
   font-size: 14px;
   font-weight: 500;
@@ -286,13 +293,6 @@ QTreeView:focus {
 
 QTableView:focus {
   border: 2px solid #0078D7;
-  outline: none;
-}
-
-/* Specific focus styles for toolbar buttons */
-Toolbar QPushButton:focus {
-  border: 2px solid #0078D7;
-  background-color: #F0F0F0;
   outline: none;
 }
 
