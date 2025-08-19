@@ -181,11 +181,12 @@ class FrictionlessTableModel(QAbstractTableModel):
         wb = load_workbook(filepath)
 
         if sheet_name in wb.sheetnames:
-            wb.remove(wb[sheet_name])
-            logger.info(f"Removed existing sheet: {sheet_name}")
-
-        print(f"Creating new sheet: {sheet_name}")
-        ws = wb.create_sheet(sheet_name)
+            ws = wb[sheet_name]
+            logger.info(f"Deleting existing data in sheet: {sheet_name}")
+            ws.delete_rows(1, ws.max_row)  # Delete all rows
+        else:
+            logger.error(f"Sheet {sheet_name} does not exist in the workbook: {filepath}")
+            raise ValueError(f"Sheet {sheet_name} does not exist in the workbook: {filepath}")
 
         # Header row
         ws.append(self._data[0])

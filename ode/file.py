@@ -77,6 +77,7 @@ class File:
 
             with system.use_context(trusted=True):
                 if sheet_name:
+                    print("Using existing metadata for", sheet_name)
                     resource = TableResource(metadata["resource"], control=ExcelControl(sheet=sheet_name))
                 else:
                     resource = TableResource(metadata["resource"])
