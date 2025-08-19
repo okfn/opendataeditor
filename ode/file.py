@@ -71,17 +71,14 @@ class File:
         """Get or create a metadata object for the Resource."""
 
         if self.metadata_path.exists():
-            print("Getting or creating metadata for", sheet_name)
             metadata = dict()
             with open(self.metadata_path) as file:
                 metadata = json.load(file)
 
             with system.use_context(trusted=True):
                 if sheet_name:
-                    print("hola")
                     resource = TableResource(metadata["resource"], control=ExcelControl(sheet=sheet_name))
                 else:
-                    print("chau")
                     resource = TableResource(metadata["resource"])
 
                 resource.infer()

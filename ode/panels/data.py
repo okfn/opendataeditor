@@ -8,7 +8,7 @@ from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunn
 from PySide6.QtGui import QColor, QIcon, QKeyEvent
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate, QStyle
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 
 import xlwt
@@ -124,15 +124,18 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 class FrictionlessTableModel(QAbstractTableModel):
     finished = Signal()
 
-    def __init__(self, data=[], errors=[], sheet_name=None):
+    def __init__(
+        self,
+        data=[],
+        errors=[],
+    ):
         super().__init__()
         self._data = data
         self._row_count = self._get_row_count()
         self.errors = self._get_errors(errors)
         self._column_count = self._get_column_count()
-        self.sheet_name = sheet_name
 
-    def write_data(self, filepath: Path):
+    def write_data(self, filepath: Path, sheet_name=None):
         """
         Write the data to a file in the format specified by the file extension.
         """
@@ -151,7 +154,7 @@ class FrictionlessTableModel(QAbstractTableModel):
         Write the data to a CSV file.
         """
         logger.info(f"Writing data to CSV file: {filepath}")
-        resource = File(filepath).get_or_create_metadata(self.sheet_name).get("resource")
+        resource = File(filepath).get_or_create_metadata().get("resource")
         dialect = resource.dialect.to_dict()
         csv_config = dialect.get("csv", None)
 
@@ -169,13 +172,21 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         logger.info(f"Data saved in CSV format: {filepath}")
 
-    def write_data_xlsx(self, filepath: Path):
+    def write_data_xlsx(self, filepath: Path, sheet_name=None):
         """
         Write the data to an Excel file.
         """
         logger.info(f"Writing data to Excel file: {filepath}")
-        wb = Workbook()
-        ws = wb.active
+
+        wb = load_workbook(filepath)
+
+        if sheet_name in wb.sheetnames:
+            wb.remove(wb[sheet_name])
+            logger.info(f"Removed existing sheet: {sheet_name}")
+
+        print(f"Creating new sheet: {sheet_name}")
+        ws = wb.create_sheet(sheet_name)
+
         # Header row
         ws.append(self._data[0])
 

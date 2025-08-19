@@ -883,7 +883,7 @@ class MainWindow(QMainWindow):
 
     def on_save_click(self):
         """Saves changes made in the Table View into the file."""
-        self.table_model.write_data(self.selected_file_path)
+        self.table_model.write_data(self.selected_file_path, sheet_name=self.excel_sheet_name)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
         self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
@@ -893,7 +893,7 @@ class MainWindow(QMainWindow):
         Reloads the file and updates the views. when is saved in the data view
         """
         if save_data:
-            self.table_model.write_data(self.selected_file_path)
+            self.table_model.write_data(self.selected_file_path, sheet_name=self.excel_sheet_name)
 
         self.read_validate_and_display_file(self.selected_file_path)
 
@@ -905,7 +905,7 @@ class MainWindow(QMainWindow):
         receive the data, the frictionless report and a list of errors.
         """
         filepath, data, errors = worker_data
-        self.table_model = FrictionlessTableModel(data, errors, sheet_name=self.excel_sheet_name)
+        self.table_model = FrictionlessTableModel(data, errors)
         self.table_model.dataChanged.connect(self.on_data_changed)
         self.content.data_view.display_data(self.table_model, filepath, sheet_name=self.excel_sheet_name)
         self.content.errors_view.display_errors(errors, self.table_model)
@@ -918,10 +918,8 @@ class MainWindow(QMainWindow):
         self.main_layout.setCurrentIndex(1)
         self.change_active_panel(ContentIndex.DATA)
 
-    def update_excel_sheet_dropdown(self, filepath: str):
-        self.content.toolbar.excel_sheet_combo.blockSignals(True)
-
-        self.content.toolbar.excel_sheet_combo.clear()
+    def get_sheets_names(self, filepath: Path) -> list[str]:
+        """Get the names of the sheets in an Excel file."""
         sheet_names = []
         if filepath.suffix == ".xls":
             workbook = xlrd.open_workbook(filepath)
@@ -930,17 +928,32 @@ class MainWindow(QMainWindow):
             workbook = openpyxl.load_workbook(filepath, read_only=True)
             sheet_names = workbook.sheetnames
 
+        return sheet_names
+
+    def update_excel_sheet_dropdown(self, filepath):
+        self.content.toolbar.excel_sheet_combo.blockSignals(True)
+
+        self.content.toolbar.excel_sheet_combo.clear()
+
+        sheet_names = self.get_sheets_names(filepath)
+
         if sheet_names:
+            # sheet_names.sort()  # Sort the sheet names alphabetically
+            if self.excel_sheet_name is None:
+                self.excel_sheet_name = sheet_names[0]
             self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
             self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
         else:
+            # TODO: Seleccionar uno
             self.excel_sheet_name = None
 
+        print("Sheet name", self.excel_sheet_name)
         self.content.toolbar.excel_sheet_combo.blockSignals(False)
 
     def on_excel_sheet_selection_changed(self, sheet_name: str):
         """Handle the change of the selected Excel sheet in the dropdown."""
         if self.selected_file_path.suffix in [".xls", ".xlsx"]:
+            print("Selected sheet name:", sheet_name)
             self.excel_sheet_name = sheet_name
             self.read_validate_and_display_file(self.selected_file_path)
         else:
@@ -1021,6 +1034,7 @@ class MainWindow(QMainWindow):
         """Handles the click action of our File Navigator."""
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         if self.selected_file_path.is_file():
+            # Reset the excel sheet name to None to avoid displaying the previous file's sheet
             self.excel_sheet_name = None
             self.read_validate_and_display_file(self.selected_file_path)
             self.content.toolbar.button_export.setEnabled(True)
