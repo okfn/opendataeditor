@@ -22,8 +22,6 @@ from ode.file import File
 from ode.shared import COLOR_RED, COLOR_BLUE
 from ode.paths import Paths
 
-import xlrd
-
 
 DEFAULT_LIMIT_ERRORS = 1000
 
@@ -51,7 +49,7 @@ class DataWorker(QRunnable):
         self.file = File(filepath)
         self.signals = DataWorkerSignals()
         self.sheet_name = sheet_name
-        self.resource = self.file.get_or_create_metadata().get("resource")
+        self.resource = self.file.get_or_create_metadata(sheet_name).get("resource")
 
     @Slot()
     def run(self):
@@ -126,12 +124,13 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 class FrictionlessTableModel(QAbstractTableModel):
     finished = Signal()
 
-    def __init__(self, data=[], errors=[]):
+    def __init__(self, data=[], errors=[], sheet_name=None):
         super().__init__()
         self._data = data
         self._row_count = self._get_row_count()
         self.errors = self._get_errors(errors)
         self._column_count = self._get_column_count()
+        self.sheet_name = sheet_name
 
     def write_data(self, filepath: Path):
         """
@@ -152,7 +151,7 @@ class FrictionlessTableModel(QAbstractTableModel):
         Write the data to a CSV file.
         """
         logger.info(f"Writing data to CSV file: {filepath}")
-        resource = File(filepath).get_or_create_metadata().get("resource")
+        resource = File(filepath).get_or_create_metadata(self.sheet_name).get("resource")
         dialect = resource.dialect.to_dict()
         csv_config = dialect.get("csv", None)
 
@@ -474,7 +473,7 @@ class DataViewer(QWidget):
 
         self.retranslateUI()
 
-    def display_data(self, model, filepath):
+    def display_data(self, model, filepath, sheet_name=None):
         """Set the model of the QTableView
 
         When a tabular file is selected, the main application will create a
@@ -487,7 +486,8 @@ class DataViewer(QWidget):
         self.table_view.horizontalHeader().setDefaultSectionSize(120)
         self.table_view.setMouseTracking(True)
 
-        self.metadata = File(filepath).get_or_create_metadata()
+        # TODO: chequear
+        self.metadata = File(filepath).get_or_create_metadata(sheet_name)
         self.resource = self.metadata.get("resource")
 
         self.label.hide()
