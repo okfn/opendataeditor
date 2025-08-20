@@ -498,7 +498,6 @@ class DataViewer(QWidget):
         self.table_view.horizontalHeader().setDefaultSectionSize(120)
         self.table_view.setMouseTracking(True)
 
-        # TODO: chequear
         self.metadata = File(filepath).get_or_create_metadata(sheet_name)
         self.resource = self.metadata.get("resource")
 
