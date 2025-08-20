@@ -97,11 +97,12 @@ class File:
         return metadata
 
     def _setup_metadata_first_time(self, sheet_name: str | None = None):
-        print("Setting up metadata for", sheet_name)
+        """
+        Set up the metadata for the first time when the file is opened.
+        """
         metadata = dict()
         self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
         with system.use_context(trusted=True):
-            print(sheet_name)
             if sheet_name:
                 resource = TableResource(self.path, control=ExcelControl(sheet=sheet_name))
             else:
