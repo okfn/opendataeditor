@@ -450,8 +450,17 @@ class Toolbar(QWidget):
         layout.addWidget(self.button_errors)
         layout.addWidget(self.button_source)
 
+        self.excel_sheet_layout = QHBoxLayout()
+        self.excel_sheet_container = QWidget()
+        self.excel_sheet_label = QLabel(self.tr("Excel Sheet:"))
         self.excel_sheet_combo = QComboBox()
-        layout.addWidget(self.excel_sheet_combo)
+
+        self.excel_sheet_layout.addWidget(self.excel_sheet_label)
+        self.excel_sheet_layout.addWidget(self.excel_sheet_combo)
+
+        self.excel_sheet_container.setLayout(self.excel_sheet_layout)
+
+        layout.addWidget(self.excel_sheet_container)
 
         # Spacer to push right-side buttons to the end
         layout.addStretch()
@@ -941,10 +950,12 @@ class MainWindow(QMainWindow):
             # sheet_names.sort()  # Sort the sheet names alphabetically
             if self.excel_sheet_name is None:
                 self.excel_sheet_name = sheet_names[0]
+
             self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
             self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
+            self.content.toolbar.excel_sheet_container.setVisible(True)
         else:
-            # TODO: Seleccionar uno
+            self.content.toolbar.excel_sheet_container.setVisible(False)
             self.excel_sheet_name = None
 
         print("Sheet name", self.excel_sheet_name)

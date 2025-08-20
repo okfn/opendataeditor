@@ -1,5 +1,6 @@
 import json
 import shutil
+import logging
 
 from frictionless import system
 from frictionless.resources import TableResource
@@ -7,6 +8,8 @@ from frictionless.formats.excel import ExcelControl
 from pathlib import Path
 
 from ode import paths
+
+logger = logging.getLogger(__name__)
 
 
 class File:
@@ -68,8 +71,10 @@ class File:
         return metadata_path / (self.path.stem + ".json")
 
     def get_or_create_metadata(self, sheet_name: str | None = None):
-        """Get or create a metadata object for the Resource."""
+        """Get or create a metadata object for the Resource.
 
+        Sheet name is used to specify which sheet of the Excel file we want to use.
+        """
         if self.metadata_path.exists():
             metadata = dict()
             with open(self.metadata_path) as file:
@@ -77,9 +82,10 @@ class File:
 
             with system.use_context(trusted=True):
                 if sheet_name:
-                    print("Using existing metadata for", sheet_name)
+                    logger.info("Using sheet %s for resource %s", sheet_name, self.path)
                     resource = TableResource(metadata["resource"], control=ExcelControl(sheet=sheet_name))
                 else:
+                    logger.info("Using resource %s", self.path)
                     resource = TableResource(metadata["resource"])
 
                 resource.infer()
