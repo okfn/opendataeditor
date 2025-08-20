@@ -1,6 +1,7 @@
 import sys
 import ode
 import os
+import ctypes
 from enum import IntEnum
 
 from typing import Callable
@@ -81,8 +82,9 @@ logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
 try:
-    from ctypes import windll  #noqa: F401
-except ImportError:
+    ctypes.windll.kernel32.SetDllDirectoryW(None)
+    ctypes.CDLL('llama.dll')
+except Exception as e:
     pass
 
 class ContentIndex(IntEnum):
