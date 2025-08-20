@@ -25,6 +25,7 @@ def build_application():
         "--collect-all", "ode",  # Collect all assets from Open Data Editor
         "--collect-all", "llama_cpp", # Collect all assets from llama_cpp
         "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
+        "--additional-hooks-dir", ".",
         "--log-level",
         "WARN",
         "--name",
