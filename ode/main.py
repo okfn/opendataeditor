@@ -84,7 +84,7 @@ logger.info("Starting Open Data Editor")
 try:
     ctypes.windll.kernel32.SetDllDirectoryW(None)
     ctypes.CDLL('llama.dll')
-except Exception as e:
+except Exception:
     pass
 
 class ContentIndex(IntEnum):
