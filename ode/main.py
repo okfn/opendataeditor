@@ -450,6 +450,7 @@ class Toolbar(QWidget):
         layout.addWidget(self.button_errors)
         layout.addWidget(self.button_source)
 
+        # Excel Sheet Selection
         self.excel_sheet_layout = QHBoxLayout()
         self.excel_sheet_container = QWidget()
         self.excel_sheet_label = QLabel(self.tr("Excel Sheet:"))
@@ -940,6 +941,10 @@ class MainWindow(QMainWindow):
         return sheet_names
 
     def update_excel_sheet_dropdown(self, filepath):
+        """
+        Update the Excel sheet dropdown with the names of the sheets in the selected file.
+        If there are no sheets, the dropdown and label will be hidden.
+        """
         self.content.toolbar.excel_sheet_combo.blockSignals(True)
 
         self.content.toolbar.excel_sheet_combo.clear()
@@ -947,7 +952,6 @@ class MainWindow(QMainWindow):
         sheet_names = self.get_sheets_names(filepath)
 
         if sheet_names:
-            # sheet_names.sort()  # Sort the sheet names alphabetically
             if self.excel_sheet_name is None:
                 self.excel_sheet_name = sheet_names[0]
 
@@ -962,9 +966,11 @@ class MainWindow(QMainWindow):
         self.content.toolbar.excel_sheet_combo.blockSignals(False)
 
     def on_excel_sheet_selection_changed(self, sheet_name: str):
-        """Handle the change of the selected Excel sheet in the dropdown."""
+        """
+        Handle the change of the selected Excel sheet in the dropdown.
+        Reloads the file with the selected sheet name and updates the views.
+        """
         if self.selected_file_path.suffix in [".xls", ".xlsx"]:
-            print("Selected sheet name:", sheet_name)
             self.excel_sheet_name = sheet_name
             self.read_validate_and_display_file(self.selected_file_path)
         else:
