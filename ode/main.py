@@ -81,7 +81,7 @@ logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
 try:
-    from ctypes import windll  #noqa: F401. Only exists on Windows.
+    from ctypes import windll  #noqa: F401
 except ImportError:
     pass
 
