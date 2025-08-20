@@ -80,6 +80,10 @@ configure_logging()
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
+try:
+    from ctypes import windll  #noqa: F401. Only exists on Windows.
+except ImportError:
+    pass
 
 class ContentIndex(IntEnum):
     """Enum to represent the index of the content panels.
