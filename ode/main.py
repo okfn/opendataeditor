@@ -81,11 +81,6 @@ configure_logging()
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
-try:
-    ctypes.windll.kernel32.SetDllDirectoryW(None)
-    ctypes.CDLL('llama.dll')
-except Exception:
-    pass
 
 class ContentIndex(IntEnum):
     """Enum to represent the index of the content panels.
