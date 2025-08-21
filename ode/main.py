@@ -1,7 +1,6 @@
 import sys
 import ode
 import os
-import ctypes
 from enum import IntEnum
 
 from typing import Callable
