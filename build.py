@@ -27,8 +27,7 @@ def build_application():
         "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--additional-hooks-dir", ".",
         "--log-level",
-        "--debug",
-        "WARN",
+        "DEBUG",
         "--name",
         app_name,
         "--noconfirm",
