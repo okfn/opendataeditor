@@ -19,6 +19,8 @@ def setup_ode_internal_folders():
         # Set the .metadata folder hidden so it is not shown in the ODE file navigator
         # This is the default behaviour in Linux/MacOs since the directory name starts with a dot.
         subprocess.run(["attrib", "+H", f"{str(paths.METADATA_PATH)}"], check=True)
+        subprocess.run(["attrib", "+H", f"{str(paths.AI_MODELS_PATH)}"], check=True)
+        subprocess.run(["attrib", "+H", f"{str(paths.LOGS_PATH)}"], check=True)
 
 
 def migrate_metadata_store():
