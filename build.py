@@ -21,7 +21,6 @@ def build_application():
     params = [
         "ode/main.py",
         "--windowed",  # Required for Windows install to not open a console.
-        "--collect-all", "PySide6",  # Collect PySide6 before llama_cpp https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211610643
         "--collect-all", "frictionless",  # Frictionless depends on data files
         "--collect-all", "ode",  # Collect all assets from Open Data Editor
         "--collect-all", "llama_cpp",  # Collect all assets from llama_cpp
@@ -37,6 +36,10 @@ def build_application():
 
     if system == "Darwin":
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
+
+    if system == "Windows":
+        # Manually compile C++ library for llama_cpp: https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211617723
+        params.extend(["--add-binary", "C:\\Windows\\system32\\vcomp140.dll:."])
 
     cli_args =  sys.argv[1:]
     if cli_args:
