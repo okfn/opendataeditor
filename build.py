@@ -26,7 +26,7 @@ def build_application():
         "--collect-all", "llama_cpp",  # Collect all assets from llama_cpp
         "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--log-level",
-        "DEBUG",
+        "WARN",
         "--name",
         app_name,
         "--noconfirm",
