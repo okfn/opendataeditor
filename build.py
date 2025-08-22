@@ -39,7 +39,7 @@ def build_application():
 
     if system == "Windows":
         # Manually add C++ library for llama_cpp:
-        # https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211617723
+        # https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211610643
         params.extend(["--add-binary", "C:\\Windows\\system32\\vcomp140.dll:."])
 
     cli_args =  sys.argv[1:]
