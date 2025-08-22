@@ -38,8 +38,9 @@ def build_application():
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
 
     if system == "Windows":
-        # Manually add C++ library for llama_cpp:
-        # https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211610643
+        # llama_cpp depends on vcomp140.dll and it is not properly collected by PyInstaller as it
+        # is a dependency of shiboken6 as well. This library is only present in Windows if C++ Redistributable
+        # is installed which might not be the case for all of our users.
         params.extend(["--add-binary", "C:\\Windows\\system32\\vcomp140.dll:."])
 
     cli_args =  sys.argv[1:]
