@@ -23,7 +23,7 @@ def build_application():
         "--windowed",  # Required for Windows install to not open a console.
         "--collect-all", "frictionless",  # Frictionless depends on data files
         "--collect-all", "ode",  # Collect all assets from Open Data Editor
-        "--collect-all", "llama_cpp", # Collect all assets from llama_cpp
+        "--collect-all", "llama_cpp",  # Collect all assets from llama_cpp
         "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--log-level",
         "WARN",
@@ -36,6 +36,12 @@ def build_application():
 
     if system == "Darwin":
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
+
+    if system == "Windows":
+        # llama_cpp depends on vcomp140.dll and it is not properly collected by PyInstaller as it
+        # is a dependency of shiboken6 as well. This library is only present in Windows if C++ Redistributable
+        # is installed which might not be the case for all of our users.
+        params.extend(["--add-binary", "C:\\Windows\\system32\\vcomp140.dll:."])
 
     cli_args =  sys.argv[1:]
     if cli_args:
