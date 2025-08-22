@@ -38,7 +38,8 @@ def build_application():
         params.extend(["--osx-bundle-identifier", "org.okfn.opendataeditor"])
 
     if system == "Windows":
-        # Manually compile C++ library for llama_cpp: https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211617723
+        # Manually add C++ library for llama_cpp:
+        # https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211617723
         params.extend(["--add-binary", "C:\\Windows\\system32\\vcomp140.dll:."])
 
     cli_args =  sys.argv[1:]
