@@ -23,6 +23,9 @@ def build_application():
         "--windowed",  # Required for Windows install to not open a console.
         "--collect-all", "frictionless",  # Frictionless depends on data files
         "--collect-all", "ode",  # Collect all assets from Open Data Editor
+        "--collect-all", "shiboken6",  # Collect shiboken before llama_cpp https://github.com/pyinstaller/pyinstaller/issues/9216#issuecomment-3211610643
+        "--collect-all", "llama_cpp",  # Collect all assets from llama_cpp
+        "--collect-all", "numpy",  # Collect all assets from numpy (llama_cpp dependency)
         "--log-level",
         "DEBUG",
         "--name",
