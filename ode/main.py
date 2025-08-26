@@ -963,7 +963,6 @@ class MainWindow(QMainWindow):
             self.content.toolbar.excel_sheet_container.setVisible(False)
             self.excel_sheet_name = None
 
-        print("Sheet name", self.excel_sheet_name)
         self.content.toolbar.excel_sheet_combo.blockSignals(False)
 
     def on_excel_sheet_selection_changed(self, sheet_name: str):
