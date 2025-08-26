@@ -354,7 +354,8 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
             try:
-                value = self._data[index.row()][index.column()]
+                # We store the data as string to avoid PySide6 treating numbers differently
+                value = str(self._data[index.row()][index.column()])
             except IndexError:
                 # Our data could be irregular (missing columns and rows)
                 # So it is okay to return None and keep iterating.
