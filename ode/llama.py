@@ -138,7 +138,7 @@ class LlamaDialog(QDialog):
         """Set the data for analysis."""
         self.data = data
 
-        headers = [h for h in self.data[0] if h is not None and h != ""]
+        headers = [str(h) for h in self.data[0] if h is not None and h != ""]
         prompt = f"""Column headers: {" | ".join(headers)}
 
         Using the following rules, suggest better names for unclear or incorrect column names:
@@ -207,7 +207,9 @@ class LlamaDownloadDialog(QDialog):
         layout.addWidget(label_models)
 
         label_download_location = QLabel(
-            self.tr(f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>')
+            self.tr(
+                f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>'
+            )
         )
         label_download_location.setTextFormat(Qt.RichText)
         label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
