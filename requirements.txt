@@ -1,6 +1,6 @@
 frictionless[github,excel]==5.18.0
 openpyxl==3.1.5
-PySide6==6.9.1
+PySide6==6.9.2
 openai==1.61.1
 pytest==8.3.5
 llama_cpp_python==0.3.9
