@@ -11,6 +11,11 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplica
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 
+import xlwt
+import xlrd
+from xlutils.copy import copy
+
+
 from ode import utils
 from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
@@ -114,6 +119,7 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 
         return super().editorEvent(event, model, option, index)
 
+
 class FrictionlessTableModel(QAbstractTableModel):
     finished = Signal()
 
@@ -131,8 +137,10 @@ class FrictionlessTableModel(QAbstractTableModel):
         extension = filepath.suffix.lower()
         if extension == ".csv":
             self.write_data_csv(filepath)
-        elif extension in [".xlsx", ".xls"]:
+        elif extension == ".xlsx":
             self.write_data_xlsx(filepath)
+        elif extension == ".xls":
+            self.write_data_xls(str(filepath))
         else:
             raise ValueError(f"Unsupported format: {extension}. Use .csv, .xlsx or .xls")
 
@@ -176,6 +184,30 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
+
+    def write_data_xls(self, filepath: str):
+        """
+        Write the data to an Excel XLS file.
+
+        The filepath must be a string because xlwt does not support Path objects.
+        """
+        logger.info(f"Writing data to XLS file: {filepath}")
+
+        wb = xlwt.Workbook()
+
+        rb = xlrd.open_workbook(str(filepath), formatting_info=True)
+
+        # We use xlutils to transform the xlrd book into an xlwt book
+        # This will allow us to modify existing XLS files
+        wb = copy(rb)
+        ws = wb.get_sheet(0)
+
+        for row_idx, row_data in enumerate(self._data):
+            for col_idx, cell_value in enumerate(row_data):
+                ws.write(row_idx, col_idx, cell_value)
+
+        wb.save(filepath)
+        logger.info(f"Data saved in XLS format: {filepath}")
 
     def write_error_xlsx(self, filepath: Path):
         """
@@ -406,6 +438,7 @@ class CustomTableView(QTableView):
         else:
             self.unsetCursor()
         return super().mouseMoveEvent(event)
+
 
 class DataViewer(QWidget):
     """Widget to display the content of tabular data."""
