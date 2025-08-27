@@ -105,11 +105,11 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
 
     def paint(self, painter, option, index):
         """Paint the icon in the first row of the table adds blue background if mouse over."""
+        super().paint(painter, option, index)
         if index.row() == 0:
             if option.state & QStyle.State_MouseOver:
                 painter.fillRect(option.rect, COLOR_BLUE)
             self.icon.paint(painter, self._get_icon_rect(option))
-        super().paint(painter, option, index)
 
     def editorEvent(self, event, model, option, index):
         """Handle mouse events for the first row."""
