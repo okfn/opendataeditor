@@ -231,7 +231,7 @@ class ColumnMetadataDialog(QDialog):
 
         self.form.max_length.setMinimum(0)
         self.form.max_length.setMaximum(999999)
-        self.form.max_length.setValue(field.constraints.get("maxLength", 100))
+        self.form.max_length.setValue(field.constraints.get("maxLength", 999))
 
         # Set window modality
         self.setWindowModality(Qt.WindowModal)
