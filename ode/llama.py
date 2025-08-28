@@ -195,14 +195,8 @@ class LlamaDialog(QDialog):
         QMessageBox.critical(self, self.tr("Error"), error_msg)
 
     def on_stream_token(self, token):
-        """Handle streaming tokens from the model."""
-        # Insert the token at the current cursor position
-        cursor = self.output_text.textCursor()
-        cursor.movePosition(cursor.MoveOperation.End)
-        cursor.insertText(token)
-        self.output_text.setTextCursor(cursor)
-
-        # Ensure the text area scrolls to show the new content
+        """Inserts token and scrolls down to ensure stream is allways visible."""
+        self.output_text.insertPlainText(token)
         self.output_text.ensureCursorVisible()
 
     def retranslateUI(self):
