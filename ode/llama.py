@@ -76,14 +76,15 @@ class LlamaWorker(QThread):
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a Data Analyst in charge of reviewing and improving the quality of a Tabular files. Your task is to read the column names, understand them, suggest better column names and writing a description of what that column means for users to understand what they mean. You are a concise Data Analyst that only replies with the answer and anything else."},
+                    "content": "You are a Data Analyst in charge of reviewing and improving the quality of a Tabular files. Your task is to read the column names, understand them, suggest better column names and writing a description of what that column means for users to understand what they mean. You are a concise Data Analyst that only replies with the answer and anything else.",
+                },
                 {
                     "role": "user",
                     "content": self.prompt,
-                }
+                },
             ]
-            for output in self.llm.create_chat_completion( messages, max_tokens=-1, stream=True):
-                token = output['choices'][0]['delta'].get('content', '')
+            for output in self.llm.create_chat_completion(messages, max_tokens=-1, stream=True):
+                token = output["choices"][0]["delta"].get("content", "")
                 self.signals.stream_token.emit(token)
             self.signals.finished.emit()
         except Exception as e:
