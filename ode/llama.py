@@ -74,7 +74,9 @@ class LlamaWorker(QThread):
         try:
             self.signals.started.emit()
             messages = [
-                {"role": "system", "content": "You are an assistant who helps defining good column names for tabular files."},
+                {
+                    "role": "system",
+                    "content": "You are a Data Analyst in charge of reviewing and improving the quality of a Tabular files. Your task is to read the column names, understand them, suggest better column names and writing a description of what that column means for users to understand what they mean. You are a concise Data Analyst that only replies with the answer and anything else."},
                 {
                     "role": "user",
                     "content": self.prompt,
@@ -139,18 +141,19 @@ class LlamaDialog(QDialog):
         self.data = data
 
         headers = [str(h) for h in self.data[0] if h is not None and h != ""]
-        prompt = f"""Column headers: {" | ".join(headers)}
+        prompt = f"""Please provide better column names and a brief description for each column name.
 
-        Using the following rules, suggest better names for unclear or incorrect column names:
-        Rule 1: always use lowercase letters for column names.
-        Rule 2: always use underscore to separate words, never user spaces.
-        Rule 3: names should be descriptive about the content of the column and coherent with the topic of other columns.
-        Rule 4: never user more than 3 words for column names.
+For ensuring good quality in the column names you follow 4 rules:
+  1) Column names are always lowercase,
+  2) Column names do not contain more than three words,
+  3) Column names do not have space but rather words are separated with underscore characters.
+  4) Column names never have acronyms nor abreviations unless they are extremelly common"
 
-        If current column names apply to these rules you can flag them as correct name instead of suggesting a new one.
+Current column names: {" | ".join(headers)}
 
-        Just return the list of changes and it's explanation (if required), do not add any other information to the output.
-        """
+Right after the suggestion add a sentence for describing the meaning of the column. If there are technical terms, expand the description to explain what
+that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field.
+"""
 
         self.input_text.setText(prompt)
 
@@ -159,9 +162,9 @@ class LlamaDialog(QDialog):
         self.llm = Llama(
             model_path=model_path,
             n_ctx=4096,
-            chat_format="llama-3",
-            verbose=False,
-            seed=4294967295,
+            # chat_format="llama-3",  # TODO: Understand if this is being inferred correctly from the model metadata.
+            verbose=False,  # Change to True for verbose output when running the model in development.
+            seed=4294967295,  # Copied from llama.cpp server.
         )
 
     def run(self):
