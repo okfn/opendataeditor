@@ -82,13 +82,7 @@ class LlamaWorker(QThread):
                 }
             ]
 
-            # Stream the response token by token
-            for output in self.llm.create_chat_completion(
-                messages,
-                stop=["<|eot_id|>"],  # Use the EOS token from the server config
-                max_tokens=-1,
-                stream=True
-            ):
+            for output in self.llm.create_chat_completion( messages, max_tokens=-1, stream=True):
                 token = output['choices'][0]['delta'].get('content', '')
                 full_response += token
                 self.signals.stream_token.emit(token)
