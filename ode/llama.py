@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
-from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
 
 if not os.path.exists(AI_MODELS_PATH):
@@ -57,21 +56,28 @@ class Llama:
     def __init__(self, model_path):
         self.model = LlamaCPP(model_path=model_path, n_ctx=4096)
 
-    def __call__(self, prompt):
-        response = self.model(prompt, temperature=0.2, max_tokens=2048)
-        return response
+    def generate_stream(self, prompt, temperature=0.2, max_tokens=2048):
+        """Generate a stream of tokens for the given prompt."""
+        return self.model(
+            prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            stream=True
+        )
 
 
 class LlamaWorkerSignals(QObject):
     """Define the signals for the LlamaWorker."""
 
-    finished = Signal(tuple)
-    messages = Signal(str)
+    finished = Signal(str)
+    error = Signal(str)
+    stream_token = Signal(str)
+    started = Signal()
 
 
 class LlamaWorker(QThread):
     """
-    LlamaWorker is a QThread that processes a prompt using the LLM.
+    LlamaWorker is a QThread that processes a prompt using the LLM with streaming.
     """
 
     def __init__(self, llm, prompt):
@@ -82,12 +88,19 @@ class LlamaWorker(QThread):
 
     def run(self):
         try:
-            self.signals.messages.emit(self.tr("This could take a few minutes. Please wait..."))
-            response = self.llm(self.prompt)
-            self.signals.finished.emit(response["choices"][0]["text"])
-        except Exception:
+            self.signals.started.emit()
+            full_response = ""
+
+            # Stream the response token by token
+            for output in self.llm.generate_stream(self.prompt):
+                token = output["choices"][0]["text"]
+                full_response += token
+                self.signals.stream_token.emit(token)
+
+            self.signals.finished.emit(full_response)
+        except Exception as e:
             logger.error("Error during LLM processing", exc_info=True)
-            self.signals.finished.emit(self.tr("Execution failed"))
+            self.signals.error.emit(str(e))
 
 
 class LlamaDialog(QDialog):
@@ -100,13 +113,14 @@ class LlamaDialog(QDialog):
         self.llm = None
         self.worker = None
         self.init_ui()
-
-        self.loading_dialog = LoadingDialog(self)
         self.data = None
 
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
         self.output_text.clear()
+        if self.worker and self.worker.isRunning():
+            self.worker.terminate()
+            self.worker.wait()
         event.accept()
         super().closeEvent(event)
 
@@ -162,17 +176,42 @@ class LlamaDialog(QDialog):
         if self.llm is None or self.data is None:
             return
 
+        self.output_text.clear()
+
+        self.btn_run.setEnabled(False)
+
         self.worker = LlamaWorker(self.llm, self.input_text.toPlainText())
+        self.worker.signals.started.connect(self.on_execution_started)
         self.worker.signals.finished.connect(self.on_execution_finished)
-        self.worker.signals.messages.connect(self.loading_dialog.show_message)
-        self.worker.signals.finished.connect(self.loading_dialog.close)
+        self.worker.signals.error.connect(self.on_execution_error)
+        self.worker.signals.stream_token.connect(self.on_stream_token)
         self.worker.start()
 
-        self.loading_dialog.show()
+    def on_execution_started(self):
+        """Handle the start of execution."""
+        self.btn_run.setText(self.tr("Generating response..."))
 
     def on_execution_finished(self, result):
-        """Handle the result of the table analysis."""
-        self.output_text.setMarkdown(result)
+        """Handle the completion of execution."""
+        self.btn_run.setText(self.tr("Execute"))
+        self.btn_run.setEnabled(True)
+
+    def on_execution_error(self, error_msg):
+        """Handle execution errors."""
+        self.btn_run.setEnabled(True)
+        self.btn_run.setText(self.tr("Execute"))
+        QMessageBox.critical(self, self.tr("Error"), error_msg)
+
+    def on_stream_token(self, token):
+        """Handle streaming tokens from the model."""
+        # Insert the token at the current cursor position
+        cursor = self.output_text.textCursor()
+        cursor.movePosition(cursor.MoveOperation.End)
+        cursor.insertText(token)
+        self.output_text.setTextCursor(cursor)
+
+        # Ensure the text area scrolls to show the new content
+        self.output_text.ensureCursorVisible()
 
     def retranslateUI(self):
         """Retranslate the UI elements."""
