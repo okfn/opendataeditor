@@ -85,13 +85,6 @@ class LlamaWorker(QThread):
             # Stream the response token by token
             for output in self.llm.create_chat_completion(
                 messages,
-                temperature=0.2,
-                top_k=40,
-                top_p=0.95,
-                min_p=0.05,
-                repeat_penalty=1.0,
-                presence_penalty=0.0,
-                frequency_penalty=0.0,
                 stop=["<|eot_id|>"],  # Use the EOS token from the server config
                 max_tokens=-1,
                 stream=True
