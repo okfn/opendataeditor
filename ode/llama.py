@@ -73,7 +73,6 @@ class LlamaWorker(QThread):
     def run(self):
         try:
             self.signals.started.emit()
-            full_response = ""
             messages = [
                 {"role": "system", "content": "You are an assistant who helps defining good column names for tabular files."},
                 {
@@ -81,13 +80,10 @@ class LlamaWorker(QThread):
                     "content": self.prompt,
                 }
             ]
-
             for output in self.llm.create_chat_completion( messages, max_tokens=-1, stream=True):
                 token = output['choices'][0]['delta'].get('content', '')
-                full_response += token
                 self.signals.stream_token.emit(token)
-
-            self.signals.finished.emit(full_response)
+            self.signals.finished.emit()
         except Exception as e:
             logger.error("Error during LLM processing", exc_info=True)
             self.signals.error.emit(str(e))
@@ -187,7 +183,7 @@ class LlamaDialog(QDialog):
         """Handle the start of execution."""
         self.btn_run.setText(self.tr("Generating response..."))
 
-    def on_execution_finished(self, result):
+    def on_execution_finished(self):
         """Handle the completion of execution."""
         self.btn_run.setText(self.tr("Execute"))
         self.btn_run.setEnabled(True)
