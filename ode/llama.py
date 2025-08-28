@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import NamedTuple
 import logging
 
-from llama_cpp import Llama as LlamaCPP
+from llama_cpp import Llama
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -50,22 +50,6 @@ AI_MODELS = [
 ]
 
 
-class Llama:
-    """Wrapper for the Llama model using llama_cpp."""
-
-    def __init__(self, model_path):
-        self.model = LlamaCPP(model_path=model_path, n_ctx=4096)
-
-    def generate_stream(self, prompt, temperature=0.2, max_tokens=2048):
-        """Generate a stream of tokens for the given prompt."""
-        return self.model(
-            prompt,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            stream=True
-        )
-
-
 class LlamaWorkerSignals(QObject):
     """Define the signals for the LlamaWorker."""
 
@@ -90,10 +74,29 @@ class LlamaWorker(QThread):
         try:
             self.signals.started.emit()
             full_response = ""
+            messages = [
+                {"role": "system", "content": "You are an assistant who helps defining good column names for tabular files."},
+                {
+                    "role": "user",
+                    "content": self.prompt,
+                }
+            ]
 
             # Stream the response token by token
-            for output in self.llm.generate_stream(self.prompt):
-                token = output["choices"][0]["text"]
+            for output in self.llm.create_chat_completion(
+                messages,
+                temperature=0.2,
+                top_k=40,
+                top_p=0.95,
+                min_p=0.05,
+                repeat_penalty=1.0,
+                presence_penalty=0.0,
+                frequency_penalty=0.0,
+                stop=["<|eot_id|>"],  # Use the EOS token from the server config
+                max_tokens=-1,
+                stream=True
+            ):
+                token = output['choices'][0]['delta'].get('content', '')
                 full_response += token
                 self.signals.stream_token.emit(token)
 
@@ -170,7 +173,13 @@ class LlamaDialog(QDialog):
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
-        self.llm = Llama(model_path=model_path)
+        self.llm = Llama(
+            model_path=model_path,
+            n_ctx=4096,
+            chat_format="llama-3",
+            verbose=False,
+            seed=4294967295,
+        )
 
     def run(self):
         if self.llm is None or self.data is None:
