@@ -53,7 +53,7 @@ AI_MODELS = [
 class LlamaWorkerSignals(QObject):
     """Define the signals for the LlamaWorker."""
 
-    finished = Signal(str)
+    finished = Signal()
     error = Signal(str)
     stream_token = Signal(str)
     started = Signal()
