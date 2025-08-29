@@ -170,6 +170,7 @@ write the answer in the same language used for the original column names.
             verbose=False,  # Change to True for verbose output when running the model in development.
             seed=4294967295,  # Copied from llama.cpp server.
             n_threads=2,  # Limiting so it does not overtake the CPU. Working good in early testing.
+            n_threads_batch=4,  # Limiting thinking time so it does not overtake the CPU.
         )
 
     def run(self):
