@@ -76,14 +76,14 @@ class LlamaWorker(QThread):
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a Data Analyst in charge of reviewing and improving the quality of a Tabular files. Your task is to read the column names, understand them, suggest better column names and writing a description of what that column means for users to understand what they mean. You are a concise Data Analyst that only replies with the answer and anything else.",
+                    "content": "You are a multilingual Data Analyst in charge of reviewing and improving the quality of a Tabular files. Your task is to read the column names, understand them, suggest better column names and writing a description of what that column means for users to understand what they mean. You are a concise Data Analyst that only replies with the answer and anything else. You work on several languages, mainly english, spanish, french and portuguese. You always respond in the language the data is given to you.",
                 },
                 {
                     "role": "user",
                     "content": self.prompt,
                 },
             ]
-            for output in self.llm.create_chat_completion(messages, max_tokens=-1, stream=True):
+            for output in self.llm.create_chat_completion(messages, max_tokens=-1, stream=True, temperature=0.2):
                 token = output["choices"][0]["delta"].get("content", "")
                 self.signals.stream_token.emit(token)
             self.signals.finished.emit()
@@ -149,12 +149,14 @@ For ensuring good quality in the column names you follow 4 rules:
   1) Column names are always lowercase,
   2) Column names do not contain more than three words,
   3) Column names do not have space but rather words are separated with underscore characters.
-  4) Column names never have acronyms nor abreviations unless they are extremelly common"
+  4) Column names never have acronyms nor abreviations unless they are extremelly common
+  5) Always identify the original language and use it for the suggested new names.
 
 Current column names: {" | ".join(headers)}
 
 Right after the suggestion add a sentence for describing the meaning of the column. If there are technical terms, expand the description to explain what
-that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field.
+that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field. When possible
+write the answer in the same language used for the original column names.
 """
 
         self.input_text.setText(prompt)
