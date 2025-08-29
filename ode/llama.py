@@ -106,10 +106,11 @@ class LlamaDialog(QDialog):
 
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
-        self.output_text.clear()
         if self.worker and self.worker.isRunning():
             self.worker.terminate()
             self.worker.wait()
+        self.output_text.clear()
+        self.on_execution_finished()
         event.accept()
         super().closeEvent(event)
 
