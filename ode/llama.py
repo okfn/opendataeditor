@@ -166,6 +166,7 @@ that term means in the context of the dataset. For the explanation use common la
             # chat_format="llama-3",  # TODO: Understand if this is being inferred correctly from the model metadata.
             verbose=False,  # Change to True for verbose output when running the model in development.
             seed=4294967295,  # Copied from llama.cpp server.
+            n_threads=2,  # Limiting so it does not overtake the CPU. Working good in early testing.
         )
 
     def run(self):
