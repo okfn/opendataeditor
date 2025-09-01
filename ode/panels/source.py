@@ -79,7 +79,7 @@ class SourceViewer(QWidget):
         self.text_edit.hide()
 
     def retranslateUI(self):
-        self.label.setText(self.tr("Source view not available for this file."))
+        self.label.setText(self.tr("This view is only available for CSV files."))
 
 
 if __name__ == "__main__":
