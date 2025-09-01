@@ -64,9 +64,8 @@ from ode.file import File
 from ode.llama import LlamaDialog, LlamaDownloadDialog
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
-from ode.panels.data import FrictionlessTableModel, DataWorker
+from ode.panels.data import FrictionlessTableModel, DataWorker, DataViewer
 from ode.panels.source import SourceViewer
-from ode.panels.data import DataViewer
 from ode.dialogs.upload import DataUploadDialog
 from ode.dialogs.rename import RenameDialog
 from ode.dialogs.download import DownloadDialog
@@ -74,6 +73,9 @@ from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 from ode.log_setup import LOGS_PATH, configure_logging
 import logging
+
+import xlrd
+import openpyxl
 
 configure_logging()
 
@@ -448,6 +450,22 @@ class Toolbar(QWidget):
         layout.addWidget(self.button_errors)
         layout.addWidget(self.button_source)
 
+        # Excel Sheet Selection
+        self.excel_sheet_layout = QHBoxLayout()
+        self.excel_sheet_container = QWidget()
+        self.excel_sheet_label = QLabel(self.tr("Sheet:"))
+        self.excel_sheet_label.setObjectName("excelSheetLabel")
+
+        self.excel_sheet_combo = QComboBox()
+        self.excel_sheet_combo.setObjectName("excelSheetCombo")
+
+        self.excel_sheet_layout.addWidget(self.excel_sheet_label)
+        self.excel_sheet_layout.addWidget(self.excel_sheet_combo)
+
+        self.excel_sheet_container.setLayout(self.excel_sheet_layout)
+
+        layout.addWidget(self.excel_sheet_container)
+
         # Spacer to push right-side buttons to the end
         layout.addStretch()
 
@@ -614,6 +632,8 @@ class MainWindow(QMainWindow):
         self.content.toolbar.button_data.clicked.connect(lambda: self.change_active_panel(ContentIndex.DATA))
         self.content.toolbar.button_errors.clicked.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
         self.content.toolbar.button_source.clicked.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
+
+        self.content.toolbar.excel_sheet_combo.currentTextChanged.connect(self.on_excel_sheet_selection_changed)
 
         self.content.data_view.on_save.connect(self.on_data_view_save)
 
@@ -830,6 +850,8 @@ class MainWindow(QMainWindow):
         self.content.source_view.retranslateUI()
         self.content.ai_llama.retranslateUI()
 
+        self.excel_sheet_name = None
+
     def on_language_change(self, index):
         """Gets a *.qm translation file and calls retranslateUI.
 
@@ -865,6 +887,7 @@ class MainWindow(QMainWindow):
             self.selected_file_path = path
             # Calling file_model.index() has a weird side-effect in the QTreeView that will display the new
             # uploaded file at the end of the list instead of the default alphabetical order.
+            self.excel_sheet_name = None
             index = self.sidebar.file_model.index(str(path))
             self.sidebar.file_navigator.selectionModel().select(index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
             self.read_validate_and_display_file(path)
@@ -874,7 +897,7 @@ class MainWindow(QMainWindow):
 
     def on_save_click(self):
         """Saves changes made in the Table View into the file."""
-        self.table_model.write_data(self.selected_file_path)
+        self.table_model.write_data(self.selected_file_path, sheet_name=self.excel_sheet_name)
         # TODO: Since the file is already in memory we should only validate/display to avoid unecessary tasks.
         self.read_validate_and_display_file(self.selected_file_path)
         self.statusBar().showMessage(self.tr("File and Metadata changes saved."))
@@ -884,7 +907,7 @@ class MainWindow(QMainWindow):
         Reloads the file and updates the views. when is saved in the data view
         """
         if save_data:
-            self.table_model.write_data(self.selected_file_path)
+            self.table_model.write_data(self.selected_file_path, sheet_name=self.excel_sheet_name)
 
         self.read_validate_and_display_file(self.selected_file_path)
 
@@ -898,13 +921,63 @@ class MainWindow(QMainWindow):
         filepath, data, errors = worker_data
         self.table_model = FrictionlessTableModel(data, errors)
         self.table_model.dataChanged.connect(self.on_data_changed)
-        self.content.data_view.display_data(self.table_model, filepath)
+        self.content.data_view.display_data(self.table_model, filepath, sheet_name=self.excel_sheet_name)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
         self.content.ai_llama.set_data(data)
+
+        self.update_excel_sheet_dropdown(filepath)
+
         # Always focus back to the data view.
         self.main_layout.setCurrentIndex(1)
         self.change_active_panel(ContentIndex.DATA)
+
+    def get_sheets_names(self, filepath: Path) -> list[str]:
+        """Get the names of the sheets in an Excel file."""
+        sheet_names = []
+        if filepath.suffix == ".xls":
+            workbook = xlrd.open_workbook(filepath)
+            sheet_names = workbook.sheet_names()
+        elif filepath.suffix in [".xlsx"]:
+            workbook = openpyxl.load_workbook(filepath, read_only=True)
+            sheet_names = workbook.sheetnames
+
+        return sheet_names
+
+    def update_excel_sheet_dropdown(self, filepath):
+        """
+        Update the Excel sheet dropdown with the names of the sheets in the selected file.
+        If there are no sheets, the dropdown and label will be hidden.
+        """
+        self.content.toolbar.excel_sheet_combo.blockSignals(True)
+
+        self.content.toolbar.excel_sheet_combo.clear()
+
+        sheet_names = self.get_sheets_names(filepath)
+
+        if sheet_names and len(sheet_names) > 1:
+            if self.excel_sheet_name is None:
+                self.excel_sheet_name = sheet_names[0]
+
+            self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
+            self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
+            self.content.toolbar.excel_sheet_container.setVisible(True)
+        else:
+            self.content.toolbar.excel_sheet_container.setVisible(False)
+            self.excel_sheet_name = None
+
+        self.content.toolbar.excel_sheet_combo.blockSignals(False)
+
+    def on_excel_sheet_selection_changed(self, sheet_name: str):
+        """
+        Handle the change of the selected Excel sheet in the dropdown.
+        Reloads the file with the selected sheet name and updates the views.
+        """
+        if self.selected_file_path.suffix in [".xls", ".xlsx"]:
+            self.excel_sheet_name = sheet_name
+            self.read_validate_and_display_file(self.selected_file_path)
+        else:
+            raise ValueError("Selected file is not an Excel file.")
 
     @Slot(tuple)
     def update_toolbar(self, worker_data):
@@ -961,7 +1034,7 @@ class MainWindow(QMainWindow):
         if info.isFile() and info.suffix() in ["csv", "xls", "xlsx"]:
             self.loading_dialog = LoadingDialog(self)
 
-            worker = DataWorker(file_path)
+            worker = DataWorker(file_path, self.excel_sheet_name)
             worker.signals.finished.connect(self.update_views)
             worker.signals.finished.connect(self.update_toolbar)
             worker.signals.finished.connect(self.update_menu_bar)
@@ -981,6 +1054,8 @@ class MainWindow(QMainWindow):
         """Handles the click action of our File Navigator."""
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         if self.selected_file_path.is_file():
+            # Reset the excel sheet name to None to avoid displaying the previous file's sheet
+            self.excel_sheet_name = None
             self.read_validate_and_display_file(self.selected_file_path)
             self.content.toolbar.button_export.setEnabled(True)
         else:

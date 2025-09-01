@@ -1,11 +1,15 @@
 import json
 import shutil
+import logging
 
 from frictionless import system
 from frictionless.resources import TableResource
+from frictionless.formats.excel import ExcelControl
 from pathlib import Path
 
 from ode import paths
+
+logger = logging.getLogger(__name__)
 
 
 class File:
@@ -66,31 +70,53 @@ class File:
 
         return metadata_path / (self.path.stem + ".json")
 
-    def get_or_create_metadata(self):
-        """Get or create a metadata object for the Resource."""
-        metadata = dict()
+    def get_or_create_metadata(self, sheet_name: str | None = None):
+        """Get or create a metadata object for the Resource.
 
-        if not self.metadata_path.exists():
-            self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
+        Sheet name is used to specify which sheet of the Excel file we want to use.
+        """
+        if self.metadata_path.exists():
+            metadata = dict()
+            with open(self.metadata_path) as file:
+                metadata = json.load(file)
+
             with system.use_context(trusted=True):
-                resource = TableResource(self.path)
+                if sheet_name:
+                    logger.info("Using sheet %s for resource %s", sheet_name, self.path)
+                    resource = TableResource(metadata["resource"], control=ExcelControl(sheet=sheet_name))
+                else:
+                    logger.info("Using resource %s", self.path)
+                    resource = TableResource(metadata["resource"])
+
                 resource.infer()
-            with open(self.metadata_path, "w") as f:
-                # Resource is not serializable, converting to dict before writing.
-                metadata["resource"] = resource.to_descriptor()
-                json.dump(metadata, f)
-            # We want to return a Frictionless object, so we are plugging it back.
-            metadata["resource"] = resource
-            return metadata
+                metadata["resource"] = resource
+        else:
+            # If the metadata file does not exist, we create it.
+            metadata = self._setup_metadata_first_time(sheet_name)
 
-        with open(self.metadata_path) as file:
-            metadata = json.load(file)
+        return metadata
 
+    def _setup_metadata_first_time(self, sheet_name: str | None = None):
+        """
+        Set up the metadata for the first time when the file is opened.
+        """
+        metadata = dict()
+        self.metadata_path.parent.mkdir(parents=True, exist_ok=True)
         with system.use_context(trusted=True):
-            resource = TableResource(metadata["resource"])
-            resource.infer()
-            metadata["resource"] = resource
+            if sheet_name:
+                resource = TableResource(self.path, control=ExcelControl(sheet=sheet_name))
+            else:
+                resource = TableResource(self.path)
 
+            resource.infer()
+
+        with open(self.metadata_path, "w") as f:
+            # Resource is not serializable, converting to dict before writing.
+            metadata["resource"] = resource.to_descriptor()
+            json.dump(metadata, f)
+
+        # We want to return a Frictionless object, so we are plugging it back.
+        metadata["resource"] = resource
         return metadata
 
     def rename(self, new_name):
