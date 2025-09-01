@@ -453,8 +453,11 @@ class Toolbar(QWidget):
         # Excel Sheet Selection
         self.excel_sheet_layout = QHBoxLayout()
         self.excel_sheet_container = QWidget()
-        self.excel_sheet_label = QLabel(self.tr("Excel Sheet:"))
+        self.excel_sheet_label = QLabel(self.tr("Sheet:"))
+        self.excel_sheet_label.setObjectName("excelSheetLabel")
+
         self.excel_sheet_combo = QComboBox()
+        self.excel_sheet_combo.setObjectName("excelSheetCombo")
 
         self.excel_sheet_layout.addWidget(self.excel_sheet_label)
         self.excel_sheet_layout.addWidget(self.excel_sheet_combo)
@@ -952,7 +955,7 @@ class MainWindow(QMainWindow):
 
         sheet_names = self.get_sheets_names(filepath)
 
-        if sheet_names:
+        if sheet_names and len(sheet_names) > 1:
             if self.excel_sheet_name is None:
                 self.excel_sheet_name = sheet_names[0]
 

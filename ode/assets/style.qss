@@ -67,6 +67,13 @@ Toolbar QPushButton[active="true"]{
   outline: none;
 }
 
+Toolbar QComboBox#excelSheetCombo,
+Toolbar QLabel#excelSheetLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4C5564;
+}
+
 QPushButton#button_save, QPushButton#button_export, QPushButton#button_ai {
   font-size: 14px;
   font-weight: 500;
