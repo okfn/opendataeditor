@@ -163,14 +163,15 @@ write the answer in the same language used for the original column names.
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
+        cores = self._calculate_half_cpu_count()
         self.llm = Llama(
             model_path=model_path,
             n_ctx=4096,
             # chat_format="llama-3",  # TODO: Understand if this is being inferred correctly from the model metadata.
             verbose=False,  # Change to True for verbose output when running the model in development.
             seed=4294967295,  # Copied from llama.cpp server.
-            n_threads=2,  # Limiting so it does not overtake the CPU. Working good in early testing.
-            n_threads_batch=4,  # Limiting thinking time so it does not overtake the CPU.
+            n_threads=cores,
+            n_threads_batch=cores,
         )
 
     def run(self):
@@ -213,6 +214,17 @@ write the answer in the same language used for the original column names.
         self.setWindowTitle(self.tr("AI feature"))
         self.btn_run.setText(self.tr("Execute"))
         self.output_text.setPlaceholderText(self.tr("Results will be displayed here..."))
+
+    def _calculate_half_cpu_count(self) -> int:
+        """Returns half of the core number of the current machine.
+
+        By default LLMs use all of the available cores in the machine causing the computer
+        to freeze as it is using all the resources availables. We are limiting to half.
+        """
+        cores = os.cpu_count()
+        if cores and isinstance(cores, int):
+            return int(cores/2)
+        return 4
 
 
 class LlamaDownloadDialog(QDialog):
