@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import NamedTuple
 import logging
 
-from llama_cpp import Llama as LlamaCPP
+from llama_cpp import Llama
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
-from ode.dialogs.loading import LoadingDialog
 from ode.paths import AI_MODELS_PATH
 
 if not os.path.exists(AI_MODELS_PATH):
@@ -51,27 +50,18 @@ AI_MODELS = [
 ]
 
 
-class Llama:
-    """Wrapper for the Llama model using llama_cpp."""
-
-    def __init__(self, model_path):
-        self.model = LlamaCPP(model_path=model_path, n_ctx=4096)
-
-    def __call__(self, prompt):
-        response = self.model(prompt, temperature=0.2, max_tokens=2048)
-        return response
-
-
 class LlamaWorkerSignals(QObject):
     """Define the signals for the LlamaWorker."""
 
-    finished = Signal(tuple)
-    messages = Signal(str)
+    finished = Signal()
+    error = Signal(str)
+    stream_token = Signal(str)
+    started = Signal()
 
 
 class LlamaWorker(QThread):
     """
-    LlamaWorker is a QThread that processes a prompt using the LLM.
+    LlamaWorker is a QThread that processes a prompt using the LLM with streaming.
     """
 
     def __init__(self, llm, prompt):
@@ -82,12 +72,24 @@ class LlamaWorker(QThread):
 
     def run(self):
         try:
-            self.signals.messages.emit(self.tr("This could take a few minutes. Please wait..."))
-            response = self.llm(self.prompt)
-            self.signals.finished.emit(response["choices"][0]["text"])
-        except Exception:
+            self.signals.started.emit()
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are a multilingual Data Analyst in charge of reviewing and improving the quality of a Tabular files. You are a concise Data Analyst that only replies with the answer and anything else. You work on several languages, mainly english, spanish, french and portuguese. You always respond in the language the data is given to you.",
+                },
+                {
+                    "role": "user",
+                    "content": self.prompt,
+                },
+            ]
+            for output in self.llm.create_chat_completion(messages, max_tokens=-1, stream=True, temperature=0.2):
+                token = output["choices"][0]["delta"].get("content", "")
+                self.signals.stream_token.emit(token)
+            self.signals.finished.emit()
+        except Exception as e:
             logger.error("Error during LLM processing", exc_info=True)
-            self.signals.finished.emit(self.tr("Execution failed"))
+            self.signals.error.emit(str(e))
 
 
 class LlamaDialog(QDialog):
@@ -100,13 +102,15 @@ class LlamaDialog(QDialog):
         self.llm = None
         self.worker = None
         self.init_ui()
-
-        self.loading_dialog = LoadingDialog(self)
         self.data = None
 
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
+        if self.worker and self.worker.isRunning():
+            self.worker.terminate()
+            self.worker.wait()
         self.output_text.clear()
+        self.on_execution_finished()
         event.accept()
         super().closeEvent(event)
 
@@ -139,46 +143,88 @@ class LlamaDialog(QDialog):
         self.data = data
 
         headers = [str(h) for h in self.data[0] if h is not None and h != ""]
-        prompt = f"""Column headers: {" | ".join(headers)}
+        prompt = f"""Please provide better column names and a brief description for each column name.
 
-        Using the following rules, suggest better names for unclear or incorrect column names:
-        Rule 1: always use lowercase letters for column names.
-        Rule 2: always use underscore to separate words, never user spaces.
-        Rule 3: names should be descriptive about the content of the column and coherent with the topic of other columns.
-        Rule 4: never user more than 3 words for column names.
+For ensuring good quality in the column names you follow 4 rules:
+  1) Column names are always lowercase,
+  2) Column names do not contain more than three words,
+  3) Column names do not have space but rather words are separated with underscore characters.
+  4) Column names never have acronyms nor abreviations unless they are extremelly common
+  5) Always identify the original language and use it for the suggested new names.
 
-        If current column names apply to these rules you can flag them as correct name instead of suggesting a new one.
+Current column names: {" | ".join(headers)}
 
-        Just return the list of changes and it's explanation (if required), do not add any other information to the output.
-        """
+Right after the suggestion add a sentence for describing the meaning of the column. If there are technical terms, expand the description to explain what
+that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field. When possible
+write the answer in the same language used for the original column names.
+"""
 
         self.input_text.setText(prompt)
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
-        self.llm = Llama(model_path=model_path)
+        cores = self._calculate_half_cpu_count()
+        self.llm = Llama(
+            model_path=model_path,
+            n_ctx=4096,
+            # chat_format="llama-3",  # TODO: Understand if this is being inferred correctly from the model metadata.
+            verbose=False,  # Change to True for verbose output when running the model in development.
+            seed=4294967295,  # Copied from llama.cpp server.
+            n_threads=cores,
+            n_threads_batch=cores,
+        )
 
     def run(self):
         if self.llm is None or self.data is None:
             return
 
+        self.output_text.clear()
+
+        self.btn_run.setEnabled(False)
+
         self.worker = LlamaWorker(self.llm, self.input_text.toPlainText())
+        self.worker.signals.started.connect(self.on_execution_started)
         self.worker.signals.finished.connect(self.on_execution_finished)
-        self.worker.signals.messages.connect(self.loading_dialog.show_message)
-        self.worker.signals.finished.connect(self.loading_dialog.close)
+        self.worker.signals.error.connect(self.on_execution_error)
+        self.worker.signals.stream_token.connect(self.on_stream_token)
         self.worker.start()
 
-        self.loading_dialog.show()
+    def on_execution_started(self):
+        """Handle the start of execution."""
+        self.btn_run.setText(self.tr("Generating response..."))
 
-    def on_execution_finished(self, result):
-        """Handle the result of the table analysis."""
-        self.output_text.setMarkdown(result)
+    def on_execution_finished(self):
+        """Handle the completion of execution."""
+        self.btn_run.setText(self.tr("Execute"))
+        self.btn_run.setEnabled(True)
+
+    def on_execution_error(self, error_msg):
+        """Handle execution errors."""
+        self.btn_run.setEnabled(True)
+        self.btn_run.setText(self.tr("Execute"))
+        QMessageBox.critical(self, self.tr("Error"), error_msg)
+
+    def on_stream_token(self, token):
+        """Inserts token and scrolls down to ensure stream is allways visible."""
+        self.output_text.insertPlainText(token)
+        self.output_text.ensureCursorVisible()
 
     def retranslateUI(self):
         """Retranslate the UI elements."""
         self.setWindowTitle(self.tr("AI feature"))
         self.btn_run.setText(self.tr("Execute"))
         self.output_text.setPlaceholderText(self.tr("Results will be displayed here..."))
+
+    def _calculate_half_cpu_count(self) -> int:
+        """Returns half of the core number of the current machine.
+
+        By default LLMs use all of the available cores in the machine causing the computer
+        to freeze as it is using all the resources availables. We are limiting to half.
+        """
+        cores = os.cpu_count()
+        if cores and isinstance(cores, int):
+            return int(cores/2)
+        return 4
 
 
 class LlamaDownloadDialog(QDialog):
