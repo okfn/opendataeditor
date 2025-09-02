@@ -6,6 +6,7 @@ import logging
 
 from llama_cpp import Llama
 from PySide6.QtWidgets import (
+    QComboBox,
     QDialog,
     QVBoxLayout,
     QTextEdit,
@@ -121,6 +122,20 @@ class LlamaDialog(QDialog):
         self.prompt_label = QLabel("Prompt:")
         layout.addWidget(self.prompt_label)
 
+        self.prompt_selector = QComboBox()
+        options = [
+            ("Please select a function", "select"),
+            ("Explain and improve column names", "columns"),
+            ("Describe my data", "describe"),
+        ]
+        for i, (text, key) in enumerate(options):
+            self.prompt_selector.addItem(text)
+            self.prompt_selector.setItemData(i, key)
+        layout.addWidget(self.prompt_selector)
+
+        self.prompt_text_label = QLabel("Prompt label:")
+        layout.addWidget(self.prompt_text_label)
+
         self.input_text = QTextEdit()
         self.input_text.setMinimumHeight(300)
         self.input_text.setMinimumWidth(700)
@@ -136,12 +151,11 @@ class LlamaDialog(QDialog):
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
 
+        self.prompt_selector.activated.connect(self.set_prompt)
+
         self.retranslateUI()
 
-    def set_data(self, data):
-        """Set the data for analysis."""
-        self.data = data
-
+    def _get_columns_prompt(self):
         headers = [str(h) for h in self.data[0] if h is not None and h != ""]
         prompt = f"""Please provide better column names and a brief description for each column name.
 
@@ -158,8 +172,26 @@ Right after the suggestion add a sentence for describing the meaning of the colu
 that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field. When possible
 write the answer in the same language used for the original column names.
 """
+        return prompt
 
+    def _get_describe_prompt(self):
+        return "This is the describe prompt."
+
+    def set_prompt(self, index):
+        """Set the prompt"""
+        key = self.prompt_selector.itemData(index)
+        prompt = "No prompt selected."
+        if key == "select":
+            return
+        if key == "columns":
+            prompt = self._get_columns_prompt()
+        if key == "describe":
+            prompt = self._get_describe_prompt()
         self.input_text.setText(prompt)
+
+    def set_data(self, data):
+        """Set the data for analysis."""
+        self.data = data
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
