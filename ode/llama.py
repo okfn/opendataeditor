@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from typing import NamedTuple
 import logging
+import pandas as pd
 
 from llama_cpp import Llama
 from PySide6.QtWidgets import (
@@ -22,6 +23,7 @@ from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot,
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
 from ode.paths import AI_MODELS_PATH
+from ode.file import File
 
 if not os.path.exists(AI_MODELS_PATH):
     os.makedirs(AI_MODELS_PATH)
@@ -77,7 +79,7 @@ class LlamaWorker(QThread):
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a multilingual Data Analyst in charge of reviewing and improving the quality of a Tabular files. You are a concise Data Analyst that only replies with the answer and anything else. You work on several languages, mainly english, spanish, french and portuguese. You always respond in the language the data is given to you.",
+                    "content": "You are a multilingual Data Analyst in charge of reviewing and improving the quality of a Tabular files. You are a concise Data Analyst that only replies with the answer and anything else. You always respond in the language the data is given to you.",
                 },
                 {
                     "role": "user",
@@ -104,6 +106,7 @@ class LlamaDialog(QDialog):
         self.worker = None
         self.init_ui()
         self.data = None
+        self.resource = None
 
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
@@ -175,7 +178,19 @@ write the answer in the same language used for the original column names.
         return prompt
 
     def _get_describe_prompt(self):
-        return "This is the describe prompt."
+        df = pd.DataFrame(self.resource.read_rows())
+        # TODO: how can we make this diggestable when working with 20+ columns?
+        df = df.sample(n=2, axis='columns')
+        describe = ""
+        for column_name, series in df.items():
+            describe += f"\n--- Description for column '{column_name}' ---\n"
+            describe += series.describe().to_string()
+        prompt = f"""The following is the result of pandas (The Python Data Analysis Library) describe() function for each column of the dataset.
+{describe}
+Can you explain to me in non-technical language the characteristics of each column?
+Avoid reusing the technical terms like mean, std, count and top and instead explain it using definitions and analogies.
+"""
+        return prompt
 
     def set_prompt(self, index):
         """Set the prompt"""
@@ -189,9 +204,10 @@ write the answer in the same language used for the original column names.
             prompt = self._get_describe_prompt()
         self.input_text.setText(prompt)
 
-    def set_data(self, data):
+    def set_data(self, data, filepath):
         """Set the data for analysis."""
         self.data = data
+        self.resource = File(filepath).get_or_create_metadata().get("resource")
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
