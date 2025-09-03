@@ -53,7 +53,13 @@ def migrate_metadata_store():
 
     # ODE v1.3 has been used and we need to migrate.
     with open(metadata_file_path, "r") as file:
-        metadata = json.load(file)
+        try:
+            metadata = json.load(file)
+        except Exception as e:
+            # We are receiving json.decoder.JSONDecodeError error reports from users.
+            # So we skip the migration if the file cannot be read.
+            print(f"Cannot read ode v1.3 metadata file. Skipping migration: {e}")
+            return
 
     records = metadata["record"]
 
