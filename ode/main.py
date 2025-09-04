@@ -767,6 +767,11 @@ class MainWindow(QMainWindow):
 
     def on_ai_click(self):
         """Handle the click on the AI button."""
+
+        if self.content.ai_llama.isMinimized():
+            self.content.ai_llama.showNormal()
+            return
+
         if not LLMWarningDialog.confirm(self):
             return
 
