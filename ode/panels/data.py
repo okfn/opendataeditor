@@ -143,9 +143,9 @@ class FrictionlessTableModel(QAbstractTableModel):
         if extension == ".csv":
             self.write_data_csv(filepath)
         elif extension == ".xlsx":
-            self.write_data_xlsx(filepath)
+            self.write_data_xlsx(filepath, sheet_name)
         elif extension == ".xls":
-            self.write_data_xls(str(filepath))
+            self.write_data_xls(str(filepath, sheet_name))
         else:
             raise ValueError(f"Unsupported format: {extension}. Use .csv, .xlsx or .xls")
 

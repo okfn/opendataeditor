@@ -954,14 +954,15 @@ class MainWindow(QMainWindow):
         self.content.toolbar.excel_sheet_combo.clear()
 
         sheet_names = self.get_sheets_names(filepath)
-
-        if sheet_names and len(sheet_names) > 1:
+        if len(sheet_names) > 0:
             if self.excel_sheet_name is None:
                 self.excel_sheet_name = sheet_names[0]
 
-            self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
-            self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
-            self.content.toolbar.excel_sheet_container.setVisible(True)
+            # We only show the dropdown if there are multiple sheets
+            if len(sheet_names) > 1:
+                self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
+                self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
+                self.content.toolbar.excel_sheet_container.setVisible(True)
         else:
             self.content.toolbar.excel_sheet_container.setVisible(False)
             self.excel_sheet_name = None
