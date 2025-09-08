@@ -477,18 +477,20 @@ class DataViewer(QWidget):
 
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.table_view = CustomTableView()
-        self.table_view.on_click_first_row.connect(self.show_column_metadata_dialog)
-        # TableView's corner button hangs the application when working with huge datasets so we disable it.
-        self.table_view.setCornerButtonEnabled(False)
-        self.table_view.setTabKeyNavigation(False)
-        self.table_view.hide()
+
+        # Create the frozen table widget but hide it until we need it
+        self.frozen_table_widget = FrozenRowTableWidget()
+        self.frozen_table_widget.on_click_first_row.connect(self.show_column_metadata_dialog)
+        self.frozen_table_widget.hide()
+
+        # Keep the reference to the main table view
+        self.table_view = self.frozen_table_widget.main_table
 
         self.delegate = ColumnMetadataIconDelegate(Paths.asset("icons/three-lines.png"))
         self.delegate.icon_clicked.connect(self.show_column_metadata_dialog)
 
         layout.addWidget(self.label)
-        layout.addWidget(self.table_view)
+        layout.addWidget(self.frozen_table_widget)
 
         self.retranslateUI()
 
@@ -498,10 +500,11 @@ class DataViewer(QWidget):
         When a tabular file is selected, the main application will create a
         FrictionlessTableModel and call this function using the model as a parametner.
         """
-        self.table_view.setModel(model)
+        self.frozen_table_widget.setModel(model)
 
-        self.table_view.setItemDelegate(self.delegate)
+        self.frozen_table_widget.frozen_table.setItemDelegate(self.delegate)
 
+        self.frozen_table_widget.frozen_table.horizontalHeader().setDefaultSectionSize(120)
         self.table_view.horizontalHeader().setDefaultSectionSize(120)
         self.table_view.setMouseTracking(True)
 
@@ -509,13 +512,13 @@ class DataViewer(QWidget):
         self.resource = self.metadata.get("resource")
 
         self.label.hide()
-        self.table_view.show()
+        self.frozen_table_widget.show()  # 🆕 Mostrar el widget completo
 
     def show_column_metadata_dialog(self, field_index):
         """
         Shows a dialog to edit a column's metadata.
         """
-        model = self.table_view.model()
+        model = self.frozen_table_widget.original_model
         column_count = model.columnCount()
         headers = []
         for column in range(column_count):
@@ -537,9 +540,9 @@ class DataViewer(QWidget):
         This view depends of the main application self.table_model attribute. This
         method should always receive an empty model
         """
-        self.table_view.setModel(model)
+        self.frozen_table_widget.setModel(model)
         self.label.show()
-        self.table_view.hide()
+        self.frozen_table_widget.hide()
 
     def retranslateUI(self):
         """Apply translations to class elements."""
@@ -596,3 +599,167 @@ class DataViewer(QWidget):
             table_view_changed = True
 
         self.on_save.emit(table_view_changed)
+
+
+class FrozenRowTableWidget(QWidget):
+    """Widget que contiene dos QTableView: uno para la primera fila (congelada) y otro para el resto"""
+
+    on_click_first_row = Signal(object)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.layout = QVBoxLayout()
+        self.layout.setContentsMargins(0, 0, 0, 0)  # Sin márgenes
+        self.layout.setSpacing(0)  # Sin espaciado entre tablas
+        self.setLayout(self.layout)
+
+        # Tabla para la primera fila (congelada)
+        self.frozen_table = CustomTableView()
+        self.frozen_table.setMaximumHeight(35)  # Altura de una fila
+        self.frozen_table.setMinimumHeight(35)
+        self.frozen_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.frozen_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.frozen_table.setSelectionBehavior(QTableView.SelectColumns)
+        self.frozen_table.setCornerButtonEnabled(False)
+
+        # Tabla para el resto de los datos
+        self.main_table = CustomTableView()
+        self.main_table.setCornerButtonEnabled(False)
+        self.main_table.setTabKeyNavigation(False)
+
+        # Sincronizar scroll horizontal entre ambas tablas
+        self.frozen_table.horizontalScrollBar().valueChanged.connect(self.main_table.horizontalScrollBar().setValue)
+        self.main_table.horizontalScrollBar().valueChanged.connect(self.frozen_table.horizontalScrollBar().setValue)
+
+        # Conectar clicks en la fila congelada
+        self.frozen_table.on_click_first_row.connect(self._on_frozen_row_clicked)
+
+        # Añadir las tablas al layout
+        self.layout.addWidget(self.frozen_table)
+        self.layout.addWidget(self.main_table)
+
+        # Variable para guardar el modelo original
+        self.original_model = None
+
+    def setModel(self, model):
+        """Configura el modelo para ambas tablas"""
+        self.original_model = model
+
+        # Modelo para la fila congelada (solo primera fila)
+        frozen_model = FrozenRowModel(model)
+        self.frozen_table.setModel(frozen_model)
+
+        # Modelo para el resto de los datos (sin primera fila)
+        main_model = MainDataModel(model)
+        self.main_table.setModel(main_model)
+
+        # Sincronizar anchos de columnas
+        self._sync_column_widths()
+
+        # Ocultar headers de las tablas individuales
+        self.frozen_table.horizontalHeader().setVisible(False)
+        self.main_table.horizontalHeader().setVisible(False)
+        self.frozen_table.verticalHeader().setVisible(False)
+        self.main_table.verticalHeader().setVisible(False)
+
+    def _sync_column_widths(self):
+        """Sincroniza los anchos de las columnas entre ambas tablas"""
+        frozen_header = self.frozen_table.horizontalHeader()
+        main_header = self.main_table.horizontalHeader()
+
+        # Conectar cambios de tamaño
+        frozen_header.sectionResized.connect(lambda idx, old_size, new_size: main_header.resizeSection(idx, new_size))
+        main_header.sectionResized.connect(lambda idx, old_size, new_size: frozen_header.resizeSection(idx, new_size))
+
+        # Establecer tamaño inicial para todas las columnas
+        column_count = self.original_model.columnCount() if self.original_model else 0
+        for i in range(column_count):
+            frozen_header.resizeSection(i, 120)
+            main_header.resizeSection(i, 120)
+
+    def _on_frozen_row_clicked(self, column_index):
+        """Maneja clicks en la fila congelada"""
+        self.on_click_first_row.emit(column_index)
+
+
+class FrozenRowModel(QAbstractTableModel):
+    """Modelo para mostrar solo la primera fila del modelo original"""
+
+    def __init__(self, original_model):
+        super().__init__()
+        self.original_model = original_model
+
+    def rowCount(self, parent=None):
+        return 1  # Solo una fila
+
+    def columnCount(self, parent=None):
+        return self.original_model.columnCount() if self.original_model else 0
+
+    def data(self, index, role):
+        if not index.isValid() or not self.original_model:
+            return None
+
+        # Siempre pedimos la fila 0 del modelo original (la primera fila)
+        original_index = self.original_model.index(0, index.column())
+        return self.original_model.data(original_index, role)
+
+    def setData(self, index, value, role):
+        if not index.isValid() or not self.original_model:
+            return False
+
+        # Editar directamente en el modelo original
+        original_index = self.original_model.index(0, index.column())
+        return self.original_model.setData(original_index, value, role)
+
+    def flags(self, index):
+        if not index.isValid() or not self.original_model:
+            return Qt.NoItemFlags
+
+        original_index = self.original_model.index(0, index.column())
+        return self.original_model.flags(original_index)
+
+
+class MainDataModel(QAbstractTableModel):
+    """Modelo para mostrar el resto de los datos (desde la segunda fila en adelante)"""
+
+    def __init__(self, original_model):
+        super().__init__()
+        self.original_model = original_model
+
+    def rowCount(self, parent=None):
+        if not self.original_model:
+            return 0
+        # Todas las filas menos la primera
+        return max(0, self.original_model.rowCount() - 1)
+
+    def columnCount(self, parent=None):
+        return self.original_model.columnCount() if self.original_model else 0
+
+    def data(self, index, role):
+        if not index.isValid() or not self.original_model:
+            return None
+
+        # Mapear al modelo original (fila + 1 porque saltamos la primera)
+        original_index = self.original_model.index(index.row() + 1, index.column())
+        return self.original_model.data(original_index, role)
+
+    def setData(self, index, value, role):
+        if not index.isValid() or not self.original_model:
+            return False
+
+        # Editar directamente en el modelo original
+        original_index = self.original_model.index(index.row() + 1, index.column())
+        result = self.original_model.setData(original_index, value, role)
+
+        if result:
+            self.dataChanged.emit(index, index)
+
+        return result
+
+    def flags(self, index):
+        if not index.isValid() or not self.original_model:
+            return Qt.NoItemFlags
+
+        original_index = self.original_model.index(index.row() + 1, index.column())
+        return self.original_model.flags(original_index)
