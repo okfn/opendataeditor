@@ -19,8 +19,8 @@ def test_file_is_displayed(qtbot, window, project_folder):
     assert window.main_layout.currentIndex() == 1
     assert window.content.data_view.isVisible()
 
-    # Test our TableView model has 3 rows and 2 columns (data was loaded properly)
-    assert window.content.data_view.table_view.model().rowCount() == 3
+    # Test our TableView model has 2 rows (because we removed the header) and 2 columns (data was loaded properly)
+    assert window.content.data_view.table_view.model().rowCount() == 2
     assert window.content.data_view.table_view.model().columnCount() == 2
 
 

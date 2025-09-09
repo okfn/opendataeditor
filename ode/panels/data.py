@@ -589,7 +589,7 @@ class DataViewer(QWidget):
             json.dump(self.metadata, f)
 
         # Check if we name was changed, if so we need to update the header
-        model = self.table_view.model()
+        model = self.frozen_table_widget.original_model
         index = model.index(0, field_index)
         original_name = model.data(index, Qt.DisplayRole)
 
