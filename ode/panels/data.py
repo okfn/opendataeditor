@@ -602,7 +602,7 @@ class DataViewer(QWidget):
 
 
 class FrozenRowTableWidget(QWidget):
-    """Widget que contiene dos QTableView: uno para la primera fila (congelada) y otro para el resto"""
+    """Widget that contains two QTableView to simulate a frozen first row."""
 
     on_click_first_row = Signal(object)
 
@@ -610,88 +610,92 @@ class FrozenRowTableWidget(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.layout.setContentsMargins(0, 0, 0, 0)  # Sin márgenes
-        self.layout.setSpacing(0)  # Sin espaciado entre tablas
+        self.layout.setContentsMargins(0, 0, 0, 0)  # No margins
+        self.layout.setSpacing(0)  # No spacing between widgets
         self.setLayout(self.layout)
 
-        # Tabla para la primera fila (congelada)
+        # Table for the frozen first row
         self.frozen_table = CustomTableView()
-        self.frozen_table.setMaximumHeight(35)  # Altura de una fila
-        self.frozen_table.setMinimumHeight(35)
+        self.frozen_table.setMaximumHeight(32)  # Row height
+        self.frozen_table.setMinimumHeight(32)
         self.frozen_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.frozen_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.frozen_table.setSelectionBehavior(QTableView.SelectColumns)
         self.frozen_table.setCornerButtonEnabled(False)
+        self.frozen_table.setStyleSheet("QTableView { border-bottom: none; }")
 
-        # Tabla para el resto de los datos
+        # Table for the rest of the data
         self.main_table = CustomTableView()
         self.main_table.setCornerButtonEnabled(False)
         self.main_table.setTabKeyNavigation(False)
+        self.main_table.setStyleSheet("QTableView { border-top: none;border-left:1px solid #dcdcdc;}")
 
-        # Sincronizar scroll horizontal entre ambas tablas
+        # Synchronize horizontal scrollbars
         self.frozen_table.horizontalScrollBar().valueChanged.connect(self.main_table.horizontalScrollBar().setValue)
         self.main_table.horizontalScrollBar().valueChanged.connect(self.frozen_table.horizontalScrollBar().setValue)
 
-        # Conectar clicks en la fila congelada
+        # Hook to handle clicks on the first row
         self.frozen_table.on_click_first_row.connect(self._on_frozen_row_clicked)
 
-        # Añadir las tablas al layout
+        # Add both tables to the layout
         self.layout.addWidget(self.frozen_table)
         self.layout.addWidget(self.main_table)
 
-        # Variable para guardar el modelo original
+        # Variable to keep the reference to the original model
         self.original_model = None
 
     def setModel(self, model):
-        """Configura el modelo para ambas tablas"""
+        """Set the model for both tables."""
         self.original_model = model
 
-        # Modelo para la fila congelada (solo primera fila)
+        # Model for the frozen first row
         frozen_model = FrozenRowModel(model)
         self.frozen_table.setModel(frozen_model)
 
-        # Modelo para el resto de los datos (sin primera fila)
+        # Model for the main data (excluding the first row)
         main_model = MainDataModel(model)
         self.main_table.setModel(main_model)
 
-        # Sincronizar anchos de columnas
+        # Synchronize column widths
         self._sync_column_widths()
 
-        # Ocultar headers de las tablas individuales
+        # Hide headers for a cleaner look
         self.frozen_table.horizontalHeader().setVisible(False)
         self.main_table.horizontalHeader().setVisible(False)
         self.frozen_table.verticalHeader().setVisible(False)
         self.main_table.verticalHeader().setVisible(False)
 
     def _sync_column_widths(self):
-        """Sincroniza los anchos de las columnas entre ambas tablas"""
+        """
+        Synchronize column widths between the frozen and main tables.
+        """
         frozen_header = self.frozen_table.horizontalHeader()
         main_header = self.main_table.horizontalHeader()
 
-        # Conectar cambios de tamaño
+        # Hook to resizeSection to avoid infinite loop
         frozen_header.sectionResized.connect(lambda idx, old_size, new_size: main_header.resizeSection(idx, new_size))
         main_header.sectionResized.connect(lambda idx, old_size, new_size: frozen_header.resizeSection(idx, new_size))
 
-        # Establecer tamaño inicial para todas las columnas
+        # Set initial sizes
         column_count = self.original_model.columnCount() if self.original_model else 0
         for i in range(column_count):
             frozen_header.resizeSection(i, 120)
             main_header.resizeSection(i, 120)
 
     def _on_frozen_row_clicked(self, column_index):
-        """Maneja clicks en la fila congelada"""
+        """Emit the signal when a column in the frozen row is clicked."""
         self.on_click_first_row.emit(column_index)
 
 
 class FrozenRowModel(QAbstractTableModel):
-    """Modelo para mostrar solo la primera fila del modelo original"""
+    """Model to show only the first row of the original model"""
 
     def __init__(self, original_model):
         super().__init__()
         self.original_model = original_model
 
     def rowCount(self, parent=None):
-        return 1  # Solo una fila
+        return 1  # Return only one row
 
     def columnCount(self, parent=None):
         return self.original_model.columnCount() if self.original_model else 0
@@ -700,7 +704,7 @@ class FrozenRowModel(QAbstractTableModel):
         if not index.isValid() or not self.original_model:
             return None
 
-        # Siempre pedimos la fila 0 del modelo original (la primera fila)
+        # Always get data from the first row of the original model
         original_index = self.original_model.index(0, index.column())
         return self.original_model.data(original_index, role)
 
@@ -708,7 +712,7 @@ class FrozenRowModel(QAbstractTableModel):
         if not index.isValid() or not self.original_model:
             return False
 
-        # Editar directamente en el modelo original
+        # Edit directly in the original model
         original_index = self.original_model.index(0, index.column())
         return self.original_model.setData(original_index, value, role)
 
@@ -721,7 +725,9 @@ class FrozenRowModel(QAbstractTableModel):
 
 
 class MainDataModel(QAbstractTableModel):
-    """Modelo para mostrar el resto de los datos (desde la segunda fila en adelante)"""
+    """
+    Model to show all the rows except the first one of the original model
+    """
 
     def __init__(self, original_model):
         super().__init__()
@@ -730,7 +736,7 @@ class MainDataModel(QAbstractTableModel):
     def rowCount(self, parent=None):
         if not self.original_model:
             return 0
-        # Todas las filas menos la primera
+        # All the rows except the first one
         return max(0, self.original_model.rowCount() - 1)
 
     def columnCount(self, parent=None):
@@ -740,7 +746,7 @@ class MainDataModel(QAbstractTableModel):
         if not index.isValid() or not self.original_model:
             return None
 
-        # Mapear al modelo original (fila + 1 porque saltamos la primera)
+        # Mapping the row index to the original model (offset by 1)
         original_index = self.original_model.index(index.row() + 1, index.column())
         return self.original_model.data(original_index, role)
 
@@ -748,7 +754,7 @@ class MainDataModel(QAbstractTableModel):
         if not index.isValid() or not self.original_model:
             return False
 
-        # Editar directamente en el modelo original
+        # We edit directly in the original model (offset by 1)
         original_index = self.original_model.index(index.row() + 1, index.column())
         result = self.original_model.setData(original_index, value, role)
 
