@@ -512,7 +512,7 @@ class DataViewer(QWidget):
         self.resource = self.metadata.get("resource")
 
         self.label.hide()
-        self.frozen_table_widget.show()  # 🆕 Mostrar el widget completo
+        self.frozen_table_widget.show()
 
     def show_column_metadata_dialog(self, field_index):
         """
