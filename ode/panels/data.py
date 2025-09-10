@@ -143,9 +143,9 @@ class FrictionlessTableModel(QAbstractTableModel):
         if extension == ".csv":
             self.write_data_csv(filepath)
         elif extension == ".xlsx":
-            self.write_data_xlsx(filepath)
+            self.write_data_xlsx(filepath, sheet_name)
         elif extension == ".xls":
-            self.write_data_xls(str(filepath))
+            self.write_data_xls(str(filepath), sheet_name)
         else:
             raise ValueError(f"Unsupported format: {extension}. Use .csv, .xlsx or .xls")
 
@@ -199,7 +199,7 @@ class FrictionlessTableModel(QAbstractTableModel):
         wb.save(filepath)
         logger.info(f"Data saved in Excel format: {filepath}")
 
-    def write_data_xls(self, filepath: str):
+    def write_data_xls(self, filepath: str, sheet_name=None):
         """
         Write the data to an Excel XLS file.
 
@@ -209,12 +209,16 @@ class FrictionlessTableModel(QAbstractTableModel):
 
         wb = xlwt.Workbook()
 
-        rb = xlrd.open_workbook(str(filepath), formatting_info=True)
+        rb = xlrd.open_workbook(filepath, formatting_info=True)
+        try:
+            sheet_name_index = rb.sheet_names().index(sheet_name)
+        except ValueError:
+            raise ValueError(f"Sheet {sheet_name} does not exist in the workbook: {filepath}")
 
         # We use xlutils to transform the xlrd book into an xlwt book
         # This will allow us to modify existing XLS files
         wb = copy(rb)
-        ws = wb.get_sheet(0)
+        ws = wb.get_sheet(sheet_name_index)
 
         for row_idx, row_data in enumerate(self._data):
             for col_idx, cell_value in enumerate(row_data):
@@ -572,6 +576,10 @@ class DataViewer(QWidget):
 
         self.metadata["resource"] = self.resource.to_descriptor()
         file = File(self.resource.path)
+
+        # We remove the dialect from the metatada, because Frictionless will be stuck
+        # on this sheet otherwise
+        self.metadata["resource"].pop("dialect", None)
 
         with open(file.metadata_path, "w") as f:
             print(f"Saving metadata {file.metadata_path}")
