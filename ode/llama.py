@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from typing import NamedTuple
 import logging
-import pandas as pd
 
 from llama_cpp import Llama
 from PySide6.QtWidgets import (
@@ -23,7 +22,6 @@ from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot,
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
 from ode.paths import AI_MODELS_PATH
-from ode.file import File
 
 if not os.path.exists(AI_MODELS_PATH):
     os.makedirs(AI_MODELS_PATH)
