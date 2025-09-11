@@ -109,10 +109,12 @@ class LlamaDialog(QDialog):
         self.resource = None
 
     def closeEvent(self, event):
-        """Handle the close event to clear the output text."""
+        """Finish workers and resets the UI state."""
         if self.worker and self.worker.isRunning():
             self.worker.terminate()
             self.worker.wait()
+        self.prompt_selector.setCurrentIndex(0)
+        self.input_text.clear()
         self.output_text.clear()
         self.on_execution_finished()
         event.accept()
@@ -128,8 +130,8 @@ class LlamaDialog(QDialog):
         self.prompt_selector = QComboBox()
         options = [
             ("Please select a function", "select"),
-            ("Explain and improve column names", "columns"),
-            ("Describe my data", "describe"),
+            ("Describe column names", "columns"),
+            ("Suggest analysis for my data", "analysis"),
         ]
         for i, (text, key) in enumerate(options):
             self.prompt_selector.addItem(text)
@@ -160,35 +162,44 @@ class LlamaDialog(QDialog):
 
     def _get_columns_prompt(self):
         headers = [str(h) for h in self.data[0] if h is not None and h != ""]
-        prompt = f"""Please provide better column names and a brief description for each column name.
+        prompt = f"""# Explain the column names
+Below is the metadata and sample data of a dataset that you will suggest columns descriptions.
 
-For ensuring good quality in the column names you follow 4 rules:
-  1) Column names are always lowercase,
-  2) Column names do not contain more than three words,
-  3) Column names do not have space but rather words are separated with underscore characters.
-  4) Column names never have acronyms nor abreviations unless they are extremelly common
-  5) Always identify the original language and use it for the suggested new names.
+## Describe what each columns means in the context of the dataset
+ 1. Please provide a description for each column name.
+ 2. Assume the user does not know anything about the topic.
+ 3. Use plain language and be verbose when explaining what data the column contains.
+ 4. If there are technical terms, expand the description to explain what that term means in the context of the dataset.
+ 5. Use the content of the First 5 rows to gain context about the columns so you answer is more accurate.
 
+# Metadata
 Current column names: {" | ".join(headers)}
-
-Right after the suggestion add a sentence for describing the meaning of the column. If there are technical terms, expand the description to explain what
-that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field. When possible
-write the answer in the same language used for the original column names.
+First 5 rows: {self.data[1:6]}
 """
         return prompt
 
-    def _get_describe_prompt(self):
-        df = pd.DataFrame(self.resource.read_rows())
-        # TODO: how can we make this diggestable when working with 20+ columns?
-        df = df.sample(n=2, axis='columns')
-        describe = ""
-        for column_name, series in df.items():
-            describe += f"\n--- Description for column '{column_name}' ---\n"
-            describe += series.describe().to_string()
-        prompt = f"""The following is the result of pandas (The Python Data Analysis Library) describe() function for each column of the dataset.
-{describe}
-Can you explain to me in non-technical language the characteristics of each column?
-Avoid reusing the technical terms like mean, std, count and top and instead explain it using definitions and analogies.
+    def _get_analysis_prompt(self):
+        headers = [str(h) for h in self.data[0] if h is not None and h != ""]
+        prompt = f"""# Understand the Data:
+Below is the metadata and sample data of a dataset that you will suggest analysis for.
+
+## Create questions that cover a wide range of analytical techniques:
+  1. Descriptive Statistics: (e.g., counts, averages, distributions, min/max)
+  2. Trend Analysis: (e.g., over time, across categories)
+  3. Relationship & Correlation: (e.g., between two numeric columns)
+  4. Segmentation & Comparison: (e.g., comparing groups based on a category)
+  5. Aggregation & Binning: (e.g., using groups and summary functions)
+  6. Data Quality & Anomalies: (e.g., missing values, outliers)
+
+## Tailor the Questions:
+The questions must be specific to the provided column names and inferred context. Do not generate generic questions that could apply to any dataset.
+
+## Value of the Question:
+For each question you would add a sentence providing what useful information could be get out of the answer and why you consider the question important.
+
+# Metadata:
+ 1. Column names: {" | ".join(headers)}
+ 2. First 5 rows: {self.data[1:6]}
 """
         return prompt
 
@@ -200,14 +211,13 @@ Avoid reusing the technical terms like mean, std, count and top and instead expl
             return
         if key == "columns":
             prompt = self._get_columns_prompt()
-        if key == "describe":
-            prompt = self._get_describe_prompt()
+        if key == "analysis":
+            prompt = self._get_analysis_prompt()
         self.input_text.setText(prompt)
 
-    def set_data(self, data, filepath):
+    def set_data(self, data):
         """Set the data for analysis."""
         self.data = data
-        self.resource = File(filepath).get_or_create_metadata().get("resource")
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""

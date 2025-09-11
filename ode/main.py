@@ -924,7 +924,7 @@ class MainWindow(QMainWindow):
         self.content.data_view.display_data(self.table_model, filepath, sheet_name=self.excel_sheet_name)
         self.content.errors_view.display_errors(errors, self.table_model)
         self.content.source_view.open_file(filepath)
-        self.content.ai_llama.set_data(data, filepath)
+        self.content.ai_llama.set_data(data)
 
         self.update_excel_sheet_dropdown(filepath)
 
