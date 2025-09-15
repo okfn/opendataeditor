@@ -616,8 +616,8 @@ class FrozenRowTableWidget(QWidget):
 
         # Table for the frozen first row
         self.frozen_table = CustomTableView()
-        self.frozen_table.setMaximumHeight(32)  # Row height
-        self.frozen_table.setMinimumHeight(32)
+        self.frozen_table.setMaximumHeight(56)  # Row height
+        self.frozen_table.setMinimumHeight(56)
         self.frozen_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.frozen_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.frozen_table.setSelectionBehavior(QTableView.SelectColumns)
@@ -659,11 +659,16 @@ class FrozenRowTableWidget(QWidget):
         # Synchronize column widths
         self._sync_column_widths()
 
-        # Hide headers for a cleaner look
-        self.frozen_table.horizontalHeader().setVisible(False)
+        # Horizontal headers status
+        self.frozen_table.horizontalHeader().setVisible(True)
         self.main_table.horizontalHeader().setVisible(False)
-        self.frozen_table.verticalHeader().setVisible(False)
-        self.main_table.verticalHeader().setVisible(False)
+
+        # Vertical headers status
+        self.frozen_table.verticalHeader().setVisible(True)
+        self.main_table.verticalHeader().setVisible(True)
+
+        self.frozen_table.verticalHeader().setDefaultSectionSize(self.main_table.verticalHeader().defaultSectionSize())
+        self.frozen_table.verticalHeader().setFixedWidth(self.main_table.verticalHeader().width())
 
     def _sync_column_widths(self):
         """
@@ -723,6 +728,16 @@ class FrozenRowModel(QAbstractTableModel):
         original_index = self.original_model.index(0, index.column())
         return self.original_model.flags(original_index)
 
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        """Setup custom headers for the frozen row model"""
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(section + 1)
+            elif orientation == Qt.Vertical:
+                # Always 1 because we only have one row
+                return "1"
+        return None
+
 
 class MainDataModel(QAbstractTableModel):
     """
@@ -769,3 +784,13 @@ class MainDataModel(QAbstractTableModel):
 
         original_index = self.original_model.index(index.row() + 1, index.column())
         return self.original_model.flags(original_index)
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        """Setup custom headers for the main data model"""
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(section + 1)
+            elif orientation == Qt.Vertical:
+                # Offset by 1 because we do not show the first row
+                return str(section + 2)
+        return None
