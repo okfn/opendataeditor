@@ -223,7 +223,7 @@ write the answer in the same language used for the original column names.
         """
         cores = os.cpu_count()
         if cores and isinstance(cores, int):
-            return int(cores/2)
+            return int(cores / 2)
         return 4
 
 
@@ -487,3 +487,27 @@ class LlamaDownloadDialog(QDialog):
                 return f"{bytes_size:.2f} {unit}"
             bytes_size /= 1024.0
         return f"{bytes_size:.2f} TB"
+
+
+class LlamaInitWorker(QObject):
+    """
+    Worker to initialize the LLM in a separate thread to avoid blocking the UI and show a loading dialog.
+    """
+
+    finished = Signal()
+    error = Signal(str)
+    progress = Signal(str)
+
+    def __init__(self, ai_llama, model_path):
+        super().__init__()
+        self.ai_llama = ai_llama
+        self.model_path = model_path
+
+    @Slot()
+    def init_llm(self):
+        try:
+            self.progress.emit("Initializing model...")
+            self.ai_llama.init_llm(self.model_path)
+            self.finished.emit()
+        except Exception as e:
+            self.error.emit(str(e))
