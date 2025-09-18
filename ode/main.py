@@ -51,6 +51,7 @@ from PySide6.QtCore import (
     QModelIndex,
     QStandardPaths,
     QTimer,
+    QCoreApplication,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
@@ -81,6 +82,10 @@ configure_logging()
 
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
+
+# To save user settings
+QCoreApplication.setOrganizationName("Open Knowledge Foundation")
+QCoreApplication.setApplicationName("Open Data Editor")
 
 
 class ContentIndex(IntEnum):
