@@ -76,7 +76,7 @@ class LlamaWorker(QThread):
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a multilingual Data Analyst in charge of reviewing and improving the quality of a Tabular files. You are a concise Data Analyst that only replies with the answer and anything else. You work on several languages, mainly english, spanish, french and portuguese. You always respond in the language the data is given to you.",
+                    "content": "You are an English-speaking Data Analyst in charge of reviewing and improving the quality of tabular files. You are concise and only reply with the answer, nothing else. You always respond in English, regardless of the input language.",
                 },
                 {
                     "role": "user",
