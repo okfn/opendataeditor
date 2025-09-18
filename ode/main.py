@@ -59,6 +59,7 @@ from PySide6.QtWidgets import QFileSystemModel, QDialog
 
 from ode import paths
 from ode.dialogs.delete import DeleteDialog
+from ode.dialogs.llm_dialog_warning import LLMWarningDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
 from ode.llama import LlamaDialog, LlamaDownloadDialog, LlamaInitWorker
@@ -767,6 +768,9 @@ class MainWindow(QMainWindow):
 
     def on_ai_click(self):
         """Handle the click on the AI button."""
+        if not LLMWarningDialog.confirm(self):
+            return
+
         ai_llama_download = LlamaDownloadDialog(self)
         if ai_llama_download.exec() == QDialog.Accepted:
             selected_model = ai_llama_download.selected_model_path
