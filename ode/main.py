@@ -453,7 +453,7 @@ class Toolbar(QWidget):
         # Excel Sheet Selection
         self.excel_sheet_layout = QHBoxLayout()
         self.excel_sheet_container = QWidget()
-        self.excel_sheet_label = QLabel(self.tr("Sheet:"))
+        self.excel_sheet_label = QLabel()
         self.excel_sheet_label.setObjectName("excelSheetLabel")
 
         self.excel_sheet_combo = QComboBox()
@@ -499,6 +499,7 @@ class Toolbar(QWidget):
         self.button_export.setText(self.tr("Export"))
         self.button_save.setText(self.tr("Save changes"))
         self.button_ai.setText(self.tr("AI"))
+        self.excel_sheet_label.setText(self.tr("Sheet:"))
 
 
 class Content(QWidget):

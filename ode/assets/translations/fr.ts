@@ -218,7 +218,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="542"/>
+        <location filename="../../panels/data.py" line="546"/>
         <source>Preview not available for this item.</source>
         <translation>Aperçu non disponible pour cet article.</translation>
     </message>
@@ -328,7 +328,7 @@
 <context>
     <name>FrictionlessTableModel</name>
     <message>
-        <location filename="../../panels/data.py" line="234"/>
+        <location filename="../../panels/data.py" line="238"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
@@ -443,12 +443,12 @@
     <message>
         <location filename="../../llama.py" line="194"/>
         <source>Generating response...</source>
-        <translation type="unfinished"></translation>
+        <translation>Génération de la réponse...</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="205"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="216"/>
@@ -523,7 +523,7 @@
     <message>
         <location filename="../../llama.py" line="259"/>
         <source>The ODE will save the file in this location: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>L'ODE enregistrera le fichier à cet emplacement : &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="392"/>
@@ -618,18 +618,18 @@
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1133"/>
+        <location filename="../../main.py" line="1134"/>
         <source>Downloading data with errors...</source>
         <translation>Téléchargement des données avec erreurs...</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1151"/>
+        <location filename="../../main.py" line="1152"/>
         <source>File downloaded successfully to:
 {}</source>
         <translation>Fichier téléchargé avec succès dans :</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1152"/>
+        <location filename="../../main.py" line="1153"/>
         <source>Success</source>
         <translation>Succès</translation>
     </message>
@@ -683,17 +683,17 @@
         <translation>Modifications du fichier et des métadonnées enregistrées.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1090"/>
+        <location filename="../../main.py" line="1091"/>
         <source>Last 100 Lines</source>
         <translation>100 dernières lignes</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1110"/>
+        <location filename="../../main.py" line="1111"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1115"/>
+        <location filename="../../main.py" line="1116"/>
         <source>Copy to Clipboard</source>
         <translation>Copier dans le presse-papiers</translation>
     </message>
@@ -1114,7 +1114,7 @@
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette vue est uniquement disponible pour les fichiers CSV.</translation>
     </message>
 </context>
 <context>
@@ -1146,7 +1146,7 @@
     <message>
         <location filename="../../main.py" line="456"/>
         <source>Sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Feuille :</translation>
     </message>
     <message>
         <location filename="../../main.py" line="497"/>

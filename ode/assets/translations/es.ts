@@ -137,7 +137,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="542"/>
+        <location filename="../../panels/data.py" line="546"/>
         <source>Preview not available for this item.</source>
         <translation>Vista previa no disponible para este ítem.</translation>
     </message>
@@ -241,7 +241,7 @@
 <context>
     <name>FrictionlessTableModel</name>
     <message>
-        <location filename="../../panels/data.py" line="234"/>
+        <location filename="../../panels/data.py" line="238"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
@@ -445,19 +445,19 @@
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1133"/>
+        <location filename="../../main.py" line="1134"/>
         <source>Downloading data with errors...</source>
         <translation>Descargando datos con errores...</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1151"/>
+        <location filename="../../main.py" line="1152"/>
         <source>File downloaded successfully to:
 {}</source>
         <translation>Archivo descargado exitosamente en:
 {}</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1152"/>
+        <location filename="../../main.py" line="1153"/>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
@@ -507,17 +507,17 @@
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1090"/>
+        <location filename="../../main.py" line="1091"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 líneas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1110"/>
+        <location filename="../../main.py" line="1111"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1115"/>
+        <location filename="../../main.py" line="1116"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar al portapapeles</translation>
     </message>

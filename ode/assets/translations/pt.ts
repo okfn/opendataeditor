@@ -218,7 +218,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="542"/>
+        <location filename="../../panels/data.py" line="546"/>
         <source>Preview not available for this item.</source>
         <translation>Visualização não disponível para este item.</translation>
     </message>
@@ -328,7 +328,7 @@
 <context>
     <name>FrictionlessTableModel</name>
     <message>
-        <location filename="../../panels/data.py" line="234"/>
+        <location filename="../../panels/data.py" line="238"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
@@ -443,12 +443,12 @@
     <message>
         <location filename="../../llama.py" line="194"/>
         <source>Generating response...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerando resposta...</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="205"/>
         <source>Error</source>
-        <translation type="unfinished">Erro</translation>
+        <translation>Erro</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="216"/>
@@ -523,7 +523,7 @@
     <message>
         <location filename="../../llama.py" line="259"/>
         <source>The ODE will save the file in this location: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>O ODE salvará o arquivo neste local: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="392"/>
@@ -618,18 +618,18 @@
         <translation>Visualizar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1133"/>
+        <location filename="../../main.py" line="1134"/>
         <source>Downloading data with errors...</source>
         <translation>Baixando dados com erros...</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1151"/>
+        <location filename="../../main.py" line="1152"/>
         <source>File downloaded successfully to:
 {}</source>
         <translation>Arquivo baixado com sucesso em:</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1152"/>
+        <location filename="../../main.py" line="1153"/>
         <source>Success</source>
         <translation>Sucesso</translation>
     </message>
@@ -683,17 +683,17 @@
         <translation>Alterações no arquivo e metadados salvas.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1090"/>
+        <location filename="../../main.py" line="1091"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 linhas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1110"/>
+        <location filename="../../main.py" line="1111"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1115"/>
+        <location filename="../../main.py" line="1116"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar para área de transferência</translation>
     </message>
@@ -1114,7 +1114,7 @@
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta visualização está disponível apenas para arquivos CSV.</translation>
     </message>
 </context>
 <context>
@@ -1146,7 +1146,7 @@
     <message>
         <location filename="../../main.py" line="456"/>
         <source>Sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Planilha:</translation>
     </message>
     <message>
         <location filename="../../main.py" line="497"/>
