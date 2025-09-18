@@ -28,25 +28,6 @@ class LLMWarningDialog(QDialog):
         self.dont_show_again_checkbox = QCheckBox()
         self.dont_show_again_checkbox.setText(self.tr("Don't show this dialog again"))
 
-        self.dont_show_again_checkbox.setStyleSheet(
-            """
-            QCheckBox {
-                color: black;
-                background-color: transparent;
-            }
-            QCheckBox::indicator {
-                width: 16px;
-                height: 16px;
-                background-color: white;
-                border: 1px solid gray;
-            }
-            QCheckBox::indicator:checked {
-                background-color: black;
-                border: 1px solid gray;
-            }
-        """
-        )
-
         button_layout = QHBoxLayout()
         self.cancel_button = QPushButton()
         self.cancel_button.clicked.connect(self.reject)

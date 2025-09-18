@@ -350,3 +350,20 @@ QTableView::item:focus {
   border: 2px solid #0078D7;
   outline: none;
 }
+
+LLMWarningDialog QCheckBox {
+    color: black;
+    background-color: transparent;
+}
+
+LLMWarningDialog QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+LLMWarningDialog QCheckBox::indicator:checked {
+    background-color: black;
+    border: 1px solid gray;
+}
