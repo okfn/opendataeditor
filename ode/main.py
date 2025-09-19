@@ -1158,6 +1158,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("Open Data Editor")
+    app.setOrganizationName("Open Knowledge Foundation")
     app.setApplicationVersion(ode.__version__)
     app.setStyle("Fusion")
 
