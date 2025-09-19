@@ -83,10 +83,6 @@ configure_logging()
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
-# To save user settings
-QCoreApplication.setOrganizationName("Open Knowledge Foundation")
-QCoreApplication.setApplicationName("Open Data Editor")
-
 
 class ContentIndex(IntEnum):
     """Enum to represent the index of the content panels.
