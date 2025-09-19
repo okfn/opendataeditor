@@ -223,7 +223,7 @@ write the answer in the same language used for the original column names.
         """
         cores = os.cpu_count()
         if cores and isinstance(cores, int):
-            return int(cores/2)
+            return int(cores / 2)
         return 4
 
 
@@ -282,6 +282,7 @@ class LlamaDownloadDialog(QDialog):
 
         self.btn_select = QPushButton(self.tr("Select Model"))
         self.btn_select.clicked.connect(self.on_select_model)
+        self.btn_select.setDefault(True)
         download_layout.addWidget(self.btn_select)
 
         layout.addLayout(download_layout)
@@ -312,12 +313,12 @@ class LlamaDownloadDialog(QDialog):
         model_selected = self.get_selected_model()
 
         if not model_selected:
-            QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
+            self.show_warning_dialog()
             return
 
         model_path = os.path.join(AI_MODELS_PATH, model_selected.filename)
         if not os.path.exists(model_path):
-            QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
+            self.show_warning_dialog()
             return
 
         self.selected_model_path = model_path
@@ -382,6 +383,7 @@ class LlamaDownloadDialog(QDialog):
         """Download the selected model."""
         model_selected = self.get_selected_model()
         if not model_selected:
+            self.show_warning_dialog()
             return
 
         self.download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
@@ -423,6 +425,11 @@ class LlamaDownloadDialog(QDialog):
     def on_delete_model(self):
         """Delete the selected model file."""
         model_selected = self.get_selected_model()
+
+        if not model_selected:
+            self.show_warning_dialog()
+            return
+
         download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
         download_file_path.unlink(missing_ok=True)
         self.fill_model_list()
@@ -487,3 +494,7 @@ class LlamaDownloadDialog(QDialog):
                 return f"{bytes_size:.2f} {unit}"
             bytes_size /= 1024.0
         return f"{bytes_size:.2f} TB"
+
+    def show_warning_dialog(self):
+        """Show a warning dialog if no model is selected."""
+        return QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
