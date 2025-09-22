@@ -25,7 +25,7 @@ class LLMWarningDialog(QDialog):
         )
 
         self.dont_show_again_checkbox = QCheckBox()
-        self.dont_show_again_checkbox.setText(self.tr("Don't show this dialog again"))
+        self.dont_show_again_checkbox.setText(self.tr("Don't show again"))
 
         button_layout = QHBoxLayout()
         self.cancel_button = QPushButton()

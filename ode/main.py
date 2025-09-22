@@ -51,7 +51,6 @@ from PySide6.QtCore import (
     QModelIndex,
     QStandardPaths,
     QTimer,
-    QCoreApplication,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
