@@ -352,18 +352,7 @@ QTableView::item:focus {
 }
 
 LLMWarningDialog QCheckBox {
-    color: black;
-    background-color: transparent;
-}
-
-LLMWarningDialog QCheckBox::indicator {
-    width: 16px;
-    height: 16px;
+    color: #404040;
+    font-size: 18px; 
     background-color: white;
-    border: 1px solid gray;
-}
-
-LLMWarningDialog QCheckBox::indicator:checked {
-    background-color: black;
-    border: 1px solid gray;
 }
