@@ -11,9 +11,7 @@ class LLMWarningDialog(QDialog):
     def __init__(self, parent: QWidget):
         super().__init__(parent)
         self.setWindowTitle(self.tr("AI feature"))
-        # TODO: dialog size is not set properly when having the application in a second monitor
-        # so we force it to a minimun.
-        self.setMinimumSize(500, 200)
+        self.setFixedSize(600, 270)
 
         layout = QVBoxLayout()
 
@@ -21,7 +19,8 @@ class LLMWarningDialog(QDialog):
         self.warning_text.setWordWrap(True)
         self.warning_text.setText(
             self.tr(
-                "Welcome to the ODE's AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more"
+                "Welcome to the ODE's AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. \n\n"
+                "To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more"
             )
         )
 
@@ -58,8 +57,6 @@ class LLMWarningDialog(QDialog):
         settings = QSettings()
         # Check if the user has previously chosen to not show the dialog again
         if settings.value("llm_warning_dialog/dont_show_again", False, type=bool):
-            # For testing we remove it, but in production we just return True
-            settings.remove("llm_warning_dialog/dont_show_again")
             return True
 
         dialog = LLMWarningDialog(parent)
