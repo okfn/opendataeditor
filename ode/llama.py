@@ -11,12 +11,11 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QPushButton,
     QLabel,
-    QListWidget,
     QHBoxLayout,
     QMessageBox,
     QProgressDialog,
-    QListWidgetItem,
     QComboBox,
+    QWidget,
 )
 from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
@@ -37,18 +36,11 @@ class AIModel(NamedTuple):
     filename: str
 
 
-AI_MODELS = [
-    AIModel(
-        name="Llama 3.2 3B (2.0GB)",
-        url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
-        filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
-    ),
-    AIModel(
-        name="Qwen 2.5 7B (4.7GB)",
-        url="https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf?download=true",
-        filename="Qwen2.5-7B-Instruct-Q4_K_M.gguf",
-    ),
-]
+AI_MODEL = AIModel(
+    name="Llama 3.2 3B (2.0GB)",
+    url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
+    filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+)
 
 
 class LlamaWorkerSignals(QObject):
@@ -303,7 +295,7 @@ class LlamaDownloadDialog(QDialog):
 
         layout = QVBoxLayout(self)
 
-        label_models = QLabel(self.tr("To start using the AI feature, please select one of the following models."))
+        label_models = QLabel(self.tr("To start using the AI feature, please download the following model."))
         layout.addWidget(label_models)
 
         label_download_location = QLabel(
@@ -317,108 +309,80 @@ class LlamaDownloadDialog(QDialog):
 
         layout.addWidget(label_download_location)
 
-        self.model_list = QListWidget()
-        self.model_list.setMinimumHeight(200)
-        self.model_list.itemSelectionChanged.connect(self.on_selection_changed)
-        layout.addWidget(self.model_list)
-        self.fill_model_list()
+        # Single model row
+        self.create_model_row(layout)
 
-        # Download Section
-        download_layout = QHBoxLayout()
+        # Next button section
+        next_layout = QHBoxLayout()
+        next_layout.addStretch()  # Push button to the right
 
+        self.btn_next = QPushButton(self.tr("Next"))
+        self.btn_next.clicked.connect(self.on_next)
+        self.btn_next.setDefault(True)
+        next_layout.addWidget(self.btn_next)
+
+        layout.addLayout(next_layout)
+
+        # Update button states on startup
+        self.update_ui_state()
+
+    def create_model_row(self, parent_layout):
+        """Create the single model row with buttons."""
+        # Model row widget
+        model_row = QWidget()
+        model_row.setObjectName("llamaDownloadModelRow")
+        model_layout = QHBoxLayout(model_row)
+        model_layout.setContentsMargins(10, 8, 10, 8)
+
+        # Model name label
+        self.model_label = QLabel()
+        model_layout.addWidget(self.model_label)
+
+        model_layout.addStretch()  # Push buttons to the right
+
+        # Delete button
         self.btn_delete = QPushButton(self.tr("Delete"))
+        self.btn_delete.setObjectName("deleteButton")
         self.btn_delete.clicked.connect(self.on_delete_model)
-        download_layout.addWidget(self.btn_delete)
+        model_layout.addWidget(self.btn_delete)
 
+        # Download button
         self.btn_download = QPushButton(self.tr("Download"))
+        self.btn_download.setObjectName("downloadButton")  # Class name for QSS
         self.btn_download.clicked.connect(self.on_download_model)
-        download_layout.addWidget(self.btn_download)
+        model_layout.addWidget(self.btn_download)
 
-        self.btn_select = QPushButton(self.tr("Select Model"))
-        self.btn_select.clicked.connect(self.on_select_model)
-        self.btn_select.setDefault(True)
-        download_layout.addWidget(self.btn_select)
+        model_layout.setSpacing(10)
 
-        layout.addLayout(download_layout)
+        parent_layout.addWidget(model_row)
 
-    def on_selection_changed(self):
-        """Enable or disable buttons based on the selection in the model list."""
-        model_selected = self.get_selected_model()
-        if not model_selected:
-            return None
+    def update_ui_state(self):
+        """Update UI elements based on download status."""
+        is_downloaded = self.is_model_downloaded()
 
-        downloaded_models_filenames = self.get_downloaded_models()
-        disabled_style = "QPushButton:disabled { color: gray; }"
+        # Update label text and style
+        status_text = "Downloaded" if is_downloaded else "Not downloaded"
+        self.model_label.setText(f"{AI_MODEL.name} ({status_text})")
 
-        if model_selected.filename in downloaded_models_filenames:
-            self.btn_download.setEnabled(False)
-            self.btn_download.setStyleSheet(disabled_style)
-            self.btn_delete.setEnabled(True)
-            self.btn_select.setEnabled(True)
-        else:
-            self.btn_download.setEnabled(True)
-            self.btn_delete.setEnabled(False)
-            self.btn_delete.setStyleSheet(disabled_style)
-            self.btn_select.setEnabled(False)
-            self.btn_select.setStyleSheet(disabled_style)
+        # Update button states and styles
+        self.btn_delete.setEnabled(is_downloaded)
+        self.btn_download.setEnabled(not is_downloaded)
+        self.btn_next.setEnabled(is_downloaded)
 
-    def on_select_model(self):
-        """Select the model from the list and close the dialog."""
-        model_selected = self.get_selected_model()
+    def is_model_downloaded(self):
+        """Check if the model is already downloaded."""
+        model_path = AI_MODELS_PATH / AI_MODEL.filename
+        return model_path.exists()
 
-        if not model_selected:
+    def on_next(self):
+        """Continue to next step - use the downloaded model."""
+        if not self.is_model_downloaded():
             self.show_warning_dialog()
             return
 
-        model_path = os.path.join(AI_MODELS_PATH, model_selected.filename)
-        if not os.path.exists(model_path):
-            self.show_warning_dialog()
-            return
-
-        self.selected_model_path = model_path
+        model_path = AI_MODELS_PATH / AI_MODEL.filename
+        self.selected_model_path = str(model_path)
         self.accept()
-
-    def fill_model_list(self):
-        """Fill the model list with available models and downloaded models."""
-
-        self.model_list.clear()
-        downloaded_models_filenames = self.get_downloaded_models()
-        for model in AI_MODELS:
-            item = QListWidgetItem()
-
-            if model.filename in downloaded_models_filenames:
-                item.setText(f"{model.name} / Downloaded")
-            else:
-                item.setText(f"{model.name} / Not downloaded")
-
-            self.model_list.addItem(item)
-
-    def get_downloaded_models(self):
-        """Retrieve the list of downloaded models from the AI_MODELS_PATH directory."""
-        downloaded_models = set()
-
-        for filename in os.listdir(AI_MODELS_PATH):
-            if filename.startswith("."):
-                continue
-
-            downloaded_models.add(filename)
-
-        return downloaded_models
-
-    def get_selected_model(self):
-        """Get the selected model from the model list."""
-        selected_items = self.model_list.selectedItems()
-        if not selected_items:
-            return None
-
-        model_name = selected_items[0].text().split("/")[0].strip()
-        model_selected = None
-        for model in AI_MODELS:
-            if model.name == model_name:
-                model_selected = model
-                break
-
-        return model_selected
 
     def open_download_directory(self):
         """Open the directory where models are downloaded."""
@@ -434,13 +398,8 @@ class LlamaDownloadDialog(QDialog):
 
     @Slot()
     def on_download_model(self):
-        """Download the selected model."""
-        model_selected = self.get_selected_model()
-        if not model_selected:
-            self.show_warning_dialog()
-            return
-
-        self.download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
+        """Download the model."""
+        self.download_file_path = AI_MODELS_PATH / AI_MODEL.filename
 
         if self.download_file_path.exists():
             ret = QMessageBox.question(
@@ -453,13 +412,14 @@ class LlamaDownloadDialog(QDialog):
                 return
             self.download_file_path.unlink()
 
-        self.btn_download.setDisabled(True)
+        # Disable download button during download
+        self.btn_download.setEnabled(False)
 
         # Create the file in write mode to append bytes
         self.file = QSaveFile(str(self.download_file_path))
 
         if self.file.open(QIODevice.OpenModeFlag.WriteOnly):
-            self.reply = self.manager.get(QNetworkRequest(model_selected.url))
+            self.reply = self.manager.get(QNetworkRequest(AI_MODEL.url))
 
             self.progress_dialog = QProgressDialog(self.tr("Downloading model"), self.tr("Cancel"), 0, 0, self)
             self.progress_dialog.setWindowTitle(self.tr("LLM Model Download Progress"))
@@ -477,16 +437,21 @@ class LlamaDownloadDialog(QDialog):
 
     @Slot()
     def on_delete_model(self):
-        """Delete the selected model file."""
-        model_selected = self.get_selected_model()
+        """Delete the model file."""
+        # Confirm deletion
+        ret = QMessageBox.question(
+            self,
+            self.tr("Confirm Deletion"),
+            self.tr(f"Are you sure you want to delete {AI_MODEL.name}?"),
+            QMessageBox.Yes | QMessageBox.No,
+        )
 
-        if not model_selected:
-            self.show_warning_dialog()
+        if ret == QMessageBox.No:
             return
 
-        download_file_path = AI_MODELS_PATH / f"{model_selected.filename}"
-        download_file_path.unlink(missing_ok=True)
-        self.fill_model_list()
+        model_path = AI_MODELS_PATH / AI_MODEL.filename
+        model_path.unlink(missing_ok=True)
+        self.update_ui_state()
 
     @Slot()
     def on_download_abort(self):
@@ -499,7 +464,7 @@ class LlamaDownloadDialog(QDialog):
             if self.download_file_path.exists():
                 self.download_file_path.unlink()
 
-        self.btn_download.setDisabled(False)
+        self.btn_download.setEnabled(True)
 
     @Slot()
     def on_download_finished(self):
@@ -510,9 +475,7 @@ class LlamaDownloadDialog(QDialog):
         if self.file:
             self.file.commit()
 
-        self.btn_download.setEnabled(True)
-        self.btn_download.setText(self.tr("Download"))
-        self.fill_model_list()
+        self.update_ui_state()  # Refresh UI state
 
     @Slot()
     def on_download_ready_read(self):
@@ -550,5 +513,5 @@ class LlamaDownloadDialog(QDialog):
         return f"{bytes_size:.2f} TB"
 
     def show_warning_dialog(self):
-        """Show a warning dialog if no model is selected."""
-        return QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please select one of the models"))
+        """Show a warning dialog if model is not downloaded."""
+        return QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please download the model first"))
