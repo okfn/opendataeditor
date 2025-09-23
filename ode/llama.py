@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QProgressDialog,
     QListWidgetItem,
+    QComboBox,
 )
 from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
 from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
@@ -121,6 +122,20 @@ class LlamaDialog(QDialog):
         self.prompt_label = QLabel("Prompt:")
         layout.addWidget(self.prompt_label)
 
+        self.prompt_selector = QComboBox()
+        options = [
+            ("Please select a function", "select"),
+            ("Describe column names", "columns"),
+            ("Suggest analysis for my data", "analysis"),
+        ]
+        for i, (text, key) in enumerate(options):
+            self.prompt_selector.addItem(text)
+            self.prompt_selector.setItemData(i, key)
+
+        layout.addWidget(self.prompt_selector)
+        self.prompt_text_label = QLabel("Prompt label:")
+        layout.addWidget(self.prompt_text_label)
+
         self.input_text = QTextEdit()
         self.input_text.setMinimumHeight(300)
         self.input_text.setMinimumWidth(700)
@@ -136,29 +151,68 @@ class LlamaDialog(QDialog):
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
 
+        self.prompt_selector.activated.connect(self.set_prompt)
+
         self.retranslateUI()
 
     def set_data(self, data):
         """Set the data for analysis."""
         self.data = data
 
+    def _get_columns_prompt(self):
         headers = [str(h) for h in self.data[0] if h is not None and h != ""]
-        prompt = f"""Please provide better column names and a brief description for each column name.
+        prompt = f"""# Explain the column names
+Below is the metadata and sample data of a dataset that you will suggest columns descriptions.
 
-For ensuring good quality in the column names you follow 4 rules:
-  1) Column names are always lowercase,
-  2) Column names do not contain more than three words,
-  3) Column names do not have space but rather words are separated with underscore characters.
-  4) Column names never have acronyms nor abreviations unless they are extremelly common
-  5) Always identify the original language and use it for the suggested new names.
+## Describe what each columns means in the context of the dataset
+ 1. Please provide a description for each column name.
+ 2. Assume the user does not know anything about the topic.
+ 3. Use plain language and be verbose when explaining what data the column contains.
+ 4. If there are technical terms, expand the description to explain what that term means in the context of the dataset.
+ 5. Use the content of the First 5 rows to gain context about the columns so you answer is more accurate.
 
+# Metadata
 Current column names: {" | ".join(headers)}
-
-Right after the suggestion add a sentence for describing the meaning of the column. If there are technical terms, expand the description to explain what
-that term means in the context of the dataset. For the explanation use common language and assume that the user is not an expert in the field. When possible
-write the answer in the same language used for the original column names.
+First 5 rows: {self.data[1:6]}
 """
 
+        return prompt
+
+    def _get_analysis_prompt(self):
+        headers = [str(h) for h in self.data[0] if h is not None and h != ""]
+        prompt = f"""# Understand the Data:
+Below is the metadata and sample data of a dataset that you will suggest analysis for.
+
+## Create questions that cover a wide range of analytical techniques:
+  1. Descriptive Statistics: (e.g., counts, averages, distributions, min/max)
+  2. Trend Analysis: (e.g., over time, across categories)
+  3. Relationship & Correlation: (e.g., between two numeric columns)
+  4. Segmentation & Comparison: (e.g., comparing groups based on a category)
+  5. Aggregation & Binning: (e.g., using groups and summary functions)
+  6. Data Quality & Anomalies: (e.g., missing values, outliers)
+
+## Tailor the Questions:
+The questions must be specific to the provided column names and inferred context. Do not generate generic questions that could apply to any dataset.
+
+## Value of the Question:
+For each question you would add a sentence providing what useful information could be get out of the answer and why you consider the question important.
+
+# Metadata:
+ 1. Column names: {" | ".join(headers)}
+ 2. First 5 rows: {self.data[1:6]}
+"""
+        return prompt
+
+    def set_prompt(self, index):
+        """Set the prompt"""
+        key = self.prompt_selector.itemData(index)
+        prompt = "No prompt selected."
+        if key == "select":
+            return
+        if key == "columns":
+            prompt = self._get_columns_prompt()
+        if key == "analysis":
+            prompt = self._get_analysis_prompt()
         self.input_text.setText(prompt)
 
     def init_llm(self, model_path):
