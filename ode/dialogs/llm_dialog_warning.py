@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QLabel, QWidget
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QLabel, QWidget, QCheckBox
+from PySide6.QtCore import QSettings
 
 
 class LLMWarningDialog(QDialog):
@@ -10,9 +11,7 @@ class LLMWarningDialog(QDialog):
     def __init__(self, parent: QWidget):
         super().__init__(parent)
         self.setWindowTitle(self.tr("AI feature"))
-        # TODO: dialog size is not set properly when having the application in a second monitor
-        # so we force it to a minimun.
-        self.setMinimumSize(500, 200)
+        self.setFixedSize(600, 270)
 
         layout = QVBoxLayout()
 
@@ -20,9 +19,13 @@ class LLMWarningDialog(QDialog):
         self.warning_text.setWordWrap(True)
         self.warning_text.setText(
             self.tr(
-                "The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device."
+                "Welcome to the ODE's AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. \n\n"
+                "To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more"
             )
         )
+
+        self.dont_show_again_checkbox = QCheckBox()
+        self.dont_show_again_checkbox.setText(self.tr("Don't show again"))
 
         button_layout = QHBoxLayout()
         self.cancel_button = QPushButton()
@@ -37,10 +40,24 @@ class LLMWarningDialog(QDialog):
         self.ok_button.setText(self.tr("Ok"))
 
         layout.addWidget(self.warning_text)
+        layout.addWidget(self.dont_show_again_checkbox)
         layout.addLayout(button_layout)
         self.setLayout(layout)
 
+    def accept(self):
+        """Override accept to save the checkbox state"""
+        if self.dont_show_again_checkbox.isChecked():
+            settings = QSettings()
+            settings.setValue("llm_warning_dialog/dont_show_again", True)
+
+        super().accept()
+
     @staticmethod
     def confirm(parent):
+        settings = QSettings()
+        # Check if the user has previously chosen to not show the dialog again
+        if settings.value("llm_warning_dialog/dont_show_again", False, type=bool):
+            return True
+
         dialog = LLMWarningDialog(parent)
         return dialog.exec() == QDialog.Accepted
