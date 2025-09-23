@@ -1166,11 +1166,6 @@ if __name__ == "__main__":
 
     setup_ode_internal_folders()
 
-    from PySide6.QtCore import QSettings
-
-    settings = QSettings()
-    settings.remove("llm_warning_dialog/dont_show_again")
-
     window = MainWindow()
     window.showMaximized()
     window.show()
