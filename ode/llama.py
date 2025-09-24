@@ -1,8 +1,9 @@
 import sys
 import os
+import logging
 from pathlib import Path
 from typing import NamedTuple
-import logging
+from enum import Enum
 
 from llama_cpp import Llama
 from PySide6.QtWidgets import (
@@ -26,6 +27,12 @@ if not os.path.exists(AI_MODELS_PATH):
     os.makedirs(AI_MODELS_PATH)
 
 logger = logging.getLogger(__name__)
+
+
+class PromptKeys(Enum):
+    SELECT = "select"
+    COLUMNS = "columns"
+    ANALYSIS = "analysis"
 
 
 class AIModel(NamedTuple):
@@ -96,6 +103,7 @@ class LlamaDialog(QDialog):
         self.worker = None
         self.init_ui()
         self.data = None
+        self.prompt = None
 
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
@@ -111,27 +119,22 @@ class LlamaDialog(QDialog):
         """Initialize the UI for the Llama dialog."""
         layout = QVBoxLayout(self)
 
-        self.prompt_label = QLabel("Prompt:")
+        self.prompt_label = QLabel(
+            "The AI assistant currently support two use cases. Please, select one of the following options."
+        )
         layout.addWidget(self.prompt_label)
 
         self.prompt_selector = QComboBox()
         options = [
-            ("Please select a function", "select"),
-            ("Describe column names", "columns"),
-            ("Suggest analysis for my data", "analysis"),
+            ("Please select a use case", PromptKeys.SELECT.value),
+            ("Generate descriptions for columns", PromptKeys.COLUMNS.value),
+            ("Suggest questions for data analysis", PromptKeys.ANALYSIS.value),
         ]
         for i, (text, key) in enumerate(options):
             self.prompt_selector.addItem(text)
             self.prompt_selector.setItemData(i, key)
 
         layout.addWidget(self.prompt_selector)
-        self.prompt_text_label = QLabel("Prompt label:")
-        layout.addWidget(self.prompt_text_label)
-
-        self.input_text = QTextEdit()
-        self.input_text.setMinimumHeight(300)
-        self.input_text.setMinimumWidth(700)
-        layout.addWidget(self.input_text)
 
         self.btn_run = QPushButton()
         self.btn_run.clicked.connect(self.run)
@@ -142,6 +145,11 @@ class LlamaDialog(QDialog):
         self.output_text.setMinimumHeight(300)
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
+
+        self.prompt_text_label = QLabel(
+            "This answer is AI generated. We recommend users to check responses to make sure they are in accordance with the table's data"
+        )
+        layout.addWidget(self.prompt_text_label)
 
         self.prompt_selector.activated.connect(self.set_prompt)
 
@@ -198,14 +206,14 @@ For each question you would add a sentence providing what useful information cou
     def set_prompt(self, index):
         """Set the prompt"""
         key = self.prompt_selector.itemData(index)
-        prompt = "No prompt selected."
-        if key == "select":
+        self.prompt = "No prompt selected."
+        if key == PromptKeys.SELECT.value:
+            self.prompt = None
             return
-        if key == "columns":
-            prompt = self._get_columns_prompt()
-        if key == "analysis":
-            prompt = self._get_analysis_prompt()
-        self.input_text.setText(prompt)
+        if key == PromptKeys.COLUMNS.value:
+            self.prompt = self._get_columns_prompt()
+        if key == PromptKeys.ANALYSIS.value:
+            self.prompt = self._get_analysis_prompt()
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
@@ -228,7 +236,7 @@ For each question you would add a sentence providing what useful information cou
 
         self.btn_run.setEnabled(False)
 
-        self.worker = LlamaWorker(self.llm, self.input_text.toPlainText())
+        self.worker = LlamaWorker(self.llm, self.prompt)
         self.worker.signals.started.connect(self.on_execution_started)
         self.worker.signals.finished.connect(self.on_execution_finished)
         self.worker.signals.error.connect(self.on_execution_error)
