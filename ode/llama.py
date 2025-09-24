@@ -384,10 +384,6 @@ class LlamaDownloadDialog(QDialog):
 
     def on_next(self):
         """Continue to next step - use the downloaded model."""
-        if not self.is_model_downloaded():
-            self.show_warning_dialog()
-            return
-
         model_path = AI_MODELS_PATH / AI_MODEL.filename
         self.selected_model_path = str(model_path)
         self.accept()
@@ -519,7 +515,3 @@ class LlamaDownloadDialog(QDialog):
                 return f"{bytes_size:.2f} {unit}"
             bytes_size /= 1024.0
         return f"{bytes_size:.2f} TB"
-
-    def show_warning_dialog(self):
-        """Show a warning dialog if model is not downloaded."""
-        return QMessageBox.warning(self, self.tr("Model not found"), self.tr("Please download the model first"))
