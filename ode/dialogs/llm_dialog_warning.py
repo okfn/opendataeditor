@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QL
 from PySide6.QtCore import QSettings
 
 
-
+class LLMWarningDialog(QDialog):
     """
     This dialog informs users that the AI assistant operates entirely on their laptop,
     ensuring that data from their table is never sent or shared outside the device.
