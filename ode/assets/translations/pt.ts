@@ -252,9 +252,84 @@
     </message>
 </context>
 <context>
+    <name>ErrorsMessages</name>
+    <message>
+        <location filename="../../utils.py" line="121"/>
+        <location filename="../../utils.py" line="127"/>
+        <source>Missing header</source>
+        <translation>Cabeçalho faltante</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="122"/>
+        <source>Duplicated header</source>
+        <translation>Cabeçalho duplicado</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="123"/>
+        <source>Empty row</source>
+        <translation>Linha vazia</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="124"/>
+        <source>Type mismatch</source>
+        <translation>Incompatibilidade de tipo</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="125"/>
+        <source>Missing value</source>
+        <translation>Valor faltante</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="126"/>
+        <source>Extra cell</source>
+        <translation>Célula extra</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="128"/>
+        <source>Blank Label</source>
+        <translation>Rótulo em branco</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="137"/>
+        <location filename="../../utils.py" line="143"/>
+        <source>A column in the header row has no name. Every column should have a unique, non-empty header.</source>
+        <translation>Uma coluna na linha do cabeçalho não tem nome. Cada coluna deve ter um cabeçalho único e não vazio.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="138"/>
+        <source>Two or more columns share the same name. Column names must be unique.</source>
+        <translation>Duas ou mais colunas compartilham o mesmo nome. Os nomes das colunas devem ser únicos.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="139"/>
+        <source>This row has no data. Rows should contain at least one cell with data.</source>
+        <translation>Esta linha não tem dados. As linhas devem conter pelo menos uma célula com dados.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="140"/>
+        <source>A cell value doesn&apos;t match the expected data type or format for the column.</source>
+        <translation>Um valor de célula não corresponde ao tipo de dado ou formato esperado para a coluna.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="141"/>
+        <source>This cell is missing data</source>
+        <translation>Esta célula está sem dados</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="142"/>
+        <source>This row has more values compared to the header row.</source>
+        <translation>Esta linha tem mais valores em comparação com a linha do cabeçalho.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="144"/>
+        <source>A label in the header row is missing a value. Label should be provided and not be blank.</source>
+        <translation>Falta um valor em um rótulo da linha do cabeçalho. O rótulo deve ser fornecido e não pode estar em branco.</translation>
+    </message>
+</context>
+<context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="215"/>
+        <location filename="../../panels/errors.py" line="220"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, note que a ODE atualmente detecta erros nas tabelas, com um máximo de </translation>
     </message>

@@ -173,7 +173,7 @@ class TestFrictionlessErrors:
         assert (
             error_report.description.text() == "This row has no data. Rows should contain at least one cell with data."
         )
-        assert error_report.title.layout().itemAt(0).widget().text() == "Empty row"
+        assert error_report.title_label.text() == "Empty row"
 
     def test_default_frictionless_errors_if_missing_custom(self, qtbot, window, project_folder):
         """Test that the application fallbacks to Frictionless errors if we do not provide a custom description."""
@@ -198,7 +198,7 @@ class TestFrictionlessErrors:
             error_report.description.text()
             == "A label in the header row is missing a value. Label should be provided and not be blank."
         )
-        assert error_report.title.layout().itemAt(0).widget().text() == "Blank Label"
+        assert error_report.title_label.text() == "Blank Label"
 
     def test_changing_column_header_name_fixes_error_with_dialog(self, qtbot, window, project_folder):
         """Test that changing the header name of a column with a dialog fixes the blank header error."""
@@ -236,14 +236,14 @@ class TestFrictionlessErrors:
         dialog.save_clicked.connect(lambda data: saved_data.append(data))
 
         # Click the save button
-        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+        qtbot.mouseClick(dialog.save_button, Qt.MouseButton.LeftButton)
 
         # For debugging
         # qtbot.wait(100)
         # window.update()
 
         # Verify the dialog was accepted and data was emitted
-        assert dialog.result() == QDialog.Accepted
+        assert dialog.result() == QDialog.DialogCode.Accepted
         assert len(saved_data) == 1
         assert saved_data[0]["name"] == "surname"
         assert saved_data[0]["index"] == 1
@@ -294,10 +294,10 @@ class TestFrictionlessErrors:
         dialog.save_clicked.connect(lambda data: saved_data.append(data))
 
         # Click the save button
-        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+        qtbot.mouseClick(dialog.save_button, Qt.MouseButton.LeftButton)
 
         # Verify the dialog was accepted and data was emitted
-        assert dialog.result() == QDialog.Accepted
+        assert dialog.result() == QDialog.DialogCode.Accepted
         assert len(saved_data) == 1
         assert saved_data[0]["type"] == "number"
         assert saved_data[0]["index"] == 1
@@ -313,10 +313,10 @@ class TestFrictionlessErrors:
 
         # Change the column type back to "string" to fix the error
         dialog.form.type.setCurrentText("Text")
-        qtbot.mouseClick(dialog.save_button, Qt.LeftButton)
+        qtbot.mouseClick(dialog.save_button, Qt.MouseButton.LeftButton)
 
         # Verify the dialog was accepted and data was emitted
-        assert dialog.result() == QDialog.Accepted
+        assert dialog.result() == QDialog.DialogCode.Accepted
         assert len(saved_data) == 2
         assert saved_data[1]["type"] == "string"
         assert saved_data[1]["index"] == 1

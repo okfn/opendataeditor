@@ -68,43 +68,6 @@ class ErrorFilterProxyModel(QSortFilterProxyModel):
         return super().data(index, role)
 
 
-class ErrorTitle(QWidget):
-    """Widget to display the error type and count."""
-
-    def __init__(self, title, count):
-        super().__init__()
-
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-
-        title = QLabel(title)
-        font = QFont()
-        font.setBold(True)
-        title.setFont(font)
-
-        errors = QLabel(str(count), objectName="errors")
-
-        layout.addWidget(title)
-        layout.addWidget(errors)
-        layout.addStretch()
-
-        self.setLayout(layout)
-
-        self.setStyleSheet(
-            """
-            QLabel#errors {
-              background: #D32F2F;
-              color: #FFF;
-              padding: 2px 2px;
-              border-style: outset;
-              border-width: 1px;
-              border-radius: 4px;
-              border-color: #D32F2F;
-            }
-        """
-        )
-
-
 class ErrorReport(QWidget):
     """Widget to show a single-type Error report.
 
@@ -118,28 +81,70 @@ class ErrorReport(QWidget):
 
     def __init__(self, errors, model, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        self.errors = errors
         utils.set_common_style(self)
 
-        error_title = utils.ErrorTexts.get_error_title(errors[0].type) or errors[0].title
-        self.title = ErrorTitle(error_title, len(errors))
-        errors_description = utils.ErrorTexts.get_error_description(errors[0].type) or errors[0].description
-        self.description = QLabel(errors_description)
+        # Title of each error report: Label + count
+        title = QWidget()
+        title_layout = QHBoxLayout()
+        title_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.title_label = QLabel(objectName="title_label")
+        self.count_label = QLabel(objectName="count_label")
+
+        title_layout.addWidget(self.title_label)
+        title_layout.addWidget(self.count_label)
+        title_layout.addStretch()
+
+        title.setLayout(title_layout)
+
+        # Description of the error
+        self.description = QLabel()
         font = self.description.font()
         font.setPointSize(12)
         self.description.setFont(font)
         self.description.setWordWrap(True)
 
-        self.proxy_model = ErrorFilterProxyModel(errors[0].type)
+        # Previsualization table
+        self.proxy_model = ErrorFilterProxyModel(self.errors[0].type)
         self.proxy_model.setSourceModel(model)
         self.table = QTableView()
         self.table.setModel(self.proxy_model)
 
         vbox = QVBoxLayout()
-        vbox.addWidget(self.title)
+        vbox.addWidget(title)
         vbox.addWidget(self.description)
         vbox.addWidget(self.table)
         self.setLayout(vbox)
+
+        self.setStyleSheet(
+            """
+            QLabel#title_label {
+              font-weight: bold;
+            }
+            QLabel#count_label {
+              background: #D32F2F;
+              color: #FFF;
+              padding: 2px 2px;
+              border-style: outset;
+              border-width: 1px;
+              border-radius: 4px;
+              border-color: #D32F2F;
+            }
+        """
+        )
+
+        self.retranslateUI()
+
+    def retranslateUI(self):
+        error_title = utils.ErrorTexts.get_error_title(self.errors[0].type) or self.errors[0].title
+        error_count = str(len(self.errors))
+        errors_description = utils.ErrorTexts.get_error_description(self.errors[0].type) or self.errors[0].description
+
+        self.title_label.setText(error_title)
+        self.count_label.setText(error_count)
+        self.description.setText(errors_description)
+
 
 
 class ErrorsWidget(QWidget):
@@ -214,3 +219,5 @@ class ErrorsWidget(QWidget):
             self.tr("Please note that the ODE currently detects errors in tables, with a maximum of ")
             + str(DEFAULT_LIMIT_ERRORS)
         )
+        for i in range(self.reports_layout.count()):
+            self.reports_layout.itemAt(i).widget().retranslateUI()

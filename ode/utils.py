@@ -9,7 +9,7 @@ from frictionless import system
 
 from ode import paths
 
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 
 def setup_ode_internal_folders():
@@ -104,42 +104,44 @@ def show_error_dialog(message=None, title="Error"):
         message = "An unexpected error occurred in the application."
 
     error_box = QMessageBox()
-    error_box.setIcon(QMessageBox.Critical)
+    error_box.setIcon(QMessageBox.Icon.Critical)
     error_box.setWindowTitle(title)
     error_box.setText("An error has occurred")
     error_box.setInformativeText(message)
-    error_box.setStandardButtons(QMessageBox.Ok)
+    error_box.setStandardButtons(QMessageBox.StandardButton.Ok)
 
     return error_box.exec()
 
 
 class ErrorTexts:
-    ERROR_TITLES = {
-        "missing-label": "Missing header",
-        "duplicate-label": "Duplicated header",
-        "blank-row": "Empty row",
-        "type-error": "Type mismatch",
-        "missing-cell": "Missing value",
-        "extra-cell": "Extra cell",
-        "blank-header": "Missing header",
-    }
-
-    ERROR_DESCRIPTIONS = {
-        "missing-label": "A column in the header row has no name. Every column should have a unique, non-empty header.",
-        "duplicate-label": "Two or more columns share the same name. Column names must be unique.",
-        "blank-row": "This row has no data. Rows should contain at least one cell with data.",
-        "type-error": "A cell value doesn't match the expected data type or format for the column.",
-        "missing-cell": "This cell is missing data",
-        "extra-cell": "This row has more values compared to the header row.",
-        "blank-header": "A column in the header row has no name. Every column should have a unique, non-empty header.",
-    }
-
     @classmethod
     def get_error_title(cls, error_type):
         """Returns a more user-friendly title if exists."""
-        return cls.ERROR_TITLES.get(error_type, None)
+        ERROR_TITLES = {
+            "missing-label": QApplication.translate("ErrorsMessages", "Missing header"),
+            "duplicate-label": QApplication.translate("ErrorsMessages", "Duplicated header"),
+            "blank-row": QApplication.translate("ErrorsMessages", "Empty row"),
+            "type-error": QApplication.translate("ErrorsMessages", "Type mismatch"),
+            "missing-cell": QApplication.translate("ErrorsMessages", "Missing value"),
+            "extra-cell": QApplication.translate("ErrorsMessages", "Extra cell"),
+            "blank-header": QApplication.translate("ErrorsMessages", "Missing header"),
+            "blank-label": QApplication.translate("ErrorsMessages", "Blank Label"),
+        }
+
+        return ERROR_TITLES.get(error_type, None)
 
     @classmethod
     def get_error_description(cls, error_type):
         """Returns a more user-friendly description if exists."""
-        return cls.ERROR_DESCRIPTIONS.get(error_type, None)
+        ERROR_DESCRIPTIONS = {
+            "missing-label": QApplication.translate("ErrorsMessages", "A column in the header row has no name. Every column should have a unique, non-empty header."),
+            "duplicate-label": QApplication.translate("ErrorsMessages", "Two or more columns share the same name. Column names must be unique."),
+            "blank-row": QApplication.translate("ErrorsMessages", "This row has no data. Rows should contain at least one cell with data."),
+            "type-error": QApplication.translate("ErrorsMessages", "A cell value doesn't match the expected data type or format for the column."),
+            "missing-cell": QApplication.translate("ErrorsMessages", "This cell is missing data"),
+            "extra-cell": QApplication.translate("ErrorsMessages", "This row has more values compared to the header row."),
+            "blank-header": QApplication.translate("ErrorsMessages", "A column in the header row has no name. Every column should have a unique, non-empty header."),
+            "blank-label": QApplication.translate("ErrorsMessages", "A label in the header row is missing a value. Label should be provided and not be blank."),
+        }
+
+        return ERROR_DESCRIPTIONS.get(error_type, None)
