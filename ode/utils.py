@@ -125,6 +125,7 @@ class ErrorTexts:
             "missing-cell": QApplication.translate("ErrorsMessages", "Missing value"),
             "extra-cell": QApplication.translate("ErrorsMessages", "Extra cell"),
             "blank-header": QApplication.translate("ErrorsMessages", "Missing header"),
+            "blank-label": QApplication.translate("ErrorsMessages", "Blank Label"),
         }
 
         return ERROR_TITLES.get(error_type, None)
@@ -140,6 +141,7 @@ class ErrorTexts:
             "missing-cell": QApplication.translate("ErrorsMessages", "This cell is missing data"),
             "extra-cell": QApplication.translate("ErrorsMessages", "This row has more values compared to the header row."),
             "blank-header": QApplication.translate("ErrorsMessages", "A column in the header row has no name. Every column should have a unique, non-empty header."),
+            "blank-label": QApplication.translate("ErrorsMessages", "A label in the header row is missing a value. Label should be provided and not be blank."),
         }
 
         return ERROR_DESCRIPTIONS.get(error_type, None)

@@ -228,41 +228,51 @@
         <translation>Celda adicional</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="136"/>
-        <location filename="../../utils.py" line="142"/>
+        <location filename="../../utils.py" line="128"/>
+        <source>Blank Label</source>
+        <translation>Etiqueta en blanco</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="137"/>
+        <location filename="../../utils.py" line="143"/>
         <source>A column in the header row has no name. Every column should have a unique, non-empty header.</source>
         <translation>Una columna en la fila de encabezado no tiene nombre. Cada columna debe tener un encabezado único y no vacío.</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="137"/>
+        <location filename="../../utils.py" line="138"/>
         <source>Two or more columns share the same name. Column names must be unique.</source>
         <translation>Dos o más columnas comparten el mismo nombre. Los nombres de columna deben ser únicos.</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="138"/>
+        <location filename="../../utils.py" line="139"/>
         <source>This row has no data. Rows should contain at least one cell with data.</source>
         <translation>Esta fila no tiene datos. Las filas deben contener al menos una celda con datos.</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="139"/>
+        <location filename="../../utils.py" line="140"/>
         <source>A cell value doesn&apos;t match the expected data type or format for the column.</source>
         <translation>Un valor de celda no coincide con el tipo de dato o formato esperado para la columna.</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="140"/>
+        <location filename="../../utils.py" line="141"/>
         <source>This cell is missing data</source>
         <translation>Esta celda carece de datos</translation>
     </message>
     <message>
-        <location filename="../../utils.py" line="141"/>
+        <location filename="../../utils.py" line="142"/>
         <source>This row has more values compared to the header row.</source>
         <translation>Esta fila tiene más valores en comparación con la fila de encabezado.</translation>
+    </message>
+    <message>
+        <location filename="../../utils.py" line="144"/>
+        <source>A label in the header row is missing a value. Label should be provided and not be blank.</source>
+        <translation>Falta un valor en una etiqueta de la fila de encabezado. La etiqueta debe proporcionarse y no estar en blanco.</translation>
     </message>
 </context>
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <location filename="../../panels/errors.py" line="225"/>
+        <location filename="../../panels/errors.py" line="220"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation>Por favor, ten en cuenta que la ODE detecta actualmente errores en las tablas, con un máximo de </translation>
     </message>
