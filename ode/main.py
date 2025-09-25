@@ -131,7 +131,7 @@ class CustomTreeView(QTreeView):
         """
         Show a tooltip with the filename when hovering over a file in the file navigator.
         """
-        if event.type() == QEvent.ToolTip:
+        if event.type() == QEvent.Type.ToolTip:
             index = self.indexAt(event.pos())
             if index.isValid():
                 global_pos = event.globalPos()
@@ -179,7 +179,7 @@ class ClickableLabel(QLabel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     def mousePressEvent(self, event):
         self.clicked.emit()
@@ -212,7 +212,7 @@ class Sidebar(QWidget):
         self.file_navigator.setRootIndex(self.file_model.setRootPath(str(paths.PROJECT_PATH)))
         self._show_only_name_column_in_file_navigator(self.file_model, self.file_navigator)
         self.file_navigator.setHeaderHidden(True)
-        self.file_navigator.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.file_navigator.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.file_navigator.customContextMenuRequested.connect(self._show_context_menu)
         self._setup_file_navigator_context_menu()
 
@@ -357,24 +357,25 @@ class ErrorsReportButton(QPushButton):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(2)  # Aligns better with QPushButton look & feel
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        layout = QHBoxLayout(self)
+        layout.setSpacing(2)  # Aligns better with QPushButton look & feel
+        layout.setContentsMargins(0, 0, 0, 0)
 
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(20, 20)  # Match icon size
-        self.layout.addWidget(self.icon_label)
+        layout.addWidget(self.icon_label)
 
         self.text_label = QLabel()
-        self.layout.addWidget(self.text_label)
+        layout.addWidget(self.text_label)
 
         self.error_label = QLabel()
         self.error_label.setProperty("error", True)  # For referencing in our style.qss file
-        self.layout.addWidget(self.error_label)
+        layout.addWidget(self.error_label)
 
         # This is some Qt Magic to properly display the button and of all its labels
         # (auto-expanding content-based width)
-        self.layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
+        layout.setSizeConstraint(QHBoxLayout.SizeConstraint.SetMinimumSize)
+        self.setLayout(layout)
 
     def setText(self, text):
         self.text_label.setText(text)
@@ -439,11 +440,13 @@ class Toolbar(QWidget):
         # Buttons on the left
         # Setting the cursor to PointingHandCursor to indicate that the button is clickable because
         # is not working with the style.qss file.
-        self.button_data = QPushButton(cursor=Qt.PointingHandCursor)
+        self.button_data = QPushButton()
+        self.button_data.setCursor(Qt.CursorShape.PointingHandCursor)
         self.button_errors = ErrorsReportButton()
-        self.button_errors.setCursor(Qt.PointingHandCursor)
+        self.button_errors.setCursor(Qt.CursorShape.PointingHandCursor)
         self.button_errors.setIcon(QIcon(Paths.asset("icons/24/rule.svg")))
-        self.button_source = QPushButton(cursor=Qt.PointingHandCursor)
+        self.button_source = QPushButton()
+        self.button_source.setCursor(Qt.CursorShape.PointingHandCursor)
         self.button_source.setIcon(QIcon(Paths.asset("icons/24/code.svg")))
         self.button_source.setIconSize(QSize(20, 20))
         layout.addWidget(self.button_data)
@@ -547,7 +550,7 @@ class Welcome(QWidget):
         image_label = QLabel(self)
         pixmap = QPixmap(Paths.asset("images/welcome_screen.png"))
         image_label.setPixmap(pixmap)
-        image_label.setAlignment(Qt.AlignCenter)
+        image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label_top = QLabel()
         self.label_top.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label_top.setStyleSheet("font-size: 14px; font-weight: 800;")
@@ -597,7 +600,7 @@ class MainWindow(QMainWindow):
         layout = QHBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
 
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = QSplitter(Qt.Orientation.Horizontal)
         layout.addWidget(splitter)
 
         self.sidebar = Sidebar()
@@ -646,22 +649,22 @@ class MainWindow(QMainWindow):
         self.shortcut_f5.activated.connect(self.on_ai_click)
 
         # Data Panel
-        self.shortcut_alt_d = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_D), self)
+        self.shortcut_alt_d = QShortcut(QKeySequence(Qt.Modifier.ALT | Qt.Key.Key_D), self)
         self.shortcut_alt_d.activated.connect(lambda: self.change_active_panel(ContentIndex.DATA))
 
         # Errors Panel
-        self.shortcut_alt_r = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_R), self)
+        self.shortcut_alt_r = QShortcut(QKeySequence(Qt.Modifier.ALT | Qt.Key.Key_R), self)
         self.shortcut_alt_r.activated.connect(lambda: self.change_active_panel(ContentIndex.ERRORS))
 
         # Source Panel
-        self.shortcut_alt_s = QShortcut(QKeySequence(Qt.AltModifier | Qt.Key_S), self)
+        self.shortcut_alt_s = QShortcut(QKeySequence(Qt.Modifier.ALT | Qt.Key.Key_S), self)
         self.shortcut_alt_s.activated.connect(lambda: self.change_active_panel(ContentIndex.SOURCE))
 
         # Save
         if sys.platform == "darwin":
             self.shortcut_control_s = QShortcut(QKeySequence(Qt.MetaModifier | Qt.Key_S), self)
         else:
-            self.shortcut_control_s = QShortcut(QKeySequence(Qt.ControlModifier | Qt.Key_S), self)
+            self.shortcut_control_s = QShortcut(QKeySequence(Qt.Modifier.CTRL | Qt.Key.Key_S), self)
 
         self.shortcut_control_s.activated.connect(self.on_save_click)
 
@@ -772,7 +775,7 @@ class MainWindow(QMainWindow):
             return
 
         ai_llama_download = LlamaDownloadDialog(self)
-        if ai_llama_download.exec() == QDialog.Accepted:
+        if ai_llama_download.exec() == QDialog.DialogCode.Accepted:
             selected_model = ai_llama_download.selected_model_path
             if selected_model:
                 self.content.ai_llama.init_llm(selected_model)
@@ -937,7 +940,7 @@ class MainWindow(QMainWindow):
         """Get the names of the sheets in an Excel file."""
         sheet_names = []
         if filepath.suffix == ".xls":
-            workbook = xlrd.open_workbook(filepath)
+            workbook = xlrd.open_workbook(str(filepath))
             sheet_names = workbook.sheet_names()
         elif filepath.suffix in [".xlsx"]:
             workbook = openpyxl.load_workbook(filepath, read_only=True)
@@ -1098,7 +1101,7 @@ class MainWindow(QMainWindow):
             # Create a text widget to display the content
             text_edit = QTextEdit()
             font = QFont("Courier New")
-            font.setStyleHint(QFont.Monospace)
+            font.setStyleHint(QFont.StyleHint.Monospace)
             text_edit.setFont(font)
             text_edit.setReadOnly(True)
             text_edit.setText(content)
@@ -1143,7 +1146,7 @@ class MainWindow(QMainWindow):
         """
         Performs the actual download of the file with errors to the user's Downloads folder.
         """
-        downloads_path = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
+        downloads_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DownloadLocation)
         filename = self.selected_file_path.name
         # TODO: do no overwrite existing files
         filepath = Path(downloads_path, filename)
