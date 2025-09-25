@@ -4,13 +4,13 @@ from PySide6.QtCore import QSettings
 
 class LLMWarningDialog(QDialog):
     """
-    This dialog informs users that the AI feature operates entirely on their laptop,
+    This dialog informs users that the AI assistant operates entirely on their laptop,
     ensuring that data from their table is never sent or shared outside the device.
     """
 
     def __init__(self, parent: QWidget):
         super().__init__(parent)
-        self.setWindowTitle(self.tr("AI feature"))
+        self.setWindowTitle(self.tr("AI assistant"))
         self.setFixedSize(600, 270)
 
         layout = QVBoxLayout()

@@ -356,3 +356,39 @@ LLMWarningDialog QCheckBox {
     font-size: 18px; 
     background-color: white;
 }
+
+QPushButton#deleteButton {
+    background-color: black;
+    color: white;
+}
+
+QPushButton#deleteButton:hover {
+    background-color: #0078D7;
+}
+
+QPushButton#deleteButton:disabled {
+    color: gray;
+    background-color: #f0f0f0;
+}
+
+/* Download Button */
+QPushButton#downloadButton {
+    background-color: #black;
+    color: white;
+}
+
+QPushButton#downloadButton:hover {
+    background-color: #0078D7;
+}
+
+QPushButton#downloadButton:disabled {
+    color: gray;
+    background-color: #f0f0f0;
+}
+
+QWidget#llamaDownloadModelRow {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    margin: 2px;
+}
