@@ -27,7 +27,7 @@ class SourceViewer(QWidget):
         self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         self.text_edit = QPlainTextEdit()
-        self.text_edit.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.text_edit.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.text_edit.setReadOnly(True)
         self.text_edit.setFont(QFont("Courier, monospace"))
         self.text_edit.hide()

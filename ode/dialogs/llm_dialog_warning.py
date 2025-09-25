@@ -60,4 +60,4 @@ class LLMWarningDialog(QDialog):
             return True
 
         dialog = LLMWarningDialog(parent)
-        return dialog.exec() == QDialog.Accepted
+        return dialog.exec() == QDialog.DialogCode.Accepted

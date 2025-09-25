@@ -24,7 +24,7 @@ class DownloadDialog(QDialog):
         layout.addWidget(self.label)
 
         # Block the main window until the dialog is closed
-        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         button_layout = QHBoxLayout()
 
@@ -54,7 +54,7 @@ class DownloadDialog(QDialog):
         """
         Opens a dialog to select the destination directory and copies the file
         """
-        downloads_path = QStandardPaths.writableLocation(QStandardPaths.DownloadLocation)
+        downloads_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DownloadLocation)
         filename = os.path.basename(self.filepath)
         filepath = Path(downloads_path, filename)
 

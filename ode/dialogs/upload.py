@@ -31,11 +31,11 @@ class SelectWidget(QWidget):
         icon_label = QLabel(self)
         pixmap = QPixmap(icon_path)
         icon_label.setPixmap(pixmap)
-        icon_label.setAlignment(Qt.AlignCenter)
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(icon_label)
 
         self.text_label = QLabel()
-        self.text_label.setAlignment(Qt.AlignHCenter)
+        self.text_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.text_label.setWordWrap(True)
         layout.addWidget(self.text_label)
 
@@ -72,7 +72,7 @@ class DataUploadDialog(QDialog):
         main_layout.setContentsMargins(10, 100, 10, 10)
 
         # Block the main window until the dialog is closed
-        self.setWindowModality(Qt.ApplicationModal)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         # Tab Widget
         self.tab_widget = QTabWidget()
