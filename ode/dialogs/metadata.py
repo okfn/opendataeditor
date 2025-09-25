@@ -234,7 +234,7 @@ class ColumnMetadataDialog(QDialog):
         self.form.max_length.setValue(field.constraints.get("maxLength", 999))
 
         # Set window modality
-        self.setWindowModality(Qt.WindowModal)
+        self.setWindowModality(Qt.WindowModality.WindowModal)
 
         # Create buttons
         self.save_button = QPushButton()

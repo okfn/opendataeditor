@@ -311,8 +311,8 @@ class LlamaDownloadDialog(QDialog):
                 f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>'
             )
         )
-        label_download_location.setTextFormat(Qt.RichText)
-        label_download_location.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        label_download_location.setTextFormat(Qt.TextFormat.RichText)
+        label_download_location.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
         label_download_location.linkActivated.connect(self.open_download_directory)
 
         layout.addWidget(label_download_location)
@@ -447,10 +447,10 @@ class LlamaDownloadDialog(QDialog):
             self,
             self.tr("Confirm Deletion"),
             self.tr(f"Are you sure you want to delete {AI_MODEL.name}?"),
-            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
         )
 
-        if ret == QMessageBox.No:
+        if ret == QMessageBox.StandardButton.No:
             return
 
         model_path = AI_MODELS_PATH / AI_MODEL.filename

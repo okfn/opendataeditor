@@ -147,7 +147,7 @@ class ErrorsWidget(QWidget):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.layout = QVBoxLayout()
+        layout = QVBoxLayout()
 
         self.max_errors_label = QLabel()
         font = QFont()
@@ -161,10 +161,10 @@ class ErrorsWidget(QWidget):
         self.reports_layout.setContentsMargins(0, 0, 0, 0)
         self.reports.setLayout(self.reports_layout)
 
-        self.layout.addWidget(self.max_errors_label)
-        self.layout.addWidget(self.reports)
+        layout.addWidget(self.max_errors_label)
+        layout.addWidget(self.reports)
 
-        self.setLayout(self.layout)
+        self.setLayout(layout)
 
     def display_errors(self, errors, model):
         """Builds and display the entire error report.

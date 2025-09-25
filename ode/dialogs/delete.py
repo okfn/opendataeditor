@@ -36,7 +36,7 @@ class DeleteDialog(QDialog):
         """Static method that returns a boolean value indicating if the user
         confirmed the deletion of the file."""
         dialog = DeleteDialog(parent, filename)
-        return dialog.exec() == QDialog.Accepted
+        return dialog.exec() == QDialog.DialogCode.Accepted
 
     def retranslateUI(self):
         """Apply translations to class elements."""

@@ -108,13 +108,13 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
         """Paint the icon in the first row of the table adds blue background if mouse over."""
         super().paint(painter, option, index)
         if index.row() == 0:
-            if option.state & QStyle.State_MouseOver:
+            if option.state & QStyle.StateFlag.State_MouseOver:
                 painter.fillRect(option.rect, COLOR_BLUE)
             self.icon.paint(painter, self._get_icon_rect(option))
 
     def editorEvent(self, event, model, option, index):
         """Handle mouse events for the first row."""
-        if index.row() == 0 and event.type() == QEvent.MouseButtonPress:
+        if index.row() == 0 and event.type() == QEvent.Type.MouseButtonPress:
             self.icon_clicked.emit(index.column())
             return True
 
@@ -392,7 +392,7 @@ class FrictionlessTableModel(QAbstractTableModel):
                     return COLOR_RED
                 if error_column == index.column():
                     return COLOR_RED
-        elif role == Qt.ForegroundRole:
+        elif role == Qt.ItemDataRole.ForegroundRole:
             for error_column, _, _ in self.errors[index.row()]:
                 if error_column == index.column():
                     return QColor(255, 255, 255)
@@ -445,7 +445,7 @@ class CustomTableView(QTableView):
         """
         index = self.currentIndex()
 
-        if event.key() in (Qt.Key_Return, Qt.Key_Enter) and index.row() == 0 and index.isValid():
+        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter) and index.row() == 0 and index.isValid():
             self.on_click_first_row.emit(index.column())
             return
 
@@ -455,7 +455,7 @@ class CustomTableView(QTableView):
         """Changes the cursor to Pointing Hand if positing is in first row."""
         index = self.indexAt(event.pos())
         if index.row() == 0:
-            self.setCursor(Qt.PointingHandCursor)
+            self.setCursor(Qt.CursorShape.PointingHandCursor)
         else:
             self.unsetCursor()
         return super().mouseMoveEvent(event)
@@ -520,7 +520,7 @@ class DataViewer(QWidget):
         headers = []
         for column in range(column_count):
             index = model.index(0, column)
-            value = model.data(index, Qt.DisplayRole)
+            value = model.data(index, Qt.ItemDataRole.DisplayRole)
             headers.append(value)
 
         field = self.resource.schema.fields[field_index]
@@ -588,11 +588,11 @@ class DataViewer(QWidget):
         # Check if we name was changed, if so we need to update the header
         model = self.table_view.model()
         index = model.index(0, field_index)
-        original_name = model.data(index, Qt.DisplayRole)
+        original_name = model.data(index, Qt.ItemDataRole.DisplayRole)
 
         table_view_changed = False
         if original_name != field.name:
-            model.setData(index, field.name, Qt.EditRole)
+            model.setData(index, field.name, Qt.ItemDataRole.EditRole)
             table_view_changed = True
 
         self.on_save.emit(table_view_changed)
