@@ -110,6 +110,7 @@ class LlamaDialog(QDialog):
         if self.worker and self.worker.isRunning():
             self.worker.terminate()
             self.worker.wait()
+        self.prompt_selector.setCurrentIndex(0)
         self.output_text.clear()
         self.on_execution_finished()
         event.accept()
