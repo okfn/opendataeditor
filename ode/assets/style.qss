@@ -195,7 +195,8 @@ DownloadDialog,
 LlamaDialog,
 LLMWarningDialog,
 ColumnMetadataDialog,
-LlamaDownloadingDialog {
+LlamaDownloadingDialog,
+CancelAIWorkerDialog {
   border: 2px solid #000000;
 }
 
@@ -206,7 +207,8 @@ DownloadDialog QPushButton,
 LLMWarningDialog QPushButton,
 ColumnMetadataDialog QPushButton,
 LlamaDialog QPushButton,
-LlamaDownloadDialog QPushButton {
+LlamaDownloadDialog QPushButton,
+CancelAIWorkerDialog QPushButton {
   border: 2px solid #000000;
   background-color: #F0F0F0;
   font-size: 16px;
@@ -226,7 +228,8 @@ DownloadDialog QPushButton,
 LLMWarningDialog QPushButton,
 ColumnMetadataDialog QPushButton,
 LlamaDialog QPushButton,
-LlamaDownloadDialog QPushButton {
+LlamaDownloadDialog QPushButton,
+CancelAIWorkerDialog QPushButton {
   padding: 5px;
 }
 
@@ -237,7 +240,8 @@ DownloadDialog QPushButton:hover,
 ColumnMetadataDialog QPushButton:hover,
 LLMWarningDialog QPushButton:hover,
 LlamaDialog QPushButton:hover,
-LlamaDownloadDialog QPushButton:hover {
+LlamaDownloadDialog QPushButton:hover,
+CancelAIWorkerDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
@@ -249,7 +253,8 @@ DownloadDialog QPushButton:pressed,
 ColumnMetadataDialog QPushButton:pressed,
 LLMWarningDialog QPushButton:pressed,
 LlamaDialog QPushButton:pressed,
-LlamaDownloadDialog QPushButton:pressed {
+LlamaDownloadDialog QPushButton:pressed,
+CancelAIWorkerDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
@@ -340,7 +345,8 @@ DownloadDialog QPushButton:focus,
 ColumnMetadataDialog QPushButton:focus,
 LLMWarningDialog QPushButton:focus,
 LlamaDialog QPushButton:focus,
-LlamaDownloadDialog QPushButton:focus {
+LlamaDownloadDialog QPushButton:focus,
+CancelAIWorkerDialog QPushButton:focus {
   border: 2px solid #0078D7;
   outline: none;
 }
