@@ -51,6 +51,7 @@ from PySide6.QtCore import (
     QModelIndex,
     QStandardPaths,
     QTimer,
+    QThread,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
@@ -61,7 +62,7 @@ from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.llm_dialog_warning import LLMWarningDialog
 from ode.dialogs.loading import LoadingDialog
 from ode.file import File
-from ode.llama import LlamaDialog, LlamaDownloadDialog
+from ode.llama import LlamaDialog, LlamaDownloadDialog, LlamaInitWorker
 from ode.paths import Paths
 from ode.panels.errors import ErrorsWidget
 from ode.panels.data import FrictionlessTableModel, DataWorker, DataViewer
@@ -778,8 +779,40 @@ class MainWindow(QMainWindow):
         if ai_llama_download.exec() == QDialog.DialogCode.Accepted:
             selected_model = ai_llama_download.selected_model_path
             if selected_model:
-                self.content.ai_llama.init_llm(selected_model)
-                self.content.ai_llama.show()
+                self.loading_dialog = LoadingDialog(self)
+
+                self.worker_thread = QThread()
+                self.worker = LlamaInitWorker(self.content.ai_llama, selected_model)
+                # Move to worker thread instead of QThread inheritance to avoid concurrency conflicts
+                self.worker.moveToThread(self.worker_thread)
+
+                # Connecting signals
+                self.worker_thread.started.connect(self.worker.init_llm)
+                self.worker.finished.connect(self.on_llm_init_finished)
+                self.worker.error.connect(self.on_llm_init_error)
+                self.worker.progress.connect(self.loading_dialog.show_message)
+
+                # Signal to clean up the thread when the work is done
+                self.worker.finished.connect(self.worker_thread.quit)
+                self.worker.error.connect(self.worker_thread.quit)
+                self.worker_thread.finished.connect(self.worker_thread.deleteLater)
+
+                # Show the loading dialog and start the thread
+                self.loading_dialog.show_immediately()
+                self.worker_thread.start()
+
+    @Slot()
+    def on_llm_init_finished(self):
+        """Callback to be called when the LLM is initialized."""
+        self.loading_dialog.accept()
+        self.content.ai_llama.show()
+
+    @Slot(str)
+    def on_llm_init_error(self, error_message):
+        """Callback to be called when there is an error initializing the LLM."""
+        self.loading_dialog.reject()
+        logger.error(f"Error initializing the LLM: {error_message}")
+        QMessageBox.critical(self, self.tr("Error"), self.tr("Error initializing the LLM:\n") + error_message)
 
     def change_active_panel(self, panel_index: ContentIndex):
         """Change the active panel in the content area and highlight its toolbar button.
