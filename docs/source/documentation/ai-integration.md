@@ -1,6 +1,6 @@
 # AI integration
 
-The ODE has an AI component to help users improve column names and descriptions. To use the AI feature, please first ingest or select a file from the sidebar. Then click on the AI button located on the top right corner of the app:
+The ODE has an AI component to help users improve column names and descriptions. To use the AI assistant, please first ingest or select a file from the sidebar. Then click on the AI button located on the top right corner of the app:
 
 ![AI Integration button is located in the top panel](./assets/ai-integration/ai-integration-1.png)
 

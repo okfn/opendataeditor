@@ -121,7 +121,7 @@ class LlamaDialog(QDialog):
         layout = QVBoxLayout(self)
 
         self.prompt_label = QLabel(
-            "The AI assistant currently support two use cases. Please, select one of the following options."
+            "The AI assistant currently support two use cases. Please, select one of the following options:"
         )
         layout.addWidget(self.prompt_label)
 
@@ -137,7 +137,9 @@ class LlamaDialog(QDialog):
 
         layout.addWidget(self.prompt_selector)
 
+        self.btn_is_running = False
         self.btn_run = QPushButton()
+        self.btn_run.setEnabled(False)
         self.btn_run.clicked.connect(self.run)
         layout.addWidget(self.btn_run)
 
@@ -208,13 +210,19 @@ For each question you would add a sentence providing what useful information cou
         """Set the prompt"""
         key = self.prompt_selector.itemData(index)
         self.prompt = "No prompt selected."
+        self.output_text.clear()
         if key == PromptKeys.SELECT.value:
             self.prompt = None
+            self.btn_run.setEnabled(False)
             return
+
         if key == PromptKeys.COLUMNS.value:
             self.prompt = self._get_columns_prompt()
-        if key == PromptKeys.ANALYSIS.value:
+        elif key == PromptKeys.ANALYSIS.value:
             self.prompt = self._get_analysis_prompt()
+
+        if not self.btn_is_running:
+            self.btn_run.setEnabled(True)
 
     def init_llm(self, model_path):
         """Initialize the LLM with the given model path."""
@@ -247,10 +255,12 @@ For each question you would add a sentence providing what useful information cou
     def on_execution_started(self):
         """Handle the start of execution."""
         self.btn_run.setText(self.tr("Generating response..."))
+        self.btn_is_running = True
 
     def on_execution_finished(self):
         """Handle the completion of execution."""
         self.btn_run.setText(self.tr("Execute"))
+        self.btn_is_running = False
         self.btn_run.setEnabled(True)
 
     def on_execution_error(self, error_msg):
@@ -266,7 +276,7 @@ For each question you would add a sentence providing what useful information cou
 
     def retranslateUI(self):
         """Retranslate the UI elements."""
-        self.setWindowTitle(self.tr("AI feature"))
+        self.setWindowTitle(self.tr("AI assistant"))
         self.btn_run.setText(self.tr("Execute"))
         self.output_text.setPlaceholderText(self.tr("Results will be displayed here..."))
 
@@ -300,11 +310,11 @@ class LlamaDownloadDialog(QDialog):
 
     def init_ui(self):
         """Initialize the UI for the Llama download dialog."""
-        self.setWindowTitle(self.tr("AI feature"))
+        self.setWindowTitle(self.tr("AI assistant"))
 
         layout = QVBoxLayout(self)
 
-        label_models = QLabel(self.tr("To start using the AI feature, please download the following model."))
+        label_models = QLabel(self.tr("To start using the AI assistant, please download the following model."))
         layout.addWidget(label_models)
 
         label_download_location = QLabel(
