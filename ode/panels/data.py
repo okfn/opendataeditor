@@ -5,7 +5,7 @@ from pathlib import Path
 from frictionless import system
 
 from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
-from PySide6.QtGui import QColor, QIcon, QKeyEvent
+from PySide6.QtGui import QColor, QIcon, QKeyEvent, QPen
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate, QStyle
 
 from openpyxl import Workbook, load_workbook
@@ -108,9 +108,20 @@ class ColumnMetadataIconDelegate(QStyledItemDelegate):
         """Paint the icon in the first row of the table adds blue background if mouse over."""
         super().paint(painter, option, index)
         if index.row() == 0:
-            if option.state & QStyle.StateFlag.State_MouseOver:
-                painter.fillRect(option.rect, COLOR_BLUE)
             self.icon.paint(painter, self._get_icon_rect(option))
+
+            if option.state & QStyle.StateFlag.State_MouseOver:
+                pen = QPen(COLOR_BLUE)
+                pen.setWidth(3)
+                painter.setPen(pen)
+
+                # We do it like this because it was painting outside the cell
+                rect = option.rect.adjusted(1, 1, -1, -1)
+
+                painter.drawLine(rect.topLeft(), rect.topRight())
+                painter.drawLine(rect.topLeft(), rect.bottomLeft())
+                painter.drawLine(rect.topRight(), rect.bottomRight())
+                painter.drawLine(rect.bottomLeft(), rect.bottomRight())
 
     def editorEvent(self, event, model, option, index):
         """Handle mouse events for the first row."""
