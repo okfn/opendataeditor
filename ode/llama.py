@@ -56,6 +56,7 @@ class LlamaWorkerSignals(QObject):
     finished = Signal()
     error = Signal(str)
     stream_token = Signal(str)
+    stream_token_first_received = Signal()
     started = Signal()
 
 
@@ -83,9 +84,16 @@ class LlamaWorker(QThread):
                     "content": self.prompt,
                 },
             ]
+            first_response = True
             for output in self.llm.create_chat_completion(messages, max_tokens=-1, stream=True, temperature=0.2):
                 token = output["choices"][0]["delta"].get("content", "")
+
+                if first_response:
+                    self.signals.stream_token_first_received.emit()
+                    first_response = False
+
                 self.signals.stream_token.emit(token)
+
             self.signals.finished.emit()
         except Exception as e:
             logger.error("Error during LLM processing", exc_info=True)
@@ -143,9 +151,14 @@ class LlamaDialog(QDialog):
         self.btn_run.clicked.connect(self.run)
         layout.addWidget(self.btn_run)
 
+        self.btn_stop = QPushButton()
+        self.btn_stop.clicked.connect(self.stop)
+        self.btn_stop.setVisible(False)
+        layout.addWidget(self.btn_stop)
+
         self.output_text = QTextEdit()
         self.output_text.setReadOnly(True)
-        self.output_text.setMinimumHeight(300)
+        self.output_text.setMinimumHeight(500)
         self.output_text.setMinimumWidth(700)
         layout.addWidget(self.output_text)
 
@@ -238,6 +251,7 @@ For each question you would add a sentence providing what useful information cou
         )
 
     def run(self):
+        """Run the LLM with the selected prompt."""
         if self.llm is None or self.data is None:
             return
 
@@ -250,18 +264,30 @@ For each question you would add a sentence providing what useful information cou
         self.worker.signals.finished.connect(self.on_execution_finished)
         self.worker.signals.error.connect(self.on_execution_error)
         self.worker.signals.stream_token.connect(self.on_stream_token)
+        self.worker.signals.stream_token_first_received.connect(self.on_stream_token_first_received)
         self.worker.start()
+
+    def stop(self):
+        """Stop the current execution."""
+        if self.worker and self.worker.isRunning():
+            self.worker.terminate()
+            self.worker.wait()
+        self.on_execution_finished()
 
     def on_execution_started(self):
         """Handle the start of execution."""
         self.btn_run.setText(self.tr("Generating response..."))
         self.btn_is_running = True
+        self.prompt_selector.setEnabled(False)
 
     def on_execution_finished(self):
         """Handle the completion of execution."""
         self.btn_run.setText(self.tr("Execute"))
         self.btn_is_running = False
         self.btn_run.setEnabled(True)
+        self.btn_stop.setVisible(False)
+        self.btn_run.setVisible(True)
+        self.prompt_selector.setEnabled(True)
 
     def on_execution_error(self, error_msg):
         """Handle execution errors."""
@@ -274,10 +300,16 @@ For each question you would add a sentence providing what useful information cou
         self.output_text.insertPlainText(token)
         self.output_text.ensureCursorVisible()
 
+    def on_stream_token_first_received(self):
+        """Handle the first token received event by allowing the user to stop the execution."""
+        self.btn_run.setVisible(False)
+        self.btn_stop.setVisible(True)
+
     def retranslateUI(self):
         """Retranslate the UI elements."""
         self.setWindowTitle(self.tr("AI assistant"))
         self.btn_run.setText(self.tr("Execute"))
+        self.btn_stop.setText(self.tr("Stop execution"))
         self.output_text.setPlaceholderText(self.tr("Results will be displayed here..."))
 
     def _calculate_half_cpu_count(self) -> int:
