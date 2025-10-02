@@ -1093,7 +1093,11 @@ class MainWindow(QMainWindow):
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         if self.selected_file_path.is_file():
             # Reset the excel sheet name to None to avoid displaying the previous file's sheet
-            self.excel_sheet_name = None
+            if self.selected_file_path.suffix in [".xls", ".xlsx"]:
+                self.excel_sheet_name = self.get_sheets_names(self.selected_file_path)[0]
+            else:
+                self.excel_sheet_name = None
+
             self.read_validate_and_display_file(self.selected_file_path)
             self.content.toolbar.button_export.setEnabled(True)
         else:

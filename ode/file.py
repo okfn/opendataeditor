@@ -29,9 +29,9 @@ class File:
         }
     """
 
-    def __init__(self, path: str | Path) -> None:
+    def __init__(self, path: str | Path, sheet_name: str | None = None) -> None:
         self.path: Path = path if isinstance(path, Path) else Path(path)
-        self.metadata_path: Path = self._get_path_to_metadata_file()
+        self.metadata_path: Path = self._get_path_to_metadata_file(sheet_name)
 
     def get_metadata_dict(self) -> dict:
         """Returns the ODE metadata dictionary for the current file.
@@ -47,7 +47,7 @@ class File:
         with open(self.metadata_path, mode="w") as file:
             json.dump(metadata, file)
 
-    def _get_path_to_metadata_file(self) -> Path:
+    def _get_path_to_metadata_file(self, sheet_name: str | None = None) -> Path:
         """Returns the path to the metadata file of the given file.
 
         Example 1:
@@ -68,7 +68,13 @@ class File:
         if self.path.is_dir():
             return metadata_path / self.path.stem
 
-        return metadata_path / (self.path.stem + ".json")
+        if sheet_name:
+            # If the file is an Excel file and a sheet name is provided, we include the sheet name
+            # in the metadata filename to differentiate between different sheets of the same file.
+            safe_sheet_name = "".join(c if c.isalnum() else "_" for c in sheet_name)
+            return metadata_path / (self.path.stem + f"_sheet_{safe_sheet_name}" + ".json")
+        else:
+            return metadata_path / (self.path.stem + ".json")
 
     def get_or_create_metadata(self, sheet_name: str | None = None):
         """Get or create a metadata object for the Resource.
