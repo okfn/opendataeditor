@@ -113,7 +113,7 @@ class LlamaDialog(QDialog):
         self.data = None
         self.prompt = None
 
-        # Block the main window until the dialog is closed
+        # Block the AI Assistant window until the dialog is closed
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
     def closeEvent(self, event):
