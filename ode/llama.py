@@ -113,6 +113,9 @@ class LlamaDialog(QDialog):
         self.data = None
         self.prompt = None
 
+        # Block the main window until the dialog is closed
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+
     def closeEvent(self, event):
         """Handle the close event to clear the output text."""
         if self.worker and self.worker.isRunning():
