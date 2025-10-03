@@ -294,7 +294,10 @@ class Sidebar(QWidget):
             new_name = dialog.result_text
             if new_name and new_name != name:
                 try:
-                    file.rename(new_name)
+                    sheet_names = None
+                    if file.path.suffix in [".xls", ".xlsx"]:
+                        sheet_names = File.get_sheets_names(file.path)
+                    file.rename(new_name, sheet_names)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
@@ -969,18 +972,6 @@ class MainWindow(QMainWindow):
         self.main_layout.setCurrentIndex(1)
         self.change_active_panel(ContentIndex.DATA)
 
-    def get_sheets_names(self, filepath: Path) -> list[str]:
-        """Get the names of the sheets in an Excel file."""
-        sheet_names = []
-        if filepath.suffix == ".xls":
-            workbook = xlrd.open_workbook(str(filepath))
-            sheet_names = workbook.sheet_names()
-        elif filepath.suffix in [".xlsx"]:
-            workbook = openpyxl.load_workbook(filepath, read_only=True)
-            sheet_names = workbook.sheetnames
-
-        return sheet_names
-
     def update_excel_sheet_dropdown(self, filepath):
         """
         Update the Excel sheet dropdown with the names of the sheets in the selected file.
@@ -990,7 +981,7 @@ class MainWindow(QMainWindow):
 
         self.content.toolbar.excel_sheet_combo.clear()
 
-        sheet_names = self.get_sheets_names(filepath)
+        sheet_names = File.get_sheets_names(filepath)
         if len(sheet_names) > 0:
             if self.excel_sheet_name is None:
                 self.excel_sheet_name = sheet_names[0]
@@ -1094,7 +1085,7 @@ class MainWindow(QMainWindow):
         if self.selected_file_path.is_file():
             # Reset the excel sheet name to None to avoid displaying the previous file's sheet
             if self.selected_file_path.suffix in [".xls", ".xlsx"]:
-                self.excel_sheet_name = self.get_sheets_names(self.selected_file_path)[0]
+                self.excel_sheet_name = File.get_sheets_names(self.selected_file_path)[0]
             else:
                 self.excel_sheet_name = None
 

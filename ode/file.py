@@ -1,6 +1,8 @@
 import json
 import shutil
 import logging
+import xlrd
+import openpyxl
 
 from frictionless import system
 from frictionless.resources import TableResource
@@ -125,7 +127,7 @@ class File:
         metadata["resource"] = resource
         return metadata
 
-    def rename(self, new_name):
+    def rename(self, new_name, sheet_names: list[str] | None = None):
         """Rename a file and the corresponding metadata file.
 
         Whenever we rename files we need to update a) the name of the metadata file and
@@ -133,13 +135,18 @@ class File:
         every metadata file of children files are updated as well.
         """
         new_path = self.path.with_stem(new_name)
-        new_metadata_path = self.metadata_path.with_stem(new_name)
 
         if new_path.exists():
             raise OSError
 
         self.path.rename(new_path)
+        self.path = new_path
 
+        new_metadata_path = self.metadata_path.with_stem(new_name)
+        self.rename_metadata_file(new_metadata_path, new_path, sheet_names)
+        self.metadata_path = new_metadata_path
+
+    def rename_metadata_file(self, new_metadata_path: str, new_path: Path, sheet_names: list[str] | None = None):
         # First we update metadata's path attribute to point to the renamed file/folder
         if self.metadata_path.is_file():
             metadata = self.get_metadata_dict()
@@ -160,10 +167,6 @@ class File:
                     json.dump(metadata, f)
             self.metadata_path.rename(new_metadata_path)
 
-        # Update object attributes with the new values.
-        self.path = new_path
-        self.metadata_path = new_metadata_path
-
     def remove(self):
         """Remove a file from disk.
 
@@ -179,3 +182,16 @@ class File:
             shutil.rmtree(self.path)
             if self.metadata_path.exists():
                 shutil.rmtree(self.metadata_path)
+
+    @staticmethod
+    def get_sheets_names(filepath: Path) -> list[str]:
+        """Get the names of the sheets in an Excel file."""
+        sheet_names = []
+        if filepath.suffix == ".xls":
+            workbook = xlrd.open_workbook(str(filepath))
+            sheet_names = workbook.sheet_names()
+        elif filepath.suffix in [".xlsx"]:
+            workbook = openpyxl.load_workbook(filepath, read_only=True)
+            sheet_names = workbook.sheetnames
+
+        return sheet_names
