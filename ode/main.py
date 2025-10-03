@@ -75,9 +75,6 @@ from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 from ode.log_setup import LOGS_PATH, configure_logging
 import logging
 
-import xlrd
-import openpyxl
-
 configure_logging()
 
 logger = logging.getLogger(__name__)
