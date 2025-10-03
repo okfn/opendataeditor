@@ -291,10 +291,10 @@ class Sidebar(QWidget):
             new_name = dialog.result_text
             if new_name and new_name != name:
                 try:
-                    sheet_names = None
+                    sheets_names = None
                     if file.path.suffix in [".xls", ".xlsx"]:
-                        sheet_names = File.get_sheets_names(file.path)
-                    file.rename(new_name, sheet_names)
+                        sheets_names = File.get_sheets_names(file.path)
+                    file.rename(new_name, sheets_names)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
@@ -333,7 +333,10 @@ class Sidebar(QWidget):
             is_selected = self.window().selected_file_path == file.path
             if DeleteDialog.confirm(self, file.path.name):
                 try:
-                    file.remove()
+                    sheets_names = None
+                    if file.path.suffix in [".xls", ".xlsx"]:
+                        sheets_names = File.get_sheets_names(file.path)
+                    file.remove(sheets_names)
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
                 else:
@@ -982,14 +985,14 @@ class MainWindow(QMainWindow):
 
         self.content.toolbar.excel_sheet_combo.clear()
 
-        sheet_names = File.get_sheets_names(filepath)
-        if len(sheet_names) > 0:
+        sheets_names = File.get_sheets_names(filepath)
+        if len(sheets_names) > 0:
             if self.excel_sheet_name is None:
-                self.excel_sheet_name = sheet_names[0]
+                self.excel_sheet_name = sheets_names[0]
 
             # We only show the dropdown if there are multiple sheets
-            if len(sheet_names) > 1:
-                self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
+            if len(sheets_names) > 1:
+                self.content.toolbar.excel_sheet_combo.addItems(sheets_names)
                 self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
                 self.content.toolbar.excel_sheet_container.setVisible(True)
         else:

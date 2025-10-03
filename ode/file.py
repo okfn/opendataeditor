@@ -180,7 +180,7 @@ class File:
                 self.set_metadata_dict(file, metadata)
             old_metadata_path.rename(new_metadata_path)
 
-    def remove(self):
+    def remove(self, sheet_names: list[str] | None = None):
         """Remove a file from disk.
 
         When uploading a folder, the metadata folder does not exist until the first children file
@@ -189,7 +189,12 @@ class File:
         """
         if self.path.is_file():
             self.path.unlink()
-            if self.metadata_path.exists():
+            if sheet_names:
+                for sheet_name in sheet_names:
+                    metadata_path_with_sheet_name = self._get_path_to_metadata_file(self.path, sheet_name)
+                    if metadata_path_with_sheet_name.exists():
+                        metadata_path_with_sheet_name.unlink()
+            elif self.metadata_path.exists():
                 self.metadata_path.unlink()
         elif self.path.is_dir():
             shutil.rmtree(self.path)
