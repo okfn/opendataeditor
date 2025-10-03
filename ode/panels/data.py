@@ -46,7 +46,7 @@ class DataWorker(QRunnable):
 
     def __init__(self, filepath, sheet_name=None):
         super().__init__()
-        self.file = File(filepath)
+        self.file = File(filepath, sheet_name)
         self.signals = DataWorkerSignals()
         self.sheet_name = sheet_name
         self.resource = self.file.get_or_create_metadata(sheet_name).get("resource")
@@ -501,6 +501,8 @@ class DataViewer(QWidget):
         layout.addWidget(self.label)
         layout.addWidget(self.table_view)
 
+        self.sheet_name = None
+
         self.retranslateUI()
 
     def display_data(self, model, filepath, sheet_name=None):
@@ -516,7 +518,8 @@ class DataViewer(QWidget):
         self.table_view.horizontalHeader().setDefaultSectionSize(120)
         self.table_view.setMouseTracking(True)
 
-        self.metadata = File(filepath).get_or_create_metadata(sheet_name)
+        self.sheet_name = sheet_name
+        self.metadata = File(filepath, sheet_name).get_or_create_metadata(sheet_name)
         self.resource = self.metadata.get("resource")
 
         self.label.hide()
@@ -586,7 +589,7 @@ class DataViewer(QWidget):
         self.resource.schema.set_field_type(field.name, type)
 
         self.metadata["resource"] = self.resource.to_descriptor()
-        file = File(self.resource.path)
+        file = File(self.resource.path, self.sheet_name)
 
         # We remove the dialect from the metatada, because Frictionless will be stuck
         # on this sheet otherwise

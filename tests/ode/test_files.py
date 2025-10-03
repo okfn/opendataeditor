@@ -43,8 +43,8 @@ class TestFiles:
         p1.write_text("name,age\nAlice,30\nBob,25")
         file = File(p1)
         file.get_or_create_metadata()
+        metadata = file.get_metadata_dict(file.metadata_path)
 
-        metadata = file.get_metadata_dict()
         assert metadata
         assert isinstance(metadata, dict)
         assert metadata["resource"]["path"] == str(p1)
@@ -98,8 +98,9 @@ class TestFiles:
         file.get_or_create_metadata()
         file.rename("bar")
 
-        metadata = file.get_metadata_dict()
+        metadata = file.get_metadata_dict(file.metadata_path)
         expected = project_folder / "bar.csv"
+
         assert metadata["resource"]["path"] == str(expected)
 
     def test_rename_folder_metadata(self, project_folder):
