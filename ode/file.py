@@ -150,7 +150,7 @@ class File:
                 old_metadata_path_with_sheet_name = self._get_path_to_metadata_file(old_path, sheet_name)
                 new_metadata_path_with_sheet_name = self._get_path_to_metadata_file(new_path, sheet_name)
                 self.rename_metadata_file(
-                    old_metadata_path_with_sheet_name, new_metadata_path_with_sheet_name, new_path
+                    old_metadata_path_with_sheet_name, new_metadata_path_with_sheet_name, old_path, new_path
                 )
 
                 if first:
@@ -158,10 +158,10 @@ class File:
                     first = False
         else:
             new_metadata_path = self.metadata_path.with_stem(new_name)
-            self.rename_metadata_file(self.metadata_path, new_metadata_path, new_path)
+            self.rename_metadata_file(self.metadata_path, new_metadata_path, old_path, new_path)
             self.metadata_path = new_metadata_path
 
-    def rename_metadata_file(self, old_metadata_path: Path, new_metadata_path: str, new_path: Path):
+    def rename_metadata_file(self, old_metadata_path: Path, new_metadata_path: str, old_path: Path, new_path: Path):
         """Rename the metadata file and update the path attribute in the metadata."""
         # First we update metadata's path attribute to point to the renamed file/folder
         if old_metadata_path.is_file():
@@ -176,7 +176,7 @@ class File:
                 # When renaming a directory the filename remains but we need to replace its
                 # parent directory.
                 current = metadata["resource"]["path"]
-                metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
+                metadata["resource"]["path"] = current.replace(str(old_path), str(new_path))
                 self.set_metadata_dict(file, metadata)
             old_metadata_path.rename(new_metadata_path)
 
