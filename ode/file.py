@@ -143,19 +143,19 @@ class File:
         self.path = new_path
 
         new_metadata_path = self.metadata_path.with_stem(new_name)
-        self.rename_metadata_file(new_metadata_path, new_path, sheet_names)
+        self.rename_metadata_file(self.metadata_path, new_metadata_path, new_path)
         self.metadata_path = new_metadata_path
 
-    def rename_metadata_file(self, new_metadata_path: str, new_path: Path):
+    def rename_metadata_file(self, old_metadata_path: Path, new_metadata_path: str, new_path: Path):
         # First we update metadata's path attribute to point to the renamed file/folder
-        if self.metadata_path.is_file():
+        if old_metadata_path.is_file():
             metadata = self.get_metadata_dict()
             metadata["resource"]["path"] = str(new_path)
             self.set_metadata_dict(metadata)
-            self.metadata_path.rename(new_metadata_path)
-        elif self.metadata_path.is_dir():
+            old_metadata_path.rename(new_metadata_path)
+        elif old_metadata_path.is_dir():
             # If we are renaming a directory, we need to update all existing metadata files.
-            for file in self.metadata_path.rglob("*.json"):
+            for file in old_metadata_path.rglob("*.json"):
                 metadata = dict()
                 with open(file) as f:
                     metadata = json.load(f)
@@ -165,7 +165,7 @@ class File:
                 metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
                 with open(file, "w") as f:
                     json.dump(metadata, f)
-            self.metadata_path.rename(new_metadata_path)
+            old_metadata_path.rename(new_metadata_path)
 
     def remove(self):
         """Remove a file from disk.
