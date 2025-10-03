@@ -146,7 +146,7 @@ class File:
         self.rename_metadata_file(new_metadata_path, new_path, sheet_names)
         self.metadata_path = new_metadata_path
 
-    def rename_metadata_file(self, new_metadata_path: str, new_path: Path, sheet_names: list[str] | None = None):
+    def rename_metadata_file(self, new_metadata_path: str, new_path: Path):
         # First we update metadata's path attribute to point to the renamed file/folder
         if self.metadata_path.is_file():
             metadata = self.get_metadata_dict()
