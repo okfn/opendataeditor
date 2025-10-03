@@ -927,7 +927,11 @@ class MainWindow(QMainWindow):
             self.selected_file_path = path
             # Calling file_model.index() has a weird side-effect in the QTreeView that will display the new
             # uploaded file at the end of the list instead of the default alphabetical order.
-            self.excel_sheet_name = None
+            if path.suffix in [".xls", ".xlsx"]:
+                self.excel_sheet_name = File.get_sheets_names(path)[0]
+            else:
+                self.excel_sheet_name = None
+
             index = self.sidebar.file_model.index(str(path))
             self.sidebar.file_navigator.selectionModel().select(index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
             self.read_validate_and_display_file(path)

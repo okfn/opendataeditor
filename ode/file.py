@@ -33,23 +33,23 @@ class File:
 
     def __init__(self, path: str | Path, sheet_name: str | None = None) -> None:
         self.path: Path = path if isinstance(path, Path) else Path(path)
-        self.metadata_path: Path = self._get_path_to_metadata_file(sheet_name)
+        self.metadata_path: Path = self._get_path_to_metadata_file(self.path, sheet_name)
 
-    def get_metadata_dict(self) -> dict:
+    def get_metadata_dict(self, metadata_path) -> dict:
         """Returns the ODE metadata dictionary for the current file.
 
         The difference with get_or_create_metadata is that this method will not return
         a Frictionless TableResource object in the record key, just a JSON object.
         """
-        with open(self.metadata_path) as file:
+        with open(metadata_path) as file:
             metadata = json.load(file)
         return metadata
 
-    def set_metadata_dict(self, metadata: dict) -> None:
-        with open(self.metadata_path, mode="w") as file:
+    def set_metadata_dict(self, metadata_path: Path, metadata: dict) -> None:
+        with open(metadata_path, mode="w") as file:
             json.dump(metadata, file)
 
-    def _get_path_to_metadata_file(self, sheet_name: str | None = None) -> Path:
+    def _get_path_to_metadata_file(self, path: Path, sheet_name: str | None = None) -> Path:
         """Returns the path to the metadata file of the given file.
 
         Example 1:
@@ -64,19 +64,19 @@ class File:
           - Folder: Paths.PROJECT_FOLDER / 'subfolder'
           - Metadata: Paths.PROJECT_FOLDER / '.metadata/subfolder'
         """
-        relative_path = self.path.parent.relative_to(paths.PROJECT_PATH)
+        relative_path = path.parent.relative_to(paths.PROJECT_PATH)
         metadata_path = paths.METADATA_PATH / relative_path
 
-        if self.path.is_dir():
-            return metadata_path / self.path.stem
+        if path.is_dir():
+            return metadata_path / path.stem
 
         if sheet_name:
             # If the file is an Excel file and a sheet name is provided, we include the sheet name
             # in the metadata filename to differentiate between different sheets of the same file.
             safe_sheet_name = "".join(c if c.isalnum() else "_" for c in sheet_name)
-            return metadata_path / (self.path.stem + f"_sheet_{safe_sheet_name}" + ".json")
+            return metadata_path / (path.stem + f"_sheet_{safe_sheet_name}" + ".json")
         else:
-            return metadata_path / (self.path.stem + ".json")
+            return metadata_path / (path.stem + ".json")
 
     def get_or_create_metadata(self, sheet_name: str | None = None):
         """Get or create a metadata object for the Resource.
@@ -135,6 +135,7 @@ class File:
         every metadata file of children files are updated as well.
         """
         new_path = self.path.with_stem(new_name)
+        old_path = self.path
 
         if new_path.exists():
             raise OSError
@@ -142,29 +143,41 @@ class File:
         self.path.rename(new_path)
         self.path = new_path
 
-        new_metadata_path = self.metadata_path.with_stem(new_name)
-        self.rename_metadata_file(self.metadata_path, new_metadata_path, new_path)
-        self.metadata_path = new_metadata_path
+        if sheet_names:
+            first = True
+            # If we are renaming an Excel file, we need to create a metadata file for each sheet.
+            for sheet_name in sheet_names:
+                old_metadata_path_with_sheet_name = self._get_path_to_metadata_file(old_path, sheet_name)
+                new_metadata_path_with_sheet_name = self._get_path_to_metadata_file(new_path, sheet_name)
+                self.rename_metadata_file(
+                    old_metadata_path_with_sheet_name, new_metadata_path_with_sheet_name, new_path
+                )
+
+                if first:
+                    self.metadata_path = new_metadata_path_with_sheet_name
+                    first = False
+        else:
+            new_metadata_path = self.metadata_path.with_stem(new_name)
+            self.rename_metadata_file(self.metadata_path, new_metadata_path, new_path)
+            self.metadata_path = new_metadata_path
 
     def rename_metadata_file(self, old_metadata_path: Path, new_metadata_path: str, new_path: Path):
+        """Rename the metadata file and update the path attribute in the metadata."""
         # First we update metadata's path attribute to point to the renamed file/folder
         if old_metadata_path.is_file():
-            metadata = self.get_metadata_dict()
+            metadata = self.get_metadata_dict(old_metadata_path)
             metadata["resource"]["path"] = str(new_path)
-            self.set_metadata_dict(metadata)
-            old_metadata_path.rename(new_metadata_path)
+            self.set_metadata_dict(new_metadata_path, metadata)
+            old_metadata_path.unlink()
         elif old_metadata_path.is_dir():
             # If we are renaming a directory, we need to update all existing metadata files.
             for file in old_metadata_path.rglob("*.json"):
-                metadata = dict()
-                with open(file) as f:
-                    metadata = json.load(f)
+                metadata = self.get_metadata_dict(file)
                 # When renaming a directory the filename remains but we need to replace its
                 # parent directory.
                 current = metadata["resource"]["path"]
                 metadata["resource"]["path"] = current.replace(str(self.path), str(new_path))
-                with open(file, "w") as f:
-                    json.dump(metadata, f)
+                self.set_metadata_dict(file, metadata)
             old_metadata_path.rename(new_metadata_path)
 
     def remove(self):
