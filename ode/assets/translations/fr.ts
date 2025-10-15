@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>ColumnMetadataDialog</name>
     <message>
@@ -178,13 +178,15 @@
         <location filename="../../dialogs/download.py" line="63"/>
         <source>File downloaded successfully to:
 {}</source>
-        <translation>Fichier téléchargé avec succès dans :</translation>
+        <translation>Fichier téléchargé avec succès dans :
+{}</translation>
     </message>
     <message>
         <location filename="../../dialogs/download.py" line="67"/>
         <source>Error downloading file:
 {}</source>
-        <translation>Erreur lors du téléchargement du fichier :</translation>
+        <translation>Erreur lors du téléchargement du fichier :
+{}</translation>
     </message>
     <message>
         <location filename="../../dialogs/download.py" line="64"/>
@@ -337,12 +339,12 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
     <message>
         <location filename="../../llama.py" line="313"/>
         <source>AI assistant</source>
-        <translation type="unfinished">Assistant IA</translation>
+        <translation>Assistant IA</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="315"/>
         <source>Stop execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter l'exécution</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="316"/>
@@ -355,12 +357,12 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
     <message>
         <location filename="../../llama.py" line="348"/>
         <source>AI assistant</source>
-        <translation type="unfinished">Assistant IA</translation>
+        <translation>Assistant IA</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="352"/>
         <source>To start using the AI assistant, please download the following model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour commencer à utiliser l'assistant IA, veuillez télécharger le modèle suivant.</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="359"/>
@@ -447,13 +449,14 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error initializing the LLM:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de l'initialisation du LLM :
+</translation>
     </message>
     <message>
         <location filename="../../main.py" line="864"/>
@@ -489,7 +492,8 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
         <location filename="../../main.py" line="1191"/>
         <source>File downloaded successfully to:
 {}</source>
-        <translation>Fichier téléchargé avec succès dans :</translation>
+        <translation>Fichier téléchargé avec succès dans :
+{}</translation>
     </message>
     <message>
         <location filename="../../main.py" line="1192"/>
