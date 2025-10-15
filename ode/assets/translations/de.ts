@@ -2,61 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
-    <name>ChatGPTDialog</name>
-    <message>
-        <source>Input Error</source>
-        <translation type="vanished">Eingabefehler</translation>
-    </message>
-    <message>
-        <source>A data file must be selected in order to use the AI tool.</source>
-        <translation type="vanished">Eine Datei muss ausgewählt werden, um das AI-Tool zu verwenden.</translation>
-    </message>
-    <message>
-        <source>API Key and Prompt are required!</source>
-        <translation type="vanished">API-Schlüssel und Prompt sind erforderlich!</translation>
-    </message>
-    <message>
-        <source>API Error</source>
-        <translation type="vanished">API-Fehler</translation>
-    </message>
-    <message>
-        <source>Error: {str(e)}</source>
-        <translation type="vanished">Fehler: {str(e)}</translation>
-    </message>
-    <message>
-        <source>Please enter your OpenAI API Key: </source>
-        <translation type="vanished">Bitte geben Sie Ihren OpenAI API-Schlüssel ein: </translation>
-    </message>
-    <message>
-        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.
-You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="vanished">Klicken Sie &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;hier&lt;/a&gt;, um zu erfahren, wie Sie Ihren Schlüssel finden.
-Sie können auch die Nutzungsbedingungen und Richtlinien von OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;hier&lt;/a&gt; überprüfen.</translation>
-    </message>
-    <message>
-        <source>Please enter your prompt to the AI assistant: </source>
-        <translation type="vanished">Bitte geben Sie Ihren Prompt für den KI-Assistenten ein: </translation>
-    </message>
-    <message>
-        <source>Result: </source>
-        <translation type="vanished">Ergebnis: </translation>
-    </message>
-    <message>
-        <source>Submit</source>
-        <translation type="vanished">Senden</translation>
-    </message>
-    <message>
-        <source>Data Privacy</source>
-        <translation type="vanished">Datenschutz</translation>
-    </message>
-    <message>
-        <source>Open Data Editor will only share the names of the columns in your table to suggest
-improvements to the titles and descriptions associated with them.</source>
-        <translation type="vanished">Open Data Editor wird nur die Namen der Spalten in Ihrer Tabelle freigeben, um
-Verbesserungsvorschläge für die Titel und Beschreibungen bereitzustellen, die mit ihnen verknüpft sind.</translation>
-    </message>
-</context>
-<context>
     <name>ColumnMetadataDialog</name>
     <message>
         <location filename="../../dialogs/metadata.py" line="276"/>
@@ -127,10 +72,6 @@ Verbesserungsvorschläge für die Titel und Beschreibungen bereitzustellen, die 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add one or more folders</source>
-        <translation type="vanished">Fügen Sie einen oder mehrere Ordner hinzu</translation>
-    </message>
-    <message>
         <location filename="../../dialogs/upload.py" line="219"/>
         <location filename="../../dialogs/upload.py" line="220"/>
         <source>Select</source>
@@ -147,17 +88,9 @@ Verbesserungsvorschläge für die Titel und Beschreibungen bereitzustellen, die 
         <translation>URL eingeben oder einfügen</translation>
     </message>
     <message>
-        <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
-        <translation type="vanished">Hier können Sie Links von öffentlichen Google Tabellen und URLs von CSV-Dateien in Open-Data-Portalen und GitHub einfügen.</translation>
-    </message>
-    <message>
         <location filename="../../dialogs/upload.py" line="227"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
-    </message>
-    <message>
-        <source>From Your Computer</source>
-        <translation type="vanished">Von Ihrem Computer</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="229"/>
@@ -167,10 +100,6 @@ Verbesserungsvorschläge für die Titel und Beschreibungen bereitzustellen, die 
 </context>
 <context>
     <name>DataViewer</name>
-    <message>
-        <source>No file selected or Preview not available for this file.</source>
-        <translation type="vanished">Keine Datei ausgewählt oder Vorschau nicht verfügbar für diese Datei.</translation>
-    </message>
     <message>
         <location filename="../../panels/data.py" line="557"/>
         <source>Preview not available for this item.</source>
@@ -341,10 +270,6 @@ Verbesserungsvorschläge für die Titel und Beschreibungen bereitzustellen, die 
 <context>
     <name>ErrorsWidget</name>
     <message>
-        <source>No errors to show.</source>
-        <translation type="vanished">Keine Fehler zum Anzeigen.</translation>
-    </message>
-    <message>
         <location filename="../../panels/errors.py" line="220"/>
         <source>Please note that the ODE currently detects errors in tables, with a maximum of </source>
         <translation type="unfinished"></translation>
@@ -513,98 +438,14 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Rename</source>
-        <translation type="vanished">Umbenennen</translation>
-    </message>
-    <message>
-        <source>Enter new name:</source>
-        <translation type="vanished">Neuen Namen eingeben:</translation>
-    </message>
-    <message>
         <location filename="../../main.py" line="817"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <source>Source is a file but destination a directory.</source>
-        <translation type="vanished">Die Quelle ist eine Datei, das Ziel jedoch ein Verzeichnis.</translation>
-    </message>
-    <message>
-        <source>Source is a directory but destination a file.</source>
-        <translation type="vanished">Die Quelle ist ein Verzeichnis, das Ziel jedoch eine Datei.</translation>
-    </message>
-    <message>
-        <source>Operation not permitted.</source>
-        <translation type="vanished">Vorgang nicht zulässig.</translation>
-    </message>
-    <message>
-        <source>Error: {e}</source>
-        <translation type="vanished">Fehler: {e}</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this?</source>
-        <translation type="vanished">Sind Sie sicher, dass Sie dies löschen möchten?</translation>
-    </message>
-    <message>
-        <source>Failed to delete: {e}</source>
-        <translation type="vanished">Löschen fehlgeschlagen: {e}</translation>
-    </message>
-    <message>
-        <source>Upload your data</source>
-        <translation type="vanished">Laden Sie Ihre Daten hoch</translation>
-    </message>
-    <message>
-        <source>User guide</source>
-        <translation type="vanished">Benutzerhandbuch</translation>
-    </message>
-    <message>
-        <source>Report an issue</source>
-        <translation type="vanished">Ein Problem melden</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">Daten</translation>
-    </message>
-    <message>
-        <source>Metadata</source>
-        <translation type="vanished">Metadaten</translation>
-    </message>
-    <message>
-        <source>Errors Report</source>
-        <translation type="vanished">Fehlerbericht</translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <translation type="vanished">Quelle</translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation type="vanished">Veröffentlichen</translation>
-    </message>
-    <message>
-        <source>Save changes</source>
-        <translation type="vanished">Änderungen speichern</translation>
-    </message>
-    <message>
-        <source>AI</source>
-        <translation type="vanished">KI</translation>
-    </message>
-    <message>
         <location filename="../../main.py" line="864"/>
         <source>File</source>
         <translation>Datei</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="vanished">Öffnen</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="vanished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../../main.py" line="684"/>
@@ -712,18 +553,6 @@ To get started, you will need to install the AI file in your computer. Once inst
         <location filename="../../main.py" line="1192"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation type="vanished">Laden...</translation>
-    </message>
-    <message>
-        <source>Open File in Location</source>
-        <translation type="vanished">Datei im Speicherort öffnen</translation>
-    </message>
-    <message>
-        <source>Given the file size this operation might take some time...</source>
-        <translation type="vanished">Aufgrund der Dateigröße kann dieser Vorgang einige Zeit in Anspruch nehmen...</translation>
     </message>
 </context>
 <context>
@@ -833,10 +662,6 @@ To get started, you will need to install the AI file in your computer. Once inst
         <location filename="../../main.py" line="344"/>
         <source>Item deleted successfuly.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter new name:</source>
-        <translation type="vanished">Neuen Namen eingeben:</translation>
     </message>
     <message>
         <location filename="../../main.py" line="302"/>

@@ -318,10 +318,6 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
 <context>
     <name>LlamaDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">Fonctionnalité IA</translation>
-    </message>
-    <message>
         <location filename="../../llama.py" line="288"/>
         <location filename="../../llama.py" line="298"/>
         <location filename="../../llama.py" line="314"/>
@@ -356,14 +352,6 @@ Pour commencer, vous devrez installer le fichier IA sur votre ordinateur. Une fo
 </context>
 <context>
     <name>LlamaDownloadDialog</name>
-    <message>
-        <source>AI feature</source>
-        <translation type="vanished">Fonctionnalité IA</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please download the following model.</source>
-        <translation type="vanished">Pour commencer à utiliser la fonctionnalité IA, veuillez télécharger le modèle suivant.</translation>
-    </message>
     <message>
         <location filename="../../llama.py" line="348"/>
         <source>AI assistant</source>

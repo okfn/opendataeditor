@@ -288,14 +288,6 @@
 <context>
     <name>LLMWarningDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">AI feature</translation>
-    </message>
-    <message>
-        <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
-        <translation type="vanished">La integración de IA funciona completamente en tu computadora. Esto significa que los datos de tu tabla nunca se envían ni se comparten fuera de este dispositivo.</translation>
-    </message>
-    <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
         <translation type="unfinished"></translation>
@@ -325,10 +317,6 @@ To get started, you will need to install the AI file in your computer. Once inst
 </context>
 <context>
     <name>LlamaDialog</name>
-    <message>
-        <source>AI feature</source>
-        <translation type="vanished">AI feature</translation>
-    </message>
     <message>
         <location filename="../../llama.py" line="288"/>
         <location filename="../../llama.py" line="298"/>
@@ -365,18 +353,6 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>LlamaDownloadDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">AI feature</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please select one of the following models.</source>
-        <translation type="vanished">Para comenzar a usar la función de IA, selecciona uno de los siguientes modelos.</translation>
-    </message>
-    <message>
-        <source>The ODE will save the file in this location:</source>
-        <translation type="vanished">ODE guardará el archivo en la siguiente ubicación:</translation>
-    </message>
-    <message>
         <location filename="../../llama.py" line="398"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
@@ -385,26 +361,6 @@ To get started, you will need to install the AI file in your computer. Once inst
         <location filename="../../llama.py" line="404"/>
         <source>Download</source>
         <translation>Descargar</translation>
-    </message>
-    <message>
-        <source>Select Model</source>
-        <translation type="vanished">Seleccionar modelo</translation>
-    </message>
-    <message>
-        <source>Model not found</source>
-        <translation type="vanished">Modelo no encontrado</translation>
-    </message>
-    <message>
-        <source>Please select one of the models</source>
-        <translation type="vanished">Por favor, selecciona uno de los modelos</translation>
-    </message>
-    <message>
-        <source>The selected model is not available.</source>
-        <translation type="vanished">El modelo seleccionado no está disponible.</translation>
-    </message>
-    <message>
-        <source>The selected model is not downloaded.</source>
-        <translation type="vanished">El modelo seleccionado no está descargado.</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="348"/>
@@ -466,17 +422,6 @@ To get started, you will need to install the AI file in your computer. Once inst
         <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LlamaWorker</name>
-    <message>
-        <source>This could take a few minutes. Please wait...</source>
-        <translation type="vanished">Esto puede demorar algunos minutos. Por favor espera...</translation>
-    </message>
-    <message>
-        <source>Execution failed</source>
-        <translation type="vanished">Ejecución fallida</translation>
     </message>
 </context>
 <context>
@@ -743,10 +688,6 @@ To get started, you will need to install the AI file in your computer. Once inst
 </context>
 <context>
     <name>SourceViewer</name>
-    <message>
-        <source>Source view not available for this file.</source>
-        <translation type="vanished">La vista Fuente no esta disponible para este archivo.</translation>
-    </message>
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>

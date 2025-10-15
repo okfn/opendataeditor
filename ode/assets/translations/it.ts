@@ -25,36 +25,6 @@
     </message>
 </context>
 <context>
-    <name>ContributorDetailForm</name>
-    <message>
-        <source>Title:</source>
-        <translation type="vanished">Titolo:</translation>
-    </message>
-    <message>
-        <source>Role:</source>
-        <translation type="vanished">Ruolo:</translation>
-    </message>
-    <message>
-        <source>Email:</source>
-        <translation type="vanished">Email:</translation>
-    </message>
-    <message>
-        <source>Path:</source>
-        <translation type="vanished">Percorso:</translation>
-    </message>
-</context>
-<context>
-    <name>ContributorDialog</name>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Salva</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Annulla</translation>
-    </message>
-</context>
-<context>
     <name>DataUploadDialog</name>
     <message>
         <location filename="../../dialogs/upload.py" line="163"/>
@@ -111,10 +81,6 @@
         <location filename="../../dialogs/upload.py" line="226"/>
         <source>Paste your Google Sheet or csv link to create a local copy in the Open Data Editor</source>
         <translation>Incolla il link di Google Fogli o csv per creare una copia locale nell&apos;Open Data Editor</translation>
-    </message>
-    <message>
-        <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
-        <translation type="vanished">Qui puoi incollare link da Google Fogli pubblico e url di file csv da portali opendata e GitHub.</translation>
     </message>
     <message>
         <location filename="../../dialogs/upload.py" line="227"/>
@@ -322,14 +288,6 @@
 <context>
     <name>LLMWarningDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">Funzione AI</translation>
-    </message>
-    <message>
-        <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
-        <translation type="vanished">L&apos;integrazione dell&apos;intelligenza artificiale funziona interamente sul tuo computer. Ciò significa che quando utilizzi questa funzione, i dati della tua tabella non vengono mai inviati o condivisi al di fuori del dispositivo.</translation>
-    </message>
-    <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
         <translation>Assistente AI</translation>
@@ -361,10 +319,6 @@ Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installat
 </context>
 <context>
     <name>LlamaDialog</name>
-    <message>
-        <source>AI feature</source>
-        <translation type="vanished">funzione AI</translation>
-    </message>
     <message>
         <location filename="../../llama.py" line="282"/>
         <source>Generating response...</source>
@@ -401,18 +355,6 @@ Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installat
 <context>
     <name>LlamaDownloadDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">Funzione AI</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please select one of the following models.</source>
-        <translation type="vanished">Per iniziare ad utilizzare la funzione AI, seleziona uno di questi modelli.</translation>
-    </message>
-    <message>
-        <source>The ODE will save the file in this location:</source>
-        <translation type="vanished">ODE salverà il file in questa posizione:</translation>
-    </message>
-    <message>
         <location filename="../../llama.py" line="398"/>
         <source>Delete</source>
         <translation>Elimina</translation>
@@ -421,22 +363,6 @@ Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installat
         <location filename="../../llama.py" line="404"/>
         <source>Download</source>
         <translation>Download</translation>
-    </message>
-    <message>
-        <source>Select Model</source>
-        <translation type="vanished">Seleziona modello</translation>
-    </message>
-    <message>
-        <source>Model not found</source>
-        <translation type="vanished">Modello non trovato</translation>
-    </message>
-    <message>
-        <source>The selected model is not available.</source>
-        <translation type="vanished">Il modello selezionato non è disponibile.</translation>
-    </message>
-    <message>
-        <source>The selected model is not downloaded.</source>
-        <translation type="vanished">Il modello selezionato non è scaricabile.</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="348"/>
@@ -498,17 +424,6 @@ Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installat
         <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
         <translation>Sei sicuro di voler eliminare {AI_MODEL.name}?</translation>
-    </message>
-</context>
-<context>
-    <name>LlamaWorker</name>
-    <message>
-        <source>This could take a few minutes. Please wait...</source>
-        <translation type="vanished">Questo può avere biogno di quache minuto. Un attimo di pazienza...</translation>
-    </message>
-    <message>
-        <source>Execution failed</source>
-        <translation type="vanished">Esecuzione fallita</translation>
     </message>
 </context>
 <context>
@@ -776,10 +691,6 @@ Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installat
 </context>
 <context>
     <name>SourceViewer</name>
-    <message>
-        <source>Source view not available for this file.</source>
-        <translation type="vanished">La vista sorgente non è disponibile per questo file.</translation>
-    </message>
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
