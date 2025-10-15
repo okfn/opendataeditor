@@ -3,9 +3,9 @@
 ## Show this output
 help: _showhelp
 
-## Builds the documentation (requires dev-requirements.txt installed.)
+## Builds the documentation and run a local server for preview (requires dev-requirements.txt installed.)
 docs: _check_virtualenv
-	cd docs && make html
+	cd docs && make html && python -m http.server -d build/html/
 
 ## Install application requirements and documentation npm dependencies.
 install: _check_virtualenv
