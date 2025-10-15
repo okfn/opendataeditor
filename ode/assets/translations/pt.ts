@@ -1,57 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt">
-<context>
-    <name>ChatGPTDialog</name>
-    <message>
-        <source>Input Error</source>
-        <translation type="vanished">Erro de Entrada</translation>
-    </message>
-    <message>
-        <source>A data file must be selected in order to use the AI tool.</source>
-        <translation type="vanished">Um arquivo de dados deve ser selecionado para usar a ferramenta de IA.</translation>
-    </message>
-    <message>
-        <source>API Key and Prompt are required!</source>
-        <translation type="vanished">Chave de API e Prompt são obrigatórios!</translation>
-    </message>
-    <message>
-        <source>API Error</source>
-        <translation type="vanished">Erro de API</translation>
-    </message>
-    <message>
-        <source>Error: {str(e)}</source>
-        <translation type="vanished">Erro: {str(e)}</translation>
-    </message>
-    <message>
-        <source>AI Assistant</source>
-        <translation type="vanished">Assistente de IA</translation>
-    </message>
-    <message>
-        <source>Please enter your OpenAI API Key: </source>
-        <translation type="vanished">Por favor, insira sua Chave de API da OpenAI: </translation>
-    </message>
-    <message>
-        <source>Click &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;here&lt;/a&gt; to learn how to find your key.&lt;br&gt;You can also check OpenAI terms and policies &lt;a href=&apos;https://openai.com/policies/&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="vanished">Clique &lt;a href=&apos;https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key&apos;&gt;aqui&lt;/a&gt; para aprender como encontrar sua chave.&lt;br&gt;Você também pode verificar os termos e políticas da OpenAI &lt;a href=&apos;https://openai.com/policies/&apos;&gt;aqui&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Data Privacy:&lt;/b&gt; Open Data Editor will only share the names of the columns in your table to suggest improvements to the titles and descriptions associated with them.</source>
-        <translation type="vanished">&lt;b&gt;Privacidade de Dados:&lt;/b&gt; O Open Data Editor compartilhará apenas os nomes das colunas da sua tabela para sugerir melhorias nos títulos e descrições associados a elas.</translation>
-    </message>
-    <message>
-        <source>Please enter your prompt to the AI assistant: </source>
-        <translation type="vanished">Por favor, insira seu prompt para o assistente de IA: </translation>
-    </message>
-    <message>
-        <source>Result: </source>
-        <translation type="vanished">Resultado: </translation>
-    </message>
-    <message>
-        <source>Submit</source>
-        <translation type="vanished">Enviar</translation>
-    </message>
-</context>
+<TS version="2.1" language="pt_PT">
 <context>
     <name>ColumnMetadataDialog</name>
     <message>
@@ -152,7 +101,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="546"/>
+        <location filename="../../panels/data.py" line="557"/>
         <source>Preview not available for this item.</source>
         <translation>Visualização não disponível para este item.</translation>
     </message>
@@ -175,17 +124,9 @@
         <translation>Leitura e verificação de erros concluída.</translation>
     </message>
     <message>
-        <source>Validating file...</source>
-        <translation type="vanished">Validando arquivo...</translation>
-    </message>
-    <message>
         <location filename="../../panels/data.py" line="72"/>
         <source>Drawing table...</source>
         <translation>Renderizando a tabela...</translation>
-    </message>
-    <message>
-        <source>Read and Validation finished.</source>
-        <translation type="vanished">Leitura e validação concluídas.</translation>
     </message>
 </context>
 <context>
@@ -237,13 +178,15 @@
         <location filename="../../dialogs/download.py" line="63"/>
         <source>File downloaded successfully to:
 {}</source>
-        <translation>Arquivo baixado com sucesso em:</translation>
+        <translation>Arquivo baixado com sucesso em:
+{}</translation>
     </message>
     <message>
         <location filename="../../dialogs/download.py" line="67"/>
         <source>Error downloading file:
 {}</source>
-        <translation>Erro ao baixar o arquivo:</translation>
+        <translation>Erro ao baixar o arquivo:
+{}</translation>
     </message>
     <message>
         <location filename="../../dialogs/download.py" line="64"/>
@@ -337,107 +280,31 @@
 <context>
     <name>FrictionlessTableModel</name>
     <message>
-        <location filename="../../panels/data.py" line="238"/>
+        <location filename="../../panels/data.py" line="249"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
 </context>
 <context>
-    <name>GithubWidget</name>
-    <message>
-        <source>All fields are mandatory.</source>
-        <translation type="vanished">Todos os campos são obrigatórios.</translation>
-    </message>
-    <message>
-        <source>Publishing data to Github...</source>
-        <translation type="vanished">Publicando dados no GitHub...</translation>
-    </message>
-    <message>
-        <source>Publish to Github complete.</source>
-        <translation type="vanished">Publicação no GitHub concluída.</translation>
-    </message>
-    <message>
-        <source>User:</source>
-        <translation type="vanished">Usuário:</translation>
-    </message>
-    <message>
-        <source>Repository: </source>
-        <translation type="vanished">Repositório: </translation>
-    </message>
-    <message>
-        <source>Email: </source>
-        <translation type="vanished">E-mail: </translation>
-    </message>
-    <message>
-        <source>API Key: </source>
-        <translation type="vanished">Chave de API: </translation>
-    </message>
-    <message>
-        <source>Publish</source>
-        <translation type="vanished">Publicar</translation>
-    </message>
-</context>
-<context>
-    <name>IntegrityForm</name>
-    <message>
-        <source>Integrity Hash</source>
-        <translation type="vanished">Hash de Integridade</translation>
-    </message>
-    <message>
-        <source>The MD5 hash for this resource.</source>
-        <translation type="vanished">O hash MD5 para este recurso.</translation>
-    </message>
-    <message>
-        <source>Integrity Fields</source>
-        <translation type="vanished">Campos de Integridade</translation>
-    </message>
-    <message>
-        <source>Total fiels in this resource.</source>
-        <translation type="vanished">Total de campos neste recurso.</translation>
-    </message>
-    <message>
-        <source>Integrity Bytes</source>
-        <translation type="vanished">Bytes de Integridade</translation>
-    </message>
-    <message>
-        <source>Size of the resource file in bytes.</source>
-        <translation type="vanished">Tamanho do arquivo do recurso em bytes.</translation>
-    </message>
-    <message>
-        <source>Integrity Rows</source>
-        <translation type="vanished">Linhas de Integridade</translation>
-    </message>
-    <message>
-        <source>Total rows in this resource.</source>
-        <translation type="vanished">Total de linhas neste recurso.</translation>
-    </message>
-</context>
-<context>
     <name>LLMWarningDialog</name>
-    <message>
-        <source>AI feature</source>
-        <translation type="vanished">AI feature</translation>
-    </message>
-    <message>
-        <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
-        <translation type="vanished">A integração com IA funciona inteiramente no seu laptop. Isso significa que os dados da sua tabela nunca são enviados ou compartilhados fora deste dispositivo.</translation>
-    </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistente de IA</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="25"/>
         <source>Welcome to the ODE&apos;s AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. 
 
 To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo ao assistente de IA do ODE! Este recurso irá ajudá-lo a gerar melhores descrições para as colunas da sua tabela e também perguntas para análise de dados.
+
+Para começar, você precisará instalar o arquivo de IA no seu computador. Uma vez instalado, tudo será executado localmente, o que significa que seus dados sempre permanecem privados e seguros. Saiba mais</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="28"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"></translation>
+        <translation>Não mostrar novamente</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="33"/>
@@ -453,145 +320,110 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>LlamaDialog</name>
     <message>
-        <location filename="../../llama.py" line="268"/>
-        <source>AI feature</source>
-        <translation>AI feature</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="252"/>
-        <location filename="../../llama.py" line="258"/>
-        <location filename="../../llama.py" line="269"/>
+        <location filename="../../llama.py" line="288"/>
+        <location filename="../../llama.py" line="298"/>
+        <location filename="../../llama.py" line="314"/>
         <source>Execute</source>
         <translation>Executar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="248"/>
+        <location filename="../../llama.py" line="282"/>
         <source>Generating response...</source>
         <translation>Gerando resposta...</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="259"/>
+        <location filename="../../llama.py" line="299"/>
         <source>Error</source>
         <translation>Erro</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="270"/>
+        <location filename="../../llama.py" line="313"/>
+        <source>AI assistant</source>
+        <translation>Assistente de IA</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="315"/>
+        <source>Stop execution</source>
+        <translation>Parar execução</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="316"/>
         <source>Results will be displayed here...</source>
         <translation>Os resultados serão exibidos aqui...</translation>
-    </message>
-    <message>
-        <source>Analyze Column Headers</source>
-        <translation type="vanished">Analisar Cabeçalhos de Colunas</translation>
-    </message>
-    <message>
-        <source>Analysis results will be displayed here...</source>
-        <translation type="vanished">Os resultados da análise serão exibidos aqui...</translation>
     </message>
 </context>
 <context>
     <name>LlamaDownloadDialog</name>
     <message>
-        <location filename="../../llama.py" line="302"/>
-        <source>AI feature</source>
-        <translation>AI feature</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please select one of the following models and click download:</source>
-        <translation type="vanished">Para começar a usar o recurso de IA, selecione um dos modelos abaixo e clique em baixar:</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please select one of the following models.</source>
-        <translation type="vanished">Para começar a usar o recurso de IA, selecione um dos seguintes modelos.</translation>
-    </message>
-    <message>
-        <source>The ODE will save the file in this location:</source>
-        <translation type="vanished">O ODE salvará o arquivo neste local:</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="352"/>
+        <location filename="../../llama.py" line="398"/>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="358"/>
+        <location filename="../../llama.py" line="404"/>
         <source>Download</source>
         <translation>Baixar</translation>
     </message>
     <message>
-        <source>Select Model</source>
-        <translation type="vanished">Selecionar Modelo</translation>
+        <location filename="../../llama.py" line="348"/>
+        <source>AI assistant</source>
+        <translation>Assistente de IA</translation>
     </message>
     <message>
-        <source>Model not found</source>
-        <translation type="vanished">Modelo não encontrado</translation>
+        <location filename="../../llama.py" line="352"/>
+        <source>To start using the AI assistant, please download the following model.</source>
+        <translation>Para começar a usar o assistente de IA, por favor baixe o seguinte modelo.</translation>
     </message>
     <message>
-        <source>Please select one of the models</source>
-        <translation type="vanished">Por favor, selecione um dos modelos</translation>
-    </message>
-    <message>
-        <source>The selected model is not available.</source>
-        <translation type="vanished">O modelo selecionado não está disponível.</translation>
-    </message>
-    <message>
-        <source>The selected model is not downloaded.</source>
-        <translation type="vanished">O modelo selecionado não foi baixado.</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="306"/>
-        <source>To start using the AI feature, please download the following model.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="313"/>
+        <location filename="../../llama.py" line="359"/>
         <source>The ODE will save the file in this location: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</source>
         <translation>O ODE salvará o arquivo neste local: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="327"/>
+        <location filename="../../llama.py" line="373"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Próximo</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="411"/>
+        <location filename="../../llama.py" line="457"/>
         <source>File exists</source>
         <translation>Arquivo existente</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="412"/>
+        <location filename="../../llama.py" line="458"/>
         <source>Do you want to delete it and download it again?</source>
         <translation>Deseja excluí-lo e baixá-lo novamente?</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="428"/>
+        <location filename="../../llama.py" line="474"/>
         <source>Downloading model</source>
         <translation>Baixando modelo</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="428"/>
+        <location filename="../../llama.py" line="474"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="429"/>
+        <location filename="../../llama.py" line="475"/>
         <source>LLM Model Download Progress</source>
         <translation>Progresso do Download do Modelo LLM</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="440"/>
-        <location filename="../../llama.py" line="507"/>
+        <location filename="../../llama.py" line="486"/>
+        <location filename="../../llama.py" line="553"/>
         <source>Error Occurred</source>
         <translation>Ocorreu um erro</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="448"/>
+        <location filename="../../llama.py" line="494"/>
         <source>Confirm Deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar exclusão</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="449"/>
+        <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem certeza de que deseja excluir {AI_MODEL.name}?</translation>
     </message>
 </context>
 <context>
@@ -599,14 +431,6 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <source>Preparing data for analysis...</source>
         <translation type="obsolete">Preparando os dados para análise...</translation>
-    </message>
-    <message>
-        <source>This could take a few minutes. Please wait...</source>
-        <translation type="vanished">Isso pode levar alguns minutos. Por favor, aguarde...</translation>
-    </message>
-    <message>
-        <source>Execution failed</source>
-        <translation type="vanished">Falha na execução</translation>
     </message>
 </context>
 <context>
@@ -625,141 +449,123 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="681"/>
+        <location filename="../../main.py" line="684"/>
         <source>Ready.</source>
         <translation>Pronto.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="829"/>
+        <location filename="../../main.py" line="817"/>
+        <source>Error</source>
+        <translation>Erro</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="817"/>
+        <source>Error initializing the LLM:
+</source>
+        <translation>Erro ao inicializar o LLM:
+</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="864"/>
         <source>File</source>
         <translation>Arquivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="830"/>
+        <location filename="../../main.py" line="865"/>
         <source>Add</source>
         <translation>Adicionar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="831"/>
+        <location filename="../../main.py" line="866"/>
         <source>File/Folder</source>
         <translation>Arquivo/Pasta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="832"/>
+        <location filename="../../main.py" line="867"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="835"/>
+        <location filename="../../main.py" line="870"/>
         <source>View</source>
         <translation>Visualizar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1138"/>
+        <location filename="../../main.py" line="1173"/>
         <source>Downloading data with errors...</source>
         <translation>Baixando dados com erros...</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1156"/>
+        <location filename="../../main.py" line="1191"/>
         <source>File downloaded successfully to:
 {}</source>
-        <translation>Arquivo baixado com sucesso em:</translation>
+        <translation>Arquivo baixado com sucesso em:
+{}</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1157"/>
+        <location filename="../../main.py" line="1192"/>
         <source>Success</source>
         <translation>Sucesso</translation>
     </message>
     <message>
-        <source>Metadata panel</source>
-        <translation type="vanished">Painel de Metadados</translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="836"/>
+        <location filename="../../main.py" line="871"/>
         <source>Errors panel</source>
         <translation>Painel de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="837"/>
+        <location filename="../../main.py" line="872"/>
         <source>Source panel</source>
         <translation>Painel de Origem</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="840"/>
+        <location filename="../../main.py" line="875"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="841"/>
+        <location filename="../../main.py" line="876"/>
         <source>User Guide</source>
         <translation>Guia do Usuário</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="842"/>
+        <location filename="../../main.py" line="877"/>
         <source>Report an Issue</source>
         <translation>Reportar um Problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="844"/>
+        <location filename="../../main.py" line="879"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="843"/>
+        <location filename="../../main.py" line="878"/>
         <source>View logs</source>
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="880"/>
+        <location filename="../../main.py" line="915"/>
         <source>Language changed.</source>
         <translation>Idioma alterado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="907"/>
+        <location filename="../../main.py" line="942"/>
         <source>File and Metadata changes saved.</source>
         <translation>Alterações no arquivo e metadados salvas.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1095"/>
+        <location filename="../../main.py" line="1130"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 linhas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1115"/>
+        <location filename="../../main.py" line="1150"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1120"/>
+        <location filename="../../main.py" line="1155"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar para área de transferência</translation>
-    </message>
-</context>
-<context>
-    <name>MetadataDialog</name>
-    <message>
-        <source>Column name cannot be empty</source>
-        <translation type="vanished">O nome da coluna não pode estar vazio</translation>
-    </message>
-    <message>
-        <source>There is another column in the table with the same name. Please choose a different one</source>
-        <translation type="vanished">Há outra coluna na tabela com o mesmo nome. Por favor, escolha outro</translation>
-    </message>
-    <message>
-        <source>Min. Characters in cells must be a number</source>
-        <translation type="vanished">O mínimo de caracteres nas células deve ser um número</translation>
-    </message>
-    <message>
-        <source>Max. Characters in cell must be a number</source>
-        <translation type="vanished">O máximo de caracteres na célula deve ser um número</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Salvar</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Cancelar</translation>
     </message>
 </context>
 <context>
@@ -796,17 +602,6 @@ To get started, you will need to install the AI file in your computer. Once inst
     </message>
 </context>
 <context>
-    <name>PublishDialog</name>
-    <message>
-        <source>Publish dataset</source>
-        <translation type="vanished">Publicar conjunto de dados</translation>
-    </message>
-    <message>
-        <source>This Publishing feature is comming soon...&lt;br&gt;Are you interested? Contact us at &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</source>
-        <translation type="vanished">Este recurso de publicação está chegando em breve...&lt;br&gt;Interessado? Contate-nos em &lt;a href=&apos;mailto:info@okfn.org&apos;&gt;info@okfn.org&lt;/a&gt;.</translation>
-    </message>
-</context>
-<context>
     <name>RenameDialog</name>
     <message>
         <location filename="../../dialogs/rename.py" line="50"/>
@@ -830,324 +625,79 @@ To get started, you will need to install the AI file in your computer. Once inst
     </message>
 </context>
 <context>
-    <name>ResourceForm</name>
-    <message>
-        <source>Resource Name</source>
-        <translation type="vanished">Nome do Recurso</translation>
-    </message>
-    <message>
-        <source>A simple name or identifier to be used for this resource. The name should be slugified e.g sales-data.</source>
-        <translation type="vanished">Um nome simples ou identificador para este recurso. O nome deve ser slugificado, ex: dados-de-vendas.</translation>
-    </message>
-    <message>
-        <source>Resource Type</source>
-        <translation type="vanished">Tipo de Recurso</translation>
-    </message>
-    <message>
-        <source>Specifies the type of this resource.</source>
-        <translation type="vanished">Especifica o tipo deste recurso.</translation>
-    </message>
-    <message>
-        <source>Resource Scheme</source>
-        <translation type="vanished">Esquema do Recurso</translation>
-    </message>
-    <message>
-        <source>Specifies the scheme for loading the file (file, http, ...).</source>
-        <translation type="vanished">Especifica o esquema para carregar o arquivo (file, http, ...).</translation>
-    </message>
-    <message>
-        <source>Resource Format</source>
-        <translation type="vanished">Formato do Recurso</translation>
-    </message>
-    <message>
-        <source>Specifies the standard file extension for this resource e.g. &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</source>
-        <translation type="vanished">Especifica a extensão de arquivo padrão para este recurso, ex: &apos;csv&apos;, &apos;xls&apos;, &apos;json&apos; etc.</translation>
-    </message>
-    <message>
-        <source>Resource Title</source>
-        <translation type="vanished">Título do Recurso</translation>
-    </message>
-    <message>
-        <source>A human-readable title or label for this resource e.g. &apos;Sales Data&apos;.</source>
-        <translation type="vanished">Um título legível para humanos para este recurso, ex: &apos;Dados de Vendas&apos;.</translation>
-    </message>
-    <message>
-        <source>Resource Media Type</source>
-        <translation type="vanished">Tipo de Mídia do Recurso</translation>
-    </message>
-    <message>
-        <source>Specifies the media type/mime type of this resource e.g &apos;text/csv&apos;, &apos;application/vnd.ms-excel&apos; etc.</source>
-        <translation type="vanished">Especifica o tipo de mídia/MIME type deste recurso, ex: &apos;text/csv&apos;, &apos;application/vnd.ms-excel&apos; etc.</translation>
-    </message>
-    <message>
-        <source>Resource Description</source>
-        <translation type="vanished">Descrição do Recurso</translation>
-    </message>
-    <message>
-        <source>A description of this resource. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation type="vanished">Uma descrição deste recurso. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
-    </message>
-    <message>
-        <source>Resource Encoding</source>
-        <translation type="vanished">Codificação do Recurso</translation>
-    </message>
-    <message>
-        <source>Specifies the character encoding of this resource e.g. &apos;UTF-8&apos;. The values should be one of the &apos;Preferred MIME Names&apos; for a character encoding registered with IANA.</source>
-        <translation type="vanished">Especifica a codificação de caracteres deste recurso, ex: &apos;UTF-8&apos;. Os valores devem ser um dos &apos;Nomes MIME Preferidos&apos; para codificação registrados na IANA.</translation>
-    </message>
-</context>
-<context>
-    <name>SchemaForm</name>
-    <message>
-        <source>Schema Name</source>
-        <translation type="vanished">Nome do Esquema</translation>
-    </message>
-    <message>
-        <source>A simple name or identifier to use for this schema.</source>
-        <translation type="vanished">Um nome simples ou identificador para este esquema.</translation>
-    </message>
-    <message>
-        <source>Schema Primary Key</source>
-        <translation type="vanished">Chave Primária do Esquema</translation>
-    </message>
-    <message>
-        <source>A primary key is a field or set of fields that uniquely identifies each row in the table.</source>
-        <translation type="vanished">Uma chave primária é um campo ou conjunto de campos que identifica exclusivamente cada linha da tabela.</translation>
-    </message>
-    <message>
-        <source>Schema Title</source>
-        <translation type="vanished">Título do Esquema</translation>
-    </message>
-    <message>
-        <source>A human-readable title.</source>
-        <translation type="vanished">Um título legível para humanos.</translation>
-    </message>
-    <message>
-        <source>Schema Missing Values</source>
-        <translation type="vanished">Valores Faltantes do Esquema</translation>
-    </message>
-    <message>
-        <source>Many datasets arrive with missing data values, either because a value was not collected or it never existed.</source>
-        <translation type="vanished">Muitos conjuntos de dados possuem valores faltantes, seja porque o valor não foi coletado ou porque nunca existiu.</translation>
-    </message>
-    <message>
-        <source>Schema Description</source>
-        <translation type="vanished">Descrição do Esquema</translation>
-    </message>
-    <message>
-        <source>A description of the schema. The description MUST be markdown formatted – this also allows for simple plain text as plain text is itself valid markdown.</source>
-        <translation type="vanished">Uma descrição do esquema. A descrição DEVE estar formatada em markdown – texto simples também é permitido pois é considerado markdown válido.</translation>
-    </message>
-</context>
-<context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="254"/>
+        <location filename="../../main.py" line="257"/>
         <source>Upload your data</source>
         <translation>Carregue seus dados</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="255"/>
+        <location filename="../../main.py" line="258"/>
         <source>User guide</source>
         <translation>Guia do Usuário</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="256"/>
+        <location filename="../../main.py" line="259"/>
         <source>Report an issue</source>
         <translation>Reportar um Problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="257"/>
+        <location filename="../../main.py" line="260"/>
         <source>Rename</source>
         <translation>Renomear</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="258"/>
+        <location filename="../../main.py" line="261"/>
         <source>Open File in Location</source>
         <translation>Abrir Arquivo no Local</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="259"/>
+        <location filename="../../main.py" line="262"/>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="299"/>
-        <location filename="../../main.py" line="303"/>
-        <location filename="../../main.py" line="307"/>
-        <location filename="../../main.py" line="309"/>
-        <location filename="../../main.py" line="337"/>
+        <location filename="../../main.py" line="302"/>
+        <location filename="../../main.py" line="306"/>
+        <location filename="../../main.py" line="310"/>
+        <location filename="../../main.py" line="312"/>
+        <location filename="../../main.py" line="340"/>
         <source>Error</source>
         <translation>Erro</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="300"/>
+        <location filename="../../main.py" line="303"/>
         <source>Source is a file but destination a directory.</source>
         <translation>A origem é um arquivo, mas o destino é um diretório.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="304"/>
+        <location filename="../../main.py" line="307"/>
         <source>Source is a directory but destination a file.</source>
         <translation>A origem é um diretório, mas o destino é um arquivo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="307"/>
+        <location filename="../../main.py" line="310"/>
         <source>Operation not permitted.</source>
         <translation>Operação não permitida.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="309"/>
+        <location filename="../../main.py" line="312"/>
         <source>File with this name already exists.</source>
         <translation>Um arquivo com este nome já existe.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="311"/>
+        <location filename="../../main.py" line="314"/>
         <source>Item renamed successfuly.</source>
         <translation>Item renomeado com sucesso.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="341"/>
+        <location filename="../../main.py" line="344"/>
         <source>Item deleted successfuly.</source>
         <translation>Item excluído com sucesso.</translation>
     </message>
 </context>
 <context>
-    <name>SingleFieldForm</name>
-    <message>
-        <source>Column Type</source>
-        <translation type="vanished">Tipo da Coluna</translation>
-    </message>
-    <message>
-        <source>String indicating the type of this field.</source>
-        <translation type="vanished">String que indica o tipo deste campo.</translation>
-    </message>
-    <message>
-        <source>Column Title</source>
-        <translation type="vanished">Título da Coluna</translation>
-    </message>
-    <message>
-        <source>A human-readable title.</source>
-        <translation type="vanished">Um título legível para humanos.</translation>
-    </message>
-    <message>
-        <source>Column Description</source>
-        <translation type="vanished">Descrição da Coluna</translation>
-    </message>
-    <message>
-        <source>A description of the field.</source>
-        <translation type="vanished">Uma descrição do campo.</translation>
-    </message>
-    <message>
-        <source>Column Missing Values</source>
-        <translation type="vanished">Valores Faltantes da Coluna</translation>
-    </message>
-    <message>
-        <source>Specifies which string values should be treated as null values.</source>
-        <translation type="vanished">Especifica quais valores de string devem ser tratados como nulos.</translation>
-    </message>
-    <message>
-        <source>Column RDF Type</source>
-        <translation type="vanished">Tipo RDF da Coluna</translation>
-    </message>
-    <message>
-        <source>Indicates whether the field is of RDF type.</source>
-        <translation type="vanished">Indica se o campo é do tipo RDF.</translation>
-    </message>
-    <message>
-        <source>Column required</source>
-        <translation type="vanished">Coluna Obrigatória</translation>
-    </message>
-    <message>
-        <source>Indicates whether this field cannot be null.</source>
-        <translation type="vanished">Indica se este campo não pode ser nulo.</translation>
-    </message>
-    <message>
-        <source>Column Enum</source>
-        <translation type="vanished">Enum da Coluna</translation>
-    </message>
-    <message>
-        <source>Each cell in this field must exactly match one of the specified values. Please provide comma separated list of values.</source>
-        <translation type="vanished">Cada célula neste campo deve corresponder exatamente a um dos valores especificados. Forneça uma lista de valores separados por vírgula.</translation>
-    </message>
-    <message>
-        <source>Column Max Length</source>
-        <translation type="vanished">Comprimento Máximo da Coluna</translation>
-    </message>
-    <message>
-        <source>An integer that specifies the maximum length of a value.</source>
-        <translation type="vanished">Um inteiro que especifica o comprimento máximo de um valor.</translation>
-    </message>
-    <message>
-        <source>Column Min Length</source>
-        <translation type="vanished">Comprimento Mínimo da Coluna</translation>
-    </message>
-    <message>
-        <source>An integer that specifies the minimum length of a value.</source>
-        <translation type="vanished">Um inteiro que especifica o comprimento mínimo de um valor.</translation>
-    </message>
-    <message>
-        <source>Column Pattern</source>
-        <translation type="vanished">Padrão da Coluna</translation>
-    </message>
-    <message>
-        <source>A regular expression that can be used to test field values. If the regular expression matches then the value is valid.</source>
-        <translation type="vanished">Uma expressão regular que pode ser usada para testar os valores do campo. Se a expressão regular corresponder, o valor é válido.</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">Nome:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="vanished">Tipo:</translation>
-    </message>
-    <message>
-        <source>Title:</source>
-        <translation type="vanished">Título:</translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="vanished">Descrição:</translation>
-    </message>
-    <message>
-        <source>Missing Values:</source>
-        <translation type="vanished">Valores Faltantes:</translation>
-    </message>
-    <message>
-        <source>RDF Type:</source>
-        <translation type="vanished">Tipo RDF:</translation>
-    </message>
-    <message>
-        <source>Constraints</source>
-        <translation type="vanished">Restrições</translation>
-    </message>
-    <message>
-        <source>Required:</source>
-        <translation type="vanished">Obrigatório:</translation>
-    </message>
-    <message>
-        <source>Min Length:</source>
-        <translation type="vanished">Comprimento Mínimo:</translation>
-    </message>
-    <message>
-        <source>Max Length:</source>
-        <translation type="vanished">Comprimento Máximo:</translation>
-    </message>
-    <message>
-        <source>Enum:</source>
-        <translation type="vanished">Enum:</translation>
-    </message>
-    <message>
-        <source>Pattern:</source>
-        <translation type="vanished">Padrão:</translation>
-    </message>
-</context>
-<context>
     <name>SourceViewer</name>
-    <message>
-        <source>Source view not available for this file.</source>
-        <translation type="vanished">Visualização de origem não disponível para este arquivo.</translation>
-    </message>
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
@@ -1155,62 +705,39 @@ To get started, you will need to install the AI file in your computer. Once inst
     </message>
 </context>
 <context>
-    <name>TableAnalysisWorker</name>
-    <message>
-        <source>Preparing data for analysis...</source>
-        <translation type="vanished">Preparando os dados para análise...</translation>
-    </message>
-    <message>
-        <source>Running analysis with Local LLM. This could take a minute or two...</source>
-        <translation type="vanished">Executando análise com LLM local. Isso pode levar um ou dois minutos...</translation>
-    </message>
-    <message>
-        <source>Analysis error: {str(e)}</source>
-        <translation type="vanished">Erro de análise: {str(e)}</translation>
-    </message>
-</context>
-<context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="499"/>
+        <location filename="../../main.py" line="502"/>
         <source>Data</source>
         <translation>Dados</translation>
     </message>
     <message>
-        <source>Advanced</source>
-        <translation type="vanished">Avançado</translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="505"/>
+        <location filename="../../main.py" line="508"/>
         <source>Sheet:</source>
         <translation>Planilha:</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="500"/>
+        <location filename="../../main.py" line="503"/>
         <source>Errors Report</source>
         <translation>Relatório de Erros</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="501"/>
+        <location filename="../../main.py" line="504"/>
         <source>Source code</source>
         <translation>Código-fonte</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="502"/>
+        <location filename="../../main.py" line="505"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <source>Publish</source>
-        <translation type="vanished">Publicar</translation>
-    </message>
-    <message>
-        <location filename="../../main.py" line="503"/>
+        <location filename="../../main.py" line="506"/>
         <source>Save changes</source>
         <translation>Salvar alterações</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="504"/>
+        <location filename="../../main.py" line="507"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -1218,17 +745,17 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="570"/>
+        <location filename="../../main.py" line="573"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>O ODE suporta arquivos Excel e CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="571"/>
+        <location filename="../../main.py" line="574"/>
         <source>You can also add links to online tables</source>
         <translation>Você também pode adicionar links para tabelas online</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="572"/>
+        <location filename="../../main.py" line="575"/>
         <source>Upload your data</source>
         <translation>Carregue seus dados</translation>
     </message>

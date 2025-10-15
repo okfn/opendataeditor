@@ -36,10 +36,6 @@ All documentation files are contained [in this folder](https://github.com/okfn/o
 #### Case studies
 If you have started using Open Data Editor in your daily work, and would like to share with the world how the tool is helping you, you can always write a blog about it. If possible, try to include photos and screenshots. If you need guidance, you can always reach out to us at info[at]okfn.org. You can send us your blog at that same email address.
 
-### Translations
-
-The ODE now supports English, Spanish, Portuguese and French. If you are interesting in translating the app and the documentation into other languages, please, contact us via email at info[at]okfn.org
-
 ### Reporting a bug
 We use Github as a code and issues hosting platform. To report a bug or propose a new feature, please open an issue [in the repository](https://github.com/okfn/opendataeditor/issues). Please provide a detailed description of the bug and include screenshots. There are a few predefined issue templates to help you get started.
 

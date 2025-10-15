@@ -234,6 +234,7 @@ class Sidebar(QWidget):
             ("Deutsch", "de"),
             ("Español", "es"),
             ("Português", "pt"),
+            ("Italiano", "it"),
         ]
         language_icon = QIcon(Paths.asset("icons/24/language.svg"))
         for i, (text, locale) in enumerate(options):

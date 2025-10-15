@@ -101,7 +101,7 @@
 <context>
     <name>DataViewer</name>
     <message>
-        <location filename="../../panels/data.py" line="546"/>
+        <location filename="../../panels/data.py" line="557"/>
         <source>Preview not available for this item.</source>
         <translation>Vista previa no disponible para este ítem.</translation>
     </message>
@@ -280,7 +280,7 @@
 <context>
     <name>FrictionlessTableModel</name>
     <message>
-        <location filename="../../panels/data.py" line="238"/>
+        <location filename="../../panels/data.py" line="249"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
@@ -288,29 +288,23 @@
 <context>
     <name>LLMWarningDialog</name>
     <message>
-        <source>AI feature</source>
-        <translation type="vanished">AI feature</translation>
-    </message>
-    <message>
-        <source>The AI integration operates entirely on your laptop. This means that when using this feature the data from your table is never sent or shared outside this device.</source>
-        <translation type="vanished">La integración de IA funciona completamente en tu computadora. Esto significa que los datos de tu tabla nunca se envían ni se comparten fuera de este dispositivo.</translation>
-    </message>
-    <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistente de IA</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="25"/>
         <source>Welcome to the ODE&apos;s AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. 
 
 To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido al asistente de IA de ODE! Esta función te ayudará a generar mejores descripciones para las columnas de tu tabla y también preguntas para el análisis de datos.
+
+Para comenzar, necesitarás instalar el archivo de IA en tu computadora. Una vez instalado, todo se ejecutará localmente, lo que significa que tus datos siempre permanecerán privados y seguros. Más información</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="28"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"></translation>
+        <translation>No mostrar de nuevo</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="33"/>
@@ -326,29 +320,34 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>LlamaDialog</name>
     <message>
-        <location filename="../../llama.py" line="268"/>
-        <source>AI feature</source>
-        <translation>AI feature</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="252"/>
-        <location filename="../../llama.py" line="258"/>
-        <location filename="../../llama.py" line="269"/>
+        <location filename="../../llama.py" line="288"/>
+        <location filename="../../llama.py" line="298"/>
+        <location filename="../../llama.py" line="314"/>
         <source>Execute</source>
         <translation>Ejecutar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="248"/>
+        <location filename="../../llama.py" line="282"/>
         <source>Generating response...</source>
         <translation>Generando respuesta...</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="259"/>
+        <location filename="../../llama.py" line="299"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="270"/>
+        <location filename="../../llama.py" line="313"/>
+        <source>AI assistant</source>
+        <translation>Asistente de IA</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="315"/>
+        <source>Stop execution</source>
+        <translation>Detener ejecución</translation>
+    </message>
+    <message>
+        <location filename="../../llama.py" line="316"/>
         <source>Results will be displayed here...</source>
         <translation>Los resultados se mostrarán aquí...</translation>
     </message>
@@ -356,114 +355,75 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>LlamaDownloadDialog</name>
     <message>
-        <location filename="../../llama.py" line="302"/>
-        <source>AI feature</source>
-        <translation>AI feature</translation>
-    </message>
-    <message>
-        <source>To start using the AI feature, please select one of the following models.</source>
-        <translation type="vanished">Para comenzar a usar la función de IA, selecciona uno de los siguientes modelos.</translation>
-    </message>
-    <message>
-        <source>The ODE will save the file in this location:</source>
-        <translation type="vanished">ODE guardará el archivo en la siguiente ubicación:</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="352"/>
+        <location filename="../../llama.py" line="398"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="358"/>
+        <location filename="../../llama.py" line="404"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <source>Select Model</source>
-        <translation type="vanished">Seleccionar modelo</translation>
+        <location filename="../../llama.py" line="348"/>
+        <source>AI assistant</source>
+        <translation>Asistente de IA</translation>
     </message>
     <message>
-        <source>Model not found</source>
-        <translation type="vanished">Modelo no encontrado</translation>
+        <location filename="../../llama.py" line="352"/>
+        <source>To start using the AI assistant, please download the following model.</source>
+        <translation>Para comenzar a usar el asistente de IA, por favor descarga el siguiente modelo.</translation>
     </message>
     <message>
-        <source>Please select one of the models</source>
-        <translation type="vanished">Por favor, selecciona uno de los modelos</translation>
-    </message>
-    <message>
-        <source>The selected model is not available.</source>
-        <translation type="vanished">El modelo seleccionado no está disponible.</translation>
-    </message>
-    <message>
-        <source>The selected model is not downloaded.</source>
-        <translation type="vanished">El modelo seleccionado no está descargado.</translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="306"/>
-        <source>To start using the AI feature, please download the following model.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../llama.py" line="313"/>
+        <location filename="../../llama.py" line="359"/>
         <source>The ODE will save the file in this location: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</source>
         <translation>El ODE guardará el archivo en esta carpeta: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="327"/>
+        <location filename="../../llama.py" line="373"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="411"/>
+        <location filename="../../llama.py" line="457"/>
         <source>File exists</source>
         <translation>El archivo ya existe</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="412"/>
+        <location filename="../../llama.py" line="458"/>
         <source>Do you want to delete it and download it again?</source>
         <translation>¿Quieres eliminarlo y volver a descargarlo?</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="428"/>
+        <location filename="../../llama.py" line="474"/>
         <source>Downloading model</source>
         <translation>Descargando modelo</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="428"/>
+        <location filename="../../llama.py" line="474"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="429"/>
+        <location filename="../../llama.py" line="475"/>
         <source>LLM Model Download Progress</source>
         <translation>Progreso de descarga del modelo LLM</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="440"/>
-        <location filename="../../llama.py" line="507"/>
+        <location filename="../../llama.py" line="486"/>
+        <location filename="../../llama.py" line="553"/>
         <source>Error Occurred</source>
         <translation>Ocurrió un error</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="448"/>
+        <location filename="../../llama.py" line="494"/>
         <source>Confirm Deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar eliminación</translation>
     </message>
     <message>
-        <location filename="../../llama.py" line="449"/>
+        <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LlamaWorker</name>
-    <message>
-        <source>This could take a few minutes. Please wait...</source>
-        <translation type="vanished">Esto puede demorar algunos minutos. Por favor espera...</translation>
-    </message>
-    <message>
-        <source>Execution failed</source>
-        <translation type="vanished">Ejecución fallida</translation>
+        <translation>¿Estás seguro de que quieres eliminar {AI_MODEL.name}?</translation>
     </message>
 </context>
 <context>
@@ -482,109 +442,121 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../main.py" line="681"/>
+        <location filename="../../main.py" line="684"/>
         <source>Ready.</source>
         <translation>Listo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="829"/>
+        <location filename="../../main.py" line="817"/>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="817"/>
+        <source>Error initializing the LLM:
+</source>
+        <translation>Error al inicializar el LLM:
+</translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="864"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="830"/>
+        <location filename="../../main.py" line="865"/>
         <source>Add</source>
         <translation>Agregar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="831"/>
+        <location filename="../../main.py" line="866"/>
         <source>File/Folder</source>
         <translation>Archivo/Carpeta</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="832"/>
+        <location filename="../../main.py" line="867"/>
         <source>External URL</source>
         <translation>URL Externa</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="835"/>
+        <location filename="../../main.py" line="870"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1138"/>
+        <location filename="../../main.py" line="1173"/>
         <source>Downloading data with errors...</source>
         <translation>Descargando datos con errores...</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1156"/>
+        <location filename="../../main.py" line="1191"/>
         <source>File downloaded successfully to:
 {}</source>
         <translation>Archivo descargado exitosamente en:
 {}</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1157"/>
+        <location filename="../../main.py" line="1192"/>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="836"/>
+        <location filename="../../main.py" line="871"/>
         <source>Errors panel</source>
         <translation>Panel de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="837"/>
+        <location filename="../../main.py" line="872"/>
         <source>Source panel</source>
         <translation>Panel de Fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="840"/>
+        <location filename="../../main.py" line="875"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="841"/>
+        <location filename="../../main.py" line="876"/>
         <source>User Guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="842"/>
+        <location filename="../../main.py" line="877"/>
         <source>Report an Issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="844"/>
+        <location filename="../../main.py" line="879"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="843"/>
+        <location filename="../../main.py" line="878"/>
         <source>View logs</source>
         <translation>Ver logs</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="880"/>
+        <location filename="../../main.py" line="915"/>
         <source>Language changed.</source>
         <translation>Lenguaje cambiado.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="907"/>
+        <location filename="../../main.py" line="942"/>
         <source>File and Metadata changes saved.</source>
         <translation>Archivo y Metadatos guardados.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1095"/>
+        <location filename="../../main.py" line="1130"/>
         <source>Last 100 Lines</source>
         <translation>Últimas 100 líneas</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1115"/>
+        <location filename="../../main.py" line="1150"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="1120"/>
+        <location filename="../../main.py" line="1155"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar al portapapeles</translation>
     </message>
@@ -648,81 +620,77 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../../main.py" line="254"/>
+        <location filename="../../main.py" line="257"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="255"/>
+        <location filename="../../main.py" line="258"/>
         <source>User guide</source>
         <translation>Guía de Usuario</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="256"/>
+        <location filename="../../main.py" line="259"/>
         <source>Report an issue</source>
         <translation>Reportar un problema</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="257"/>
+        <location filename="../../main.py" line="260"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="258"/>
+        <location filename="../../main.py" line="261"/>
         <source>Open File in Location</source>
         <translation>Abrir la ubicacion de archivo</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="259"/>
+        <location filename="../../main.py" line="262"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="299"/>
-        <location filename="../../main.py" line="303"/>
-        <location filename="../../main.py" line="307"/>
-        <location filename="../../main.py" line="309"/>
-        <location filename="../../main.py" line="337"/>
+        <location filename="../../main.py" line="302"/>
+        <location filename="../../main.py" line="306"/>
+        <location filename="../../main.py" line="310"/>
+        <location filename="../../main.py" line="312"/>
+        <location filename="../../main.py" line="340"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="300"/>
+        <location filename="../../main.py" line="303"/>
         <source>Source is a file but destination a directory.</source>
         <translation>El origen es un archivo pero el destino es un directorio.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="304"/>
+        <location filename="../../main.py" line="307"/>
         <source>Source is a directory but destination a file.</source>
         <translation>El origen es un directorio pero el destino es un archivo.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="307"/>
+        <location filename="../../main.py" line="310"/>
         <source>Operation not permitted.</source>
         <translation>Operación no permitida.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="309"/>
+        <location filename="../../main.py" line="312"/>
         <source>File with this name already exists.</source>
         <translation>Ya existe un archivo con este nombre.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="311"/>
+        <location filename="../../main.py" line="314"/>
         <source>Item renamed successfuly.</source>
         <translation>Item renombrado exitosamente.</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="341"/>
+        <location filename="../../main.py" line="344"/>
         <source>Item deleted successfuly.</source>
         <translation>Item eliminado exitosamente.</translation>
     </message>
 </context>
 <context>
     <name>SourceViewer</name>
-    <message>
-        <source>Source view not available for this file.</source>
-        <translation type="vanished">La vista Fuente no esta disponible para este archivo.</translation>
-    </message>
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
@@ -732,37 +700,37 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>Toolbar</name>
     <message>
-        <location filename="../../main.py" line="505"/>
+        <location filename="../../main.py" line="508"/>
         <source>Sheet:</source>
         <translation>Hoja:</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="499"/>
+        <location filename="../../main.py" line="502"/>
         <source>Data</source>
         <translation>Datos</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="500"/>
+        <location filename="../../main.py" line="503"/>
         <source>Errors Report</source>
         <translation>Reporte de Errores</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="501"/>
+        <location filename="../../main.py" line="504"/>
         <source>Source code</source>
         <translation>Codigo fuente</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="502"/>
+        <location filename="../../main.py" line="505"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="503"/>
+        <location filename="../../main.py" line="506"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="504"/>
+        <location filename="../../main.py" line="507"/>
         <source>AI</source>
         <translation>IA</translation>
     </message>
@@ -770,17 +738,17 @@ To get started, you will need to install the AI file in your computer. Once inst
 <context>
     <name>Welcome</name>
     <message>
-        <location filename="../../main.py" line="570"/>
+        <location filename="../../main.py" line="573"/>
         <source>The ODE supports Excel &amp; csv files</source>
         <translation>El ODE admite archivos Excel y CSV</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="571"/>
+        <location filename="../../main.py" line="574"/>
         <source>You can also add links to online tables</source>
         <translation>También puedes agregar enlaces a tablas en línea</translation>
     </message>
     <message>
-        <location filename="../../main.py" line="572"/>
+        <location filename="../../main.py" line="575"/>
         <source>Upload your data</source>
         <translation>Carga tus archivos</translation>
     </message>

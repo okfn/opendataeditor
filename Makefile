@@ -3,9 +3,9 @@
 ## Show this output
 help: _showhelp
 
-## Builds the documentation (requires dev-requirements.txt installed.)
+## Builds the documentation and run a local server for preview (requires dev-requirements.txt installed.)
 docs: _check_virtualenv
-	cd docs && make html
+	cd docs && make html && python -m http.server -d build/html/
 
 ## Install application requirements and documentation npm dependencies.
 install: _check_virtualenv
@@ -18,12 +18,13 @@ install: _check_virtualenv
 start: _check_virtualenv
 	python -m ode.main
 
-## Create/update all the translation files (.ts) for the supported languages: de, es, fr, pt
+## Create/update all the translation files (.ts) for the supported languages: de, es, fr, pt, it
 update-translations:
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/de.ts -target-language de
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/de.ts -target-language de_DE
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es_ES
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr_FR
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt_PT
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/it.ts -target-language it_IT
 
 ## Compile all the translation files (.ts) to .qm files.
 compile-translations:
@@ -31,6 +32,7 @@ compile-translations:
 	pyside6-lrelease ode/assets/translations/es.ts -qm ode/assets/translations/es.qm
 	pyside6-lrelease ode/assets/translations/fr.ts -qm ode/assets/translations/fr.qm
 	pyside6-lrelease ode/assets/translations/pt.ts -qm ode/assets/translations/pt.qm
+	pyside6-lrelease ode/assets/translations/it.ts -qm ode/assets/translations/it.qm
 
 ## Open PySide6 Linguistic application
 linguist:

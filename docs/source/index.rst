@@ -36,3 +36,4 @@ please visit: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/
    contributing/interim-governance.md
    contributing/contribution-guidelines.md
    contributing/development.md
+   contributing/translations.md
