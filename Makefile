@@ -18,12 +18,13 @@ install: _check_virtualenv
 start: _check_virtualenv
 	python -m ode.main
 
-## Create/update all the translation files (.ts) for the supported languages: de, es, fr, pt
+## Create/update all the translation files (.ts) for the supported languages: de, es, fr, pt, it
 update-translations:
 	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/de.ts -target-language de
 	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es
 	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr
 	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/it.ts -target-language it
 
 ## Compile all the translation files (.ts) to .qm files.
 compile-translations:
@@ -31,6 +32,7 @@ compile-translations:
 	pyside6-lrelease ode/assets/translations/es.ts -qm ode/assets/translations/es.qm
 	pyside6-lrelease ode/assets/translations/fr.ts -qm ode/assets/translations/fr.qm
 	pyside6-lrelease ode/assets/translations/pt.ts -qm ode/assets/translations/pt.qm
+	pyside6-lrelease ode/assets/translations/it.ts -qm ode/assets/translations/it.qm
 
 ## Open PySide6 Linguistic application
 linguist:
