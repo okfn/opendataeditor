@@ -290,19 +290,21 @@
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistente de IA</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="25"/>
         <source>Welcome to the ODE&apos;s AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. 
 
 To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido al asistente de IA de ODE! Esta función te ayudará a generar mejores descripciones para las columnas de tu tabla y también preguntas para el análisis de datos.
+
+Para comenzar, necesitarás instalar el archivo de IA en tu computadora. Una vez instalado, todo se ejecutará localmente, lo que significa que tus datos siempre permanecerán privados y seguros. Más información</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="28"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"></translation>
+        <translation>No mostrar de nuevo</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="33"/>
@@ -337,12 +339,12 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="313"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistente de IA</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="315"/>
         <source>Stop execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Detener ejecución</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="316"/>
@@ -365,12 +367,12 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="348"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistente de IA</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="352"/>
         <source>To start using the AI assistant, please download the following model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para comenzar a usar el asistente de IA, por favor descarga el siguiente modelo.</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="359"/>
@@ -380,7 +382,7 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="373"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="457"/>
@@ -416,12 +418,12 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="494"/>
         <source>Confirm Deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar eliminación</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Estás seguro de que quieres eliminar {AI_MODEL.name}?</translation>
     </message>
 </context>
 <context>
@@ -447,13 +449,14 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error initializing the LLM:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Error al inicializar el LLM:
+</translation>
     </message>
     <message>
         <location filename="../../main.py" line="864"/>
