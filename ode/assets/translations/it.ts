@@ -110,7 +110,7 @@
     <message>
         <location filename="../../dialogs/upload.py" line="226"/>
         <source>Paste your Google Sheet or csv link to create a local copy in the Open Data Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla il link di Google Fogli o csv per creare una copia locale nell&apos;Open Data Editor</translation>
     </message>
     <message>
         <source>Here you can paste links from public Google Sheets and urls from csv files in open data portals and GitHub.</source>
@@ -234,73 +234,73 @@
         <location filename="../../utils.py" line="121"/>
         <location filename="../../utils.py" line="127"/>
         <source>Missing header</source>
-        <translation type="unfinished"></translation>
+        <translation>Intestazione mancante</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="122"/>
         <source>Duplicated header</source>
-        <translation type="unfinished"></translation>
+        <translation>Intestazione duplicata</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="123"/>
         <source>Empty row</source>
-        <translation type="unfinished"></translation>
+        <translation>Riga vuota</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="124"/>
         <source>Type mismatch</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo non corrispondente</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="125"/>
         <source>Missing value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valore mancante</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="126"/>
         <source>Extra cell</source>
-        <translation type="unfinished"></translation>
+        <translation>Cella extra</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="128"/>
         <source>Blank Label</source>
-        <translation type="unfinished"></translation>
+        <translation>Etichetta vuota</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="137"/>
         <location filename="../../utils.py" line="143"/>
         <source>A column in the header row has no name. Every column should have a unique, non-empty header.</source>
-        <translation type="unfinished"></translation>
+        <translation>Una colonna nella riga di intestazione non ha nome. Ogni colonna deve avere un&apos;intestazione unica e non vuota.</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="138"/>
         <source>Two or more columns share the same name. Column names must be unique.</source>
-        <translation type="unfinished"></translation>
+        <translation>Due o più colonne condividono lo stesso nome. I nomi delle colonne devono essere univoci.</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="139"/>
         <source>This row has no data. Rows should contain at least one cell with data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa riga non contiene dati. Le righe devono contenere almeno una cella con dati.</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="140"/>
         <source>A cell value doesn&apos;t match the expected data type or format for the column.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il valore di una cella non corrisponde al tipo di dato o formato previsto per la colonna.</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="141"/>
         <source>This cell is missing data</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa cella manca di dati</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="142"/>
         <source>This row has more values compared to the header row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa riga ha più valori rispetto alla riga di intestazione.</translation>
     </message>
     <message>
         <location filename="../../utils.py" line="144"/>
         <source>A label in the header row is missing a value. Label should be provided and not be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un&apos;etichetta nella riga di intestazione manca di un valore. L&apos;etichetta deve essere fornita e non essere vuota.</translation>
     </message>
 </context>
 <context>
@@ -332,19 +332,21 @@
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="13"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistente AI</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="25"/>
         <source>Welcome to the ODE&apos;s AI assistant! This feature will help you generating better descriptions for the columns of your table and also questions for data analysis. 
 
 To get started, you will need to install the AI file in your computer. Once installed, everything will run locally, meaning your data always stays private and secure. Learn more</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto nell&apos;assistente AI di ODE! Questa funzione ti aiuterà a generare descrizioni migliori per le colonne della tua tabella e anche domande per l&apos;analisi dei dati.
+
+Per iniziare, dovrai installare il file AI sul tuo computer. Una volta installato, tutto funzionerà localmente, il che significa che i tuoi dati rimarranno sempre privati e sicuri. Scopri di più</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="28"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"></translation>
+        <translation>Non mostrare più</translation>
     </message>
     <message>
         <location filename="../../dialogs/llm_dialog_warning.py" line="33"/>
@@ -366,7 +368,7 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="282"/>
         <source>Generating response...</source>
-        <translation type="unfinished"></translation>
+        <translation>Generazione della risposta...</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="288"/>
@@ -378,17 +380,17 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="299"/>
         <source>Error</source>
-        <translation type="unfinished">Errore</translation>
+        <translation>Errore</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="313"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistente AI</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="315"/>
         <source>Stop execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferma esecuzione</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="316"/>
@@ -439,22 +441,22 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="348"/>
         <source>AI assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistente AI</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="352"/>
         <source>To start using the AI assistant, please download the following model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per iniziare ad utilizzare l&apos;assistente AI, scarica il seguente modello.</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="359"/>
         <source>The ODE will save the file in this location: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>ODE salverà il file in questa posizione: &lt;i&gt;&lt;a href=&quot;file://{AI_MODELS_PATH}&quot;&gt;{AI_MODELS_PATH}&lt;/a&gt;&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="373"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Avanti</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="457"/>
@@ -490,12 +492,12 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../llama.py" line="494"/>
         <source>Confirm Deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma eliminazione</translation>
     </message>
     <message>
         <location filename="../../llama.py" line="495"/>
         <source>Are you sure you want to delete {AI_MODEL.name}?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler eliminare {AI_MODEL.name}?</translation>
     </message>
 </context>
 <context>
@@ -532,13 +534,14 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error</source>
-        <translation type="unfinished">Errore</translation>
+        <translation>Errore</translation>
     </message>
     <message>
         <location filename="../../main.py" line="817"/>
         <source>Error initializing the LLM:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nell&apos;inizializzazione del LLM:
+</translation>
     </message>
     <message>
         <location filename="../../main.py" line="864"/>
@@ -780,7 +783,7 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../panels/source.py" line="82"/>
         <source>This view is only available for CSV files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa vista è disponibile solo per i file CSV.</translation>
     </message>
 </context>
 <context>
@@ -818,7 +821,7 @@ To get started, you will need to install the AI file in your computer. Once inst
     <message>
         <location filename="../../main.py" line="508"/>
         <source>Sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Foglio:</translation>
     </message>
 </context>
 <context>
