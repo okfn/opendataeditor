@@ -20,11 +20,11 @@ start: _check_virtualenv
 
 ## Create/update all the translation files (.ts) for the supported languages: de, es, fr, pt, it
 update-translations:
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/de.ts -target-language de
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt
-	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/it.ts -target-language it
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/de.ts -target-language de_DE
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/es.ts -target-language es_ES
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/fr.ts -target-language fr_FR
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/pt.ts -target-language pt_PT
+	pyside6-lupdate -extensions py -recursive ode -ts ode/assets/translations/it.ts -target-language it_IT
 
 ## Compile all the translation files (.ts) to .qm files.
 compile-translations:
