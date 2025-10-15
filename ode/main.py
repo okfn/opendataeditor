@@ -61,6 +61,7 @@ from ode import paths
 from ode.dialogs.delete import DeleteDialog
 from ode.dialogs.llm_dialog_warning import LLMWarningDialog
 from ode.dialogs.loading import LoadingDialog
+from ode.dialogs.cancel_ai_worker import CancelAIWorkerDialog
 from ode.file import File
 from ode.llama import LlamaDialog, LlamaDownloadDialog, LlamaInitWorker
 from ode.paths import Paths
@@ -772,6 +773,11 @@ class MainWindow(QMainWindow):
 
     def on_ai_click(self):
         """Handle the click on the AI button."""
+
+        if self.content.ai_llama.isMinimized():
+            self.content.ai_llama.showNormal()
+            return
+
         if not LLMWarningDialog.confirm(self):
             return
 
@@ -1090,6 +1096,12 @@ class MainWindow(QMainWindow):
 
     def on_tree_click(self, index):
         """Handles the click action of our File Navigator."""
+        if self.content.ai_llama.worker and self.content.ai_llama.worker.isRunning():
+            ok = CancelAIWorkerDialog.confirm(self)
+            if not ok:
+                return
+            self.content.ai_llama.close()
+
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         if self.selected_file_path.is_file():
             # Reset the excel sheet name to None to avoid displaying the previous file's sheet

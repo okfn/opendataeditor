@@ -107,6 +107,7 @@ class LlamaDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setWindowFlags(Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
         self.llm = None
         self.worker = None
         self.init_ui()
