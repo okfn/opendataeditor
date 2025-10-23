@@ -75,9 +75,6 @@ from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 from ode.log_setup import LOGS_PATH, configure_logging
 import logging
 
-import xlrd
-import openpyxl
-
 configure_logging()
 
 logger = logging.getLogger(__name__)
@@ -296,7 +293,10 @@ class Sidebar(QWidget):
             new_name = dialog.result_text
             if new_name and new_name != name:
                 try:
-                    file.rename(new_name)
+                    sheets_names = None
+                    if file.path.suffix in [".xls", ".xlsx"]:
+                        sheets_names = File.get_sheets_names(file.path)
+                    file.rename(new_name, sheets_names)
                 except IsADirectoryError:
                     QMessageBox.warning(
                         self, self.tr("Error"), self.tr("Source is a file but destination a directory.")
@@ -335,7 +335,10 @@ class Sidebar(QWidget):
             is_selected = self.window().selected_file_path == file.path
             if DeleteDialog.confirm(self, file.path.name):
                 try:
-                    file.remove()
+                    sheets_names = None
+                    if file.path.suffix in [".xls", ".xlsx"]:
+                        sheets_names = File.get_sheets_names(file.path)
+                    file.remove(sheets_names)
                 except OSError as e:
                     QMessageBox.warning(self, self.tr("Error"), str(e))
                 else:
@@ -926,7 +929,11 @@ class MainWindow(QMainWindow):
             self.selected_file_path = path
             # Calling file_model.index() has a weird side-effect in the QTreeView that will display the new
             # uploaded file at the end of the list instead of the default alphabetical order.
-            self.excel_sheet_name = None
+            if path.suffix in [".xls", ".xlsx"]:
+                self.excel_sheet_name = File.get_sheets_names(path)[0]
+            else:
+                self.excel_sheet_name = None
+
             index = self.sidebar.file_model.index(str(path))
             self.sidebar.file_navigator.selectionModel().select(index, QItemSelectionModel.SelectionFlag.ClearAndSelect)
             self.read_validate_and_display_file(path)
@@ -971,18 +978,6 @@ class MainWindow(QMainWindow):
         self.main_layout.setCurrentIndex(1)
         self.change_active_panel(ContentIndex.DATA)
 
-    def get_sheets_names(self, filepath: Path) -> list[str]:
-        """Get the names of the sheets in an Excel file."""
-        sheet_names = []
-        if filepath.suffix == ".xls":
-            workbook = xlrd.open_workbook(str(filepath))
-            sheet_names = workbook.sheet_names()
-        elif filepath.suffix in [".xlsx"]:
-            workbook = openpyxl.load_workbook(filepath, read_only=True)
-            sheet_names = workbook.sheetnames
-
-        return sheet_names
-
     def update_excel_sheet_dropdown(self, filepath):
         """
         Update the Excel sheet dropdown with the names of the sheets in the selected file.
@@ -992,14 +987,14 @@ class MainWindow(QMainWindow):
 
         self.content.toolbar.excel_sheet_combo.clear()
 
-        sheet_names = self.get_sheets_names(filepath)
-        if len(sheet_names) > 0:
+        sheets_names = File.get_sheets_names(filepath)
+        if len(sheets_names) > 0:
             if self.excel_sheet_name is None:
-                self.excel_sheet_name = sheet_names[0]
+                self.excel_sheet_name = sheets_names[0]
 
             # We only show the dropdown if there are multiple sheets
-            if len(sheet_names) > 1:
-                self.content.toolbar.excel_sheet_combo.addItems(sheet_names)
+            if len(sheets_names) > 1:
+                self.content.toolbar.excel_sheet_combo.addItems(sheets_names)
                 self.content.toolbar.excel_sheet_combo.setCurrentText(self.excel_sheet_name)
                 self.content.toolbar.excel_sheet_container.setVisible(True)
         else:
@@ -1095,7 +1090,11 @@ class MainWindow(QMainWindow):
         self.selected_file_path = Path(self.sidebar.file_model.filePath(index))
         if self.selected_file_path.is_file():
             # Reset the excel sheet name to None to avoid displaying the previous file's sheet
-            self.excel_sheet_name = None
+            if self.selected_file_path.suffix in [".xls", ".xlsx"]:
+                self.excel_sheet_name = File.get_sheets_names(self.selected_file_path)[0]
+            else:
+                self.excel_sheet_name = None
+
             self.read_validate_and_display_file(self.selected_file_path)
             self.content.toolbar.button_export.setEnabled(True)
         else:
