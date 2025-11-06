@@ -24,7 +24,7 @@ Table example is represented as follows:
 
 **This type of error occurs when the structure of the data is not as expected.** For example, the number of columns in a row is different from the number of columns in the header.
 
-### Header missing
+### Header missing (Blank Label)
 
 **This error occurs when the header row is empty**. The header row should contain the names of the columns:
 
@@ -40,20 +40,6 @@ This is how the ODE will show the error:
 
 ![Header missing error](./assets/table-error-list/header-missing.png)
 
-:::{important}
-If the header row in the csv is completely empty this error won’t be reproduced as the ODE interprets that the header is in the second row.
-For instance, if a user opens a csv with this structure:
-
-```
-1,2
-3,4
-```
-
-The ODE will consider values 1 and 2 as column names.
-
-![First row as header](./assets/table-error-list/header-missing-2.png)
-:::
-
 ### Column name missing
 
 **This error occurs when one or more column names are missing:**
@@ -68,7 +54,7 @@ col1,
 
 This is how the ODE will show the error:
 
-![Column name missing error](https://github.com/user-attachments/assets/a8546dbb-5f10-455f-8be9-9b4c7ac2a3ad)
+![Column name missing error](./assets/table-error-list/column-name-missing.png)
 
 ### Duplicate column name
 
