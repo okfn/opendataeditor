@@ -1,17 +1,17 @@
 # How to explore and edit metadata
 
-To explore or edit the metadata, select a file from the menu on the left and click on the **Metadata button** located at the top left of the datagrid.
+To explore or edit the metadata, select a file from the menu on the left and click on any cell of the header row (first row).
 
 ![Metadata Button](./assets/explore-edit-metadata/metadata-button.png)
 
-The ODE will then display the **Metadata panel**:
+The ODE will then display the **Metadata window**:
 
 ![Metadata panel](./assets/explore-edit-metadata/metadata-panel.png)
 
-You can click on any of the options on the left (Resource, Dialect or Schema) to start editing the metadata linked to your file.
+You can click on any of the options to start editing the metadata linked to your file.
+
+Once you have finished editing the metadata, click on the **Save changes** button to save the changes.
 
 :::{note}
-To update/make changes to the names of the columns in the table, go to the metadata section, click on Schema and select Fields. The ODE will provide a list of all the columns from your table. Click on the name of a column to edit to start making changes:
-
-![Changing column names](./assets/explore-edit-metadata/changing-column-names.png)
+Saving changes will trigger a validation of the file.
 :::
