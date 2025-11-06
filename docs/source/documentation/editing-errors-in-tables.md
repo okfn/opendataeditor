@@ -12,15 +12,9 @@ To fix cell errors, you can directly edit the data cells in the viewer/editor.
 ![Edit cell with errors](./assets/editing-errors-in-table/edit-cell-with-error.png)
 
 
-**Step 3:** To save changes, click the **Save changes** button at the top right of the datagrid. The button will get activated if there are unsaved changes.
+**Step 3:** To save changes, click on another part of the table to accept the change in the cell and when the the **Save changes** button is activated click on it. The button will get activated if there are unsaved changes.
 
 ![Save changes button](./assets/editing-errors-in-table/save-changes-button.png)
 
 After clicking the **Save changes** button, the ODE will update the errors report.
-
-👉🏼 You can undo or redo/undo unsaved changes by clicking on the **Redo/Undo** features at the **top left** of the datagrid.
-
-:::{note}
-If you click outside the datagrid without saving changes, the ODE will display a dialog with two options: save changes or discard them.
-:::
 
