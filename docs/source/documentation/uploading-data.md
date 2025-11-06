@@ -28,21 +28,7 @@ Once the ingestion process concludes, the ODE will add your data on the sidebar 
 
 Note that while uploading your data the tool checks your files or folders to find errors according to the validation rules provided by [Frictionless](https://framework.frictionlessdata.io/). Please, check the [Full list of table errors that the ODE detects](/documentation/table-error-list) in this guide to learn more.
 
-👉🏼 If your file has **NO ERRORS**, the ODE will add a green dot 🟢 before the name of your file.
-
-![Green dot on file navigator](./assets/uploading-data/green-dot.png)
-
-👉🏼 If your file has **ERRORS**, the ODE will add a red dot 🔴 before the name of your file.
-
-![Red dot on file navigator](./assets/uploading-data/red-dot.png)
-
 Please, keep in mind that since the preview section (datagrid) can only show one tabular file at the time, when uploading folders, and after the ingestion process is done, you will need to click on the folder and select the file you want to visualize on the screen. As soon as you click on a specific file, the ODE will start validating your data (looking for possible errors) and the table will be shown on the app.
-
-:::{note}
-If you ingest a non-tabular format (PDF or Word, for instance), the ODE will display this message on the main screen:
-
-![Not supported file](./assets/uploading-data/not-supported-file.png)
-:::
 
 ### Tables published online
 
@@ -52,7 +38,7 @@ To upload online tables, first click the **Upload your data** button and then se
 
 ![Upload online tables](./assets/uploading-data/tables-published-online.png)
 
-Now, write or paste the URL to the table. The ADD button will turn blue:
+Now, write or paste the URL to the table and click the Add button:
 
 ![Upload online table URL input](./assets/uploading-data/tables-published-online-2.png)
 
