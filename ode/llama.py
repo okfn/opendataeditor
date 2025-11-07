@@ -44,11 +44,16 @@ class AIModel(NamedTuple):
 
 
 AI_MODEL = AIModel(
-    name="Llama 3.2 3B (2.0GB)",
-    url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
-    filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    name="Apertus 8B",
+    url="https://huggingface.co/bartowski/swiss-ai_Apertus-8B-Instruct-2509-GGUF/resolve/main/swiss-ai_Apertus-8B-Instruct-2509-Q4_K_M.gguf?download=true",
+    filename="swiss-ai_Apertus-8B-Instruct-2509-Q4_K_M.gguf",
 )
 
+#AI_MODEL = AIModel(
+#    name="Llama 3.2 3B (2.0GB)",
+#    url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
+#    filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+#)
 
 class LlamaWorkerSignals(QObject):
     """Define the signals for the LlamaWorker."""
