@@ -16,8 +16,6 @@ please visit: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/
 
    documentation/welcome.md
    documentation/uploading-data.md
-   documentation/creating-folders.md
-   documentation/exploring-tables.md
    documentation/explore-table-errors.md
    documentation/editing-errors-in-tables.md
    documentation/deleting-files-folders.md
