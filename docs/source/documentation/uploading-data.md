@@ -9,7 +9,7 @@ This section explains how to upload tabular files, folders with tables and onlin
 You can click on the **Upload your data** button, located in the centre of the screen or at the **top left** on the sidebar to start adding files/folders to the app.
 
 :::{note}
-Each time you upload a file or folder to the ODE, the application will not ingest the original file/folder from your computer. Instead, it will make a copy of it and add it to the application folder on your laptop. After the ingestion process ends, you can click on the **three dots** next to the name of the file/folder and select the **Open Location** option. By doing so, ODE will redirect you to the exact location where the copy was saved.
+Each time you upload a file or folder to the ODE, the application will not ingest the original file/folder from your computer. Instead, it will make a copy of it and add it to the application folder on your laptop. After the ingestion process ends, you can right-click on the file/folder and select the **Open Location** option. By doing so, ODE will redirect you to the exact location where the copy was saved.
 :::
 
 ![Open file location](./assets/uploading-data/open-location.png)
