@@ -22,7 +22,7 @@ mkdir -p tmp/usr/share/icons/hicolor/scalable/apps
 # Build the project
 [ -e build ] && rm -r build
 [ -e dist ] && rm -r dist
-python build.py
+python build.py build
 
 # Copy files
 cp -r dist/opendataeditor tmp/opt/opendataeditor

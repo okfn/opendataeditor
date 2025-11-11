@@ -34,7 +34,7 @@
 # Build the project
 [ -e build ] && rm -r build
 [ -e dist ] && rm -r dist
-python build.py
+python build.py build
 
 mv "dist/OpenDataEditor.app" "dist/Open Data Editor.app"
 
