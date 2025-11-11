@@ -4,14 +4,14 @@ The ODE supports several languages following the [Qt Framework practices for int
 
 ## Internationalization workflow
 :::{note}
-The ODE provides a `make update-translations` and `make compile-translations` command for all the supported languages. Check the project's `Makefile` file for reference.
+The ODE provides a `python build.py update-translations` and `python build.py compile-translations` command for all the supported languages. Check the project's `build.py` file for reference.
 :::
 
-1. Create or update translation files by running `make update-translations` (or the `pyside6-lupdate` command directly if you are in MacOS)
+1. Create or update translation files by running `python build.py update-translations` (or the `pyside6-lupdate` command directly if you are in MacOS)
 2. Update the translation files:
     1. Complete `unfinished` translations (this is the actual addition of translated text).
     2. Clean `vanished` translations.
-3. Compile the translations files by running `make compile-translations` (or the `pyside6-lrelease` command directly if you are in MacOS)
+3. Compile the translations files by running `python build.py compile-translations` (or the `pyside6-lrelease` command directly if you are in MacOS)
 4. Commit both the `.ts` and `.qm` files.
 5. Create a PR with the changes.
 
@@ -28,7 +28,7 @@ For updating translations you can use either:
 
 When adding a new language two extra changes are required:
 
-1. Add the new language to both `make update-translations` and `make compile-translations` commands of the `Makefile`. (after doing this you can run the `make update-translations` and it will create the `.ts` file for you.)
+1. Add the new language to both `python build.py update-translations` and `python build.py compile-translations` commands of the `build.py` file. (after doing this you can run the `python build.py update-translations` and it will create the `.ts` file for you.)
 2. Update the `language` QComboBox of the `main.py` file so the new language appears as an option to the user.
 
 Here is a reference Pull Request of what is expected when adding a new language: [https://github.com/okfn/opendataeditor/pull/750](https://github.com/okfn/opendataeditor/pull/750)
