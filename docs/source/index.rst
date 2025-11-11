@@ -22,6 +22,7 @@ please visit: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/
    documentation/table-error-list.md
    documentation/ai-integration.md
    documentation/explore-edit-metadata.md
+   documentation/export-data.md
    documentation/faq.md
    documentation/similar-tools.md
 
