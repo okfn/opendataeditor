@@ -188,7 +188,7 @@ jobs:
           uv sync
       - name: Build the deb package
         run: |
-          VERSION=$(python -c "import ode; print(ode.__version__)")
+          VERSION=$(uv run python -c "import ode; print(ode.__version__)")
           uv run build.py --onefile --name "opendataeditor-$VERSION.AppImage"
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
