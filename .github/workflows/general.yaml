@@ -48,8 +48,7 @@ jobs:
         uses: tlambert03/setup-qt-libs@v1
       - name: Install python requirements
         run: |
-          uv pip install -r requirements.txt
-          uv pip install -r dev-requirements.txt
+          uv sync
       - name: Check pep8
         run: |
             uvx ruff check
