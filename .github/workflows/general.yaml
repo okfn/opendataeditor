@@ -21,7 +21,7 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@v5
       with:
-        version: "0.6.14"
+        version: "0.9.9"
     - name: Set up Python 3.13
       uses: actions/setup-python@v3
       with:
@@ -39,7 +39,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
-          version: "0.6.14"
+          version: "0.9.9"
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
@@ -61,16 +61,18 @@ jobs:
     needs: tests
     runs-on: macos-13
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.9"
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
           python-version: "3.13"
       - name: Install Dependencies
         run: |
-          pip3 install -r requirements.txt
-          pip3 install pyinstaller==6.11.1
+          uv sync
           brew install create-dmg
       - name: Build and notarize the dmg file
         env:
@@ -94,8 +96,11 @@ jobs:
     needs: tests
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.9"
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
@@ -111,11 +116,9 @@ jobs:
           # Fix PyInstaller warnings of Qt Dependencies missing
           sudo apt-get install synaptic
           sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0 libxcb-cursor0 libxcb-shape0-dev
-
       - name: Install Dependencies
         run: |
-          pip3 install -r requirements.txt
-          pip3 install pyinstaller==6.11.1
+          uv sync
       - name: Build the deb package
         run: |
           chmod +x create-deb.sh
@@ -132,16 +135,18 @@ jobs:
     needs: tests
     runs-on: windows-2022
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.9"
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
           python-version: "3.13"
       - name: Install Dependencies
         run: |
-          pip3 install -r requirements.txt
-          pip3 install pyinstaller==6.11.1
+          uv sync
       - name: Install NSIS
         run: choco install nsis
       - name: Build with PyInstaller
@@ -163,8 +168,11 @@ jobs:
     needs: tests
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.9"
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
@@ -178,8 +186,7 @@ jobs:
           sudo apt-get install libxcb-icccm4 libxcb-image0-dev libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxkbcommon-x11-0
       - name: Install Dependencies
         run: |
-          pip3 install -r requirements.txt
-          pip3 install pyinstaller==6.11.1
+          uv sync
       - name: Build the deb package
         run: |
           VERSION=$(python -c "import ode; print(ode.__version__)")
