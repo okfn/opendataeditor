@@ -149,11 +149,11 @@ jobs:
       - name: Install NSIS
         run: choco install nsis
       - name: Build with PyInstaller
-        run: python build.py
+        run: uv run build.py build
       - name: Compile installer
         shell: bash  # Force bash shell for VERSION command
         run: |
-          VERSION=$(python -c "import ode; print(ode.__version__)")
+          VERSION=$(uv run python -c "import ode; print(ode.__version__)")
           makensis -DAPP_VERSION="$VERSION" ./packaging/windows/installer.nsi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -189,7 +189,7 @@ jobs:
       - name: Build the deb package
         run: |
           VERSION=$(python -c "import ode; print(ode.__version__)")
-          python build.py --onefile --name "opendataeditor-$VERSION.AppImage"
+          uv run build.py --onefile --name "opendataeditor-$VERSION.AppImage"
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
