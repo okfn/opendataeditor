@@ -11,53 +11,49 @@ We are using 3.13. To start working on the project you need the following depend
 - Python 3.13
 - python3.13-dev (For PyInstaller)
 
+We are using [uv](https://docs.astral.sh/uv/) as a package manager so make sure you have it installed.
+
 ## Environment
 
-As common practice with all python project, you should create a Virtual Environment (using your favorite tool!) to install all the requirements.
-
-If using Python's default virtual env you can execute:
+Use `uv` to create a virtualenv and activate it:
 
 ```bash
-python -m venv venv
+uv sync
 source venv/bin/activate
 ```
 
-## Makefile
+## Start the application
 
-The project provides a `Makefile` with some usefull commands.
-
-```bash
-make help
-```
-
-:::{note}
-All make commands that executes python commands (like `make start` or `make install`) requires a manually activated virtualenv to run.
-:::
-
-## Installation
-
-To start working on the project install the dependencies:
+Make sure you have the virtual environment activated and run:
 
 ```bash
-make install
+python -m ode.main
 ```
 
-> Make install will also cd into the `portal` folder and install all the dependencies for the astro project.
+## Running tests
 
-## Codebase
-
-To work on the application:
+Make sure you have the virtual environment activated and run:
 
 ```bash
-make start
+pytest tests/
 ```
+
+## Building the application
+
+Make sure you have the virtual environment activated and run:
+
+```bash
+python build.py build
+```
+
+This will create a distributable file for the application in the `dist/` folder.
 
 ## Documentation
 
 Documentation is written with [Sphinx](https://www.sphinx-doc.org/en/master/) (in the `docs` directory). The source files are in the `docs/source/` directory. To locally build the documentation you can execute:
 
 ```bash
-make docs
+python build.py docs
 ```
 
 It will be automatically published on CloudFlare when merged to the `main` branch with previews available for pull requests.

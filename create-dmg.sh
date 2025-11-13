@@ -34,7 +34,7 @@
 # Build the project
 [ -e build ] && rm -r build
 [ -e dist ] && rm -r dist
-python build.py
+uv run build.py build
 
 mv "dist/OpenDataEditor.app" "dist/Open Data Editor.app"
 
@@ -72,7 +72,7 @@ sleep 5
 rm -f *.dmg
 
 # Create the dmg file
-VERSION=$(python -c "import ode; print(ode.__version__)")
+VERSION=$(uv run python -c "import ode; print(ode.__version__)")
 FILENAME=opendataeditor-macos-$VERSION.dmg
 [ -e $FILENAME ] && rm $FILENAME
 

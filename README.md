@@ -19,8 +19,7 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 
 # Useful links
-
-🔵 [Open Data Editor Concept Note](https://opendataeditor.okfn.org/ode-concept-note.pdf)
+🔵 [Development guide](https://opendataeditor.okfn.org/contributing/development/)
 
 🔵 [Open Data Editor User Guide and Project Documentation](https://opendataeditor.okfn.org/)
 
@@ -28,15 +27,17 @@ The Open Data Editor (ODE) is a **no-code application** to **explore, validate a
 
 🔵 [Frictionless Data](https://frictionlessdata.io/)
 
-🔵 [Contributing Guide](https://opendataeditor.okfn.org/contributing/development/)
+🔵 [Contributing Guidelines](https://opendataeditor.okfn.org/contributing/contribution-guidelines)
 
-🔵 [Technical Architecture](https://opendataeditor.okfn.org/contributing/architecture/)
+🔵 [Open Data Editor Concept Note](https://opendataeditor.okfn.org/ode-concept-note.pdf)
 
 🔵 For all contributions: [Code of conduct](https://frictionlessdata.io/code-of-conduct/)
 
 # How to download the ODE
 
-Go to the latest [RELEASE](https://github.com/okfn/opendataeditor/releases/latest)
+You can download the latest version from the [ODE website](https://okfn.org/en/projects/open-data-editor/)
+
+For previous releases, you can download them from Github [RELEASE](https://github.com/okfn/opendataeditor/releases)
 * For **Windows**:Download the most recent **EXE** file.
 * For **MacOS**:Download the most recent **DMG** file.
 * For **Linux**:Download the most recent **AppImage** or **DEB** file.

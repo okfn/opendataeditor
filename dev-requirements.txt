@@ -1,8 +1,0 @@
-pytest
-pytest-qt
-mypy
-ruff
-ipdb
-sphinx
-myst-parser
-sphinx_rtd_theme
