@@ -27,7 +27,13 @@ source venv/bin/activate
 Make sure you have the virtual environment activated and run:
 
 ```bash
-python -m ode.main
+uv run ode
+```
+
+or
+
+```bash
+python src/ode/main.py
 ```
 
 ## Running tests
@@ -64,7 +70,7 @@ To make a release follow the following checklist:
  - Check with the PO that `main` branch is code complete.
  - Check that the distributables built on main are working by installing them in your machine.
    - Sometimes PyInstaller cannot compile new dependencies and the application will fail at runtime.
- - Create a new PR bumping the version of the application (inside `ode/__init__.py` file.) and merge it to main.
+ - Create a new PR bumping the version of the application in the `pyproject.toml` file and merge it to main.
  - Create a New Github Release with a new tag matching the new version number of the application.
  - Fill in the Release notes.
  - Create the Release.
