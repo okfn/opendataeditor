@@ -1191,7 +1191,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, self.tr("Success"), success_text)
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
     app.setOrganizationName("Open Knowledge Foundation")
     app.setApplicationName("Open Data Editor")
@@ -1207,3 +1207,6 @@ if __name__ == "__main__":
     window.showMaximized()
     window.show()
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()
