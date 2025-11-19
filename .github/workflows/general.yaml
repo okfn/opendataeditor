@@ -153,7 +153,7 @@ jobs:
       - name: Compile installer
         shell: bash  # Force bash shell for VERSION command
         run: |
-          VERSION=$(uv run python -c "import ode; print(ode.__version__)")
+          VERSION=$(uv run python -c "from importlib.metadata import version; print(version('opendataeditor'))")
           makensis -DAPP_VERSION="$VERSION" ./packaging/windows/installer.nsi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -188,7 +188,7 @@ jobs:
           uv sync
       - name: Build the deb package
         run: |
-          VERSION=$(uv run python -c "import ode; print(ode.__version__)")
+          VERSION=$(uv run python -c "from importlib.metadata import version; print(version('opendataeditor'))")
           uv run build.py build --onefile --name "opendataeditor-$VERSION.AppImage"
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4

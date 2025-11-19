@@ -24,25 +24,40 @@ source venv/bin/activate
 
 ## Start the application
 
-Make sure you have the virtual environment activated and run:
+```bash
+uv run ode
+```
+
+or
 
 ```bash
-python -m ode.main
+# With the virtual environment activated
+python src/ode/main.py
 ```
 
 ## Running tests
 
-Make sure you have the virtual environment activated and run:
+```bash
+uv run pytest tests/
+```
+
+or
 
 ```bash
+# With the virtual environment activated
 pytest tests/
 ```
 
 ## Building the application
 
-Make sure you have the virtual environment activated and run:
+```bash
+uv run build.py build
+```
+
+or
 
 ```bash
+# With the virtual environment activated
 python build.py build
 ```
 
@@ -53,6 +68,13 @@ This will create a distributable file for the application in the `dist/` folder.
 Documentation is written with [Sphinx](https://www.sphinx-doc.org/en/master/) (in the `docs` directory). The source files are in the `docs/source/` directory. To locally build the documentation you can execute:
 
 ```bash
+uv run build.py docs
+```
+
+or
+
+```bash
+# With the virtual environment activated
 python build.py docs
 ```
 
@@ -64,7 +86,7 @@ To make a release follow the following checklist:
  - Check with the PO that `main` branch is code complete.
  - Check that the distributables built on main are working by installing them in your machine.
    - Sometimes PyInstaller cannot compile new dependencies and the application will fail at runtime.
- - Create a new PR bumping the version of the application (inside `ode/__init__.py` file.) and merge it to main.
+ - Create a new PR bumping the version of the application in the `pyproject.toml` file and merge it to main.
  - Create a New Github Release with a new tag matching the new version number of the application.
  - Fill in the Release notes.
  - Create the Release.

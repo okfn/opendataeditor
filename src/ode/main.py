@@ -1,11 +1,12 @@
-import sys
-import ode
+import logging
 import os
-from enum import IntEnum
+import sys
 
+from enum import IntEnum
+from importlib.metadata import version
+from pathlib import Path
 from typing import Callable
 
-from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -73,13 +74,13 @@ from ode.dialogs.download import DownloadDialog
 from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 from ode.log_setup import LOGS_PATH, configure_logging
-import logging
 
 configure_logging()
 
 logger = logging.getLogger(__name__)
 logger.info("Starting Open Data Editor")
 
+_VERSION = version("opendataeditor")
 
 class ContentIndex(IntEnum):
     """Enum to represent the index of the content panels.
@@ -1101,7 +1102,7 @@ class MainWindow(QMainWindow):
             self.content.toolbar.button_export.setEnabled(False)
 
     def open_about_dialog(self):
-        text = f"Version: {ode.__version__}<br><a href='https://opendataeditor.okfn.org'>Website</a>"
+        text = f"Version: {_VERSION}<br><a href='https://opendataeditor.okfn.org'>Website</a>"
         QMessageBox.about(self, "Open Data Editor", text)
 
     def open_user_guide(self):
@@ -1191,11 +1192,11 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, self.tr("Success"), success_text)
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
     app.setOrganizationName("Open Knowledge Foundation")
     app.setApplicationName("Open Data Editor")
-    app.setApplicationVersion(ode.__version__)
+    app.setApplicationVersion(_VERSION)
     app.setStyle("Fusion")
 
     # Migration to ODE 1.4
@@ -1207,3 +1208,6 @@ if __name__ == "__main__":
     window.showMaximized()
     window.show()
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

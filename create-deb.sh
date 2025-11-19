@@ -39,7 +39,7 @@ find tmp/usr/share -type f -exec chmod 644 -- {} +
 chmod +x tmp/opt/opendataeditor/opendataeditor
 
 # Create the deb package
-VERSION=$(uv run python -c "import ode; print(ode.__version__)")
+VERSION=$(uv run python -c "from importlib.metadata import version; print(version('opendataeditor'))")
 FILENAME=opendataeditor-linux-$VERSION.deb
 [ -e dist/$FILENAME ] && rm dist/$FILENAME
 fpm -C tmp -s dir -t deb -n "opendataeditor" -v $VERSION  -p dist/$FILENAME

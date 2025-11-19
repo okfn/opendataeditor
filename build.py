@@ -52,7 +52,7 @@ def build_application():
     print("Creating executable file for Open Data Editor")
 
     params = [
-        "ode/main.py",
+        "src/ode/main.py",
         "--windowed",  # Required for Windows install to not open a console.
         "--collect-all",
         "frictionless",  # Frictionless depends on data files

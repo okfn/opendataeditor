@@ -72,7 +72,7 @@ sleep 5
 rm -f *.dmg
 
 # Create the dmg file
-VERSION=$(uv run python -c "import ode; print(ode.__version__)")
+VERSION=$(uv run python -c "from importlib.metadata import version; print(version('opendataeditor'))")
 FILENAME=opendataeditor-macos-$VERSION.dmg
 [ -e $FILENAME ] && rm $FILENAME
 
