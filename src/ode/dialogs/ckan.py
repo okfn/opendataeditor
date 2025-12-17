@@ -14,11 +14,12 @@ class CKANExportDialog(QDialog):
 
     resource_created = Signal(dict)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, filepath=None):
         super().__init__(parent)
         self.api_token = None
         self.base_url = None
         self.schema = None
+        self.filepath = filepath
         self.init_ui()
 
     def init_ui(self):
@@ -51,7 +52,6 @@ class CKANExportDialog(QDialog):
 
         self.dataset_id_input = QLineEdit()
         self.dataset_id_input.setPlaceholderText("Enter dataset ID where resource will be added")
-        self.dataset_id_input.setText("testing")
         dataset_layout.addRow("Dataset ID:", self.dataset_id_input)
 
         dataset_group.setLayout(dataset_layout)
@@ -223,6 +223,11 @@ class CKANExportDialog(QDialog):
             # help_text = field.get("help_text", "")
             placeholder = field.get("form_placeholder", "")
 
+            if field_name == "url":
+                # Ignore URL as we only support file uploads.
+                # The selected file will be appended to the POST request in create_resource
+                continue
+
             # Create label with required indicator
             field_label = QLabel(f"{field_name}{' *' if required else ''}")
             field_label.setToolTip(str(label)) # Label could be a multilingual dict so we cast it to str.
@@ -324,21 +329,31 @@ class CKANExportDialog(QDialog):
                         elif preset == "boolean" and isinstance(widget, QCheckBox):
                             resource_data[field_name] = widget.isChecked()
 
-                        elif preset == "resource_url_upload":
-                            # TODO: Handle file upload
-                            pass
-
         # Send to CKAN
         try:
             url = f"{self.base_url}api/action/resource_create"
 
-            headers = {
-                "Authorization": self.api_token,
-                "Content-Type": "application/json"
+            headers = {"Authorization": self.api_token}
+
+            payload = {
+                "package_id": dataset_id,
+                "url": "",  # CKAN expects this field, but can be empty for uploads
+                "url_type": "upload",
             }
 
-            response = requests.post(url, headers=headers,
-                                    data=json.dumps(resource_data), timeout=30)
+            # Add form fields to payload
+            for key, value in resource_data.items():
+                if key not in ["package_id", "url", "url_type"]:  # Already added
+                    payload[key] = value
+
+            if not self.filepath:
+                QMessageBox.warning(self, "Warning", f"Couldn't get filepath. Aborting.")
+                return
+
+            # Open the file and send
+            with open(str(self.filepath), 'rb') as file_obj:
+                files = [('upload', (self.filepath.name, file_obj))]
+                response = requests.post(url, headers=headers, data=payload, files=files)
 
             result = response.json()
 
@@ -347,9 +362,8 @@ class CKANExportDialog(QDialog):
                 self.resource_created.emit(result.get("result", {}))
                 self.clear_form()
             else:
-                error_msg = result.get("error", {}).get("message", "Unknown error")
-                QMessageBox.critical(self, "Error",
-                                   f"Failed to create resource: {error_msg}")
+                error_msg = result.get("error", "Unknown error.")
+                QMessageBox.critical(self, "Error", f"Failed to create resource: {error_msg}")
 
         except requests.exceptions.RequestException as e:
             QMessageBox.critical(self, "Error", f"Network error: {str(e)}")

@@ -58,7 +58,7 @@ class DownloadDialog(QDialog):
         self.ckan_exporter_button.setText(self.tr("Export to CKAN Resource."))
 
     def ckan_exporter(self) -> None:
-        dialog = CKANExportDialog(self)
+        dialog = CKANExportDialog(parent=self, filepath=self.filepath)
         dialog.exec()
 
     def download_file(self):
