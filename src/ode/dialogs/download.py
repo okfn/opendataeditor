@@ -5,6 +5,8 @@ from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QL
 from PySide6.QtCore import Qt, Signal, QStandardPaths
 from pathlib import Path
 
+from ode.dialogs.ckan import CKANResourceCreator
+
 
 class DownloadDialog(QDialog):
     """Dialog to export the file and the errors."""
@@ -38,6 +40,10 @@ class DownloadDialog(QDialog):
             self.download_error_button.setDisabled(True)
         button_layout.addWidget(self.download_error_button)
 
+        self.ckan_exporter_button = QPushButton()
+        self.ckan_exporter_button.clicked.connect(self.ckan_exporter)
+        button_layout.addWidget(self.ckan_exporter_button)
+
         layout.addLayout(button_layout)
 
         self.setLayout(layout)
@@ -49,6 +55,11 @@ class DownloadDialog(QDialog):
         self.label.setText(self.tr("Please, select one of the following options:"))
         self.download_button.setText(self.tr("Download file"))
         self.download_error_button.setText(self.tr("Download file with errors"))
+        self.ckan_exporter_button.setText(self.tr("Export to CKAN Resource."))
+
+    def ckan_exporter(self) -> None:
+        dialog = CKANResourceCreator()
+        dialog.exec()
 
     def download_file(self):
         """
