@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
 from PySide6.QtCore import Signal
 
 
-class CKANResourceCreator(QDialog):
+class CKANExportDialog(QDialog):
     """Widget to create resources in CKAN instances."""
 
     resource_created = Signal(dict)
@@ -73,10 +73,8 @@ class CKANResourceCreator(QDialog):
         # Scroll area for dynamic form
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
-        self.scroll_content = QWidget()
         self.form_layout = QFormLayout()
-        self.scroll_content.setLayout(self.form_layout)
-        self.scroll_area.setWidget(self.scroll_content)
+        self.scroll_area.setLayout(self.form_layout)
 
         main_layout.addWidget(QLabel("Resource Fields:"))
         main_layout.addWidget(self.scroll_area)

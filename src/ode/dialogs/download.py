@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QL
 from PySide6.QtCore import Qt, Signal, QStandardPaths
 from pathlib import Path
 
-from ode.dialogs.ckan import CKANResourceCreator
+from ode.dialogs.ckan import CKANExportDialog
 
 
 class DownloadDialog(QDialog):
@@ -58,7 +58,7 @@ class DownloadDialog(QDialog):
         self.ckan_exporter_button.setText(self.tr("Export to CKAN Resource."))
 
     def ckan_exporter(self) -> None:
-        dialog = CKANResourceCreator()
+        dialog = CKANExportDialog(self)
         dialog.exec()
 
     def download_file(self):
