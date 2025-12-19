@@ -76,7 +76,11 @@ class CKANExportDialog(QDialog):
 
         self.dataset_id_input = QLineEdit()
         self.dataset_id_input.setPlaceholderText("Enter dataset ID where resource will be added")
+        self.dataset_id_input.editingFinished.connect(self.check_dataset_exists)
         dataset_layout.addRow("Dataset ID:", self.dataset_id_input)
+        self.dataset_help_text = QLabel("No info on dataset.")
+        self.dataset_help_text.setStyleSheet("font-style: italic;")
+        dataset_layout.addRow(self.dataset_help_text)
 
         dataset_group.setLayout(dataset_layout)
         main_layout.addWidget(dataset_group)
@@ -105,6 +109,47 @@ class CKANExportDialog(QDialog):
 
         self.setLayout(main_layout)
 
+    def _get_base_url(self) -> str:
+        base_url = self.url_input.text().strip()
+        if not base_url.endswith('/'):
+            base_url += '/'
+        return base_url
+
+    def check_dataset_exists(self) -> None:
+        self.base_url = self._get_base_url()
+        self.api_token = self.api_token_input.text().strip()
+        dataset_id = self.dataset_id_input.text().strip()
+
+        if not self.base_url or not self.api_token:
+            print("doing nothing...")
+            return
+
+        package_show_url = f"{self.base_url}api/action/package_show?id={dataset_id}"
+
+        headers = {
+            "Authorization": self.api_token if self.api_token else None,
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.get(package_show_url, headers=headers, timeout=10)
+            if response.status_code == 200:
+                self.dataset_help_text.setText("Dataset found.")
+                self.dataset_help_text.setStyleSheet("color: green; font-style: italic;")
+            elif response.status_code == 403:
+                self.dataset_help_text.setText("API Token does not have access to the dataset.")
+                self.dataset_help_text.setStyleSheet("color: red; font-style: italic;")
+            elif response.status_code == 404:
+                self.dataset_help_text.setText("Dataset not found.")
+                self.dataset_help_text.setStyleSheet("color: red; font-style: italic;")
+            else:
+                self.dataset_help_text.setText("The CKAN instance returned an error.")
+                self.dataset_help_text.setStyleSheet("color: red; font-style: italic;")
+        except:
+            self.dataset_help_text.setText("Error when searching for dataset. Check connection info.")
+            self.dataset_help_text.setStyleSheet("color: red; font-style: italic;")
+
+
     def clear_form(self):
         """Clear all form fields."""
         # Clear dynamic form
@@ -119,7 +164,7 @@ class CKANExportDialog(QDialog):
 
     def connect_and_load_schema(self):
         """Connect to CKAN instance and load the resource schema."""
-        self.base_url = self.url_input.text().strip()
+        self.base_url = self._get_base_url()
         self.api_token = self.api_token_input.text().strip()
         dataset_id = self.dataset_id_input.text().strip()
 
@@ -130,9 +175,6 @@ class CKANExportDialog(QDialog):
         if not dataset_id:
             QMessageBox.warning(self, "Warning", "Please enter a Dataset ID")
             return
-
-        if not self.base_url.endswith('/'):
-            self.base_url += '/'
 
         try:
             self.schema = self.get_resource_schema()
@@ -174,8 +216,6 @@ class CKANExportDialog(QDialog):
                 if data.get("success"):
                     result = data.get("result", {}).get("resource_fields", [])
                     return result
-            else:
-                print(f"Failed fetching scheming endpoint: {response.content}")
         except:
             pass
 
