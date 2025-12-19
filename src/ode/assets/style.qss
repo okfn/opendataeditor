@@ -24,6 +24,10 @@ QPlainTextEdit, QWidget#central_widget, QGroupBox, CKANExportDialog, QWidget {
   background: #f0f0f0;
 }
 
+QGroupBox {
+  /* This only affects the title as is the only text in QGroupBox. */
+  font: bold;
+}
 
 ErrorsReportButton {
   border: 0;

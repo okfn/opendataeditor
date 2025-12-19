@@ -87,7 +87,9 @@ class CKANExportDialog(QDialog):
         self.form_layout = QFormLayout()
         self.scroll_area.setLayout(self.form_layout)
 
-        main_layout.addWidget(QLabel("Resource Fields:"))
+        self.resource_label = QLabel("Resource Fields")
+        self.resource_label.setStyleSheet("font-weight: bold;")
+        main_layout.addWidget(self.resource_label)
         main_layout.addWidget(self.scroll_area)
 
         # Create resource button
