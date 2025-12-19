@@ -57,17 +57,6 @@ class CKANExportDialog(QDialog):
         connection_group.setLayout(connection_layout)
         main_layout.addWidget(connection_group)
 
-        # Dataset ID section
-        dataset_group = QGroupBox("Dataset Information")
-        dataset_layout = QFormLayout()
-
-        self.dataset_id_input = QLineEdit()
-        self.dataset_id_input.setPlaceholderText("Enter dataset ID where resource will be added")
-        dataset_layout.addRow("Dataset ID:", self.dataset_id_input)
-
-        dataset_group.setLayout(dataset_layout)
-        main_layout.addWidget(dataset_group)
-
         # Buttons for connection
         button_layout = QHBoxLayout()
 
@@ -80,6 +69,17 @@ class CKANExportDialog(QDialog):
         button_layout.addWidget(self.clear_button)
 
         main_layout.addLayout(button_layout)
+
+        # Dataset ID section
+        dataset_group = QGroupBox("Dataset Information")
+        dataset_layout = QFormLayout()
+
+        self.dataset_id_input = QLineEdit()
+        self.dataset_id_input.setPlaceholderText("Enter dataset ID where resource will be added")
+        dataset_layout.addRow("Dataset ID:", self.dataset_id_input)
+
+        dataset_group.setLayout(dataset_layout)
+        main_layout.addWidget(dataset_group)
 
         # Scroll area for dynamic form
         self.scroll_area = QScrollArea()
