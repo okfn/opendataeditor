@@ -1,12 +1,23 @@
 import json
-from typing import Dict, Any, Optional
 
 import requests
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
-                               QLineEdit, QPushButton, QFormLayout, QScrollArea,
-                               QLabel, QMessageBox, QGroupBox, QTextEdit,
-                               QCheckBox, QSpinBox, QComboBox, QDialog)
 from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QDialog,
+    QFormLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QSpinBox,
+    QTextEdit,
+    QVBoxLayout,
+)
 
 
 class CKANExportDialog(QDialog):
@@ -347,7 +358,7 @@ class CKANExportDialog(QDialog):
                     payload[key] = value
 
             if not self.filepath:
-                QMessageBox.warning(self, "Warning", f"Couldn't get filepath. Aborting.")
+                QMessageBox.warning(self, "Warning", "Couldn't get filepath. Aborting.")
                 return
 
             # Open the file and send
