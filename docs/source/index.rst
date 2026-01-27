@@ -3,35 +3,47 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Open Data Editor Technical Documentation
+Open Data Editor Docs
 ========================================
 
-Welcome to the Technical Documentation of the **Open Data Editor** for other product related information
-please visit: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/en/projects/open-data-editor/>`_
+.. image:: /assets/ODE-logo.png
+   :alt: Open Data Editor logo
+   :align: left
+   :width: 200px
 
+**Your no-code app for error-free spreadsheets, and guaranteed privacy and FAIR data**
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Documentation:
+This website contains user guides and technical documentation for the Open Data Editor (ODE), as well as information on contributing code and use cases. 
 
-   documentation/welcome.md
-   documentation/uploading-data.md
-   documentation/explore-table-errors.md
-   documentation/editing-errors-in-tables.md
-   documentation/deleting-files-folders.md
-   documentation/table-error-list.md
-   documentation/ai-integration.md
-   documentation/explore-edit-metadata.md
-   documentation/export-data.md
-   documentation/faq.md
-   documentation/similar-tools.md
-
+For more information, please visit the official project page at the Open Knowledge Foundation (OKFN) website: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/en/projects/open-data-editor/>`_
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contributing:
+   :caption: Introduction
 
-   contributing/interim-governance.md
-   contributing/contribution-guidelines.md
-   contributing/development.md
-   contributing/translations.md
+   documentation/introduction.md
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Use Cases
+
+   documentation/use-cases.md
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
+   documentation/user-guide.md
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Technical Documentation / Development
+
+   documentation/technical-documentation.md
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contributing
+
+   documentation/contributing.md
+   documentation/translations.md
