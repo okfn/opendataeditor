@@ -6,11 +6,11 @@ Below, we highlight some of them to give you an idea of the types of tasks that 
 
 You can also contribute by documenting a use case. Learn how at **Documentation \> Use cases** in this guide.
 
-* [Agricultural data (Ghana)](./agricultural-data-ghana.html)
-* [Climate data (Kenya)](./climate-data-kenya.html)
-* [Data journalism (Mexico)](./data-journalism-mexico.html)
-* [Defence data (France)](./defence-data-france.html)
-* [Financial data (South Africa)](./financial-data-south-africa.html)
-* [Government data (Croatia)](./government-data-croatia.html)
-* [Heritage data (Cambodia)](./heritage-data-cambodia.html)
-* [Library data (India)](./library-data-india.html)
+* [Agricultural data (Ghana)](/agricultural-data-ghana.html)
+* [Climate data (Kenya)](/climate-data-kenya.html)
+* [Data journalism (Mexico)](/data-journalism-mexico.html)
+* [Defence data (France)](/defence-data-france.html)
+* [Financial data (South Africa)](/financial-data-south-africa.html)
+* [Government data (Croatia)](/government-data-croatia.html)
+* [Heritage data (Cambodia)](/heritage-data-cambodia.html)
+* [Library data (India)](/library-data-india.html)
