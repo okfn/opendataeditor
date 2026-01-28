@@ -59,7 +59,7 @@ For more information, please visit the official project page at the Open Knowled
 
 .. toctree::
    :maxdepth: 3
-   :caption: Technical Documentation / Development
+   :caption: Technical Documentation
 
    technical-documentation/prerequisites.md
    technical-documentation/environment.md
