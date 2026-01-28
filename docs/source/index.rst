@@ -32,7 +32,7 @@ For more information, please visit the official project page at the Open Knowled
    :maxdepth: 3
    :caption: Use Cases
 
-   use-cases/use-cases.md
+   use-cases/context.md
    use-cases/agricultural-data-ghana.md
    use-cases/climate-data-kenya.md
    use-cases/data-journalism-mexico.md
