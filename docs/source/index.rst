@@ -20,7 +20,13 @@ For more information, please visit the official project page at the Open Knowled
    :maxdepth: 3
    :caption: Introduction
 
-   introduction.md
+   what-is-open-data-editor.md
+   fair-data.md
+   responsible-ai-integration.md
+   free-data-literacy-course.md
+   similar-tools-and-differentiators.md
+   acknowledgements.md
+   latest-updates.md
 
 .. toctree::
    :maxdepth: 3

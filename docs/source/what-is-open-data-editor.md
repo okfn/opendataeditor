@@ -1,0 +1,7 @@
+## What is Open Data Editor
+
+[Open Data Editor (ODE)](https://okfn.org/opendataeditor), developed by the [Open Knowledge Foundation (OKFN)](https://okfn.org/en/), is a free, open-source tool designed to help nonprofits, data journalists, activists, and public servants detect errors in their datasets. It is designed for people working with tabular data (Excel, Google Sheets, CSV) who don't know how to code or don't have the programming skills to automatise the data exploration process.
+
+The technical mission of ODE is to provide a free, open-source, no-code, cross-platform desktop application that empowers non-technical users working with tabular data to quickly detect and correct errors, enforce data-validation and metadata standards (notably the [FAIR principles](https://www.go-fair.org/fair-principles/)), and output clean, interoperable datasets ready for publication – while preserving privacy (local-first architecture), remaining lightweight (suitable for low-resource or offline contexts), and employing open standards (e.g., the [Frictionless framework](https://framework.frictionlessdata.io/)) for maximum reuse and integration.
+
+Since 2025, the Digital Public Goods Alliance (DPGA) has recognised Open Data Editor as a [digital public good](https://blog.okfn.org/2025/10/22/open-data-editor-recognised-as-a-digital-public-good/) (DPG), which means it meets high standards of openness and supports sustainable development globally.
