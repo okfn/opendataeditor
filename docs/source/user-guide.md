@@ -1,6 +1,6 @@
-# User Guide {#user-guide}
+# User Guide 
 
-## Downloading ODE {#downloading-ode}
+## Downloading ODE
 
 Open Data Editor is available on all major platforms:
 
@@ -9,17 +9,17 @@ Open Data Editor is available on all major platforms:
 * **For Debian-based Linux:** Download the most recent **AppImage or DEB file**.  
 * **For other Linux:** Download the most recent **AppImage**.
 
-### From our website {#from-our-website}
+### From our website 
 
 You can download ODE from our website: [https://okfn.org/opendataeditor/](https://okfn.org/opendataeditor/) 
 
-### From GitHub Releases {#from-github-releases}
+### From GitHub Releases
 
 You can download ODE from the repository: [https://github.com/okfn/opendataeditor/releases](https://github.com/okfn/opendataeditor/releases) 
 
-## Installing ODE {#installing-ode}
+## Installing ODE
 
-### Windows {#windows}
+### Windows
 
 Download the most recent **EXE** file as per the above instructions.
 
@@ -35,7 +35,7 @@ Download the most recent **EXE** file as per the above instructions.
 
 ![SECURITY MESSAGE STEP 2](./assets/getting-started/gs-protection-screen-2.png)
 
-### MacOS {#macos}
+### MacOS
 
 Download the most recent **DMG** file as per the above instructions.
 
@@ -47,14 +47,14 @@ Download the most recent **DMG** file as per the above instructions.
 
 ![DOWNLOAD SETTINGS](./assets/getting-started/gs-macos-download-step2.png)
 
-### Linux {#linux}
+### Linux
 
 For Linux, there are two options available:
 
 * AppImage (for any distributions)  
 * deb (for Ubuntu/Debian)
 
-#### Any Distribution {#any-distribution}
+#### Any Distribution
 
 Download the most recent **AppImage** file as per the above instructions.
 
@@ -64,7 +64,7 @@ After downloading, you have to make it executable:
 
 Then double-click on the file to start the application.
 
-#### Ubuntu/Debian {#ubuntu/debian}
+#### Ubuntu/Debian
 
 Download the most recent **DEB** file as per the above instructions.
 
@@ -81,7 +81,7 @@ Optionally, in Debian, you can install it by running the following command:
 *\# Replace \<version\> with the version you downloaded*  
 sudo dpkg \-i opendataeditor-linux-\<version\>.deb
 
-## Uploading data {#uploading-data}
+## Uploading data
 
 This section explains how to upload tabular files, folders with tables and online data to ODE. The tool also ingests other types of format files like PDF, JPEG, etc. However, please note, ODE's main objective is to detect errors on tabular files, the application will **ONLY** show previews for tables.
 
@@ -97,7 +97,7 @@ Each time you upload a file or folder to ODE, the application will not ingest th
 
 ![Open file location](./assets/uploading-data/open-location.png)
 
-### Excel, CSV files and folders {#excel,-csv-files-and-folders}
+### Excel, CSV files and folders
 
 When clicking on the **Upload your data** button, ODE will display the following dialogue. If you want to upload files or folders, you can do so from the **From Your Computer** section. If you want to add tables that are online, you can do it from **Add External Data**:
 
@@ -113,7 +113,7 @@ Note that while uploading your data, the tool checks your files or folders to fi
 
 Please keep in mind that since the preview section (datagrid) can only show one tabular file at a time, when uploading folders, and after the ingestion process is done, you will need to click on the folder and select the file you want to visualise on the screen. As soon as you click on a specific file, ODE will start validating your data (looking for possible errors), and the table will be shown on the app.
 
-#### Tables published online {#tables-published-online}
+#### Tables published online
 
 ODE also allows users to upload online tables. You can upload files from open data portals, Google Sheets or tables from your GitHub repository.
 
@@ -147,7 +147,7 @@ For all tables…
 👉🏼 Check that the tabular data does not contain cells that are merged. Data producers from Governments, international organizations and internal reports usually add tiles, descriptions, and graphs within sheets, like in this case. If there are extra elements in your file, ODE will ingest your file and show you multiple errors. 
 :::
 
-## How to explore table errors {#how-to-explore-table-errors}
+## How to explore table errors
 
 As mentioned in the **Uploading data** section in this guide, if a file has errors, ODE will show a red dot next to the file name on the sidebar. However, if you want to review errors in the table, you can use the datagrid to explore problematic data.
 
@@ -165,7 +165,7 @@ After clicking the button, ODE will display a panel with the full list of errors
 
 ![Errors panel](./assets/explore-table-errors/errors-panel.png)
 
-## Editing errors in tables {#editing-errors-in-tables}
+## Editing errors in tables
 
 To fix cell errors, you can directly edit the data cells in the viewer/editor.
 
@@ -183,13 +183,13 @@ To fix cell errors, you can directly edit the data cells in the viewer/editor.
 
 After clicking the **Save changes** button, ODE will update the Errors Report.
 
-## Deleting files or folders {#deleting-files-or-folders}
+## Deleting files or folders
 
 To delete a file or folder, click on the three dots next to the file/folder name and select **Delete**.
 
 ![Delete button in the file navigator](./assets/deleting-files-folder/delete-option.png)
 
-## Full list of table errors detected {#full-list-of-table-errors-detected}
+## Full list of table errors detected
 
 Here we describe the list of errors that ODE can detect after users upload tables to the app. All the examples are based on CSV files.
 
@@ -211,11 +211,11 @@ The table example is represented as follows:
 [3] [data row]   value 3  | value 4
 ```
 
-### Errors detected automatically {#errors-detected-automatically}
+### Errors detected automatically
 
 **This type of error occurs when the structure of the data is not as expected.** For example, the number of columns in a row is different from the number of columns in the header.
 
-#### Header missing (Blank Label) {#header-missing-(blank-label)}
+#### Header missing (Blank Label)
 
 This error occurs when the **header row is empty**. The header row should contain the names of the columns:
 
@@ -231,7 +231,7 @@ This is how ODE will show the error:
 
 ![Header missing error](./assets/table-error-list/header-missing.png)
 
-#### Column name missing {#column-name-missing}
+#### Column name missing
 
 This error occurs when **one or more column names are missing**:
 
@@ -247,7 +247,7 @@ This is how ODE will show the error:
 
 ![Column name missing error](./assets/table-error-list/column-name-missing.png)
 
-#### Duplicate column name {#duplicate-column-name}
+#### Duplicate column name
 
 This error occurs when there are **two or more columns with the same name**. Each column should have a unique name.
 
@@ -263,7 +263,7 @@ This is how ODE will show the error:
 
 ![Duplicated column name error](./assets/table-error-list/duplicate-column-name.png)
 
-#### Empty row {#empty-row}
+#### Empty row
 
 This error occurs when an **empty row is present in the data**.
 
@@ -280,7 +280,7 @@ This is how ODE will show the error:
 
 ![Empty row error](./assets/table-error-list/empty-row.png)
 
-#### Missing cell {#missing-cell}
+#### Missing cell
 
 This error occurs when **a row has fewer cells than the header**.
 
@@ -295,7 +295,7 @@ This is how ODE will show the error:
 
 ![Missing cell error](./assets/table-error-list/missing-cell.png)
 
-#### Extra cell {#extra-cell}
+#### Extra cell
 
 This error occurs when a row has more cells than the header. Each row should have the same number of cells as the header.
 
@@ -312,7 +312,7 @@ This is how ODE will show the error:
 
 ![Extra cell error](./assets/table-error-list/extra-cell.png)
 
-#### Wrong data type {#wrong-data-type}
+#### Wrong data type
 
 This error occurs when **a cell contains a value that is not of the expected type**. For example, a cell in a column that should contain numbers contains a string.
 
@@ -340,11 +340,11 @@ This is how ODE will show the error:
 :::{note}
 This error can be identified without providing a Table Schema, but only if the data has enough cells of the correct type in the column to infer the intended type. :::
 
-### Errors Requiring Metadata {#errors-requiring-metadata}
+### Errors Requiring Metadata
 
 These errors can only be identified if a Table Dialect or Table Schema is provided by editing the table’s metadata. The Table Schema defines the structure of the data, including the type of each column. Table Schema adds additional constraints to the data, which are used to validate the data.
 
-#### Extra column name {#extra-column-name}
+#### Extra column name
 
 This error occurs when **a header label in the data is not defined in the Table Schema**. The Table Schema should define all the columns in the data.
 
@@ -360,7 +360,7 @@ col1,col2,col3
 Cell col3 is an extra label
 ```
 
-#### Missing column name {#missing-column-name}
+#### Missing column name
 
 This error occurs when **a column defined in the Table Schema is not present in the header row**. The data should contain all the columns defined in the Table Schema.
 
@@ -377,7 +377,7 @@ col1,col2
 Missing cell col3 is a missing label.
 ```
 
-#### Incorrect column name {#incorrect-column-name}
+#### Incorrect column name
 
 This error occurs when **the header label in the data does not match the label defined in the Table Schema**. The header row should contain the same labels as defined in the Table Schema.
 
@@ -393,7 +393,7 @@ col1,col3
 Cell col3 is an incorrect label.
 ```
 
-#### Primary Key Error {#primary-key-error}
+#### Primary Key Error
 
 This error occurs when the **primary key constraint defined in the Table Schema is not satisfied**. The primary key constraint ensures that the values in the specified columns are unique.
 
@@ -410,7 +410,7 @@ col1,col2
 Cell 1 in the second data row is not unique.
 ```
 
-#### Foreign Key Error {#foreign-key-error}
+#### Foreign Key Error
 
 This error occurs when the **foreign key constraint defined in the Table Schema is not satisfied**. The foreign key constraint ensures that the values in the specified columns are present in another table or satisfies self-referencing constraint.
 
@@ -430,7 +430,7 @@ col1,col2
 Cell 4 in the second data row is not present in the col1 column.
 ```
 
-#### Unique constraint error {#unique-constraint-error}
+#### Unique constraint error
 
 This error occurs when the **unique constraint defined in the Table Schema is not satisfied**. The unique constraint ensures that the values in the specified columns are unique.
 
@@ -447,7 +447,7 @@ col1,col2
 Cell 2 in the second data row is not unique.
 ```
 
-#### Constraint Error {#constraint-error}
+#### Constraint Error
 
 This error occurs when **a field constraint defined in the Table Schema is not satisfied**.
 
@@ -477,7 +477,7 @@ The following constraints can be defined in the Table Schema and are currently s
 - maxLength
 - pattern
 
-## How to use the AI component {#how-to-use-the-ai-component}
+## How to use the AI component
 
 To use the AI assistant, select a file from the sidebar, and then click on the **AI** button located in the top right corner of the app:
 
@@ -489,7 +489,7 @@ ODE will show a dialogue to assist the user in downloading the model:
 
 Once the model is downloaded, users will be able to click on the **Next** button to continue.
 
-### AI Use Cases {#ai-use-cases}
+### AI Use Cases
 
 ODE has two use cases for the AI component:
 
@@ -505,19 +505,19 @@ Once selected, click on the **Execute** button to get a response from the AI mod
 :::{note}
 Depending on the hardware of the users’ machines, the response time can vary. Usually, it will take around 10 seconds to get a response. :::
 
-#### Assist users in understanding the columns of a table {#assist-users-in-understanding-the-columns-of-a-table}
+#### Assist users in understanding the columns of a table
 
 The AI model will analyse the columns’ names, types and some sample data and will generate a description of each column. This is useful to understand the data better, clarify technical or complex names, expand acronyms, etc.
 
 ![AI assistance in understanding the columns of a table](./assets/ai-integration/ai-integration-4.png)
 
-#### Suggest analysis and questions that users can use to query the data {#suggest-analysis-and-questions-that-users-can-use-to-query-the-data}
+#### Suggest analysis and questions that users can use to query the data
 
 The AI model will analyse the columns’ names, types and some sample data and will generate a list of questions that the user can use to query the data.
 
 ![AI assistance in understanding the columns of a table](./assets/ai-integration/ai-integration-5.png)
 
-## How to explore and edit metadata {#how-to-explore-and-edit-metadata}
+## How to explore and edit metadata
 
 To explore or edit the metadata, select a file from the menu on the left and click on any cell of the header row (first row).
 
@@ -535,7 +535,7 @@ Once you have finished editing the metadata, click on the **Save changes** butto
 Saving changes will trigger a validation of the file. 
 :::
 
-## Exporting your data {#exporting-your-data}
+## Exporting your data
 
 You can export your data using the **Export** feature located at the top right of the datagrid:
 
@@ -545,11 +545,11 @@ Once you click the **Export** button, ODE will display the following dialogue:
 
 ![Publish form](./assets/exporting-data/export-dialog.png)
 
-### Download file {#download-file}
+### Download file
 
 This option will download the file in CSV format.
 
-### Download file with errors {#download-file-with-errors}
+### Download file with errors
 
 This option will export an Excel file with three sheets:
 

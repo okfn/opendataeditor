@@ -17,31 +17,31 @@ This website contains user guides and technical documentation for the Open Data 
 For more information, please visit the official project page at the Open Knowledge Foundation (OKFN) website: `https://okfn.org/en/projects/open-data-editor/ <https://okfn.org/en/projects/open-data-editor/>`_
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Introduction
 
    introduction.md
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Use Cases
 
    use-cases.md
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: User Guide
 
    user-guide.md
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Technical Documentation / Development
 
    technical-documentation.md
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contributing
 
    contributing.md

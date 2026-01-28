@@ -1,6 +1,6 @@
-# Technical Documentation / Development {#technical-documentation-/-development}
+# Technical Documentation / Development
 
-## Prerequisites {#prerequisites}
+## Prerequisites
 
 We are using 3.13. To start working on the project, you need the following dependencies on your machine:
 
@@ -9,7 +9,7 @@ We are using 3.13. To start working on the project, you need the following depen
 
 We are using [uv](https://docs.astral.sh/uv/) as a package manager, so make sure you have it installed.
 
-## Environment {#environment}
+## Environment
 
 Use `uv` to create a virtualenv and activate it:
 
@@ -18,7 +18,7 @@ uv sync
 source venv/bin/activate
 ```
 
-## Start the application {#start-the-application}
+## Start the application
 
 ```bash
 uv run ode
@@ -31,7 +31,7 @@ or
 python src/ode/main.py
 ```
 
-## Running tests {#running-tests}
+## Running tests
 
 ```bash
 uv run pytest tests/
@@ -44,7 +44,7 @@ or
 pytest tests/
 ```
 
-## Building the application {#building-the-application}
+## Building the application
 
 ```bash
 uv run build.py build
@@ -59,7 +59,7 @@ python build.py build
 
 This will create a distributable file for the application in the ‘dist/’ folder.
 
-## Documentation {#documentation}
+## Documentation
 
 Documentation is written with [Sphinx](https://www.sphinx-doc.org/en/master/) (in the `docs` directory). The source files are in the `docs/source/` directory. To locally build the documentation, you can execute:
 
@@ -76,7 +76,7 @@ python build.py docs
 
 It will be automatically published on CloudFlare when merged to the `main`branch, with previews available for pull requests.
 
-## Making a release {#making-a-release}
+## Making a release
 
 To make a release, follow the following checklist:
 

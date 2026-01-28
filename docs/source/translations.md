@@ -1,8 +1,8 @@
-# Translations {#translations}
+# Translations
 
 ODE supports several languages following the [Qt Framework practices for](https://doc.qt.io/qt-6/internationalization.html) internationalisation.
 
-## Internationalisation workflow {#internationalisation-workflow}
+## Internationalisation workflow 
 
 :::{note}
 ODE provides a `python build.py update-translations` and `python build.py compile-translations` command for all the supported languages. Check the project’s `build.py` file for reference. 
@@ -18,14 +18,14 @@ ODE provides a `python build.py update-translations` and `python build.py compil
 
 All translation files are located in the `ode/assets/translations/` folder.
 
-## Translation Tools {#translation-tools}
+## Translation Tools 
 
 For updating translations, you can use either:
 
 1. A text editor to directly update the translation files (\*.ts)  
 2. Install Qt and use [Qt Linguist](https://doc.qt.io/qt-6/qtlinguist-index.html) application to do the translation using a UI.
 
-## Adding new languages {#adding-new-languages}
+## Adding new languages
 
 When adding a new language, two extra changes are required:
 
