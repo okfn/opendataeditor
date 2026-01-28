@@ -8,7 +8,6 @@ Open Data Editor Docs
 
 .. image:: /assets/ODE-logo.png
    :alt: Open Data Editor logo
-   :align: left
    :width: 200px
 
 **Your no-code app for error-free spreadsheets, and guaranteed privacy and FAIR data**
@@ -21,29 +20,29 @@ For more information, please visit the official project page at the Open Knowled
    :maxdepth: 2
    :caption: Introduction
 
-   documentation/introduction.md
+   introduction.md
 
 .. toctree::
    :maxdepth: 2
    :caption: Use Cases
 
-   documentation/use-cases.md
+   use-cases.md
 
 .. toctree::
    :maxdepth: 2
    :caption: User Guide
 
-   documentation/user-guide.md
+   user-guide.md
 
 .. toctree::
    :maxdepth: 2
    :caption: Technical Documentation / Development
 
-   documentation/technical-documentation.md
+   technical-documentation.md
 
 .. toctree::
    :maxdepth: 2
    :caption: Contributing
 
-   documentation/contributing.md
-   documentation/translations.md
+   contributing.md
+   translations.md
