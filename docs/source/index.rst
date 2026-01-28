@@ -20,35 +20,58 @@ For more information, please visit the official project page at the Open Knowled
    :maxdepth: 3
    :caption: Introduction
 
-   what-is-open-data-editor.md
-   fair-data.md
-   responsible-ai-integration.md
-   free-data-literacy-course.md
-   similar-tools-and-differentiators.md
-   acknowledgements.md
-   latest-updates.md
+   introduction/what-is-open-data-editor.md
+   introduction/fair-data.md
+   introduction/responsible-ai-integration.md
+   introduction/free-data-literacy-course.md
+   introduction/similar-tools-and-differentiators.md
+   introduction/acknowledgements.md
+   introduction/latest-updates.md
 
 .. toctree::
    :maxdepth: 3
    :caption: Use Cases
 
-   use-cases.md
+   use-cases/use-cases.md
+   use-cases/agricultural-data-ghana.md
+   use-cases/climate-data-kenya.md
+   use-cases/data-journalism-mexico.md
+   use-cases/defence-data-france.md
+   use-cases/financial-data-south-africa.md
+   use-cases/government-data-croatia.md
+   use-cases/heritage-data-cambodia.md
+   use-cases/library-data-india.md
 
 .. toctree::
    :maxdepth: 3
    :caption: User Guide
 
-   user-guide.md
+   user-guide/downloading-ode.md
+   user-guide/installing-ode.md
+   user-guide/uploading-data.md
+   user-guide/how-to-explore-table-errors.md
+   user-guide/editing-errors-in-tables.md
+   user-guide/deleting-files-or-folders.md
+   user-guide/full-list-of-table-errors-detected.md
+   user-guide/how-to-use-the-ai-component.md
+   user-guide/how-to-explore-and-edit-metadata.md
+   user-guide/exporting-your-data.md
 
 .. toctree::
    :maxdepth: 3
    :caption: Technical Documentation / Development
 
-   technical-documentation.md
+   technical-documentation/prerequisites.md
+   technical-documentation/environment.md
+   technical-documentation/start-the-application.md
+   technical-documentation/running-tests.md
+   technical-documentation/building-the-application.md
+   technical-documentation/documentation.md
+   technical-documentation/making-a-release.md
 
 .. toctree::
    :maxdepth: 3
    :caption: Contributing
 
-   contributing.md
-   translations.md
+   contributing/contribution-guidelines.md
+   contributing/translations.md
