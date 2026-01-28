@@ -48,7 +48,7 @@ The Observatoire des armements used ODE to turn multiple public spending data so
 
 They reduced error resolution time from days to seconds, eliminated 95% of manual review work, and enabled the team to focus on what matters. 
 
-![France](./assets/use-cases/france.png)
+![France](./assets/use-cases/france.jpg)
 
 In this spreadsheet, ODE flagged 48 inconsistencies in seconds.
 
@@ -72,7 +72,7 @@ The City of Zagreb used ODE to comply with open data standards and foster a cult
 
 ODE flagged inconsistencies (e.g., missing values, formatting errors) in seconds, such as a public buildings dataset with 11 columns of unlabeled energy metrics. The team was able to add critical context (e.g., data owners, sourcing methods) directly in ODE’s metadata panel, aligning with FAIR principles.
 
-![Croatia](./assets/use-cases/croatia.png)
+![Croatia](./assets/use-cases/croatia.jpg)
 
 ODE’s metadata panel was central to understanding the importance of interoperability and creating a culture of data literacy in the public administration.
 
@@ -84,7 +84,7 @@ An AI of Our Own (AAOO) used ODE to create AI models that are built on respectfu
 
 ODE allowed the team to identify and rectify formatting inconsistencies. They could standardise date formats and other variables, ensuring that data from different collection methods could be seamlessly unified. A critical feature for AAOO was the ability to add detailed descriptions to each column. This process of adding context and meaning to each data point is fundamental to building a high-quality, culturally nuanced AI dataset.
 
-![Cambodia](./assets/use-cases/cambodia.png)
+![Cambodia](./assets/use-cases/cambodia.jpg)
 
 Errors flagged showing data inconsistency from the converted unstructured data into a structured format without considering the standard format and time stamps (Data on Indigenous Knowledge Systems on Plant use)
 
