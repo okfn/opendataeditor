@@ -11,8 +11,28 @@ def run(cmd: list[str], cwd: str = "."):
 
 
 def docs():
-    """Build the documentation and run a local server."""
-    run(["make", "html"], cwd="docs")
+    """Build documentation and run a local server."""
+    import os
+
+    # Build English as default (root)
+    run(["uv", "run", "--with", "sphinx", "--", "sphinx-build", "-b", "html", "source", "build/html"], cwd="docs")
+
+    # Detect all available locales
+    locale_dir = "docs/source/locale"
+    locales = []
+    if os.path.exists(locale_dir):
+        for item in os.listdir(locale_dir):
+            if os.path.isdir(os.path.join(locale_dir, item)):
+                locales.append(item)
+
+    # Build each language in its own subdirectory
+    for locale in sorted(locales):
+        run(
+            ["uv", "run", "--with", "sphinx", "--", "sphinx-build", "-b", "html", f"-Dlanguage={locale}", "source", f"build/html/{locale}"],
+            cwd="docs",
+        )
+
+    # Start server at root
     run(["python", "-m", "http.server", "-d", "build/html"], cwd="docs")
 
 
@@ -82,7 +102,7 @@ def build_application():
 
     # Allow calling `python build.py build` with extra arguments
     # e.g. when building AppImage `python build.py build --onefile --name "opendataeditor-X.Y.Z.AppImage"`
-    cli_args =  sys.argv[2:]
+    cli_args = sys.argv[2:]
     if cli_args:
         params.extend(cli_args)
 
