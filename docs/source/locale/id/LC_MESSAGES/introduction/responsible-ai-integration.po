@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/introduction/responsible-ai-integration.md:1
+msgid "Responsible AI integration"
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:3
+msgid ""
+"The Open Data Editor (ODE) has an AI component to help users better "
+"understand their data. The AI component is powered by local models. **No "
+"data is sent to the cloud, and all operations take place on the user’s "
+"computer.**"
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:5
+msgid ""
+"The introduction of these AI-assisted data quality features significantly"
+" expands the tool’s capabilities, enabling faster identification of "
+"anomalies, smarter suggestions for corrections, and improved handling of "
+"large, dense datasets while retaining a privacy-preserving, local-first "
+"design."
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:7
+msgid ""
+"This deepens Open Knowledge Foundation's commitment to developing simple,"
+" sustainable and long-lasting technologies that solve people’s real "
+"problems, in line with [The Tech We Want](https://okfn.org/en/projects"
+"/the-tech-we-want/) initiative."
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:9
+msgid ""
+"In order to use the AI feature, ODE will guide users to download the "
+"model onto their machine first."
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:12
+msgid ""
+"As the model is local and all computing will be happening in the user’s "
+"computer, performance will be affected by the machine’s hardware, and the"
+" response quality sometimes will be minor than typical cloud LLMs like "
+"ChatGPT, Deepseek or Claude."
+msgstr ""
+
+#: ../../source/introduction/responsible-ai-integration.md:15
+msgid ""
+"ODE is trying to balance user experience for non-technical audiences and "
+"performance and privacy."
+msgstr ""
+

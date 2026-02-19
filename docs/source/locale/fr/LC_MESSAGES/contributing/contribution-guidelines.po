@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/contributing/contribution-guidelines.md:1
+msgid "Contributing"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:3
+msgid "Contribution Guidelines"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:5
+msgid ""
+"You don’t need to know how to code to contribute to Open Data Editor, you"
+" just need time and attitude. There are many possible ways to contribute "
+"to the project:"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:7
+msgid "Use the Open Data Editor and give us feedback"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:8
+msgid "Spread the word about it\\!"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:9
+msgid "Improve the documentation"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:10
+msgid "Add a translation"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:11
+msgid "Report issues"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:12
+msgid "Contribute to the code"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:14
+msgid "Please read this guide for more details on the contribution process."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:16
+msgid "How can you help?"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:18
+msgid "Giving us feedback"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:20
+msgid ""
+"Use the Open Data Editor and give us feedback. You can try out all the "
+"features and report any issues you might encounter. You can also suggest "
+"improvements to the Open Data Editor’s look and layout. For example, *if "
+"something feels confusing or hard to find in the tool’s layout, you can "
+"suggest changes to make it easier to use.*"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:22
+msgid ""
+"Feedback from a beginner’s perspective is particularly welcome as it "
+"helps us improve usability."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:24
+msgid ""
+"To give us feedback, you can either [open an issue in the GitHub "
+"repository](https://github.com/okfn/opendataeditor) or reach out by email"
+" at info@okfn.org."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:26
+msgid "Spread the word"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:28
+msgid ""
+"If you like the application, tell others about it\\! Spreading the word "
+"about the Open Data Editor is also a valuable contribution to the "
+"project. Whether you share it on social media, write a blog post, create "
+"a tutorial video, or simply tell a friend, you’re helping more people "
+"discover and use the tool. Every bit of awareness and engagement makes a "
+"difference\\!"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:30
+msgid "Documentation"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:32
+msgid "Improving documentation"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:34
+msgid ""
+"Documentation is always the best place to start contributing. If you spot"
+" a typo or you’ve ever thought, “I wish the documentation explained this "
+"more clearly,” you can help make it easier to understand. You can either "
+"flag that, or propose a modification. You can also add missing steps or "
+"explanations."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:36
+msgid "Adding examples"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:38
+msgid ""
+"You can also contribute by adding examples\\! If you notice something is "
+"not covered in the documentation, try creating a helpful example and "
+"sharing it. You can also provide real-world use cases to show how Open "
+"Data Editor can be used. Every improvement makes Open Data Editor easier "
+"for everyone to use\\!"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:40
+msgid ""
+"All documentation files are contained [in this "
+"folder](https://github.com/okfn/opendataeditor/tree/main/portal/content/docs/documentation)."
+" You can just propose a change or add examples by opening a PR. Please "
+"**always include a short description of what you changed and why**, so it"
+" is easier to review. If you don’t feel comfortable using GitHub, you can"
+" also send us an email with the proposed changes at info\\[at\\]okfn.org."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:42
+msgid "Use cases"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:44
+msgid ""
+"If you have started using Open Data Editor in your daily work and would "
+"like to share with the world how the tool is helping you, you can always "
+"write a blog about it. You can find a few examples "
+"[here](https://blog.okfn.org/tag/ode-use-cases/)."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:46
+msgid ""
+"If possible, try to include photos and screenshots. If you need guidance,"
+" you can always reach out to us at info@okfn.org. You can send us your "
+"blog at that same email address."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:48
+msgid "Reporting a bug"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:50
+msgid ""
+"We use GitHub as a code and issues hosting platform. To report a bug or "
+"propose a new feature, please open an issue [in the "
+"repository](https://github.com/okfn/opendataeditor/issues). Please "
+"provide a detailed description of the bug and include screenshots. There "
+"are a few predefined issue templates to help you get started."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:52
+msgid ""
+"If you don’t feel comfortable using GitHub, you can also send us an email"
+" at info@okfn.org."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:54
+msgid "Code contributions"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:56
+msgid "Pull requests"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:58
+msgid ""
+"First, please check the [issue "
+"tracker](https://github.com/okfn/opendataeditor/issues). Look for issues "
+"with “help wanted” or “good first issue.” **If you want to submit a PR, "
+"there needs to be a corresponding issue in the issue tracker.** Please "
+"link the issue in your PR, and provide a brief explanation of the changes"
+" you are pushing."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:60
+msgid "What is the review process for your contribution?"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:62
+msgid ""
+"Your contribution will be **reviewed by the Open Data Editor core team at"
+" Open Knowledge Foundation**."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:64
+msgid ""
+"In case of documentation and code contributions, a member of the core "
+"team will check if it is relevant, helpful, and easy to understand. If "
+"small changes are needed, they suggest edits. Once everything looks good,"
+" the contribution is approved and added to the project, and the "
+"contributor is acknowledged (because every contribution matters\\!)."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:66
+msgid ""
+"In case of bugs and feedback contributions, the core team will discuss if"
+" and how they can be implemented. We can include you in the discussion if"
+" you wish. Once we have a clear pathway, we will notify you."
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:68
+msgid "Do you need help?"
+msgstr ""
+
+#: ../../source/contributing/contribution-guidelines.md:70
+msgid ""
+"If at any point you need help, feel free to contact us via email at "
+"[info@okfn.org](mailto:info@okfn.org)."
+msgstr ""
+

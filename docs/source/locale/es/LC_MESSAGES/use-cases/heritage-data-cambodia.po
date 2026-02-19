@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/heritage-data-cambodia.md:1
+msgid "Heritage data (Cambodia)"
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:3
+msgid ""
+"An AI of Our Own (AAOO) used ODE to create AI models that are built on "
+"respectful and ethically sourced data from the Global South."
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:5
+msgid ""
+"ODE allowed the team to identify and rectify formatting inconsistencies. "
+"They could standardise date formats and other variables, ensuring that "
+"data from different collection methods could be seamlessly unified. A "
+"critical feature for AAOO was the ability to add detailed descriptions to"
+" each column. This process of adding context and meaning to each data "
+"point is fundamental to building a high-quality, culturally nuanced AI "
+"dataset."
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:7
+msgid "![Cambodia](./assets/use-cases/cambodia.jpg)"
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:7
+msgid "Cambodia"
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:9
+msgid ""
+"Errors flagged showing data inconsistency from the converted unstructured"
+" data into a structured format without considering the standard format "
+"and time stamps (Data on Indigenous Knowledge Systems on Plant use)"
+msgstr ""
+
+#: ../../source/use-cases/heritage-data-cambodia.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/11/05/open-data-editor-in-action-"
+"building-culturally-accurate-and-global-south-sensitive-ai-"
+"datasets/](https://blog.okfn.org/2025/11/05/open-data-editor-in-action-"
+"building-culturally-accurate-and-global-south-sensitive-ai-datasets/)"
+msgstr ""
+

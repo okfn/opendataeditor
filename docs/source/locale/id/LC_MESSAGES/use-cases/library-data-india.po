@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/library-data-india.md:1
+msgid "Library data (India)"
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:3
+msgid ""
+"The Indian Institute of Technology (IIT) Delhi used ODE to check errors "
+"in large spreadsheets of publications catalogue and educate colleagues "
+"about data quality."
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:5
+msgid ""
+"ODE automatically flagged a range of issues in complex datasets, "
+"including bibliographic information from major indexes like Scopus and "
+"Web of Science. By identifying formatting inconsistencies, ODE provided a"
+" foundation for the team to clean and standardise fields, creating more "
+"reliable datasets for their reports and website."
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:7
+msgid "![India](./assets/use-cases/india.png)"
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:7
+msgid "India"
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:9
+msgid ""
+"Open Data Editor helps automate error detection; above, problems with "
+"blank cells and the data types expected for a given column."
+msgstr ""
+
+#: ../../source/use-cases/library-data-india.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/12/09/open-data-editor-in-action-"
+"advancing-data-quality-in-academic-library-services-in-"
+"india/](https://blog.okfn.org/2025/12/09/open-data-editor-in-action-"
+"advancing-data-quality-in-academic-library-services-in-india/)"
+msgstr ""
+

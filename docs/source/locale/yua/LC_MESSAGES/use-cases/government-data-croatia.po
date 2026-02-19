@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: yua\n"
+"Language-Team: yua <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/government-data-croatia.md:1
+msgid "Government data (Croatia)"
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:3
+msgid ""
+"The City of Zagreb used ODE to comply with open data standards and foster"
+" a culture of data literacy across different city offices in Zagreb."
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:5
+msgid ""
+"ODE flagged inconsistencies (e.g., missing values, formatting errors) in "
+"seconds, such as a public buildings dataset with 11 columns of unlabeled "
+"energy metrics. The team was able to add critical context (e.g., data "
+"owners, sourcing methods) directly in ODE’s metadata panel, aligning with"
+" FAIR principles."
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:7
+msgid "![Croatia](./assets/use-cases/croatia.jpg)"
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:7
+msgid "Croatia"
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:9
+msgid ""
+"ODE’s metadata panel was central to understanding the importance of "
+"interoperability and creating a culture of data literacy in the public "
+"administration."
+msgstr ""
+
+#: ../../source/use-cases/government-data-croatia.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/05/20/open-data-editor-in-action-"
+"streamlining-data-governance-and-unlocking-the-potential-value-of-urban-"
+"data-in-croatia/](https://blog.okfn.org/2025/05/20/open-data-editor-in-"
+"action-streamlining-data-governance-and-unlocking-the-potential-value-of-"
+"urban-data-in-croatia/)"
+msgstr ""
+

@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:1
+msgid "How to use the AI component"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:3
+msgid ""
+"To use the AI assistant, select a file from the sidebar, and then click "
+"on the **AI** button located in the top right corner of the app:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:5
+msgid ""
+"![AI Integration button is located in the top panel](./assets/ai-"
+"integration/ai-integration-1.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:5
+msgid "AI Integration button is located in the top panel"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:7
+msgid "ODE will show a dialogue to assist the user in downloading the model:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:9
+msgid "![Downloading model dialog](./assets/ai-integration/ai-integration-2.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:9
+msgid "Downloading model dialog"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:11
+msgid ""
+"Once the model is downloaded, users will be able to click on the **Next**"
+" button to continue."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:13
+msgid "AI Use Cases"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:15
+msgid "ODE has two use cases for the AI component:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:17
+msgid "Assist users in understanding the columns of a table."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:18
+msgid "Suggest analysis and questions that users can use to query the data."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:20
+msgid "To choose the use case, select it from the dropdown menu."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:22
+msgid ""
+"![AI Use Cases dropdown menu](./assets/ai-integration/ai-"
+"integration-3.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:22
+msgid "AI Use Cases dropdown menu"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:24
+msgid ""
+"Once selected, click on the **Execute** button to get a response from the"
+" AI model."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:27
+msgid ""
+"Depending on the hardware of the users’ machines, the response time can "
+"vary. Usually, it will take around 10 seconds to get a response. :::"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:29
+msgid "Assist users in understanding the columns of a table"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:31
+msgid ""
+"The AI model will analyse the columns’ names, types and some sample data "
+"and will generate a description of each column. This is useful to "
+"understand the data better, clarify technical or complex names, expand "
+"acronyms, etc."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:33
+msgid ""
+"![AI assistance in understanding the columns of a table](./assets/ai-"
+"integration/ai-integration-4.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:33
+#: ../../source/user-guide/how-to-use-the-ai-component.md:39
+msgid "AI assistance in understanding the columns of a table"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:35
+msgid "Suggest analysis and questions that users can use to query the data"
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:37
+msgid ""
+"The AI model will analyse the columns’ names, types and some sample data "
+"and will generate a list of questions that the user can use to query the "
+"data."
+msgstr ""
+
+#: ../../source/user-guide/how-to-use-the-ai-component.md:39
+msgid ""
+"![AI assistance in understanding the columns of a table](./assets/ai-"
+"integration/ai-integration-5.png)"
+msgstr ""
+

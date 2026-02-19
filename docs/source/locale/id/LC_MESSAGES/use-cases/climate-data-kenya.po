@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/climate-data-kenya.md:1
+msgid "Climate data (Kenya)"
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:3
+msgid ""
+"The Demography Project used ODE to check and correct errors in a giant "
+"spreadsheet of air quality data, enabling accurate analysis."
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:5
+msgid ""
+"These tables, which compile data from different sources (including two "
+"portable air quality monitors, GPS devices, smartphones), had many "
+"inconsistencies that were detected in seconds. Once the errors have been "
+"identified, they could then correct the missing or incorrect data, "
+"increasing the dataset’s quality."
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:7
+msgid "![Kenya](./assets/use-cases/kenya.png)"
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:7
+msgid "Kenya"
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:9
+msgid ""
+"In this spreadsheet, ODE identified 29 inconsistencies and errors in the "
+"dataset."
+msgstr ""
+
+#: ../../source/use-cases/climate-data-kenya.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/04/28/open-data-editor-use-case-a"
+"-giant-spreadsheet-of-environmental-data-now-accurate-for-"
+"analysis/](https://blog.okfn.org/2025/04/28/open-data-editor-use-case-a"
+"-giant-spreadsheet-of-environmental-data-now-accurate-for-analysis/)"
+msgstr ""
+

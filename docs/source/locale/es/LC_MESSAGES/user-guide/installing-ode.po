@@ -1,0 +1,189 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/installing-ode.md:1
+msgid "Installing ODE"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:3
+msgid "Windows"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:5
+msgid "Download the most recent **EXE** file as per the above instructions."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:7
+msgid "1\\. If you receive the following message, click ‘Continue download’."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:9
+msgid "![DOWNLOAD SECURITY](./assets/getting-started/gs-windows-download.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:9
+#: ../../source/user-guide/installing-ode.md:25
+msgid "DOWNLOAD SECURITY"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:11
+msgid ""
+"2\\. After downloading, double-click to run the app. You may encounter "
+"the security message window, click ‘More info’ and proceed."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:13
+msgid "![SECURITY MESSAGE](./assets/getting-started/gs-protection-screen.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:13
+msgid "SECURITY MESSAGE"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:15
+msgid "3\\. Click ‘Run anyway’ to run the application."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:17
+msgid ""
+"![SECURITY MESSAGE STEP 2](./assets/getting-started/gs-protection-"
+"screen-2.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:17
+msgid "SECURITY MESSAGE STEP 2"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:19
+msgid "MacOS"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:21
+msgid "Download the most recent **DMG** file as per the above instructions."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:23
+msgid ""
+"1\\. If you encounter a security message, click on the question mark and "
+"then click the link in the first section."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:25
+msgid "![DOWNLOAD SECURITY](./assets/getting-started/gs-macos-download.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:27
+msgid "2\\. Change settings to allow the app to execute."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:29
+msgid "![DOWNLOAD SETTINGS](./assets/getting-started/gs-macos-download-step2.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:29
+msgid "DOWNLOAD SETTINGS"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:31
+msgid "Linux"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:33
+msgid "For Linux, there are two options available:"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:35
+msgid "AppImage (for any distributions)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:36
+msgid "deb (for Ubuntu/Debian)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:38
+msgid "Any Distribution"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:40
+msgid "Download the most recent **AppImage** file as per the above instructions."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:42
+msgid "After downloading, you have to make it executable:"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:44
+msgid "![MAKE EXECUTABLE](./assets/getting-started/gs-linux-executable.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:44
+msgid "MAKE EXECUTABLE"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:46
+msgid "Then double-click on the file to start the application."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:48
+msgid "Ubuntu/Debian"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:50
+msgid "Download the most recent **DEB** file as per the above instructions."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:52
+msgid "Double-click on the file, and it will initiate the installation process."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:54
+msgid "![MAKE INSTALLATION](./assets/getting-started/gs-ode-installation.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:54
+msgid "MAKE INSTALLATION"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:56
+msgid "After installation, you can use it."
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:58
+msgid "![INSTALLED APP](./assets/getting-started/gs-ode-app.png)"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:58
+msgid "INSTALLED APP"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:60
+msgid ""
+"Optionally, in Debian, you can install it by running the following "
+"command:"
+msgstr ""
+
+#: ../../source/user-guide/installing-ode.md:62
+msgid ""
+"*\\# Replace \\<version\\> with the version you downloaded*   sudo dpkg "
+"\\-i opendataeditor-linux-\\<version\\>.deb"
+msgstr ""
+

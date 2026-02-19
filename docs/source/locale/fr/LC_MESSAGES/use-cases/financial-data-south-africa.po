@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/financial-data-south-africa.md:1
+msgid "Financial data (South Africa)"
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:3
+msgid ""
+"The Public Affairs Research Institute (PARI) used ODE to restructure "
+"messy public financial datasets into a clean, consistent format, making "
+"them ready for reliable analysis."
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:5
+msgid ""
+"ODE automatically profiled the data, instantly highlighting empty cells, "
+"type mismatches, and structural inconsistencies that would take days to "
+"find manually. This shifted their role from manual detectives to "
+"efficient data supervisors."
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:7
+msgid "![South Africa](./assets/use-cases/south-africa.png)"
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:7
+msgid "South Africa"
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:9
+msgid ""
+"Examples of errors detected by ODE in a municipal dataset: blank cells "
+"and wrong formats."
+msgstr ""
+
+#: ../../source/use-cases/financial-data-south-africa.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/11/10/open-data-editor-in-action-"
+"enhancing-fiscal-governance-and-transparency-in-south-african-"
+"municipalities/](https://blog.okfn.org/2025/11/10/open-data-editor-in-"
+"action-enhancing-fiscal-governance-and-transparency-in-south-african-"
+"municipalities/)"
+msgstr ""
+

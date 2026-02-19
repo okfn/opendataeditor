@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:1
+msgid "How to explore table errors"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:3
+msgid ""
+"As mentioned in the **Uploading data** section in this guide, if a file "
+"has errors, ODE will show a red dot next to the file name on the sidebar."
+" However, if you want to review errors in the table, you can use the "
+"datagrid to explore problematic data."
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:5
+msgid ""
+"ODE will highlight the cell in red if it has a problem. For instance, if "
+"it contains text instead of a number."
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:7
+msgid "This is how a cell with an error is shown on ODE:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:9
+msgid ""
+"![Cell with errors](./assets/explore-table-errors/cell-with-error-"
+"edit.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:9
+msgid "Cell with errors"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:11
+msgid ""
+"You can also explore errors by clicking on the **Errors Report** button, "
+"located at the top left of the datagrid:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:13
+msgid ""
+"![Errors panel button](./assets/explore-table-errors/errors-panel-"
+"button.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:13
+msgid "Errors panel button"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:15
+msgid ""
+"After clicking the button, ODE will display a panel with the full list of"
+" errors:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:17
+msgid "![Errors panel](./assets/explore-table-errors/errors-panel.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-table-errors.md:17
+msgid "Errors panel"
+msgstr ""
+

@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/data-journalism-mexico.md:1
+msgid "Data journalism (Mexico)"
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:3
+msgid ""
+"Data Crítica used ODE to identify reliable variables for journalistic "
+"investigations and ensure stories are built on a solid foundation."
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:5
+msgid ""
+"They used it as a central part of its “data interrogation” methodology in"
+" workshops and its own research. ODE instantly flagged missing values, "
+"providing a clear, visual overview of a dataset’s completeness by "
+"highlighting empty cells."
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:7
+msgid "![Mexico](./assets/use-cases/mexico.png)"
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:7
+msgid "Mexico"
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:9
+msgid ""
+"In the same dataset as the picture above, ODE now identifies errors in "
+"columns with the same name and unexpected data types"
+msgstr ""
+
+#: ../../source/use-cases/data-journalism-mexico.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/11/28/open-data-editor-in-action-"
+"interrogating-data-for-investigative-journalism-in-"
+"mexico/](https://blog.okfn.org/2025/11/28/open-data-editor-in-action-"
+"interrogating-data-for-investigative-journalism-in-mexico/)"
+msgstr ""
+

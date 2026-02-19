@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/editing-errors-in-tables.md:1
+msgid "Editing errors in tables"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:3
+msgid ""
+"To fix cell errors, you can directly edit the data cells in the "
+"viewer/editor."
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:5
+msgid "**Step 1:** Locate the cell with the error. For example:"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:7
+msgid "![Error cell](./assets/editing-errors-in-table/cell-with-errors-edit.png)"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:7
+msgid "Error cell"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:9
+msgid "**Step 2:** Double-click on the cell to start editing content:"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:11
+msgid ""
+"![Edit cell with errors](./assets/editing-errors-in-table/edit-cell-with-"
+"error.png)"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:11
+msgid "Edit cell with errors"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:13
+msgid ""
+"**Step 3:** To save changes, click on another part of the table to accept"
+" the change in the cell, and when the **Save changes** button is "
+"activated, click on it. The button will get activated if there are "
+"unsaved changes."
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:15
+msgid ""
+"![Save changes button](./assets/editing-errors-in-table/save-changes-"
+"button.png)"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:15
+msgid "Save changes button"
+msgstr ""
+
+#: ../../source/user-guide/editing-errors-in-tables.md:17
+msgid ""
+"After clicking the **Save changes** button, ODE will update the Errors "
+"Report."
+msgstr ""
+

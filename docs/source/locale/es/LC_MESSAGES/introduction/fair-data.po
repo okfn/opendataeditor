@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/introduction/fair-data.md:1
+msgid "FAIR data"
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:3
+msgid ""
+"The Open Data Editor (ODE) improves data quality based on the [FAIR "
+"principles](https://www.go-fair.org/fair-principles/)."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:5
+msgid ""
+"As described by the [GO FAIR initiative](https://www.go-fair.org/), FAIR "
+"data refers to data that adheres to the **Findable**, **Accessible**, "
+"**Interoperable**, and **Reusable** principles, designed to make research"
+" data more discoverable and usable by people and machines, enhancing its "
+"value and reuse."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:7
+msgid ""
+"**Findable**   The first step in (re)using data is to find it. Metadata "
+"and data should be easy to find for both humans and computers."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:10
+msgid ""
+"**Accessible**   Once the user finds the required data, they need to know"
+" how it can be accessed, possibly including authentication and "
+"authorisation."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:13
+msgid ""
+"**Interoperable**   The data usually need to be integrated with other "
+"data. In addition, the data needs to interoperate with applications or "
+"workflows for analysis, storage, and processing."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:16
+msgid ""
+"**Reusable**   The ultimate goal of FAIR is to optimise the reuse of "
+"data. To achieve this, metadata and data should be well-described so that"
+" they can be replicated and/or combined in different settings."
+msgstr ""
+
+#: ../../source/introduction/fair-data.md:19
+msgid ""
+"Learn all about the FAIR principles in [Module "
+"4](https://schoolofdata.org/courses/quality-and-consistent-data-with-"
+"open-data-editor/lessons/introduction-6/) of the ‘Quality and Consistent "
+"Data with ODE’ course, available on [School of "
+"Data](https://schoolofdata.org/)."
+msgstr ""
+

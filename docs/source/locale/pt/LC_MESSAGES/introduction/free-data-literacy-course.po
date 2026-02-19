@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/introduction/free-data-literacy-course.md:1
+msgid "Free data literacy course"
+msgstr ""
+
+#: ../../source/introduction/free-data-literacy-course.md:3
+msgid ""
+"Open Data Editor's focus on improving digital literacy and preparing non-"
+"technical users to work with data, led us to develop a free course "
+"available on School of Data. [‘Quality and Consistent Data with the Open "
+"Data Editor’](https://schoolofdata.org/courses/quality-and-consistent-"
+"data-with-open-data-editor/) is an essential open educational resource "
+"for anyone who wants to generate knowledge from data. The course is now "
+"available in English and Portuguese, and will soon be translated into "
+"Spanish and French."
+msgstr ""
+
+#: ../../source/introduction/free-data-literacy-course.md:5
+#, python-format
+msgid ""
+"It is specially designed for non-technical users working with tabular "
+"data (Excel, Google Sheets, CSV) but without advanced technical "
+"knowledge. It's 100% online, free, and gamified."
+msgstr ""
+
+#: ../../source/introduction/free-data-literacy-course.md:7
+msgid ""
+"You can check the contents and enrol here: "
+"[https://schoolofdata.org/courses/quality-and-consistent-data-with-open-"
+"data-editor/](https://schoolofdata.org/courses/quality-and-consistent-"
+"data-with-open-data-editor/)"
+msgstr ""
+

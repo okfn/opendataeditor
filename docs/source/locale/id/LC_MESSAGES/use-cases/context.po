@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/context.md:1
+msgid "Context"
+msgstr ""
+
+#: ../../source/use-cases/context.md:3
+msgid ""
+"The Open Data Editor was developed in collaboration with user communities"
+" worldwide. Between 2024 and 2025, three formal testing and feedback "
+"phases were conducted with civil society organisations working in "
+"different fields of knowledge. This work has given rise to several use "
+"cases, all of which are compiled here: [https://blog.okfn.org/tag/ode-"
+"use-cases/](https://blog.okfn.org/tag/ode-use-cases/)"
+msgstr ""
+
+#: ../../source/use-cases/context.md:5
+msgid ""
+"Below, we highlight some of them to give you an idea of the types of "
+"tasks that ODE helps to perform to improve data workflow and data "
+"quality."
+msgstr ""
+
+#: ../../source/use-cases/context.md:7
+msgid ""
+"You can also contribute by documenting a use case. Learn how at "
+"**Documentation \\> Use cases** in this guide."
+msgstr ""
+

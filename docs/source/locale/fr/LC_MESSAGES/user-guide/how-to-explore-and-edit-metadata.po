@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:1
+msgid "How to explore and edit metadata"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:3
+msgid ""
+"To explore or edit the metadata, select a file from the menu on the left "
+"and click on any cell of the header row (first row)."
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:5
+msgid "![Metadata Button](./assets/explore-edit-metadata/metadata-button.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:5
+msgid "Metadata Button"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:7
+msgid "ODE will then display the **Metadata** window:"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:9
+msgid "![Metadata panel](./assets/explore-edit-metadata/metadata-panel.png)"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:9
+msgid "Metadata panel"
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:11
+msgid ""
+"You can click on any of the options to start editing the metadata linked "
+"to your file."
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:13
+msgid ""
+"Once you have finished editing the metadata, click on the **Save "
+"changes** button to save the changes."
+msgstr ""
+
+#: ../../source/user-guide/how-to-explore-and-edit-metadata.md:16
+msgid "Saving changes will trigger a validation of the file."
+msgstr ""
+

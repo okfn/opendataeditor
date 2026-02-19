@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:1
+msgid "Similar tools and differentiators"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:3
+msgid ""
+"The tools currently available with functions similar to those of the Open"
+" Data Editor were created for a specific purpose and have a more "
+"technical profile. This makes them difficult for people unfamiliar with "
+"code, standards or programming languages to access."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:5
+msgid ""
+"The main differences in relation to ODE are listed in each subsection "
+"below:"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:7
+msgid "Data Check"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:9
+msgid ""
+"Available at: "
+"[https://data.humdata.org/tools/datacheck/import](https://data.humdata.org/tools/datacheck/import)"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:11
+#: ../../source/introduction/similar-tools-and-differentiators.md:22
+#: ../../source/introduction/similar-tools-and-differentiators.md:32
+#: ../../source/introduction/similar-tools-and-differentiators.md:41
+msgid "Main differences:"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:13
+msgid "Maximum file size: 20 MB."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:14
+msgid "Works only with the HXL standard."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:15
+msgid ""
+"The table view after the error check is limited, and the user needs to "
+"navigate through several tabs if the file has many lines."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:16
+msgid "Does not include a publication feature."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:18
+msgid "IATI Validator"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:20
+msgid ""
+"Available at: "
+"[https://validator.iatistandard.org/](https://validator.iatistandard.org/)"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:24
+msgid "Works only with the IATI standard."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:25
+msgid "Targets a specific sector, the international aid community."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:26
+msgid ""
+"The tool offers five levels of qualification regarding data quality "
+"(Success, Success with Advisories, Warning, Error, and Critical), rather "
+"than a list of all errors and how to correct them."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:28
+msgid "CSV Lint.io"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:30
+msgid "Available at: [https://csvlint.io/](https://csvlint.io/)"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:34
+msgid ""
+"Works only with CSV files, informing the user if the file “is readable” "
+"or not."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:35
+msgid "Agnostic tool; the schema can also be ingested."
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:37
+msgid "360Giving Data Quality Checker"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:39
+msgid ""
+"Available at: "
+"[https://dataquality.threesixtygiving.org/](https://dataquality.threesixtygiving.org/)"
+msgstr ""
+
+#: ../../source/introduction/similar-tools-and-differentiators.md:43
+msgid "Works only with the 360Giving standard."
+msgstr ""
+

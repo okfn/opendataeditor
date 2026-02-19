@@ -1,0 +1,387 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:1
+msgid "Full list of table errors detected"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:3
+msgid ""
+"Here we describe the list of errors that ODE can detect after users "
+"upload tables to the app. All the examples are based on CSV files."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:6
+msgid ""
+"It is possible to reproduce a subset of these errors using other formats "
+"like Excel, but some errors might not be applicable to other formats."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:9
+msgid ""
+"To explain and understand errors, we need to illustrate some key elements"
+" that are part of tables:"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:11
+msgid ""
+"A regular table contains one **header row** (where the names of columns "
+"are listed), **rows** and **cells**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:12
+msgid "**Cells describing names of columns** are also called **labels**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:13
+msgid "Rows contain **cells** called **values**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:15
+msgid "The table example is represented as follows:"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:23
+msgid "Errors detected automatically"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:25
+msgid ""
+"**This type of error occurs when the structure of the data is not as "
+"expected.** For example, the number of columns in a row is different from"
+" the number of columns in the header."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:27
+msgid "Header missing (Blank Label)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:29
+msgid ""
+"This error occurs when the **header row is empty**. The header row should"
+" contain the names of the columns:"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:37
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/bb8d52a4fb7cb7ce135cda4ac8156173"
+"/header-missing.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:39
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:55
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:71
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:88
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:103
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:120
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:145
+msgid "This is how ODE will show the error:"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:41
+msgid "![Header missing error](./assets/table-error-list/header-missing.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:41
+msgid "Header missing error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:43
+msgid "Column name missing"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:45
+msgid "This error occurs when **one or more column names are missing**:"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:53
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/45ba64a900f79509f76ef9865da818fe"
+"/column-name-missing.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:57
+msgid ""
+"![Column name missing error](./assets/table-error-list/column-name-"
+"missing.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:57
+msgid "Column name missing error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:59
+msgid "Duplicate column name"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:61
+msgid ""
+"This error occurs when there are **two or more columns with the same "
+"name**. Each column should have a unique name."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:69
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/c352eb003acbc2caf2f45df0d37631c9"
+"/duplicate-column-name.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:73
+msgid ""
+"![Duplicated column name error](./assets/table-error-list/duplicate-"
+"column-name.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:73
+msgid "Duplicated column name error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:75
+msgid "Empty row"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:77
+msgid "This error occurs when an **empty row is present in the data**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:86
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/4cd0ff415190ada70a6cf765842f7aff"
+"/empty-row.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:90
+msgid "![Empty row error](./assets/table-error-list/empty-row.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:90
+msgid "Empty row error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:92
+msgid "Missing cell"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:94
+msgid "This error occurs when **a row has fewer cells than the header**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:105
+msgid "![Missing cell error](./assets/table-error-list/missing-cell.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:105
+msgid "Missing cell error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:107
+msgid "Extra cell"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:109
+msgid ""
+"This error occurs when a row has more cells than the header. Each row "
+"should have the same number of cells as the header."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:118
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/1c7d6743ad084bf1dbe1de05b961e158"
+"/extra-cell.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:122
+msgid "![Extra cell error](./assets/table-error-list/extra-cell.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:122
+msgid "Extra cell error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:124
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:147
+msgid "Wrong data type"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:126
+msgid ""
+"This error occurs when **a cell contains a value that is not of the "
+"expected type**. For example, a cell in a column that should contain "
+"numbers contains a string."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:143
+msgid ""
+"[Reproduce the error using this "
+"file](https://opendataeditor.okfn.org/_downloads/508223106a8c55b55430211419875f01"
+"/wrong-data-type.csv)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:147
+msgid "![Wrong data type](./assets/table-error-list/wrong-data-type.png)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:150
+msgid ""
+"This error can be identified without providing a Table Schema, but only "
+"if the data has enough cells of the correct type in the column to infer "
+"the intended type. :::"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:152
+msgid "Errors Requiring Metadata"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:154
+msgid ""
+"These errors can only be identified if a Table Dialect or Table Schema is"
+" provided by editing the table’s metadata. The Table Schema defines the "
+"structure of the data, including the type of each column. Table Schema "
+"adds additional constraints to the data, which are used to validate the "
+"data."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:156
+msgid "Extra column name"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:158
+msgid ""
+"This error occurs when **a header label in the data is not defined in the"
+" Table Schema**. The Table Schema should define all the columns in the "
+"data."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:172
+msgid "Missing column name"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:174
+msgid ""
+"This error occurs when **a column defined in the Table Schema is not "
+"present in the header row**. The data should contain all the columns "
+"defined in the Table Schema."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:189
+msgid "Incorrect column name"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:191
+msgid ""
+"This error occurs when **the header label in the data does not match the "
+"label defined in the Table Schema**. The header row should contain the "
+"same labels as defined in the Table Schema."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:205
+msgid "Primary Key Error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:207
+msgid ""
+"This error occurs when the **primary key constraint defined in the Table "
+"Schema is not satisfied**. The primary key constraint ensures that the "
+"values in the specified columns are unique."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:222
+msgid "Foreign Key Error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:224
+msgid ""
+"This error occurs when the **foreign key constraint defined in the Table "
+"Schema is not satisfied**. The foreign key constraint ensures that the "
+"values in the specified columns are present in another table or satisfies"
+" self-referencing constraint."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:242
+msgid "Unique constraint error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:244
+msgid ""
+"This error occurs when the **unique constraint defined in the Table "
+"Schema is not satisfied**. The unique constraint ensures that the values "
+"in the specified columns are unique."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:259
+msgid "Constraint Error"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:261
+msgid ""
+"This error occurs when **a field constraint defined in the Table Schema "
+"is not satisfied**."
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:263
+msgid ""
+"Read more about Table Schema constraints: "
+"[https://datapackage.org/standard/table-schema/\\#field-"
+"constraints](https://datapackage.org/standard/table-schema/#field-"
+"constraints)"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:279
+msgid ""
+"The following constraints can be defined in the Table Schema and are "
+"currently supported by Open Data Editor (please read the section above "
+"about unique constraints):"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:281
+msgid "required"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:282
+msgid "enum"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:283
+msgid "minimum"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:284
+msgid "maximum"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:285
+msgid "minLength"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:286
+msgid "maxLength"
+msgstr ""
+
+#: ../../source/user-guide/full-list-of-table-errors-detected.md:287
+msgid "pattern"
+msgstr ""
+

@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/technical-documentation/documentation.md:1
+msgid "Documentation"
+msgstr ""
+
+#: ../../source/technical-documentation/documentation.md:3
+msgid ""
+"Documentation is written with [Sphinx](https://www.sphinx-"
+"doc.org/en/master/) (in the `docs` directory). The source files are in "
+"the `docs/source/` directory. To locally build the documentation, you can"
+" execute:"
+msgstr ""
+
+#: ../../source/technical-documentation/documentation.md:9
+msgid "or"
+msgstr ""
+
+#: ../../source/technical-documentation/documentation.md:16
+msgid ""
+"It will be automatically published on CloudFlare when merged to the "
+"`main`branch, with previews available for pull requests."
+msgstr ""
+

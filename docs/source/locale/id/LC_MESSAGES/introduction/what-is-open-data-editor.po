@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/introduction/what-is-open-data-editor.md:1
+msgid "What is Open Data Editor"
+msgstr ""
+
+#: ../../source/introduction/what-is-open-data-editor.md:3
+msgid ""
+"[Open Data Editor (ODE)](https://okfn.org/opendataeditor), developed by "
+"the [Open Knowledge Foundation (OKFN)](https://okfn.org/en/), is a free, "
+"open-source tool designed to help nonprofits, data journalists, "
+"activists, and public servants detect errors in their datasets. It is "
+"designed for people working with tabular data (Excel, Google Sheets, CSV)"
+" who don't know how to code or don't have the programming skills to "
+"automatise the data exploration process."
+msgstr ""
+
+#: ../../source/introduction/what-is-open-data-editor.md:5
+msgid ""
+"The technical mission of ODE is to provide a free, open-source, no-code, "
+"cross-platform desktop application that empowers non-technical users "
+"working with tabular data to quickly detect and correct errors, enforce "
+"data-validation and metadata standards (notably the [FAIR "
+"principles](https://www.go-fair.org/fair-principles/)), and output clean,"
+" interoperable datasets ready for publication – while preserving privacy "
+"(local-first architecture), remaining lightweight (suitable for low-"
+"resource or offline contexts), and employing open standards (e.g., the "
+"[Frictionless framework](https://framework.frictionlessdata.io/)) for "
+"maximum reuse and integration."
+msgstr ""
+
+#: ../../source/introduction/what-is-open-data-editor.md:7
+msgid ""
+"Since 2025, the Digital Public Goods Alliance (DPGA) has recognised Open "
+"Data Editor as a [digital public good](https://blog.okfn.org/2025/10/22"
+"/open-data-editor-recognised-as-a-digital-public-good/) (DPG), which "
+"means it meets high standards of openness and supports sustainable "
+"development globally."
+msgstr ""
+

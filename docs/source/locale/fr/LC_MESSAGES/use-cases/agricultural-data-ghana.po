@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/agricultural-data-ghana.md:1
+msgid "Agricultural data (Ghana)"
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:3
+msgid ""
+"Open Science Community Ghana (OSCG) used ODE to streamline the work with "
+"manually-collected data and reduce the time to identify and correct "
+"errors."
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:5
+msgid ""
+"The ODE interface enabled the team to easily define and enforce a "
+"standard data structure, ensuring that every dataset adheres to a "
+"consistent format. This directly solved their core problem of harmonising"
+" the data that they receive from different sources."
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:7
+msgid "![Ghana](./assets/use-cases/ghana.png)"
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:7
+msgid "Ghana"
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:9
+msgid ""
+"An example of errors detected by ODE in a research dataset: blank cells "
+"and wrong formats."
+msgstr ""
+
+#: ../../source/use-cases/agricultural-data-ghana.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/11/10/open-data-editor-in-action-"
+"bridging-the-gap-between-field-data-and-research-insights-in-"
+"ghana/](https://blog.okfn.org/2025/11/10/open-data-editor-in-action-"
+"bridging-the-gap-between-field-data-and-research-insights-in-ghana/)"
+msgstr ""
+

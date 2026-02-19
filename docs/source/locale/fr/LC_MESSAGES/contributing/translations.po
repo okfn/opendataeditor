@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/contributing/translations.md:1
+msgid "Translations"
+msgstr ""
+
+#: ../../source/contributing/translations.md:3
+msgid ""
+"ODE supports several languages following the [Qt Framework practices "
+"for](https://doc.qt.io/qt-6/internationalization.html) "
+"internationalisation."
+msgstr ""
+
+#: ../../source/contributing/translations.md:5
+msgid "Internationalisation workflow"
+msgstr ""
+
+#: ../../source/contributing/translations.md:8
+msgid ""
+"ODE provides a `python build.py update-translations` and `python build.py"
+" compile-translations` command for all the supported languages. Check the"
+" project’s `build.py` file for reference."
+msgstr ""
+
+#: ../../source/contributing/translations.md:11
+msgid ""
+"Create or update translation files by running `python build.py update-"
+"translations` (or the `pyside6-lupdate` command directly if you are on "
+"macOS)"
+msgstr ""
+
+#: ../../source/contributing/translations.md:12
+msgid "Update the translation files:"
+msgstr ""
+
+#: ../../source/contributing/translations.md:13
+msgid ""
+"Complete `unfinished` translations (this is the actual addition of "
+"translated text)."
+msgstr ""
+
+#: ../../source/contributing/translations.md:14
+msgid "Clean `vanished` translations."
+msgstr ""
+
+#: ../../source/contributing/translations.md:15
+msgid ""
+"Compile the translation files by running `python build.py compile-"
+"translations` (or the `pyside6-lrelease` command directly if you are on "
+"macOS)"
+msgstr ""
+
+#: ../../source/contributing/translations.md:16
+msgid "Commit both the `.ts` and `.qm` files."
+msgstr ""
+
+#: ../../source/contributing/translations.md:17
+msgid "Create a PR with the changes."
+msgstr ""
+
+#: ../../source/contributing/translations.md:19
+msgid ""
+"All translation files are located in the `ode/assets/translations/` "
+"folder."
+msgstr ""
+
+#: ../../source/contributing/translations.md:21
+msgid "Translation Tools"
+msgstr ""
+
+#: ../../source/contributing/translations.md:23
+msgid "For updating translations, you can use either:"
+msgstr ""
+
+#: ../../source/contributing/translations.md:25
+msgid "A text editor to directly update the translation files (\\*.ts)"
+msgstr ""
+
+#: ../../source/contributing/translations.md:26
+msgid ""
+"Install Qt and use [Qt Linguist](https://doc.qt.io/qt-6/qtlinguist-"
+"index.html) application to do the translation using a UI."
+msgstr ""
+
+#: ../../source/contributing/translations.md:28
+msgid "Adding new languages"
+msgstr ""
+
+#: ../../source/contributing/translations.md:30
+msgid "When adding a new language, two extra changes are required:"
+msgstr ""
+
+#: ../../source/contributing/translations.md:32
+msgid ""
+"Add the new language to both `python build.py update-translations` and "
+"`python build.py compile-translations` commands of the `build.py` file. "
+"(after doing this, you can run the `python build.py update-translations` "
+"and it will create the `.ts` file for you.)"
+msgstr ""
+
+#: ../../source/contributing/translations.md:33
+msgid ""
+"Update the `language` QComboBox of the `main.py` file so the new language"
+" appears as an option to the user."
+msgstr ""
+
+#: ../../source/contributing/translations.md:35
+msgid ""
+"Here is a reference Pull Request of what is expected when adding a new "
+"language: "
+"[https://github.com/okfn/opendataeditor/pull/750](https://github.com/okfn/opendataeditor/pull/750)"
+msgstr ""
+

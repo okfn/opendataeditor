@@ -1,0 +1,239 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: yua\n"
+"Language-Team: yua <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/uploading-data.md:1
+#: ../../source/user-guide/uploading-data.md:7
+msgid "Uploading data"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:3
+msgid ""
+"This section explains how to upload tabular files, folders with tables "
+"and online data to ODE. The tool also ingests other types of format files"
+" like PDF, JPEG, etc. However, please note, ODE's main objective is to "
+"detect errors on tabular files, the application will **ONLY** show "
+"previews for tables."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:5
+msgid ""
+"**Uploading data to ODE is easy\\!** After installing the app and once "
+"you open the application on your laptop, you will see this screen:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:7
+msgid "![Uploading data](./assets/uploading-data/uploading-data.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:9
+msgid ""
+"You can click on the **Upload your data** button, located in the centre "
+"of the screen or at the top left of the sidebar, to start adding "
+"files/folders to the app."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:12
+msgid ""
+"Each time you upload a file or folder to ODE, the application will not "
+"ingest the original file/folder from your computer. Instead, it will make"
+" a copy of it and add it to the application folder on your laptop. After "
+"the ingestion process ends, you can right-click on the file/folder and "
+"select the **Open Location** option. By doing so, ODE will redirect you "
+"to the exact location where the copy was saved."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:15
+msgid "![Open file location](./assets/uploading-data/open-location.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:15
+msgid "Open file location"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:17
+msgid "Excel, CSV files and folders"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:19
+msgid ""
+"When clicking on the **Upload your data** button, ODE will display the "
+"following dialogue. If you want to upload files or folders, you can do so"
+" from the **From Your Computer** section. If you want to add tables that "
+"are online, you can do it from **Add External Data**:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:21
+msgid ""
+"![Upload files from your computer](./assets/uploading-data/uploading-"
+"data-1.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:21
+msgid "Upload files from your computer"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:23
+msgid ""
+"You will see there are two options available in the **From your "
+"computer** section. To add file/s, click **Select** on the **Add one or "
+"more Excel or csv files** feature. If you want to ingest one or many "
+"folders, click Select on the **Add one or more folders** box."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:25
+msgid ""
+"Once the ingestion process concludes, ODE will add your data to the "
+"sidebar of the app:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:27
+msgid ""
+"![Uploading data sidebar](./assets/uploading-data/uploading-data-"
+"sidebar.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:27
+msgid "Uploading data sidebar"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:29
+msgid ""
+"Note that while uploading your data, the tool checks your files or "
+"folders to find errors according to the validation rules provided by "
+"[Frictionless](https://framework.frictionlessdata.io/). Please, check the"
+" **Full list of table errors detected** in this guide to learn more."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:31
+msgid ""
+"Please keep in mind that since the preview section (datagrid) can only "
+"show one tabular file at a time, when uploading folders, and after the "
+"ingestion process is done, you will need to click on the folder and "
+"select the file you want to visualise on the screen. As soon as you click"
+" on a specific file, ODE will start validating your data (looking for "
+"possible errors), and the table will be shown on the app."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:33
+msgid "Tables published online"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:35
+msgid ""
+"ODE also allows users to upload online tables. You can upload files from "
+"open data portals, Google Sheets or tables from your GitHub repository."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:37
+msgid ""
+"To upload online tables, first click the **Upload your data** button and "
+"then select the **Add External Data** section:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:39
+msgid ""
+"![Upload online tables](./assets/uploading-data/tables-published-"
+"online.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:39
+msgid "Upload online tables"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:41
+msgid "Now, write or paste the URL to the table and click the **Add** button:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:43
+msgid ""
+"![Upload online table URL input](./assets/uploading-data/tables-"
+"published-online-2.png)"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:43
+msgid "Upload online table URL input"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:45
+msgid ""
+"After that, ODE will start reviewing your file in the background to "
+"detect possible errors, and data will be displayed on the main screen."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:48
+msgid "Before you upload your online table…"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:50
+msgid ""
+"👉🏼 If you are uploading a Google Sheets file, check that the file is "
+"published online. If you don’t know how to do it, please visit [this "
+"page](https://support.google.com/docs/answer/183965?hl=en&amp;co=GENIE.Platform%3DDesktop)"
+" and follow the steps listed there."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:52
+msgid ""
+"👉🏼 For Google Sheets, please make sure you are adding the public version "
+"of your file without the HTML term at the end. For example:"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:54
+msgid ""
+"✅ https://docs.google.com/spreadsheets/d/1dFVoF6f9VU5pjaGhyyvQaBN0n6ae-"
+"iLCtlvsO1N2jhA/edit?gid=0\\#gid=0"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:56
+msgid ""
+"❌ https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8w9yb7D-"
+"iYEbImb0WD4Kh53\\_Yp7H1VOi1bIMcicphWbkrrH9PobXCJhXt9frqyQ/pubhtml"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:58
+msgid ""
+"👉🏼 When exporting a file from Google Sheets in CSV and you have columns "
+"with numbers, please make sure to use “.” for decimals, instead of "
+"commas. Otherwise, Frictionless, the code working behind ODE will "
+"interpret the content of your cells with numbers as text."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:60
+msgid "For all tables…"
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:62
+msgid ""
+"👉🏼 Make sure your file is well-organised (well-formatted: each column "
+"must contain a name, there should be no extra rows before the table, or "
+"additional elements (like borders or lines) next to the space where the "
+"tabular data is located."
+msgstr ""
+
+#: ../../source/user-guide/uploading-data.md:64
+msgid ""
+"👉🏼 Check that the tabular data does not contain cells that are merged. "
+"Data producers from Governments, international organizations and internal"
+" reports usually add tiles, descriptions, and graphs within sheets, like "
+"in this case. If there are extra elements in your file, ODE will ingest "
+"your file and show you multiple errors."
+msgstr ""
+

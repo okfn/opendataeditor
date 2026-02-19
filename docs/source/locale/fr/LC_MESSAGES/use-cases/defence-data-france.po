@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/use-cases/defence-data-france.md:1
+msgid "Defence data (France)"
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:3
+msgid ""
+"The Observatoire des armements used ODE to turn multiple public spending "
+"data sources (arms purchases and sales) into a single quality "
+"spreadsheet."
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:5
+#, python-format
+msgid ""
+"They reduced error resolution time from days to seconds, eliminated 95% "
+"of manual review work, and enabled the team to focus on what matters."
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:7
+msgid "![France](./assets/use-cases/france.jpg)"
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:7
+msgid "France"
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:9
+msgid "In this spreadsheet, ODE flagged 48 inconsistencies in seconds."
+msgstr ""
+
+#: ../../source/use-cases/defence-data-france.md:11
+msgid ""
+"Learn more: [https://blog.okfn.org/2025/04/14/open-data-editor-use-case-"
+"multiple-defence-spending-data-sources-in-a-single-quality-"
+"spreadsheet/](https://blog.okfn.org/2025/04/14/open-data-editor-use-case-"
+"multiple-defence-spending-data-sources-in-a-single-quality-spreadsheet/)"
+msgstr ""
+

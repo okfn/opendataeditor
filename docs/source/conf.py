@@ -9,7 +9,7 @@
 project = 'Open Data Editor'
 copyright = '2025, Open Knowledge Foundation'
 author = 'Open Knowledge Foundation'
-release = '1.5.1'
+release = '1.7.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -33,3 +33,9 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# -- Internationalization  ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/advanced/intl.html#translating-with-sphinx-intl
+
+locale_dirs = ['locale/']   # path is example but recommended.
+gettext_compact = False     # optional.

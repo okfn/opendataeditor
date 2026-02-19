@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Knowledge Foundation
+# This file is distributed under the same license as the Open Data Editor
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Open Data Editor \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-19 15:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/user-guide/exporting-your-data.md:1
+msgid "Exporting your data"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:3
+msgid ""
+"You can export your data using the **Export** feature located at the top "
+"right of the datagrid:"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:5
+msgid "![Publish button](./assets/exporting-data/export-button.png)"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:5
+msgid "Publish button"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:7
+msgid ""
+"Once you click the **Export** button, ODE will display the following "
+"dialogue:"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:9
+msgid "![Publish form](./assets/exporting-data/export-dialog.png)"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:9
+msgid "Publish form"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:11
+msgid "Download file"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:13
+msgid "This option will download the file in CSV format."
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:15
+msgid "Download file with errors"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:17
+msgid "This option will export an Excel file with three sheets:"
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:19
+msgid ""
+"**Data:** This sheet contains the original table with all the errors "
+"painted in red."
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:20
+msgid ""
+"**Errors Description:** This sheet contains the description of the errors"
+" detected by ODE with the corresponding cell (row and column)."
+msgstr ""
+
+#: ../../source/user-guide/exporting-your-data.md:21
+msgid ""
+"**Blank Rows:** This sheet contains the rows on the original table that "
+"did not contain any values."
+msgstr ""
+
