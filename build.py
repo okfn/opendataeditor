@@ -14,8 +14,7 @@ def docs():
     """Build documentation and run a local server."""
     import os
 
-    # Build English as default (root)
-    run(["uv", "run", "--with", "sphinx", "--", "sphinx-build", "-b", "html", "source", "build/html"], cwd="docs")
+    run(["sphinx-build", "-b", "html", "source", "build/html"], cwd="docs")
 
     # Detect all available locales
     locale_dir = "docs/source/locale"
@@ -28,7 +27,7 @@ def docs():
     # Build each language in its own subdirectory
     for locale in sorted(locales):
         run(
-            ["uv", "run", "--with", "sphinx", "--", "sphinx-build", "-b", "html", f"-Dlanguage={locale}", "source", f"build/html/{locale}"],
+            ["sphinx-build", "-b", "html", f"-Dlanguage={locale}", "source", f"build/html/{locale}"],
             cwd="docs",
         )
 
