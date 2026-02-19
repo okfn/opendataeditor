@@ -3,24 +3,15 @@
 {% block sidebartitle %}
 {{ super() }}
 
-<div class="language-switcher" style="padding: 15px 0 10px 0; margin: 0; border-bottom: 1px solid #e0e0e0;">
-  <label style="font-size: 12px; color: #606060; font-weight: 500; display: block; margin-bottom: 5px;">
-    Language
-  </label>
-  <select id="lang-select" onchange="switchLanguage(this.value)" 
-          style="width: 100%; padding: 8px; border: 1px solid #d0d0d0; border-radius: 4px; 
-                 font-size: 13px; background-color: #f9f9f9; cursor: pointer;">
-    <option value="./" {% if language == 'en' or language is none %}selected{% endif %}>English</option>
-    <option value="./es/" {% if language == 'es' %}selected{% endif %}>Español</option>
-    <option value="./fr/" {% if language == 'fr' %}selected{% endif %}>Français</option>
-    <option value="./id/" {% if language == 'id' %}selected{% endif %}>Bahasa Indonesia</option>
-    <option value="./pt/" {% if language == 'pt' %}selected{% endif %}>Português</option>
-    <option value="./yua/" {% if language == 'yua' %}selected{% endif %}>Yucatec Maya</option>
+<div style="padding: 15px 0 10px 0; margin: 0; border-bottom: 1px solid #e0e0e0;">
+  <select id="lang-select" onchange="window.location.href = this.value;"
+          style="width: 100%; padding: 8px; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 13px; background-color: #f9f9f9; cursor: pointer;">
+    <option value="/" {% if language == 'en' or language is none %}selected{% endif %}>English</option>
+    <option value="/es/" {% if language == 'es' %}selected{% endif %}>Español</option>
+    <option value="/fr/" {% if language == 'fr' %}selected{% endif %}>Français</option>
+    <option value="/id/" {% if language == 'id' %}selected{% endif %}>Bahasa Indonesia</option>
+    <option value="/pt/" {% if language == 'pt' %}selected{% endif %}>Português</option>
+    <option value="/yua/" {% if language == 'yua' %}selected{% endif %}>Yucatec Maya</option>
   </select>
 </div>
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-<script src="{{ pathto('_static', 1) }}/language-switcher.js"></script>
 {% endblock %}
