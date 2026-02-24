@@ -156,7 +156,7 @@ class ErrorsWidget(QWidget):
 
         self.no_errors_label = QLabel()
         self.no_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.no_errors_label.setStyleSheet("font-size: 17px; color: #2E7D32;")
+        self.no_errors_label.setStyleSheet("font-size: 17px;")
         self.no_errors_label.hide()
          
         self.max_errors_label = QLabel()
