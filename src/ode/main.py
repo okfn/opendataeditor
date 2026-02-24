@@ -410,10 +410,23 @@ class ErrorsReportButton(QPushButton):
         self.icon_label.setEnabled(True)
         self.text_label.setEnabled(True)
         self.error_label.setEnabled(True)
+        self.error_label.setProperty("no_errors", False)
+        self.error_label.style().polish(self.error_label)
         if number <= 999:
             self.error_label.setText(str(number))
         else:
             self.error_label.setText("+999")
+        self.error_label.show()
+        self.updateGeometry()
+    
+    def enable_no_errors(self):
+        self.setEnabled(True)
+        self.icon_label.setEnabled(True)
+        self.text_label.setEnabled(True)
+        self.error_label.setEnabled(True)
+        self.error_label.setProperty("no_errors", True)
+        self.error_label.style().polish(self.error_label)
+        self.error_label.setText("0")
         self.error_label.show()
         self.updateGeometry()
 
@@ -767,7 +780,7 @@ class MainWindow(QMainWindow):
         """Handle the click on the Export button."""
         # TODO: we are using a proxy variable to check if the file has errors. We should find a
         # better state variable for it.
-        has_errors = self.content.toolbar.button_errors.isEnabled()
+        has_errors = self.content.toolbar.button_errors.error_label.property("no_errors") is False and self.content.toolbar.button_errors.isEnabled()
         download_dialog = DownloadDialog(self, self.selected_file_path, has_errors)
         download_dialog.download_data_with_errors.connect(self.on_download_error_file)
         download_dialog.show()
@@ -1028,7 +1041,7 @@ class MainWindow(QMainWindow):
 
         # If we don't have errors we don't enable the Errors Report tab.
         if errors_count == 0:
-            self.content.toolbar.button_errors.disable()
+            self.content.toolbar.button_errors.enable_no_errors()
         else:
             self.content.toolbar.button_errors.enable(errors_count)
 
