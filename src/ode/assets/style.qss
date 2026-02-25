@@ -6,12 +6,12 @@ so we are enforcing it by explicitly setting the main widgets and components bac
 */
 
 /* Enforcing Light Mode of main elements. */
-Content, FrictionlessResourceMetadataWidget, SelectWidget, Toolbar,
-FieldsForm, SingleFieldForm, SchemaForm, QWidget#fields_form_container,
+Content, FrictionlessResourceMetadataWidget, SelectWidget, Toolbar, QFormLayout,
+FieldsForm, SingleFieldForm, SchemaForm,
 QTableView, QTableView QHeaderView, QTableView QTableCornerButton,
 QTreeView, QDialog, QPushButton, QComboBox, QComboBox QAbstractItemView, QLineEdit,
 QLabel, QTabWidget, QTabBar, QScrollBar, QSpinBox, QListWidget, QTextEdit, QSrollArea,
-QPlainTextEdit, QWidget#central_widget, QGroupBox {
+QPlainTextEdit, QWidget#central_widget, QGroupBox, CKANExportDialog, QWidget {
     background: #FFF;
     color: #404040;
     font-size: 19px;  /* multi-os support */
@@ -24,6 +24,10 @@ QPlainTextEdit, QWidget#central_widget, QGroupBox {
   background: #f0f0f0;
 }
 
+QGroupBox {
+  /* This only affects the title as is the only text in QGroupBox. */
+  font: bold;
+}
 
 ErrorsReportButton {
   border: 0;
@@ -195,7 +199,8 @@ DownloadDialog,
 LlamaDialog,
 LLMWarningDialog,
 ColumnMetadataDialog,
-LlamaDownloadingDialog {
+LlamaDownloadingDialog,
+CKANExportDialog {
   border: 2px solid #000000;
 }
 
@@ -206,7 +211,8 @@ DownloadDialog QPushButton,
 LLMWarningDialog QPushButton,
 ColumnMetadataDialog QPushButton,
 LlamaDialog QPushButton,
-LlamaDownloadDialog QPushButton {
+LlamaDownloadDialog QPushButton,
+CKANExportDialog QPushButton {
   border: 2px solid #000000;
   background-color: #F0F0F0;
   font-size: 16px;
@@ -237,7 +243,8 @@ DownloadDialog QPushButton:hover,
 ColumnMetadataDialog QPushButton:hover,
 LLMWarningDialog QPushButton:hover,
 LlamaDialog QPushButton:hover,
-LlamaDownloadDialog QPushButton:hover {
+LlamaDownloadDialog QPushButton:hover,
+CKANExportDialog QPushButton:hover {
   background: #0288D1;
   border-color: #0288d1;
 }
@@ -249,7 +256,8 @@ DownloadDialog QPushButton:pressed,
 ColumnMetadataDialog QPushButton:pressed,
 LLMWarningDialog QPushButton:pressed,
 LlamaDialog QPushButton:pressed,
-LlamaDownloadDialog QPushButton:pressed {
+LlamaDownloadDialog QPushButton:pressed,
+CKANExportDialog QPushButton:pressed {
   color: #FFFFFF;
   background: #000000;
   border-color: #000000;
@@ -262,7 +270,8 @@ DownloadDialog QPushButton:disabled,
 ColumnMetadataDialog QPushButton:disabled,
 LLMWarningDialog QPushButton:disabled,
 LlamaDialog QPushButton:disabled,
-LlamaDownloadDialog QPushButton:disabled {
+LlamaDownloadDialog QPushButton:disabled,
+CKANExportDialog QPushButton:disabled {
   background-color: #F0F0F0;
   border-color: #F0F0F0;
   color: #4C5564;
@@ -353,7 +362,7 @@ QTableView::item:focus {
 
 LLMWarningDialog QCheckBox {
     color: #404040;
-    font-size: 18px; 
+    font-size: 18px;
     background-color: white;
 }
 
