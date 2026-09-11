@@ -158,7 +158,7 @@ class ErrorsWidget(QWidget):
         self.no_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.no_errors_label.setStyleSheet("font-size: 17px;")
         self.no_errors_label.hide()
-         
+
         self.max_errors_label = QLabel()
         font = QFont()
         font.setItalic(True)
@@ -187,7 +187,9 @@ class ErrorsWidget(QWidget):
         self.clear()
         if not errors:
             self.no_errors_label.show()
+            self.max_errors_label.hide()
             return
+
         self.no_errors_label.hide()
 
         errors_list = self._sort_frictionless_errors(errors)
