@@ -43,11 +43,26 @@ class AIModel(NamedTuple):
     filename: str
 
 
-AI_MODEL = AIModel(
-    name="Llama 3.2 3B (2.0GB)",
-    url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
-    filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+DEFAULT_AI_MODEL = AIModel(
+    name="Apertus 8B",
+    url="https://huggingface.co/bartowski/swiss-ai_Apertus-8B-Instruct-2509-GGUF/resolve/main/swiss-ai_Apertus-8B-Instruct-2509-Q4_K_M.gguf?download=true",
+    filename="swiss-ai_Apertus-8B-Instruct-2509-Q4_K_M.gguf",
 )
+
+_ai_model_name = os.environ.get("ODE_AI_MODEL_NAME")
+_ai_model_url = os.environ.get("ODE_AI_MODEL_URL")
+_ai_model_filename = os.environ.get("ODE_AI_MODEL_FILENAME")
+
+if _ai_model_name and _ai_model_url and _ai_model_filename:
+    AI_MODEL = AIModel(name=_ai_model_name, url=_ai_model_url, filename=_ai_model_filename)
+else:
+    AI_MODEL = DEFAULT_AI_MODEL
+
+# AI_MODEL = AIModel(
+#    name="Llama 3.2 3B (2.0GB)",
+#    url="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf?download=true",
+#    filename="Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+# )
 
 
 class LlamaWorkerSignals(QObject):
@@ -131,9 +146,7 @@ class LlamaDialog(QDialog):
         """Initialize the UI for the Llama dialog."""
         layout = QVBoxLayout(self)
 
-        self.prompt_label = QLabel(
-            "The AI assistant currently support two use cases. Please, select one of the following options:"
-        )
+        self.prompt_label = QLabel("The AI assistant currently support two use cases. Please, select one of the following options:")
         layout.addWidget(self.prompt_label)
 
         self.prompt_selector = QComboBox()
@@ -353,9 +366,7 @@ class LlamaDownloadDialog(QDialog):
         layout.addWidget(label_models)
 
         label_download_location = QLabel(
-            self.tr(
-                f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>'
-            )
+            self.tr(f'The ODE will save the file in this location: <i><a href="file://{AI_MODELS_PATH}">{AI_MODELS_PATH}</a></i>')
         )
         label_download_location.setTextFormat(Qt.TextFormat.RichText)
         label_download_location.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
