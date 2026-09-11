@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QDialog, QProgressBar, QVBoxLayout, QLabel
 from PySide6.QtCore import QTimer, Slot
+from PySide6.QtWidgets import QDialog, QLabel, QProgressBar, QVBoxLayout
 
 
 class LoadingDialog(QDialog):

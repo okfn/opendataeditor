@@ -1,79 +1,77 @@
 import logging
 import os
 import sys
-
+from collections.abc import Callable
 from enum import IntEnum
 from importlib.metadata import version
 from pathlib import Path
-from typing import Callable
 
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QTreeView,
-    QPushButton,
-    QLabel,
-    QStackedLayout,
-    QComboBox,
-    QMenu,
-    QMessageBox,
-    QToolTip,
-    QTextEdit,
-    QSplitter,
-)
-
-from PySide6.QtGui import (
-    QPixmap,
-    QIcon,
-    QDesktopServices,
-    QAction,
-    QFont,
-    QPalette,
-    QColor,
-    QShortcut,
-    QKeySequence,
-    QKeyEvent,
-)
 from PySide6.QtCore import (
-    Qt,
-    QSize,
-    QFileInfo,
-    QTranslator,
-    QFile,
-    QTextStream,
-    QThreadPool,
-    Slot,
-    Signal,
-    QItemSelectionModel,
     QEvent,
+    QFile,
+    QFileInfo,
+    QItemSelectionModel,
     QModelIndex,
+    QSize,
     QStandardPaths,
-    QTimer,
+    Qt,
+    QTextStream,
     QThread,
+    QThreadPool,
+    QTimer,
+    QTranslator,
+    Signal,
+    Slot,
+)
+from PySide6.QtGui import (
+    QAction,
+    QColor,
+    QDesktopServices,
+    QFont,
+    QIcon,
+    QKeyEvent,
+    QKeySequence,
+    QPalette,
+    QPixmap,
+    QShortcut,
 )
 
 # https://bugreports.qt.io/browse/PYSIDE-1914
-from PySide6.QtWidgets import QFileSystemModel, QDialog
+from PySide6.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDialog,
+    QFileSystemModel,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QPushButton,
+    QSplitter,
+    QStackedLayout,
+    QTextEdit,
+    QToolTip,
+    QTreeView,
+    QVBoxLayout,
+    QWidget,
+)
 
 from ode import paths
 from ode.dialogs.delete import DeleteDialog
+from ode.dialogs.download import DownloadDialog
 from ode.dialogs.llm_dialog_warning import LLMWarningDialog
 from ode.dialogs.loading import LoadingDialog
+from ode.dialogs.rename import RenameDialog
+from ode.dialogs.upload import DataUploadDialog
 from ode.file import File
 from ode.llama import LlamaDialog, LlamaDownloadDialog, LlamaInitWorker
-from ode.paths import Paths
-from ode.panels.errors import ErrorsWidget
-from ode.panels.data import FrictionlessTableModel, DataWorker, DataViewer
-from ode.panels.source import SourceViewer
-from ode.dialogs.upload import DataUploadDialog
-from ode.dialogs.rename import RenameDialog
-from ode.dialogs.download import DownloadDialog
-from ode.utils import migrate_metadata_store, setup_ode_internal_folders
-
 from ode.log_setup import LOGS_PATH, configure_logging
+from ode.panels.data import DataViewer, DataWorker, FrictionlessTableModel
+from ode.panels.errors import ErrorsWidget
+from ode.panels.source import SourceViewer
+from ode.paths import Paths
+from ode.utils import migrate_metadata_store, setup_ode_internal_folders
 
 configure_logging()
 
@@ -1162,7 +1160,7 @@ class MainWindow(QMainWindow):
             dialog.exec()
 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Could not open file: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Could not open file: {e!s}")
 
     def on_download_error_file(self):
         """

@@ -1,8 +1,8 @@
 import collections
 
-from PySide6.QtCore import Qt, QSortFilterProxyModel
-from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QTableView
+from PySide6.QtCore import QSortFilterProxyModel, Qt
 from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QTableView, QVBoxLayout, QWidget
 
 from ode import utils
 from ode.panels.data import DEFAULT_LIMIT_ERRORS

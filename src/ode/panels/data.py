@@ -1,27 +1,23 @@
-import json
 import csv
+import json
 import logging
 from pathlib import Path
+
+import xlrd
+import xlwt
 from frictionless import system
-
-from PySide6.QtCore import Qt, QAbstractTableModel, QObject, Signal, Slot, QRunnable, QRect, QEvent
-from PySide6.QtGui import QColor, QIcon, QKeyEvent, QPen
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableView, QLabel, QApplication, QStyledItemDelegate, QStyle
-
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
-
-import xlwt
-import xlrd
+from PySide6.QtCore import QAbstractTableModel, QEvent, QObject, QRect, QRunnable, Qt, Signal, Slot
+from PySide6.QtGui import QColor, QIcon, QKeyEvent, QPen
+from PySide6.QtWidgets import QApplication, QLabel, QStyle, QStyledItemDelegate, QTableView, QVBoxLayout, QWidget
 from xlutils.copy import copy
-
 
 from ode import utils
 from ode.dialogs.metadata import ColumnMetadataDialog, ColumnMetadataField
 from ode.file import File
-from ode.shared import COLOR_RED, COLOR_BLUE
 from ode.paths import Paths
-
+from ode.shared import COLOR_BLUE, COLOR_RED
 
 DEFAULT_LIMIT_ERRORS = 1000
 

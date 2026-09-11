@@ -1,21 +1,21 @@
 import re
 import shutil
-
-from frictionless.resources import FileResource, TableResource, FrictionlessException
 from pathlib import Path
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QLabel,
-    QFileDialog,
-    QDialog,
-    QTabWidget,
-    QLineEdit,
-)
-from PySide6.QtGui import QPixmap
+
+from frictionless.resources import FileResource, FrictionlessException, TableResource
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import (
+    QDialog,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 from ode import paths
 from ode.paths import Paths
