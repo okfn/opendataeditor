@@ -5,10 +5,10 @@ description = "A no-code application to explore and validate tabular data in a s
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "frictionless[excel,github]>=5.18.1",
-    "llama-cpp-python>=0.3.16",
+    "frictionless[excel,github]>=5.19.0",
+    "llama-cpp-python>=0.3.35",
     "openpyxl>=3.1.5",
-    "pyside6>=6.10.0",
+    "pyside6>=6.11.2",
     "xlrd>=2.0.2",
     "xlutils>=2.0.0",
     "xlwt>=1.3.0",
