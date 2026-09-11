@@ -24,8 +24,9 @@ build-backend = "uv_build"
 [tool.uv.build-backend]
 module-name = "ode"
 
-[tool.ruff]
-line-length = 140
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["F401", "BLE001", "PERF", "C", "B", "E501"]
 
 [dependency-groups]
 dev = [
