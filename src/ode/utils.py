@@ -1,15 +1,13 @@
 import json
 import platform
 import subprocess
-
 from pathlib import Path
 
-from frictionless.resources import TableResource
 from frictionless import system
+from frictionless.resources import TableResource
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 from ode import paths
-
-from PySide6.QtWidgets import QApplication, QMessageBox
 
 
 def setup_ode_internal_folders():
@@ -18,9 +16,9 @@ def setup_ode_internal_folders():
     if platform.system() == "Windows":
         # Set the .metadata folder hidden so it is not shown in the ODE file navigator
         # This is the default behaviour in Linux/MacOs since the directory name starts with a dot.
-        subprocess.run(["attrib", "+H", f"{str(paths.METADATA_PATH)}"], check=True)
-        subprocess.run(["attrib", "+H", f"{str(paths.AI_MODELS_PATH)}"], check=True)
-        subprocess.run(["attrib", "+H", f"{str(paths.LOGS_PATH)}"], check=True)
+        subprocess.run(["attrib", "+H", f"{paths.METADATA_PATH!s}"], check=True)
+        subprocess.run(["attrib", "+H", f"{paths.AI_MODELS_PATH!s}"], check=True)
+        subprocess.run(["attrib", "+H", f"{paths.LOGS_PATH!s}"], check=True)
 
 
 def migrate_metadata_store():
@@ -49,7 +47,7 @@ def migrate_metadata_store():
     ode_dir = paths.PROJECT_PATH / ".opendataeditor/"
     if ode_dir.exists() and platform.system() == "Windows":
         # Hid .opendataeditor directory. This directory is no longer used.
-        subprocess.run(["attrib", "+H", f"{str(ode_dir)}"], check=True)
+        subprocess.run(["attrib", "+H", f"{ode_dir!s}"], check=True)
 
     # ODE v1.3 has been used and we need to migrate.
     with open(metadata_file_path, "r") as file:

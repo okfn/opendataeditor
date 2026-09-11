@@ -1,25 +1,25 @@
-import sys
-import os
 import logging
+import os
+import sys
+from enum import Enum
 from pathlib import Path
 from typing import NamedTuple
-from enum import Enum
 
 from llama_cpp import Llama
+from PySide6.QtCore import QIODevice, QObject, QSaveFile, Qt, QThread, Signal, Slot
+from PySide6.QtNetwork import QNetworkAccessManager, QNetworkReply, QNetworkRequest
 from PySide6.QtWidgets import (
+    QComboBox,
     QDialog,
-    QVBoxLayout,
-    QTextEdit,
-    QPushButton,
-    QLabel,
     QHBoxLayout,
+    QLabel,
     QMessageBox,
     QProgressDialog,
-    QComboBox,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
     QWidget,
 )
-from PySide6.QtCore import QThread, Signal, QObject, QSaveFile, QIODevice, Slot, Qt
-from PySide6.QtNetwork import QNetworkReply, QNetworkRequest, QNetworkAccessManager
 
 from ode.paths import AI_MODELS_PATH
 

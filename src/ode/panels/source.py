@@ -1,8 +1,8 @@
 import sys
 
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QLabel
+from PySide6.QtCore import QFileInfo, Qt
 from PySide6.QtGui import QFont
-from PySide6.QtCore import Qt, QFileInfo
+from PySide6.QtWidgets import QApplication, QLabel, QPlainTextEdit, QVBoxLayout, QWidget
 
 from ode import utils
 

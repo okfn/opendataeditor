@@ -1,5 +1,6 @@
 import pytest
-from ode import paths, main
+
+from ode import main, paths
 
 
 @pytest.fixture(autouse=True)

@@ -1,8 +1,9 @@
 import os
 import platform
-import PyInstaller.__main__
 import subprocess
 import sys
+
+import PyInstaller.__main__
 
 
 def run(cmd: list[str], cwd: str = "."):

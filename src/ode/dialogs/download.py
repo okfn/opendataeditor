@@ -1,9 +1,9 @@
 import os
 import shutil
-
-from PySide6.QtWidgets import QVBoxLayout, QPushButton, QDialog, QMessageBox, QLabel, QHBoxLayout
-from PySide6.QtCore import Qt, Signal, QStandardPaths
 from pathlib import Path
+
+from PySide6.QtCore import QStandardPaths, Qt, Signal
+from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QMessageBox, QPushButton, QVBoxLayout
 
 
 class DownloadDialog(QDialog):

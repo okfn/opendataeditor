@@ -1,18 +1,19 @@
 from typing import NamedTuple
+
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
+    QComboBox,
     QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QWidget,
     QGridLayout,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
-    QTextEdit,
-    QComboBox,
+    QPushButton,
     QSpinBox,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtCore import Qt, Signal
 
 
 class ColumnMetadataField(NamedTuple):
