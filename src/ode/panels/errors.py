@@ -154,6 +154,11 @@ class ErrorsWidget(QWidget):
         super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
 
+        self.no_errors_label = QLabel()
+        self.no_errors_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.no_errors_label.setStyleSheet("font-size: 17px;")
+        self.no_errors_label.hide()
+         
         self.max_errors_label = QLabel()
         font = QFont()
         font.setItalic(True)
@@ -166,6 +171,7 @@ class ErrorsWidget(QWidget):
         self.reports_layout.setContentsMargins(0, 0, 0, 0)
         self.reports.setLayout(self.reports_layout)
 
+        layout.addWidget(self.no_errors_label)
         layout.addWidget(self.max_errors_label)
         layout.addWidget(self.reports)
 
@@ -180,7 +186,9 @@ class ErrorsWidget(QWidget):
         """
         self.clear()
         if not errors:
+            self.no_errors_label.show()
             return
+        self.no_errors_label.hide()
 
         errors_list = self._sort_frictionless_errors(errors)
         total_errors = 0
@@ -201,6 +209,7 @@ class ErrorsWidget(QWidget):
             errorReport = self.reports_layout.takeAt(0)
             errorReport.widget().deleteLater()
         self.reports.hide()
+        self.no_errors_label.hide()
 
     def _sort_frictionless_errors(self, errors):
         """Splits a list of dictionaries into several lists grouped by type.
@@ -215,6 +224,7 @@ class ErrorsWidget(QWidget):
         return list(result.values())
 
     def retranslateUI(self):
+        self.no_errors_label.setText(self.tr("The file has been processed and no errors have been found."))
         self.max_errors_label.setText(
             self.tr("Please note that the ODE currently detects errors in tables, with a maximum of ")
             + str(DEFAULT_LIMIT_ERRORS)

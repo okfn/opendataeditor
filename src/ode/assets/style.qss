@@ -45,6 +45,11 @@ ErrorsReportButton QLabel[error="true"] {
   color: #D32F2F;
   padding: 0px;
 }
+ErrorsReportButton QLabel[no_errors="true"] {
+  border: 1px solid #A5D6A7;
+  color: #2E7D32;
+  padding: 0px;
+}
 
 Toolbar QPushButton {
   font-size: 16px;
