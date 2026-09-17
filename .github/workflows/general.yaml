@@ -58,7 +58,7 @@ jobs:
   macos-packaging:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     needs: tests
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
