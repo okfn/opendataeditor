@@ -767,7 +767,7 @@ wheels = [
 
 [[package]]
 name = "opendataeditor"
-version = "1.7.1"
+version = "1.8.0"
 source = { editable = "." }
 dependencies = [
     { name = "frictionless", extra = ["excel", "github"] },
@@ -812,7 +812,7 @@ dev = [
     { name = "pytest", specifier = ">=9.0.0" },
     { name = "pytest-qt", specifier = ">=4.5.0" },
     { name = "ruff", specifier = ">=0.16.7" },
-    { name = "sphinx", specifier = ">=8.2.3" },
+    { name = "sphinx", specifier = ">=9.1.0" },
     { name = "sphinx-rtd-theme", specifier = ">=3.0.2" },
 ]
 
