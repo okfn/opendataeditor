@@ -75,3 +75,10 @@ For more information, please visit the official project page at the Open Knowled
 
    contributing/contribution-guidelines.md
    contributing/translations.md
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Other Languages
+
+   translations/languages.md
+
